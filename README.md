@@ -1,2 +1,2 @@
-gestao-pessoas
+Gestão de Pessoas
 ==============

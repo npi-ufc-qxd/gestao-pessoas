@@ -34,7 +34,7 @@
 		proxy-target-class="true" />
 
 	<context:annotation-config />
-	<context:component-scan base-package="ufc.quixada.npi.gpa.repository" />
-	<context:component-scan base-package="ufc.quixada.npi.gpa.service" />
-	<context:component-scan base-package="ufc.quixada.npi.gpa.controller" />
+	<context:component-scan base-package="ufc.quixada.npi.gp.repository" />
+	<context:component-scan base-package="ufc.quixada.npi.gp.service" />
+	<context:component-scan base-package="ufc.quixada.npi.gp.controller" />
 </beans>

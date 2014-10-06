@@ -1,0 +1,183 @@
+div.container {
+	margin-bottom: 70px;
+}
+
+#header-page {
+	width: 100%;
+	background-color: #bfbfbf;
+	padding-top: 20px;
+	padding-bottom: 20px;
+}
+
+div.row {
+	width: 100%;
+}
+
+.navbar {
+	background-color: #f5f5f5;
+}
+
+.navbar-nav>li>a, .navbar-brand {
+	color: black !important;
+}
+
+.navbar-nav>li>a:HOVER, .navbar-brand:HOVER {
+	color: #0064A1 !important;
+}
+
+#footer {
+	position: fixed;
+	bottom: 0px;
+	width: 100%;
+	height: 50px;
+	background-color: #eee;
+}
+
+#text-ufc {
+	margin-top: 20px;
+	text-align: center;
+}
+
+.controls {
+	width: 50%;
+}
+
+.acoes {
+	margin-top: 5%;
+}
+
+table#details {
+	border: none;
+	width: 100%;
+	font-size: 15px;
+}
+
+table#details tr td.head {
+	text-align: right;
+	width: 30%;
+	padding: 8px;
+	font-weight: bold;
+}
+
+table#details tr td.content {
+	width: 70%;
+	padding: 8px;
+	font-style: normal;
+	color: #0064A1;
+}
+
+.nav-tabs>li.active>a {
+	background-color: #f5f5f5;
+	font-weight: bold;
+}
+
+.nav-tabs>li.active>a:hover {
+	background-color: #f5f5f5;
+}
+
+.nav-tabs>li.active>a:focus {
+	color: black;
+	background-color: #f5f5f5;
+}
+
+.nav-tabs>li>a {
+	font-weight: bold;
+}
+
+div.alert {
+	text-align: center;
+}
+
+div.files {
+	text-align: left;
+}
+
+tr.processing {
+	display: none;
+}
+
+table#file-upload {
+	margin-top: 20px;
+}
+
+
+.content{
+	display:block;
+}
+
+
+.nome_pessoa {
+	text-decoration: underline;
+	font-weight: bold;
+}
+
+.formatacao_data {
+	text-align: right;
+	font-weight: bold;
+}
+
+.ca-menu>li {
+	list-style: none;
+	text-align: left;
+	margin-bottom: 5px;
+}
+
+.corpo_texto {
+	font-size: 1.25em;
+	word-break: break-all;
+}
+
+#textocomentarioInput {
+	max-width: 500px;
+	max-height: 100px;
+	min-width: 500px;
+	min-height: 100px;
+	border-radius: 4px;
+}
+.input-group{
+	margin: auto;
+}
+
+#first_cabecalho:first-child{
+	}
+	
+#addParticipante {
+	position: relative;
+	width: 200px;
+	color: #fff;
+	top: -34px;
+	margin-left: 79%;
+	left: 0;
+	background-color: #5cb85c;
+	border-color: #4cae4c;
+	background-image: none;
+	border: 1px solid transparent;
+	white-space: nowrap;
+	padding: 6px 12px;
+	font-size: 14px;
+	line-height: 1.42857143;
+	border-radius: 4px;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	background-color: #5cb85c;
+	margin-left: 79%;
+}
+
+#listaParticipantesCadastrados {
+	
+	position: relative;
+	background: #F5FFFA;
+	text-align: left;
+    height: 80px;
+	overflow-y: auto;
+	padding: 10px 5px 10px 5px;
+
+}
+
+.participanteSelecionado {
+	position: relative;
+	background: white;
+	margin-left: 20px;
+	padding: 5px 3px 5px 3px;
+}

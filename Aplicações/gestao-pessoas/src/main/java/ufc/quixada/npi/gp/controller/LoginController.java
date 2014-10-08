@@ -2,8 +2,10 @@ package ufc.quixada.npi.gp.controller;
 
 import java.security.Principal;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,12 +13,20 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import ufc.quixada.npi.gp.model.Pessoa;
+import ufc.quixada.npi.gp.service.PessoaService;
+import ufc.quixada.npi.gp.utils.Constants;
+
 @Controller
 public class LoginController {
+	
+	@Inject
+	private PessoaService servicePessoa;
+	
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public ModelAndView login(
 			@RequestParam(value = "error", required = false) String error,
-			@RequestParam(value = "logout", required = false) String logout) {
+			@RequestParam(value = "logout", required = false) String logout, HttpSession http) {
 		ModelAndView model = new ModelAndView();
 		if (error != null) {
 			model.addObject("error", "Usuário e/ou senha inválidos!");
@@ -24,6 +34,7 @@ public class LoginController {
 		if (logout != null) {
 			model.addObject("msg", "You've been logged out successfully.");
 		}
+		//getUsuarioLogado(http);
 		model.setViewName("login");
 		return model;
 	}
@@ -51,4 +62,6 @@ public class LoginController {
 		}
 		return "403";
 	}
+	
+	
 }

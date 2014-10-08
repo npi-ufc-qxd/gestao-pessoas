@@ -13,6 +13,14 @@
 	<jsp:include page="../modulos/header.jsp" />
 
 
+	<div align="center" style="margin-bottom: 20px;">
+		<a href="<c:url value="/estagiario/cadastrar" ></c:url>">
+			<button class="btn btn-primary">
+				Novo Estagiário <span class="glyphicon glyphicon-plus"></span>
+			</button>
+		</a>
+	</div>
+
 	<jsp:include page="../modulos/footer.jsp" />
 </body>
 </html>

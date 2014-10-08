@@ -7,6 +7,7 @@ import javax.validation.Valid;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -29,9 +30,6 @@ public class EstagiarioController {
 	@RequestMapping(value = "/index", method = RequestMethod.GET)
 	public String index(ModelMap modelMap, HttpSession session) {
 
-		modelMap.addAttribute("usuario", SecurityContextHolder.getContext()
-				.getAuthentication().getName());
-
 		return "redirect:/estagiario/inicial";
 	}
 
@@ -45,9 +43,9 @@ public class EstagiarioController {
 		return "estagiario/inicial";
 	}
 
-	@RequestMapping(value = "/cadastrar")
-	public String cadastrar(ModelMap modelMap, HttpSession session) {
-
+	@RequestMapping(value = "/cadastrar", method = RequestMethod.GET)
+	public String cadastro(Model model) {
+		model.addAttribute("estagiario", new Estagiario());
 		return "estagiario/cadastrar";
 	}
 

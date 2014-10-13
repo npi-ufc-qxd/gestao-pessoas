@@ -17,6 +17,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import ufc.quixada.npi.gp.model.Estagiario;
 import ufc.quixada.npi.gp.model.Pessoa;
+import ufc.quixada.npi.gp.service.EstagiarioService;
 import ufc.quixada.npi.gp.service.PessoaService;
 import ufc.quixada.npi.gp.utils.Constants;
 
@@ -26,6 +27,9 @@ import ufc.quixada.npi.gp.utils.Constants;
 public class EstagiarioController {
 	@Inject
 	private PessoaService servicePessoa;
+	
+	@Inject
+	private EstagiarioService serviceEstagiario;
 
 	@RequestMapping(value = "/index", method = RequestMethod.GET)
 	public String index(ModelMap modelMap, HttpSession session) {
@@ -55,6 +59,13 @@ public class EstagiarioController {
 			BindingResult result, HttpSession session,
 			RedirectAttributes redirect) {
 
+		estagiario.setPessoa(getUsuarioLogado(session));
+		
+		System.out.println(estagiario.toString());
+		
+		serviceEstagiario.save(estagiario);
+		redirect.addFlashAttribute("info", "Estagiário cadastrado com sucesso.");
+		
 		return "estagiario/inicial";
 	}
 

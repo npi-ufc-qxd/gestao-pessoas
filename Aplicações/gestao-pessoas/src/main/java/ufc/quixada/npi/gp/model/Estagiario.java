@@ -3,11 +3,9 @@ package ufc.quixada.npi.gp.model;
 import java.util.Date;
 
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
 import org.springframework.format.annotation.DateTimeFormat;
@@ -31,9 +29,9 @@ public class Estagiario {
 	private String semestre;
 	private int matricula;
 	
-	@OneToOne(optional = false, fetch = FetchType.EAGER)
-	@JoinColumn(name="PESSOA_ID", nullable=false)
+	@OneToOne
 	private Pessoa pessoa;
+	
 	public Estagiario(){
 		super();
 	}
@@ -159,6 +157,16 @@ public class Estagiario {
 
 	public void setPessoa(Pessoa pessoa) {
 		this.pessoa = pessoa;
+	}
+
+	@Override
+	public String toString() {
+		return "Estagiario [id=" + id + ", nomeCompleto=" + nomeCompleto
+				+ ", dataNascimento=" + dataNascimento + ", nomeMae=" + nomeMae
+				+ ", endereco=" + endereco + ", cep=" + cep + ", cidade="
+				+ cidade + ", uf=" + uf + ", telefone=" + telefone + ", curso="
+				+ curso + ", semestre=" + semestre + ", matricula=" + matricula
+				+ ", pessoa=" + pessoa + "]";
 	} 
 	
 }

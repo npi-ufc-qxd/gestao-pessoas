@@ -44,6 +44,9 @@ public class EstagiarioController {
 				.getAuthentication().getName());
 		getUsuarioLogado(session);
 
+		
+		modelMap.addAttribute("cadastrado", serviceEstagiario.estagiarioCadastrado(getUsuarioLogado(session).getId()));
+		
 		return "estagiario/inicial";
 	}
 
@@ -66,7 +69,7 @@ public class EstagiarioController {
 		serviceEstagiario.save(estagiario);
 		redirect.addFlashAttribute("info", "Estagiário cadastrado com sucesso.");
 		
-		return "estagiario/inicial";
+		return "redirect:/estagiario/inicial";
 	}
 
 	private Pessoa getUsuarioLogado(HttpSession session) {

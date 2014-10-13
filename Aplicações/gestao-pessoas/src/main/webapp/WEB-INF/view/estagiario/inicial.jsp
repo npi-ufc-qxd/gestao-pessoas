@@ -13,6 +13,15 @@
 	<jsp:include page="../modulos/header.jsp" />
 
 	<div class="container">
+
+		<c:if test="${not empty erro}">
+			<div class="alert alert-danger alert-dismissible" role="alert">
+				<button type="button" class="close" data-dismiss="alert">
+					<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+				</button>
+				<c:out value="${erro}"></c:out>
+			</div>
+		</c:if>
 		<c:if test="${not empty info}">
 			<div class="alert alert-success alert-dismissible" role="alert">
 				<button type="button" class="close" data-dismiss="alert">
@@ -22,13 +31,18 @@
 			</div>
 		</c:if>
 
-		<div align="center" style="margin-bottom: 20px;">
-			<a href="<c:url value="/estagiario/cadastrar" ></c:url>">
-				<button class="btn btn-primary">
-					Novo Estagiário <span class="glyphicon glyphicon-plus"></span>
-				</button>
-			</a>
-		</div>
+		<c:if test="${empty cadastrado}">
+			<div class="alert alert-warning" role="alert">Você ainda não
+				está Cadastrado como estagiário do NPI</div>
+
+			<div align="center" style="margin-bottom: 20px;">
+				<a href="<c:url value="/estagiario/cadastrar" ></c:url>">
+					<button class="btn btn-primary">
+						Realizar Cadastro <span class="glyphicon glyphicon-plus"></span>
+					</button>
+				</a>
+			</div>
+		</c:if>
 	</div>
 	<jsp:include page="../modulos/footer.jsp" />
 </body>

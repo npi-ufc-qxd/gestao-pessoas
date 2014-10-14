@@ -7,10 +7,13 @@
 <html>
 <head>
 <jsp:include page="../modulos/header-estrutura.jsp" />
+
 <title>Projetos</title>
 </head>
 <body>
 	<jsp:include page="../modulos/header.jsp" />
+
+
 
 	<div class="container">
 
@@ -31,7 +34,7 @@
 			</div>
 		</c:if>
 
-		<c:if test="${empty cadastrado}">
+		<c:if test="${empty estagiario}">
 			<div class="alert alert-warning" role="alert">Você ainda não
 				está Cadastrado como estagiário do NPI</div>
 
@@ -43,7 +46,23 @@
 				</a>
 			</div>
 		</c:if>
+
+		<c:if test="${not empty estagiario}">
+			<c:forEach var="estagiario" items="${estagiario}">
+				<div align="center" style="margin-bottom: 20px;">
+					<div align="center" style="margin-bottom: 20px;">
+						<a id="editar"
+							href="<c:url value="/estagiario/${estagiario.id}/contaspessoais" ></c:url>">
+							<button class="btn btn-info">
+								Cadastrar Contas Pessoais <span class="glyphicon glyphicon-pencil"></span>
+							</button>
+						</a>
+					</div>
+				</div>
+			</c:forEach>
+		</c:if>
 	</div>
+
 	<jsp:include page="../modulos/footer.jsp" />
 </body>
 </html>

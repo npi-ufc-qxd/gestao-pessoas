@@ -28,6 +28,9 @@ public class Estagiario {
 	private String curso;
 	private String semestre;
 	private int matricula;
+	private String contaRedmine;
+	private String contaGithub;
+	private String contaHangout;
 	
 	@OneToOne
 	private Pessoa pessoa;
@@ -35,11 +38,12 @@ public class Estagiario {
 	public Estagiario(){
 		super();
 	}
-	
+
 	public Estagiario(Long id, String nomeCompleto, Date dataNascimento,
 			String nomeMae, String endereco, String cep, String cidade,
 			String uf, String telefone, String curso, String semestre,
-			int matricula) {
+			int matricula, String contaRedmine, String contaGithub,
+			String contaHangout, Pessoa pessoa) {
 		super();
 		this.id = id;
 		this.nomeCompleto = nomeCompleto;
@@ -53,7 +57,13 @@ public class Estagiario {
 		this.curso = curso;
 		this.semestre = semestre;
 		this.matricula = matricula;
+		this.contaRedmine = contaRedmine;
+		this.contaGithub = contaGithub;
+		this.contaHangout = contaHangout;
+		this.pessoa = pessoa;
 	}
+
+
 
 	public Long getId() {
 		return id;
@@ -159,6 +169,32 @@ public class Estagiario {
 		this.pessoa = pessoa;
 	}
 
+	public String getContaRedmine() {
+		return contaRedmine;
+	}
+
+	public void setContaRedmine(String contaRedmine) {
+		this.contaRedmine = contaRedmine;
+	}
+
+	public String getContaGithub() {
+		return contaGithub;
+	}
+
+	public void setContaGithub(String contaGithub) {
+		this.contaGithub = contaGithub;
+	}
+
+	public String getContaHangout() {
+		return contaHangout;
+	}
+
+	public void setContaHangout(String contaHangout) {
+		this.contaHangout = contaHangout;
+	}
+
+
+
 	@Override
 	public String toString() {
 		return "Estagiario [id=" + id + ", nomeCompleto=" + nomeCompleto
@@ -166,7 +202,10 @@ public class Estagiario {
 				+ ", endereco=" + endereco + ", cep=" + cep + ", cidade="
 				+ cidade + ", uf=" + uf + ", telefone=" + telefone + ", curso="
 				+ curso + ", semestre=" + semestre + ", matricula=" + matricula
-				+ ", pessoa=" + pessoa + "]";
-	} 
+				+ ", contaRedmine=" + contaRedmine + ", contaGithub="
+				+ contaGithub + ", contaHangout=" + contaHangout + ", pessoa="
+				+ pessoa + "]";
+	}
+
 	
 }

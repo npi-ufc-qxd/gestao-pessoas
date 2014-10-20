@@ -30,42 +30,14 @@ public class PessoaServiceImpl extends GenericServiceImpl<Pessoa> implements
 	}
 
 	@Override
-	public List<Pessoa> getPareceristas(Long id) {
-		Map<String, Object> params = new HashMap<String, Object>();
-		params.put("id", id);
-		List<Pessoa> usuarios = pessoaRepository.find(QueryType.JPQL,
-				"from Pessoa u where u.id != :id", params);
-		return usuarios;
-	}
-
-	@Override
-	public boolean isDiretor(Pessoa usuario) {
+	public boolean isCoordenador(Pessoa usuario) {
 		List<Papel> papeis = usuario.getPapeis();
 		for (Papel p : papeis) {
-			if (p.getNome().equals("ROLE_DIRETOR")) {
+			if (p.getNome().equals("ROLE_COORDENADOR")) {
 				return true;
 			}
 		}
 		return false;
-	}
-
-	@Override
-	public Pessoa getDiretor() {
-		Pessoa diretor = new Pessoa();
-		List<Pessoa> usuarios = find(Pessoa.class);
-		for (Pessoa u : usuarios) {
-			if (isDiretor(u)) {
-				diretor = u;
-				break;
-			}
-		}
-		return diretor;
-	}
-
-	@Override
-	public List<Pessoa> getParticipantes() {
-		List<Pessoa> participantes = pessoaRepository.find(Pessoa.class);
-		return participantes;
 	}
 
 	@Override

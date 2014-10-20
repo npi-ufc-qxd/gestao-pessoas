@@ -39,7 +39,7 @@ public class DocumentoController {
 			if (documento != null
 					&& (getUsuarioLogado(session).equals(
 							documento.getProjeto().getAutor()) || servicePessoa
-							.isDiretor(getUsuarioLogado(session)))) {
+							.isCoordenador(getUsuarioLogado(session)))) {
 				InputStream is = new ByteArrayInputStream(
 						documento.getArquivo());
 				response.setContentType(documento.getTipo());

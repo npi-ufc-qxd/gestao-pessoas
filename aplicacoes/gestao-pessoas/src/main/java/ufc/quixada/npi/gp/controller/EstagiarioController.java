@@ -28,7 +28,7 @@ import ufc.quixada.npi.gp.utils.Constants;
 public class EstagiarioController {
 	@Inject
 	private PessoaService servicePessoa;
-	
+
 	@Inject
 	private EstagiarioService serviceEstagiario;
 
@@ -42,7 +42,11 @@ public class EstagiarioController {
 		modelMap.addAttribute("usuario", SecurityContextHolder.getContext()
 				.getAuthentication().getName());
 		getUsuarioLogado(session);
-		modelMap.addAttribute("estagiario", serviceEstagiario.estagiarioCadastrado(getUsuarioLogado(session).getId()));
+		modelMap.addAttribute("estagiario", serviceEstagiario
+				.estagiarioCadastrado(getUsuarioLogado(session).getId()));
+		if (servicePessoa.isCoordenador(getUsuarioLogado(session))) {
+			return "coordenador/inicial";
+		}
 		return "estagiario/inicial";
 	}
 
@@ -63,20 +67,20 @@ public class EstagiarioController {
 		redirect.addFlashAttribute("info", "Estagiário cadastrado com sucesso.");
 		return "redirect:/estagiario/inicial";
 	}
-	
+
 	@RequestMapping(value = "/{id}/contaspessoais", method = RequestMethod.GET)
 	public String contasPessoais(@PathVariable("id") long id, Model model,
 			HttpSession session, RedirectAttributes redirectAttributes) {
 
 		Estagiario estagiario = serviceEstagiario.find(Estagiario.class, id);
 		Pessoa pessoa = getUsuarioLogado(session);
-		
+
 		if (estagiario == null) {
-			redirectAttributes
-					.addFlashAttribute("erro", "Estagiario inexistente.");
+			redirectAttributes.addFlashAttribute("erro",
+					"Estagiario inexistente.");
 			return "redirect:/estagiario/inicial";
 		}
-		if(pessoa.getId() == estagiario.getPessoa().getId()){
+		if (pessoa.getId() == estagiario.getPessoa().getId()) {
 			model.addAttribute("estagiario", estagiario);
 			model.addAttribute("action", "contaspessoais");
 			return "estagiario/contaspessoais";
@@ -89,18 +93,17 @@ public class EstagiarioController {
 			@PathVariable("id") Long id,
 			@Valid @ModelAttribute(value = "estagiario") Estagiario estagiarioAtualizado,
 			BindingResult result, Model model, HttpSession session,
-			RedirectAttributes redirect){
-		
+			RedirectAttributes redirect) {
+
 		Estagiario estagiario = serviceEstagiario.find(Estagiario.class, id);
 		estagiario.setContaRedmine(estagiarioAtualizado.getContaRedmine());
 		estagiario.setContaGithub(estagiarioAtualizado.getContaGithub());
 		estagiario.setContaHangout(estagiarioAtualizado.getContaHangout());
 		this.serviceEstagiario.update(estagiario);
-		
-		return"redirect:/estagiario/inicial";
+
+		return "redirect:/estagiario/inicial";
 	}
-	
-	
+
 	private Pessoa getUsuarioLogado(HttpSession session) {
 		if (session.getAttribute(Constants.USUARIO_LOGADO) == null) {
 			Pessoa pessoa = servicePessoa

@@ -45,6 +45,10 @@ public class EstagiarioController {
 		modelMap.addAttribute("estagiario", serviceEstagiario
 				.estagiarioCadastrado(getUsuarioLogado(session).getId()));
 		if (servicePessoa.isCoordenador(getUsuarioLogado(session))) {
+
+			modelMap.addAttribute("estagiarios",
+					serviceEstagiario.find(Estagiario.class));
+
 			return "coordenador/inicial";
 		}
 		return "estagiario/inicial";

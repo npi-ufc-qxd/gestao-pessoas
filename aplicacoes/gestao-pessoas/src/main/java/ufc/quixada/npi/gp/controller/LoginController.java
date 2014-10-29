@@ -34,9 +34,16 @@ public class LoginController {
 		if (logout != null) {
 			model.addObject("msg", "You've been logged out successfully.");
 		}
-		//getUsuarioLogado(http);
 		model.setViewName("login");
 		return model;
+	}
+	
+	@RequestMapping(value = "/identificarPapel", method = RequestMethod.GET)
+	public String identificarPapel(ModelMap model, HttpSession session) {
+		if (servicePessoa.isCoordenador(getUsuarioLogado(session))) {
+			return "redirect:/coordenador/index";
+		}
+		return "redirect:/estagiario/index";
 	}
 
 	@RequestMapping(value = "/loginfailed", method = RequestMethod.GET)
@@ -63,5 +70,14 @@ public class LoginController {
 		return "403";
 	}
 	
+	private Pessoa getUsuarioLogado(HttpSession session) {
+		if (session.getAttribute(Constants.USUARIO_LOGADO) == null) {
+			Pessoa pessoa = servicePessoa
+					.getUsuarioByLogin(SecurityContextHolder.getContext()
+							.getAuthentication().getName());
+			session.setAttribute(Constants.USUARIO_LOGADO, pessoa);
+		}
+		return (Pessoa) session.getAttribute(Constants.USUARIO_LOGADO);
+	}
 	
 }

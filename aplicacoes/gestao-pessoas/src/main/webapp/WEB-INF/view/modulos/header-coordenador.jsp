@@ -23,7 +23,7 @@
 						class="icon-bar"></span> <span class="icon-bar"></span> <span
 						class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="<c:url value="/pessoa/index" />">Gestão de Pessoas</a>
+				<a class="navbar-brand" href="<c:url value="/coordenador/index" />">Gestão de Pessoas</a>
 			</div>
 	
 			<div class="collapse navbar-collapse"

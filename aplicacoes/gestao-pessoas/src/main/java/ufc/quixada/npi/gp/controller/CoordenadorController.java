@@ -25,8 +25,6 @@ public class CoordenadorController {
 	@Inject
 	private EstagiarioService serviceEstagiario;
 
-	private JRDataSource jrDatasource;
-
 	@RequestMapping(value = "/index", method = RequestMethod.GET)
 	public String index(ModelMap modelMap, HttpSession session) {
 		return "coordenador/inicial";
@@ -42,9 +40,6 @@ public class CoordenadorController {
 		modelMap.addAttribute("estagiarios",
 				serviceEstagiario.find(Estagiario.class));
 
-		EstagiarioDataSource dsStudent = new EstagiarioDataSource();
-		jrDatasource = dsStudent.create(null);
-
 		return "redirect:/coordenador/inicial";
 	}
 
@@ -57,13 +52,6 @@ public class CoordenadorController {
 				serviceEstagiario.find(Estagiario.class));
 
 		return "coordenador/listaEstagiarios";
-	}
-
-	@RequestMapping(value = "/jrreport", method = RequestMethod.GET)
-	public String printWelcome(ModelMap model) {
-		model.addAttribute("datasource", jrDatasource);
-		model.addAttribute("format", "pdf");
-		return "multiViewReport";
 	}
 
 }

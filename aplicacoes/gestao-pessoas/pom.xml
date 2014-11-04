@@ -49,6 +49,13 @@
 
 	<dependencies>
 
+		<!-- Dependência Jasper Reports -->
+		<dependency>
+			<groupId>net.sf.jasperreports</groupId>
+			<artifactId>jasperreports</artifactId>
+			<version>4.5.1</version>
+		</dependency>
+
 		<dependency>
 			<groupId>joda-time</groupId>
 			<artifactId>joda-time</artifactId>
@@ -232,7 +239,7 @@
 			<artifactId>hibernate-validator</artifactId>
 			<version>5.1.0.Final</version>
 		</dependency>
-		
+
 		<!-- Dependência Java Mail -->
 		<dependency>
 			<groupId>javax.mail</groupId>

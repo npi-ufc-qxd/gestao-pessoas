@@ -44,6 +44,14 @@
 		</c:if>
 	</div>
 
+	<div align="center" style="margin-bottom: 20px;">
+		<a href="<c:url value="/coordenador/jrreport" ></c:url>">
+			<button class="btn btn-primary">
+				Realizar Cadastro <span class="glyphicon glyphicon-plus"></span>
+			</button>
+		</a>
+	</div>
+
 	<jsp:include page="../modulos/footer.jsp" />
 </body>
 </html>

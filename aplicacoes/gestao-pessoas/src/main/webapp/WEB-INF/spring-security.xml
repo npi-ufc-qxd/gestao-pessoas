@@ -13,9 +13,10 @@
  		<intercept-url pattern="/login*" access="IS_AUTHENTICATED_ANONYMOUSLY" /> 
  		<intercept-url pattern="/webjars/**" access="IS_AUTHENTICATED_ANONYMOUSLY" /> 		
  		<!-- <intercept-url pattern="/*/diretor/**" access="ROLE_DIRETOR" /> 
- 		<intercept-url pattern="/**" access="ROLE_COORDENADOR,ROLE_ESTAGIARIO" />	-->
  		<intercept-url pattern="/*/coordenador/**" access="ROLE_COORDENADOR"/>	
- 		<intercept-url pattern="/*/estagiario/**" access="ROLE_ESTAGIARIO" />	
+ 		<intercept-url pattern="/*/estagiario/**" access="ROLE_ESTAGIARIO" />	-->
+ 		<intercept-url pattern="/**" access="ROLE_COORDENADOR,ROLE_ESTAGIARIO" />	
+ 		
  		
  		<form-login login-page="/login" default-target-url="/" 
  			authentication-failure-url="/loginfailed" />

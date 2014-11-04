@@ -1,0 +1,340 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Termo_Compromisso" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="fb43c8cf-8e19-4469-8326-ffbf1ed5b47c">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="383"/>
+	<field name="nome_completo" class="java.lang.String"/>
+	<field name="data_nascimento" class="java.lang.String"/>
+	<field name="nome_mae" class="java.lang.String"/>
+	<field name="telefone" class="java.lang.String"/>
+	<field name="cpf" class="java.lang.String"/>
+	<field name="semestre" class="java.lang.String"/>
+	<field name="matricula" class="java.lang.String"/>
+	<field name="email" class="java.lang.String"/>
+	<field name="end.rua" class="java.lang.String"/>
+	<field name="curso.nome" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="42" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="555" height="42" uuid="6840adf6-c6ac-4a74-a5bc-4e8300c52e92"/>
+				<textElement>
+					<font fontName="Ubuntu" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Universidade Federal do Ceará
+Pró-Reitoria de Extensão
+Coordenadoria da Agência de Estágios]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="21" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="1" width="555" height="20" uuid="a8ecf63c-53df-41ea-b792-26c142accb42"/>
+				<textElement textAlignment="Center">
+					<font fontName="Ubuntu" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[UNIDADE CONCEDENTE]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="710" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="20" width="299" height="87" uuid="75476a17-5a96-4b9c-a6d0-47b04cd688e5"/>
+				<textElement>
+					<font fontName="Ubuntu" size="10"/>
+				</textElement>
+				<text><![CDATA[Razão Social: Universidade Federal do Ceará
+Endereço: Av. José de Freitas Queiroz, 5003 – Bairro: Cedro
+Representante:  Jesualdo Pereira Farias
+Coordenador da Agência de Estágio: Rogério Teixeira Masih
+Setor: Campus Quixadá
+Definição da área de estágio: Ciência da Computação]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="299" y="20" width="134" height="20" uuid="a8346030-c49c-4a51-9ba0-ff7225a858fa"/>
+				<textElement>
+					<font fontName="Ubuntu" size="10"/>
+				</textElement>
+				<text><![CDATA[CNPJ: 07.272.636/0001-31]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="299" y="40" width="134" height="20" uuid="ee2e4570-6e3d-47b5-943e-9303b378d852"/>
+				<textElement>
+					<font fontName="Ubuntu" size="10"/>
+				</textElement>
+				<text><![CDATA[Cidade/UF: Quixadá-Ceará]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="299" y="60" width="65" height="20" uuid="e26026fb-14fd-4bad-b879-1d8e84454d02"/>
+				<textElement>
+					<font fontName="Ubuntu" size="10"/>
+				</textElement>
+				<text><![CDATA[ Supervisor: ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="299" y="80" width="134" height="27" uuid="5650e095-11f4-46dd-bdb8-49e8a79c43ae"/>
+				<textElement>
+					<font fontName="Ubuntu" size="10"/>
+				</textElement>
+				<text><![CDATA[ Fone/Fax: (88) 34120919]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="107" width="555" height="20" uuid="e73a1add-e390-436d-9503-e4327892e4cd"/>
+				<textElement textAlignment="Center">
+					<font fontName="Ubuntu" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[INSTITUIÇÃO DE ENSINO]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="364" y="60" width="191" height="20" uuid="f276aa7e-f534-41be-9002-25325d4d59ad"/>
+				<textElement>
+					<font fontName="Ubuntu" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nome_completo}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="127" width="299" height="83" uuid="f7a59371-ad74-4feb-93ca-6e30011deeee"/>
+				<textElement>
+					<font fontName="Ubuntu" size="10"/>
+				</textElement>
+				<text><![CDATA[Razão Social: Universidade Federal do Ceará
+Endereço: Av. José de Freitas Queiroz, 5003 – Bairro: Cedro
+Representante:  Jesualdo Pereira Farias
+Coordenador da Agência de Estágio: Rogério Teixeira Masih
+Setor: Campus Quixadá
+Definição da área de estágio: Ciência da Computação]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="299" y="147" width="148" height="20" uuid="1cc60906-72de-4406-9716-35d1ed68bce4"/>
+				<textElement>
+					<font fontName="Ubuntu" size="10"/>
+				</textElement>
+				<text><![CDATA[Cidade/UF: Quixadá-Ceará]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="299" y="187" width="134" height="20" uuid="aa802724-bd72-4697-b0ff-ba411acfc0c6"/>
+				<textElement>
+					<font fontName="Ubuntu" size="10"/>
+				</textElement>
+				<text><![CDATA[ Fone/Fax: (88) 34120919]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="364" y="167" width="191" height="20" uuid="377edfd3-662a-4181-8357-a56cadd4c691"/>
+				<textElement>
+					<font fontName="Ubuntu" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nome_completo}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="299" y="127" width="134" height="20" uuid="b079949f-201e-433d-aa81-9bd538981c11"/>
+				<textElement>
+					<font fontName="Ubuntu" size="10"/>
+				</textElement>
+				<text><![CDATA[CNPJ: 07.272.636/0001-31]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="299" y="167" width="65" height="20" uuid="68128656-efdc-4f65-884d-380fd59f1fa2"/>
+				<textElement>
+					<font fontName="Ubuntu" size="10"/>
+				</textElement>
+				<text><![CDATA[ Supervisor: ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="210" width="555" height="20" uuid="11e1ec68-f5f2-47f9-8bee-4e5bc3b92a50"/>
+				<textElement textAlignment="Center">
+					<font fontName="Ubuntu" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ESTAGIÁRIO (A)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="230" width="100" height="20" uuid="4d13d704-482a-4bc5-bcd1-01e1a3eb9c77"/>
+				<textElement>
+					<font fontName="Ubuntu" size="10"/>
+				</textElement>
+				<text><![CDATA[Nome]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="100" y="230" width="199" height="20" uuid="8f1ec1ea-cf89-4d8a-b310-3002e43dd218"/>
+				<textElement>
+					<font fontName="Ubuntu" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nome_completo}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="250" width="100" height="20" uuid="da28519e-5305-4383-9928-6a3fe755210e"/>
+				<textElement>
+					<font fontName="Ubuntu" size="10"/>
+				</textElement>
+				<text><![CDATA[Nome da Mãe]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="100" y="250" width="199" height="20" uuid="374cf987-1ca9-49a6-8569-ef077b0e39d9"/>
+				<textElement>
+					<font fontName="Ubuntu" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nome_mae}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="270" width="100" height="20" uuid="f1b506cb-d1f6-4687-9c80-eabaa86ac197"/>
+				<textElement>
+					<font fontName="Ubuntu" size="10"/>
+				</textElement>
+				<text><![CDATA[Endereco]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="290" width="100" height="20" uuid="9b21166f-d685-47ce-930a-2d60cd89ea50"/>
+				<textElement>
+					<font fontName="Ubuntu" size="10"/>
+				</textElement>
+				<text><![CDATA[Fone]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="100" y="290" width="199" height="20" uuid="2aca04ee-119f-472f-ba24-ccfa8e852dc0"/>
+				<textElement>
+					<font fontName="Ubuntu" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{telefone}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="316" y="250" width="100" height="20" uuid="48ef5ea4-1d1b-420e-8d38-70fef3e2ba79"/>
+				<textElement>
+					<font fontName="Ubuntu" size="10"/>
+				</textElement>
+				<text><![CDATA[CPF]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="416" y="250" width="139" height="20" uuid="2dc35e10-f021-4642-a54d-44324871f405"/>
+				<textElement>
+					<font fontName="Ubuntu" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cpf}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="310" width="100" height="20" uuid="e359a477-b7d1-4eeb-bda7-099b8e46dd08"/>
+				<textElement>
+					<font fontName="Ubuntu" size="10"/>
+				</textElement>
+				<text><![CDATA[Curso]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="316" y="310" width="100" height="20" uuid="fcfa5a4b-0b69-4bd7-b8a8-ab62432df8ad"/>
+				<textElement>
+					<font fontName="Ubuntu" size="10"/>
+				</textElement>
+				<text><![CDATA[Semestre]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="416" y="310" width="139" height="20" uuid="3ea15940-9f8b-4322-b2b9-e0b136d17865"/>
+				<textElement>
+					<font fontName="Ubuntu" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{semestre}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="316" y="230" width="100" height="20" uuid="188cfb3e-80c7-434b-ae16-3286492cf4ff"/>
+				<textElement>
+					<font fontName="Ubuntu" size="10"/>
+				</textElement>
+				<text><![CDATA[Data Nascimento]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="416" y="230" width="139" height="20" uuid="71871c0d-2e90-49a8-bd90-a2f5a5871fc7"/>
+				<textElement>
+					<font fontName="Ubuntu" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{data_nascimento}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="316" y="270" width="100" height="20" uuid="823756b0-445c-4d35-be69-11278f33d776"/>
+				<textElement>
+					<font fontName="Ubuntu" size="10"/>
+				</textElement>
+				<text><![CDATA[email]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="416" y="270" width="139" height="20" uuid="300b45f1-164a-4f0e-aaca-1040785fe7b3"/>
+				<textElement>
+					<font fontName="Ubuntu" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{email}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="316" y="290" width="100" height="20" uuid="416a05b1-28ad-4695-83e1-b5b121def7d5"/>
+				<textElement>
+					<font fontName="Ubuntu" size="10"/>
+				</textElement>
+				<text><![CDATA[Nº matricula]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="416" y="290" width="139" height="20" uuid="8c70f529-d794-4550-bb50-7c15300a0dad"/>
+				<textElement>
+					<font fontName="Ubuntu" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{matricula}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="330" width="555" height="48" uuid="5f25a1a2-8c32-4200-b3a8-475abc7bd2c3"/>
+				<textElement>
+					<font fontName="Ubuntu" size="8"/>
+				</textElement>
+				<text><![CDATA[Celebram entre si este TERMO DE COMPROMISSO DE ESTÁGIO, de acordo com o estabelecido na Lei N.º 11.788, de 25 de setembro de 2008 e com a Resolução No 32, de 30/10/2009, do CEPE/UFC, obedecendo, também,  as seguintes cláusulas e condições:
+CLÁUSULA PRIMEIRA - A CONCEDENTE se compromete a conceder, a estudantes previamente selecionados, matriculados e com freqüência efetiva no curso ao qual está vinculado, estágio em suas dependências, visando a complementar e consolidar, na prática, os conhecimentos ministrados na INSTITUIÇÃO DE ENSINO.
+]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="100" y="270" width="199" height="20" uuid="0e38700b-554c-4548-8751-7db5926e6a2d"/>
+				<textElement>
+					<font fontName="Ubuntu" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{end.rua}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="100" y="310" width="199" height="20" uuid="607d9711-e24a-4e08-a496-6370d9a08a32"/>
+				<textElement>
+					<font fontName="Ubuntu" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{curso.nome}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="378" width="555" height="332" uuid="eef730c3-2328-471e-a77b-3606f4cc034f"/>
+				<textElement>
+					<font fontName="Ubuntu" size="8"/>
+				</textElement>
+				<text><![CDATA[CLÁUSULA SEGUNDA – No presente ESTÁGIO OBRIGATÓRIO o estudante se obriga a estagiar até (4) horas/dia, 				h, nos dias da semana 					, totalizando 12 (doze) horas/semanais, não podendo prejudicar suas atividades curriculares e nem ultrapassar, 6 (seis) horas diárias e 30 (trinta) horas semanais, em cumprimento ao inciso II do art.10 da Lei nº 11.788/08, com duração de 4 meses 				    .Este estágio é de natureza voluntária, não incidindo qualquer benefício financeiro ao estudante envolvido. Em período de avaliações finais, a carga horária do estágio será reduzida pelo menos à metade, para garantir o bom desempenho do estudante, o qual fica responsável pela comprovação deste período de avaliação institucional.
+CLAUSULA TERCEIRA – O ESTAGIÁRIO deverá cumprir as normas internas da CONCEDENTE, especialmente as de orientação do plano de atividades, possibilitando aquisição de conhecimentos profissionais, culturais e o treinamento na CONCEDENTE, devendo apresentar a INSTITUIÇÃO DE ENSINO, em prazo não superior a 6 (seis) meses, o relatório das atividades desenvolvidas.
+CLAUSULA QUARTA – O ESTAGIÁRIO poderá ser responsabilizado pela CONCEDENTE por perdas e danos a que der causa ou em cuja ação se identifique dolo ou culpa, quando, então, além do ressarcimento devido à CONCEDENTE, importará na imediata rescisão do presente Termo.
+CLÁUSULA QUINTA – - Não será permitido ao ESTAGIÁRIO, em nenhuma hipótese, continuar na CONCEDENTE, na condição de estágio obrigatório nos seguintes casos; colação de grau, trancamento de matrícula, abandono, infrequência de qualquer natureza ou uma vez vencido o prazo apontado na cláusula 2ª deste termo.
+CLÁUSULA SEXTA - O ESTAGIÁRIO deverá comunicar à CONCEDENTE sempre que, por necessidade devidamente comprovada, tiver de ausentar-se para atender a compromissos escolares. O não cumprimento dessa obrigação acarretará, a critério da CONCEDENTE, suspender, imediatamente, o contrato de estágio que será informado no relatório das atividades.
+CLÁUSULA SÉTIMA - O ESTAGIÁRIO compromete-se, formalmente, em manter sigilo sobre informações, dados ou trabalhos reservados da CONCEDENTE aos quais tenha acesso, constituindo em falta grave a quebra de sigilo.
+CLÁUSULA OITAVA – A INSTITUIÇÃO DE ENSINO oferece seguro contra acidente pessoal a todos os seus estudantes devidamente matriculados contemplando nele o ESTAGIÁRIO beneficiado neste contrato, durante a vigência do presente.
+1- Vigência do Seguro  de:  24/08/2013   até   23/02/2014
+2- Apólice de Seguro nº: 4251.2010.105.82.285217.38.2.000-1 Nome da Empresa Seguradora: CAPEMISA SEGURADORA DE VIDA E PREVIDÊNCIA S/A.
+3- Morte Acidental  = R$ 5.000,00 Invalidez Permanente = R$ 5.000,00;
+CLÁUSULA NONA - A concessão do estágio obrigatório não cria nenhum tipo de vínculo empregatício entre a CONCEDENTE e o ESTAGIÁRIO, exceto nos casos em que descumprir o art. 3º da Lei nº 11.788/08.
+CLÁUSULA DÉCIMA  - Na hipótese de descumprimento, pelo ESTAGIÁRIO, do disposto neste instrumento, a CONCEDENTE se reserva o direito, independentemente de comunicação prévia, de suspender, imediatamente, o contrato de estágio, comunicando à INSTITUIÇÃO DE ENSINO o desligamento do ESTAGIÁRIO, desobrigando-se, ainda, para todos os efeitos, do presente Termo de Compromisso.
+CLÁUSULA DÉCIMA PRIMEIRA – O Plano de Atividades será incorporado por meio de aditivos ao presente Termo de Compromisso de Estágio, elaborado de acordo com as três partes.
+
+E, por estarem de acordo, firmam o presente instrumento, em no mínimo de 3 (três) vias de igual teor e forma, na presença das testemunhas maiores e capazes a tudo viram, presenciaram e dão fé.
+Quixadá, ............. de ....................... de ........
+
+
+	Estagiário  	Representante da Unidade Concedente
+
+
+	Representante da UFC
+                                                                            Coordenador da Agência de Estágio]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="0" width="555" height="16" uuid="a58c0118-f7d9-41bb-b6c1-3c8fc616c489"/>
+				<textElement textAlignment="Center">
+					<font fontName="Ubuntu" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TERMO DE COMPROMISSO DE ESTÁGIO OBRIGATÓRIO]]></text>
+			</staticText>
+		</band>
+	</detail>
+</jasperReport>

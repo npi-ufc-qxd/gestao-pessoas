@@ -7,7 +7,7 @@
 		xmlns:p="http://www.springframework.org/schema/p">
 
 	<bean id="multiViewReport"
-	   class="org.springframework.web.servlet.view.jasperreports.JasperReportsMultiFormatView" p:url="classpath:Termo_de_Compromisso.jrxml">
+	   class="org.springframework.web.servlet.view.jasperreports.JasperReportsMultiFormatView" p:url="classpath:Termo_Compromisso.jrxml">
 	   <!-- <property name="url" value=/>
 	   <property name="reportDataKey" value="jrDatasource"/> -->
 	</bean>

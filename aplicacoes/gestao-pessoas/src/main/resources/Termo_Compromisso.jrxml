@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Termo_Compromisso" language="java" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" >
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Termo_Compromisso" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" language="java">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="383"/>
+	<property name="ireport.y" value="0"/>
 	<field name="nomeCompleto" class="java.lang.String"/>
 	<field name="dataNascimento" class="java.lang.String"/>
 	<field name="nomeMae" class="java.lang.String"/>
 	<field name="telefone" class="java.lang.String"/>
-	<field name="pessoa.pessoa.cpf" class="java.lang.String"/>
+	<field name="pessoa.cpf" class="java.lang.String"/>
 	<field name="semestre" class="java.lang.String"/>
-	<field name="matricula" class="java.lang.String"/>
+	<field name="matricula" class="java.lang.Integer"/>
 	<field name="pessoa.email" class="java.lang.String"/>
 	<field name="endereco" class="java.lang.String"/>
 	<field name="curso" class="java.lang.String"/>

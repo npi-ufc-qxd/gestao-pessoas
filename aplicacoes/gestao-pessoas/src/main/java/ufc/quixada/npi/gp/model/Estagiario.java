@@ -2,6 +2,7 @@ package ufc.quixada.npi.gp.model;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -32,7 +33,7 @@ public class Estagiario {
 	private String contaGithub;
 	private String contaHangout;
 	
-	@OneToOne
+	@OneToOne(cascade=CascadeType.REFRESH) 
 	private Pessoa pessoa;
 	
 	public Estagiario(){

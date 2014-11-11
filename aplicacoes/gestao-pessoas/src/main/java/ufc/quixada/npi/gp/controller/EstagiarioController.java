@@ -61,6 +61,8 @@ public class EstagiarioController {
 
 		estagiario.setPessoa(getUsuarioLogado(session));
 		serviceEstagiario.save(estagiario);
+
+		
 		redirect.addFlashAttribute("info", "Estagiário cadastrado com sucesso.");
 		return "redirect:/estagiario/inicial";
 	}

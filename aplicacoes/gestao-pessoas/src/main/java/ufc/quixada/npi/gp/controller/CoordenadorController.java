@@ -5,6 +5,7 @@ import javax.servlet.http.HttpSession;
 
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
@@ -15,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import ufc.quixada.npi.gp.model.Estagiario;
 import ufc.quixada.npi.gp.service.EstagiarioService;
-import ufc.quixada.npi.gp.utils.EstagiarioDataSource;
 
 @Component
 @Controller
@@ -24,6 +24,8 @@ public class CoordenadorController {
 
 	@Inject
 	private EstagiarioService serviceEstagiario;
+	
+	private JRDataSource jrDatasource;
 
 	@RequestMapping(value = "/index", method = RequestMethod.GET)
 	public String index(ModelMap modelMap, HttpSession session) {
@@ -52,6 +54,26 @@ public class CoordenadorController {
 				serviceEstagiario.find(Estagiario.class));
 
 		return "coordenador/listaEstagiarios";
+	}
+
+	@RequestMapping(value = "/jrreport", method = RequestMethod.GET)
+	public String printWelcome(ModelMap model) throws JRException {
+		
+		jrDatasource = new JRBeanCollectionDataSource(serviceEstagiario.find(Estagiario.class));
+		
+		model.addAttribute("datasource", jrDatasource);
+		model.addAttribute("format", "pdf");
+		return "multiViewReport";
+	}
+	
+	@RequestMapping(value = "/declaracaoEstagio", method = RequestMethod.GET)
+	public String declaracaoEstagio( ModelMap model) throws JRException {
+		
+		jrDatasource = new JRBeanCollectionDataSource(serviceEstagiario.find(Estagiario.class));
+		
+		model.addAttribute("datasource", jrDatasource);
+		model.addAttribute("format", "pdf");
+		return "declaracaoEstagioIndividual";
 	}
 
 }

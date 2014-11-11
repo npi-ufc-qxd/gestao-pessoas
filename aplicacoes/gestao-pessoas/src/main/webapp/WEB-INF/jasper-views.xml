@@ -11,4 +11,8 @@
 	   <!-- <property name="url" value=/>
 	   <property name="reportDataKey" value="jrDatasource"/> -->
 	</bean>
+	
+	<bean id="declaracaoEstagioIndividual"
+	   class="org.springframework.web.servlet.view.jasperreports.JasperReportsMultiFormatView" p:url="classpath:Declaracao_Estagio.jrxml">
+	</bean>
 </beans>

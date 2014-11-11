@@ -4,7 +4,7 @@
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<field name="nomeCompleto" class="java.lang.String"/>
-	<field name="dataNascimento" class="java.lang.String"/>
+	<field name="dataNascimento" class="java.util.Date"/>
 	<field name="nomeMae" class="java.lang.String"/>
 	<field name="telefone" class="java.lang.String"/>
 	<field name="pessoa.cpf" class="java.lang.String"/>

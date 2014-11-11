@@ -45,13 +45,17 @@
 	</div>
 
 	<div align="center" style="margin-bottom: 20px;">
-		<a href="<c:url value="/jasper/jrreport" ></c:url>">
+		<a href="<c:url value="/coordenador/jrreport" ></c:url>">
 			<button class="btn btn-primary">
-				Realizar Cadastro <span class="glyphicon glyphicon-plus"></span>
+				Termo de Compromisso <span class="glyphicon glyphicon-plus"></span>
+			</button>
+		</a>
+		<a href="<c:url value="/coordenador/declaracaoEstagio" ></c:url>">
+			<button class="btn btn-primary">
+				Declaração de Estágio <span class="glyphicon glyphicon-plus"></span>
 			</button>
 		</a>
 	</div>
 
-	<jsp:include page="../modulos/footer.jsp" />
 </body>
 </html>

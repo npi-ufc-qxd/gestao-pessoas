@@ -18,7 +18,7 @@
 			<div class="form" align="center">
 				<h2>Novo Estagiário</h2>
 				<form:form id="adicionarProjetoForm" role="form"
-					commandName="estagiario"
+					commandName="estagiario" modelAttribute="estagiario"
 					servletRelativeAction="/estagiario/cadastrar" method="POST"
 					cssClass="form-horizontal">
 					<label for="nomeCompleto" class="col-sm-2 control-label">Nome
@@ -101,6 +101,7 @@
 						<form:input id="matricula" path="matricula"
 							cssClass="form-control" placeholder="Matricula" />
 					</div>
+					
 					<div class="controls">
 						<input name="submit" type="submit" class="btn btn-primary"
 							value="Cadastrar" /> <a

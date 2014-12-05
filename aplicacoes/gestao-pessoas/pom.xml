@@ -251,7 +251,7 @@
 
 	</dependencies>
 	<build>
-		<finalName>gpa-pesquisa</finalName>
+		<finalName>gestao-pessoas</finalName>
 
 		<plugins>
 			<plugin>

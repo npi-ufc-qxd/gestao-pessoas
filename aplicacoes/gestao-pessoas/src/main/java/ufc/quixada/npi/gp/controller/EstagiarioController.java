@@ -106,7 +106,7 @@ public class EstagiarioController {
 	private Pessoa getUsuarioLogado(HttpSession session) {
 		if (session.getAttribute(Constants.USUARIO_LOGADO) == null) {
 			Pessoa pessoa = servicePessoa
-					.getUsuarioByLogin(SecurityContextHolder.getContext()
+					.getPessoaByLogin(SecurityContextHolder.getContext()
 							.getAuthentication().getName());
 			session.setAttribute(Constants.USUARIO_LOGADO, pessoa);
 		}

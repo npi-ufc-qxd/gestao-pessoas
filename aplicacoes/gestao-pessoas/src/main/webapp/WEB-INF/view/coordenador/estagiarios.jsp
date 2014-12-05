@@ -12,36 +12,36 @@
 </head>
 <body>
 	<jsp:include page="../modulos/header-coordenador.jsp" />
-
-	<div class="tab-pane active" id="meus-projetos">
-		<c:if test="${empty estagiarios}">
-			<div class="alert alert-warning" role="alert">Não há
-				Estagiários cadastrados.</div>
-		</c:if>
-		<c:if test="${not empty estagiarios}">
-			<div class="panel panel-default">
-				<div class="panel-heading" align="center">
-					<h4>Estagiários Cadastrados</h4>
-				</div>
-				<!-- Table -->
-				<table class="table" id="table">
-					<thead>
-						<tr>
-							<th>Nome</th>
-							<th>Matricula</th>
-						</tr>
-					</thead>
-					<tbody>
-						<c:forEach var="estagiario" items="${estagiarios}">
-							<tr class="linha">
-								<td>${estagiario.nomeCompleto}</td>
-								<td>${estagiario.matricula}</td>
+	<div class="container">
+		<div class="tab-pane active" id="meus-projetos">
+			<c:if test="${empty estagiarios}">
+				<div class="alert alert-warning" role="alert">Não há Estagiários cadastrados.</div>
+			</c:if>
+			<c:if test="${not empty estagiarios}">
+				<div class="panel panel-default">
+					<div class="panel-heading" align="center">
+						<h4>Estagiários Cadastrados</h4>
+					</div>
+					<!-- Table -->
+					<table class="table" id="table">
+						<thead>
+							<tr>
+								<th>Nome</th>
+								<th>Matricula</th>
 							</tr>
-						</c:forEach>
-					</tbody>
-				</table>
-			</div>
-		</c:if>
+						</thead>
+						<tbody>
+							<c:forEach var="estagiario" items="${estagiarios}">
+								<tr class="linha">
+									<td>${estagiario.nomeCompleto}</td>
+									<td>${estagiario.matricula}</td>
+								</tr>
+							</c:forEach>
+						</tbody>
+					</table>
+				</div>
+			</c:if>
+		</div>
 	</div>
 
 	<div align="center" style="margin-bottom: 20px;">

@@ -261,7 +261,7 @@ Fone: (85)3366-7413 – FAX: (85)3366-7881]]></text>
 			<staticText>
 				<reportElement x="0" y="355" width="555" height="371"/>
 				<textElement>
-					<font fontName="Ubuntu" size="8"/>
+					<font fontName="Arial" size="8"/>
 				</textElement>
 				<text><![CDATA[Celebram entre si este TERMO DE COMPROMISSO DE ESTÁGIO, de acordo com o estabelecido na Lei N.º 11.788, de 25 de setembro de 2008 e com a Resolução No 32, de 30/10/2009, do CEPE/UFC, obedecendo, também,  as seguintes cláusulas e condições:
 CLÁUSULA PRIMEIRA - A CONCEDENTE se compromete a conceder, a estudantes previamente selecionados, matriculados e com freqüência efetiva no curso ao qual está vinculado, estágio em suas dependências, visando a complementar e consolidar, na prática, os conhecimentos ministrados na INSTITUIÇÃO DE ENSINO.
@@ -334,7 +334,7 @@ Coordenadoria da Agência de Estágios]]></text>
 			<staticText>
 				<reportElement x="1" y="68" width="554" height="18" />
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Ubuntu" size="8" isBold="true"/>
+					<font fontName="Arial" size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[UNIDADE CONCEDENTE]]></text>
 			</staticText>

@@ -1,7 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-
 
 <div id="header-page">
 	<div class="row">
@@ -31,7 +29,13 @@
 				<ul class="nav navbar-nav">
 
 					<li>
-						<a href="<c:url value="/coordenador/listaEstagiarios" />">Lista de Estagiários <span class="glyphicon glyphicon-th-list"></span></a>
+						<a href="<c:url value="/coordenador/estagiarios" />">Estagiários <span class="glyphicon glyphicon-th-list"></span></a>
+					</li>
+					<li>
+						<a href="<c:url value="/coordenador/turmas" />">Turmas <span class="glyphicon glyphicon-th-list"></span></a>
+					</li>
+					<li>
+						<a href="<c:url value="/coordenador/projetos" />">Projetos <span class="glyphicon glyphicon-th-list"></span></a>
 					</li>
 					<li>
 						<a href="<c:url value="/j_spring_security_logout" />">Sair <span class="glyphicon glyphicon-off"></span></a>
@@ -40,7 +44,7 @@
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
 					<li>
-						<a style="font-weight: bold;">Bem vindo, ${sessionScope.usuario.nome}!</a> 
+						<a style="font-weight: bold;">Bem vindo, ${sessionScope.usuario.nome}!</a>
 					</li>
 				</ul>
 			</div>

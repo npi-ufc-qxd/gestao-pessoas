@@ -35,8 +35,8 @@ public class Pessoa {
 	@JoinTable(name = "papel_pessoa", joinColumns = @JoinColumn(name = "pessoa_id"), inverseJoinColumns = @JoinColumn(name = "papel_id"))
 	private List<Papel> papeis;
 	
-	@OneToMany(mappedBy = "autor")	
-	private List<Projeto> projetos;
+//	@OneToMany(mappedBy = "autor")	
+//	private List<Projeto> projetos;
 	
 	private String cpf;
 	
@@ -58,12 +58,12 @@ public class Pessoa {
 	}
 	
 	
-	public List<Projeto> getProjetos() {
-		return projetos;
-	}
-	public void setProjetos(List<Projeto> projetos) {
-		this.projetos = projetos;
-	}
+//	public List<Projeto> getProjetos() {
+//		return projetos;
+//	}
+//	public void setProjetos(List<Projeto> projetos) {
+//		this.projetos = projetos;
+//	}
 	public String getCpf() {
 		return cpf;
 	}

@@ -4,9 +4,6 @@ import ufc.quixada.npi.gp.model.Pessoa;
 
 public interface PessoaService extends GenericService<Pessoa> {
 
-	Pessoa getUsuarioByLogin(String login);
+	public abstract Pessoa getPessoaByLogin(String login);
 
-	boolean isCoordenador(Pessoa usuario);
-
-	Pessoa getPessoaByNome(String nome);
 }

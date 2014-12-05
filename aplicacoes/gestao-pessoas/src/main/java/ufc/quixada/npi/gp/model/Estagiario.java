@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
 import org.springframework.format.annotation.DateTimeFormat;
@@ -33,6 +35,10 @@ public class Estagiario {
 	private String contaGithub;
 	private String contaHangout;
 	
+	@ManyToOne
+	@JoinColumn(name = "projeto_id")
+	private Projeto projeto;
+
 	@OneToOne(cascade=CascadeType.REFRESH) 
 	private Pessoa pessoa;
 	
@@ -193,8 +199,14 @@ public class Estagiario {
 	public void setContaHangout(String contaHangout) {
 		this.contaHangout = contaHangout;
 	}
+	
+	public Projeto getProjeto() {
+		return projeto;
+	}
 
-
+	public void setProjeto(Projeto projeto) {
+		this.projeto = projeto;
+	}
 
 	@Override
 	public String toString() {

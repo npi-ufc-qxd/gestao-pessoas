@@ -1,14 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <jsp:include page="../modulos/header-estrutura.jsp" />
 
-<title>Participantes</title>
+<title>Menbros da Turma</title>
 </head>
 <body>
 	<jsp:include page="../modulos/header-coordenador.jsp" />
@@ -25,17 +26,15 @@
 				
 			</div>
 			<div style="clear:both"></div>
-			<c:if test="${empty estagiarios}">
+			<c:if test="${empty membros}">
 				<div class="alert alert-warning" role="alert">Não há estagiarios nesta turma.</div>
 			</c:if>
-			<c:if test="${not empty estagiarios}">
-				<form:form id="vincularParcicipanteForm" role="form" modelAttribute="projeto" servletRelativeAction="/coordenador/vincularParticipantes" method="POST" cssClass="form-horizontal">
+			<c:if test="${not empty membros}">
+				<form:form id="vincularEstagiarioForm" role="form" modelAttribute="turma" servletRelativeAction="/coordenador/vincularEstagiarios" method="POST" cssClass="form-horizontal">
 					<form:hidden path="id"/>
-					<form:hidden path="nome"/>
-					<form:hidden path="descricao"/>
 				<div class="panel panel-default">
 					<div class="panel-heading" align="center">
-						<h4>Estagiarios</h4>
+						<h4>Estagiarios da Turma</h4>
 					</div>
 					<!-- Table -->
 					<table class="table" id="table">
@@ -47,9 +46,11 @@
 							</tr>
 						</thead>
 						<tbody>
-							<c:forEach var="estagiario" items="${estagiarios}" varStatus="cont">
+							<c:forEach var="estagiario" items="${membros}" varStatus="cont">
 								<tr class="linha">
-									<td><form:checkbox path="participantes[${cont.index}].id" value="${estagiario.id}"/></td>
+									<td>
+										<form:checkbox path="estagiarios[${cont.index}].id" value="${estagiario.id}" checked="${estagiario.turma.id eq turma.id ? 'checked' : ''}"/>
+									</td>
 									<td>${estagiario.pessoa.nome}</td>
 									<td>${estagiario.matricula}</td>
 								</tr>
@@ -64,6 +65,5 @@
 			</c:if>
 		</div>
 	</div>
-
 </body>
 </html>

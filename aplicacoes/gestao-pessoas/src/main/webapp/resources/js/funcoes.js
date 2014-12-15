@@ -1,6 +1,40 @@
 
 $(document).ready(function() {
 	
+	$('#periodo').change(function(event) {
+		var periodo = $(this).val().trim();
+		if(periodo == '') {
+			load(date);
+		}
+	});
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 		$("#formularioCadastroComentario")
 							.validate(
 									{
@@ -349,3 +383,48 @@ function verificarSeExisteUlNaPagina() {
 
 }
 });
+
+
+function load(data) {
+	var json = {
+	};
+	$.ajax({
+		url: '/.json',
+		type: "POST",
+		data: JSON.stringify(json),
+		beforeSend : function(xhr) {
+			xhr.setRequestHeader("Accept", "application/json");
+			xhr.setRequestHeader("Content-Type", "application/json");
+		},
+		success: function(result) {
+			loadBootgrid(result);
+		},
+		error: function(error) {
+			console.log("Error = " + error)
+		}
+	});
+}
+
+function loadBootgrid(result, table) {
+	$("#periodos")
+		.bootgrid({
+			labels: {
+	            all: "Todos",
+	            infos: "Mostrando {{ctx.start}} - {{ctx.end}} de {{ctx.total}}",
+	            loading: "Carregando...",
+	            noResults: "Nenhum resultado encontrado!",
+	            refresh: "Atualizar",
+	            search: "Buscar"
+	        },
+	        columnSelection: false,
+	        caseSensitive: false,
+	        formatters: {
+	        	"acoes": function(column, row) {
+	        		return "Ações";
+	        	}
+	        }
+		})
+		.bootgrid("clear")
+		.bootgrid("append", result);
+}
+

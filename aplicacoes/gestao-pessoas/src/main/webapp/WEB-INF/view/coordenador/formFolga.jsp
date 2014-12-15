@@ -9,7 +9,7 @@
 <html>
 <head>
 <jsp:include page="../modulos/header-estrutura.jsp" />
-<title>Cadastro de Projetos</title>
+<title>Cadastro de Turma</title>
 </head>
 <body>
 	<jsp:include page="../modulos/header-coordenador.jsp" />
@@ -17,36 +17,34 @@
 	<div class="container">
 		<div class="novo-projeto" align="left">
 			<div class="form" align="center">
-				<h2>Novo Projeto</h2>
-				<form:form id="adicionarProjetoForm" role="form" modelAttribute="projeto" servletRelativeAction="/coordenador/projeto" method="POST" cssClass="form-horizontal">
-					<form:hidden path="id"/>
+				<h2>Adicionar Folga</h2>
+				<form:form id="adicionarFolgaForm" role="form" commandName="folga" servletRelativeAction="/coordenador/periodo/${periodo.id}/folga" method="POST" cssClass="form-horizontal">
+				<form:hidden path="id"/>
 					<div class="form-group">
-						<label for="nome" class="col-sm-2 control-label">Nome:</label>
-						<div class="col-sm-10">
-							<form:input id="nome" path="nome" cssClass="form-control" placeholder="Nome do projeto" />
-							<div class="error-validation">
-								<form:errors path="nome"></form:errors>
-							</div>
+						<label for="data" class="col-sm-2 control-label">Data:</label>
+						<div class="col-sm-10" align="left">
+								<form:input id="data" path="data" cssClass="form-control" placeholder="Data da folga" />
+								<div class="error-validation">
+									<form:errors path="data"></form:errors>
+								</div>
 						</div>
 					</div>
 
 					<div class="form-group">
-						<label for="descricao" class="col-sm-2 control-label">Descrição:</label>
-						<div class="col-sm-10">
-							<form:textarea id="descricao" path="descricao" class="form-control" rows="5" placeholder="Descrição"></form:textarea>
-							<div class="error-validation">
-								<form:errors path="descricao"></form:errors>
-							</div>
+						<label for="descricao" class="col-sm-2 control-label">Descrição: </label>
+							<div class="col-sm-10" align="left">
+								<form:input id="descricao" path="descricao" cssClass="form-control" placeholder="Descrição da folga" />
+								<div class="error-validation">
+									<form:errors path="descricao"></form:errors>
+								</div>
 						</div>
 					</div>
-					<c:forEach var="membro" items="${projeto.membros}" varStatus="cont">
-						<form:hidden path="membros[${cont.index}].id" value="${membro.id}" />
-					</c:forEach>
 
 					<div class="controls">
 						<input name="submit" type="submit" class="btn btn-primary" value="Cadastrar" /> 
 						<a href="<c:url value="/projeto/index"></c:url>" class="btn btn-default">Cancelar</a>
 					</div>
+
 				</form:form>
 			</div>
 		</div>

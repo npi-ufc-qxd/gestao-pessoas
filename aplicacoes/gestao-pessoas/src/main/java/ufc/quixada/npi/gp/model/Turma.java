@@ -1,11 +1,19 @@
 package ufc.quixada.npi.gp.model;
 
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -22,26 +30,42 @@ public class Turma {
 	private Long id;
 	
 	private String codigo;
-	
+
+	@Enumerated(EnumType.STRING)
 	private Dia inicioSemana;
 	
+	@Enumerated(EnumType.STRING)
 	private Dia fimSemana;
 	
 	@Temporal(TemporalType.TIME)
-	@DateTimeFormat(pattern = "hh:mm")
+	@DateTimeFormat(pattern = "HH:mm")
 	private Date horaInicio;
 	
 	@Temporal(TemporalType.TIME)
-	@DateTimeFormat(pattern = "hh:mm")
+	@DateTimeFormat(pattern = "HH:mm")
 	private Date horaFinal;
 
-	@OneToOne
+	@OneToOne(fetch = FetchType.EAGER)
 	private Pessoa supervisor;
-//
-//	@OneToMany
-//	private List<Frequencia> frequencia;
-//	
-//	
+
+	@OneToMany(cascade = {CascadeType.REFRESH, CascadeType.MERGE, CascadeType.PERSIST})
+	@JoinColumn(name= "turma_id")
+	private List<Frequencia> frequencias;
+
+	@ManyToOne()
+	private Periodo periodo;
+	
+	@OneToMany(cascade = {CascadeType.REFRESH, CascadeType.MERGE, CascadeType.PERSIST})	
+	@JoinColumn(name= "turma_id")
+	private List<Estagiario> estagiarios;	
+	
+	public Periodo getPeriodo() {
+		return periodo;
+	}
+
+	public void setPeriodo(Periodo periodo) {
+		this.periodo = periodo;
+	}
 
 	public Long getId() {
 		return id;
@@ -97,5 +121,27 @@ public class Turma {
 
 	public void setSupervisor(Pessoa supervisor) {
 		this.supervisor = supervisor;
+	}
+
+	public List<Estagiario> getEstagiarios() {
+		return estagiarios;
+	}
+
+	public void setEstagiarios(List<Estagiario> estagiarios) {
+		this.estagiarios = estagiarios;
+	}
+
+	/**
+	 * @return the frequencias
+	 */
+	public List<Frequencia> getFrequencias() {
+		return frequencias;
+	}
+
+	/**
+	 * @param frequencias the frequencias to set
+	 */
+	public void setFrequencias(List<Frequencia> frequencias) {
+		this.frequencias = frequencias;
 	}
 }

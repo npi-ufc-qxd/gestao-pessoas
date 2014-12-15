@@ -16,6 +16,13 @@
 
 
 	<div class="container">
+	
+		<div align="right" style="margin-bottom: 20px;">
+			<a href="<c:url value="/estagiario/presenca" ></c:url>">
+				<button class="btn btn-primary">Presente <span class="glyphicon glyphicon-plus"></span></button>
+			</a>
+		</div>
+	
 
 		<c:if test="${not empty erro}">
 			<div class="alert alert-danger alert-dismissible" role="alert">

@@ -38,10 +38,13 @@
 						<tbody>
 							<c:forEach var="turma" items="${turmas}">
 								<tr class="linha">
-									<td>${turma.codigo}</td>
-									<td>${tuma.supervisor}</td>
+									<td>${turma.id}</td>
+									<td>${turma.supervisor.nome}</td>
 									<td>
-										<a href="<c:url value="/coordenador/${projeto.id}/vincularParticipantes" />" class="btn btn-default glyphicon glyphicon-plus"> <span class="glyphicon glyphicon-user"></span></a>
+										<a href="<c:url value="/coordenador/${turma.id}/vincularEstagiarios" />" class="btn btn-default">Add <span class="glyphicon glyphicon-user"></span></a>
+										<a href="<c:url value="/coordenador/turma/${turma.id}/detalhes" />" class="btn btn-default">Detalhes <span class="glyphicon glyphicon-eye-open"></span></a>
+										<a href="<c:url value="/coordenador/turma/${turma.id}/editar" />" class="btn btn-default">Editar <span class="glyphicon glyphicon-pencil"></span></a>
+										<a href="<c:url value="/coordenador/turma/${turma.id}/excluir" />" class="btn btn-default">Excluir <span class="glyphicon glyphicon-trash"></span></a>
 									</td>
 								</tr>
 							</c:forEach>

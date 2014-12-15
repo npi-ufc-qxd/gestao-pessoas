@@ -1,6 +1,7 @@
 package ufc.quixada.npi.gp.model;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -9,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 import org.springframework.format.annotation.DateTimeFormat;
@@ -36,11 +38,39 @@ public class Estagiario {
 	private String contaHangout;
 	
 	@ManyToOne
-	@JoinColumn(name = "projeto_id")
 	private Projeto projeto;
+	
+	@ManyToOne
+	private Turma turma;
 
 	@OneToOne(cascade=CascadeType.REFRESH) 
 	private Pessoa pessoa;
+
+	@OneToMany(cascade = {CascadeType.REFRESH, CascadeType.MERGE, CascadeType.PERSIST})
+	@JoinColumn(name= "estagiario_id")
+	private List<Frequencia> frequencias;
+	
+	/**
+	 * @return the frequencias
+	 */
+	public List<Frequencia> getFrequencias() {
+		return frequencias;
+	}
+
+	/**
+	 * @param frequencias the frequencias to set
+	 */
+	public void setFrequencias(List<Frequencia> frequencias) {
+		this.frequencias = frequencias;
+	}
+
+	public Turma getTurma() {
+		return turma;
+	}
+
+	public void setTurma(Turma turma) {
+		this.turma = turma;
+	}
 	
 	public Estagiario(){
 		super();
@@ -69,8 +99,6 @@ public class Estagiario {
 		this.contaHangout = contaHangout;
 		this.pessoa = pessoa;
 	}
-
-
 
 	public Long getId() {
 		return id;
@@ -218,7 +246,5 @@ public class Estagiario {
 				+ ", contaRedmine=" + contaRedmine + ", contaGithub="
 				+ contaGithub + ", contaHangout=" + contaHangout + ", pessoa="
 				+ pessoa + "]";
-	}
-
-	
+	}	
 }

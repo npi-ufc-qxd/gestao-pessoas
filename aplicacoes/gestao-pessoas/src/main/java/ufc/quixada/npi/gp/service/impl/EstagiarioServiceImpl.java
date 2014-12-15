@@ -18,10 +18,9 @@ public class EstagiarioServiceImpl extends GenericServiceImpl<Estagiario> implem
 	
 	@Inject
 	private EstagiarioRepository estagiarioRepository;
-	
+
 	@Override
-	public List<Estagiario> estagiarioCadastrado(Long id) {
-		
+	public List<Estagiario> getEstagiario(Long id) {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("id", id);
 		List<Estagiario> estagiarioCadastrado = estagiarioRepository.find(QueryType.JPQL,

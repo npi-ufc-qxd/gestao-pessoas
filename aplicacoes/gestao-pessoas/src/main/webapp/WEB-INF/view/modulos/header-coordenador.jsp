@@ -32,6 +32,9 @@
 						<a href="<c:url value="/coordenador/estagiarios" />">Estagiários <span class="glyphicon glyphicon-th-list"></span></a>
 					</li>
 					<li>
+						<a href="<c:url value="/coordenador/periodos" />">Periodos <span class="glyphicon glyphicon-th-list"></span></a>
+					</li>
+					<li class="hidden">
 						<a href="<c:url value="/coordenador/turmas" />">Turmas <span class="glyphicon glyphicon-th-list"></span></a>
 					</li>
 					<li>

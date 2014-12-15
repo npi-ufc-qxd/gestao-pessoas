@@ -3,11 +3,13 @@ package ufc.quixada.npi.gp.model;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.Size;
 
@@ -27,8 +29,10 @@ public class Projeto implements Serializable {
     @Size(min = 5, message = "Mínimo 5 caracteres")
 	private String descricao;
 	
-	@OneToMany
-	List<Estagiario> participantes;
+//	@OneToMany(cascade = CascadeType.REFRESH, mappedBy = "projeto" )
+	@OneToMany(cascade = {CascadeType.REFRESH, CascadeType.MERGE, CascadeType.PERSIST})
+	@JoinColumn(name= "projeto_id")
+	List<Estagiario> membros;
 
 	public String getNome() {
 		return nome;
@@ -54,16 +58,11 @@ public class Projeto implements Serializable {
 		return id;
 	}
 	
-	public List<Estagiario> getParticipantes() {
-		return participantes;
+	public List<Estagiario> getMembros() {
+		return membros;
 	}
 
-	public void setParticipantes(List<Estagiario> participantes) {
-		this.participantes = participantes;
+	public void setMembros(List<Estagiario> membros) {
+		this.membros = membros;
 	}
-
-	public void addParticipantes(Estagiario participante) {
-		this.participantes.add(participante);
-	}
-
 }

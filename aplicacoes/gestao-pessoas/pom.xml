@@ -59,7 +59,7 @@
 		<dependency>
 			<groupId>joda-time</groupId>
 			<artifactId>joda-time</artifactId>
-			<version>2.3</version>
+			<version>2.5</version>
 		</dependency>
 
 		<!-- Jackson JSON Mapper -->
@@ -247,6 +247,24 @@
 			<version>1.4.3</version>
 		</dependency>
 
+		<!-- Dependência ObjectLab Kit -->
+		<dependency>
+			<groupId>net.objectlab.kit</groupId>
+			<artifactId>datecalc-common</artifactId>
+			<version>1.4.0</version>
+		</dependency>
+			<dependency>
+				<groupId>net.objectlab.kit</groupId>
+				<artifactId>datecalc-joda</artifactId>
+				<version>1.4.0</version>
+		</dependency>
+
+		<!-- Dependência Jollyday -->
+		<dependency>
+			<groupId>de.jollyday</groupId>
+			<artifactId>jollyday</artifactId>
+			<version>0.4.7</version>
+		</dependency>
 
 
 	</dependencies>

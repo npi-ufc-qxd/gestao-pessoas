@@ -6,6 +6,6 @@ import ufc.quixada.npi.gp.model.Estagiario;
 
 public interface EstagiarioService extends GenericService<Estagiario>{
 
-	List<Estagiario> estagiarioCadastrado(Long id);
+	List<Estagiario> getEstagiario(Long id);
 	
 }

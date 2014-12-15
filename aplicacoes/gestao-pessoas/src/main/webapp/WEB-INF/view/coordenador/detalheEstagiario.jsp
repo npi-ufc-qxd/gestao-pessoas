@@ -14,37 +14,37 @@
 	<div class="container">
 		<div class="tab-pane active" id="meus-projetos">
 			<div align="right" style="margin-bottom: 20px;">
-				<a href="<c:url value="/coordenador/projeto" ></c:url>">
-					<button class="btn btn-primary">Novo Projeto <span class="glyphicon glyphicon-plus"></span></button>
+				<a href="<c:url value="/coordenador/${projeto.id}/vincularParticipantes" ></c:url>">
+					<button class="btn btn-primary">Add <span class="glyphicon glyphicon-user"></span></button>
 				</a>
 			</div>
-			<c:if test="${empty projetos}">
+		
+			<c:if test="${empty projeto}">
 				<div class="alert alert-warning" role="alert">Não há Projetos cadastrados.</div>
 			</c:if>
-			<c:if test="${not empty projetos}">
+			<c:if test="${not empty projeto}">
+			
+			<label>Nome : </label><label>${participantes.length} </label>
 				<div class="panel panel-default">
 					<div class="panel-heading" align="center">
-						<h4>Projetos Cadastrados</h4>
+						<h4>Participantes</h4>
 					</div>
 					<!-- Table -->
 					<table class="table" id="table">
 						<thead>
 							<tr>
 								<th>Nome</th>
-								<th>Descrição</th>
+								<th>MAtricula</th>
 								<th>A</th>
 							</tr>
 						</thead>
 						<tbody>
-							<c:forEach var="projeto" items="${projetos}">
+							<c:forEach var="estagiario" items="${projeto.membros}">
 								<tr class="linha">
-									<td>${projeto.nome}</td>
-									<td>${projeto.descricao}</td>
+									<td>${estagiario.pessoa.nome}</td>
+									<td>${estagiario.matricula}</td>
 									<td>
-										<a href="<c:url value="/coordenador/${projeto.id}/vincularMembros" />" class="btn btn-default">Add <span class="glyphicon glyphicon-user"></span></a>
-										<a href="<c:url value="/coordenador/projeto/${projeto.id}/detalhes" />" class="btn btn-default">Detalhes <span class="glyphicon glyphicon-eye-open"></span></a>
-										<a href="<c:url value="/coordenador/projeto/${projeto.id}/editar" />" class="btn btn-default">Editar <span class="glyphicon glyphicon-pencil"></span></a>
-										<a href="<c:url value="/coordenador/projeto/${projeto.id}/excluir" />" class="btn btn-default">Excluir <span class="glyphicon glyphicon-trash"></span></a>
+										<a href="<c:url value="#/coordenador/#" />" class="btn btn-default">Detalhes <span class="glyphicon glyphicon-eye-open"></span></a>
 									</td>
 								</tr>
 							</c:forEach>

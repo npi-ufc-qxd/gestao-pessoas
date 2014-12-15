@@ -101,6 +101,18 @@
 						<form:input id="matricula" path="matricula"
 							cssClass="form-control" placeholder="Matricula" />
 					</div>
+
+					<div class="form-group">
+						<label for="turma" class="col-sm-2 control-label">Selecione uma turma:</label>
+						<div class="col-sm-10" align="left">
+							<form:select path="turma.id"  cssClass="btn btn-default dropdown-toggle">
+							    <form:options items="${turmas}" itemValue="id" itemLabel="codigo"  />
+							</form:select>
+							<div class="error-validation">
+								<form:errors path="turma"></form:errors>
+							</div>
+						</div>
+					</div>
 					
 					<div class="controls">
 						<input name="submit" type="submit" class="btn btn-primary"
@@ -108,7 +120,7 @@
 							href="<c:url value="/estagiario/index"></c:url>"
 							class="btn btn-default">Cancelar</a>
 					</div>
-					
+										
 				</form:form>
 			</div>
 		</div>

@@ -18,20 +18,29 @@
 		<div class="novo-projeto" align="left">
 			<div class="form" align="center">
 				<h2>Nova Turma</h2>
-				<form:form id="adicionarTurmaForm" role="form" modelAttribute="turma" servletRelativeAction="/coordenador/turma" method="POST" cssClass="form-horizontal">
-
+				<form:form id="adicionarTurmaForm" role="form" commandName="turma" servletRelativeAction="/coordenador/${periodo.id}/turma" method="POST" cssClass="form-horizontal">
+				<form:hidden path="id"/>				
 					<div class="form-group">
 						<label for="inicioSemana" class="col-sm-2 control-label">Inicio:</label>
 						<div class="col-sm-10" align="left">
-							<form:select id="inicioSemana" path="inicioSemana" cssClass="btn btn-default dropdown-toggle">
-								<form:option value="2">Segunda-Feira</form:option>
-								<form:option value="3">Terça-Feira</form:option>
-								<form:option value="4">Quarta-Feira</form:option>
-								<form:option value="5">Quinta-Feira</form:option>
-								<form:option value="6">Sexta-Feira</form:option>
+							
+							<form:select path="inicioSemana" cssClass="btn btn-default dropdown-toggle">
+							    <form:options itemLabel="dia" />
 							</form:select>
 							<div class="error-validation">
 								<form:errors path="inicioSemana"></form:errors>
+							</div>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label for="fimSemana" class="col-sm-2 control-label">Final:</label>
+						<div class="col-sm-10" align="left">
+							<form:select path="fimSemana" cssClass="btn btn-default dropdown-toggle">
+							    <form:options itemLabel="dia" />
+							</form:select>
+							<div class="error-validation">
+								<form:errors path="fimSemana"></form:errors>
 							</div>
 						</div>
 					</div>
@@ -60,6 +69,11 @@
 						<input name="submit" type="submit" class="btn btn-primary" value="Cadastrar" /> 
 						<a href="<c:url value="/projeto/index"></c:url>" class="btn btn-default">Cancelar</a>
 					</div>
+
+					<c:forEach var="membro" items="${turma.estagiarios}" varStatus="cont">
+						<form:hidden path="estagiarios[${cont.index}].id" value="${membro.id}" />
+					</c:forEach>
+
 				</form:form>
 			</div>
 		</div>

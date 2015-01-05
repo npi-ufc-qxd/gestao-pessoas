@@ -1,7 +1,6 @@
 package ufc.quixada.npi.gp.controller;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -17,7 +16,6 @@ import net.objectlab.kit.datecalc.common.HolidayCalendar;
 import net.objectlab.kit.datecalc.common.HolidayHandlerType;
 import net.objectlab.kit.datecalc.joda.LocalDateKitCalculatorsFactory;
 
-import org.jfree.data.time.Day;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -88,7 +86,7 @@ public class EstagiarioController {
 		
 		estagiario.getTurma().getPeriodo().getFolgas();
 
-		boolean h = isHoraPermitida(estagiario.getTurma().getHoraInicio(), estagiario.getTurma().getHoraFinal());
+		boolean horarioDeTrabalho = isHoraPermitida(estagiario.getTurma().getHoraInicio(), estagiario.getTurma().getHoraFinal());
 
 		Set<LocalDate> dataDosFeriados = new HashSet<LocalDate>();
 
@@ -101,10 +99,10 @@ public class EstagiarioController {
 		DateCalculator<LocalDate> calendario = LocalDateKitCalculatorsFactory.getDefaultInstance().getDateCalculator("NPI", HolidayHandlerType.FORWARD);
 		
 		LocalDate dia = new LocalDate();
-		boolean d = isDiaTrabaho(estagiario.getTurma().getInicioSemana().getDia(), estagiario.getTurma().getFimSemana().getDia(), dia.getDayOfWeek());
+		boolean diaDeTrabalho = isDiaTrabaho(estagiario.getTurma().getInicioSemana().getDia(), estagiario.getTurma().getFimSemana().getDia(), dia.getDayOfWeek());
 		
 		Frequencia frequencia = new Frequencia();
-		if((!calendario.isNonWorkingDay(dia)) && (h && d))
+		if( (!calendario.isNonWorkingDay(dia) ) && ( diaDeTrabalho && horarioDeTrabalho ))
 		{
 			for (Frequencia f : estagiario.getFrequencias()) {
 				LocalDate data  = new LocalDate(f.getData());
@@ -138,8 +136,8 @@ public class EstagiarioController {
 	
 	private boolean isDiaTrabaho(int inicio, int fim, int dia){
 		return (inicio <= dia && dia <= fim);
-	}	
-	
+	}
+
 	@RequestMapping(value = "/cadastrar", method = RequestMethod.POST)
 	public String adicionarEstagiario(@Valid @ModelAttribute("estagiario") Estagiario estagiario, BindingResult result, HttpSession session, RedirectAttributes redirect) {
 
@@ -150,12 +148,14 @@ public class EstagiarioController {
 
 		serviceEstagiario.save(estagiario);
 		
-		estagiario.setFrequencias(geraFrequencia(estagiario));
+		List<Frequencia> frequencias = geraFrequencia(estagiario);
 		
-		estagiario.getTurma().setFrequencias(estagiario.getFrequencias());
+		estagiario.setFrequencias(frequencias);
+		
+		//estagiario.getTurma().setFrequencias(estagiario.getFrequencias());
 
 		serviceEstagiario.update(estagiario);
-
+		
 		redirect.addFlashAttribute("info", "Estagiário cadastrado com sucesso.");
 		return "redirect:/estagiario/inicial";
 	}

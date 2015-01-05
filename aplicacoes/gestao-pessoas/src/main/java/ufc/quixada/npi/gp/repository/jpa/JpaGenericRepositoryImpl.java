@@ -96,8 +96,7 @@ public class JpaGenericRepositoryImpl<T> implements GenericRepository<T> {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<T> find(QueryType type, String query,
-			Map<String, Object> namedParams, int firstResult, int maxResults) {
+	public List<T> find(QueryType type, String query, Map<String, Object> namedParams, int firstResult, int maxResults) {
 		List<T> result = null;
 		Query q;
 		if (type == QueryType.JPQL) {

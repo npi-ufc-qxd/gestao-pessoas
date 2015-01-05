@@ -41,6 +41,9 @@
 						<a href="<c:url value="/coordenador/projetos" />">Projetos <span class="glyphicon glyphicon-th-list"></span></a>
 					</li>
 					<li>
+						<a href="<c:url value="/coordenador/frequencia " />">Frequência <span class="glyphicon glyphicon-th-list"></span></a>
+					</li>
+					<li>
 						<a href="<c:url value="/j_spring_security_logout" />">Sair <span class="glyphicon glyphicon-off"></span></a>
 					</li>
 					

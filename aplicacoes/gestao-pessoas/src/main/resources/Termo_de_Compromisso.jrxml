@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Termo_de_Compromisso" language="java" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" >
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Termo_de_Compromisso" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
+	<property name="ireport.background.image.properties" value="true,true,0.25,-8,-8,0,0,756,529"/>
 	<queryString>
 		<![CDATA[]]>
 	</queryString>
@@ -48,43 +49,43 @@
 	<columnHeader>
 		<band height="61" splitType="Stretch">
 			<staticText>
-				<reportElement x="0" y="0" width="55" height="20" />
+				<reportElement x="0" y="0" width="55" height="20"/>
 				<text><![CDATA[cep]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="55" y="0" width="55" height="20" />
+				<reportElement x="55" y="0" width="55" height="20"/>
 				<text><![CDATA[cidade]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="110" y="0" width="55" height="20" />
+				<reportElement x="110" y="0" width="55" height="20"/>
 				<text><![CDATA[curso]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="165" y="0" width="55" height="20" />
+				<reportElement x="165" y="0" width="55" height="20"/>
 				<text><![CDATA[endereco]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="220" y="0" width="55" height="20" />
+				<reportElement x="220" y="0" width="55" height="20"/>
 				<text><![CDATA[matricula]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="275" y="0" width="55" height="20" />
+				<reportElement x="275" y="0" width="55" height="20"/>
 				<text><![CDATA[nomeCompleto]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="330" y="0" width="55" height="20" />
+				<reportElement x="330" y="0" width="55" height="20"/>
 				<text><![CDATA[nomeMae]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="385" y="0" width="55" height="20" />
+				<reportElement x="385" y="0" width="55" height="20"/>
 				<text><![CDATA[semestre]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="440" y="0" width="55" height="20" />
+				<reportElement x="440" y="0" width="55" height="20"/>
 				<text><![CDATA[telefone]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="495" y="0" width="55" height="20" />
+				<reportElement x="495" y="0" width="55" height="20"/>
 				<text><![CDATA[uf]]></text>
 			</staticText>
 		</band>
@@ -92,43 +93,43 @@
 	<detail>
 		<band height="125" splitType="Stretch">
 			<textField>
-				<reportElement x="0" y="0" width="55" height="20" />
+				<reportElement x="0" y="0" width="55" height="20"/>
 				<textFieldExpression><![CDATA[$F{cep}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="55" y="0" width="55" height="20" />
+				<reportElement x="55" y="0" width="55" height="20"/>
 				<textFieldExpression><![CDATA[$F{cidade}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="110" y="0" width="55" height="20" />
+				<reportElement x="110" y="0" width="55" height="20"/>
 				<textFieldExpression><![CDATA[$F{curso}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="165" y="0" width="55" height="20" />
+				<reportElement x="165" y="0" width="55" height="20"/>
 				<textFieldExpression><![CDATA[$F{endereco}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="220" y="0" width="55" height="20" />
+				<reportElement x="220" y="0" width="55" height="20"/>
 				<textFieldExpression><![CDATA[$F{matricula}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="275" y="0" width="55" height="20" />
+				<reportElement x="275" y="0" width="55" height="20"/>
 				<textFieldExpression><![CDATA[$F{nomeCompleto}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="330" y="0" width="55" height="20" />
+				<reportElement x="330" y="0" width="55" height="20"/>
 				<textFieldExpression><![CDATA[$F{nomeMae}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="385" y="0" width="55" height="20" />
+				<reportElement x="385" y="0" width="55" height="20"/>
 				<textFieldExpression><![CDATA[$F{semestre}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="440" y="0" width="55" height="20" />
+				<reportElement x="440" y="0" width="55" height="20"/>
 				<textFieldExpression><![CDATA[$F{telefone}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="495" y="0" width="55" height="20" />
+				<reportElement x="495" y="0" width="55" height="20"/>
 				<textFieldExpression><![CDATA[$F{uf}]]></textFieldExpression>
 			</textField>
 		</band>

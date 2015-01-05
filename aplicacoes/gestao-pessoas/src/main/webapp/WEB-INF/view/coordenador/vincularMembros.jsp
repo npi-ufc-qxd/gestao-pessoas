@@ -1,10 +1,10 @@
+<!DOCTYPE html>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <jsp:include page="../modulos/header-estrutura.jsp" />
@@ -15,12 +15,43 @@
 	<jsp:include page="../modulos/header-coordenador.jsp" />
 
 	<div class="container">
-		<div class="tab-pane active" id="meus-projetos">
-			<div>
-				<span style="margin-bottom: 20px; float:right">
-					<a href="<c:url value="/coordenador/projeto" ></c:url>"><button class="btn btn-primary">Novo Projeto <span class="glyphicon glyphicon-plus"></span></button></a>
-				</span>
+
+		<form:form id="buscaEstagiariosForm" role="form" modelAttribute="filtro" servletRelativeAction="/coordenador/${projeto.id}/buscaEstagiarios" method="POST" cssClass="form-inline">
+			<div class="form-group">
+				<form:select id="ano" path="ano" class="form-control">
+					<option value="2014">2014</option>
+					<option value="2015">2015</option>
+					<option value="2016">2016</option>
+					<option value="2017">2017</option>
+					<option value="2018">2018</option>
+					<option value="2019">2019</option>
+					<option value="2020">2020</option>
+				</form:select>
 			</div>
+		
+			<div class="form-group">
+				<form:select id="semestre" path="semestre" class="form-control">
+					<option value="1">1</option>
+					<option value="2">2</option>
+				</form:select>
+			</div>
+		
+			<div class="form-group">
+				<form:select id="turma" path="turma" class="form-control">
+					<c:if test="${not empty turmas}">
+						<form:options items="${turmas}" itemValue="id" itemLabel="codigo"  />
+					</c:if>
+				</form:select>
+			</div>
+		
+			<div class="btn-group">
+				<button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-search"></span> Buscar</button>
+		    </div>	
+		</form:form>	
+
+
+	<c:if test="${not empty estagiarios}">
+		<div class="tab-pane active" id="meus-projetos">
 			<div style="clear:both"></div>
 			<c:if test="${empty estagiarios}">
 				<div class="alert alert-warning" role="alert">Não há estagiarios nesta turma.</div> 
@@ -62,6 +93,7 @@
 				</form:form>
 			</c:if>
 		</div>
+	</c:if>
 	</div>
 </body>
 </html>

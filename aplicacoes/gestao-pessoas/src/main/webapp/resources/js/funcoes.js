@@ -1,14 +1,88 @@
+function load(ano, semestre, turma) {
+	console.log(" loadload load load");
+	$.get( "/gestao-pessoas/coordenador/vincul", { "ano" : ano, "semestre" : semestre, "turma" : turma } );
+}
 
 $(document).ready(function() {
 	
-	$('#periodo').change(function(event) {
-		var periodo = $(this).val().trim();
-		if(periodo == '') {
-			load(date);
-		}
+    $.fn.editable.defaults.mode = 'popup';     
+    
+    //make username editable
+    $('.observacao').editable({
+    	url : '/gestao-pessoas/coordenador/observacao',
+    	title : 'Observaçao',
+    	type : 'textarea'
+    });
+    
+    //make status editable
+    $('.status').editable({
+    	url : '/gestao-pessoas/coordenador/frequencia/atualizarStatus',
+        type: 'select',
+        title: 'Presença',
+        placement: 'top',
+        value: 'ATRASADO',
+        pk: 1,
+    	mode : 'inline',
+    	sourceCache : true,
+        source: [
+                 {value: 'PRESENTE', text: 'Presente' },
+                 {value: 'ATRASADO', text: 'Atrasado'},
+               	 {value: 'FALTA', text: 'Falta'} 
+        ]
+    });
+    
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	var d = new Date();
+	var ano = d.getFullYear();
+	var semestre = d.getMonth() < 6 ? '1' : '2';
+	var turma = '';
+
+	$('#ano').change(function(event) {
+		ano = $(this).val().trim();
+		console.log("ano = " + ano);
+		load(ano, semestre, turma);
+	});
+
+	
+	$('#semestre').change(function(event) {
+		semestre = $(this).val().trim();
+		console.log("semestre = " + semestre);
+		load(ano, semestre, turma);
 	});
 	
-	
+
+	$('#turma').change(function(event) {
+		turma = $(this).val().trim();
+		console.log("turma = " + turma);
+		load(ano, semestre, turma);
+	});	
 	
 	
 	
@@ -383,48 +457,3 @@ function verificarSeExisteUlNaPagina() {
 
 }
 });
-
-
-function load(data) {
-	var json = {
-	};
-	$.ajax({
-		url: '/.json',
-		type: "POST",
-		data: JSON.stringify(json),
-		beforeSend : function(xhr) {
-			xhr.setRequestHeader("Accept", "application/json");
-			xhr.setRequestHeader("Content-Type", "application/json");
-		},
-		success: function(result) {
-			loadBootgrid(result);
-		},
-		error: function(error) {
-			console.log("Error = " + error)
-		}
-	});
-}
-
-function loadBootgrid(result, table) {
-	$("#periodos")
-		.bootgrid({
-			labels: {
-	            all: "Todos",
-	            infos: "Mostrando {{ctx.start}} - {{ctx.end}} de {{ctx.total}}",
-	            loading: "Carregando...",
-	            noResults: "Nenhum resultado encontrado!",
-	            refresh: "Atualizar",
-	            search: "Buscar"
-	        },
-	        columnSelection: false,
-	        caseSensitive: false,
-	        formatters: {
-	        	"acoes": function(column, row) {
-	        		return "Ações";
-	        	}
-	        }
-		})
-		.bootgrid("clear")
-		.bootgrid("append", result);
-}
-

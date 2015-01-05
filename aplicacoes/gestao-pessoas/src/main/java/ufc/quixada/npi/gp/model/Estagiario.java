@@ -3,8 +3,10 @@ package ufc.quixada.npi.gp.model;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -37,22 +39,23 @@ public class Estagiario {
 	private String contaGithub;
 	private String contaHangout;
 	
+	@Basic(fetch = FetchType.LAZY)
 	@ManyToOne
 	private Projeto projeto;
 	
+	@Basic(fetch = FetchType.LAZY)
 	@ManyToOne
 	private Turma turma;
-
+	
+	@Basic(fetch = FetchType.LAZY)
 	@OneToOne(cascade=CascadeType.REFRESH) 
 	private Pessoa pessoa;
 
+	@Basic(fetch = FetchType.LAZY)
 	@OneToMany(cascade = {CascadeType.REFRESH, CascadeType.MERGE, CascadeType.PERSIST})
 	@JoinColumn(name= "estagiario_id")
 	private List<Frequencia> frequencias;
-	
-	/**
-	 * @return the frequencias
-	 */
+
 	public List<Frequencia> getFrequencias() {
 		return frequencias;
 	}

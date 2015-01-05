@@ -48,16 +48,15 @@ public class Turma {
 	@OneToOne(fetch = FetchType.EAGER)
 	private Pessoa supervisor;
 
-	@OneToMany(cascade = {CascadeType.REFRESH, CascadeType.MERGE, CascadeType.PERSIST})
-	@JoinColumn(name= "turma_id")
-	private List<Frequencia> frequencias;
-
 	@ManyToOne()
 	private Periodo periodo;
-	
-	@OneToMany(cascade = {CascadeType.REFRESH, CascadeType.MERGE, CascadeType.PERSIST})	
+
+	@OneToMany(cascade = {CascadeType.REFRESH, CascadeType.MERGE, CascadeType.PERSIST}, fetch = FetchType.LAZY)
 	@JoinColumn(name= "turma_id")
-	private List<Estagiario> estagiarios;	
+	private List<Frequencia> frequencias;
+	
+	@OneToMany(cascade = {CascadeType.REFRESH, CascadeType.MERGE, CascadeType.PERSIST})	@JoinColumn(name= "turma_id")
+	private List<Estagiario> estagiarios;
 	
 	public Periodo getPeriodo() {
 		return periodo;

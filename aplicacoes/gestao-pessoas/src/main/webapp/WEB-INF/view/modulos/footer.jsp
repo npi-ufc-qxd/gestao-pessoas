@@ -23,3 +23,4 @@
 <script src="<c:url value="/resources/js/bootbox.min.js" />"></script>
 <script src="<c:url value="/resources/js/jquery.bootgrid.min.js" />"></script>
 <script src="<c:url value="/resources/js/bootstrapValidator.min.js" />"></script>
+<script src="<c:url value="/webjars/x-editable-bootstrap/1.5.1/js/bootstrap-editable.min.js" />"></script>

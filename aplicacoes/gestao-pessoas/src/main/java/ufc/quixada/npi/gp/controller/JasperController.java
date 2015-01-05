@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import ufc.quixada.npi.gp.utils.EstagiarioDataSource;
 
-@Component
+//@Component
 @Controller
 @RequestMapping("jasper")
 public class JasperController {

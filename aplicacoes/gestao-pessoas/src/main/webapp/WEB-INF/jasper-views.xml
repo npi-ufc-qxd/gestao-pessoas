@@ -7,12 +7,17 @@
 		xmlns:p="http://www.springframework.org/schema/p">
 
 	<bean id="multiViewReport"
-	   class="org.springframework.web.servlet.view.jasperreports.JasperReportsMultiFormatView" p:url="classpath:Termo_Compromisso.jrxml">
-	   <!-- <property name="url" value=/>
-	   <property name="reportDataKey" value="jrDatasource"/> -->
+	   class="org.springframework.web.servlet.view.jasperreports.JasperReportsMultiFormatView" 
+	   p:url="classpath:Termo_Compromisso.jrxml">
 	</bean>
 	
 	<bean id="declaracaoEstagioIndividual"
-	   class="org.springframework.web.servlet.view.jasperreports.JasperReportsMultiFormatView" p:url="classpath:Declaracao_Estagio.jrxml">
+	   class="org.springframework.web.servlet.view.jasperreports.JasperReportsMultiFormatView" 
+	   p:url="classpath:Declaracao_Estagio.jrxml">
+	</bean>
+
+	<bean id="estagio"
+	   class="org.springframework.web.servlet.view.jasperreports.JasperReportsMultiFormatView" 
+	   p:url="classpath:estagio2.jrxml">
 	</bean>
 </beans>

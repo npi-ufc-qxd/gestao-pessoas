@@ -181,3 +181,9 @@ table#file-upload {
 	margin-left: 20px;
 	padding: 5px 3px 5px 3px;
 }
+
+.observacao { 
+	text-overflow:ellipsis;
+	overflow:hidden;
+	white-space:nowrap;
+}

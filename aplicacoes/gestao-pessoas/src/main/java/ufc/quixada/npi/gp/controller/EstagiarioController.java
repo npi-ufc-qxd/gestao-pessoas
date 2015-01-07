@@ -19,7 +19,6 @@ import net.objectlab.kit.datecalc.joda.LocalDateKitCalculatorsFactory;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -42,7 +41,6 @@ import ufc.quixada.npi.gp.service.GenericService;
 import ufc.quixada.npi.gp.service.PessoaService;
 import ufc.quixada.npi.gp.utils.Constants;
 
-@Component
 @Controller
 @RequestMapping("estagiario")
 public class EstagiarioController {
@@ -84,20 +82,16 @@ public class EstagiarioController {
 	public String presenca(HttpSession session) {
 		Estagiario estagiario = serviceEstagiario.getEstagiario(getUsuarioLogado(session).getId()).get(0);	
 		
-		estagiario.getTurma().getPeriodo().getFolgas();
-
-		boolean horarioDeTrabalho = isHoraPermitida(estagiario.getTurma().getHoraInicio(), estagiario.getTurma().getHoraFinal());
-
 		Set<LocalDate> dataDosFeriados = new HashSet<LocalDate>();
-
 		for (Folga folga : estagiario.getTurma().getPeriodo().getFolgas()) {
-		    dataDosFeriados.add(new LocalDate(folga.getData()));
+			dataDosFeriados.add(new LocalDate(folga.getData()));
 		}
 		
 		HolidayCalendar<LocalDate> calendarioDeFeriados = new DefaultHolidayCalendar<LocalDate>(dataDosFeriados);
 		LocalDateKitCalculatorsFactory.getDefaultInstance().registerHolidays("NPI", calendarioDeFeriados);
 		DateCalculator<LocalDate> calendario = LocalDateKitCalculatorsFactory.getDefaultInstance().getDateCalculator("NPI", HolidayHandlerType.FORWARD);
 		
+		boolean horarioDeTrabalho = isHoraPermitida(estagiario.getTurma().getHoraInicio(), estagiario.getTurma().getHoraFinal());
 		LocalDate dia = new LocalDate();
 		boolean diaDeTrabalho = isDiaTrabaho(estagiario.getTurma().getInicioSemana().getDia(), estagiario.getTurma().getFimSemana().getDia(), dia.getDayOfWeek());
 		
@@ -199,11 +193,6 @@ public class EstagiarioController {
 		
 		return frequencias;
 	}
-	
-	
-	private boolean diaUtil(){
-		return true;
-	}
 
 	@RequestMapping(value = "/{id}/contaspessoais", method = RequestMethod.GET)
 	public String contasPessoais(@PathVariable("id") long id, Model model,
@@ -250,5 +239,4 @@ public class EstagiarioController {
 		}
 		return (Pessoa) session.getAttribute(Constants.USUARIO_LOGADO);
 	}
-
 }

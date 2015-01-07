@@ -32,16 +32,16 @@
 						<a href="<c:url value="/coordenador/estagiarios" />">Estagiários <span class="glyphicon glyphicon-th-list"></span></a>
 					</li>
 					<li>
-						<a href="<c:url value="/coordenador/periodos" />">Periodos <span class="glyphicon glyphicon-th-list"></span></a>
+						<a href="<c:url value="/periodo/periodos" />">Periodos <span class="glyphicon glyphicon-th-list"></span></a>
 					</li>
 					<li class="hidden">
-						<a href="<c:url value="/coordenador/turmas" />">Turmas <span class="glyphicon glyphicon-th-list"></span></a>
+						<a href="<c:url value="/turma/turmas" />">Turmas <span class="glyphicon glyphicon-th-list"></span></a>
 					</li>
 					<li>
 						<a href="<c:url value="/coordenador/projetos" />">Projetos <span class="glyphicon glyphicon-th-list"></span></a>
 					</li>
 					<li>
-						<a href="<c:url value="/coordenador/frequencia " />">Frequência <span class="glyphicon glyphicon-th-list"></span></a>
+						<a href="<c:url value="/frequencia " />">Frequência <span class="glyphicon glyphicon-th-list"></span></a>
 					</li>
 					<li>
 						<a href="<c:url value="/j_spring_security_logout" />">Sair <span class="glyphicon glyphicon-off"></span></a>

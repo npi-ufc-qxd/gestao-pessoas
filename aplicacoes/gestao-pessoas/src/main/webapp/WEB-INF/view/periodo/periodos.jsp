@@ -14,7 +14,7 @@
 	<div class="container">
 		<div class="tab-pane active" id="meus-projetos">
 			<div align="right" style="margin-bottom: 20px;">
-				<a href="<c:url value="/coordenador/periodo" ></c:url>">
+				<a href="<c:url value="/periodo/periodo" ></c:url>">
 					<button class="btn btn-primary">Novo Periodo <span class="glyphicon glyphicon-plus"></span></button>
 				</a>
 			</div>
@@ -45,9 +45,9 @@
 									<td>${periodo.inicio}</td>
 									<td>${periodo.termino}</td>
 									<td>
-										<a href="<c:url value="/coordenador/${periodo.id}/turma" />" class="btn btn-default">Add Turma <span class="glyphicon glyphicon-user"></span></a>
-										<a href="<c:url value="/coordenador/periodo/${periodo.id}/folga" />" class="btn btn-default">Add Folgas </a>
-										<a href="<c:url value="/coordenador/periodo/${periodo.id}/detalhes" />" class="btn btn-default">Detalhes <span class="glyphicon glyphicon-eye-open"></span></a>
+										<a href="<c:url value="/turma/${periodo.id}/turma" />" class="btn btn-default">Add Turma <span class="glyphicon glyphicon-user"></span></a>
+										<a href="<c:url value="/periodo/${periodo.id}/folga" />" class="btn btn-default">Add Folgas </a>
+										<a href="<c:url value="/periodo/${periodo.id}/detalhes" />" class="btn btn-default">Detalhes <span class="glyphicon glyphicon-eye-open"></span></a>
 									</td>
 								</tr>
 							</c:forEach>

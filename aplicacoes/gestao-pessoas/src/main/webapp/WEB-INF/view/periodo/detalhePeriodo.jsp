@@ -14,7 +14,7 @@
 	<div class="container">
 		<div class="tab-pane active" id="meus-projetos">
 			<div align="right" style="margin-bottom: 20px;">
-				<a href="<c:url value="/coordenador/${periodo.id}/turma" ></c:url>">
+				<a href="<c:url value="/turma/${periodo.id}/turma" ></c:url>">
 					<button class="btn btn-primary">Add Turma</button>
 				</a>
 			</div>
@@ -44,7 +44,7 @@
 								<tr class="linha">
 									<td>${turma.codigo}</td>
 									<td>
-										<a href="<c:url value="/coordenador/turma/${turma.id}/detalhes" />" class="btn btn-default">Detalhes <span class="glyphicon glyphicon-user"></span></a>
+										<a href="<c:url value="/turma/${turma.id}/detalhes" />" class="btn btn-default">Detalhes <span class="glyphicon glyphicon-user"></span></a>
 									</td>
 								</tr>
 							</c:forEach>

@@ -18,14 +18,14 @@
 		<div class="novo-projeto" align="left">
 			<div class="form" align="center">
 				<h2>Nova Turma</h2>
-				<form:form id="adicionarTurmaForm" role="form" commandName="turma" servletRelativeAction="/coordenador/${periodo.id}/turma" method="POST" cssClass="form-horizontal">
+				<form:form id="adicionarTurmaForm" role="form" commandName="turma" servletRelativeAction="/turma/${periodo.id}/turma" method="POST" cssClass="form-horizontal">
 				<form:hidden path="id"/>				
 					<div class="form-group">
 						<label for="inicioSemana" class="col-sm-2 control-label">Inicio:</label>
 						<div class="col-sm-10" align="left">
 							
 							<form:select path="inicioSemana" cssClass="btn btn-default dropdown-toggle">
-							    <form:options itemLabel="dia" />
+							    <form:options itemLabel="labelDia"  />
 							</form:select>
 							<div class="error-validation">
 								<form:errors path="inicioSemana"></form:errors>
@@ -37,7 +37,7 @@
 						<label for="fimSemana" class="col-sm-2 control-label">Final:</label>
 						<div class="col-sm-10" align="left">
 							<form:select path="fimSemana" cssClass="btn btn-default dropdown-toggle">
-							    <form:options itemLabel="dia" />
+							    <form:options itemLabel="labelDia" />
 							</form:select>
 							<div class="error-validation">
 								<form:errors path="fimSemana"></form:errors>

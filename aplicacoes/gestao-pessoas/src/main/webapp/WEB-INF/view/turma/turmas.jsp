@@ -14,7 +14,7 @@
 	<div class="container">
 		<div class="tab-pane active" id="meus-projetos">
 			<div align="right" style="margin-bottom: 20px;">
-				<a href="<c:url value="/coordenador/turma" ></c:url>">
+				<a href="<c:url value="/turma/turma" ></c:url>">
 					<button class="btn btn-primary">Nova Turma <span class="glyphicon glyphicon-plus"></span></button>
 				</a>
 			</div>
@@ -41,10 +41,10 @@
 									<td>${turma.id}</td>
 									<td>${turma.supervisor.nome}</td>
 									<td>
-										<a href="<c:url value="/coordenador/${turma.id}/vincularEstagiarios" />" class="btn btn-default">Add <span class="glyphicon glyphicon-user"></span></a>
-										<a href="<c:url value="/coordenador/turma/${turma.id}/detalhes" />" class="btn btn-default">Detalhes <span class="glyphicon glyphicon-eye-open"></span></a>
-										<a href="<c:url value="/coordenador/turma/${turma.id}/editar" />" class="btn btn-default">Editar <span class="glyphicon glyphicon-pencil"></span></a>
-										<a href="<c:url value="/coordenador/turma/${turma.id}/excluir" />" class="btn btn-default">Excluir <span class="glyphicon glyphicon-trash"></span></a>
+										<a href="<c:url value="/turma/${turma.id}/vincularEstagiarios" />" class="btn btn-default">Add <span class="glyphicon glyphicon-user"></span></a>
+										<a href="<c:url value="/turma/${turma.id}/detalhes" />" class="btn btn-default">Detalhes <span class="glyphicon glyphicon-eye-open"></span></a>
+										<a href="<c:url value="/turma/${turma.id}/editar" />" class="btn btn-default">Editar <span class="glyphicon glyphicon-pencil"></span></a>
+										<a href="<c:url value="/turma/${turma.id}/excluir" />" class="btn btn-default">Excluir <span class="glyphicon glyphicon-trash"></span></a>
 									</td>
 								</tr>
 							</c:forEach>

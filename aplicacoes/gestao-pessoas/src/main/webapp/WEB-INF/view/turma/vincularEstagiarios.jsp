@@ -30,7 +30,7 @@
 				<div class="alert alert-warning" role="alert">Não há estagiarios nesta turma.</div>
 			</c:if>
 			<c:if test="${not empty membros}">
-				<form:form id="vincularEstagiarioForm" role="form" modelAttribute="turma" servletRelativeAction="/coordenador/vincularEstagiarios" method="POST" cssClass="form-horizontal">
+				<form:form id="vincularEstagiarioForm" role="form" modelAttribute="turma" servletRelativeAction="/turma/vincularEstagiarios" method="POST" cssClass="form-horizontal">
 					<form:hidden path="id"/>
 				<div class="panel panel-default">
 					<div class="panel-heading" align="center">

@@ -12,7 +12,7 @@
 	<jsp:include page="../modulos/header-coordenador.jsp" />
 	<div class="container">
 	
-		<form:form id="buscaEstagiariosForm" role="form" modelAttribute="filtro" servletRelativeAction="/coordenador/frequencia" method="POST" cssClass="form-inline">
+		<form:form id="buscaEstagiariosForm" role="form" modelAttribute="filtro" servletRelativeAction="/frequencia/buscarEstagiarios" method="POST" cssClass="form-inline">
 			<div class="form-group">
 				<form:select id="ano" path="ano" class="form-control">
 					<option value="2014">2014</option>

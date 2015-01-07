@@ -14,7 +14,7 @@
 	<div class="container">
 		<div class="tab-pane active" id="meus-projetos">
 			<div align="right" style="margin-bottom: 20px;">
-				<a href="<c:url value="/coordenador/${turma.id}/vincularEstagiarios" ></c:url>">
+				<a href="<c:url value="/turma/${turma.id}/vincularEstagiarios" ></c:url>">
 					<button class="btn btn-primary">Add <span class="glyphicon glyphicon-user"></span></button>
 				</a>
 			</div>
@@ -46,7 +46,7 @@
 									<td>${estagiario.pessoa.nome}</td>
 									<td>${estagiario.matricula}</td>
 									<td>
-										<a href="<c:url value="#/coordenador/" />" class="btn btn-default">Detalhes <span class="glyphicon glyphicon-user"></span></a>
+										<a href="<c:url value="/#" />" class="btn btn-default">Detalhes <span class="glyphicon glyphicon-user"></span></a>
 									</td>
 								</tr>
 							</c:forEach>

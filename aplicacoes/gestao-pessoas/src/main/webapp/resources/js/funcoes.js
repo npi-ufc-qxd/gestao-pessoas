@@ -9,14 +9,14 @@ $(document).ready(function() {
     
     //make username editable
     $('.observacao').editable({
-    	url : '/gestao-pessoas/coordenador/observacao',
+    	url : '/gestao-pessoas/frequencia/observacao',
     	title : 'Observaçao',
     	type : 'textarea'
     });
     
     //make status editable
     $('.status').editable({
-    	url : '/gestao-pessoas/coordenador/frequencia/atualizarStatus',
+    	url : '/gestao-pessoas/frequencia/atualizarStatus',
         type: 'select',
         title: 'Presença',
         placement: 'top',

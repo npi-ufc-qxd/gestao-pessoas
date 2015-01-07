@@ -44,7 +44,6 @@
 		<jquery-ui.version>1.10.3</jquery-ui.version>
 		<dandelion.datatables.version>0.9.3</dandelion.datatables.version>
 
-
 	</properties>
 
 	<dependencies>

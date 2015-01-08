@@ -239,15 +239,15 @@ public class Estagiario {
 		this.projeto = projeto;
 	}
 
-	@Override
-	public String toString() {
-		return "Estagiario [id=" + id + ", nomeCompleto=" + nomeCompleto
-				+ ", dataNascimento=" + dataNascimento + ", nomeMae=" + nomeMae
-				+ ", endereco=" + endereco + ", cep=" + cep + ", cidade="
-				+ cidade + ", uf=" + uf + ", telefone=" + telefone + ", curso="
-				+ curso + ", semestre=" + semestre + ", matricula=" + matricula
-				+ ", contaRedmine=" + contaRedmine + ", contaGithub="
-				+ contaGithub + ", contaHangout=" + contaHangout + ", pessoa="
-				+ pessoa + "]";
-	}	
+//	@Override
+//	public String toString() {
+//		return "Estagiario [id=" + id + ", nomeCompleto=" + nomeCompleto
+//				+ ", dataNascimento=" + dataNascimento + ", nomeMae=" + nomeMae
+//				+ ", endereco=" + endereco + ", cep=" + cep + ", cidade="
+//				+ cidade + ", uf=" + uf + ", telefone=" + telefone + ", curso="
+//				+ curso + ", semestre=" + semestre + ", matricula=" + matricula
+//				+ ", contaRedmine=" + contaRedmine + ", contaGithub="
+//				+ contaGithub + ", contaHangout=" + contaHangout + ", pessoa="
+//				+ pessoa + "]";
+//	}	
 }

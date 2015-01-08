@@ -45,16 +45,17 @@ public class Turma {
 	@DateTimeFormat(pattern = "HH:mm")
 	private Date horaFinal;
 
-	@OneToOne(fetch = FetchType.EAGER)
+	@OneToOne//(fetch = FetchType.LAZY)
 	private Pessoa supervisor;
 
-	@ManyToOne()
+	@ManyToOne//(fetch = FetchType.LAZY)
 	private Periodo periodo;
 
-	@OneToMany(cascade = {CascadeType.REFRESH, CascadeType.MERGE, CascadeType.PERSIST}, fetch = FetchType.LAZY)
+	@OneToMany(cascade = {CascadeType.REFRESH, CascadeType.MERGE, CascadeType.PERSIST})//, fetch = FetchType.LAZY)
 	@JoinColumn(name= "turma_id")
 	private List<Frequencia> frequencias;
-	
+
+	//fetch = FetchType.LAZY,
 	@OneToMany(cascade = {CascadeType.REFRESH, CascadeType.MERGE, CascadeType.PERSIST})	@JoinColumn(name= "turma_id")
 	private List<Estagiario> estagiarios;
 	

@@ -24,3 +24,10 @@
 <script src="<c:url value="/resources/js/jquery.bootgrid.min.js" />"></script>
 <script src="<c:url value="/resources/js/bootstrapValidator.min.js" />"></script>
 <script src="<c:url value="/webjars/x-editable-bootstrap/1.5.1/js/bootstrap-editable.min.js" />"></script>
+
+<script src="<c:url value="/resources/js/teste/bootstrap-select.min.js" />"></script>
+<script src="<c:url value="/resources/js/teste/jquery.bootgrid.min.js" />"></script>
+<script src="<c:url value="/resources/js/teste/moment-with-locales.js" />"></script>
+<%-- <script src="<c:url value="/resources/js/teste/bootstrap-datepicker.js" />"></script> --%>
+<%-- <script src="<c:url value="/resources/js/teste/bootstrap-datepicker.pt-BR.js" />"></script> --%>
+<script src="<c:url value="/resources/js/teste/freq.js" />"></script>

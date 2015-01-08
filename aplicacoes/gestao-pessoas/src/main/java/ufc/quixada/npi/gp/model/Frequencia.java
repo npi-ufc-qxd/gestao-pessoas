@@ -2,17 +2,19 @@ package ufc.quixada.npi.gp.model;
 
 import java.util.Date;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
-import ufc.quixada.npi.gp.model.enums.TipoFrequencia;
 import ufc.quixada.npi.gp.model.enums.StatusFrequencia;
+import ufc.quixada.npi.gp.model.enums.TipoFrequencia;
 
 @Entity
 public class Frequencia {
@@ -24,6 +26,7 @@ public class Frequencia {
 	@Enumerated(EnumType.STRING)
 	private StatusFrequencia statusFrequencia;
 
+	@Temporal(TemporalType.DATE)
 	private Date data;
 
 	@Enumerated(EnumType.STRING)
@@ -31,10 +34,10 @@ public class Frequencia {
 
 	private String observacao;
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	private Turma turma;
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	private Estagiario estagiario;
 
 	public Long getId() {

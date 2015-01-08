@@ -1,7 +1,7 @@
-function load(ano, semestre, turma) {
-	console.log(" loadload load load");
-	$.get( "/gestao-pessoas/coordenador/vincul", { "ano" : ano, "semestre" : semestre, "turma" : turma } );
-}
+//function load(ano, semestre, turma) {
+//	console.log(" loadload load load");
+//	$.get( "/gestao-pessoas/coordenador/vincul", { "ano" : ano, "semestre" : semestre, "turma" : turma } );
+//}
 
 $(document).ready(function() {
 	

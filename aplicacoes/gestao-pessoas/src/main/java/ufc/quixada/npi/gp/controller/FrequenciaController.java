@@ -1,36 +1,41 @@
 package ufc.quixada.npi.gp.controller;
 
+import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
-import javax.servlet.http.HttpSession;
 
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 
 import org.joda.time.LocalTime;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import ufc.quixada.npi.gp.model.Estagiario;
 import ufc.quixada.npi.gp.model.Filtro;
 import ufc.quixada.npi.gp.model.Frequencia;
+import ufc.quixada.npi.gp.model.FrequenciaJson;
 import ufc.quixada.npi.gp.model.Periodo;
 import ufc.quixada.npi.gp.model.Turma;
 import ufc.quixada.npi.gp.model.enums.StatusFrequencia;
+import ufc.quixada.npi.gp.model.enums.TipoFrequencia;
 import ufc.quixada.npi.gp.service.EstagiarioService;
 import ufc.quixada.npi.gp.service.FrequenciaService;
+import ufc.quixada.npi.gp.service.GenericService;
 import ufc.quixada.npi.gp.service.PeriodoService;
 
 @Controller
@@ -46,6 +51,9 @@ public class FrequenciaController {
 
 	@Inject
 	private FrequenciaService serviceFrequencia;
+
+	@Inject
+	private GenericService<Turma> serviceTurma;
 
 	@RequestMapping(value = {"/", ""}, method = RequestMethod.GET)
 	public String frequencia(ModelMap modelMap) {
@@ -112,6 +120,43 @@ public class FrequenciaController {
 		return "estagio";
 	}
 
+	/*
+	 * Parte Critica
+	 */
+
+	@RequestMapping(value = "/frequencias")
+	public String listar(Model model) {
+		model.addAttribute("a", "vvvvv");
+		return "frequencia/listar";
+	}
+	
+	@RequestMapping(value = "/frequencias.json", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Frequencia> getFrequencias(@RequestBody FrequenciaJson frequenciaJson, Model model) {
+		List<Frequencia> frequencias = serviceFrequencia.getFrequencias(frequenciaJson.getData(), serviceTurma.find(Turma.class, frequenciaJson.getTurma()));
+		
+		for (Frequencia frequencia : frequencias) {
+			frequencia.setTurma(null);
+		}
+
+		return frequencias;//serviceFrequencia.getFrequencias(frequenciaJson.getData(), serviceTurma.find(Turma.class, frequenciaJson.getTurma()));
+	}
+
+	@RequestMapping(value = "/turmas.json", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public List<Turma> getTurmas(@RequestBody FrequenciaJson frequenciaJson, Model model) {
+		Periodo periodo = servicePeriodo.getPeriodo(frequenciaJson.getAno(), frequenciaJson.getSemestre());
+		List<Turma> turmas = new ArrayList<Turma>();
+		for (Turma turma : periodo.getTurmas()) {
+			turma.setEstagiarios(null);
+			turma.setFrequencias(null);
+			turma.setPeriodo(null);
+			turma.setSupervisor(null);
+			turmas.add(turma);
+		}
+		
+		return turmas;
+	}
 	
 	//METODOS
 	private boolean isHoraPermitida(Date horaInicio, Date horaFinal) {

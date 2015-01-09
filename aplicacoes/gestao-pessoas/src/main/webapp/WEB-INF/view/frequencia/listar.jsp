@@ -18,11 +18,13 @@
 		<input id="current-data" type="hidden"/>
 		<div>
 			<select id="anoF" name="ano" class="selectpicker filtroFrequencia" data-width="auto">
+				<option value="">Ano</option>
 				<option value="2015">2015</option>
 				<option value="2016">2016</option>
 				<option value="2017">2017</option>
 			</select>
 			<select id="semestreF" name="semestre" class="selectpicker filtroFrequencia" data-width="auto">
+				<option value="">Semestre</option>
 				<option value="1">1</option>
 				<option value="2">2</option>
 			</select>
@@ -42,10 +44,10 @@
 			<table id="frequencias">
 				<thead>
 					<tr>
-						<th data-column-id="nome" data-order="asc">Nome</th>
-						<th data-column-id="observacao">Observação</th>
-						<th data-column-id="status" data-order="asc">Status</th>
-						<th data-column-id="acoes" data-formatter="acoes" data-sortable="false" data-searchable="false">Ações</th>
+						<td data-column-id="data" data-order="asc">Nome</td>
+						<td data-column-id="observacao" data-css-class="observacao">Observação</td>
+						<td data-column-id="statusFrequencia" data-order="asc">Status</td>
+						<td data-column-id="acoes" data-formatter="acoes" data-sortable="false" data-searchable="false">Ações</td>
 						
 					</tr>
 				</thead>

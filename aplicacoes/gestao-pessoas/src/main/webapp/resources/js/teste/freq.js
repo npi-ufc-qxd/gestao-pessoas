@@ -3,8 +3,30 @@ $(document).ready(function() {
 	$("#viewFrequencias").hide();
 	moment.locale('pt-br');
 	
-	loadFreqByDateAndTurma(moment(), -1);
+	//loadFreqByDateAndTurma(moment(), -1);
+	$('label#periodo-dia').text(moment().format("DD/MM/YYYY"));
+	$('#current-data').val(moment());
+	
+	//$("#anoF option[value='" + localStorage.getItem('ano') + "']");
+	
+	if (sessionStorage.getItem('ano')) {
+		sessionStorage.setItem('ano', $("#anoF").val());
+		console.log("sesese: " + sessionStorage.getItem('ano'));
+	}
 
+	if (sessionStorage.getItem('semestre')) {
+		sessionStorage.setItem('semestre', $("#semestreF").val());
+		console.log("ififif: " + sessionStorage.getItem('semestre'));	
+	}
+
+	
+	$("#anoF").val(sessionStorage.getItem('ano'));
+	$("#semestreF").val(sessionStorage.getItem('semestre'));
+	
+	
+	console.log("Session Store: " + sessionStorage.getItem('ano') + " - " + sessionStorage.getItem('semestre'));
+	
+	$('.selectpicker').selectpicker('refresh')	
 	
 	$('#periodo-dia span#before').click(function(event) {
 		var date = moment($('#current-data').val()).add(-1, 'days');
@@ -19,30 +41,41 @@ $(document).ready(function() {
 		console.log('depois :' + date + " - " + turma);
 		loadFreqByDateAndTurma(date, turma);
 	});
-		
+	
+	$('#turmaF').change(function(event) {
+		var date = moment($('#current-data').val());
+		var turma = $('#turmaF').val();
+		console.log('turma turma depois :' + date + " - " + turma);
+		loadFreqByDateAndTurma(date, turma);
+	});
+	
 //	$('#anoF').change(function(event) {
-//		var date = moment($('#current-data').val());
-//		var ano = $("#anoF").val().trim();
-//		var semestre = $('#semestreF').val();
-//		console.log('ano chage :' + date + " - " + ano + " - " + semestre);
-//		lFreqByData(date, ano, semestre);
+//		sessionStorage.setItem('ano', $("#anoF").val());
+//		console.log("Ano: " + localStorage.getItem('ano'));
+//		
 //	});
 //
 //	$('#semestreF').change(function(event) {
-//		var date = moment($('#current-data').val());
-//		var ano = $("#anoF").val().trim();
-//		var semestre = $('#semestreF').val();
-//		console.log('semestre chage :' + date + " - " + ano + " - " + semestre);
-//		lFreqByData(date, ano, semestre);
+//		sessionStorage.setItem('semestre', $("#semestreF").val());
+//		console.log("Semestre: " + localStorage.getItem('semestre'));
 //	});
 
 	$('.filtroFrequencia').change(function(event) {
+		
+		sessionStorage.setItem('ano', $("#anoF").val());
+		sessionStorage.setItem('semestre', $("#semestreF").val());
+		
 		var date = moment($('#current-data').val());
 		var ano = $("#anoF").val().trim();
 		var semestre = $('#semestreF').val().trim();
+
+		sessionStorage.setItem('ano', ano);
+		sessionStorage.setItem('semestre', semestre);
+
 		console.log('filtroFrequencia :' + date + " - " + ano + " - " + semestre);
-		
-		loadTurma(ano, semestre);
+		if(ano != '' && semestre != '' ){
+			loadTurma(ano, semestre);
+		}
 	});
 	
 	$("#turmaF").change(function(event) {
@@ -111,11 +144,11 @@ function loadSelectTurma(result) {
 	
 	$("#turmaF").children().remove();
 	var option = $("<option>");
-	option.text("Selecione uma turma");
+	option.text("Turma");
 	$("#turmaF").append(option);
 	$.each(result, function(i, turma) {
 		var option = $("<option>");
-		console.log(turma.codigo);
+		console.log(i + " codigo " + turma.codigo);
 		option.attr("value", turma.id).text(turma.codigo);
 		$("#turmaF").append(option);
 	});
@@ -145,10 +178,64 @@ function lBootgrid(result, table) {
 	        caseSensitive: false,
 	        formatters: {
 	        	"acoes": function(column, row) {
+	        		console.log("cssClass: " + column.cssClass  +" acoes obs " + row.observacao )
 	        		return "Ações";
 	        	}
 	        }
-		})
-		.bootgrid("clear")
-		.bootgrid("append", result);
+		}).bootgrid("clear").bootgrid("append", result).on("loaded.rs.jquery.bootgrid", function (e){
+			 $.fn.editable.defaults.mode = 'inline';     
+			 
+			 //console.log("row: " + row.id);
+		    
+		    //make username editable
+//		    $('.observacao').editable({
+//		    	url : '/gestao-pessoas/frequencia/observacao',
+//		    	title : 'Observaçao',
+//		    	type : 'textarea'
+//		    });
+//		    
+		    //make status editable
+		    $('.status').editable({
+		    	url : '/gestao-pessoas/frequencia/atualizarStatus',
+		        type: 'select',
+		        title: 'Presença',
+		        placement: 'top',
+		        value: 'ATRASADO',
+		        pk: 1,
+		    	mode : 'inline',
+		    	sourceCache : true,
+		        source: [
+		                 {value: 'PRESENTE', text: 'Presente' },
+		                 {value: 'ATRASADO', text: 'Atrasado'},
+		               	 {value: 'FALTA', text: 'Falta'} 
+		        ]
+		    });
+		}).on("click.rs.jquery.bootgrid", function (e, cols, rows) {
+
+		    console.log("CLICKED/");
+		    console.log("e = " + e);
+		    console.log("cols = " + cols);
+		    console.log("rows.id = " + rows.id);
+		    console.log("this = " + $(this).text());
+		    
+		    observar(rows.id);
+
+		});
+	
+	
+	
+}
+
+function observar(id){
+    console.log("id id id id id id id = " + id);
+    $('.observacao').editable({
+    	url : '/gestao-pessoas/frequencia/observacao',
+    	title : 'Observaçao',
+    	type : 'textarea',
+    	params: function(params) {  //params already contain `name`, `value` and `pk`
+    		params.pk = id;
+    	    return params;
+    	  }
+    });
+
 }

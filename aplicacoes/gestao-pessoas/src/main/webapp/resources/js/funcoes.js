@@ -5,33 +5,33 @@
 
 $(document).ready(function() {
 	
-    $.fn.editable.defaults.mode = 'popup';     
-    
-    //make username editable
-    $('.observacao').editable({
-    	url : '/gestao-pessoas/frequencia/observacao',
-    	title : 'Observaçao',
-    	type : 'textarea'
-    });
-    
-    //make status editable
-    $('.status').editable({
-    	url : '/gestao-pessoas/frequencia/atualizarStatus',
-        type: 'select',
-        title: 'Presença',
-        placement: 'top',
-        value: 'ATRASADO',
-        pk: 1,
-    	mode : 'inline',
-    	sourceCache : true,
-        source: [
-                 {value: 'PRESENTE', text: 'Presente' },
-                 {value: 'ATRASADO', text: 'Atrasado'},
-               	 {value: 'FALTA', text: 'Falta'} 
-        ]
-    });
-    
-	
+//    $.fn.editable.defaults.mode = 'popup';     
+//    
+//    //make username editable
+//    $('#observacao').editable({
+//    	url : '/gestao-pessoas/frequencia/observacao',
+//    	title : 'Observaçao',
+//    	type : 'textarea'
+//    });
+//    
+//    //make status editable
+//    $('.status').editable({
+//    	url : '/gestao-pessoas/frequencia/atualizarStatus',
+//        type: 'select',
+//        title: 'Presença',
+//        placement: 'top',
+//        value: 'ATRASADO',
+//        pk: 1,
+//    	mode : 'inline',
+//    	sourceCache : true,
+//        source: [
+//                 {value: 'PRESENTE', text: 'Presente' },
+//                 {value: 'ATRASADO', text: 'Atrasado'},
+//               	 {value: 'FALTA', text: 'Falta'} 
+//        ]
+//    });
+//    
+//	
 	
 	
 	

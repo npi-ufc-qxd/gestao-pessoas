@@ -32,7 +32,6 @@ public class FrequenciaServiceImpl extends GenericServiceImpl<Frequencia> implem
 	@Transactional
 	public List<Frequencia> getFrequencias(Date data, Turma turma) {
 		Map<String, Object> params = new HashMap<String, Object>();
-		Date dat = new Date();
 		params.put("data", data);
 		params.put("turma", turma.getId());
 		List<Frequencia> frequencias = frequenciaRepository.find(QueryType.JPQL,"select f from Frequencia f join f.turma t where t.id = :turma and f.data = :data", params);

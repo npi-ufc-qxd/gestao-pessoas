@@ -1,6 +1,5 @@
 package ufc.quixada.npi.gp.controller;
 
-import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -32,11 +31,10 @@ import ufc.quixada.npi.gp.model.FrequenciaJson;
 import ufc.quixada.npi.gp.model.Periodo;
 import ufc.quixada.npi.gp.model.Turma;
 import ufc.quixada.npi.gp.model.enums.StatusFrequencia;
-import ufc.quixada.npi.gp.model.enums.TipoFrequencia;
 import ufc.quixada.npi.gp.service.EstagiarioService;
 import ufc.quixada.npi.gp.service.FrequenciaService;
-import ufc.quixada.npi.gp.service.GenericService;
 import ufc.quixada.npi.gp.service.PeriodoService;
+import ufc.quixada.npi.gp.service.TurmaService;
 
 @Controller
 @RequestMapping("frequencia")
@@ -50,10 +48,11 @@ public class FrequenciaController {
 	private PeriodoService servicePeriodo;
 
 	@Inject
-	private FrequenciaService serviceFrequencia;
+	private TurmaService serviceTurma;
 
 	@Inject
-	private GenericService<Turma> serviceTurma;
+	private FrequenciaService serviceFrequencia;
+
 
 	@RequestMapping(value = {"/", ""}, method = RequestMethod.GET)
 	public String frequencia(ModelMap modelMap) {
@@ -126,7 +125,8 @@ public class FrequenciaController {
 
 	@RequestMapping(value = "/frequencias")
 	public String listar(Model model) {
-		model.addAttribute("a", "vvvvv");
+		List<Turma> turmas = new ArrayList<Turma>();
+		model.addAttribute("turmas", turmas);
 		return "frequencia/listar";
 	}
 	
@@ -137,7 +137,9 @@ public class FrequenciaController {
 		
 		for (Frequencia frequencia : frequencias) {
 			frequencia.setTurma(null);
+			frequencia.setEstagiario(null);
 		}
+		
 
 		return frequencias;//serviceFrequencia.getFrequencias(frequenciaJson.getData(), serviceTurma.find(Turma.class, frequenciaJson.getTurma()));
 	}
@@ -145,17 +147,42 @@ public class FrequenciaController {
 	@RequestMapping(value = "/turmas.json", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public List<Turma> getTurmas(@RequestBody FrequenciaJson frequenciaJson, Model model) {
+		List<Turma> turmas = serviceTurma.getTurmaPeriodo(frequenciaJson.getAno(), frequenciaJson.getSemestre());
+		
+//		if(frequenciaJson.getAno() != null && frequenciaJson.getSemestre()!= null){
+//			Periodo periodo = servicePeriodo.getPeriodo(frequenciaJson.getAno(), frequenciaJson.getSemestre());
+//
+//			
+//			
+//			for (Turma turma : periodo.getTurmas()) {
+////				turma.setEstagiarios(null);
+////				turma.setFrequencias(null);
+////				turma.setPeriodo(null);
+////				turma.setSupervisor(null);
+//			}
+//		}
+//		
+		return turmas;
+	}
+	@RequestMapping(value = "/turmasjson", method = RequestMethod.POST)//, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public String getTurmasF5(@RequestBody FrequenciaJson frequenciaJson, Model model) {
 		Periodo periodo = servicePeriodo.getPeriodo(frequenciaJson.getAno(), frequenciaJson.getSemestre());
+		
+		
 		List<Turma> turmas = new ArrayList<Turma>();
-		for (Turma turma : periodo.getTurmas()) {
-			turma.setEstagiarios(null);
-			turma.setFrequencias(null);
-			turma.setPeriodo(null);
-			turma.setSupervisor(null);
-			turmas.add(turma);
+		if(periodo != null){
+	
+			for (Turma turma : periodo.getTurmas()) {
+				turma.setEstagiarios(null);
+				turma.setFrequencias(null);
+				turma.setPeriodo(null);
+				turma.setSupervisor(null);
+				turmas.add(turma);
+			}
 		}
 		
-		return turmas;
+		model.addAttribute("turmas", turmas);
+		return "frequencia/listar";
 	}
 	
 	//METODOS

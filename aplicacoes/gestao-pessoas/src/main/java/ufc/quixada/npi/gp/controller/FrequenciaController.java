@@ -148,20 +148,7 @@ public class FrequenciaController {
 	@ResponseBody
 	public List<Turma> getTurmas(@RequestBody FrequenciaJson frequenciaJson, Model model) {
 		List<Turma> turmas = serviceTurma.getTurmaPeriodo(frequenciaJson.getAno(), frequenciaJson.getSemestre());
-		
-//		if(frequenciaJson.getAno() != null && frequenciaJson.getSemestre()!= null){
-//			Periodo periodo = servicePeriodo.getPeriodo(frequenciaJson.getAno(), frequenciaJson.getSemestre());
-//
-//			
-//			
-//			for (Turma turma : periodo.getTurmas()) {
-////				turma.setEstagiarios(null);
-////				turma.setFrequencias(null);
-////				turma.setPeriodo(null);
-////				turma.setSupervisor(null);
-//			}
-//		}
-//		
+
 		return turmas;
 	}
 	@RequestMapping(value = "/turmasjson", method = RequestMethod.POST)//, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)

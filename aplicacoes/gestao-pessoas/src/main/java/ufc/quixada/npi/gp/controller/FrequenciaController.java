@@ -28,6 +28,7 @@ import ufc.quixada.npi.gp.model.Estagiario;
 import ufc.quixada.npi.gp.model.Filtro;
 import ufc.quixada.npi.gp.model.Frequencia;
 import ufc.quixada.npi.gp.model.FrequenciaJson;
+import ufc.quixada.npi.gp.model.JsonTurma;
 import ufc.quixada.npi.gp.model.Periodo;
 import ufc.quixada.npi.gp.model.Turma;
 import ufc.quixada.npi.gp.model.enums.StatusFrequencia;
@@ -134,20 +135,15 @@ public class FrequenciaController {
 	@ResponseBody
 	public List<Frequencia> getFrequencias(@RequestBody FrequenciaJson frequenciaJson, Model model) {
 		List<Frequencia> frequencias = serviceFrequencia.getFrequencias(frequenciaJson.getData(), serviceTurma.find(Turma.class, frequenciaJson.getTurma()));
-		
-		for (Frequencia frequencia : frequencias) {
-			frequencia.setTurma(null);
-			frequencia.setEstagiario(null);
-		}
-		
 
 		return frequencias;//serviceFrequencia.getFrequencias(frequenciaJson.getData(), serviceTurma.find(Turma.class, frequenciaJson.getTurma()));
 	}
 
 	@RequestMapping(value = "/turmas.json", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<Turma> getTurmas(@RequestBody FrequenciaJson frequenciaJson, Model model) {
-		List<Turma> turmas = serviceTurma.getTurmaPeriodo(frequenciaJson.getAno(), frequenciaJson.getSemestre());
+	public List<JsonTurma> getTurmas(@RequestBody FrequenciaJson frequenciaJson, Model model) {
+//		List<Turma> turmas = serviceTurma.getTurmaPeriodo(frequenciaJson.getAno(), frequenciaJson.getSemestre());
+		List<JsonTurma> turmas = serviceTurma.getJsonTurmaPeriodo(frequenciaJson.getAno(), frequenciaJson.getSemestre());
 
 		return turmas;
 	}

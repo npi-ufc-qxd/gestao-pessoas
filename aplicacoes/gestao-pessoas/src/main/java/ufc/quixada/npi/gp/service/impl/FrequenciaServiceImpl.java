@@ -11,6 +11,7 @@ import javax.inject.Named;
 import org.springframework.transaction.annotation.Transactional;
 
 import ufc.quixada.npi.gp.model.Frequencia;
+import ufc.quixada.npi.gp.model.JsonFrequencia;
 import ufc.quixada.npi.gp.model.Turma;
 import ufc.quixada.npi.gp.model.enums.StatusFrequencia;
 import ufc.quixada.npi.gp.repository.FrequenciaRepository;
@@ -34,7 +35,8 @@ public class FrequenciaServiceImpl extends GenericServiceImpl<Frequencia> implem
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("data", data);
 		params.put("turma", turma.getId());
-		List<Frequencia> frequencias = frequenciaRepository.find(QueryType.JPQL,"select f from Frequencia f join f.turma t where t.id = :turma and f.data = :data", params);
+//		List<Frequencia> frequencias = frequenciaRepository.find(QueryType.JPQL,"select f from Frequencia f join f.turma t where t.id = :turma and f.data = :data", params);
+		List<Frequencia> frequencias = frequenciaRepository.find(QueryType.JPQL,"select f.id, f.observacao, f.statusFrequencia, f.tipoFrequencia, f.estagiario.nomeCompleto from Frequencia f join f.turma t where t.id = :turma and f.data = :data", params);
 		return frequencias;
 	}
 
@@ -53,6 +55,12 @@ public class FrequenciaServiceImpl extends GenericServiceImpl<Frequencia> implem
 		params.put("status", StatusFrequencia.AGUARDO);
 		params.put("statusAtualizado", StatusFrequencia.FALTA);
 		frequenciaRepository.updateStatus("update Frequencia f set statusFrequencia ='FALTA' where f.data = CURRENT_DATE and f.statusFrequencia = 'AGUARDO' ", params);
+	}
+
+	@Override
+	public List<JsonFrequencia> getJsonFrequencias(Date data, Turma turma) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

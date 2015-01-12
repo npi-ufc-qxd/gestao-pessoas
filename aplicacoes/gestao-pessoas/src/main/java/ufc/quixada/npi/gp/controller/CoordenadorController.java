@@ -11,24 +11,32 @@ import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 
+import org.springframework.http.MediaType;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import ufc.quixada.npi.gp.model.Estagiario;
 import ufc.quixada.npi.gp.model.Filtro;
+import ufc.quixada.npi.gp.model.Frequencia;
+import ufc.quixada.npi.gp.model.FrequenciaJson;
+import ufc.quixada.npi.gp.model.JsonTurma;
 import ufc.quixada.npi.gp.model.Periodo;
 import ufc.quixada.npi.gp.model.Projeto;
 import ufc.quixada.npi.gp.model.Turma;
 import ufc.quixada.npi.gp.service.EstagiarioService;
 import ufc.quixada.npi.gp.service.GenericService;
 import ufc.quixada.npi.gp.service.PeriodoService;
+import ufc.quixada.npi.gp.service.TurmaService;
 
 @Component
 @Controller
@@ -45,6 +53,9 @@ public class CoordenadorController {
 
 	@Inject
 	private PeriodoService servicePeriodo;
+	
+	@Inject
+	private TurmaService serviceTurma;	
 
 	@RequestMapping(value = "/index", method = RequestMethod.GET)
 	public String index(ModelMap modelMap, HttpSession session) {
@@ -68,7 +79,17 @@ public class CoordenadorController {
 		return "coordenador/estagiarios";
 	}
 
-	@RequestMapping(value = "/estagiarios", method = RequestMethod.POST)
+	@RequestMapping(value = "/turmasPeriodo", method = RequestMethod.POST)
+	public String listaTurmas(ModelMap modelMap, HttpSession session, Filtro filtro) {
+		
+		List<Turma> turmas = serviceTurma.getTurmaPeriodo(filtro.getAno(), filtro.getSemestre());
+		modelMap.addAttribute("turmas", turmas);
+
+		return "coordenador/estagiarios";
+	}
+	
+	
+	@RequestMapping(value = "/turmasEstagiarios", method = RequestMethod.POST)
 	public String listaEstagiarios(ModelMap modelMap, HttpSession session, @ModelAttribute("filtro") Filtro filtro) {
 		modelMap.addAttribute("usuario", SecurityContextHolder.getContext().getAuthentication().getName());
 
@@ -85,6 +106,39 @@ public class CoordenadorController {
 		modelMap.addAttribute("filtro", filtro);
 		return "coordenador/estagiarios";
 	}
+
+	@RequestMapping(value = "/es", method = RequestMethod.POST)
+//	@RequestMapping(value = "/es", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)	
+	public String estagiarios(ModelMap modelMap, Filtro filtro) {
+		modelMap.addAttribute("usuario", SecurityContextHolder.getContext().getAuthentication().getName());
+
+		Periodo periodo = servicePeriodo.getPeriodo(filtro.getAno(), filtro.getSemestre());
+		List<Estagiario> estagiarios = new ArrayList<Estagiario>();
+		if(periodo != null){
+			if(periodo.getTurmas() != null){
+				for (Turma turma : periodo.getTurmas()) {
+					estagiarios.addAll(turma.getEstagiarios());
+				}
+				modelMap.addAttribute("estagiarios", estagiarios);
+			}
+		}
+		modelMap.addAttribute("filtro", filtro);
+		return "coordenador/estagiarios";
+/*
+ * 	
+	@ResponseBody
+	public List<Frequencia> getFrequencias(@RequestBody FrequenciaJson frequenciaJson, Model model) {
+		List<Frequencia> frequencias = serviceFrequencia.getFrequencias(frequenciaJson.getData(), serviceTurma.find(Turma.class, frequenciaJson.getTurma()));
+
+		return frequencias;//serviceFrequencia.getFrequencias(frequenciaJson.getData(), serviceTurma.find(Turma.class, frequenciaJson.getTurma()));
+	}
+
+ * 
+ */
+	
+	
+	}
+	
 	
 	@RequestMapping(value = "/jrreport", method = RequestMethod.GET)
 	public String printWelcome(ModelMap model) throws JRException {

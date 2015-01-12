@@ -44,9 +44,9 @@
 			<table id="frequencias">
 				<thead>
 					<tr>
-						<td data-column-id="data" data-order="asc">Nome</td>
-						<td data-column-id="observacao" data-css-class="observacao">Observação</td>
-						<td data-column-id="statusFrequencia" data-order="asc">Status</td>
+						<td data-column-id="4" data-order="asc">Nome</td>
+						<td data-column-id="1" data-css-class="observacao">Observação</td>
+						<td data-column-id="3" data-order="asc">Status</td>
 						<td data-column-id="acoes" data-formatter="acoes" data-sortable="false" data-searchable="false">Ações</td>
 						
 					</tr>

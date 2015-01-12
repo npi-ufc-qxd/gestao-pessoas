@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.transaction.annotation.Transactional;
 
 import ufc.quixada.npi.gp.model.Frequencia;
+import ufc.quixada.npi.gp.model.JsonFrequencia;
 import ufc.quixada.npi.gp.model.Turma;
 
 public interface FrequenciaService extends GenericService<Frequencia>{
@@ -15,6 +16,8 @@ public interface FrequenciaService extends GenericService<Frequencia>{
 	List<Frequencia> getFrequenciaTurma(Turma turma);
 
 	List<Frequencia> getFrequencias(Date data, Turma turma);
+
+	List<JsonFrequencia> getJsonFrequencias(Date data, Turma turma);
 
 	@Transactional
 	void atualizarStatus();

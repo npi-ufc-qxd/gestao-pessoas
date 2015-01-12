@@ -16,7 +16,7 @@
 	
 		<form:form id="buscaEstagiariosForm" role="form" modelAttribute="filtro" servletRelativeAction="/coordenador/estagiarios" method="POST" cssClass="form-inline">
 			<div class="form-group">
-				<form:select id="ano" path="ano" class="form-control">
+				<form:select id="ano" path="ano" class="form-control selectFiltro">
 					<option value="2014">2014</option>
 					<option value="2015">2015</option>
 					<option value="2016">2016</option>
@@ -28,23 +28,20 @@
 			</div>
 		
 			<div class="form-group">
-				<form:select id="semestre" path="semestre" class="form-control">
+				<form:select id="semestre" path="semestre" class="form-control selectFiltro">
 					<option value="1">1</option>
 					<option value="2">2</option>
 				</form:select>
 			</div>
 		
-			<div class="form-group">
+			<div class="form-group turma">
 				<form:select id="turma" path="turma" class="form-control">
 					<c:if test="${not empty turmas}">
 						<form:options items="${turmas}" itemValue="id" itemLabel="codigo"  />
 					</c:if>
 				</form:select>
 			</div>
-		
-			<div class="btn-group">
-				<button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-search"></span> Buscar</button>
-		    </div>	
+
 		</form:form>	
 	
 	
@@ -94,6 +91,7 @@
 			<button class="btn btn-primary">Emitir Frequência<span class="glyphicon glyphicon-plus"></span></button>
 		</a>
 	</div>
-
+	
+	<jsp:include page="../modulos/footer.jsp" />
 </body>
 </html>

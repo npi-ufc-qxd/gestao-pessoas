@@ -135,7 +135,7 @@ function loadTurma(ano, semestre) {
 }
 
 function loadSelectTurma(result) {
-	//console.log(' codigo ' + result.codigo);
+	console.log(' result.length ' + result.length);
 	
 	if(result.length < 1){
 		$('#turmaF').selectpicker('hide');
@@ -148,8 +148,8 @@ function loadSelectTurma(result) {
 	$("#turmaF").append(option);
 	$.each(result, function(i, turma) {
 		var option = $("<option>");
-		console.log(i + " codigo " + turma.codigo);
-		option.attr("value", turma.id).text(turma.codigo);
+		console.log(i + " turma " + turma[1]);
+		option.attr("value", turma[0]).text(turma[1]);
 		$("#turmaF").append(option);
 	});
 	$('#turmaF').selectpicker('refresh');
@@ -164,6 +164,9 @@ function loadSelectTurma(result) {
 
 
 function lBootgrid(result, table) {
+	
+	console.log("R = " + result);
+	
 	$("#frequencias")
 		.bootgrid({
 			labels: {

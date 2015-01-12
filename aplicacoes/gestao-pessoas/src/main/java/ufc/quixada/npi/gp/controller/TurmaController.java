@@ -69,7 +69,7 @@ public class TurmaController {
 		turma.setCodigo(geraCodigoTurma(turma.getId()));
 		serviceTurma.update(turma);
 
-		return "redirect:/turma/periodos";
+		return "redirect:/periodo/periodos";
 	}
 
 	@RequestMapping(value = "/{idTurma}/editar", method = RequestMethod.GET)

@@ -7,6 +7,7 @@ import java.util.Map;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import ufc.quixada.npi.gp.model.JsonTurma;
 import ufc.quixada.npi.gp.model.Turma;
 import ufc.quixada.npi.gp.repository.GenericRepository;
 import ufc.quixada.npi.gp.repository.QueryType;
@@ -16,7 +17,10 @@ import ufc.quixada.npi.gp.service.TurmaService;
 public class TurmaServiceImpl extends GenericServiceImpl<Turma> implements TurmaService {
 	
 	@Inject
-	private GenericRepository<Turma> turmaRepository;
+	private GenericRepository<Turma> turmaRepository;	
+	
+	@Inject
+	private GenericRepository<JsonTurma> jsonTurmaRepository;
 
 //	public Periodo getPeriodo(Integer ano, String semestre) {
 //		Map<String, Object> params = new HashMap<String, Object>();
@@ -31,9 +35,19 @@ public class TurmaServiceImpl extends GenericServiceImpl<Turma> implements Turma
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("ano", ano);
 		params.put("semestre", semestre);
-		List<Turma> turmas = turmaRepository.find(QueryType.JPQL,"select t.codigo, t.id from Turma t join t.periodo p where p.ano = :ano and p.semestre = :semestre", params);
-		//(QueryType.JPQL,"select distinct f from Frequencia f join f.turma t where t.id = :turma", params);
-		//(QueryType.JPQL,"select t from Turma t join t.periodo p where p.ano = :ano and p.semestre = :semestre", params);
+		List<Turma> turmas = turmaRepository.find(QueryType.JPQL,"select t from Turma t join t.periodo p where p.ano = :ano and p.semestre = :semestre", params);
+
+		return turmas;
+	}
+
+	@Override
+	public List<JsonTurma> getJsonTurmaPeriodo(Integer ano, String semestre) {
+		
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("ano", ano);
+		params.put("semestre", semestre);
+		
+		List<JsonTurma> turmas = jsonTurmaRepository.find(QueryType.JPQL,"select t.id, t.codigo from Turma t join t.periodo p where p.ano = :ano and p.semestre = :semestre", params);
 
 		return turmas;
 	}

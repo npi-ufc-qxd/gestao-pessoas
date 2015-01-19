@@ -16,7 +16,8 @@
 	
 		<form:form id="buscaEstagiariosForm" role="form" modelAttribute="filtro" servletRelativeAction="/coordenador/estagiarios" method="POST" cssClass="form-inline">
 			<div class="form-group">
-				<form:select id="ano" path="ano" class="form-control selectFiltro">
+				<form:select id="ano" path="ano" class="form-control selectFiltro selectpicker">
+					<option>Ano</option>
 					<option value="2014">2014</option>
 					<option value="2015">2015</option>
 					<option value="2016">2016</option>
@@ -28,18 +29,22 @@
 			</div>
 		
 			<div class="form-group">
-				<form:select id="semestre" path="semestre" class="form-control selectFiltro">
+				<form:select id="semestre" path="semestre" class="form-control selectFiltro selectpicker">
+					<option>Semestre</option>
 					<option value="1">1</option>
 					<option value="2">2</option>
 				</form:select>
 			</div>
 		
 			<div class="form-group turma">
-				<form:select id="turma" path="turma" class="form-control">
-					<c:if test="${not empty turmas}">
-						<form:options items="${turmas}" itemValue="id" itemLabel="codigo"  />
-					</c:if>
-				</form:select>
+				<select id="turma" name="turma" class="selectpicker filtroFrequenciaTurma union" data-width="auto">
+				</select>
+
+<%-- 				<form:select id="turma" path="turma" class="form-control union"> --%>
+<%-- 					<c:if test="${not empty turmas}"> --%>
+<%-- 						<form:options items="${turmas}" itemValue="id" itemLabel="codigo"  /> --%>
+<%-- 					</c:if> --%>
+<%-- 				</form:select> --%>
 			</div>
 
 		</form:form>	

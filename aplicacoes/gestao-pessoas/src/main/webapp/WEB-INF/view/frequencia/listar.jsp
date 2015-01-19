@@ -17,24 +17,24 @@
 	<div class="container">
 		<input id="current-data" type="hidden"/>
 		<div>
-			<select id="anoF" name="ano" class="selectpicker filtroFrequencia" data-width="auto">
+			<select id="anoJson" name="ano" class="selectpicker filtroJsonFrequencia" data-width="auto">
 				<option value="">Ano</option>
 				<option value="2015">2015</option>
 				<option value="2016">2016</option>
 				<option value="2017">2017</option>
 			</select>
-			<select id="semestreF" name="semestre" class="selectpicker filtroFrequencia" data-width="auto">
+			<select id="semestreJson" name="semestre" class="selectpicker filtroJsonFrequencia" data-width="auto">
 				<option value="">Semestre</option>
 				<option value="1">1</option>
 				<option value="2">2</option>
 			</select>
-			<select id="turmaF" name="turma" class="selectpicker" data-width="auto">
+			<select id="turmaJson" name="turma" class="selectpicker filtroFrequenciaTurma union" data-width="auto">
 			</select>
 		</div>
+		
 		<div id="viewFrequencias">
-			<div class="form" align="center">
-				<h1>Frequências</h1>
-			</div>
+			<div class="form" align="center"> <h1>Frequências</h1> </div>
+			
 			<div id="periodo-dia" class="periodo">
 				<span id="before" class="glyphicon glyphicon-chevron-left"></span>
 					<label id="periodo-dia"></label>

@@ -6,15 +6,12 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<jsp:include page="../modulos/header-estrutura.jsp" />
-
-<title>Projetos</title>
+	<title>Projetos</title>
+	<jsp:include page="../modulos/header-estrutura.jsp" />
+	<jsp:include page="../modulos/header.jsp" />
 </head>
 <body>
-	<jsp:include page="../modulos/header.jsp" />
-
-
-
+	<div class="row">
 	<div class="container">
 	
 		<div align="right" style="margin-bottom: 20px;">
@@ -68,6 +65,7 @@
 				</div>
 			</c:forEach>
 		</c:if>
+	</div>
 	</div>
 
 	<jsp:include page="../modulos/footer.jsp" />

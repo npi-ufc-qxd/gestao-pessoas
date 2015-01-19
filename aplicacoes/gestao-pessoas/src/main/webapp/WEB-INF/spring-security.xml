@@ -12,6 +12,7 @@
 		<access-denied-handler error-page="/403" />
  		<intercept-url pattern="/login*" access="IS_AUTHENTICATED_ANONYMOUSLY" /> 
  		<intercept-url pattern="/webjars/**" access="IS_AUTHENTICATED_ANONYMOUSLY" /> 		
+ 		<intercept-url pattern="/resources/**" access="IS_AUTHENTICATED_ANONYMOUSLY" /> 		
  		<!-- <intercept-url pattern="/*/diretor/**" access="ROLE_DIRETOR" /> 
  		<intercept-url pattern="/*/coordenador/**" access="ROLE_COORDENADOR"/>	
  		<intercept-url pattern="/*/estagiario/**" access="ROLE_ESTAGIARIO" />	-->
@@ -29,6 +30,7 @@
   
  	<authentication-manager>
 		<authentication-provider>
+			<password-encoder hash="sha-256"/>
 			<jdbc-user-service data-source-ref="gestao_pessoas"
 				users-by-username-query="
                     SELECT login, password, habilitado

@@ -35,7 +35,7 @@ public class FrequenciaServiceImpl extends GenericServiceImpl<Frequencia> implem
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("data", data);
 		params.put("turma", turma.getId());
-//		List<Frequencia> frequencias = frequenciaRepository.find(QueryType.JPQL,"select f from Frequencia f join f.turma t where t.id = :turma and f.data = :data", params);
+		//List<Frequencia> frequencias = frequenciaRepository.find(QueryType.JPQL,"select f from Frequencia f join f.turma t where t.id = :turma and f.data = :data", params);
 		List<Frequencia> frequencias = frequenciaRepository.find(QueryType.JPQL,"select f.id, f.observacao, f.statusFrequencia, f.tipoFrequencia, f.estagiario.nomeCompleto from Frequencia f join f.turma t where t.id = :turma and f.data = :data", params);
 		return frequencias;
 	}

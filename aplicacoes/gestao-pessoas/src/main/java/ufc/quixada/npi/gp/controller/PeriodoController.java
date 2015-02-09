@@ -14,8 +14,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import ufc.quixada.npi.gp.model.Folga;
 import ufc.quixada.npi.gp.model.Periodo;
 import ufc.quixada.npi.gp.model.Projeto;
-import ufc.quixada.npi.gp.service.GenericService;
 import ufc.quixada.npi.gp.service.PeriodoService;
+
+import br.ufc.quixada.npi.service.GenericService;
 
 @Controller
 @RequestMapping("periodo")
@@ -33,24 +34,21 @@ public class PeriodoController {
 	@RequestMapping(value = "/periodos", method = RequestMethod.GET)
 	public String listarPeriodos(ModelMap model) {
 		model.addAttribute("periodos", servicePeriodo.find(Periodo.class));
-		return "periodo/periodos";
+		return "coordenador/list-periodos";
 	}
 
 	@RequestMapping(value = "/periodo", method = RequestMethod.GET)
-	public String adicionarPeriodo(ModelMap model) {
-
+	public String novoPeriodo(ModelMap model) {
 		model.addAttribute("periodo", new Periodo());
 
-		return "periodo/formPeriodo";
+		return "coordenador/form-periodo";
 	}
 
 	@RequestMapping(value = "/{idPeriodo}/editar", method = RequestMethod.GET)
-	public String editarPeriodo(@PathVariable("idPeriodo") Long idPeriodo,
-			ModelMap model) {
-
+	public String editarPeriodo(@PathVariable("idPeriodo") Long idPeriodo, ModelMap model) {
 		model.addAttribute("projeto", serviceProjeto.find(Projeto.class, idPeriodo));
 
-		return "periodo/formPeriodo";
+		return "coordenador/form-periodo";
 	}
 
 	@RequestMapping(value = "/periodo", method = RequestMethod.POST)
@@ -60,37 +58,32 @@ public class PeriodoController {
 			return "periodo/formTurma";
 		}
 
-		if (periodo.getId() == null)
+		if (periodo.getId() == null) {
 			servicePeriodo.save(periodo);
-		else
+		} else {
 			servicePeriodo.update(periodo);
+		}
 
 		return "redirect:/periodo/periodos";
 	}
 
 	@RequestMapping(value = "/{idPeriodo}/detalhes", method = RequestMethod.GET)
-	public String detalhesPeriodo(@PathVariable("idPeriodo") Long idPeriodo,
-			ModelMap model) {
+	public String detalhesPeriodo(@PathVariable("idPeriodo") Long idPeriodo, ModelMap model) {
+		model.addAttribute("periodo", servicePeriodo.find(Periodo.class, idPeriodo));
 
-		model.addAttribute("periodo",
-				servicePeriodo.find(Periodo.class, idPeriodo));
-
-		return "periodo/detalhePeriodo";
+		return "coordenador/info-periodo";
 	}
 
 	@RequestMapping(value = "/{idPeriodo}/folga", method = RequestMethod.GET)
-	public String adicionarFolgaPeriodo(@PathVariable("idPeriodo") Long idPeriodo, ModelMap model) {
-
-		model.addAttribute("periodo",
-				servicePeriodo.find(Periodo.class, idPeriodo));
+	public String novaFolgaPeriodo(@PathVariable("idPeriodo") Long idPeriodo, ModelMap model) {
+		model.addAttribute("periodo", servicePeriodo.find(Periodo.class, idPeriodo));
 		model.addAttribute("folga", new Folga());
 
-		return "periodo/formFolga";
+		return "coordenador/form-folga";
 	}
 
 	@RequestMapping(value = "/{idPeriodo}/folga", method = RequestMethod.POST)
 	public String adicionarFolgaPeriodo(@PathVariable("idPeriodo") Long idPeriodo, @ModelAttribute("folga") Folga folga, ModelMap model) {
-
 		folga.setPeriodo(servicePeriodo.find(Periodo.class, idPeriodo));
 
 		serviceFolga.save(folga);

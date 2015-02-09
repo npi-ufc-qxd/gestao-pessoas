@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import ufc.quixada.npi.gp.model.Frequencia;
 import ufc.quixada.npi.gp.repository.FrequenciaRepository;
+import br.ufc.quixada.npi.repository.jpa.JpaGenericRepositoryImpl;
 
 @Named
 public class JpaFrequenciaRepositoryImpl extends JpaGenericRepositoryImpl<Frequencia> implements FrequenciaRepository {

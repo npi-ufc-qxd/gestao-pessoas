@@ -10,9 +10,13 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 @Table(name = "pessoa", uniqueConstraints=@UniqueConstraint(columnNames = {"id", "login"}))
@@ -23,9 +27,11 @@ public class Pessoa {
 	private Long id;
 	
 	@Column(nullable = false)
+	@NotEmpty(message = "Campo Obrigatorio")
 	private String login;
 	
 	@Column(nullable = false)
+	@NotEmpty(message = "Campo Obrigatorio")
 	private String password;
 	
 	@Column(nullable = false)
@@ -35,13 +41,17 @@ public class Pessoa {
 	@JoinTable(name = "papel_pessoa", joinColumns = @JoinColumn(name = "pessoa_id"), inverseJoinColumns = @JoinColumn(name = "papel_id"))
 	private List<Papel> papeis;
 	
-//	@OneToMany(mappedBy = "autor")	
+//	@OneToMany(mappedBy = "")	
 //	private List<Projeto> projetos;
 	
+	@Size(min = 14, message = "14 Caracteres")
 	private String cpf;
 	
+	@NotEmpty(message = "Campo Obrigatorio")
 	private String nome;
 	
+	@NotEmpty(message = "Campo Obrigatorio")
+	@Email(message = "E-mail invalido")
 	private String email;
 
 	public Pessoa(){

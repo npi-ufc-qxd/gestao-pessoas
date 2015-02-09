@@ -1,0 +1,124 @@
+body {
+	background: #EDEDED;
+	color: #2C3F52;
+}
+
+a {
+	cursor: pointer;
+	cursor: hand;
+}
+
+.login-container {
+	margin: 100px auto;
+	display: table;
+	margin: 100px auto;
+	width: 650px;
+	table-layout: fixed;
+	
+	-webkit-box-shadow: 0 0 4px rgba(0, 0, 0, 0.2), inset 0 0 2px #ffffff;
+	-moz-box-shadow: 0 0 4px rgba(0, 0, 0, 0.2), inset 0 0 2px #ffffff;
+	box-shadow: 0 0 4px rgba(0, 0, 0, 0.2), inset 0 0 2px #ffffff;}
+
+.login-header {
+	display: table-cell;
+	padding: 30px;
+	width: 40%;
+	background: #6798B8; 
+ 	padding: 30px; 
+ 	margin: 0 auto;
+}
+.login-header h3{
+	font-weight: bold;
+	font-variant: small-caps;
+	color: #fff;
+	font-size: 22px;
+	font-weight: 700;
+	opacity: 1;
+}
+
+
+.login-form {
+ 	background: #fff; 
+ 	padding: 30px; 
+	display: table-cell;
+	vertical-align: top;
+	width: 60%
+}
+.login-form .login-text {
+	color: #777;
+	display: block;
+	font-size: 15px;
+	font-style: italic;
+	margin-bottom: 10px;
+	position: relative;
+	text-align: center;
+}
+.login-form .login-text:before{
+	background: #e4e4e4;
+	content: "";
+	display: block;
+	height: 1px;
+	left: 0;
+	position: absolute;
+	right: 0;
+	top: 50%;
+}
+.login-form .login-text span{
+	background: #fff;
+	display: inline-block;
+	padding: 0 20px;
+	position: relative;
+}
+
+.input-group-addon {
+	border-radius: 0;
+	background-color: #5A9DC8;
+	color: #fff;
+}
+.input-group-addon-gp{
+	text-align: left;
+	width: 66px;
+}
+#cadastro-form .form-group input {
+	width: 142%;
+}
+
+.form-control {
+	border-radius: 0;
+	height: 30px;
+	font-size: 14px;
+	color: #555;
+	background-color: #fff;
+	border: 1px solid #ccc;
+}
+
+.esqueci-senha {
+	border-bottom: 1px dashed #bbb;
+	color: #999;
+	display: inline-block;
+	font-size: 11px;
+	padding-bottom: 1px;
+}
+.esqueci-senha:hover {
+	text-decoration: none;
+}
+.fa {
+	color: #2C3F52;
+}
+
+.login-error {
+	background: #B53636;
+	margin: 0 0 10px 0;
+	padding: 2px;
+	color: #fff;
+	font-weight: 600;
+}
+.btn {
+	border-radius: 0;
+	background: #6798B8;
+}
+
+.error-validation {
+	color: red;
+	margin-left: -13px;
+}

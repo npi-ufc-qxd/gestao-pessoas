@@ -5,6 +5,7 @@ import java.util.List;
 
 import ufc.quixada.npi.gp.model.Estagiario;
 import ufc.quixada.npi.gp.model.Pessoa;
+import ufc.quixada.npi.gp.model.enums.Curso;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperReport;
@@ -28,7 +29,7 @@ public class EstagiarioDataSource extends JRAbstractBeanDataSourceProvider {
 				"jefferson@hotmail.com", "6507687");
 		listEstagiario.add(new Estagiario((long) 1, "Jefferson1", null,
 				"Algum", "teste", "63900056", "Quixadá", "CE", "36720000",
-				"Engenharia", "8", 338888, "redmine", "github", "hagout",
+				Curso.ENGENHARIA_COMPUTAÇÃO, "8", 338888, "redmine", "github", "hagout",
 				pessoa));
 		
 		return new JRBeanCollectionDataSource(listEstagiario);

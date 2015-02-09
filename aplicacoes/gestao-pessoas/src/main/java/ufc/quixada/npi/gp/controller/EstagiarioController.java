@@ -16,17 +16,20 @@ import net.objectlab.kit.datecalc.common.HolidayCalendar;
 import net.objectlab.kit.datecalc.common.HolidayHandlerType;
 import net.objectlab.kit.datecalc.joda.LocalDateKitCalculatorsFactory;
 
+import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
+import org.junit.Before;
+import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import ufc.quixada.npi.gp.model.Estagiario;
@@ -37,51 +40,83 @@ import ufc.quixada.npi.gp.model.Turma;
 import ufc.quixada.npi.gp.model.enums.StatusFrequencia;
 import ufc.quixada.npi.gp.model.enums.TipoFrequencia;
 import ufc.quixada.npi.gp.service.EstagiarioService;
-import ufc.quixada.npi.gp.service.GenericService;
+import ufc.quixada.npi.gp.service.FrequenciaService;
 import ufc.quixada.npi.gp.service.PessoaService;
+import ufc.quixada.npi.gp.service.TurmaService;
 import ufc.quixada.npi.gp.utils.Constants;
 
 @Controller
 @RequestMapping("estagiario")
 public class EstagiarioController {
 	@Inject
-	private PessoaService servicePessoa;
+	private PessoaService pessoaService;
+	
 
 	@Inject
-	private EstagiarioService serviceEstagiario;
+	private EstagiarioService estagiarioService;
 	
 	@Inject
-	private GenericService<Turma> serviceTurma;
+	private TurmaService turmaService;
 
 	@Inject
-	private GenericService<Frequencia> serviceFrequencia;
-
-	@RequestMapping(value = "/index", method = RequestMethod.GET)
-	public String index(ModelMap modelMap, HttpSession session) {
-		return "redirect:/estagiario/inicial";
-	}
-
-	@RequestMapping(value = "/inicial")
-	public String inicial(ModelMap modelMap, HttpSession session) {
-
+	private FrequenciaService frequenciaService;
+	
+	@Before
+	@RequestMapping(value = {"/index", "/inicial"}, method = RequestMethod.GET)
+	public String inicial(ModelMap modelMap, HttpSession session) { 
 		modelMap.addAttribute("usuario", SecurityContextHolder.getContext().getAuthentication().getName());
-		getUsuarioLogado(session);
-		modelMap.addAttribute("estagiario", serviceEstagiario.getEstagiario(getUsuarioLogado(session).getId()));
+		Estagiario estagiario = estagiarioService.getEstagiarioByPessoaId(getUsuarioLogado(session).getId());
+		List<Turma> turmas = turmaService.getTurmasAno(new DateTime().getYear());
 		
+		if(estagiario == null){
+			modelMap.addAttribute("resultado", true);
+			modelMap.addAttribute("estagiario", new Estagiario());
+		}else{
+			modelMap.addAttribute("resultado", false);
+			modelMap.addAttribute("estagiario", estagiario);
+		}
+		modelMap.addAttribute("turmas", turmas);
 		return "estagiario/inicial";
 	}
+	
+	@RequestMapping(value = "/meu-cadastro-npi", method = RequestMethod.POST)
+	public String adicionarEstagiario(@Valid @ModelAttribute("estagiario") Estagiario estagiario, BindingResult result, HttpSession session, RedirectAttributes redirect) {
+		estagiario.setPessoa(getUsuarioLogado(session));
+		estagiario.setTurma(turmaService.find(Turma.class, estagiario.getTurma().getId()));
 
-	@RequestMapping(value = "/cadastrar", method = RequestMethod.GET)
-	public String cadastro(Model model) {
-		model.addAttribute("estagiario", new Estagiario());
-		model.addAttribute("turmas" , serviceTurma.find(Turma.class));
-		return "estagiario/cadastrar";
+		estagiarioService.save(estagiario);
+		
+		List<Frequencia> frequencias = geraFrequencia(estagiario);
+		
+		estagiario.setFrequencias(frequencias);
+		
+		//estagiario.getTurma().setFrequencias(estagiario.getFrequencias());
+
+		estagiarioService.update(estagiario);
+		
+		redirect.addFlashAttribute("info", "Estagiário cadastrado com sucesso.");
+		return "redirect:/estagiario/inicial";
 	}
 	
-	@RequestMapping(value = "/presenca", method = RequestMethod.GET)
-	public String presenca(HttpSession session) {
-		Estagiario estagiario = serviceEstagiario.getEstagiario(getUsuarioLogado(session).getId()).get(0);	
+	@RequestMapping(value = "/minha-presenca", method = RequestMethod.GET)
+	public String minhaPresenca(HttpSession session, Model model) {
+		boolean liberarPresenca = true;
+
+		Frequencia frequencia = frequenciaService.getFrequenciaDeHojeByEstagiario(estagiarioService.getEstagiarioByPessoaId(getUsuarioLogado(session).getId()).getId());
 		
+		if(frequencia == null || frequencia.getStatusFrequencia() != StatusFrequencia.AGUARDO){
+			model.addAttribute("msg", "Sua presença não esta liberada, procure o coordenador.");
+			liberarPresenca = false;
+		}
+		model.addAttribute("liberarPresenca", liberarPresenca);
+		return "estagiario/minha-presenca";
+	}
+	
+	@RequestMapping(value = "/minha-presenca", method = RequestMethod.POST)
+	public String presenteNPI(HttpSession session, @RequestParam("login") String login, @RequestParam("senha") String senha) {
+		ShaPasswordEncoder encoder = new ShaPasswordEncoder(256);
+		Estagiario estagiario = estagiarioService.getEstagiarioPesssoa(login, encoder.encodePassword(senha, ""));
+
 		Set<LocalDate> dataDosFeriados = new HashSet<LocalDate>();
 		for (Folga folga : estagiario.getTurma().getPeriodo().getFolgas()) {
 			dataDosFeriados.add(new LocalDate(folga.getData()));
@@ -108,17 +143,49 @@ public class EstagiarioController {
 			
 			if(frequencia.getStatusFrequencia().equals(StatusFrequencia.AGUARDO)){
 				frequencia.setStatusFrequencia(StatusFrequencia.PRESENTE);
-				serviceFrequencia.update(frequencia);				
+				frequenciaService.update(frequencia);
 			}
 			
 		}
-		return "redirect:/estagiario/inicial";
+
+		return "redirect:/estagiario/minha-presenca";
+	}
+	
+	@RequestMapping(value = "/meu-projeto", method = RequestMethod.GET)
+	public String meuProjeto(HttpSession session, Model model) {
+		Estagiario estagiario = estagiarioService.getEstagiarioByPessoaId(getUsuarioLogado(session).getId());
+		
+		if(estagiario.getProjeto() != null){
+			model.addAttribute("projeto", estagiario.getProjeto());
+		}
+		
+		return "estagiario/meu-projeto";
+	}
+	
+	@RequestMapping(value = "/documentos", method = RequestMethod.GET)
+	public String documento(HttpSession session, Model model) {
+		return "estagiario/documentos";
+	}
+	
+	@RequestMapping(value = "/avaliacao", method = RequestMethod.GET)
+	public String avaliacao(HttpSession session, Model model) {
+		return "estagiario/avaliacao";
+	}
+	
+	@RequestMapping(value = "/cadastre-se", method = RequestMethod.POST)
+	public String cadastrarPessoa(HttpSession session, Model model, @Valid @ModelAttribute("pessoa") Pessoa pessoa, BindingResult result) {
+		
+		if (result.hasErrors()) {
+			model.addAttribute("cadastro", true);
+			return "login";
+		}
+		pessoaService.save(pessoa);
+		
+		return "redirect:/login";
 	}
 
-	@RequestMapping(value = "/a", method = RequestMethod.GET)
+//	UTILS
 	private boolean isHoraPermitida(Date horaInicio, Date horaFinal ){
-		
-		
 		LocalTime inicio = new LocalTime(horaInicio);
 		LocalTime fim = new LocalTime(horaFinal);
 
@@ -132,29 +199,6 @@ public class EstagiarioController {
 		return (inicio <= dia && dia <= fim);
 	}
 
-	@RequestMapping(value = "/cadastrar", method = RequestMethod.POST)
-	public String adicionarEstagiario(@Valid @ModelAttribute("estagiario") Estagiario estagiario, BindingResult result, HttpSession session, RedirectAttributes redirect) {
-
-		
-		
-		estagiario.setPessoa(getUsuarioLogado(session));
-		estagiario.setTurma(serviceTurma.find(Turma.class, estagiario.getTurma().getId()));
-
-		serviceEstagiario.save(estagiario);
-		
-		List<Frequencia> frequencias = geraFrequencia(estagiario);
-		
-		estagiario.setFrequencias(frequencias);
-		
-		//estagiario.getTurma().setFrequencias(estagiario.getFrequencias());
-
-		serviceEstagiario.update(estagiario);
-		
-		redirect.addFlashAttribute("info", "Estagiário cadastrado com sucesso.");
-		return "redirect:/estagiario/inicial";
-	}
-	
-	
 	private List<Frequencia> geraFrequencia(Estagiario estagiario){
 		Set<LocalDate> dataDosFeriados = new HashSet<LocalDate>();
 
@@ -194,45 +238,9 @@ public class EstagiarioController {
 		return frequencias;
 	}
 
-	@RequestMapping(value = "/{id}/contaspessoais", method = RequestMethod.GET)
-	public String contasPessoais(@PathVariable("id") long id, Model model,
-			HttpSession session, RedirectAttributes redirectAttributes) {
-
-		Estagiario estagiario = serviceEstagiario.find(Estagiario.class, id);
-		Pessoa pessoa = getUsuarioLogado(session);
-
-		if (estagiario == null) {
-			redirectAttributes.addFlashAttribute("erro",
-					"Estagiario inexistente.");
-			return "redirect:/estagiario/inicial";
-		}
-		if (pessoa.getId() == estagiario.getPessoa().getId()) {
-			model.addAttribute("estagiario", estagiario);
-			model.addAttribute("action", "contaspessoais");
-			return "estagiario/contaspessoais";
-		}
-		return "redirect:/estagiario/inicial";
-	}
-
-	@RequestMapping(value = "/{id}/contaspessoais", method = RequestMethod.POST)
-	public String atualizarEstagiario(
-			@PathVariable("id") Long id,
-			@Valid @ModelAttribute(value = "estagiario") Estagiario estagiarioAtualizado,
-			BindingResult result, Model model, HttpSession session,
-			RedirectAttributes redirect) {
-
-		Estagiario estagiario = serviceEstagiario.find(Estagiario.class, id);
-		estagiario.setContaRedmine(estagiarioAtualizado.getContaRedmine());
-		estagiario.setContaGithub(estagiarioAtualizado.getContaGithub());
-		estagiario.setContaHangout(estagiarioAtualizado.getContaHangout());
-		this.serviceEstagiario.update(estagiario);
-
-		return "redirect:/estagiario/inicial";
-	}
-
 	private Pessoa getUsuarioLogado(HttpSession session) {
 		if (session.getAttribute(Constants.USUARIO_LOGADO) == null) {
-			Pessoa pessoa = servicePessoa
+			Pessoa pessoa = pessoaService
 					.getPessoaByLogin(SecurityContextHolder.getContext()
 							.getAuthentication().getName());
 			session.setAttribute(Constants.USUARIO_LOGADO, pessoa);

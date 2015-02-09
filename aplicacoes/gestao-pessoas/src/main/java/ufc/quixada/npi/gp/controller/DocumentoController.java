@@ -19,15 +19,16 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import ufc.quixada.npi.gp.model.Documento;
 import ufc.quixada.npi.gp.model.Pessoa;
-import ufc.quixada.npi.gp.service.DocumentoService;
 import ufc.quixada.npi.gp.service.PessoaService;
 import ufc.quixada.npi.gp.utils.Constants;
+
+import br.ufc.quixada.npi.service.GenericService;
 
 @Controller
 @RequestMapping("documento")
 public class DocumentoController {
 	@Inject
-	private DocumentoService serviceDocumento;
+	private GenericService<Documento> serviceDocumento;
 	@Inject
 	private PessoaService servicePessoa;
 

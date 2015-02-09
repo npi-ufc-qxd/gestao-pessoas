@@ -11,12 +11,12 @@ import javax.inject.Named;
 import org.springframework.transaction.annotation.Transactional;
 
 import ufc.quixada.npi.gp.model.Frequencia;
-import ufc.quixada.npi.gp.model.JsonFrequencia;
 import ufc.quixada.npi.gp.model.Turma;
 import ufc.quixada.npi.gp.model.enums.StatusFrequencia;
 import ufc.quixada.npi.gp.repository.FrequenciaRepository;
-import ufc.quixada.npi.gp.repository.QueryType;
 import ufc.quixada.npi.gp.service.FrequenciaService;
+import br.ufc.quixada.npi.enumeration.QueryType;
+import br.ufc.quixada.npi.service.impl.GenericServiceImpl;
 
 @Named
 public class FrequenciaServiceImpl extends GenericServiceImpl<Frequencia> implements FrequenciaService {
@@ -35,7 +35,6 @@ public class FrequenciaServiceImpl extends GenericServiceImpl<Frequencia> implem
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("data", data);
 		params.put("turma", turma.getId());
-		//List<Frequencia> frequencias = frequenciaRepository.find(QueryType.JPQL,"select f from Frequencia f join f.turma t where t.id = :turma and f.data = :data", params);
 		List<Frequencia> frequencias = frequenciaRepository.find(QueryType.JPQL,"select f.id, f.observacao, f.statusFrequencia, f.tipoFrequencia, f.estagiario.nomeCompleto from Frequencia f join f.turma t where t.id = :turma and f.data = :data", params);
 		return frequencias;
 	}
@@ -58,9 +57,12 @@ public class FrequenciaServiceImpl extends GenericServiceImpl<Frequencia> implem
 	}
 
 	@Override
-	public List<JsonFrequencia> getJsonFrequencias(Date data, Turma turma) {
-		// TODO Auto-generated method stub
-		return null;
+	public Frequencia getFrequenciaDeHojeByEstagiario(Long id) {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("id", id);
+		Frequencia frequencia = frequenciaRepository.findFirst(QueryType.JPQL, "select f from Frequencia f where f.data = CURRENT_DATE and f.estagiario.id = :id", params, 0);
+		return frequencia;
 	}
+
 
 }

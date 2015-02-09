@@ -7,7 +7,6 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -21,6 +20,7 @@ import javax.persistence.TemporalType;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import ufc.quixada.npi.gp.model.enums.Dia;
+import ufc.quixada.npi.gp.model.enums.StatusTurma;
 
 @Entity
 public class Turma {
@@ -36,6 +36,9 @@ public class Turma {
 	
 	@Enumerated(EnumType.STRING)
 	private Dia fimSemana;
+	
+	@Enumerated(EnumType.STRING)
+	private StatusTurma statusTurma;
 	
 	@Temporal(TemporalType.TIME)
 	@DateTimeFormat(pattern = "HH:mm")
@@ -98,6 +101,15 @@ public class Turma {
 	public void setFimSemana(Dia fimSemana) {
 		this.fimSemana = fimSemana;
 	}
+
+	public StatusTurma getStatusTurma() {
+		return statusTurma;
+	}
+
+	public void setStatusTurma(StatusTurma statusTurma) {
+		this.statusTurma = statusTurma;
+	}
+
 
 	public Date getHoraInicio() {
 		return horaInicio;

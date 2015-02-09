@@ -7,17 +7,17 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import ufc.quixada.npi.gp.model.Pessoa;
-import ufc.quixada.npi.gp.repository.PessoaRepository;
-import ufc.quixada.npi.gp.repository.QueryType;
 import ufc.quixada.npi.gp.service.PessoaService;
+import br.ufc.quixada.npi.enumeration.QueryType;
+import br.ufc.quixada.npi.repository.GenericRepository;
+import br.ufc.quixada.npi.service.impl.GenericServiceImpl;
 
 @Named
 public class PessoaServiceImpl extends GenericServiceImpl<Pessoa> implements
 		PessoaService {
 
 	@Inject
-	PessoaRepository pessoaRepository;
-
+	GenericRepository<Pessoa> pessoaRepository;
 
 	@Override
 	public Pessoa getPessoaByLogin(String login) {

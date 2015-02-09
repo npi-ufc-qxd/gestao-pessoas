@@ -1,73 +1,175 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib prefix="sec"
-	uri="http://www.springframework.org/security/tags"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<%@ taglib prefix="sec"	uri="http://www.springframework.org/security/tags"%>
+
 <html>
 <head>
-	<title>Projetos</title>
+	<title>Estagiários</title>
 	<jsp:include page="../modulos/header-estrutura.jsp" />
-	<jsp:include page="../modulos/header.jsp" />
 </head>
 <body>
-	<div class="row">
+
+	<c:if test="${not resultado}"><!-- Tela de Cadastro para Inicio no NPI -->
+		<jsp:include page="../modulos/header.jsp" />
+	</c:if>
+	
 	<div class="container">
-	
-		<div align="right" style="margin-bottom: 20px;">
-			<a href="<c:url value="/estagiario/presenca" ></c:url>">
-				<button class="btn btn-primary">Presente <span class="glyphicon glyphicon-plus"></span></button>
-			</a>
-		</div>
-	
-
-		<c:if test="${not empty erro}">
-			<div class="alert alert-danger alert-dismissible" role="alert">
-				<button type="button" class="close" data-dismiss="alert">
-					<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
-				</button>
-				<c:out value="${erro}"></c:out>
+		<c:if test="${resultado}"><!-- Tela de Cadastro para Inicio no NPI -->
+			<div class="temp">
+				<jsp:include page="../estagiario/cadastro-npi.jsp" />
 			</div>
 		</c:if>
-		<c:if test="${not empty info}">
-			<div class="alert alert-success alert-dismissible" role="alert">
-				<button type="button" class="close" data-dismiss="alert">
-					<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
-				</button>
-				<c:out value="${info}"></c:out>
-			</div>
-		</c:if>
-
-		<c:if test="${empty estagiario}">
-			<div class="alert alert-warning" role="alert">Você ainda não
-				está Cadastrado como estagiário do NPI</div>
-
-			<div align="center" style="margin-bottom: 20px;">
-				<a href="<c:url value="/estagiario/cadastrar" ></c:url>">
-					<button class="btn btn-primary">
-						Realizar Cadastro <span class="glyphicon glyphicon-plus"></span>
-					</button>
-				</a>
-			</div>
-		</c:if>
-
-		<c:if test="${not empty estagiario}">
-			<c:forEach var="estagiario" items="${estagiario}">
-				<div align="center" style="margin-bottom: 20px;">
-					<div align="center" style="margin-bottom: 20px;">
-						<a id="editar"
-							href="<c:url value="/estagiario/${estagiario.id}/contaspessoais" ></c:url>">
-							<button class="btn btn-info">
-								Cadastrar Contas Pessoais <span class="glyphicon glyphicon-pencil"></span>
-							</button>
-						</a>
-					</div>
-				</div>
-			</c:forEach>
-		</c:if>
-	</div>
 	</div>
 
 	<jsp:include page="../modulos/footer.jsp" />
+	<script src="<c:url value="/resources/js/fuelux.min.js" />"></script>
+	
+
+	<script type="text/javascript">
+		$(document).ready(function() {
+			function rulesDadosPessoais() {
+				$( "#nomeCompleto" ).rules( "add", {
+					required: true,
+				});
+				
+				$( "#nomeMae" ).rules( "add", {
+					required: true,
+				});
+				
+				$( "#dataNascimento" ).rules( "add", {
+					required: true,
+				});
+				
+				$( "#semestre" ).rules( "add", {
+					required: true,
+				});
+				
+				$( "#matricula" ).rules( "add", {
+					required: true,
+				});
+				
+				$( "#endereco" ).rules( "add", {
+					required: true,
+				});
+				
+				$( "#cidade" ).rules( "add", {
+					required: true,
+				});
+				
+				$( "#uf" ).rules( "add", {
+					required: true,
+				});
+				
+				$( "#telefone" ).rules( "add", {
+					required: true,
+				});
+			}
+			
+			function rulesContas() {
+				$( "#contaRedmine" ).rules( "add", {
+					required: true,
+				});
+
+				$( "#contaGithub" ).rules( "add", {
+					required: true,
+				});
+
+				$( "#contaHangout" ).rules( "add", {
+					required: true,
+				});
+				
+			}
+			
+			$('#cadastroNPIWizard').on('actionclicked.fu.wizard', function (event, data) {
+				console.log('QUERO MUDAR: ', data);
+
+				var formulario = $( "#meuCadastroNPIEstagiario" );
+
+				if(data.step === 1){
+					//rulesDadosPessoais();
+				}
+
+				if(data.step === 2){
+					//rulesContas();
+				}
+				
+				if(data.step === 3){
+					
+				}
+
+				if(!formulario.valid()){
+				    return event.preventDefault();
+				}
+			});
+			
+			$('#cadastroNPIWizard').on('changed.fu.wizard', function (event, data) {
+				console.log('PRONTO MUDEI', data);
+			});
+			
+			$('#cadastroNPIWizard').on('finished.fu.wizard', function (event, data) {
+				console.log('finished');
+				$( "#meuCadastroNPIEstagiario" ).submit();
+				$(".temp").empty();
+			});
+			
+			
+			$( "#meuCadastroNPIEstagiario" ).validate({
+		        rules: {
+		            
+		        },
+		        highlight: function(element) {
+		            $(element).closest('.form-item').addClass('has-error');
+		            $(element).closest('input').addClass('bola');
+		        },
+		        unhighlight: function(element) {
+		            $(element).closest('.form-item').removeClass('has-error');
+		            $(element).closest('input').removeClass('bola');
+		        },
+		        errorElement: 'span',
+		        errorClass: 'help-block',
+		        errorPlacement: function(error, element) {
+		            error.insertAfter(element.parent().children().last());
+		        },
+		        messages:{
+					nomeCompleto : {
+						required : "Campo obrigatório",
+					},
+					dataNascimento : {
+						required : "Campo obrigatório",
+					},
+					nomeMae : {
+						required : "Campo obrigatório",
+					},
+					semestre : {
+						required : "Campo obrigatório",
+					},
+					matricula : {
+						required : "Campo obrigatório",
+					},
+					endereco : {
+						required : "Campo obrigatório",
+					},
+					cidade : {
+						required : "Campo obrigatório",
+					},
+					uf : {
+						required : "Campo obrigatório",
+					},
+					telefone : {
+						required : "Campo obrigatório",
+					},
+					contaRedmine : {
+						required : "Campo obrigatório",
+					},
+					contaGithub : {
+						required : "Campo obrigatório",
+					},
+					contaHangout : {
+						required : "Campo obrigatório",
+					},
+				}
+			});			
+		});
+	</script>
 </body>
 </html>

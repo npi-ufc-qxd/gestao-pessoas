@@ -3,9 +3,14 @@ package ufc.quixada.npi.gp.service;
 import java.util.List;
 
 import ufc.quixada.npi.gp.model.Estagiario;
+import br.ufc.quixada.npi.service.GenericService;
 
 public interface EstagiarioService extends GenericService<Estagiario>{
 
-	List<Estagiario> getEstagiario(Long id);
+	Estagiario getEstagiarioByPessoaId(Long id);
+	
+	Estagiario getEstagiarioPesssoa(String login, String senha);
+	
+	List<Estagiario> getEstagiarioTurma(Long id);
 	
 }

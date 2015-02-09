@@ -17,6 +17,8 @@ import javax.persistence.OneToOne;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import ufc.quixada.npi.gp.model.enums.Curso;
+
 @Entity
 public class Estagiario {
 
@@ -32,7 +34,7 @@ public class Estagiario {
 	private String cidade;
 	private String uf;
 	private String telefone;
-	private String curso;
+	private Curso curso;
 	private String semestre;
 	private int matricula;
 	private String contaRedmine;
@@ -81,7 +83,7 @@ public class Estagiario {
 
 	public Estagiario(Long id, String nomeCompleto, Date dataNascimento,
 			String nomeMae, String endereco, String cep, String cidade,
-			String uf, String telefone, String curso, String semestre,
+			String uf, String telefone, Curso curso, String semestre,
 			int matricula, String contaRedmine, String contaGithub,
 			String contaHangout, Pessoa pessoa) {
 		super();
@@ -175,11 +177,11 @@ public class Estagiario {
 		this.telefone = telefone;
 	}
 
-	public String getCurso() {
+	public Curso getCurso() {
 		return curso;
 	}
 
-	public void setCurso(String curso) {
+	public void setCurso(Curso curso) {
 		this.curso = curso;
 	}
 

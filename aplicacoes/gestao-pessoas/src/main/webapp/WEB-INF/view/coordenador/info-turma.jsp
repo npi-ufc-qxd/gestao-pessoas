@@ -50,6 +50,7 @@
 							<tr class="">
 								<th class="col-sm-1">Matrícula</th>
 								<th class="col-sm-5">Nome</th>
+								<th class="col-sm-5">Frequência % </th>
 								<th></th>
 				           </tr>
 				       </thead>

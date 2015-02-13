@@ -14,5 +14,5 @@ public interface TurmaService extends GenericService<Turma> {
 	List<Turma> getMinhasTurma(Long idSupervisor);
 
 	List<Turma> getTurmasAno(int ano);
-
+	
 }

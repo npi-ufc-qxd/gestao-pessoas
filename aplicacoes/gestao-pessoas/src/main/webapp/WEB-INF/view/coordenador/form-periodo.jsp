@@ -17,7 +17,7 @@
 		<div class="novo-projeto" align="left">
 			<div class="form" align="center">
 				<h2>Nova Periodo</h2>
-				<form:form id="adicionarTurmaForm" role="form" modelAttribute="periodo" servletRelativeAction="/periodo/periodo" method="POST" cssClass="form-horizontal">
+				<form:form id="adicionarTurmaForm" role="form" modelAttribute="periodo" servletRelativeAction="/coordenador/periodo" method="POST" cssClass="form-horizontal">
 
 					<div class="form-group" align="left">
 						<div class="form-item">

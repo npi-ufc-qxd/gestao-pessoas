@@ -18,7 +18,7 @@
 		<div class="novo-projeto" align="left">
 			<div class="form" align="center">
 				<h2>Adicionar Folga</h2>
-				<form:form id="adicionarFolgaForm" role="form" commandName="folga" servletRelativeAction="/periodo/${periodo.id}/folga" method="POST" cssClass="form-horizontal">
+				<form:form id="adicionarFolgaForm" role="form" commandName="folga" servletRelativeAction="/coordenador/${periodo.id}/folga" method="POST" cssClass="form-horizontal">
 				<form:hidden path="id"/>
 					<div class="form-group">
 						<label for="data" class="col-sm-2 control-label">Data:</label>

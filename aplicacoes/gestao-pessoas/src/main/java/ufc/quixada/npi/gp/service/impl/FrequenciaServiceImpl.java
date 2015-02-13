@@ -64,5 +64,20 @@ public class FrequenciaServiceImpl extends GenericServiceImpl<Frequencia> implem
 		return frequencia;
 	}
 
+	@Override
+	public List<Frequencia> getFrequenciaRepor() {
+		// SELECT f, COUNT(statusFrequencia) FROM Frequencia f where statusFrequencia = :statusFrequencia GROUP BY statusFrequencia HAVING COUNT(statusFrequencia)>1
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("status", StatusFrequencia.ATRASADO);
+		params.put("turma", 1L);
+//		List<Frequencia> frequencias = frequenciaRepository.find(QueryType.JPQL,"select count(f.statusFrequencia) from Frequencia f join f.turma t where t.id = :turma and f.statusFrequencia = :status group by f.id, f.statusFrequencia having count(f.statusFrequencia) > 1", params);
+
+		List<Frequencia> frequencias = frequenciaRepository.find(QueryType.JPQL,
+				"select f.estagiario.id, f.estagiario, count(f.statusFrequencia) from Frequencia f where f.turma.id = :turma and f.statusFrequencia = :status group by f.estagiario.id, f.estagiario having count(f.statusFrequencia) > 1", params);
+		/*
+		 * select f, count(f.statusFrequencia) from Frequencia f where f.turma.id = :turma and f.statusFrequencia = :status group by f having count(f.statusFrequencia) > 1;*/
+		return frequencias;
+	}
+
 
 }

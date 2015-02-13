@@ -19,6 +19,8 @@ public interface FrequenciaService extends GenericService<Frequencia>{
 
 	List<Frequencia> getFrequencias(Date data, Turma turma);
 
+	List<Frequencia> getFrequenciaRepor();
+
 	@Transactional
 	void atualizarStatus();
                                                                                                                   

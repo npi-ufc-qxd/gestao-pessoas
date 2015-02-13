@@ -24,9 +24,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import ufc.quixada.npi.gp.model.Estagiario;
 import ufc.quixada.npi.gp.model.Filtro;
+import ufc.quixada.npi.gp.model.Folga;
+import ufc.quixada.npi.gp.model.Frequencia;
+import ufc.quixada.npi.gp.model.Periodo;
 import ufc.quixada.npi.gp.model.Projeto;
 import ufc.quixada.npi.gp.model.Turma;
 import ufc.quixada.npi.gp.service.EstagiarioService;
+import ufc.quixada.npi.gp.service.FrequenciaService;
+import ufc.quixada.npi.gp.service.PeriodoService;
 import ufc.quixada.npi.gp.service.TurmaService;
 import br.ufc.quixada.npi.service.GenericService;
 
@@ -45,6 +50,15 @@ public class CoordenadorController {
 
 	@Inject
 	private TurmaService serviceTurma;	
+
+	@Inject
+	private PeriodoService servicePeriodo;
+
+	@Inject
+	private FrequenciaService frequenciaService;
+
+	@Inject
+	private GenericService<Folga> serviceFolga;
 
 	@RequestMapping(value = {"/inicial", "/index"}, method = RequestMethod.GET)
 	public String inicial(ModelMap modelMap, HttpSession session) throws JRException {
@@ -152,6 +166,7 @@ public class CoordenadorController {
 
 /* FINAL PROJETO */
 
+/* 	INICIO ESTAGIARIO */	
 	@RequestMapping(value = "/estagiarios", method = RequestMethod.GET)
 	public String listaEstagiarios(ModelMap modelMap, HttpSession session) {
 		modelMap.addAttribute("filtro", new Filtro());
@@ -165,6 +180,83 @@ public class CoordenadorController {
 
 		return "coordenador/list-estagiarios-periodo";
 	}
+/* FINAL ESTAGIARIO */
+
+
+
+/* 	INICIO PERIODO */
+
+	@RequestMapping(value = "/periodos", method = RequestMethod.GET)
+	public String listarPeriodos(ModelMap model) {
+		model.addAttribute("periodos", servicePeriodo.find(Periodo.class));
+		return "coordenador/list-periodos";
+	}
+
+	@RequestMapping(value = "/periodo", method = RequestMethod.GET)
+	public String novoPeriodo(ModelMap model) {
+		model.addAttribute("periodo", new Periodo());
+
+		return "coordenador/form-periodo";
+	}
+
+	@RequestMapping(value = "/{idPeriodo}/editar", method = RequestMethod.GET)
+	public String editarPeriodo(@PathVariable("idPeriodo") Long idPeriodo, ModelMap model) {
+		model.addAttribute("projeto", serviceProjeto.find(Projeto.class, idPeriodo));
+
+		return "coordenador/form-periodo";
+	}
+
+	@RequestMapping(value = "/periodo", method = RequestMethod.POST)
+	public String adicionarPeriodo(ModelMap model, @Valid @ModelAttribute("periodo") Periodo periodo, BindingResult result) {
+
+		if (result.hasErrors()) {
+			return "periodo/formTurma";
+		}
+
+		if (periodo.getId() == null) {
+			servicePeriodo.save(periodo);
+		} else {
+			servicePeriodo.update(periodo);
+		}
+
+		return "redirect:/periodo/periodos";
+	}
+
+	@RequestMapping(value = "/{idPeriodo}/detalhes", method = RequestMethod.GET)
+	public String detalhesPeriodo(@PathVariable("idPeriodo") Long idPeriodo, ModelMap model) {
+		model.addAttribute("periodo", servicePeriodo.find(Periodo.class, idPeriodo));
+
+		return "coordenador/info-periodo";
+	}
+
+	@RequestMapping(value = "/{idPeriodo}/folga", method = RequestMethod.GET)
+	public String novaFolgaPeriodo(@PathVariable("idPeriodo") Long idPeriodo, ModelMap model) {
+		model.addAttribute("periodo", servicePeriodo.find(Periodo.class, idPeriodo));
+		model.addAttribute("folga", new Folga());
+
+		return "coordenador/form-folga";
+	}
+
+	@RequestMapping(value = "/{idPeriodo}/folga", method = RequestMethod.POST)
+	public String adicionarFolgaPeriodo(@PathVariable("idPeriodo") Long idPeriodo, @ModelAttribute("folga") Folga folga, ModelMap model) {
+		folga.setPeriodo(servicePeriodo.find(Periodo.class, idPeriodo));
+
+		serviceFolga.save(folga);
+		return "redirect:/periodo/periodos";
+	}
+/* 	FINAL PERIODO */
+
+/* 	INICIO REPOSICAO */
+	@RequestMapping(value = "/reposicao", method = RequestMethod.GET)
+	public String reposicao(ModelMap model) {
+		List<Frequencia> frequencias = frequenciaService.getFrequenciaRepor();
+		frequencias.get(0);
+		return "redirect:/periodo/periodos";
+	}
+	
+	
+	
+/* 	FINAL REPOSICAO */
 
 /* UTILS */
 	private Projeto atualizarProjeto(Projeto projeto) {

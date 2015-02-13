@@ -16,7 +16,7 @@
 		<div class="tab-pane active" id="meus-projetos">
 
 			<div align="right" style="margin-bottom: 20px;">
-				<a href="<c:url value="/coordenador/${projeto.id}/vincularMembros" ></c:url>"><button class="btn btn-primary"><span class="fa fa-plus-square"></span> Membros</button></a>
+				<a href="<c:url value="/coordenador/${projeto.id}/add-membros-projeto" ></c:url>"><button class="btn btn-primary"><span class="fa fa-plus-square"></span> Membros</button></a>
 			</div>
 		
 			<c:if test="${empty projeto}"><div class="alert alert-warning" role="alert">Não há Projetos cadastrados.</div></c:if>

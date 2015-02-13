@@ -54,7 +54,7 @@
 				<sec:authorize access="hasRole('ROLE_COORDENADOR')">
 					<ul class="nav navbar-nav"><!-- Inicio Menu Cordenador -->
 						<li id="projetos"><a class="hvr-sweep-to-top" href="<c:url value="/coordenador/projetos" />">Projetos <span class="fa fa-folder"></span></a></li>
-						<li id="periodos"><a class="hvr-sweep-to-top" href="<c:url value="/periodo/periodos" />">Periodos <span class="fa fa-calendar"></span></a></li>
+						<li id="periodos"><a class="hvr-sweep-to-top" href="<c:url value="/coordenador/periodos" />">Periodos <span class="fa fa-calendar"></span></a></li>
 						<li id="turmas"><a class="hvr-sweep-to-top" href="<c:url value="/turma/minhas-turmas" />">Minhas Turmas <span class="fa fa-th-list"></span></a></li>
 						<li id="estagiarios"><a class="hvr-sweep-to-top" href="<c:url value="/coordenador/estagiarios" />">Estagiários <span class="fa fa-user"></span></a></li>
 						<li id="frequencias"><a class="hvr-sweep-to-top" href="<c:url value="/frequencia/frequencias" />">Frequência <span class="fa fa-check-square-o"></span></a></li>

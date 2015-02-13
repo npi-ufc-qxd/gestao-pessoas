@@ -18,7 +18,7 @@
 
 			<div align="right" style="margin-bottom: 20px;">
 				<a href="<c:url value="/turma/${periodo.id}/turma" ></c:url>"><button class="btn btn-primary"><span class="fa fa-plus-square"></span> Turma</button></a>
-				<a href="<c:url value="/periodo/${periodo.id}/folga" />" class="btn btn-warning"><span class="fa fa-plus-square"></span> Folga</a>
+				<a href="<c:url value="/coordenador/${periodo.id}/folga" />" class="btn btn-warning"><span class="fa fa-plus-square"></span> Folga</a>
 			</div>
 
 			<h3 align="left" style="border-bottom: 1px solid #333;">Informações do Periodo</h3>

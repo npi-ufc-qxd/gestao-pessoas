@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 import ufc.quixada.npi.gp.model.enums.StatusFrequencia;
 import ufc.quixada.npi.gp.model.enums.TipoFrequencia;
@@ -39,6 +40,17 @@ public class Frequencia {
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Estagiario estagiario;
+	
+	@Transient
+	private int totalAtraso; 
+
+	public int getTotalAtraso() {
+		return totalAtraso;
+	}
+
+	public void setTotalAtraso(int totalAtraso) {
+		this.totalAtraso = totalAtraso;
+	}
 
 	public Long getId() {
 		return id;

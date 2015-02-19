@@ -10,12 +10,14 @@ import javax.inject.Named;
 
 import org.springframework.transaction.annotation.Transactional;
 
+import ufc.quixada.npi.gp.model.Estagiario;
 import ufc.quixada.npi.gp.model.Frequencia;
 import ufc.quixada.npi.gp.model.Turma;
 import ufc.quixada.npi.gp.model.enums.StatusFrequencia;
 import ufc.quixada.npi.gp.repository.FrequenciaRepository;
 import ufc.quixada.npi.gp.service.FrequenciaService;
 import br.ufc.quixada.npi.enumeration.QueryType;
+import br.ufc.quixada.npi.repository.GenericRepository;
 import br.ufc.quixada.npi.service.impl.GenericServiceImpl;
 
 @Named
@@ -23,6 +25,9 @@ public class FrequenciaServiceImpl extends GenericServiceImpl<Frequencia> implem
 
 	@Inject
 	FrequenciaRepository frequenciaRepository;
+	
+	@Inject
+	GenericRepository<Object> estagiarioRepository;
 
 	@Transactional
 	public Frequencia getFrequencia() {
@@ -68,14 +73,32 @@ public class FrequenciaServiceImpl extends GenericServiceImpl<Frequencia> implem
 	public List<Frequencia> getFrequenciaRepor() {
 		// SELECT f, COUNT(statusFrequencia) FROM Frequencia f where statusFrequencia = :statusFrequencia GROUP BY statusFrequencia HAVING COUNT(statusFrequencia)>1
 		Map<String, Object> params = new HashMap<String, Object>();
-		params.put("status", StatusFrequencia.ATRASADO);
-		params.put("turma", 1L);
+//		params.put("status", StatusFrequencia.ATRASADO);
+//		Long turma = new Long(1);
+//		params.put("turma", turma);
 //		List<Frequencia> frequencias = frequenciaRepository.find(QueryType.JPQL,"select count(f.statusFrequencia) from Frequencia f join f.turma t where t.id = :turma and f.statusFrequencia = :status group by f.id, f.statusFrequencia having count(f.statusFrequencia) > 1", params);
 
-		List<Frequencia> frequencias = frequenciaRepository.find(QueryType.JPQL,
-				"select f.estagiario.id, f.estagiario, count(f.statusFrequencia) from Frequencia f where f.turma.id = :turma and f.statusFrequencia = :status group by f.estagiario.id, f.estagiario having count(f.statusFrequencia) > 1", params);
+		List<Frequencia> frequencias = null;
+//		frequencias = frequenciaRepository.find(QueryType.JPQL,
+//				"select e from Estagiario e join e.frequencias f where f.statusFrequencia = :status", params);
+
+		List<Object> estagiarios = estagiarioRepository.find(QueryType.NATIVE,
+				"select e.nomeCompleto,count(f.statusfrequencia) "
+				+ "from estagiario e join frequencia f "
+				+ "on e.turma_id=f.turma_id and e.id=f.estagiario_id "
+				+ "WHERE e.turma_id = 1 and f.statusfrequencia = 'ATRASADO' "
+				+ "group by  f.estagiario_id,statusfrequencia,e.nomeCompleto "
+				+ "having count(statusfrequencia) > 1", params);
+//		"select e, count(statusFrequencia) from Estagiario e join Frequencia f on e.turma.id=f.turma.id and e.id=f.estagiario.id WHERE e.turma.id = :turma and tatusFrequencia = :status group by  f.estagiario.id, e having count(statusFrequencia) > 1", params);
+//		
+				estagiarios.toArray();
+//		"select e, count(f.statusFrequencia) from Frequencia f join f.estagiario e where f.turma.id = :turma and f.statusFrequencia = :status group by e.id having count(f.statusFrequencia) > 1", params);
+//		"select e, count(f.statusFrequencia) from Estagiario e join e.frequencias f
+		
+		//from Frequencia f join Es where f.turma.id = :turma and f.statusFrequencia = :status group by f.estagiario having count(f.statusFrequencia) > 1", params);
+//		 select e from Estagiario e join e.frequencias f
 		/*
-		 * select f, count(f.statusFrequencia) from Frequencia f where f.turma.id = :turma and f.statusFrequencia = :status group by f having count(f.statusFrequencia) > 1;*/
+		 * select f, count(f.statusFrequencia) from Frequencia f where f.turma.id = :turma and f.statusFrequencia = :status group by f.estagiario.id having count(f.statusFrequencia) > 1;*/
 		return frequencias;
 	}
 

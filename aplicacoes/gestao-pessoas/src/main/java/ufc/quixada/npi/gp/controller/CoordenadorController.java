@@ -1,6 +1,9 @@
 package ufc.quixada.npi.gp.controller;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -11,24 +14,34 @@ import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import ufc.quixada.npi.gp.model.Estagiario;
 import ufc.quixada.npi.gp.model.Filtro;
 import ufc.quixada.npi.gp.model.Folga;
 import ufc.quixada.npi.gp.model.Frequencia;
+import ufc.quixada.npi.gp.model.FrequenciaJson;
 import ufc.quixada.npi.gp.model.Periodo;
 import ufc.quixada.npi.gp.model.Projeto;
 import ufc.quixada.npi.gp.model.Turma;
+import ufc.quixada.npi.gp.model.enums.StatusFrequencia;
+import ufc.quixada.npi.gp.model.enums.TipoFrequencia;
 import ufc.quixada.npi.gp.service.EstagiarioService;
 import ufc.quixada.npi.gp.service.FrequenciaService;
 import ufc.quixada.npi.gp.service.PeriodoService;
@@ -249,13 +262,94 @@ public class CoordenadorController {
 /* 	INICIO REPOSICAO */
 	@RequestMapping(value = "/reposicao", method = RequestMethod.GET)
 	public String reposicao(ModelMap model) {
-		List<Frequencia> frequencias = frequenciaService.getFrequenciaRepor();
-		frequencias.get(0);
-		return "redirect:/periodo/periodos";
+		
+//		model.addAttribute("objeto", frequenciaService.getFrequenciaRepor());
+		return "coordenador/reposicao";
 	}
-	
-	
-	
+
+	@RequestMapping(value = "/reposicao-atraso", method = RequestMethod.POST)
+	public String reposicaoAtraso(ModelMap model, @RequestParam("turma") Long idTurma) {
+		if (idTurma != null) {
+			model.addAttribute("reposicao", "ATRASADO");
+			model.addAttribute("objeto", frequenciaService.getReposicaoAtraso(idTurma));
+		}
+		return "coordenador/reposicao";
+	}
+
+	@RequestMapping(value = "/reposicao-falta", method = RequestMethod.POST)
+	public String reposicaoFalta(ModelMap model, @RequestParam("turma") Long idTurma) {
+		if (idTurma != null) {
+			model.addAttribute("reposicao", "FALTA");
+			model.addAttribute("objeto", frequenciaService.getReposicaoFalta(idTurma));
+		}
+		return "coordenador/reposicao";
+	}
+
+	@RequestMapping(value = "/agendar-reposicao.json", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody Model agendarReposicao(Model model, @RequestParam("turma") Long idTurma, @RequestParam("estagiario") Long idEstagiario, @RequestParam("status") StatusFrequencia statusFrequencia, @RequestParam("data") String dataReposicao) {
+		Date reposicao = null;
+		try {
+			DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern("dd/MM/yyyy");
+			DateTime date = dateTimeFormatter.parseDateTime(dataReposicao);
+			reposicao = date.toDate();
+			SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+			Date today;
+				today = format.parse(format.format(new Date()));
+				if(reposicao.before(today)) {
+					model.addAttribute("erro", true);
+					model.addAttribute("msg", true);
+					return model;
+				}
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}		
+
+		Frequencia frequenciaAgendada = new Frequencia();
+
+		if (statusFrequencia.equals(StatusFrequencia.ATRASADO)) {
+			List<Frequencia> frequencias = frequenciaService.getFrequenciaStatus(idTurma, idEstagiario, statusFrequencia, 2);
+
+			if (frequencias.size() == 2) {
+
+				frequenciaAgendada.setData(reposicao);
+				frequenciaAgendada.setEstagiario(frequencias.get(0).getEstagiario());
+				frequenciaAgendada.setTurma(frequencias.get(0).getTurma());
+				frequenciaAgendada.setTipoFrequencia(TipoFrequencia.REPOSICAO);
+				frequenciaAgendada.setStatusFrequencia(StatusFrequencia.AGUARDO);
+
+				for (Frequencia frequenciaComAtraso : frequencias) {
+					frequenciaComAtraso.setStatusFrequencia(StatusFrequencia.REPOSICAO_ATRASO);
+//					serviceFrequencia.update(frequenciaComAtraso);
+				}
+//				serviceFrequencia.save(frequenciaAgendada);
+				model.addAttribute("sucesso", true);
+			}
+			
+			
+		} 
+		
+		else if (statusFrequencia.equals(StatusFrequencia.FALTA)) {
+			List<Frequencia> frequencias = frequenciaService.getFrequenciaStatus(idTurma, idEstagiario, statusFrequencia, 1);
+
+			if (frequencias.size() == 1) {
+				frequenciaAgendada.setData(reposicao);
+				frequenciaAgendada.setEstagiario(frequencias.get(0).getEstagiario());
+				frequenciaAgendada.setTurma(frequencias.get(0).getTurma());
+				frequenciaAgendada.setTipoFrequencia(TipoFrequencia.REPOSICAO);
+				frequenciaAgendada.setStatusFrequencia(StatusFrequencia.AGUARDO);
+
+				for (Frequencia frequenciaComFalta : frequencias) {
+					frequenciaComFalta.setStatusFrequencia(StatusFrequencia.REPOSICAO_FALTA);
+//					serviceFrequencia.update(frequenciaComAtraso);
+				}
+//				serviceFrequencia.save(frequenciaAgendada);
+				model.addAttribute("sucesso", true);
+			}
+
+		}
+		return model;
+	}
+
 /* 	FINAL REPOSICAO */
 
 /* UTILS */

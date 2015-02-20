@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import ufc.quixada.npi.gp.model.Frequencia;
 import ufc.quixada.npi.gp.model.Turma;
+import ufc.quixada.npi.gp.model.enums.StatusFrequencia;
 import br.ufc.quixada.npi.service.GenericService;
 
 public interface FrequenciaService extends GenericService<Frequencia>{
@@ -19,7 +20,13 @@ public interface FrequenciaService extends GenericService<Frequencia>{
 
 	List<Frequencia> getFrequencias(Date data, Turma turma);
 
-	List<Frequencia> getFrequenciaRepor();
+	List<Object> getFrequenciaRepor();
+
+	List<Object> getReposicaoAtraso(Long idTurma);
+
+	List<Object> getReposicaoFalta(Long idTurma);
+
+	List<Frequencia> getFrequenciaStatus(Long turma, Long estagiario, StatusFrequencia statusFrequencia, int limit);
 
 	@Transactional
 	void atualizarStatus();

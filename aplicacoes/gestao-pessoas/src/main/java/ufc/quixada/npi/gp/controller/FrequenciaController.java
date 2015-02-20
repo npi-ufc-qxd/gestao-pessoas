@@ -1,5 +1,7 @@
 package ufc.quixada.npi.gp.controller;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -9,7 +11,10 @@ import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 
+import org.joda.time.DateTime;
 import org.joda.time.LocalTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,6 +32,7 @@ import ufc.quixada.npi.gp.model.Frequencia;
 import ufc.quixada.npi.gp.model.FrequenciaJson;
 import ufc.quixada.npi.gp.model.Turma;
 import ufc.quixada.npi.gp.model.enums.StatusFrequencia;
+import ufc.quixada.npi.gp.model.enums.TipoFrequencia;
 import ufc.quixada.npi.gp.service.EstagiarioService;
 import ufc.quixada.npi.gp.service.FrequenciaService;
 import ufc.quixada.npi.gp.service.TurmaService;
@@ -93,7 +99,7 @@ public class FrequenciaController {
 		}
 		return "coordenador/list-frequencias";
 	}	
-
+	
 /* UTILS */
 	private boolean isHoraPermitida(Date horaInicio, Date horaFinal) {
 		LocalTime inicio = new LocalTime(horaInicio);

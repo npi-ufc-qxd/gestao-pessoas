@@ -1,15 +1,12 @@
 package ufc.quixada.npi.gp.model.enums;
 
 public enum StatusFrequencia {
-	PRESENTE("Presente", 100), ATRASADO("Atrasado", 50), FALTA("Falta", 0), AGUARDO("Aguardando dia", -1);	
+	PRESENTE("Presente"), ATRASADO("Atrasado"), FALTA("Falta"), AGUARDO("Aguardando dia"), REPOSICAO_ATRASO("Reposição para atraso"), REPOSICAO_FALTA("Reposição para falta");	
 	
 	private String label;
-	
-	private int porcentagem;
-	
-	private StatusFrequencia(String label, int porcentagem) {
+
+	private StatusFrequencia(String label) {
 		this.label = label;
-		this.porcentagem = porcentagem;
 	}
 
 	public String getLabel() {
@@ -20,13 +17,4 @@ public enum StatusFrequencia {
 		this.label = label;
 	}
 
-	public int getPorcentagem() {
-		return porcentagem;
-	}
-
-
-	public void setPorcentagem(int porcentagem) {
-		this.porcentagem = porcentagem;
-	}
-	
 }

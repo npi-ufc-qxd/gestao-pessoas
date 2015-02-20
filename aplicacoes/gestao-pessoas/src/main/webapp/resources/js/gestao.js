@@ -59,6 +59,27 @@ $(document).ready(function() {
 		}
 	});	
 	
+	/* FILTRO REPOSICAO */
+	$('.reposicaoTurma').change(function(event) {
+		turma = $(this).val().trim();
+
+		if (isNaN(turma)) {
+			$("#turma").selectpicker('hide');
+		} else {
+			$("#statusReposicao").selectpicker('show');
+		}
+	});
+	
+	$('.filtroReposicaoStatus').change(function(event) {
+		var status = $(this).val().trim();
+
+		if (status === 'ATRASADO') {
+			loadEstagiariosTurma(turma, '/gestao-pessoas/coordenador/reposicao-atraso');
+		} else if (status === 'FALTA') {
+			loadEstagiariosTurma(turma, '/gestao-pessoas/coordenador/reposicao-falta');
+		}
+
+	});	
 });
 	
 /* FUNCTIONS FILTRO PARA ESTAGIARIOS */
@@ -85,13 +106,50 @@ function loadEstagiariosTurma(turma, url) {
 	});
 }
 
+function agendarReposicao(turma, estagiario, status, dataReposicao, li) {
+
+	$.ajax({
+		type: "POST",
+		data: {
+			"turma" : turma,
+			"estagiario" : estagiario,
+			"status" : status,
+			"data" : dataReposicao,
+		},
+		url: '/gestao-pessoas/coordenador/agendar-reposicao.json',
+		success: function(result) {
+			alert('sucesso');
+		},
+		error: function(error) {
+			alert(error.msg + 'erro' + error.erro);
+		}
+	});
+}
+
 function loadEstagiarios(result) {
+
+	$("#viewEstagiarios").html($(result).find("#viewEstagiarios"));
+
 	$(".data").datepicker({
 		language: 'pt-BR',
 		autoclose: true,
 		format: "dd/mm/yyyy"
 	});
-
-	$("#viewEstagiarios").html($(result).find("#viewEstagiarios"));
-
+	
+	$('.agendarreposicao').on('click', function(event) {
+		var estagiario = $(this).data('estagiario');
+		var dataReposicao = $($(this).data('input')).val();
+		var li = $(this).data('li');
+		var status = $('#statusReposicao').val().trim();
+		console.log(li);
+		console.log(dataReposicao);
+		console.log(status);
+		console.log(turma);
+		console.log(estagiario);
+		console.log('click');
+		
+		agendarReposicao(turma, estagiario, status, dataReposicao, li);
+		
+	});
+	
 }

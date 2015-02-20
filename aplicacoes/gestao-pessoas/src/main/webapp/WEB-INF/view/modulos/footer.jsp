@@ -15,6 +15,7 @@
 <script src="<c:url value="/resources/js/bootbox.min.js" />"></script>
 <script src="<c:url value="/resources/js/moment-with-locales.js" />"></script>
 <script src="<c:url value="/resources/js/flippant.min.js" />"></script>
+<script src="<c:url value="/resources/js/frequencia.js" />"></script>
 <script src="<c:url value="/resources/js/gestao.js" />"></script>
 
 <script src="<c:url value="/webjars/jquery-maskedinput/1.3.1/jquery.maskedinput.min.js" />"></script>

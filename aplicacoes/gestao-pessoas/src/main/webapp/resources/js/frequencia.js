@@ -19,6 +19,7 @@ $(document).ready(function() {
 	
 	/* FILTRO PERIODO E TURMA */
 	$('#turmaFiltro').selectpicker('hide');
+	$('#statusReposicao').selectpicker('hide');
 	$("#viewFrequencias").addClass('hidden');
 	
 	moment.locale('pt-br');
@@ -95,6 +96,7 @@ $(document).ready(function() {
 			loadTurmasByPeriodo(ano, semestre);
 		} else {
 			$('#turmaFiltro').selectpicker('hide');
+			$('.reposicao').selectpicker('hide');
 			$("#viewFrequencias").addClass('hidden');
 		}
 	}

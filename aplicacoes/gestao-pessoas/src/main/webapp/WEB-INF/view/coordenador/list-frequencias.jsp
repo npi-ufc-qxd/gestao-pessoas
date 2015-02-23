@@ -36,7 +36,9 @@
 				<select id="turmaFiltro" name="turma" class="selectpicker filtroTurma frequenciasTurma" data-width="auto"></select>
 			</div>
 		</form>
-		
+	</div>
+
+	<div class="container">
 		<div id="viewFrequencias" class="hidden">
 			<div class="form" align="center">
 				<h1>Frequências</h1>
@@ -54,7 +56,7 @@
 					<tr>
 						<td data-column-id="4" data-order="asc">Nome</td>
 						<td data-column-id="1" data-css-class="observacao">Observação</td>
-						<td data-column-id="3" data-order="asc">Status</td>
+						<td data-column-id="3" data-order="asc" data-css-class="status">Status</td>
 						<td data-column-id="acoes" data-formatter="acoes" data-sortable="false" data-searchable="false">Ações</td>
 					</tr>
 				</thead>

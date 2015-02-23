@@ -12,7 +12,9 @@
 <script src="<c:url value="/resources/js/bootstrap-datepicker.js" />"></script>
 <script src="<c:url value="/resources/js/bootstrap-datepicker.pt-BR.js" />"></script>
 <script src="<c:url value="/resources/js/jquery.dataTables.min.js" />"></script>
-
+<script src="<c:url value="/resources/js/flippant.min.js" />"></script>
+<script src="<c:url value="/webjars/x-editable-bootstrap/1.5.1/js/bootstrap-editable.min.js" />"></script>
+<script src="<c:url value="/resources/js/jquery.bootgrid.min.js" />"></script>
 
 <footer class="gp-footer footer-height">
 	<p>Universidade Federal do Ceará - Todos os direitos reservados &copy;.</p>

@@ -57,7 +57,7 @@
 						<li id="periodos"><a class="hvr-sweep-to-top" href="<c:url value="/coordenador/periodos" />">Periodos <span class="fa fa-calendar"></span></a></li>
 						<li id="turmas"><a class="hvr-sweep-to-top" href="<c:url value="/turma/minhas-turmas" />">Minhas Turmas <span class="fa fa-th-list"></span></a></li>
 						<li id="estagiarios"><a class="hvr-sweep-to-top" href="<c:url value="/coordenador/estagiarios" />">Estagiários <span class="fa fa-user"></span></a></li>
-						<li id="frequencias"><a class="hvr-sweep-to-top" href="<c:url value="/frequencia/frequencias" />">Frequência <span class="fa fa-check-square-o"></span></a></li>
+						<li id="menu-frequencias"><a class="hvr-sweep-to-top" href="<c:url value="/frequencia/frequencias" />">Frequência <span class="fa fa-check-square-o"></span></a></li>
 						<li id="estagiarios"><a class="hvr-sweep-to-top" href="<c:url value="/coordenador/reposicao" />">Reposições <span class="fa fa-cogs"></span></a></li>
 					</ul><!-- Final Menu Cordenador -->
 				</sec:authorize>

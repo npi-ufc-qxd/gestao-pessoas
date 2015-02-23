@@ -42,12 +42,6 @@ public class Estagiario {
 	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	private Date dataNascimento;
 
-	private String numeroCarteiraDeTrabalho;
-
-	private String serieCarteiraDeTrabalho;
-	
-	private Date expedicaoCarteiraDeTrabalho;
-
 	@Enumerated(EnumType.STRING)
 	private Curso curso;
 

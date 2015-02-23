@@ -4,7 +4,7 @@
 
 <html>
 <head>
-	<title>Minha Presença</title>
+	<title>Minha Presença oioi</title>
 	<jsp:include page="../modulos/header-estrutura.jsp" />
 </head>
 <body>
@@ -12,10 +12,10 @@
 	
 	<div class="container">
 		<c:if test="${not empty msg}">
-			<div class="msg"> <i class="fa fa-info-circle"></i>${msg}</div>
+			<div class="alert alert-info msg"> <i class="fa fa-info-circle"> </i> ${msg}</div>
 		</c:if>
-	
-		<c:if test="${liberarPresenca}"><!-- Tela de Cadastro para Inicio no NPI -->
+
+		<c:if test="${liberarPresenca}">
 			<div class="panel panel-primary">
 				<div class="panel-heading">
 					<h3 class="panel-title">Minha Presença</h3>
@@ -27,9 +27,9 @@
 						</c:if>
 	
 				        <div class="form-group">
-				            <label for="login" class="control-label col-xs-2">Login</label>
+				            <label for="cpf" class="control-label col-xs-2">CPF</label>
 				            <div class="col-xs-10">
-				                <input type="text" class="form-control" id="login" name="login" placeholder="Login">
+				                <input type="text" class="form-control cpfNumeros" id="cpf" name="cpf" placeholder="CPF">
 				            </div>
 				        </div>
 				        <div class="form-group">

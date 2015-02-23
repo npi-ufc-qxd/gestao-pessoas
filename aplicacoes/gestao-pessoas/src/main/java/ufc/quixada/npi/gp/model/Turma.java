@@ -22,7 +22,7 @@ public class Turma {
 	private String nome;
 
 	@OneToMany(cascade = {CascadeType.REFRESH, CascadeType.MERGE, CascadeType.PERSIST})
-	@JoinColumn(name= "tuma_id")
+	@JoinColumn(name= "turma_id")
 	List<Horario> horarios;
 
 	@OneToOne//(fetch = FetchType.LAZY)

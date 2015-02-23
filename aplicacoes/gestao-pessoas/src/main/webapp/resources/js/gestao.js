@@ -1,9 +1,16 @@
 $(document).ready(function() {
+	
 	$('[data-toggle="tooltip"]').tooltip();
+	$('[data-toggle="popover"]').popover()
 
 	$(".ano").mask("9999");	
 	$(".hora").mask("99:99");
 	$(".cpf").mask("999.999.999-99");
+	$(".cpfNumeros").mask("99999999999");
+	$(".cep").mask("99.999-999");
+	$(".matricula").mask("9999999");
+	$(".telefone").mask("(99) - 9999-9999");
+	$(".semestre").mask("99");
 
 	$('#adicionarProjetoForm').validate({
         rules: {
@@ -158,6 +165,9 @@ $(document).ready(function() {
 			telefone : {
 				required : "Campo obrigatório",
 			},
+			cep : {
+				required : "Campo obrigatório",
+			},
 		}
 	});	
 
@@ -174,7 +184,13 @@ $(document).ready(function() {
         errorElement: 'span',
         errorClass: 'help-block',
         errorPlacement: function(error, element) {
-            error.insertAfter(element.parent().children().last());
+        	
+        	error.insertAfter(element.parent().children().last());
+        	
+        	if (element.hasClass('customError')) {
+                error.appendTo($('#minha-turma'));
+        	}
+        	
         },
         messages:{
         	contaRedmine : {
@@ -186,14 +202,44 @@ $(document).ready(function() {
         	contaHangout : {
         		required : "Campo obrigatório",
         	},
+        	"turma.id" : {
+        		required : "Campo obrigatório",
+        	},
 		}
 	});	
+	
 
 	$(".data").datepicker({
 		language: 'pt-BR',
 		autoclose: true,
-		format: "dd/mm/yyyy"
+		format: "dd/mm/yyyy",
+		orientation: "top auto",
+//		daysOfWeekDisabled: "0,6"
 	});
+	
+//	$('.statusFrequencia a').editable({
+//	    type: 'select',
+//	    url: '#',
+//        value: 'ATRASADO',
+//        source: [
+//                 {value: 'PRESENTE', text: 'Presente' },
+//                 {value: 'ATRASADO', text: 'Atrasado'},
+//               	 {value: 'FALTA', text: 'Falta'} 
+//        ],
+//   		success: function(response, newValue) {
+//   		}	
+//	});
+//
+//	$('.observacaoFrequencia a').editable({
+//	    type: 'textarea',
+//	    url: '',
+//	    rows: 4,
+//	    placeholder: 'Observação',
+//	    emptytext: 'Obs.:',
+//	    emptyclass: 'label label-info',
+//   		success: function(response, newValue) {
+//   		}	
+//	});
 
 });
 

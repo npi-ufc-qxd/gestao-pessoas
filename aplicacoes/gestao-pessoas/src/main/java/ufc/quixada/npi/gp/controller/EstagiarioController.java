@@ -78,59 +78,103 @@ public class EstagiarioController {
 		Estagiario estagiario = estagiarioService.getEstagiarioByPessoaId(getUsuarioLogado(session).getId());
 		
 		if(estagiario == null){
-			modelMap.addAttribute("estagiarioCadastrado", true);
+			modelMap.addAttribute("estagiarioCadastrado", false);
 			modelMap.addAttribute("estagiario", new Estagiario());
 		}else{
-			modelMap.addAttribute("estagiarioCadastrado", false);
+			modelMap.addAttribute("estagiarioCadastrado", true);
 			modelMap.addAttribute("estagiario", estagiario);
+
+			if (estagiario.getTurma() == null) {
+				List<Turma> turmas = turmaService.getTurmasAno(String.valueOf(new DateTime().getYear()), StatusPeriodo.ABERTO);
+				modelMap.addAttribute("turmasSelect", turmas);
+			}
+			
 		}
 		return "estagiario/inicial";
 	}
 	
 	@RequestMapping(value = "/meu-cadastro-npi", method = RequestMethod.POST)
-	public String adicionarEstagiario(@Valid @ModelAttribute("estagiario") Estagiario estagiario, BindingResult result, HttpSession session, RedirectAttributes redirect) {
+	public String adicionarEstagiario(@Valid @ModelAttribute("estagiario") Estagiario estagiario, BindingResult result, HttpSession session, RedirectAttributes redirect, Model model) {
 		
 		if (result.hasErrors()) {
-			return "estagiario/meu-cadastro-npi";
+			return "estagiario/inicial";
 		}
 		
 		Pessoa pessoa = getUsuarioLogado(session);
-		
 		estagiario.setPessoa(pessoa);
-		//estagiario.setTurma(turmaService.find(Turma.class, estagiario.getTurma().getId()));
 
 		estagiarioService.save(estagiario);
 		
-		//List<Frequencia> frequencias = gerarFrequencia(estagiario);
-		
-		//estagiario.setFrequencias(frequencias);
-		
-		//estagiario.getTurma().setFrequencias(estagiario.getFrequencias());
-
-		//estagiarioService.update(estagiario);
-		
 		redirect.addFlashAttribute("info", "Parabéns, " + pessoa.getNome() + ", seu cadastro foi realizado com sucesso!");
+		model.addAttribute("estagiarioCadastrado", true);
+		model.addAttribute("estagiario", estagiario);
 		return "redirect:/estagiario/inicial";
 	}	
-	
+
+	@RequestMapping(value = "/contas-turma", method = RequestMethod.POST)
+	public String adicionarContasETurma(@Valid @ModelAttribute("estagiario") Estagiario estagiario, BindingResult result, HttpSession session, RedirectAttributes redirect, Model model) {
+		
+		model.addAttribute("estagiarioCadastrado", true);
+		if (estagiario.getId() == null || estagiario.getTurma().getId() == null ||
+				estagiario.getContaGithub().isEmpty() || 
+				estagiario.getContaHangout().isEmpty() || 
+				estagiario.getContaRedmine().isEmpty()
+				) {
+			model.addAttribute("erro", "Todos dos Campos são obrigatórios.");
+			model.addAttribute("estagiario", estagiario);
+			List<Turma> turmas = turmaService.getTurmasAno(String.valueOf(new DateTime().getYear()), StatusPeriodo.ABERTO);
+			model.addAttribute("turmasSelect", turmas);
+			
+			return "estagiario/inicial";
+		}
+		
+		Estagiario estagiarioBanco = estagiarioService.find(Estagiario.class, estagiario.getId());
+		estagiarioBanco.setContaGithub(estagiario.getContaGithub());
+		estagiarioBanco.setContaHangout(estagiario.getContaHangout());
+		estagiarioBanco.setContaRedmine(estagiario.getContaRedmine());
+		estagiarioBanco.setTurma(turmaService.find(Turma.class, estagiario.getTurma().getId()));
+
+		List<Frequencia> frequencias = gerarFrequencia(estagiarioBanco);
+		estagiarioBanco.setFrequencias(frequencias);
+//		estagiarioBanco.getTurma().setFrequencias(estagiarioBanco.getFrequencias());
+
+		estagiarioService.update(estagiarioBanco);
+		
+		redirect.addFlashAttribute("info", "Parabéns, " + estagiarioBanco.getPessoa().getNome() + ", seu cadastro foi realizado com sucesso!");
+		model.addAttribute("estagiario", estagiarioBanco);
+		return "redirect:/estagiario/inicial";
+	}
+
 	@RequestMapping(value = "/minha-presenca", method = RequestMethod.GET)
 	public String minhaPresenca(HttpSession session, Model model) {
 		boolean liberarPresenca = true;
 
 		Frequencia frequencia = frequenciaService.getFrequenciaDeHojeByEstagiario(estagiarioService.getEstagiarioByPessoaId(getUsuarioLogado(session).getId()).getId());
-		
-		if(frequencia == null || frequencia.getStatusFrequencia() != StatusFrequencia.AGUARDO){
-			model.addAttribute("msg", "Sua presença não esta liberada, procure o coordenador.");
+
+		if (frequencia != null) {
+
+			if(frequencia.getStatusFrequencia() == StatusFrequencia.AGUARDO) {
+				liberarPresenca = true;
+			}
+
+			if(frequencia.getStatusFrequencia() == StatusFrequencia.PRESENTE) {
+				model.addAttribute("msg", "Presença confirmada!!!");
+				liberarPresenca = false;
+			} 
+			
+		} else {
+			model.addAttribute("msg", "Sua presença não esta liberada, procure o supervisor.");
 			liberarPresenca = false;
 		}
+
 		model.addAttribute("liberarPresenca", liberarPresenca);
 		return "estagiario/minha-presenca";
 	}
 	
 	@RequestMapping(value = "/minha-presenca", method = RequestMethod.POST)
-	public String presenteNPI(HttpSession session, @RequestParam("login") String login, @RequestParam("senha") String senha) {
+	public String presenteNPI(HttpSession session, @RequestParam("cpf") String cpf, @RequestParam("senha") String senha) {
 		ShaPasswordEncoder encoder = new ShaPasswordEncoder(256);
-		Estagiario estagiario = estagiarioService.getEstagiarioPesssoa(login, encoder.encodePassword(senha, ""));
+		Estagiario estagiario = estagiarioService.getEstagiarioPesssoa(cpf, encoder.encodePassword(senha, ""));
 
 		Set<LocalDate> dataDosFeriados = new HashSet<LocalDate>();
 		for (Folga folga : estagiario.getTurma().getPeriodo().getFolgas()) {
@@ -145,17 +189,10 @@ public class EstagiarioController {
 		boolean diaDeTrabalho = UtilGestao.isDiaTrabaho(estagiario.getTurma().getHorarios());
 		
 		LocalDate dia = new LocalDate();
-		Frequencia frequencia = new Frequencia();
 		if( (!calendario.isNonWorkingDay(dia) ) && ( diaDeTrabalho && horarioDeTrabalho ))
 		{
-			for (Frequencia f : estagiario.getFrequencias()) {
-				LocalDate data  = new LocalDate(f.getData());
-				if(data.equals(dia)){
-					frequencia = f;
-					break;
-				}
-			}
-			
+			Frequencia frequencia = frequenciaService.getFrequenciaDeHojeByEstagiario(estagiarioService.getEstagiarioByPessoaId(getUsuarioLogado(session).getId()).getId());
+
 			if(frequencia.getStatusFrequencia().equals(StatusFrequencia.AGUARDO)){
 				frequencia.setStatusFrequencia(StatusFrequencia.PRESENTE);
 				frequenciaService.update(frequencia);
@@ -204,16 +241,7 @@ public class EstagiarioController {
 		redirect.addFlashAttribute("info", "Parabéns, seu cadastro esta realizado.");
 		return "redirect:/login";
 	}
-	
-	@RequestMapping(value = "/minha-turma", method = RequestMethod.GET)
-	public String minhaTurma(HttpSession session, Model model) {
-		int ano = new DateTime().getYear();
-		List<Turma> turmas = turmaService.getTurmasAno(String.valueOf(ano), StatusPeriodo.ABERTO);
-		
-		return "estagiario/minha-turma";
-	}
-	
-	
+
 	@RequestMapping(value = "/teste", method = RequestMethod.GET)
 	public void teste(HttpSession session, Model model) {
 		gerarFrequencia(estagiarioService.find(Estagiario.class, 2L));
@@ -239,9 +267,10 @@ public class EstagiarioController {
 		List<Frequencia> frequencias = new ArrayList<Frequencia>();
 		int cont = 0;
 		while (!inicioPeriodoTemporario.isAfter(fimPeriodo)) {
+			System.out.println(!inicioPeriodoTemporario.isAfter(fimPeriodo));
 			cont++;
 
-			if (UtilGestao.isDiaTrabaho(estagiario.getTurma().getHorarios())) {
+			if (UtilGestao.isDiaTrabahoTurma(estagiario.getTurma().getHorarios(), inicioPeriodoTemporario)) {
 				Frequencia frequencia = new Frequencia();				
 				
 				frequencia.setTipoFrequencia(TipoFrequencia.NORMAL);				
@@ -249,18 +278,18 @@ public class EstagiarioController {
 				frequencia.setEstagiario(estagiario);
 				frequencia.setTurma(estagiario.getTurma());
 				
-				if (!calendario.isNonWorkingDay(inicioPeriodoTemporario)) {
+				if (calendario.isNonWorkingDay(inicioPeriodoTemporario)) {
 					frequencia.setStatusFrequencia(StatusFrequencia.FERIADO);
 				} else {
 					frequencia.setStatusFrequencia(StatusFrequencia.AGUARDO);
 				}
 				
-				
 				frequencias.add(frequencia);
 
 				System.out.println("Dia de Estagio" + inicioPeriodoTemporario.getDayOfWeek() + " - " + fimPeriodo.toString() );
 			}
-			inicioPeriodoTemporario.plusDays(1);
+			inicioPeriodoTemporario = inicioPeriodoTemporario.plusDays(1);
+			System.out.println("while cont " + inicioPeriodoTemporario.toString());
 		}	
 		System.out.println("while cont " + cont);
 		

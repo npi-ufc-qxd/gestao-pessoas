@@ -237,6 +237,8 @@ function loadFrequenciaTurma(data, turma) {
 		},
 		success: function(result) {
 			lBootgrid(result);
+			$('#turmaFiltro').find('option[value="' + turma + '"]').attr('selected', true);
+			$('.selectpicker').selectpicker('refresh');
 		},
 		error: function(error) {
 			console.log('ERROR: ' + error);
@@ -251,7 +253,10 @@ function loadFrequenciaTurma(data, turma) {
 
 function lBootgrid(result, table) {
 	
-	console.log("R = " + result);
+	$.each( result, function( key, value ) {
+		console.log( key + ": " + value );
+		console.log( result[0][0] );
+	});
 	
 	$("#frequencias")
 		.bootgrid({
@@ -273,12 +278,12 @@ function lBootgrid(result, table) {
 		}).bootgrid("clear").bootgrid("append", result).on("loaded.rs.jquery.bootgrid", function (e){
 			 $.fn.editable.defaults.mode = 'poupop';     
 	    
-//		    $('.observacao').editable({
-//		    	url : '/gestao-pessoas/frequencia/observacao',
-//		    	title : 'Observaçao',
-//		    	type : 'textarea'
-//		    });
-//		    
+		    $('.observacao').editable({
+		    	url : '/gestao-pessoas/frequencia/observacao',
+		    	title : 'Observaçao',
+		    	type : 'textarea'
+		    });
+		    
 		    $('.status').editable({
 		    	url : '/gestao-pessoas/frequencia/atualizarStatus',
 		        type: 'select',
@@ -295,18 +300,27 @@ function lBootgrid(result, table) {
 		        ]
 		    });
 		}).on("click.rs.jquery.bootgrid", function (e, cols, rows) {
+			
+			$.each( cols, function( key, value ) {
+				console.log( key + ": " + value );
+			});			
+
+			$.each( rows, function( key, value ) {
+				console.log( key + ": " + value );
+			});			
 
 		    console.log("CLICKED/");
 		    console.log("e = " + e);
 		    console.log("cols = " + cols);
-		    console.log("rows.id = " + rows.id);
+		    console.log("rows.id = " + rows[0]);
 		    console.log("this = " + $(this).text());
 		    
-		    observar(rows.id);
+		    observar(rows[0]);
 		});
 }
 
 function observar(id){
+	alert('sfdgasdfgsadfd')
     console.log("observar(id) = " + id);
     $('.observacao').editable({
     	url : '/gestao-pessoas/frequencia/observacao',
@@ -335,8 +349,10 @@ function loadEstagiariosTurma(turma, url) {
 		},
 		success: function(result) {
 			loadEstagiarios(result);
+			
 			$('#turmaFiltro').find('option[value="' + turma + '"]').attr('selected', true);
 			$('.selectpicker').selectpicker('refresh');
+			alert('OI ' + turma)
 		},
 		error: function(error) {
 			$('#turma').hide();

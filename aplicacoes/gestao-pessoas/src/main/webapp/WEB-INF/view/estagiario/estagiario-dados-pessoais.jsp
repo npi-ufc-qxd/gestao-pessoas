@@ -6,28 +6,15 @@
 <div id="inicioEstagiarioNPI" class="flippant-back flippant-modal-dark flipper flipped" style="position: fixed; min-height: 136px; z-index: 9999;">
 
 	<div class="container">
-		<h2 id="titulo-cadastro-npi"><a class="header-anchor" href="#"><span class="glyphicon glyphicon-link"></span></a>Meu cadastro no NPI</h2>
-		<form:form id="meuCadastroNPIEstagiario" role="form" commandName="estagiario" modelAttribute="estagiario" servletRelativeAction="/estagiario/meu-cadastro-npi" method="POST" cssClass="form-horizontal">
+		<h2 id="titulo-cadastro-npi"><a class="header-anchor" href="#"><span class="glyphicon glyphicon-link"></span></a> Meu cadastro no NPI</h2>
+		<form:form id="adicionarDadosPessoaisEstagiarioForm" role="form" commandName="estagiario" modelAttribute="estagiario" servletRelativeAction="/estagiario/meu-cadastro-npi" method="POST" cssClass="form-horizontal">
 			<div class="form-group">
 				<div class="form-item">
 					<label for="nomeCompleto" class="col-sm-2 control-label">Nome Completo:</label>
-					<div class="col-sm-5">
+					<div class="col-sm-10">
 						<form:input id="nomeCompleto" path="nomeCompleto" cssClass="form-control" placeholder="Meu nome completo" required="required" />
 						<div class="error-validation">
 							<form:errors path="nomeCompleto"></form:errors>
-						</div>
-					</div>
-				</div>
-
-				<div class="form-item">
-					<label for="dataNascimento" class="col-sm-2 control-label">Data nascimento:</label>
-					<div class="col-sm-3">
-						<form:input id="dataNascimento" type="text" path="dataNascimento" cssClass="form-control data" required="required"/>
-						<div class="error-validation">
-							<form:errors path="dataNascimento"></form:errors>
-							<c:if test="${not empty error_inicio}">
-								<span>${error_inicio}</span>
-							</c:if>
 						</div>
 					</div>
 				</div>
@@ -47,9 +34,34 @@
 
 			<div class="form-group">
 				<div class="form-item">
+					<label for="telefone" class="col-sm-2 control-label">Telefone:</label>
+					<div class="col-sm-4">
+						<form:input id="telefone" path="telefone" cssClass="form-control telefone" placeholder="Telefone" required="required" />
+					</div>
+					<div class="error-validation">
+						<form:errors path="telefone"></form:errors>
+					</div>
+				</div>
+				
+				<div class="form-item">
+					<label for="dataNascimento" class="col-sm-2 control-label">Data nascimento:</label>
+					<div class="col-sm-4">
+						<form:input id="dataNascimento" type="text" path="dataNascimento" cssClass="form-control data" required="required"/>
+						<div class="error-validation">
+							<form:errors path="dataNascimento"></form:errors>
+							<c:if test="${not empty error_inicio}">
+								<span>${error_inicio}</span>
+							</c:if>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<div class="form-item">
 					<label for="semestre" class="col-sm-2 control-label">Semestre:</label>
 					<div class="col-sm-2">
-						<form:input id="semestre" type="text" path="semestre" cssClass="form-control" placeholder="semestre" size="40" required="required" />
+						<form:input id="semestre" type="text" path="semestre" cssClass="form-control semestre" placeholder="semestre" size="40" required="required" />
 						<div class="error-validation">
 							<form:errors path="semestre"></form:errors>
 						</div>
@@ -71,7 +83,7 @@
 				<div class="form-item">
 					<label for="matricula" class="col-sm-1 control-label">Matricula:</label>
 					<div class="col-sm-3">
-						<form:input id="matricula" path="matricula" cssClass="form-control" placeholder="Matricula" required="required" />
+						<form:input id="matricula" path="matricula" cssClass="form-control matricula" placeholder="Matricula" required="required" />
 						<div class="error-validation">
 							<form:errors path="matricula"></form:errors>
 						</div>
@@ -117,22 +129,10 @@
 				<div class="form-item">
 					<label for="cep" class="col-sm-1 control-label">CEP :</label>
 					<div class="col-sm-4">
-						<form:input id="cep" path="cep" cssClass="form-control" placeholder="CEP" required="required" />
+						<form:input id="cep" path="cep" cssClass="form-control cep" placeholder="CEP" required="required" />
 						<div class="error-validation">
 							<form:errors path="cep"></form:errors>
 						</div>
-					</div>
-				</div>
-			</div>
-
-			<div class="form-group">
-				<div class="form-item">
-					<label for="telefone" class="col-sm-2 control-label">Telefone:</label>
-					<div class="col-sm-4">
-						<form:input id="telefone" path="telefone" cssClass="form-control" placeholder="Telefone" required="required" />
-					</div>
-					<div class="error-validation">
-						<form:errors path="telefone"></form:errors>
 					</div>
 				</div>
 			</div>

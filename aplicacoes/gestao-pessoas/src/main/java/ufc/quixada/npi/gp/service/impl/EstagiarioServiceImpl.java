@@ -37,11 +37,11 @@ public class EstagiarioServiceImpl extends GenericServiceImpl<Estagiario> implem
 	}
 
 	@Override
-	public Estagiario getEstagiarioPesssoa(String login, String senha) {
+	public Estagiario getEstagiarioPesssoa(String cpf, String senha) {
 		Map<String, Object> params = new HashMap<String, Object>();
-		params.put("login", login);
+		params.put("cpf", cpf);
 		params.put("senha", senha);
-		Estagiario estagiario = estagiarioRepository.findFirst(QueryType.JPQL, "select e from Estagiario e join e.pessoa p where p.login = :login and p.password = :senha", params, 0);
+		Estagiario estagiario = estagiarioRepository.findFirst(QueryType.JPQL, "select e from Estagiario e join e.pessoa p where p.cpf = :cpf and p.password = :senha", params, 0);
 		
 		return estagiario;
 	}

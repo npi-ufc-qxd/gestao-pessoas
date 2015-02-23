@@ -84,3 +84,15 @@ a {
 .filtro {
 border-bottom: 1px solid #333; background: #D3DFEA; padding: 3px;	
 }
+.horarios{ 
+	margin-left: -25px;
+	margin-right: 100px;
+}
+
+.horarios > li { 
+}
+.horarios-dias {
+	margin-bottom: 2px;
+	font-weight: bold;
+}
+

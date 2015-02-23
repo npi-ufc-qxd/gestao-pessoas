@@ -30,7 +30,7 @@
   
  	<authentication-manager>
 		<authentication-provider>
-			<password-encoder hash="sha-256"/>
+<!-- 			<password-encoder hash="sha-256"/> -->
 			<jdbc-user-service 
 				data-source-ref="gestao_pessoas" 
 				users-by-username-query="SELECT login, password, habilitado FROM pessoa WHERE login = ?"

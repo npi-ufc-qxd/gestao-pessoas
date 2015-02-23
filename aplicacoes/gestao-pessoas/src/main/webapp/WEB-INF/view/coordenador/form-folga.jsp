@@ -20,10 +20,11 @@
 				<h2>Adicionar Folga</h2>
 				<form:form id="adicionarFolgaForm" role="form" commandName="folga" servletRelativeAction="/coordenador/${periodo.id}/folga" method="POST" cssClass="form-horizontal">
 				<form:hidden path="id"/>
+
 					<div class="form-group">
 						<label for="data" class="col-sm-2 control-label">Data:</label>
 						<div class="col-sm-2" align="left">
-								<form:input id="dataFolga" path="data" cssClass="data form-control" placeholder="dd/mm/aaaa" />
+								<form:input id="dataFolga" path="data" cssClass="data form-control" placeholder="dd/mm/aaaa" required="required"/>
 								<div class="error-validation">
 									<form:errors path="data"></form:errors>
 								</div>
@@ -33,7 +34,7 @@
 					<div class="form-group">
 						<label for="descricao" class="col-sm-2 control-label">Descrição: </label>
 							<div class="col-sm-10" align="left">
-								<form:textarea id="descricao" path="descricao" cssClass="form-control" placeholder="Descrição da folga" rows="3" />
+								<form:textarea id="descricao" path="descricao" cssClass="form-control" placeholder="Descrição da folga" rows="3" required="required"/>
 								<div class="error-validation">
 									<form:errors path="descricao"></form:errors>
 								</div>
@@ -42,7 +43,6 @@
 
 					<div class="controls">
 						<input name="submit" type="submit" class="btn btn-primary" value="Cadastrar" /> 
-						<a href="<c:url value="/projeto/index"></c:url>" class="btn btn-default">Cancelar</a>
 					</div>
 
 				</form:form>
@@ -51,5 +51,39 @@
 	</div>
 
 	<jsp:include page="../modulos/footer.jsp" />
+	
+	<script type="text/javascript">
+	$(".data").datepicker({
+		language: 'pt-BR',
+		autoclose: true,
+		format: "dd/mm/yyyy"
+	});	
+
+	$('#adicionarFolgaForm').validate({
+        rules: {
+            
+        },
+        highlight: function(element) {
+            $(element).closest('.form-group').addClass('has-error');
+        },
+        unhighlight: function(element) {
+            $(element).closest('.form-group').removeClass('has-error');
+        },
+        errorElement: 'span',
+        errorClass: 'help-block',
+        errorPlacement: function(error, element) {
+            error.insertAfter(element.parent().children().last());
+        },
+        messages:{
+        	data:{
+                required:"Campo obrigatório",
+            },
+            descricao:{
+                required:"Campo obrigatório",
+            },
+        }
+    });	
+
+	</script>
 </body>
 </html>

@@ -23,20 +23,24 @@
 					<form:hidden path="id"/>
 
 					<div class="form-group">
-						<label for="nome" class="col-sm-2 control-label">Nome:</label>
-						<div class="col-sm-10">
-							<form:input id="nome" path="nome" cssClass="form-control" placeholder="Nome do projeto" />
-
-							<div class="error-validation"><form:errors path="nome"></form:errors></div>
+						<div class="form-item">
+							<label for="nome" class="col-sm-2 control-label">Nome:</label>
+							<div class="col-sm-10">
+								<form:input id="nome" path="nome" cssClass="form-control" placeholder="Nome do projeto" required="required"/>
+	
+								<div class="error-validation"><form:errors path="nome"></form:errors></div>
+							</div>
 						</div>
 					</div>
 
 					<div class="form-group">
-						<label for="descricao" class="col-sm-2 control-label">Descrição:</label>
-						<div class="col-sm-10">
-							<form:textarea id="descricao" path="descricao" class="form-control" rows="3" placeholder="Descrição do Projeto"></form:textarea>
-
-							<div class="error-validation"><form:errors path="descricao"></form:errors></div>
+						<div class="form-item">
+							<label for="descricao" class="col-sm-2 control-label">Descrição:</label>
+							<div class="col-sm-10">
+								<form:textarea id="descricao" path="descricao" class="form-control" rows="3" placeholder="Descrição do Projeto" required="required"></form:textarea>
+	
+								<div class="error-validation"><form:errors path="descricao"></form:errors></div>
+							</div>
 						</div>
 					</div>
 
@@ -53,5 +57,32 @@
 	</div>
 
 	<jsp:include page="../modulos/footer.jsp" />
+	<script type="text/javascript">
+	$('#adicionarProjetoForm').validate({
+        rules: {
+            
+        },
+        highlight: function(element) {
+            $(element).closest('.form-item').addClass('has-error');
+        },
+        unhighlight: function(element) {
+            $(element).closest('.form-item').removeClass('has-error');
+        },
+        errorElement: 'span',
+        errorClass: 'help-block',
+        errorPlacement: function(error, element) {
+            error.insertAfter(element.parent().children().last());
+        },
+        messages:{
+        	nome:{
+                required:"Campo obrigatório",
+            },
+            descricao:{
+                required:"Campo obrigatório",
+            },
+        }
+    });
+	
+	</script>
 </body>
 </html>

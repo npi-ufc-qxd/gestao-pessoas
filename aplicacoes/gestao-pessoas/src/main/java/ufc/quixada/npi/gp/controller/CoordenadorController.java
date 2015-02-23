@@ -26,17 +26,16 @@ import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import ufc.quixada.npi.gp.model.Estagiario;
 import ufc.quixada.npi.gp.model.Filtro;
 import ufc.quixada.npi.gp.model.Folga;
 import ufc.quixada.npi.gp.model.Frequencia;
-import ufc.quixada.npi.gp.model.FrequenciaJson;
 import ufc.quixada.npi.gp.model.Periodo;
 import ufc.quixada.npi.gp.model.Projeto;
 import ufc.quixada.npi.gp.model.Turma;
@@ -220,19 +219,27 @@ public class CoordenadorController {
 	}
 
 	@RequestMapping(value = "/periodo", method = RequestMethod.POST)
-	public String adicionarPeriodo(ModelMap model, @Valid @ModelAttribute("periodo") Periodo periodo, BindingResult result) {
+	public String adicionarPeriodo(ModelMap model, @Valid @ModelAttribute("periodo") Periodo periodo, BindingResult result, RedirectAttributes redirectAttributes) {
 
 		if (result.hasErrors()) {
-			return "periodo/formTurma";
+			return "coordenador/form-periodo";
 		}
 
 		if (periodo.getId() == null) {
-			servicePeriodo.save(periodo);
+			
+			try {
+				servicePeriodo.save(periodo);
+			} catch (Exception e) {
+				model.addAttribute("erro", "O periodo "  + periodo.getAno() + "." + periodo.getSemestre() + " já esta cadastrado.");
+				return "coordenador/form-periodo";
+			}
+			
 		} else {
 			servicePeriodo.update(periodo);
 		}
 
-		return "redirect:/periodo/periodos";
+		redirectAttributes.addAttribute("erro", "Periodo " + periodo.getAno() + "." + periodo.getSemestre() + " cadastrado com sucesso.");
+		return "redirect:/coordenador/periodos";
 	}
 
 	@RequestMapping(value = "/{idPeriodo}/detalhes", method = RequestMethod.GET)
@@ -251,8 +258,16 @@ public class CoordenadorController {
 	}
 
 	@RequestMapping(value = "/{idPeriodo}/folga", method = RequestMethod.POST)
-	public String adicionarFolgaPeriodo(@PathVariable("idPeriodo") Long idPeriodo, @ModelAttribute("folga") Folga folga, ModelMap model) {
-		folga.setPeriodo(servicePeriodo.find(Periodo.class, idPeriodo));
+	public String adicionarFolgaPeriodo(@PathVariable("idPeriodo") Long idPeriodo, @Valid @ModelAttribute("folga") Folga folga, BindingResult result, ModelMap model) {
+		
+		Periodo periodo = servicePeriodo.find(Periodo.class, idPeriodo);
+		
+		if (result.hasErrors()) {
+			model.addAttribute("periodo", periodo);
+			return "coordenador/form-folga";
+		}
+
+		folga.setPeriodo(periodo);
 
 		serviceFolga.save(folga);
 		return "redirect:/periodo/periodos";
@@ -323,6 +338,8 @@ public class CoordenadorController {
 				}
 //				serviceFrequencia.save(frequenciaAgendada);
 				model.addAttribute("sucesso", true);
+			} else {
+				
 			}
 			
 			

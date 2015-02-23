@@ -22,6 +22,8 @@
 	</div>
 
 	<jsp:include page="../modulos/footer.jsp" />
+	<script src="<c:url value="/resources/js/bootbox.min.js" />"></script>
+	<script src="<c:url value="/resources/js/flippant.min.js" />"></script>
 	<script src="<c:url value="/resources/js/fuelux.min.js" />"></script>
 	
 

@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -21,8 +22,10 @@ public class Folga {
 	
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern = "dd/MM/yyyy")
+	@NotNull(message = "A data é obrigatoria.")
 	private Date data;
 	
+	@NotNull(message = "A descrição é obrigatoria.")
 	private String descricao;
 
 	@ManyToOne

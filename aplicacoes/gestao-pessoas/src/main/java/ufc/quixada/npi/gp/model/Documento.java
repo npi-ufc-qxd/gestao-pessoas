@@ -26,20 +26,20 @@ public class Documento {
 	private byte[] arquivo;
 
 	@ManyToOne
-	@JoinColumn(name = "projeto_id")
-	private Projeto projeto;
+	@JoinColumn(name = "pessoa_id")
+	private Pessoa pessoa;
 	
 	public Documento(){
 		super();
 	}	
 	
-	public Documento(String nomeOriginal, String nome, String tipo, byte[] arquivo, Projeto projeto){
+	public Documento(String nomeOriginal, String nome, String tipo, byte[] arquivo, Pessoa pessoa){
 		super();
 		this.nomeOriginal = nomeOriginal;
 		this.nome = nome;
 		this.tipo = tipo;
 		this.arquivo = arquivo;
-		this.projeto = projeto;
+		this.pessoa = pessoa;
 	}
 	
 	public Long getId() {
@@ -66,12 +66,12 @@ public class Documento {
 		this.nome = nome;
 	}
 
-	public Projeto getProjeto() {
-		return projeto;
+	public Pessoa getPessoa() {
+		return pessoa;
 	}
 
-	public void setProjeto(Projeto projeto) {
-		this.projeto = projeto;
+	public void setPessoa(Pessoa pessoa) {
+		this.pessoa = pessoa;
 	}
 
 	public String getTipo() {

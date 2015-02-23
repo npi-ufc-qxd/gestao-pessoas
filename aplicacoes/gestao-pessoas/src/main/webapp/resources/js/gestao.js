@@ -7,7 +7,11 @@ $(document).ready(function() {
 		format: "dd/mm/yyyy"
 	});	
 
-	
+	$(".data").datepicker({
+		language: 'pt-BR',
+		autoclose: true,
+		format: "dd/mm/yyyy"
+	});	
 	
 	$('.statusFrequencia a').editable({
 	    type: 'select',
@@ -80,6 +84,33 @@ $(document).ready(function() {
 		}
 
 	});	
+	
+	$('#adicionarProjetoForm').validate({
+        rules: {
+            
+        },
+        highlight: function(element) {
+            $(element).closest('.form-item').addClass('has-error');
+        },
+        unhighlight: function(element) {
+            $(element).closest('.form-item').removeClass('has-error');
+        },
+        errorElement: 'span',
+        errorClass: 'help-block',
+        errorPlacement: function(error, element) {
+            error.insertAfter(element.parent().children().last());
+        },
+        messages:{
+        	nome:{
+                required:"Campo obrigatório",
+            },
+            descricao:{
+                required:"Campo obrigatório",
+            },
+        }
+    });
+	
+	
 });
 	
 /* FUNCTIONS FILTRO PARA ESTAGIARIOS */

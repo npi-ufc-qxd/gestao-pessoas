@@ -15,11 +15,11 @@
 	<div class="container">
 		<div class="tab-pane active" id="meus-projetos">
 			<div align="right" style="margin-bottom: 20px;">
-				<a href="<c:url value="/periodo/periodo" ></c:url>"><button class="btn btn-primary"><span class="fa fa-plus-square"></span> Periodo</button></a>
+				<a href="<c:url value="/coordenador/periodo" ></c:url>"><button class="btn btn-primary"><span class="fa fa-plus-square"></span> Periodo</button></a>
 			</div>
 			
 			<c:if test="${empty periodos}"><div class="alert alert-warning" role="alert">Não há Periodos cadastrados.</div></c:if>
-			
+
 			<c:if test="${not empty periodos}">
 				<h1 align="left" style="border-bottom: 1px solid #333;">Periodos</h1>
 

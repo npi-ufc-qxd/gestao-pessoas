@@ -66,19 +66,28 @@ public class TurmaController {
 	@RequestMapping(value = "/{idPeriodo}/turma", method = RequestMethod.POST)
 	public String adicionarTurmaPeriodo(ModelMap model, @Valid @ModelAttribute("turma") Turma turma,  @PathVariable("idPeriodo") Long idPeriodo, BindingResult result, HttpSession session) {
 
+		Periodo periodo = servicePeriodo.find(Periodo.class, idPeriodo);
+		
 		if (result.hasErrors()) {
+			model.addAttribute("periodo", periodo);
+			return "coordenador/form-turma";
+		}
+
+		if (turma.getInicioSemana().equals(turma.getFimSemana())) {
+			model.addAttribute("erro", "Os dias devem ser diferentes.");
+			model.addAttribute("periodo", periodo);
 			return "coordenador/form-turma";
 		}
 		
 		turma.setSupervisor((Pessoa) session.getAttribute(Constants.USUARIO_LOGADO));
-		turma.setPeriodo(servicePeriodo.find(Periodo.class, idPeriodo));
+		turma.setPeriodo(periodo);
 		turma = atualizarTurma(turma);
 		serviceTurma.save(turma);
 		
 		turma.setCodigo(geraCodigoTurma(turma.getId()));
 		serviceTurma.update(turma);
 
-		return "redirect:/periodo/periodos";
+		return "redirect:/coordenador/periodos";
 	}
 
 	@RequestMapping(value = "/{idTurma}/editar", method = RequestMethod.GET)

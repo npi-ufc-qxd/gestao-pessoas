@@ -16,8 +16,4 @@
 	   p:url="classpath:Declaracao_Estagio.jrxml">
 	</bean>
 
-	<bean id="estagio"
-	   class="org.springframework.web.servlet.view.jasperreports.JasperReportsMultiFormatView" 
-	   p:url="classpath:estagio2.jrxml">
-	</bean>
 </beans>

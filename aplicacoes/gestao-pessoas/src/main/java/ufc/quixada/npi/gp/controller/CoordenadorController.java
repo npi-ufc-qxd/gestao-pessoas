@@ -37,6 +37,7 @@ import ufc.quixada.npi.gp.model.Filtro;
 import ufc.quixada.npi.gp.model.Folga;
 import ufc.quixada.npi.gp.model.Frequencia;
 import ufc.quixada.npi.gp.model.Periodo;
+import ufc.quixada.npi.gp.model.Pessoa;
 import ufc.quixada.npi.gp.model.Projeto;
 import ufc.quixada.npi.gp.model.Turma;
 import ufc.quixada.npi.gp.model.enums.StatusFrequencia;
@@ -44,7 +45,9 @@ import ufc.quixada.npi.gp.model.enums.TipoFrequencia;
 import ufc.quixada.npi.gp.service.EstagiarioService;
 import ufc.quixada.npi.gp.service.FrequenciaService;
 import ufc.quixada.npi.gp.service.PeriodoService;
+import ufc.quixada.npi.gp.service.PessoaService;
 import ufc.quixada.npi.gp.service.TurmaService;
+import ufc.quixada.npi.gp.utils.Constants;
 import br.ufc.quixada.npi.service.GenericService;
 
 @Component
@@ -71,6 +74,9 @@ public class CoordenadorController {
 
 	@Inject
 	private GenericService<Folga> serviceFolga;
+	
+	@Inject
+	private PessoaService pessoaService;
 
 	@RequestMapping(value = {"/inicial", "/index"}, method = RequestMethod.GET)
 	public String inicial(ModelMap modelMap, HttpSession session) throws JRException {
@@ -193,8 +199,6 @@ public class CoordenadorController {
 		return "coordenador/list-estagiarios-periodo";
 	}
 /* FINAL ESTAGIARIO */
-
-
 
 /* 	INICIO PERIODO */
 
@@ -367,7 +371,7 @@ public class CoordenadorController {
 		return model;
 	}
 
-/* 	FINAL REPOSICAO */
+/* 	FINAL REPOSICAO */	
 
 /* UTILS */
 	private Projeto atualizarProjeto(Projeto projeto) {
@@ -383,5 +387,15 @@ public class CoordenadorController {
 		projeto.setMembros(membros);
 		return projeto;
 	}
+	
+	private Pessoa getUsuarioLogado(HttpSession session) {
+		if (session.getAttribute(Constants.USUARIO_LOGADO) == null) {
+			Pessoa pessoa = pessoaService.getPessoaByCPF(SecurityContextHolder.getContext().getAuthentication().getName());
+			session.setAttribute(Constants.USUARIO_LOGADO, pessoa);
+		}
+		return (Pessoa) session.getAttribute(Constants.USUARIO_LOGADO);
+	}
+	
 }
+
 

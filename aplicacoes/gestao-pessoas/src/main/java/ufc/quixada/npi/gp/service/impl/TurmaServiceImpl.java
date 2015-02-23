@@ -51,7 +51,7 @@ public class TurmaServiceImpl extends GenericServiceImpl<Turma> implements Turma
 	}
 
 	@Override
-	public List<Turma> getTurmasAno(int ano) {
+	public List<Turma> getTurmasAno(String ano) {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("ano", ano);
 		params.put("status", StatusTurma.ATIVA);

@@ -29,7 +29,7 @@ public class EstagiarioDataSource extends JRAbstractBeanDataSourceProvider {
 				"jefferson@hotmail.com", "6507687");
 		listEstagiario.add(new Estagiario((long) 1, "Jefferson1", null,
 				"Algum", "teste", "63900056", "Quixadá", "CE", "36720000",
-				Curso.ENGENHARIA_COMPUTAÇÃO, "8", 338888, "redmine", "github", "hagout",
+				Curso.CIÊNCIA_COMPUTAÇÃO, "8", 338888, "redmine", "github", "hagout",
 				pessoa));
 		
 		return new JRBeanCollectionDataSource(listEstagiario);

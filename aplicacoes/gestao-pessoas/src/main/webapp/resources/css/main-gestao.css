@@ -11,6 +11,10 @@ a {
 	border-radius: 0;
 }
 
+#modelos ul li {
+	margin-bottom: 4px;
+}
+
 /* BOTÕES */
 .btn {
 	border-radius: 0;
@@ -64,3 +68,6 @@ a {
 	height: 90%;
 }
 
+#titulo-cadastro-npi{
+	color: #E0EFFC;
+}

@@ -20,10 +20,10 @@ public class PessoaServiceImpl extends GenericServiceImpl<Pessoa> implements
 	GenericRepository<Pessoa> pessoaRepository;
 
 	@Override
-	public Pessoa getPessoaByLogin(String login) {
+	public Pessoa getPessoaByCPF(String cpf) {
 		Map<String, Object> params = new HashMap<String, Object>();
-		params.put("login", login);
-		Pessoa usuariologado = pessoaRepository.find(QueryType.JPQL, "from Pessoa where login = :login", params).get(0);
+		params.put("cpf", cpf);
+		Pessoa usuariologado = pessoaRepository.find(QueryType.JPQL, "from Pessoa where cpf = :cpf", params).get(0);
 		return usuariologado;
 	}
 }

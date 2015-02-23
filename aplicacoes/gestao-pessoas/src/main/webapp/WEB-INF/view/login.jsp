@@ -39,13 +39,13 @@
 						<div class="login-error"><i class="fa fa-times-circle-o"></i> ${error}</div>
 					</c:if>
 		
-					<c:if test="${not empty msg}">
-						<div class="msg"> <i class="fa fa-info-circle"></i>${msg}</div>
+					<c:if test="${not empty info}">
+						<div class="alert alert-info msg"> <i class="fa fa-info-circle"></i> ${info}</div>
 					</c:if>
 				
 					<div class="form-group form-inline input-group input-login">
 					    <span class="input-group-addon"><i class="fa fa-user"></i></span>
-					    <input class="form-control" type="text" name='j_username' value='' placeholder="login">
+					    <input class="form-control" type="text" name='j_username' value='' placeholder="cpf">
 					</div>
 					
 					<div class="form-group form-inline input-group input-login">
@@ -83,16 +83,10 @@
 					    <form:input id="cpf" path="cpf" cssClass="form-control" placeholder="CPF" /><br>
 					</div>
 	
-				    <div class="error-validation"><form:errors path="login"></form:errors></div>
-					<div class="form-group form-inline input-group input-login">
-					    <span class="input-group-addon input-group-addon-gp">Login</span>
-					    <form:input id="login" path="login" cssClass="form-control" placeholder="Login" />
-					</div>
-	
 				    <div class="error-validation"><form:errors path="password"></form:errors></div>
 					<div class="form-group form-inline input-group input-login">
 					    <span class="input-group-addon input-group-addon-gp">Senha</span>
-					    <form:input id="senha" path="password" cssClass="form-control" placeholder="Senha" />
+					    <form:input id="senha" path="password" type="password" cssClass="form-control" placeholder="Senha" />
 					</div>
 					
 					<div>

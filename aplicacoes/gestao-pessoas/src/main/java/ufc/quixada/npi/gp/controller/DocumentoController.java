@@ -31,10 +31,10 @@ public class DocumentoController {
 	@Inject
 	private PessoaService pessoaService;
 	
-	@RequestMapping(value = "/{idProjeto}/{idArquivo}", method = RequestMethod.GET)
-	public void getArquivo(@PathVariable("idProjeto") Long idProjeto, @PathVariable("idArquivo") Long idArquivo, HttpServletResponse response, HttpSession session) {
+	@RequestMapping(value = "/{idPessoa}/{idArquivo}", method = RequestMethod.GET)
+	public void getArquivo(@PathVariable("idPessoa") Long idPessoa, @PathVariable("idArquivo") Long idArquivo, HttpServletResponse response, HttpSession session) {
 		try {
-			Pessoa pessoa = pessoaService.find(Pessoa.class, idProjeto);
+			Pessoa pessoa = pessoaService.find(Pessoa.class, idPessoa);
 			Documento documento = documentoService.getDocumentoById(idArquivo);
 			if(documento != null) {
 				InputStream is = new ByteArrayInputStream(documento.getArquivo());

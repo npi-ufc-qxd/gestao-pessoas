@@ -1,5 +1,6 @@
 package ufc.quixada.npi.gp.controller;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
@@ -30,17 +31,22 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import ufc.quixada.npi.gp.model.Documento;
 import ufc.quixada.npi.gp.model.Estagiario;
 import ufc.quixada.npi.gp.model.Folga;
 import ufc.quixada.npi.gp.model.Frequencia;
+import ufc.quixada.npi.gp.model.Papel;
 import ufc.quixada.npi.gp.model.Pessoa;
 import ufc.quixada.npi.gp.model.Turma;
 import ufc.quixada.npi.gp.model.enums.StatusFrequencia;
 import ufc.quixada.npi.gp.model.enums.TipoFrequencia;
+import ufc.quixada.npi.gp.service.DocumentoService;
 import ufc.quixada.npi.gp.service.EstagiarioService;
 import ufc.quixada.npi.gp.service.FrequenciaService;
+import ufc.quixada.npi.gp.service.PapelService;
 import ufc.quixada.npi.gp.service.PessoaService;
 import ufc.quixada.npi.gp.service.TurmaService;
 import ufc.quixada.npi.gp.utils.Constants;
@@ -48,9 +54,9 @@ import ufc.quixada.npi.gp.utils.Constants;
 @Controller
 @RequestMapping("estagiario")
 public class EstagiarioController {
+	
 	@Inject
 	private PessoaService pessoaService;
-	
 
 	@Inject
 	private EstagiarioService estagiarioService;
@@ -61,12 +67,19 @@ public class EstagiarioController {
 	@Inject
 	private FrequenciaService frequenciaService;
 	
+	@Inject
+	private DocumentoService documentoService;
+
+	@Inject
+	private PapelService papelService;
+
 	@Before
 	@RequestMapping(value = {"/index", "/inicial"}, method = RequestMethod.GET)
 	public String inicial(ModelMap modelMap, HttpSession session) { 
 		modelMap.addAttribute("usuario", SecurityContextHolder.getContext().getAuthentication().getName());
 		Estagiario estagiario = estagiarioService.getEstagiarioByPessoaId(getUsuarioLogado(session).getId());
-		List<Turma> turmas = turmaService.getTurmasAno(new DateTime().getYear());
+		String ano = "" + new DateTime().getYear();
+		List<Turma> turmas = turmaService.getTurmasAno(ano);
 		
 		if(estagiario == null){
 			modelMap.addAttribute("resultado", true);
@@ -81,22 +94,29 @@ public class EstagiarioController {
 	
 	@RequestMapping(value = "/meu-cadastro-npi", method = RequestMethod.POST)
 	public String adicionarEstagiario(@Valid @ModelAttribute("estagiario") Estagiario estagiario, BindingResult result, HttpSession session, RedirectAttributes redirect) {
-		estagiario.setPessoa(getUsuarioLogado(session));
-		estagiario.setTurma(turmaService.find(Turma.class, estagiario.getTurma().getId()));
+		
+		if (result.hasErrors()) {
+			return "estagiario/meu-cadastro-npi";
+		}
+		
+		Pessoa pessoa = getUsuarioLogado(session);
+		
+		estagiario.setPessoa(pessoa);
+		//estagiario.setTurma(turmaService.find(Turma.class, estagiario.getTurma().getId()));
 
 		estagiarioService.save(estagiario);
 		
-		List<Frequencia> frequencias = geraFrequencia(estagiario);
+		//List<Frequencia> frequencias = geraFrequencia(estagiario);
 		
-		estagiario.setFrequencias(frequencias);
+		//estagiario.setFrequencias(frequencias);
 		
 		//estagiario.getTurma().setFrequencias(estagiario.getFrequencias());
 
-		estagiarioService.update(estagiario);
+		//estagiarioService.update(estagiario);
 		
-		redirect.addFlashAttribute("info", "Estagiário cadastrado com sucesso.");
+		redirect.addFlashAttribute("info", "Parabéns," + pessoa.getNome() + ", seu cadastro foi realizado com sucesso!");
 		return "redirect:/estagiario/inicial";
-	}
+	}	
 	
 	@RequestMapping(value = "/minha-presenca", method = RequestMethod.GET)
 	public String minhaPresenca(HttpSession session, Model model) {
@@ -162,25 +182,31 @@ public class EstagiarioController {
 		return "estagiario/meu-projeto";
 	}
 	
-	@RequestMapping(value = "/documentos", method = RequestMethod.GET)
-	public String documento(HttpSession session, Model model) {
-		return "estagiario/documentos";
-	}
-	
 	@RequestMapping(value = "/avaliacao", method = RequestMethod.GET)
 	public String avaliacao(HttpSession session, Model model) {
 		return "estagiario/avaliacao";
 	}
 	
 	@RequestMapping(value = "/cadastre-se", method = RequestMethod.POST)
-	public String cadastrarPessoa(HttpSession session, Model model, @Valid @ModelAttribute("pessoa") Pessoa pessoa, BindingResult result) {
+	public String cadastrarPessoa(HttpSession session, Model model, @Valid @ModelAttribute("pessoa") Pessoa pessoa, BindingResult result, RedirectAttributes redirect) {
 		
 		if (result.hasErrors()) {
 			model.addAttribute("cadastro", true);
 			return "login";
 		}
+
+		ShaPasswordEncoder encoder = new ShaPasswordEncoder(256);
+		
+		List<Papel> papeis = new ArrayList<Papel>();
+		papeis.add(papelService.getPapel("ROLE_ESTAGIARIO"));
+
+		pessoa.setPassword(encoder.encodePassword(pessoa.getPassword(), ""));
+		pessoa.setHabilitado(true);
+ 		pessoa.setPapeis(papeis);
+		
 		pessoaService.save(pessoa);
 		
+		redirect.addFlashAttribute("info", "Parabéns, seu cadastro esta realizado.");
 		return "redirect:/login";
 	}
 
@@ -237,11 +263,53 @@ public class EstagiarioController {
 		
 		return frequencias;
 	}
+	
+	@RequestMapping(value = "/documentos", method = RequestMethod.GET)
+	public String documento(HttpSession session, Model model) {
+		return "estagiario/documentos";
+	}
+
+	@RequestMapping(value = "/cadastro-documento", method = RequestMethod.POST)
+	public String cadastrarDocumentos(@RequestParam("documentos") List<MultipartFile> documentos,BindingResult result, HttpSession session, RedirectAttributes redirect, Model model) {
+		
+		Pessoa pessoa = getUsuarioLogado(session);
+		
+		if (result.hasErrors()) {
+			return 	"";
+		}
+		
+		List<Documento> documentosEstagio = new ArrayList<Documento>();
+		if(documentos != null && !documentos.isEmpty()) {
+			for(MultipartFile doc : documentos) {
+				try {
+					if(doc.getBytes() != null && doc.getBytes().length != 0) {
+						Documento documento = new Documento();
+						documento.setArquivo(doc.getBytes());
+						documento.setNome(doc.getOriginalFilename());
+						documento.setTipo(doc.getContentType());
+						documento.setPessoa(pessoa);
+						documentosEstagio.add(documento);
+					}
+				} catch (IOException e) {
+					model.addAttribute("erro", "Erro ao fazer upload.");
+					return "";
+				}
+			}
+		}
+		
+		
+		if(!documentos.isEmpty()) {
+			documentoService.salvar(documentosEstagio);
+		}
+		
+		redirect.addFlashAttribute("info", "");
+		return "";
+	}
 
 	private Pessoa getUsuarioLogado(HttpSession session) {
 		if (session.getAttribute(Constants.USUARIO_LOGADO) == null) {
 			Pessoa pessoa = pessoaService
-					.getPessoaByLogin(SecurityContextHolder.getContext()
+					.getPessoaByCPF(SecurityContextHolder.getContext()
 							.getAuthentication().getName());
 			session.setAttribute(Constants.USUARIO_LOGADO, pessoa);
 		}

@@ -15,7 +15,10 @@
  		<intercept-url pattern="/resources/**" access="permitAll" />
  		<intercept-url pattern="/estagiario/cadastre-se" access="permitAll" />
 
- 		<intercept-url pattern="/estagiario/**" access="hasRole('ROLE_ESTAGIARIO')" />
+ 		<intercept-url pattern="/estagiario/inicial" access="hasRole('ROLE_ESTAGIARIO') or hasRole('ROLE_COORDENADOR')" />
+ 		<intercept-url pattern="/estagiario/index" access="hasRole('ROLE_ESTAGIARIO') or hasRole('ROLE_COORDENADOR')" />
+ 		<intercept-url pattern="/estagiario/meu-cadastro-npi" access="hasRole('ROLE_ESTAGIARIO') or hasRole('ROLE_COORDENADOR')" />
+ 		<intercept-url pattern="/estagiario/**" access="hasRole('ROLE_COORDENADOR')" />
 
  		<intercept-url pattern="/coordenador/**" access="hasRole('ROLE_COORDENADOR')"/>
  		<intercept-url pattern="/periodo/**" access="hasRole('ROLE_COORDENADOR')"/>
@@ -30,11 +33,11 @@
   
  	<authentication-manager>
 		<authentication-provider>
-<!-- 			<password-encoder hash="sha-256"/> -->
+			<password-encoder hash="sha-256"/>
 			<jdbc-user-service 
 				data-source-ref="gestao_pessoas" 
-				users-by-username-query="SELECT login, password, habilitado FROM pessoa WHERE login = ?"
-				authorities-by-username-query="SELECT u.login, p.nome FROM pessoa AS u, papel_pessoa AS pu, papel AS p WHERE u.id = pu.pessoa_id AND pu.papel_id = p.id AND u.login=?"/>
+				users-by-username-query="SELECT cpf, password, habilitado FROM pessoa WHERE cpf = ?"
+				authorities-by-username-query="SELECT u.cpf, p.nome FROM pessoa AS u, papel_pessoa AS pu, papel AS p WHERE u.id = pu.pessoa_id AND pu.papel_id = p.id AND u.cpf=?"/>
 		
 		</authentication-provider>
  	</authentication-manager>

@@ -6,6 +6,8 @@ import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -14,7 +16,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.validation.constraints.NotNull;
 
+import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import ufc.quixada.npi.gp.model.enums.Curso;
@@ -25,18 +29,48 @@ public class Estagiario {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	
+	@NotNull(message = "Campo obrigatório.")
+	@NotEmpty(message = "Campo obrigatório.")
 	private String nomeCompleto;
+	
 	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	private Date dataNascimento;
+
+	@NotNull(message = "Campo obrigatório.")
+	@NotEmpty(message = "Campo obrigatório.")
 	private String nomeMae;
+
+	@NotNull(message = "Campo obrigatório.")
+	@NotEmpty(message = "Campo obrigatório.")
 	private String endereco;
+
+	@NotNull(message = "Campo obrigatório.")
+	@NotEmpty(message = "Campo obrigatório.")
 	private String cep;
+
+	@NotNull(message = "Campo obrigatório.")
+	@NotEmpty(message = "Campo obrigatório.")
 	private String cidade;
+
+	@NotNull(message = "Campo obrigatório.")
+	@NotEmpty(message = "Campo obrigatório.")
 	private String uf;
+
+	@NotNull(message = "Campo obrigatório.")
+	@NotEmpty(message = "Campo obrigatório.")
 	private String telefone;
+	
+	@Enumerated(EnumType.STRING)
 	private Curso curso;
+
+	@NotNull(message = "Campo obrigatório.")
+	@NotEmpty(message = "Campo obrigatório.")
 	private String semestre;
-	private int matricula;
+
+	@NotNull(message = "Campo obrigatório.")
+	private Integer matricula;
+
 	private String contaRedmine;
 	private String contaGithub;
 	private String contaHangout;
@@ -193,11 +227,11 @@ public class Estagiario {
 		this.semestre = semestre;
 	}
 
-	public int getMatricula() {
+	public Integer getMatricula() {
 		return matricula;
 	}
 
-	public void setMatricula(int matricula) {
+	public void setMatricula(Integer matricula) {
 		this.matricula = matricula;
 	}
 

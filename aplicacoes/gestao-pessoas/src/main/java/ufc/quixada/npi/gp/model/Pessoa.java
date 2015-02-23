@@ -18,7 +18,7 @@ import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
-@Table(name = "pessoa", uniqueConstraints=@UniqueConstraint(columnNames = {"id", "login"}))
+@Table(name = "pessoa", uniqueConstraints=@UniqueConstraint(columnNames = {"id", "cpf"}))
 public class Pessoa {
 
 	@Id
@@ -27,7 +27,8 @@ public class Pessoa {
 	
 	@Column(nullable = false)
 	@NotEmpty(message = "Campo Obrigatorio")
-	private String login;
+	@Size(min = 11, message = "11 Caracteres")
+	private String cpf;
 	
 	@Column(nullable = false)
 	@NotEmpty(message = "Campo Obrigatorio")
@@ -42,9 +43,6 @@ public class Pessoa {
 	
 //	@OneToMany(mappedBy = "")	
 //	private List<Projeto> projetos;
-	
-	@Size(min = 14, message = "14 Caracteres")
-	private String cpf;
 	
 	@NotEmpty(message = "Campo Obrigatorio")
 	private String nome;
@@ -103,12 +101,6 @@ public class Pessoa {
 	}
 	public void setId(Long id) {
 		this.id = id;
-	}
-	public String getLogin() {
-		return login;
-	}
-	public void setLogin(String login) {
-		this.login = login;
 	}
 	public boolean isHabilitado() {
 		return habilitado;

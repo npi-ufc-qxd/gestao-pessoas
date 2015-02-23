@@ -29,19 +29,6 @@ public class Documento {
 	@JoinColumn(name = "pessoa_id")
 	private Pessoa pessoa;
 	
-	public Documento(){
-		super();
-	}	
-	
-	public Documento(String nomeOriginal, String nome, String tipo, byte[] arquivo, Pessoa pessoa){
-		super();
-		this.nomeOriginal = nomeOriginal;
-		this.nome = nome;
-		this.tipo = tipo;
-		this.arquivo = arquivo;
-		this.pessoa = pessoa;
-	}
-	
 	public Long getId() {
 		return id;
 	}

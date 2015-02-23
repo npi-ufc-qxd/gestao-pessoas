@@ -110,6 +110,72 @@ $(document).ready(function() {
         }
     });
 	
+	$( "#meuCadastroNPIEstagiario" ).validate({
+        rules: {
+            
+        },
+        highlight: function(element) {
+            $(element).closest('.form-item').addClass('has-error');
+        },
+        unhighlight: function(element) {
+            $(element).closest('.form-item').removeClass('has-error');
+        },
+        errorElement: 'span',
+        errorClass: 'help-block',
+        errorPlacement: function(error, element) {
+            error.insertAfter(element.parent().children().last());
+        },
+        messages:{
+			nomeCompleto : {
+				required : "Campo obrigatório",
+			},
+			dataNascimento : {
+				required : "Campo obrigatório",
+			},
+			nomeMae : {
+				required : "Campo obrigatório",
+			},
+			semestre : {
+				required : "Campo obrigatório",
+			},
+			matricula : {
+				required : "Campo obrigatório",
+			},
+			endereco : {
+				required : "Campo obrigatório",
+			},
+			cidade : {
+				required : "Campo obrigatório",
+			},
+			uf : {
+				required : "Campo obrigatório",
+			},
+			telefone : {
+				required : "Campo obrigatório",
+			},
+			contaRedmine : {
+				required : "Campo obrigatório",
+			},
+			contaGithub : {
+				required : "Campo obrigatório",
+			},
+			contaHangout : {
+				required : "Campo obrigatório",
+			},
+		}
+	});			
+	
+	
+	$(".file").fileinput({
+		showUpload: false,
+		overwriteInitial: false,
+		initialCaption: "Selecione...",
+		browseLabel: "Buscar",
+		browseClass: "btn btn-default",
+		removeLabel: "Excluir",
+		msgSelected: "{n} arquivos selecionados",
+		msgLoading: "Carregando arquivo {index} de {files} &hellip;"
+	});
 	
 });
 	

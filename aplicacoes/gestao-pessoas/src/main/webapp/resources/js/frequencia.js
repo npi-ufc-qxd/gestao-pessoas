@@ -26,14 +26,14 @@ $(document).ready(function() {
 	$('#current-data').val(moment());
 	$('label#periodo-dia').text(moment().format("DD/MM/YYYY"));
 	
-	if ($("#anoFiltro").val() != '' && $("#semestreFiltro").val() != '') {
-		sessionStorage.setItem('ano', $("#anoFiltro").val());
-		sessionStorage.setItem('semestre', $("#semestreFiltro").val());
-	}
-	if (sessionStorage.getItem('ano') && sessionStorage.getItem('semestre')) {
-		$("#anoFiltro").val(sessionStorage.getItem('ano'));
-		$("#semestreFiltro").val(sessionStorage.getItem('semestre'));
-	}
+//	if ($("#anoFiltro").val() != '' && $("#semestreFiltro").val() != '') {
+//		sessionStorage.setItem('ano', $("#anoFiltro").val());
+//		sessionStorage.setItem('semestre', $("#semestreFiltro").val());
+//	}
+//	if (sessionStorage.getItem('ano') && sessionStorage.getItem('semestre')) {
+//		$("#anoFiltro").val(sessionStorage.getItem('ano'));
+//		$("#semestreFiltro").val(sessionStorage.getItem('semestre'));
+//	}
 
 
 	$('.selectpicker').selectpicker('refresh')	

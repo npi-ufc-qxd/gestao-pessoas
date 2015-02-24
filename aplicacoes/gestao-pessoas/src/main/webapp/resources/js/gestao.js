@@ -262,6 +262,7 @@ function data() {
 		language: 'pt-BR',
 		autoclose: true,
 		format: "dd/mm/yyyy",
+		orientation: " auto bottom",
     });
     $('.data').on('focus');
     $( '.data' ).trigger( 'focus' );

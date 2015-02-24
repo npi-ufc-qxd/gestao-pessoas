@@ -22,6 +22,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import ufc.quixada.npi.gp.model.enums.Curso;
+import ufc.quixada.npi.gp.model.enums.Estado;
 
 @Entity
 public class Estagiario {
@@ -53,9 +54,8 @@ public class Estagiario {
 	@NotEmpty(message = "Campo obrigatório.")
 	private String cidade;
 
-	@NotNull(message = "Campo obrigatório.")
-	@NotEmpty(message = "Campo obrigatório.")
-	private String uf;
+	@Enumerated(EnumType.STRING)
+	private Estado uf;
 
 	@NotNull(message = "Campo obrigatório.")
 	@NotEmpty(message = "Campo obrigatório.")
@@ -117,7 +117,7 @@ public class Estagiario {
 
 	public Estagiario(Long id, String nomeCompleto, Date dataNascimento,
 			String nomeMae, String endereco, String cep, String cidade,
-			String uf, String telefone, Curso curso, String semestre,
+			Estado uf, String telefone, Curso curso, String semestre,
 			int matricula, String contaRedmine, String contaGithub,
 			String contaHangout, Pessoa pessoa) {
 		super();
@@ -195,11 +195,11 @@ public class Estagiario {
 		this.cidade = cidade;
 	}
 
-	public String getUf() {
+	public Estado getUf() {
 		return uf;
 	}
 
-	public void setUf(String uf) {
+	public void setUf(Estado uf) {
 		this.uf = uf;
 	}
 

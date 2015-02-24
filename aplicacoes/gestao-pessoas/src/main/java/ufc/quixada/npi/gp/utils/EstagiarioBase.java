@@ -9,6 +9,7 @@ import net.sf.jasperreports.engine.JRField;
 import ufc.quixada.npi.gp.model.Estagiario;
 import ufc.quixada.npi.gp.model.Pessoa;
 import ufc.quixada.npi.gp.model.enums.Curso;
+import ufc.quixada.npi.gp.model.enums.Estado;
 
 public class EstagiarioBase implements JRDataSource {
 	private List<Estagiario> listEstagiario;
@@ -24,15 +25,15 @@ public class EstagiarioBase implements JRDataSource {
 		Pessoa pessoa = new Pessoa("123456", "Jefferson", "Barbosa",
 				"jefferson@hotmail.com", "6507687");
 		listEstagiario.add(new Estagiario((long) 1, "Jefferson1", null,
-				"Algum", "teste", "63900056", "Quixadá", "CE", "36720000",
+				"Algum", "teste", "63900056", "Quixadá", Estado.CEARA, "36720000",
 				Curso.CIÊNCIA_COMPUTAÇÃO, "8", 338888, "redmine", "github", "hagout",
 				pessoa));
 		listEstagiario.add(new Estagiario((long) 2, "Jefferson2", null,
-				"Algum", "teste", "63900056", "Quixadá", "CE", "36720000",
+				"Algum", "teste", "63900056", "Quixadá", Estado.CEARA, "36720000",
 				Curso.CIÊNCIA_COMPUTAÇÃO, "8", 338888, "redmine", "github", "hagout",
 				pessoa));
 		listEstagiario.add(new Estagiario((long) 3, "Jefferson3", null,
-				"Algum", "teste", "63900056", "Quixadá", "CE", "36720000",
+				"Algum", "teste", "63900056", "Quixadá", Estado.CEARA, "36720000",
 				Curso.CIÊNCIA_COMPUTAÇÃO, "8", 338888, "redmine", "github", "hagout",
 				pessoa));
 	}

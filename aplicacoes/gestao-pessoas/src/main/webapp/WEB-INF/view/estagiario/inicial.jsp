@@ -7,7 +7,7 @@
 	<title>Estagiários</title>
 	<jsp:include page="../modulos/header-estrutura.jsp" />
 </head>
-<body>
+<body onunload="data()">
 
 	<c:if test="${not resultado}"><!-- Tela de Cadastro para Inicio no NPI -->
 		<jsp:include page="../modulos/header.jsp" />
@@ -32,17 +32,21 @@
 	</div>
 
 	<jsp:include page="../modulos/footer.jsp" />
-	<script src="<c:url value="/resources/js/bootbox.min.js" />"></script>
-	<script src="<c:url value="/resources/js/flippant.min.js" />"></script>
-	<script src="<c:url value="/resources/js/fuelux.min.js" />"></script>
 
 	<script type="text/javascript">
 		$(document).ready(function() {
-			$(".data").datepicker({
-				language: 'pt-BR',
-				autoclose: true,
-				format: "dd/mm/yyyy"
+			$('body').on('focus',".data", function(){
+			    $('.data').datepicker({
+					language: 'pt-BR',
+					autoclose: true,
+					format: "dd/mm/yyyy"
+			    });
 			});
+			
+			$('#dataNascimento').on('click', function() {
+				alert('message');
+				console.log('message');
+			})
 			
 		});
 	</script>

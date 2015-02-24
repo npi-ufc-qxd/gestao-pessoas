@@ -13,6 +13,14 @@ $(document).ready(function() {
 		format: "dd/mm/yyyy"
 	});	
 	
+	$('body').on('focus',".data", function(){
+	    $(this).datepicker({
+			language: 'pt-BR',
+			autoclose: true,
+			format: "dd/mm/yyyy"
+	    });
+	});
+	
 	$('.statusFrequencia a').editable({
 	    type: 'select',
 	    url: '#',
@@ -248,5 +256,13 @@ function loadEstagiarios(result) {
 		agendarReposicao(turma, estagiario, status, dataReposicao, li);
 		
 	});
-	
+}
+function data() {
+    $('.data').datepicker({
+		language: 'pt-BR',
+		autoclose: true,
+		format: "dd/mm/yyyy",
+    });
+    $('.data').on('focus');
+    $( '.data' ).trigger( 'focus' );
 }

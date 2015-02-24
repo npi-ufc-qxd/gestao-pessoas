@@ -114,7 +114,7 @@ public class EstagiarioController {
 
 		//estagiarioService.update(estagiario);
 		
-		redirect.addFlashAttribute("info", "Parabéns," + pessoa.getNome() + ", seu cadastro foi realizado com sucesso!");
+		redirect.addFlashAttribute("info", "Parabéns, " + pessoa.getNome() + ", seu cadastro foi realizado com sucesso!");
 		return "redirect:/estagiario/inicial";
 	}	
 	

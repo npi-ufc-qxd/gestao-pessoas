@@ -24,7 +24,7 @@
 									<div class="form-item">
 										<label for="dataNascimento" class="col-sm-2 control-label">Data nascimento:</label>
 										<div class="col-sm-3">
-											<form:input id="dataNascimento" type="text" path="dataNascimento" cssClass="form-control data" placeholder="Data Nascimento" required="required"/>
+											<form:input id="dataNascimento" type="text" path="dataNascimento" cssClass="form-control data" required="required" style="z-index: 9999" onclick="data()"/>
 											<div class="error-validation"><form:errors path="dataNascimento"></form:errors></div>
 											<c:if test="${not empty error_inicio}">
 												<div class="error-validation"><span>${error_inicio}</span></div>
@@ -87,7 +87,11 @@
 									<div class="form-item">
 										<label for="uf" class="col-sm-1 control-label">UF :</label>
 										<div class="col-sm-2">
-											<form:input id="uf" path="uf" cssClass="form-control" placeholder="UF" />
+<%-- 											<form:input id="uf" path="uf" cssClass="form-control" placeholder="UF" /> --%>
+											<form:select id="uf" path="uf" cssClass="selectpicker" data-width="auto" required="required">
+												<form:options itemLabel="estado"/>
+											</form:select>
+											
 										</div>
 									</div>
 					

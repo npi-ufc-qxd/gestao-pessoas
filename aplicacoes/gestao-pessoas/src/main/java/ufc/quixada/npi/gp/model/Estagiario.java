@@ -33,14 +33,38 @@ public class Estagiario {
 	
 	@NotNull(message = "Campo obrigatório.")
 	@NotEmpty(message = "Campo obrigatório.")
-	private String nomeCompleto;
-	
-	@DateTimeFormat(pattern = "dd/MM/yyyy")
-	private Date dataNascimento;
+	private String nomeMae;
 
 	@NotNull(message = "Campo obrigatório.")
 	@NotEmpty(message = "Campo obrigatório.")
-	private String nomeMae;
+	private String nomeCompleto;
+
+	@DateTimeFormat(pattern = "dd/MM/yyyy")
+	private Date dataNascimento;
+
+	private String numeroCarteiraDeTrabalho;
+
+	private String serieCarteiraDeTrabalho;
+	
+	private Date expedicaoCarteiraDeTrabalho;
+
+	@Enumerated(EnumType.STRING)
+	private Curso curso;
+
+	@NotNull(message = "Campo obrigatório.")
+	private Integer matricula;
+
+	@NotNull(message = "Campo obrigatório.")
+	@NotEmpty(message = "Campo obrigatório.")
+	private String semestre;
+
+	@NotNull(message = "Campo obrigatório.")
+	@NotEmpty(message = "Campo obrigatório.")
+	private String telefone;
+
+	private String contaRedmine;
+	private String contaGithub;
+	private String contaHangout;
 
 	@NotNull(message = "Campo obrigatório.")
 	@NotEmpty(message = "Campo obrigatório.")
@@ -56,24 +80,6 @@ public class Estagiario {
 
 	@Enumerated(EnumType.STRING)
 	private Estado uf;
-
-	@NotNull(message = "Campo obrigatório.")
-	@NotEmpty(message = "Campo obrigatório.")
-	private String telefone;
-	
-	@Enumerated(EnumType.STRING)
-	private Curso curso;
-
-	@NotNull(message = "Campo obrigatório.")
-	@NotEmpty(message = "Campo obrigatório.")
-	private String semestre;
-
-	@NotNull(message = "Campo obrigatório.")
-	private Integer matricula;
-
-	private String contaRedmine;
-	private String contaGithub;
-	private String contaHangout;
 	
 	@Basic(fetch = FetchType.LAZY)
 	@ManyToOne

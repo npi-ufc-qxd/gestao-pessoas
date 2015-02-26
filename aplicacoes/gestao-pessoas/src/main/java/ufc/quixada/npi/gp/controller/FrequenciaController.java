@@ -29,13 +29,14 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import ufc.quixada.npi.gp.model.Estagiario;
 import ufc.quixada.npi.gp.model.Frequencia;
-import ufc.quixada.npi.gp.model.FrequenciaJson;
+import ufc.quixada.npi.gp.model.FiltroJson;
 import ufc.quixada.npi.gp.model.Turma;
 import ufc.quixada.npi.gp.model.enums.StatusFrequencia;
 import ufc.quixada.npi.gp.model.enums.TipoFrequencia;
 import ufc.quixada.npi.gp.service.EstagiarioService;
 import ufc.quixada.npi.gp.service.FrequenciaService;
 import ufc.quixada.npi.gp.service.TurmaService;
+import ufc.quixada.npi.gp.utils.UtilGestao;
 
 @Controller
 @RequestMapping("frequencia")
@@ -60,7 +61,7 @@ public class FrequenciaController {
 
 	@RequestMapping(value = "/frequencias.json", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<Frequencia> getFrequencias(@RequestBody FrequenciaJson frequenciaJson, Model model) {
+	public List<Frequencia> getFrequencias(@RequestBody FiltroJson frequenciaJson, Model model) {
 		List<Frequencia> frequencias = serviceFrequencia.getFrequencias(frequenciaJson.getData(), serviceTurma.find(Turma.class, frequenciaJson.getTurma()));
 		return frequencias;
 	}
@@ -88,7 +89,8 @@ public class FrequenciaController {
 	@RequestMapping(value = "/atualizarStatus", method = RequestMethod.POST)
 	public String atualizarStatus(@RequestParam("pk") Long idFrequencia, @RequestParam("value") StatusFrequencia status, Model model, RedirectAttributes redirectAttributes) {
 		Frequencia frequencia = serviceFrequencia.find(Frequencia.class, idFrequencia);
-		boolean horarioDeTrabalho = isHoraPermitida(frequencia.getTurma().getHoraInicio(), frequencia.getTurma().getHoraFinal());
+//		boolean horarioDeTrabalho = UtilGestao.isHoraPermitida(frequencia.getTurma().getHoraInicio(), frequencia.getTurma().getHoraFinal());
+		boolean horarioDeTrabalho = UtilGestao.isHoraPermitida(frequencia.getTurma().getHorarios());
 		
 		if(!frequencia.getStatusFrequencia().equals(StatusFrequencia.FALTA) && horarioDeTrabalho){
 			frequencia.setStatusFrequencia(StatusFrequencia.ATRASADO);
@@ -98,14 +100,6 @@ public class FrequenciaController {
 			redirectAttributes.addAttribute("info", "Alteração não permitida.");
 		}
 		return "coordenador/list-frequencias";
-	}	
-	
-/* UTILS */
-	private boolean isHoraPermitida(Date horaInicio, Date horaFinal) {
-		LocalTime inicio = new LocalTime(horaInicio);
-		LocalTime fim = new LocalTime(horaFinal);
-		LocalTime horaAtual = new LocalTime();
-		return (horaAtual.equals(inicio) || horaAtual.isAfter(inicio)) && (horaAtual.equals(fim) || horaAtual.isBefore(fim));
 	}
 
 }

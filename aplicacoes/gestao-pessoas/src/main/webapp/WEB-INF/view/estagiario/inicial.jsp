@@ -5,50 +5,36 @@
 <html>
 <head>
 	<title>Estagiários</title>
-	<jsp:include page="../modulos/header-estrutura.jsp" />
+	<jsp:include page="../modulos/newheader-estrutura.jsp" />
 </head>
-<body onunload="data()">
-
-	<c:if test="${not resultado}"><!-- Tela de Cadastro para Inicio no NPI -->
+<body>
+	<c:if test="${not estagiarioCadastrado}">
 		<jsp:include page="../modulos/header.jsp" />
 	</c:if>
-	
+
 	<div class="container">
-			<c:if test="${not empty info}">
-				<div class="alert alert-info alert-dismissible margin-top" role="alert">
-					<button type="button" class="close" data-dismiss="alert">
-						<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
-					</button>
-					<c:out value="${info}"></c:out>
-				</div>
-			</c:if>
-	
-	
-		<c:if test="${resultado}"><!-- Tela de Cadastro para Inicio no NPI -->
-			<div class="temp">
-				<jsp:include page="../estagiario/meu-cadastro-npi.jsp" />
+		<c:if test="${not empty info}">
+			<div class="alert alert-info alert-dismissible margin-top" role="alert">
+				<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+				<c:out value="${info}"></c:out>
 			</div>
 		</c:if>
+
+		<c:if test="${estagiarioCadastrado}"><!-- Tela de Cadastro Dados Pessoais para Inicio no NPI -->
+			<div class="temp">
+				<jsp:include page="../estagiario/estagiario-dados-pessoais.jsp" />
+			</div>
+		</c:if><!-- Tela de Cadastro Dados Pessoais para Inicio no NPI -->
+
+
+<%-- 		<c:if test="${estagiarioCadastrado}"><!-- Cadastro de Contas e Seleção de Turma NPI --> --%>
+<!-- 			<div class="temp"> -->
+<%-- 				<jsp:include page="../estagiario/estagiario-contas-turma.jsp" /> --%>
+<!-- 			</div> -->
+<%-- 		</c:if><!-- Cadastro de Contas e Seleção de Turma NPI --> --%>
+		
 	</div>
 
-	<jsp:include page="../modulos/footer.jsp" />
-
-	<script type="text/javascript">
-		$(document).ready(function() {
-			$('body').on('focus',".data", function(){
-			    $('.data').datepicker({
-					language: 'pt-BR',
-					autoclose: true,
-					format: "dd/mm/yyyy"
-			    });
-			});
-			
-			$('#dataNascimento').on('click', function() {
-				alert('message');
-				console.log('message');
-			})
-			
-		});
-	</script>
+	<jsp:include page="../modulos/newfooter.jsp" />
 </body>
 </html>

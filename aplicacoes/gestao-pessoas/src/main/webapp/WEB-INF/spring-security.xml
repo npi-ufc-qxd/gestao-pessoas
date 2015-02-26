@@ -18,6 +18,7 @@
  		<intercept-url pattern="/estagiario/inicial" access="hasRole('ROLE_ESTAGIARIO') or hasRole('ROLE_COORDENADOR')" />
  		<intercept-url pattern="/estagiario/index" access="hasRole('ROLE_ESTAGIARIO') or hasRole('ROLE_COORDENADOR')" />
  		<intercept-url pattern="/estagiario/meu-cadastro-npi" access="hasRole('ROLE_ESTAGIARIO') or hasRole('ROLE_COORDENADOR')" />
+ 		<intercept-url pattern="/estagiario/conta**" access="hasRole('ROLE_ESTAGIARIO') or hasRole('ROLE_COORDENADOR')" />
  		<intercept-url pattern="/estagiario/**" access="hasRole('ROLE_COORDENADOR')" />
 
  		<intercept-url pattern="/coordenador/**" access="hasRole('ROLE_COORDENADOR')"/>

@@ -22,6 +22,26 @@
 		</property>
 	</bean>
 
+	<bean class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
+		<property name="order" value="1" />
+		<property name="mediaTypes">
+			<map>
+				<entry key="json" value="application/json" />
+			</map>
+		</property>
+	
+		<property name="defaultViews">
+			<list>
+				<!-- JSON View -->
+				<bean
+					class="org.springframework.web.servlet.view.json.MappingJacksonJsonView">
+				</bean>
+			</list>
+		</property>
+		<property name="ignoreAcceptHeader" value="true" />
+	
+	</bean>
+
 	<mvc:resources mapping="/webjars/**" location="/webjars/" />
 	<mvc:resources mapping="/resources/**" location="/resources/" />
 

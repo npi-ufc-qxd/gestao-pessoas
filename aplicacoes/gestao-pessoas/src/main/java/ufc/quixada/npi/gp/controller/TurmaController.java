@@ -20,10 +20,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import ufc.quixada.npi.gp.model.Estagiario;
-import ufc.quixada.npi.gp.model.FrequenciaJson;
+import ufc.quixada.npi.gp.model.FiltroJson;
+import ufc.quixada.npi.gp.model.Horario;
 import ufc.quixada.npi.gp.model.Periodo;
 import ufc.quixada.npi.gp.model.Pessoa;
 import ufc.quixada.npi.gp.model.Turma;
+import ufc.quixada.npi.gp.model.enums.Dia;
 import ufc.quixada.npi.gp.service.EstagiarioService;
 import ufc.quixada.npi.gp.service.PeriodoService;
 import ufc.quixada.npi.gp.service.TurmaService;
@@ -50,15 +52,25 @@ public class TurmaController {
 
 	@RequestMapping(value = "/turmas.json", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<Turma> getTurmas(@RequestBody FrequenciaJson frequenciaJson, Model model) {
+	public List<Turma> getTurmas(@RequestBody FiltroJson frequenciaJson, Model model) {
 		List<Turma> turmas = serviceTurma.getTurmaPeriodo(frequenciaJson.getAno(), frequenciaJson.getSemestre());
 		return turmas;
 	}
 
 	@RequestMapping(value = "/{idPeriodo}/turma", method = RequestMethod.GET)
 	public String novaTurmaPeriodo(ModelMap model, @PathVariable("idPeriodo") Long idPeriodo) {
+
 		model.addAttribute("periodo", servicePeriodo.find(Periodo.class, idPeriodo));
-		model.addAttribute("turma", new Turma());
+
+		Turma turma = new Turma();
+		List<Horario> horarios = new ArrayList<Horario>();
+		for (int i = 0; i < 5; i++) {
+			horarios.add(new Horario());
+		}
+		turma.setHorarios(horarios);
+		
+		model.addAttribute("turma", turma);
+		model.addAttribute("dias", Dia.values());
 		
 		return "coordenador/form-turma";
 	}
@@ -72,21 +84,12 @@ public class TurmaController {
 			model.addAttribute("periodo", periodo);
 			return "coordenador/form-turma";
 		}
-
-		if (turma.getInicioSemana().equals(turma.getFimSemana())) {
-			model.addAttribute("erro", "Os dias devem ser diferentes.");
-			model.addAttribute("periodo", periodo);
-			return "coordenador/form-turma";
-		}
 		
 		turma.setSupervisor((Pessoa) session.getAttribute(Constants.USUARIO_LOGADO));
 		turma.setPeriodo(periodo);
 		turma = atualizarTurma(turma);
 		serviceTurma.save(turma);
 		
-		turma.setCodigo(geraCodigoTurma(turma.getId()));
-		serviceTurma.update(turma);
-
 		return "redirect:/coordenador/periodos";
 	}
 
@@ -129,14 +132,6 @@ public class TurmaController {
 		
 		turma.setEstagiarios(estagiarios);
 		return turma;
-	}
-	
-	private String geraCodigoTurma(Long id) {
-		if (id < 10) {
-			return "TURMA_" + id;
-		} else {
-			return "TURMA_" + id;
-		}
 	}
 
 }

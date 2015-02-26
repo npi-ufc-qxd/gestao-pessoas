@@ -17,14 +17,15 @@
 	<div class="container">
 		<input id="current-data" type="hidden"/>
 
-		<form id="filtroFrequenciaDaTurma" class="form-inline" style="border-bottom: 1px solid #333; background: #D3DFEA; padding: 3px;">
+		<h4><b>Frequências</b></h4>
+		<form id="filtroFrequenciaDaTurma" class="form-inline filtro">
 			<label class="info">Selecione o periodo:</label>
 			<div class="form-group">
-				<input id="anoFiltro" name="ano" type="text" class="form-control filtroJsonAno col-sm-1" placeholder="ano" size="4">
+				<input id="anoFiltro" name="ano" type="text" class="form-control filtroAno col-sm-1" placeholder="ano" size="4">
 			</div>
 		
 			<div class="form-group">
-				<select id="semestreFiltro" name="semestre" class="selectpicker filtroJsonSemestre " data-width="auto">
+				<select id="semestreFiltro" name="semestre" class="selectpicker filtroSemestre " data-width="auto">
 				<option value="">Semestre</option>
 				<option value="1">1</option>
 				<option value="2">2</option>

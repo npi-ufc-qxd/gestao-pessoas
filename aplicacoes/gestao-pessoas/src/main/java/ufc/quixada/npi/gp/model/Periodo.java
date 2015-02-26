@@ -6,6 +6,8 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -19,6 +21,8 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.format.annotation.DateTimeFormat;
+
+import ufc.quixada.npi.gp.model.enums.StatusPeriodo;
 
 @Entity
 @Table(name = "periodo", uniqueConstraints=@UniqueConstraint(columnNames = {"ano", "semestre"}))
@@ -35,6 +39,9 @@ public class Periodo {
 	@Column(nullable = false)
 	@NotEmpty(message = "Informe o semestre.")
 	private String semestre;
+
+	@Enumerated(EnumType.STRING)
+	private StatusPeriodo statusPeriodo; 
 
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern = "dd/MM/yyyy")
@@ -77,6 +84,15 @@ public class Periodo {
 	public void setSemestre(String semestre) {
 		this.semestre = semestre;
 	}
+
+	public StatusPeriodo getStatusPeriodo() {
+		return statusPeriodo;
+	}
+
+	public void setStatusPeriodo(StatusPeriodo statusPeriodo) {
+		this.statusPeriodo = statusPeriodo;
+	}
+
 
 	public Date getInicio() {
 		return inicio;

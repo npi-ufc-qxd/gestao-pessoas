@@ -25,20 +25,21 @@
 		<!-- Spring -->
 		<spring.version>4.0.1.RELEASE</spring.version>
 
+		<!-- Spring Security -->
+		<spring.security.version>3.2.1.RELEASE</spring.security.version>
+
 		<!-- Hibernate / JPA -->
 		<hibernate.version>4.3.1.Final</hibernate.version>
 
 		<!-- Database access -->
 		<postgresql.version>9.1-901.jdbc4</postgresql.version>
 
-		<!-- Spring Security -->
-		<spring.security.version>3.2.1.RELEASE</spring.security.version>
-
 		<!-- Logging -->
 		<slf4j-log4j12.version>1.7.6</slf4j-log4j12.version>
 
 		<!-- Web dependencies -->
 		<bootstrap.version>3.3.2</bootstrap.version>
+		<bootstrap.editable.version>1.5.1</bootstrap.editable.version>
 		<jquery.version>2.1.3</jquery.version>
 		<jquery-ui.version>1.10.3</jquery-ui.version>
 		<jquery.maskedinput.version>1.3.1</jquery.maskedinput.version>
@@ -139,8 +140,28 @@
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-taglibs</artifactId>
-			<version>3.2.1.RELEASE</version>
+			<version>${spring.security.version}</version>
 		</dependency>
+
+		<!-- Spring Security -->
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-core</artifactId>
+			<version>${spring.security.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-web</artifactId>
+			<version>${spring.security.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-config</artifactId>
+			<version>${spring.security.version}</version>
+		</dependency>
+
 
 		<!-- Spring + Quartz need transaction -->
 		<dependency>
@@ -176,33 +197,14 @@
 			<artifactId>slf4j-log4j12</artifactId>
 			<version>${slf4j-log4j12.version}</version>
 		</dependency>
-
-		<!-- Spring Security -->
-		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-core</artifactId>
-			<version>${spring.security.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-web</artifactId>
-			<version>${spring.security.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-config</artifactId>
-			<version>${spring.security.version}</version>
-		</dependency>
-
-
+		
 		<!-- Webjars (static dependencies distributed as JAR files) -->
 
+		<!-- bootstrap -->
 		<dependency>
 			<groupId>org.webjars</groupId>
 			<artifactId>x-editable-bootstrap</artifactId>
-			<version>1.5.1</version>
+			<version>${bootstrap.editable.version}</version>
 		</dependency>
 
 		<dependency>
@@ -211,6 +213,7 @@
 			<version>${bootstrap.version}</version>
 		</dependency>
 
+		<!-- jquery -->
 		<dependency>
 			<groupId>org.webjars</groupId>
 			<artifactId>jquery</artifactId>
@@ -225,12 +228,6 @@
 
 		<dependency>
 			<groupId>org.webjars</groupId>
-			<artifactId>font-awesome</artifactId>
-			<version>${font-awesome.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.webjars</groupId>
 			<artifactId>jquery-maskedinput</artifactId>
 			<version>${jquery.maskedinput.version}</version>
 		</dependency>
@@ -241,24 +238,13 @@
 			<version>${jquery.validation.version}</version>
 		</dependency>
 		
+		<!-- font-awesome -->
+		<dependency>
+			<groupId>org.webjars</groupId>
+			<artifactId>font-awesome</artifactId>
+			<version>${font-awesome.version}</version>
+		</dependency>
 
-		<!-- Dandelion -->
-		<dependency>
-			<groupId>com.github.dandelion</groupId>
-			<artifactId>datatables-jsp</artifactId>
-			<version>${dandelion.datatables.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.github.dandelion</groupId>
-			<artifactId>datatables-export-itext</artifactId>
-			<version>${dandelion.datatables.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.github.dandelion</groupId>
-			<artifactId>datatables-servlet2</artifactId>
-			<version>${dandelion.datatables.version}</version>
-		</dependency>
-		
 		<!-- Dependência do Apache Common File -->
 		<dependency>
 			<groupId>commons-fileupload</groupId>

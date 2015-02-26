@@ -1,0 +1,511 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Termo_Compromisso" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="2.1435888100000047"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="246"/>
+	<field name="nomeCompleto" class="java.lang.String"/>
+	<field name="dataNascimento" class="java.util.Date"/>
+	<field name="nomeMae" class="java.lang.String"/>
+	<field name="telefone" class="java.lang.String"/>
+	<field name="pessoa.cpf" class="java.lang.String"/>
+	<field name="semestre" class="java.lang.String"/>
+	<field name="matricula" class="java.lang.Integer"/>
+	<field name="pessoa.email" class="java.lang.String"/>
+	<field name="endereco" class="java.lang.String"/>
+	<field name="curso.labelCurso" class="java.lang.String"/>
+	<field name="cep" class="java.lang.String"/>
+	<field name="cidade" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<detail>
+		<band height="802" splitType="Stretch">
+			<rectangle>
+				<reportElement x="0" y="226" width="555" height="70"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="0" y="143" width="555" height="71"/>
+			</rectangle>
+			<rectangle>
+				<reportElement x="0" y="77" width="555" height="53"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="5" y="81" width="260" height="44"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[Razão Social: Universidade Federal do Ceará
+Endereço: Av. José de Freitas Queiroz, 5003 – Bairro: Cedro
+Representante:  Jesualdo Pereira Farias
+Setor: Campus Quixadá
+]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="133" width="555" height="10"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[INSTITUIÇÃO DE ENSINO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="5" y="148" width="260" height="60"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[Nome: Universidade Federal do Ceará
+Endereço: Av. José de Freitas Queiroz, 2853 – Bairro: Benfica
+Representante:  Jesualdo Pereira Farias
+Coordenador da Agência de Estágio: Rogério Teixeira Masih
+Setor: Campus Quixadá
+Fone: (85)3366-7413 – FAX: (85)3366-7881]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="217" width="555" height="10"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ESTAGIÁRIO (A) ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="5" y="232" width="24" height="11"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[Nome:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="30" y="232" width="146" height="10"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nomeCompleto}.toUpperCase()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="5" y="244" width="53" height="10"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[Nome da Mãe:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="59" y="244" width="116" height="10"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nomeMae}.toUpperCase()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="186" y="244" width="40" height="10"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[Endereco:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="5" y="268" width="22" height="10"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[Fone:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="27" y="268" width="147" height="10"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{telefone}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="363" y="232" width="20" height="10"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[CPF:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="384" y="232" width="156" height="10"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{pessoa.cpf}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="5" y="280" width="25" height="10"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[Curso:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="186" y="280" width="40" height="10"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[Semestre:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="226" y="280" width="126" height="10"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{semestre}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="186" y="232" width="67" height="10"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[Data Nascimento:]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="253" y="231" width="100" height="11"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="SansSerif" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{dataNascimento}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="186" y="268" width="24" height="10"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[Email:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="211" y="267" width="142" height="11"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{pessoa.email}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="421" y="280" width="128" height="11"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{matricula}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="226" y="244" width="126" height="10"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{endereco}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="30" y="280" width="142" height="10"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{curso.labelCurso}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="54" width="555" height="12"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TERMO DE COMPROMISSO DE ESTÁGIO OBRIGATÓRIO]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="50" y="0" width="505" height="52"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="56" y="5" width="499" height="48"/>
+				<textElement>
+					<font fontName="Arial" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Universidade Federal do Ceará
+Pró-Reitoria de Extensão
+Coordenadoria da Agência de Estágios]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="0" y="0" width="50" height="52"/>
+			</rectangle>
+			<image>
+				<reportElement x="10" y="6" width="50" height="42"/>
+				<imageExpression><![CDATA["./ufc.jpg"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="5" y="256" width="20" height="10"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[CEP:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="26" y="256" width="151" height="10"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cep}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="67" width="555" height="10"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[UNIDADE CONCEDENTE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="186" y="256" width="41" height="10"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[Cidade/UF:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="363" y="280" width="58" height="10"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[N° de Matricula:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="363" y="244" width="107" height="10"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[Nro. da Carteira de Trabalho:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="228" y="256" width="121" height="10"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cidade}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="285" y="81" width="265" height="43"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[CNPJ: 07.272.636/0001-3
+Cidade/UF: Quixadá-Ceará
+Supervisor:  Camilo Camilo Almendra
+Fone/Fax: (88) 34120919
+]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="285" y="148" width="265" height="43"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[CNPJ: 07.272.636/0001-3
+Cidade/UF: Quixadá-Ceará
+Cargo: Reitor]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="363" y="256" width="112" height="10"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[Série da Carteira de Trabalho:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="363" y="268" width="135" height="10"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[Data Exped. da Carteira de Trabalho:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="300" width="555" height="10"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[PROFESSOR ORIENTADOR]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="0" y="310" width="555" height="30"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="5" y="313" width="24" height="11"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[Nome:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="5" y="326" width="29" height="11"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[SIAPE:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="230" y="313" width="62" height="11"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[Lotação:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="230" y="326" width="39" height="11"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[Telefone:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="344" width="555" height="441"/>
+				<box topPadding="3" leftPadding="5" rightPadding="5">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Justified">
+					<font fontName="Times New Roman" size="8"/>
+				</textElement>
+				<text><![CDATA[Celebram entre si este TERMO DE COMPROMISSO DE ESTÁGIO, de acordo com estabelecido na Lei N.º 11.788, de 25 de setembro de 2008, e o Termo de Convênio já firmado entre as duas partes em ____/____/_____, obedecendo, ainda, as seguintes cláusulas e condições:
+DOS OBJETIVOS DO ESTÁGIO
+CLÁUSULA PRIMEIRA - O estágio tem por objetivos:
+a) Qualificar o estagiário na área de Tecnologia da Informação, junto ao setor [[[[NPI]]]]] da Empresa concedente;
+b) Possibilitar à UFC mais um caminho para a obtenção de subsídios necessários à permanente atualização de seus currículos, visando a complementação do processo ensino-aprendizagem de seus estudantes, através de aprendizado de competências próprias de sua atividade profissional, bem como, proporcionar à UNIDADE CONCEDENTE, mais um canal de informações indispensável à sua constante aproximação das fontes de conhecimentos técnicos e científicos.
+DA COMPETÊNCIA DA UNIDADE CONCENDENTE
+CLÁUSULA SEGUNDA – A UNIDADE CONCEDENTE assume o compromisso de proporcionar experiência prática complementar, em consonância com o currículo e horários escolares, de acordo com a legislação em vigor. Ficam definidas, pela UNIDADE CONCEDENTE, as seguintes características de realização do estágio:
+a)O estudante se obriga a estagiar 4 horas/dia, no horário de 08:00h às 12:00h, nos dias da semana segunda e terça, e a estagiar 2 horas/dia, no horário de 08:00 h às 10:00 h, na Quarta-Feira, totalizando 10 (dez) horas/semanais;
+b) O estágio terá início em 19/02/2015 e término em 26/06/2015 compreendendo 5 (cinco) meses, não podendo em qualquer hipótese ultrapassar ao último dia do semestre do ano fixado para conclusão do curso do estagiário;
+c) O estágio somente poderá ser iniciado após a assinatura do TERMO DE COMPROMISSO DE ESTÁGIO pelas partes envolvidas, nos termos do  Art. 9º, inciso I da Lei nº 11.788 de 25 de setembro de 2008;
+d) Indicar funcionário de seu quadro de pessoal, com formação ou experiência profissional na área de conhecimento desenvolvida no curso de graduação do estagiário, para orientar e supervisionar até 10 (dez) estagiários simultaneamente;
+e) Oferecer, à instituição de ensino e aos órgãos fiscalizadores, subsídios que possibilitem o acompanhamento, a coordenação e avaliação do estágio;
+f) Por ocasião do desligamento do estagiário, entregar termo de realização do estágio com indicação resumida das atividades desenvolvidas, dos períodos e da avaliação do desempenho;
+g) Enviar, à instituição de ensino, com periodicidade mínima de 6 (seis) meses, relatório de atividades com vista obrigatória do estagiário;
+h) Assegurar ao estagiário, sempre que o estágio tenha duração igual ou superior a 1 (um) ano, período de recesso de 30 (trinta) dias remunerado, a ser gozado, preferencialmente, durante as férias escolares;
+i) Será concedido recesso de maneira proporcional, nos casos de o estágio ter duração inferior a 1 (um) ano;
+j) A instituição de ensino poderá cobrar da empresa concedente a redução da carga-horária do estagiário nos períodos de avaliação deste, para garantir o bom desempenho do estudante.
+k) O valor da bolsa mensal ou outra forma de contraprestação que será acordado entre a Unidade Concedente e o Estagiário é de............................................................................, sendo compulsória a sua concessão, bem como a do  auxílio-transporte.
+l) A UNIDADE CONCEDENTE obriga-se a fazer na vigência do presente TERMO DE COMPROMISSO DE ESTÁGIO, em favor do estagiário, Seguro contra Acidentes Pessoais,  de acordo com o Art. 9º, inciso IV da Lei n° 11.788 de 25 de setembro de 2008.
+    1 - Vigência do Seguro  de:         até
+    2 - Apólice de Seguro nº:           Nome da Empresa Seguradora:
+    3 - Morte Acidental = R$            Invalidez Permanente = R$
+m) A UNIDADE CONCEDENTE se assegura a prerrogativa de, a qualquer momento, mediante a indicação fundamentada em suas razões, realizar o desligamento ou a substituição do ESTAGIÁRIO, certificando à UFC, através do setor competente, com indicação resumida das atividades desenvolvidas, dos períodos e da avaliação de desempenho;
+DA COMPETÊNCIA DA UFC
+CLÁUSULA TERCEIRA - A UFC adotará através da Pró-Reitoria de Extensão ou da Pró-Reitoria de Graduação, por seus setores competentes e para os efeitos deste Termo de Compromisso de Estágio(s) as seguintes providências:
+a) Avaliar as instalações da parte concedente do estágio e sua adequação à formação cultural e profissional do educando;
+b) Exigir do educando a apresentação periódica, em prazo não superior a 6 (seis) meses, de relatório das atividades;
+c) Elaborar normas complementares e instrumentos de avaliação dos estágios de seus educandos;
+d) Manter atualizadas as informações cadastrais relativas ao ESTAGIÁRIO;
+e) Disponibilizar, quando solicitado, às Coordenações dos Cursos e às Pró-Reitorias de Graduação e Extensão, as informações julgadas necessárias às avaliações periódicas do estágio.]]></text>
+			</staticText>
+			<break>
+				<reportElement x="0" y="793" width="100" height="1"/>
+			</break>
+		</band>
+		<band height="352">
+			<frame>
+				<reportElement x="0" y="277" width="555" height="47"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+			</frame>
+			<staticText>
+				<reportElement x="0" y="1" width="555" height="276"/>
+				<box topPadding="3" leftPadding="5" rightPadding="5">
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Justified">
+					<font fontName="Times New Roman" size="8"/>
+				</textElement>
+				<text><![CDATA[DA COMPETÊNCIA DO ESTAGIÁRIO
+
+CLÁUSULA QUARTA - Compete ao ESTAGIÁRIO:
+a) Realizar com empenho as atividades que lhe sejam atribuídas pela EMPRESA CONCEDENTE, cabendo-lhe ao ESTAGIÁRIO, na impossibilidade eventual do cumprimento de algum item dessa programação, o dever de comunicar a circunstância com a devida antecedência e ficando, desde logo, entendido que serão considerados motivos justos, para a ocorrência daquela eventualidade, as suas obrigações escolares e a pertinência das atividades à sua qualificação profissional;
+b) Cumprir as normas internas da EMPRESA, principalmente as relativas ao estágio, que o ESTAGIÁRIO declara expressamente conhecer;
+c) Responder por perdas e danos conseqüentes da inobservância das normas internas ou das constantes deste Termo de Compromisso de Estágio, quando devidamente comprovados, seja por dolo ou culpa;
+d) Seguir a orientação articulada entre os Supervisores de Estágio designados pela EMPRESA CONCEDENTE e pela UFC;
+e) Apresentar as informações e os relatórios que lhe forem solicitados pela EMPRESA CONCEDENTE e pela UFC.
+f) Desistir do Estágio a qualquer tempo, quando deverá comunicar à Empresa e à UFC, no setor competente, com antecedência mínima de 05 (cinco) dias.
+DO PLANO DE ATIVIDADES DO ESTAGIÁRIO
+O Plano de Atividades do Estagiário deve apresentar compatibilidade entre a atividades desenvolvidas no estágio e aquelas previstas no Termo de Compromisso (Item III do Art. 3º da Lei nº 11.788 de 25 de setembro de 2008), proporcionando ao estagiário experiência prática na sua linha de formação.
+DAS DISPOSIÇÕES GERAIS
+CLÁUSULA QUINTA - O ESTAGIÁRIO não terá, para quaisquer efeitos legais, vínculo empregatício com a UFC e nem com a UNIDADE CONCEDENTE, conforme Art. 3º, e § 2º do Art.  2° da Lei nº 11.788 de 25 de setembro de 2008.
+CLÁUSULA SEXTA - A Universidade Federal do Ceará, Instituição de Ensino Superior do estagiário, assina o presente TERMO DE COMPROMISSO DE ESTÁGIO, como interveniente, nos termos do, Art. 3°, inciso II da Lei n° 11.788 de 25 de setembro de 2008.
+CLÁUSULA SÉTIMA - Serão motivos para a rescisão automática do TERMO DE COMPROMISSO DE ESTÁGIO a ocorrência das seguintes hipóteses:
+a) A conclusão, abandono do Curso ou Faculdade ou trancamento de matrícula;
+b) Transferência para Curso ou Faculdade que não tenha relação com as atividades de estágio desenvolvidas na Empresa;
+c) Descumprimento do convencionado no presente TERMO DE COMPROMISSO DE ESTÁGIO.
+CLÁUSULA OITAVA  – O aluno não poderá acumular estágio com recebimento de qualquer outra modalidade de bolsa da Universidade Federal do Ceará.
+E, por estarem devidamente ajustados com as condições aqui estipuladas, firmam a EMPRESA e o ESTAGIÁRIO o presente termo em 03 ( três ) vias de igual teor e forma, com interveniência da UFC, para que o mesmo produza seus devidos efeitos legais.
+
+Fortaleza, ............. de ....................... de ........
+]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="15" y="287" width="155" height="10"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Times New Roman" size="8"/>
+				</textElement>
+				<text><![CDATA[Estágiario]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="200" y="287" width="155" height="10"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Times New Roman" size="8"/>
+				</textElement>
+				<text><![CDATA[Empresa]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="385" y="287" width="155" height="10"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Times New Roman" size="8"/>
+				</textElement>
+				<text><![CDATA[Coordenadoria de Estágios]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="385" y="296" width="155" height="10"/>
+				<box>
+					<topPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Times New Roman" size="8"/>
+				</textElement>
+				<text><![CDATA[UFC / PREX]]></text>
+			</staticText>
+		</band>
+	</detail>
+</jasperReport>

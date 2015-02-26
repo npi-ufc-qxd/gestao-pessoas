@@ -69,5 +69,18 @@ a {
 }
 
 #titulo-cadastro-npi{
-	color: #E0EFFC;
+	color: #]E0EFFC;
+}
+#finalizarCadastro {
+	border-bottom: 3px solid #e5e5e5;
+	background-color: #f9f9f9;
+	padding: 10px;
+	margin: -20px 0;
+}
+#conta {
+	display: inline;
+}
+
+.filtro {
+border-bottom: 1px solid #333; background: #D3DFEA; padding: 3px;	
 }

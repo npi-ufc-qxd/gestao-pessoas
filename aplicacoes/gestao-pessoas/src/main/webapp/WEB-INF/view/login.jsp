@@ -15,13 +15,15 @@
 	<script src="<c:url value="/webjars/jquery/2.1.3/jquery.js" />"></script>
 	<script src="<c:url value="/webjars/bootstrap/3.3.2/js/bootstrap.min.js" />"></script>
 	<script src="<c:url value="/resources/js/login.js" />"></script>
+	<script src="<c:url value="/webjars/jquery-maskedinput/1.3.1/jquery.maskedinput.min.js" />"></script>
+	
 
 </head>
 
 <body onload='document.f.j_username.focus();'>
 
 	<div class="login-container" align="center">
-		<div class="login-header">
+		<div class="login-header" align="center">
 			<h3 class="">Gestão NPI</h3>
 			<div><span class="fa fa-group fa-5x"></span></div>
 		</div>
@@ -45,7 +47,7 @@
 				
 					<div class="form-group form-inline input-group input-login">
 					    <span class="input-group-addon"><i class="fa fa-user"></i></span>
-					    <input class="form-control" type="text" name='j_username' value='' placeholder="cpf">
+					    <input class="form-control cpf" type="text" name='j_username' value='' placeholder="cpf">
 					</div>
 					
 					<div class="form-group form-inline input-group input-login">

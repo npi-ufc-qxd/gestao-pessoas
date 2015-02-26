@@ -274,7 +274,7 @@ public class CoordenadorController {
 		folga.setPeriodo(periodo);
 
 		serviceFolga.save(folga);
-		return "redirect:/periodo/periodos";
+		return "redirect:/coordenador/periodos";
 	}
 /* 	FINAL PERIODO */
 

@@ -8,7 +8,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import ufc.quixada.npi.gp.model.Turma;
-import ufc.quixada.npi.gp.model.enums.StatusTurma;
+import ufc.quixada.npi.gp.model.enums.StatusPeriodo;
 import ufc.quixada.npi.gp.service.TurmaService;
 import br.ufc.quixada.npi.enumeration.QueryType;
 import br.ufc.quixada.npi.repository.GenericRepository;
@@ -21,17 +21,18 @@ public class TurmaServiceImpl extends GenericServiceImpl<Turma> implements Turma
 	private GenericRepository<Turma> turmaRepository;	
 
 	@Override
-	public List<Turma> getTurmaPeriodo(Integer ano, String semestre) {
+	public List<Turma> getTurmaPeriodo(String ano, String semestre) {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("ano", ano);
 		params.put("semestre", semestre);
-		List<Turma> turmas = turmaRepository.find(QueryType.JPQL,"select t.id, t.codigo from Turma t join t.periodo p where p.ano = :ano and p.semestre = :semestre", params);
+		params.put("supervisor", 1L);
+		List<Turma> turmas = turmaRepository.find(QueryType.JPQL,"select t.id, t.nome from Turma t join t.periodo p where p.ano = :ano and p.semestre = :semestre and t.supervisor.id = :supervisor", params);
 
 		return turmas;
 	}
 
 	@Override
-	public List<Turma> getMinhasTurmaPeriodo(Integer ano, String semestre, Long idSupervisor) {
+	public List<Turma> getMinhasTurmaPeriodo(String ano, String semestre, Long idSupervisor) {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("ano", ano);
 		params.put("semestre", semestre);
@@ -51,11 +52,11 @@ public class TurmaServiceImpl extends GenericServiceImpl<Turma> implements Turma
 	}
 
 	@Override
-	public List<Turma> getTurmasAno(String ano) {
+	public List<Turma> getTurmasAno(String ano, StatusPeriodo statusPeriodo) {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("ano", ano);
-		params.put("status", StatusTurma.ATIVA);
-		List<Turma> turmas = turmaRepository.find(QueryType.JPQL,"select t from Turma t join t.periodo p where p.ano = :ano and t.statusTurma = :status", params);
+		params.put("status", statusPeriodo);
+		List<Turma> turmas = turmaRepository.find(QueryType.JPQL,"select t from Turma t join t.periodo p where p.ano = :ano and p.statusPeriodo = :status", params);
 
 		return turmas;
 	}

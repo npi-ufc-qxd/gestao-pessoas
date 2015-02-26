@@ -2,7 +2,6 @@ package ufc.quixada.npi.gp.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -19,8 +18,6 @@ import net.objectlab.kit.datecalc.joda.LocalDateKitCalculatorsFactory;
 
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
-import org.joda.time.LocalTime;
-import org.junit.Before;
 import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -42,6 +39,7 @@ import ufc.quixada.npi.gp.model.Papel;
 import ufc.quixada.npi.gp.model.Pessoa;
 import ufc.quixada.npi.gp.model.Turma;
 import ufc.quixada.npi.gp.model.enums.StatusFrequencia;
+import ufc.quixada.npi.gp.model.enums.StatusPeriodo;
 import ufc.quixada.npi.gp.model.enums.TipoFrequencia;
 import ufc.quixada.npi.gp.service.DocumentoService;
 import ufc.quixada.npi.gp.service.EstagiarioService;
@@ -50,6 +48,7 @@ import ufc.quixada.npi.gp.service.PapelService;
 import ufc.quixada.npi.gp.service.PessoaService;
 import ufc.quixada.npi.gp.service.TurmaService;
 import ufc.quixada.npi.gp.utils.Constants;
+import ufc.quixada.npi.gp.utils.UtilGestao;
 
 @Controller
 @RequestMapping("estagiario")
@@ -73,22 +72,18 @@ public class EstagiarioController {
 	@Inject
 	private PapelService papelService;
 
-	@Before
 	@RequestMapping(value = {"/index", "/inicial"}, method = RequestMethod.GET)
 	public String inicial(ModelMap modelMap, HttpSession session) { 
 		modelMap.addAttribute("usuario", SecurityContextHolder.getContext().getAuthentication().getName());
 		Estagiario estagiario = estagiarioService.getEstagiarioByPessoaId(getUsuarioLogado(session).getId());
-		String ano = "" + new DateTime().getYear();
-		List<Turma> turmas = turmaService.getTurmasAno(ano);
 		
 		if(estagiario == null){
-			modelMap.addAttribute("resultado", true);
+			modelMap.addAttribute("estagiarioCadastrado", true);
 			modelMap.addAttribute("estagiario", new Estagiario());
 		}else{
-			modelMap.addAttribute("resultado", false);
+			modelMap.addAttribute("estagiarioCadastrado", false);
 			modelMap.addAttribute("estagiario", estagiario);
 		}
-		modelMap.addAttribute("turmas", turmas);
 		return "estagiario/inicial";
 	}
 	
@@ -106,7 +101,7 @@ public class EstagiarioController {
 
 		estagiarioService.save(estagiario);
 		
-		//List<Frequencia> frequencias = geraFrequencia(estagiario);
+		//List<Frequencia> frequencias = gerarFrequencia(estagiario);
 		
 		//estagiario.setFrequencias(frequencias);
 		
@@ -145,11 +140,11 @@ public class EstagiarioController {
 		HolidayCalendar<LocalDate> calendarioDeFeriados = new DefaultHolidayCalendar<LocalDate>(dataDosFeriados);
 		LocalDateKitCalculatorsFactory.getDefaultInstance().registerHolidays("NPI", calendarioDeFeriados);
 		DateCalculator<LocalDate> calendario = LocalDateKitCalculatorsFactory.getDefaultInstance().getDateCalculator("NPI", HolidayHandlerType.FORWARD);
+
+		boolean horarioDeTrabalho = UtilGestao.isHoraPermitida(estagiario.getTurma().getHorarios());
+		boolean diaDeTrabalho = UtilGestao.isDiaTrabaho(estagiario.getTurma().getHorarios());
 		
-		boolean horarioDeTrabalho = isHoraPermitida(estagiario.getTurma().getHoraInicio(), estagiario.getTurma().getHoraFinal());
 		LocalDate dia = new LocalDate();
-		boolean diaDeTrabalho = isDiaTrabaho(estagiario.getTurma().getInicioSemana().getDia(), estagiario.getTurma().getFimSemana().getDia(), dia.getDayOfWeek());
-		
 		Frequencia frequencia = new Frequencia();
 		if( (!calendario.isNonWorkingDay(dia) ) && ( diaDeTrabalho && horarioDeTrabalho ))
 		{
@@ -209,57 +204,65 @@ public class EstagiarioController {
 		redirect.addFlashAttribute("info", "Parabéns, seu cadastro esta realizado.");
 		return "redirect:/login";
 	}
-
-//	UTILS
-	private boolean isHoraPermitida(Date horaInicio, Date horaFinal ){
-		LocalTime inicio = new LocalTime(horaInicio);
-		LocalTime fim = new LocalTime(horaFinal);
-
-		LocalTime horaAtual = new LocalTime();
+	
+	@RequestMapping(value = "/minha-turma", method = RequestMethod.GET)
+	public String minhaTurma(HttpSession session, Model model) {
+		int ano = new DateTime().getYear();
+		List<Turma> turmas = turmaService.getTurmasAno(String.valueOf(ano), StatusPeriodo.ABERTO);
 		
-		return (horaAtual.equals(inicio) || horaAtual.isAfter(inicio)) && 
-				(horaAtual.equals(fim) || horaAtual.isBefore(fim));
+		return "estagiario/minha-turma";
 	}
 	
-	private boolean isDiaTrabaho(int inicio, int fim, int dia){
-		return (inicio <= dia && dia <= fim);
+	
+	@RequestMapping(value = "/teste", method = RequestMethod.GET)
+	public void teste(HttpSession session, Model model) {
+		gerarFrequencia(estagiarioService.find(Estagiario.class, 2L));
 	}
 
-	private List<Frequencia> geraFrequencia(Estagiario estagiario){
+	private List<Frequencia> gerarFrequencia(Estagiario estagiario){
+
 		Set<LocalDate> dataDosFeriados = new HashSet<LocalDate>();
 
-		for (Folga folga : estagiario.getTurma().getPeriodo().getFolgas()) {
-		    dataDosFeriados.add(new LocalDate(folga.getData()));
+		if(estagiario.getTurma().getPeriodo().getFolgas() != null){
+			for (Folga folga : estagiario.getTurma().getPeriodo().getFolgas()) {
+			    dataDosFeriados.add(new LocalDate(folga.getData()));
+			}
 		}
 		
 		HolidayCalendar<LocalDate> calendarioDeFeriados = new DefaultHolidayCalendar<LocalDate>(dataDosFeriados);
 		LocalDateKitCalculatorsFactory.getDefaultInstance().registerHolidays("NPI", calendarioDeFeriados);
 		DateCalculator<LocalDate> calendario = LocalDateKitCalculatorsFactory.getDefaultInstance().getDateCalculator("NPI", HolidayHandlerType.FORWARD);
 		
-		LocalDate dataInicialTemporaria = new LocalDate(estagiario.getTurma().getPeriodo().getInicio());
-		LocalDate dataFinalTemporaria = new LocalDate(estagiario.getTurma().getPeriodo().getTermino());
-				
-		int inicio = estagiario.getTurma().getInicioSemana().getDia();
-		int fim = estagiario.getTurma().getFimSemana().getDia();
+		LocalDate inicioPeriodoTemporario = new LocalDate(estagiario.getTurma().getPeriodo().getInicio());
+		LocalDate fimPeriodo = new LocalDate(estagiario.getTurma().getPeriodo().getTermino());
+
 		List<Frequencia> frequencias = new ArrayList<Frequencia>();
-		while (!dataInicialTemporaria.isAfter(dataFinalTemporaria)) {
-			int dia = dataInicialTemporaria.getDayOfWeek();
-			
-			if ((!calendario.isNonWorkingDay(dataInicialTemporaria)) && isDiaTrabaho(inicio, fim, dia)) {
+		int cont = 0;
+		while (!inicioPeriodoTemporario.isAfter(fimPeriodo)) {
+			cont++;
+
+			if (UtilGestao.isDiaTrabaho(estagiario.getTurma().getHorarios())) {
 				Frequencia frequencia = new Frequencia();				
 				
-				frequencia.setData(dataInicialTemporaria.toDate());
+				frequencia.setTipoFrequencia(TipoFrequencia.NORMAL);				
+				frequencia.setData(inicioPeriodoTemporario.toDate());
 				frequencia.setEstagiario(estagiario);
 				frequencia.setTurma(estagiario.getTurma());
-				frequencia.setTipoFrequencia(TipoFrequencia.NORMAL);
-				frequencia.setStatusFrequencia(StatusFrequencia.AGUARDO);
+				
+				if (!calendario.isNonWorkingDay(inicioPeriodoTemporario)) {
+					frequencia.setStatusFrequencia(StatusFrequencia.FERIADO);
+				} else {
+					frequencia.setStatusFrequencia(StatusFrequencia.AGUARDO);
+				}
+				
 				
 				frequencias.add(frequencia);
 
-				System.out.println("Dia de Estagio" + dataInicialTemporaria.getDayOfWeek() + " - " + dataInicialTemporaria.toString() );
+				System.out.println("Dia de Estagio" + inicioPeriodoTemporario.getDayOfWeek() + " - " + fimPeriodo.toString() );
 			}
-			dataInicialTemporaria = dataInicialTemporaria.plusDays(1);
-		}		
+			inicioPeriodoTemporario.plusDays(1);
+		}	
+		System.out.println("while cont " + cont);
 		
 		return frequencias;
 	}
@@ -306,6 +309,19 @@ public class EstagiarioController {
 		return "";
 	}
 
+	@RequestMapping(value = "/conta-github", method = RequestMethod.POST)
+	public String contaGithub(HttpSession session, Model model, @RequestParam("pk") Long idEstagiario, @RequestParam("value") String contaGithub) {
+		
+		Estagiario estagiario = estagiarioService.find(Estagiario.class, idEstagiario);
+		
+		if (!contaGithub.isEmpty()) {
+			estagiario.setContaGithub(contaGithub);
+			estagiarioService.update(estagiario);
+			return "estagiario/inicial";
+		}
+		return "estagiario/inicial";
+	}
+	
 	private Pessoa getUsuarioLogado(HttpSession session) {
 		if (session.getAttribute(Constants.USUARIO_LOGADO) == null) {
 			Pessoa pessoa = pessoaService

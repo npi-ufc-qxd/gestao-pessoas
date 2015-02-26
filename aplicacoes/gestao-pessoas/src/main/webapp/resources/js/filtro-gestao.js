@@ -1,30 +1,97 @@
 $(document).ready(function() {
+	
+	$(".filtroAno").mask("9999");
 
-	
-//	$('.status').editable({
-//    	url : '/gestao-pessoas/frequencia/atualizarStatus',
-//        type: 'select',
-//        title: 'Presença',
-//        placement: 'top',
-//        value: 'ATRASADO',
-//        pk: 1,
-//    	mode : 'inline',
-//    	sourceCache : true,
-//        source: [
-//                 {value: 'PRESENTE', text: 'Presente' },
-//                 {value: 'ATRASADO', text: 'Atrasado'},
-//               	 {value: 'FALTA', text: 'Falta'} 
-//        ]
-//    });	
-	
-	/* FILTRO PERIODO E TURMA */
-	$('#turmaFiltro').selectpicker('hide');
-	$('#statusReposicao').selectpicker('hide');
-	$("#viewFrequencias").addClass('hidden');
-	
 	moment.locale('pt-br');
 	$('#current-data').val(moment());
 	$('label#periodo-dia').text(moment().format("DD/MM/YYYY"));
+	
+	$('#turmaFiltro').selectpicker('hide');
+	$('#statusReposicao').selectpicker('hide');
+	$("#viewFrequencias").addClass('hidden');
+
+	// CAMPOS DO FILTRO
+	$(".filtroAno").keyup(function (event) {
+	    var maximoDigitosAno = 4;
+	    var lengthAno = $(this).val().length;
+
+	    if ( lengthAno <= maximoDigitosAno && !isNaN($(this).val()) ) {
+			filtroTurma();
+	    }
+	});
+	
+	$('.filtroSemestre').change(function(event) {
+		filtroTurma();
+	});
+
+	$('.filtroTurma').change(function(event) {
+		filtroTurma();
+	});
+
+	$('.estagiariosTurma').change(function(event) {
+		turma = $(this).val().trim();
+
+		if (!isNaN(turma)) {
+			loadEstagiariosTurma(turma, '/gestao-pessoas/coordenador/estagiarios-turma');
+		}
+	});	
+
+	$('.estagiariosProjeto').change(function(event) {
+		turma = $(this).val().trim();
+
+		if (isNaN(turma)) {
+			$("#turma").selectpicker('hide');
+		} else {
+			loadEstagiariosTurma(turma, '/gestao-pessoas/coordenador/' + $("#idProjeto").val() + '/add-membros-projeto');
+			$("#turma").selectpicker('show');
+		}
+	});	
+
+	$('.frequenciasTurma').change(function(event) {
+		var turma = $('#turmaFiltro').val();		
+
+		if(!isNaN(turma)){
+			var date = moment($('#current-data').val());
+			loadFrequenciaTurma(date, turma);
+		}
+	});
+
+		
+
+	
+	
+	
+	$('.filtroReposicaoStatus').change(function(event) {
+		var status = $(this).val().trim();
+
+		if (status === 'ATRASADO') {
+			loadEstagiariosTurma(turma, '/gestao-pessoas/coordenador/reposicao-atraso');
+		} else if (status === 'FALTA') {
+			loadEstagiariosTurma(turma, '/gestao-pessoas/coordenador/reposicao-falta');
+		}
+
+	});	
+	
+	$('.agendarreposicao').on('click', function(event) {
+		var estagiario = $(this).data('estagiario');
+		var dataReposicao = $($(this).data('input')).val();
+		var li = $(this).data('li');
+		var status = $('#statusReposicao').val().trim();
+		console.log(li);
+		console.log(dataReposicao);
+		console.log(status);
+		console.log(turma);
+		console.log(estagiario);
+		console.log('click');
+		
+		agendarReposicao(turma, estagiario, status, dataReposicao, li);
+		
+	});
+
+
+	
+	
+	
 	
 //	if ($("#anoFiltro").val() != '' && $("#semestreFiltro").val() != '') {
 //		sessionStorage.setItem('ano', $("#anoFiltro").val());
@@ -35,7 +102,28 @@ $(document).ready(function() {
 //		$("#semestreFiltro").val(sessionStorage.getItem('semestre'));
 //	}
 
+	/* FILTRO ESTAGIARIO */
 
+	$('#turmaEstagiarios').hide();
+
+
+	
+
+
+	$('.reposicaoTurma').change(function(event) {
+		turma = $(this).val().trim();
+
+		if (isNaN(turma)) {
+			$("#turma").selectpicker('hide');
+		} else {
+			$("#statusReposicao").selectpicker('show');
+		}
+	});
+	
+
+
+	
+	
 	$('.selectpicker').selectpicker('refresh')	
 	filtroTurma();
 
@@ -50,21 +138,6 @@ $(document).ready(function() {
 		var turma = $('#turmaFiltro').val();
 		loadFrequenciaTurma(date, turma);
 	});	
-	
-	/* FILTRO FREQUENCIA */
-
-	$(".filtroJsonAno").keyup(function (event) {
-	    var maximoDigitosAno = 4;
-	    var lengthAno = $(this).val().length;
-
-	    if ( lengthAno <= maximoDigitosAno && !isNaN($(this).val()) ) {
-			filtroTurma();
-	    }
-	});
-
-	$('.filtroJsonSemestre').change(function(event) {
-		filtroTurma();
-	});
 
 	$("#turmaFiltro").change(function(event) {
 		if(isNaN($('#turmaFiltro').val())){
@@ -76,34 +149,21 @@ $(document).ready(function() {
 		}
 	});
 	
-	$('.frequenciasTurma').change(function(event) {
-		var turma = $('#turmaFiltro').val();		
-
-		if(!isNaN(turma)){
-			var date = moment($('#current-data').val());
-			loadFrequenciaTurma(date, turma);
-		}
-	});
-
-	function filtroTurma() {
-		sessionStorage.setItem('ano', $("#anoFiltro").val().trim());
-		sessionStorage.setItem('semestre', $("#semestreFiltro").val().trim());
-
-		var ano = sessionStorage.getItem('ano');
-		var semestre = sessionStorage.getItem('semestre');
-
-		if (ano != '' && semestre != '') {
-			loadTurmasByPeriodo(ano, semestre);
-		} else {
-			$('#turmaFiltro').selectpicker('hide');
-			$('.reposicao').selectpicker('hide');
-			$("#viewFrequencias").addClass('hidden');
-		}
-	}
 
 });
-	
-/* FUNCTIONS FILTRO JSON PARA FREQUENCIAS */
+
+function filtroTurma() {
+	var ano = $("#anoFiltro").val().trim();
+	var semestre = $("#semestreFiltro").val();
+
+	if (ano != '' && semestre != '') {
+		loadTurmasByPeriodo(ano, semestre);
+	} else {
+		$('#turmaFiltro').selectpicker('hide');
+		$('.reposicao').selectpicker('hide');
+		$("#viewFrequencias").addClass('hidden');
+	}
+}
 
 function loadTurmasByPeriodo(ano, semestre) {
 	$('div#periodo-dia').css('display', 'block');
@@ -159,9 +219,6 @@ function loadSelectTurma(result) {
 
 }
 
-
-
-
 function loadFrequenciaTurma(data, turma) {
 	$('div#periodo-dia').css('display', 'block');
 	$('label#periodo-dia').text(moment(data).format("DD/MM/YYYY"));
@@ -191,16 +248,6 @@ function loadFrequenciaTurma(data, turma) {
 
 /* ANALISE */
 
-function showTurmas(result) {
-	$("#turma").append($("<option>").text("Turma"));		
-	$(".turma").html($(result).find("#turma"));
-	if($("#turma").empty()){
-		$("#turma").find("option").remove();
-		$('#turma').hide();
-	}else{
-		$('#turma').show();
-	}
-}
 
 function lBootgrid(result, table) {
 	
@@ -271,4 +318,52 @@ function observar(id){
     	  }
     });
 
+}
+
+
+
+/* FUNCTIONS FILTRO PARA ESTAGIARIOS */
+function loadEstagiariosTurma(turma, url) {
+	console.log('loadEstagiariosTurma :' + turma);
+	
+	$.ajax({
+		url: url,
+		type: "POST",
+		dataType: "html",
+		data: {
+			"turma" : turma,
+		},
+		success: function(result) {
+			loadEstagiarios(result);
+			$('#turmaFiltro').find('option[value="' + turma + '"]').attr('selected', true);
+			$('.selectpicker').selectpicker('refresh');
+		},
+		error: function(error) {
+			$('#turma').hide();
+		}
+	});
+}
+
+function agendarReposicao(turma, estagiario, status, dataReposicao, li) {
+
+	$.ajax({
+		type: "POST",
+		data: {
+			"turma" : turma,
+			"estagiario" : estagiario,
+			"status" : status,
+			"data" : dataReposicao,
+		},
+		url: '/gestao-pessoas/coordenador/agendar-reposicao.json',
+		success: function(result) {
+			alert('sucesso');
+		},
+		error: function(error) {
+			alert(error.msg + 'erro' + error.erro);
+		}
+	});
+}
+
+function loadEstagiarios(result) {	
+	$("#viewEstagiarios").html($(result).find("#viewEstagiarios"));
 }

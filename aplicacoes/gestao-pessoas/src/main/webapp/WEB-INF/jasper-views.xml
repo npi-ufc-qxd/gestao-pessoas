@@ -8,7 +8,7 @@
 
 	<bean id="multiViewReport"
 	   class="org.springframework.web.servlet.view.jasperreports.JasperReportsMultiFormatView" 
-	   p:url="classpath:Termo_Compromisso.jrxml">
+	   p:url="classpath:Termo_Compromisso_2015.jrxml">
 	</bean>
 	
 	<bean id="declaracaoEstagioIndividual"

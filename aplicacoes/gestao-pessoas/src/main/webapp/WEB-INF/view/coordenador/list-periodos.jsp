@@ -7,7 +7,7 @@
 <head>
 <jsp:include page="../modulos/header-estrutura.jsp" />
 
-<title>Projetos</title>
+<title>Periodos</title>
 </head>
 <body>
 	<jsp:include page="../modulos/header.jsp" />

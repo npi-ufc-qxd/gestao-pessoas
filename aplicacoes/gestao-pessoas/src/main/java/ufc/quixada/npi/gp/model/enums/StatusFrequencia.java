@@ -1,7 +1,7 @@
 package ufc.quixada.npi.gp.model.enums;
 
 public enum StatusFrequencia {
-	PRESENTE("Presente"), ATRASADO("Atrasado"), FALTA("Falta"), AGUARDO("Aguardando dia"), REPOSICAO_ATRASO("Reposição para atraso"), REPOSICAO_FALTA("Reposição para falta");	
+	PRESENTE("Presente"), ATRASADO("Atrasado"), FALTA("Falta"), AGUARDO("Aguardando dia"), REPOSICAO_ATRASO("Reposição para atraso"), REPOSICAO_FALTA("Reposição para falta"), FERIADO("Feriado");	
 	
 	private String label;
 

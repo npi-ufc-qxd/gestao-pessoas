@@ -1,12 +1,9 @@
 package ufc.quixada.npi.gp.model;
 
-import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -14,13 +11,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-
-import org.springframework.format.annotation.DateTimeFormat;
-
-import ufc.quixada.npi.gp.model.enums.Dia;
-import ufc.quixada.npi.gp.model.enums.StatusTurma;
 
 @Entity
 public class Turma {
@@ -29,27 +19,22 @@ public class Turma {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	private String codigo;
+	private String nome;
 
-	@Enumerated(EnumType.STRING)
-	private Dia inicioSemana;
-	
-	@Enumerated(EnumType.STRING)
-	private Dia fimSemana;
-	
-	@Enumerated(EnumType.STRING)
-	private StatusTurma statusTurma;
-	
-	@Temporal(TemporalType.TIME)
-	@DateTimeFormat(pattern = "HH:mm")
-	private Date horaInicio;
-	
-	@Temporal(TemporalType.TIME)
-	@DateTimeFormat(pattern = "HH:mm")
-	private Date horaFinal;
+	@OneToMany(cascade = {CascadeType.REFRESH, CascadeType.MERGE, CascadeType.PERSIST})
+	@JoinColumn(name= "tuma_id")
+	List<Horario> horarios;
 
 	@OneToOne//(fetch = FetchType.LAZY)
 	private Pessoa supervisor;
+
+	public List<Horario> getHorarios() {
+		return horarios;
+	}
+
+	public void setHorarios(List<Horario> horarios) {
+		this.horarios = horarios;
+	}
 
 	@ManyToOne//(fetch = FetchType.LAZY)
 	private Periodo periodo;
@@ -78,53 +63,12 @@ public class Turma {
 		this.id = id;
 	}
 
-	public String getCodigo() {
-		return codigo;
+	public String getNome() {
+		return nome;
 	}
 
-	public void setCodigo(String codigo) {
-		this.codigo = codigo;
-	}
-
-	public Dia getInicioSemana() {
-		return inicioSemana;
-	}
-
-	public void setInicioSemana(Dia inicioSemana) {
-		this.inicioSemana = inicioSemana;
-	}
-
-	public Dia getFimSemana() {
-		return fimSemana;
-	}
-
-	public void setFimSemana(Dia fimSemana) {
-		this.fimSemana = fimSemana;
-	}
-
-	public StatusTurma getStatusTurma() {
-		return statusTurma;
-	}
-
-	public void setStatusTurma(StatusTurma statusTurma) {
-		this.statusTurma = statusTurma;
-	}
-
-
-	public Date getHoraInicio() {
-		return horaInicio;
-	}
-
-	public void setHoraInicio(Date horaInicio) {
-		this.horaInicio = horaInicio;
-	}
-
-	public Date getHoraFinal() {
-		return horaFinal;
-	}
-
-	public void setHoraFinal(Date horaFinal) {
-		this.horaFinal = horaFinal;
+	public void setNome(String nome) {
+		this.nome = nome;
 	}
 
 	public Pessoa getSupervisor() {

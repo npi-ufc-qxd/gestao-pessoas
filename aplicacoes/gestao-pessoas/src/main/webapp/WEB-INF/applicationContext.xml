@@ -19,7 +19,7 @@
 		<property name="dataSource" ref="gestao_pessoas" />
 	</bean>
 	<bean id="gestao_pessoas" class="org.springframework.jndi.JndiObjectFactoryBean">
-		<property name="jndiName" value="java:comp/env/gestao-pessoas" />
+		<property name="jndiName" value="java:comp/env/gestao_pessoas" />
 	</bean>
 	<bean id="txManager" class="org.springframework.orm.jpa.JpaTransactionManager">
 		<property name="entityManagerFactory" ref="emf" />

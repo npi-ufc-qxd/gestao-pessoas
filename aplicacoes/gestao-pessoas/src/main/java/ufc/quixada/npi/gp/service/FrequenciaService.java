@@ -20,13 +20,15 @@ public interface FrequenciaService extends GenericService<Frequencia>{
 
 	List<Frequencia> getFrequencias(Date data, Turma turma);
 
+	List<Object> getFrequenciass(Date data, Turma turma);
+
 	List<Object> getFrequenciaRepor();
 
 	List<Object> getReposicaoAtraso(Long idTurma);
 
 	List<Object> getReposicaoFalta(Long idTurma);
 
-	List<Frequencia> getFrequenciaStatus(Long turma, Long estagiario, StatusFrequencia statusFrequencia, int limit);
+	List<Frequencia> getFrequenciaStatus(Long estagiario, StatusFrequencia statusFrequencia, int limit);
 
 	@Transactional
 	void atualizarStatus();

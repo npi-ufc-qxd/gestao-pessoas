@@ -46,22 +46,18 @@
 					<table id="turmas-periodo" class="table table-striped">
 						<thead>
 							<tr class="">
-								<th>Supervisor</th>
 								<th>Turma</th>
+								<th>Supervisor</th>
 								<th>N° de Estagiarios</th>
-								<th></th>
 				           </tr>
 				       </thead>
 
 				       <tbody class="panel">
 							<c:forEach var="turma" items="${periodo.turmas}">
 								<tr class="linha">
+									<td>${turma.nome}</td>
 									<td>${turma.supervisor.nome}</td>
-									<td>${turma.codigo}</td>
 									<td><span class="badge ${fn:length(turma.estagiarios) gt 0 ? 'badge-success' : 'badge-danger' }">${fn:length(turma.estagiarios)}</span></td>
-									<td align="right">
-										<a href="<c:url value="/turma/${turma.id}/detalhes" />" class="btn btn-info"><span class="glyphicon glyphicon-eye-open"></span></a>
-									</td>
 								</tr>
 							</c:forEach>
 				       </tbody>

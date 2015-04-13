@@ -1,5 +1,7 @@
 package ufc.quixada.npi.gp.controller;
 
+import static ufc.quixada.npi.gp.utils.Constants.*;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -15,6 +17,7 @@ import net.objectlab.kit.datecalc.common.DefaultHolidayCalendar;
 import net.objectlab.kit.datecalc.common.HolidayCalendar;
 import net.objectlab.kit.datecalc.common.HolidayHandlerType;
 import net.objectlab.kit.datecalc.joda.LocalDateKitCalculatorsFactory;
+import net.sf.jasperreports.engine.JRException;
 
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
@@ -43,7 +46,6 @@ import ufc.quixada.npi.gp.model.enums.StatusPeriodo;
 import ufc.quixada.npi.gp.model.enums.TipoFrequencia;
 import ufc.quixada.npi.gp.service.DocumentoService;
 import ufc.quixada.npi.gp.service.EstagiarioService;
-import ufc.quixada.npi.gp.service.FrequenciaService;
 import ufc.quixada.npi.gp.service.PapelService;
 import ufc.quixada.npi.gp.service.PessoaService;
 import ufc.quixada.npi.gp.service.TurmaService;
@@ -62,9 +64,6 @@ public class EstagiarioController {
 	
 	@Inject
 	private TurmaService turmaService;
-
-	@Inject
-	private FrequenciaService frequenciaService;
 	
 	@Inject
 	private DocumentoService documentoService;
@@ -72,11 +71,11 @@ public class EstagiarioController {
 	@Inject
 	private PapelService papelService;
 
-	@RequestMapping(value = {"/index", "/inicial"}, method = RequestMethod.GET)
+	@RequestMapping(value = {"/inicial", "/index"}, method = RequestMethod.GET)
 	public String inicial(ModelMap modelMap, HttpSession session) { 
 		modelMap.addAttribute("usuario", SecurityContextHolder.getContext().getAuthentication().getName());
 		Estagiario estagiario = estagiarioService.getEstagiarioByPessoaId(getUsuarioLogado(session).getId());
-		
+
 		if(estagiario == null){
 			modelMap.addAttribute("estagiarioCadastrado", false);
 			modelMap.addAttribute("estagiario", new Estagiario());
@@ -90,14 +89,14 @@ public class EstagiarioController {
 			}
 			
 		}
-		return "estagiario/inicial";
+		return PAGINA_INICIAL_ESTAGIARIO;
 	}
-	
+
 	@RequestMapping(value = "/meu-cadastro-npi", method = RequestMethod.POST)
 	public String adicionarEstagiario(@Valid @ModelAttribute("estagiario") Estagiario estagiario, BindingResult result, HttpSession session, RedirectAttributes redirect, Model model) {
 		
 		if (result.hasErrors()) {
-			return "estagiario/inicial";
+			return PAGINA_INICIAL_ESTAGIARIO;
 		}
 		
 		Pessoa pessoa = getUsuarioLogado(session);
@@ -108,14 +107,14 @@ public class EstagiarioController {
 		redirect.addFlashAttribute("info", "Parabéns, " + pessoa.getNome() + ", seu cadastro foi realizado com sucesso!");
 		model.addAttribute("estagiarioCadastrado", true);
 		model.addAttribute("estagiario", estagiario);
-		return "redirect:/estagiario/inicial";
+		return REDIRECT_PAGINA_INICIAL_ESTAGIARIO;
 	}	
 
 	@RequestMapping(value = "/contas-turma", method = RequestMethod.POST)
 	public String adicionarContasETurma(@Valid @ModelAttribute("estagiario") Estagiario estagiario, BindingResult result, HttpSession session, RedirectAttributes redirect, Model model) {
 		
 		model.addAttribute("estagiarioCadastrado", true);
-		if (estagiario.getId() == null || estagiario.getTurma().getId() == null ||
+		if (estagiario == null || estagiario.getTurma() == null ||
 				estagiario.getContaGithub().isEmpty() || 
 				estagiario.getContaHangout().isEmpty() || 
 				estagiario.getContaRedmine().isEmpty()
@@ -125,7 +124,7 @@ public class EstagiarioController {
 			List<Turma> turmas = turmaService.getTurmasAno(String.valueOf(new DateTime().getYear()), StatusPeriodo.ABERTO);
 			model.addAttribute("turmasSelect", turmas);
 			
-			return "estagiario/inicial";
+			return PAGINA_INICIAL_ESTAGIARIO;
 		}
 		
 		Estagiario estagiarioBanco = estagiarioService.find(Estagiario.class, estagiario.getId());
@@ -142,67 +141,9 @@ public class EstagiarioController {
 		
 		redirect.addFlashAttribute("info", "Parabéns, " + estagiarioBanco.getPessoa().getNome() + ", seu cadastro foi realizado com sucesso!");
 		model.addAttribute("estagiario", estagiarioBanco);
-		return "redirect:/estagiario/inicial";
+		return REDIRECT_PAGINA_INICIAL_ESTAGIARIO;
 	}
 
-	@RequestMapping(value = "/minha-presenca", method = RequestMethod.GET)
-	public String minhaPresenca(HttpSession session, Model model) {
-		boolean liberarPresenca = true;
-
-		Frequencia frequencia = frequenciaService.getFrequenciaDeHojeByEstagiario(estagiarioService.getEstagiarioByPessoaId(getUsuarioLogado(session).getId()).getId());
-
-		if (frequencia != null) {
-
-			if(frequencia.getStatusFrequencia() == StatusFrequencia.AGUARDO) {
-				liberarPresenca = true;
-			}
-
-			if(frequencia.getStatusFrequencia() == StatusFrequencia.PRESENTE) {
-				model.addAttribute("msg", "Presença confirmada!!!");
-				liberarPresenca = false;
-			} 
-			
-		} else {
-			model.addAttribute("msg", "Sua presença não esta liberada, procure o supervisor.");
-			liberarPresenca = false;
-		}
-
-		model.addAttribute("liberarPresenca", liberarPresenca);
-		return "estagiario/minha-presenca";
-	}
-	
-	@RequestMapping(value = "/minha-presenca", method = RequestMethod.POST)
-	public String presenteNPI(HttpSession session, @RequestParam("cpf") String cpf, @RequestParam("senha") String senha) {
-		ShaPasswordEncoder encoder = new ShaPasswordEncoder(256);
-		Estagiario estagiario = estagiarioService.getEstagiarioPesssoa(cpf, encoder.encodePassword(senha, ""));
-
-		Set<LocalDate> dataDosFeriados = new HashSet<LocalDate>();
-		for (Folga folga : estagiario.getTurma().getPeriodo().getFolgas()) {
-			dataDosFeriados.add(new LocalDate(folga.getData()));
-		}
-		
-		HolidayCalendar<LocalDate> calendarioDeFeriados = new DefaultHolidayCalendar<LocalDate>(dataDosFeriados);
-		LocalDateKitCalculatorsFactory.getDefaultInstance().registerHolidays("NPI", calendarioDeFeriados);
-		DateCalculator<LocalDate> calendario = LocalDateKitCalculatorsFactory.getDefaultInstance().getDateCalculator("NPI", HolidayHandlerType.FORWARD);
-
-		boolean horarioDeTrabalho = UtilGestao.isHoraPermitida(estagiario.getTurma().getHorarios());
-		boolean diaDeTrabalho = UtilGestao.isDiaTrabaho(estagiario.getTurma().getHorarios());
-		
-		LocalDate dia = new LocalDate();
-		if( (!calendario.isNonWorkingDay(dia) ) && ( diaDeTrabalho && horarioDeTrabalho ))
-		{
-			Frequencia frequencia = frequenciaService.getFrequenciaDeHojeByEstagiario(estagiarioService.getEstagiarioByPessoaId(getUsuarioLogado(session).getId()).getId());
-
-			if(frequencia.getStatusFrequencia().equals(StatusFrequencia.AGUARDO)){
-				frequencia.setStatusFrequencia(StatusFrequencia.PRESENTE);
-				frequenciaService.update(frequencia);
-			}
-			
-		}
-
-		return "redirect:/estagiario/minha-presenca";
-	}
-	
 	@RequestMapping(value = "/meu-projeto", method = RequestMethod.GET)
 	public String meuProjeto(HttpSession session, Model model) {
 		Estagiario estagiario = estagiarioService.getEstagiarioByPessoaId(getUsuarioLogado(session).getId());
@@ -211,12 +152,12 @@ public class EstagiarioController {
 			model.addAttribute("projeto", estagiario.getProjeto());
 		}
 		
-		return "estagiario/meu-projeto";
+		return PAGINA_MEU_PROJETO;
 	}
 	
 	@RequestMapping(value = "/avaliacao", method = RequestMethod.GET)
 	public String avaliacao(HttpSession session, Model model) {
-		return "estagiario/avaliacao";
+		return PAGINA_AVALIACAO;
 	}
 	
 	@RequestMapping(value = "/cadastre-se", method = RequestMethod.POST)
@@ -224,7 +165,7 @@ public class EstagiarioController {
 		
 		if (result.hasErrors()) {
 			model.addAttribute("cadastro", true);
-			return "login";
+			return PAGINA_LOGIN;
 		}
 
 		ShaPasswordEncoder encoder = new ShaPasswordEncoder(256);
@@ -239,12 +180,62 @@ public class EstagiarioController {
 		pessoaService.save(pessoa);
 		
 		redirect.addFlashAttribute("info", "Parabéns, seu cadastro esta realizado.");
-		return "redirect:/login";
+		return REDIRECT_PAGINA_LOGIN;
 	}
 
-	@RequestMapping(value = "/teste", method = RequestMethod.GET)
-	public void teste(HttpSession session, Model model) {
-		gerarFrequencia(estagiarioService.find(Estagiario.class, 2L));
+	@RequestMapping(value = "/documentos", method = RequestMethod.GET)
+	public String documento(HttpSession session, Model model) {
+		return PAGINA_DETALHES_DOCUMENTOS;
+	}
+
+	@RequestMapping(value = "/cadastro-documento", method = RequestMethod.POST)
+	public String cadastrarDocumentos(@RequestParam("documentos") List<MultipartFile> documentos,BindingResult result, HttpSession session, RedirectAttributes redirect, Model model) {
+		
+		Pessoa pessoa = getUsuarioLogado(session);
+		
+		if (result.hasErrors()) {
+			return 	PAGINA_CADASTRAR_DOCUMENTOS;
+		}
+		
+		List<Documento> documentosEstagio = new ArrayList<Documento>();
+		if(documentos != null && !documentos.isEmpty()) {
+			for(MultipartFile doc : documentos) {
+				try {
+					if(doc.getBytes() != null && doc.getBytes().length != 0) {
+						Documento documento = new Documento();
+						documento.setArquivo(doc.getBytes());
+						documento.setNome(doc.getOriginalFilename());
+						documento.setTipo(doc.getContentType());
+						documento.setPessoa(pessoa);
+						documentosEstagio.add(documento);
+					}
+				} catch (IOException e) {
+					model.addAttribute("erro", "Erro ao fazer upload.");
+					return "";
+				}
+			}
+		}
+		
+		
+		if(!documentos.isEmpty()) {
+			documentoService.salvar(documentosEstagio);
+		}
+		
+		redirect.addFlashAttribute("info", "");
+		return PAGINA_DETALHES_DOCUMENTOS;
+	}
+
+	@RequestMapping(value = "/conta-github", method = RequestMethod.POST)
+	public String contaGithub(HttpSession session, Model model, @RequestParam("pk") Long idEstagiario, @RequestParam("value") String contaGithub) {
+		
+		Estagiario estagiario = estagiarioService.find(Estagiario.class, idEstagiario);
+		
+		if (!contaGithub.isEmpty()) {
+			estagiario.setContaGithub(contaGithub);
+			estagiarioService.update(estagiario);
+			return PAGINA_INICIAL_ESTAGIARIO;
+		}
+		return PAGINA_INICIAL_ESTAGIARIO;
 	}
 
 	private List<Frequencia> gerarFrequencia(Estagiario estagiario){
@@ -296,60 +287,6 @@ public class EstagiarioController {
 		return frequencias;
 	}
 	
-	@RequestMapping(value = "/documentos", method = RequestMethod.GET)
-	public String documento(HttpSession session, Model model) {
-		return "estagiario/documentos";
-	}
-
-	@RequestMapping(value = "/cadastro-documento", method = RequestMethod.POST)
-	public String cadastrarDocumentos(@RequestParam("documentos") List<MultipartFile> documentos,BindingResult result, HttpSession session, RedirectAttributes redirect, Model model) {
-		
-		Pessoa pessoa = getUsuarioLogado(session);
-		
-		if (result.hasErrors()) {
-			return 	"";
-		}
-		
-		List<Documento> documentosEstagio = new ArrayList<Documento>();
-		if(documentos != null && !documentos.isEmpty()) {
-			for(MultipartFile doc : documentos) {
-				try {
-					if(doc.getBytes() != null && doc.getBytes().length != 0) {
-						Documento documento = new Documento();
-						documento.setArquivo(doc.getBytes());
-						documento.setNome(doc.getOriginalFilename());
-						documento.setTipo(doc.getContentType());
-						documento.setPessoa(pessoa);
-						documentosEstagio.add(documento);
-					}
-				} catch (IOException e) {
-					model.addAttribute("erro", "Erro ao fazer upload.");
-					return "";
-				}
-			}
-		}
-		
-		
-		if(!documentos.isEmpty()) {
-			documentoService.salvar(documentosEstagio);
-		}
-		
-		redirect.addFlashAttribute("info", "");
-		return "";
-	}
-
-	@RequestMapping(value = "/conta-github", method = RequestMethod.POST)
-	public String contaGithub(HttpSession session, Model model, @RequestParam("pk") Long idEstagiario, @RequestParam("value") String contaGithub) {
-		
-		Estagiario estagiario = estagiarioService.find(Estagiario.class, idEstagiario);
-		
-		if (!contaGithub.isEmpty()) {
-			estagiario.setContaGithub(contaGithub);
-			estagiarioService.update(estagiario);
-			return "estagiario/inicial";
-		}
-		return "estagiario/inicial";
-	}
 	
 	private Pessoa getUsuarioLogado(HttpSession session) {
 		if (session.getAttribute(Constants.USUARIO_LOGADO) == null) {

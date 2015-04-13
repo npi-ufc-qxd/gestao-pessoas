@@ -6,6 +6,7 @@
 <head>
 	<title>Estagiários</title>
 	<jsp:include page="../modulos/header-estrutura.jsp" />
+	<link href="<c:url value="/resources/css/flippant.css" />" rel="stylesheet" />
 </head>
 <body>
 	<c:if test="${estagiarioCadastrado}">
@@ -28,7 +29,7 @@
 
 		<c:if test="${estagiarioCadastrado}"><!-- Cadastro de Contas e Seleção de Turma NPI -->
 			<c:if test="${empty estagiario.contaGithub or empty estagiario.contaRedmine or empty estagiario.contaHangout or empty estagiario.turma}">
-				<jsp:include page="../estagiario/minha-presenca.jsp" />
+				<jsp:include page="../estagiario/estagiario-contas-turma.jsp" />
 			</c:if>
 		</c:if><!-- Cadastro de Contas e Seleção de Turma NPI -->
 

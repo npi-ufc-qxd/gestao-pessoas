@@ -55,7 +55,6 @@
 							<tr>
 								<th>Selecione</th>
 								<th>Matricula</th>
-								<th>Nome</th>
 								<th></th>
 				           </tr>
 				       </thead>
@@ -64,11 +63,11 @@
 								<c:forEach var="estagiario" items="${estagiarios}" varStatus="cont">
 								<tr class="form-group">
 										<td>
-											<form:checkbox id="membros" path="membros[${cont.index}].id" value="${estagiario.id}" checked="${estagiario.projeto.id eq projeto.id ? 'checked' : ''}"/>
+											<form:checkbox id="membro${cont.index}" path="membros[${cont.index}].id" value="${estagiario.id}" checked="${estagiario.projeto.id eq projeto.id ? 'checked' : ''}"/>
+											<label for="membro${cont.index}">${estagiario.nomeCompleto}</label>
 										</td>
 									
 										<td>${estagiario.matricula}</td>
-										<td>${estagiario.nomeCompleto}</td>
 										<td align="right"></td>
 									</tr>
 								</c:forEach>

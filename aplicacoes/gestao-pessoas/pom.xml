@@ -201,11 +201,11 @@
 		<!-- Webjars (static dependencies distributed as JAR files) -->
 
 		<!-- bootstrap -->
-		<dependency>
-			<groupId>org.webjars</groupId>
-			<artifactId>x-editable-bootstrap</artifactId>
-			<version>${bootstrap.editable.version}</version>
-		</dependency>
+<!-- 		<dependency> -->
+<!-- 			<groupId>org.webjars</groupId> -->
+<!-- 			<artifactId>x-editable-bootstrap</artifactId> -->
+<!-- 			<version>${bootstrap.editable.version}</version> -->
+<!-- 		</dependency> -->
 
 		<dependency>
 			<groupId>org.webjars</groupId>

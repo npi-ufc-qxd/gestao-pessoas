@@ -5,7 +5,7 @@ import net.sf.jasperreports.engine.JasperCompileManager;
 
 public class Compiler {
 	public static void main(String[] args) {
-		String sourceFileName = "C://Users/Admin/git/gestao-pessoas/aplicacoes/gestao-pessoas/src/main/resources/Termo_Compromisso.jrxml";
+		String sourceFileName = "C://Users/Admin/git/gestao-pessoas/aplicacoes/gestao-pessoas/src/main/resources/Termo_Compromisso_2-2015.jrxml";
 		System.out.println("Compiling Report Design ...");
 		try {
 			/**

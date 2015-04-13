@@ -1,6 +1,7 @@
 body {
 	background: #EDEDED;
 	color: #2C3F52;
+	overflow: hidden;
 }
 
 a {
@@ -8,43 +9,38 @@ a {
 	cursor: hand;
 }
 
-.login-container {
+.login-container   {
 	margin: 100px auto;
 	display: table;
 	margin: 100px auto;
-	width: 650px;
-	table-layout: fixed;
-	
-	-webkit-box-shadow: 0 0 4px rgba(0, 0, 0, 0.2), inset 0 0 2px #ffffff;
+	width: 500px;
+	background: #fff;
+	-webkit-box-shadow : 0 0 4px rgba( 0, 0, 0, 0.2), inset 0 0 2px #ffffff;
 	-moz-box-shadow: 0 0 4px rgba(0, 0, 0, 0.2), inset 0 0 2px #ffffff;
-	box-shadow: 0 0 4px rgba(0, 0, 0, 0.2), inset 0 0 2px #ffffff;}
+	box-shadow: 0 0 4px rgba(0, 0, 0, 0.2), inset 0 0 2px #ffffff;
+	-webkit-box-shadow: 0 0 4px rgba(0, 0, 0, 0.2), inset 0 0 2px #ffffff;}
 
+/* TITULOS */
 .login-header {
-	display: table-cell;
-	padding: 30px;
-	width: 40%;
-	background: #6798B8; 
- 	padding: 30px; 
- 	margin: 0 auto;
-}
-.login-header h3{
-	font-weight: bold;
-	font-variant: small-caps;
-	color: #fff;
-	font-size: 22px;
-	font-weight: 700;
-	opacity: 1;
+	background:#D6D7D7;
+	display:block;
+	overflow:hidden;
+	padding: 0;
+	text-align:center
 }
 
-
-.login-form {
- 	background: #fff; 
- 	padding: 30px; 
-	display: table-cell;
-	vertical-align: top;
-	width: 60%
+.login-header img{
+	height: 150px;
+	width: 80%;
 }
-.login-form .login-text {
+
+.container-form {
+	background:#fff;
+	display:block;
+	padding:30px 30px 0px 30px;
+	position:relative;
+}
+.container-form .form-title {
 	color: #777;
 	display: block;
 	font-size: 15px;
@@ -53,7 +49,8 @@ a {
 	position: relative;
 	text-align: center;
 }
-.login-form .login-text:before{
+
+.container-form .form-title:before{
 	background: #e4e4e4;
 	content: "";
 	display: block;
@@ -63,26 +60,14 @@ a {
 	right: 0;
 	top: 50%;
 }
-.login-form .login-text span{
+.container-form .form-title span{
 	background: #fff;
 	display: inline-block;
 	padding: 0 20px;
 	position: relative;
 }
 
-.input-group-addon {
-	border-radius: 0;
-	background-color: #5A9DC8;
-	color: #fff;
-}
-.input-group-addon-gp{
-	text-align: left;
-	width: 66px;
-}
-#cadastro-form .form-group input {
-	width: 142%;
-}
-
+/* FORMULARIO */
 .form-control {
 	border-radius: 0;
 	height: 30px;
@@ -92,33 +77,61 @@ a {
 	border: 1px solid #ccc;
 }
 
-.esqueci-senha {
-	border-bottom: 1px dashed #bbb;
-	color: #999;
-	display: inline-block;
-	font-size: 11px;
-	padding-bottom: 1px;
-}
-.esqueci-senha:hover {
-	text-decoration: none;
-}
-.fa {
-	color: #2C3F52;
+.form-group input[type=text], .form-group input[type=password] {
+  font-size: 15px;
+  padding: 0 0 0 56px;
+  height: 40px;
 }
 
-.login-error {
-	background: #B53636;
-	margin: 0 0 10px 0;
-	padding: 2px;
-	color: #fff;
-	font-weight: 600;
+.form-group {
+	margin: 0;
+	position: relative;
 }
+
+.form-group+.form-group {
+	margin: 10px 0 0;
+}
+
+.form-group.form-icon .label-icon {
+	border-right: 1px solid #d6d6d6;
+	bottom: 5px;
+	color: #d6d6d6;
+	display: block;
+	font-size: 14px;
+	left: 0;
+	line-height: 24px;
+	position: absolute;
+	text-align: center;
+	top: 9px;
+	width: 40px;
+	z-index: 1002;
+	-webkit-transition: all .3s;
+	transition: all .3s;
+}
+
 .btn {
 	border-radius: 0;
-	background: #6798B8;
+	margin: 5px 0;
 }
 
-.error-validation {
-	color: red;
-	margin-left: -13px;
+/* MENSAGENS */
+.login-error {
+	color: #B53636;
+	margin: 0 0 10px 0;
+	font-weight: 600;
+}
+
+footer {
+	text-align: center;
+	margin-bottom: 40px;
+}
+
+footer > img {
+	max-width: 100px;
+	margin-bottom: 10px;
+}
+
+footer > p {
+	margin-bottom: 0;
+	color: #7C7C7C;
 }

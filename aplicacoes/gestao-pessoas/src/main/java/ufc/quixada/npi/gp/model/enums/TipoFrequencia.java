@@ -1,7 +1,9 @@
 package ufc.quixada.npi.gp.model.enums;
 
 public enum TipoFrequencia {
-	NORMAL("Normal"), REPOSICAO("Reposiçao");
+	NORMAL("Normal"),
+	REPOSICAO_FALTA("Reposição por falta"), 
+	REPOSICAO_ATRASO("Reposiçao por atraso");
 	
 	private String label;
 	

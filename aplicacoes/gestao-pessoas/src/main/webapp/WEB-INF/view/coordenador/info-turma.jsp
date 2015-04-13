@@ -29,16 +29,16 @@
 				</div>
 
 				<div class="form-group">
-					<label class="col-sm-1">Turma: </label><label>${turma.codigo}</label>
+					<label class="col-sm-1">Turma: </label><label>${turma.nome}</label>
 				</div>
 
 				<div class="form-group">
 					<label class="col-sm-1">Semestre: </label><label>${turma.periodo.ano}.${turma.periodo.semestre}</label>
 				</div>
 	
-				<div class="form-group">
-					<label class="col-sm-1">Horário: </label><label>${turma.inicioSemana.labelDia} a ${turma.fimSemana.labelDia}, das ${turma.horaInicio} as ${turma.horaFinal}</label>
-				</div>
+<!-- 				<div class="form-group"> -->
+<%-- 					<label class="col-sm-1">Horário: </label><label>${turma.inicioSemana.labelDia} a ${turma.fimSemana.labelDia}, das ${turma.horaInicio} as ${turma.horaFinal}</label> --%>
+<!-- 				</div> -->
 	
 				<h4 align="left" style="border-bottom: 1px solid #333;">Estagiarios</h4>
 	
@@ -50,8 +50,6 @@
 							<tr class="">
 								<th class="col-sm-1">Matrícula</th>
 								<th class="col-sm-5">Nome</th>
-								<th class="col-sm-5">Frequência % </th>
-								<th></th>
 				           </tr>
 				       </thead>
 		
@@ -60,7 +58,6 @@
 								<tr class="linha">
 									<td>${estagiario.matricula}</td>
 									<td>${estagiario.pessoa.nome}</td>
-									<td align="right"><a href="<c:url value="#" />" class="btn btn-info"><span class="glyphicon glyphicon-eye-open"></span></a></td>
 								</tr>
 							</c:forEach>
 				       </tbody>

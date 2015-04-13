@@ -8,6 +8,7 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.http.MediaType;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -28,6 +29,7 @@ import ufc.quixada.npi.gp.model.Turma;
 import ufc.quixada.npi.gp.model.enums.Dia;
 import ufc.quixada.npi.gp.service.EstagiarioService;
 import ufc.quixada.npi.gp.service.PeriodoService;
+import ufc.quixada.npi.gp.service.PessoaService;
 import ufc.quixada.npi.gp.service.TurmaService;
 import ufc.quixada.npi.gp.utils.Constants;
 
@@ -36,31 +38,34 @@ import ufc.quixada.npi.gp.utils.Constants;
 public class TurmaController {
 
 	@Inject
-	private EstagiarioService serviceEstagiario;
+	private EstagiarioService estagiarioService;
 
 	@Inject
-	private PeriodoService servicePeriodo;
+	private PessoaService pessoaService;
+	
+	@Inject
+	private PeriodoService periodoService;
 
 	@Inject
-	private TurmaService serviceTurma;
+	private TurmaService turmaService;
 
 	@RequestMapping(value = "/minhas-turmas", method = RequestMethod.GET)
 	public String listarTurmas(ModelMap model, HttpSession session) {
-		model.addAttribute("turmas", serviceTurma.getMinhasTurma(((Pessoa) session.getAttribute(Constants.USUARIO_LOGADO)).getId()));
+		model.addAttribute("turmas", turmaService.getMinhasTurma(((Pessoa) session.getAttribute(Constants.USUARIO_LOGADO)).getId()));
 		return "coordenador/list-minhas-turmas";
 	}
 
 	@RequestMapping(value = "/turmas.json", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public List<Turma> getTurmas(@RequestBody FiltroJson frequenciaJson, Model model) {
-		List<Turma> turmas = serviceTurma.getTurmaPeriodo(frequenciaJson.getAno(), frequenciaJson.getSemestre());
+	public List<Turma> getTurmas(@RequestBody FiltroJson frequenciaJson, Model model, HttpSession session) {
+		List<Turma> turmas = turmaService.getTurmaPeriodo(frequenciaJson.getAno(), frequenciaJson.getSemestre(), getUsuarioLogado(session).getId());
 		return turmas;
 	}
 
 	@RequestMapping(value = "/{idPeriodo}/turma", method = RequestMethod.GET)
 	public String novaTurmaPeriodo(ModelMap model, @PathVariable("idPeriodo") Long idPeriodo) {
 
-		model.addAttribute("periodo", servicePeriodo.find(Periodo.class, idPeriodo));
+		model.addAttribute("periodo", periodoService.find(Periodo.class, idPeriodo));
 
 		Turma turma = new Turma();
 		List<Horario> horarios = new ArrayList<Horario>();
@@ -78,7 +83,7 @@ public class TurmaController {
 	@RequestMapping(value = "/{idPeriodo}/turma", method = RequestMethod.POST)
 	public String adicionarTurmaPeriodo(ModelMap model, @Valid @ModelAttribute("turma") Turma turma,  @PathVariable("idPeriodo") Long idPeriodo, BindingResult result, HttpSession session) {
 
-		Periodo periodo = servicePeriodo.find(Periodo.class, idPeriodo);
+		Periodo periodo = periodoService.find(Periodo.class, idPeriodo);
 		
 		if (result.hasErrors()) {
 			model.addAttribute("periodo", periodo);
@@ -88,24 +93,24 @@ public class TurmaController {
 		turma.setSupervisor((Pessoa) session.getAttribute(Constants.USUARIO_LOGADO));
 		turma.setPeriodo(periodo);
 		turma = atualizarTurma(turma);
-		serviceTurma.save(turma);
+		turmaService.save(turma);
 		
 		return "redirect:/coordenador/periodos";
 	}
 
 	@RequestMapping(value = "/{idTurma}/editar", method = RequestMethod.GET)
 	public String editarTurma(@PathVariable("idTurma") Long idTurma, ModelMap model) {
-		model.addAttribute("turma", serviceTurma.find(Turma.class, idTurma));
+		model.addAttribute("turma", turmaService.find(Turma.class, idTurma));
 		
 		return "coordenador/form-turma";
 	}
 
 	@RequestMapping(value = "/{idTurma}/exluir", method = RequestMethod.GET)
 	public String excluirTurma(@PathVariable("idTurma") Long idTurma, ModelMap model) {
-		Turma turma = serviceTurma.find(Turma.class, idTurma);
+		Turma turma = turmaService.find(Turma.class, idTurma);
 		
 		if(turma != null) {
-			serviceTurma.delete(turma);
+			turmaService.delete(turma);
 		}
 		
 		return "coordenador/list-turmas";
@@ -113,8 +118,7 @@ public class TurmaController {
 
 	@RequestMapping(value = "/{idTurma}/detalhes", method = RequestMethod.GET)
 	public String detalhesTurma(@PathVariable("idTurma") Long idTurma, ModelMap model) {
-		model.addAttribute("turma", serviceTurma.find(Turma.class, idTurma));
-
+		model.addAttribute("turma", turmaService.find(Turma.class, idTurma));
 		return "coordenador/info-turma";
 	}
 
@@ -124,7 +128,7 @@ public class TurmaController {
 		if (turma.getEstagiarios() != null) {
 			for (Estagiario estagiario : turma.getEstagiarios()) {
 				if(estagiario.getId() != null){
-					estagiario = serviceEstagiario.find(Estagiario.class, estagiario.getId());
+					estagiario = estagiarioService.find(Estagiario.class, estagiario.getId());
 					estagiarios.add(estagiario);
 				}
 			}
@@ -134,5 +138,15 @@ public class TurmaController {
 		return turma;
 	}
 
+	private Pessoa getUsuarioLogado(HttpSession session) {
+		if (session.getAttribute(Constants.USUARIO_LOGADO) == null) {
+			Pessoa pessoa = pessoaService
+					.getPessoaByCPF(SecurityContextHolder.getContext()
+							.getAuthentication().getName());
+			session.setAttribute(Constants.USUARIO_LOGADO, pessoa);
+		}
+		return (Pessoa) session.getAttribute(Constants.USUARIO_LOGADO);
+	}	
+	
 }
 

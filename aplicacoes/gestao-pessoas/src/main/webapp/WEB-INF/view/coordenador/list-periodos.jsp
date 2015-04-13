@@ -45,6 +45,7 @@
 										<a href="<c:url value="/turma/${periodo.id}/turma" />" class="btn btn-primary"><span class="fa fa-plus-square"></span> Turma</a>
 										<a href="<c:url value="/coordenador/${periodo.id}/folga" />" class="btn btn-warning"><span class="fa fa-plus-square"></span> Folgas</a>
 										<a href="<c:url value="/coordenador/${periodo.id}/detalhes" />" class="btn btn-info"><span class="glyphicon glyphicon-eye-open"></span>&nbsp;</a>
+										<a href="<c:url value="/coordenador/${periodo.id}/editar" />" class="btn btn-success"><span class="glyphicon glyphicon-pencil"></span>&nbsp;</a>
 									</td>
 								</tr>
 						</c:forEach>

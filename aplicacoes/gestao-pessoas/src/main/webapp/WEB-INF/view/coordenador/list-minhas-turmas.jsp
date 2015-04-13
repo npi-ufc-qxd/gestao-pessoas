@@ -51,7 +51,6 @@
 									<td><span class="badge ${fn:length(turma.estagiarios) gt 0 ? 'badge-success' : 'badge-danger' }">${fn:length(turma.estagiarios)}</span></td>
 									<td align="right">
 										<a href="<c:url value="/turma/${turma.id}/detalhes" />" class="btn btn-info"><span class="glyphicon glyphicon-eye-open"></span></a>
-										<a href="<c:url value="/turma/${turma.id}/reposicao" />" class="btn btn-primary"><span class="glyphicon glyphicon-calendar"></span></a>
 										<a href="<c:url value="/turma/${turma.id}/editar" />" class="btn btn-success"><span class="glyphicon glyphicon-pencil"></span></a>
 										<a href="<c:url value="/turma/${turma.id}/excluir" />" class="btn btn-danger"> <span class="glyphicon glyphicon-trash"></span></a>
 									</td>

@@ -10,7 +10,6 @@ import javax.inject.Named;
 
 import org.springframework.transaction.annotation.Transactional;
 
-import ufc.quixada.npi.gp.model.Estagiario;
 import ufc.quixada.npi.gp.model.Frequencia;
 import ufc.quixada.npi.gp.model.Turma;
 import ufc.quixada.npi.gp.model.enums.StatusFrequencia;
@@ -27,11 +26,12 @@ public class FrequenciaServiceImpl extends GenericServiceImpl<Frequencia> implem
 	FrequenciaRepository frequenciaRepository;
 	
 	@Inject
-	GenericRepository<Object> estagiarioRepository;
+	GenericRepository<Object> objetoRepository;
 
 	@Transactional
 	public Frequencia getFrequencia() {
 		List<Frequencia> frequencia = frequenciaRepository.find(QueryType.JPQL, "select f from Frequencia f where f.data = CURRENT_DATE", null);
+
 		return frequencia.get(0);
 	}
 	
@@ -40,8 +40,40 @@ public class FrequenciaServiceImpl extends GenericServiceImpl<Frequencia> implem
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("data", data);
 		params.put("turma", turma.getId());
-		List<Frequencia> frequencias = frequenciaRepository.find(QueryType.JPQL,"select f.id, f.observacao, f.statusFrequencia, f.tipoFrequencia, f.estagiario.nomeCompleto from Frequencia f join f.turma t where t.id = :turma and f.data = :data", params);
-		return frequencias;
+		List<Frequencia> frequencias = frequenciaRepository.find(QueryType.JPQL,"select f.id, f.estagiario.nomeCompleto, f.observacao, f.statusFrequencia, f.tipoFrequencia from Frequencia f join f.turma t where t.id = :turma and f.data = :data", params);
+		
+		//SELECT e, p.name FROM Country c LEFT OUTER JOIN c.capital p
+
+		List<Object> frequenciass = objetoRepository.find(QueryType.NATIVE, 
+				"select f.id, e.nomeCompleto, f.observacao, f.statusFrequencia, f.tipoFrequencia  "
+				+ "from estagiario e left join frequencia f "
+				+ "on e.turma_id = f.turma_id and e.id = f.estagiario_id and f.data = :data "
+				+ "WHERE e.turma_id = :turma "
+				+ "group by f.id, e.nomeCompleto, f.observacao, f.statusFrequencia "
+				+ "order by e.nomeCompleto asc "
+				+ "", params);
+//		select e , f
+//		from estagiario e left join frequencia f 
+//		on e.turma_id = f.turma_id and e.id = f.estagiario_id and f.data = '2015-03-04'
+//		WHERE e.turma_id = 1
+//		group by e.*, f.*, f.id
+//		order by f.id desc;
+
+//		List<Object> estagiarios2 = estagiarioRepository.find(QueryType.NATIVE,
+//				"select f.id, e.nomeCompleto, f.observacao, f.status
+//				+ "from estagiario e left join frequencia f "
+//				+ "on e.turma_id = f.turma_id and e.id = f.estagiario_id "
+//				+ "WHERE e.turma_id = 1 and f.statusfrequencia = 'ATRASADO' "
+//				+ "group by f.estagiario_id, e.nomeCompleto, e.matricula "
+//				+ "having count(statusfrequencia) > 1", params);
+		
+		
+
+
+		
+		
+		
+    		return frequencias;
 	}
 
 	@Transactional
@@ -71,34 +103,18 @@ public class FrequenciaServiceImpl extends GenericServiceImpl<Frequencia> implem
 
 	@Override
 	public List<Object> getFrequenciaRepor() {
-		// SELECT f, COUNT(statusFrequencia) FROM Frequencia f where statusFrequencia = :statusFrequencia GROUP BY statusFrequencia HAVING COUNT(statusFrequencia)>1
 		Map<String, Object> params = new HashMap<String, Object>();
-//		params.put("status", StatusFrequencia.ATRASADO);
-//		Long turma = new Long(1);
-//		params.put("turma", turma);
-//		List<Frequencia> frequencias = frequenciaRepository.find(QueryType.JPQL,"select count(f.statusFrequencia) from Frequencia f join f.turma t where t.id = :turma and f.statusFrequencia = :status group by f.id, f.statusFrequencia having count(f.statusFrequencia) > 1", params);
 
 		List<Frequencia> frequencias = null;
-//		frequencias = frequenciaRepository.find(QueryType.JPQL,
-//				"select e from Estagiario e join e.frequencias f where f.statusFrequencia = :status", params);
 
-		List<Object> estagiarios = estagiarioRepository.find(QueryType.NATIVE,
+		List<Object> estagiarios = objetoRepository.find(QueryType.NATIVE,
 				"select e.matricula, e.nomeCompleto ,count(f.statusfrequencia) "
 				+ "from estagiario e join frequencia f "
 				+ "on e.turma_id = f.turma_id and e.id = f.estagiario_id "
 				+ "WHERE e.turma_id = 1 and f.statusfrequencia = 'ATRASADO' "
 				+ "group by f.estagiario_id, e.nomeCompleto, e.matricula "
 				+ "having count(statusfrequencia) > 1", params);
-//		"select e, count(statusFrequencia) from Estagiario e join Frequencia f on e.turma.id=f.turma.id and e.id=f.estagiario.id WHERE e.turma.id = :turma and tatusFrequencia = :status group by  f.estagiario.id, e having count(statusFrequencia) > 1", params);
-//		
-				estagiarios.toArray();
-//		"select e, count(f.statusFrequencia) from Frequencia f join f.estagiario e where f.turma.id = :turma and f.statusFrequencia = :status group by e.id having count(f.statusFrequencia) > 1", params);
-//		"select e, count(f.statusFrequencia) from Estagiario e join e.frequencias f
 		
-		//from Frequencia f join Es where f.turma.id = :turma and f.statusFrequencia = :status group by f.estagiario having count(f.statusFrequencia) > 1", params);
-//		 select e from Estagiario e join e.frequencias f
-		/*
-		 * select f, count(f.statusFrequencia) from Frequencia f where f.turma.id = :turma and f.statusFrequencia = :status group by f.estagiario.id having count(f.statusFrequencia) > 1;*/
 		return estagiarios;
 	}
 
@@ -107,7 +123,7 @@ public class FrequenciaServiceImpl extends GenericServiceImpl<Frequencia> implem
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("turma", idTurma);
 
-		List<Object> estagiarios = estagiarioRepository.find(QueryType.NATIVE,
+		List<Object> estagiarios = objetoRepository.find(QueryType.NATIVE,
 				"SELECT e.matricula, e.nomeCompleto, COUNT(f.statusfrequencia), e.id "
 				+ "FROM estagiario e JOIN frequencia f "
 				+ "ON e.turma_id = f.turma_id AND e.id = f.estagiario_id "
@@ -124,7 +140,7 @@ public class FrequenciaServiceImpl extends GenericServiceImpl<Frequencia> implem
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("turma", idTurma);
 
-		List<Object> estagiarios = estagiarioRepository.find(QueryType.NATIVE,
+		List<Object> estagiarios = objetoRepository.find(QueryType.NATIVE,
 				"SELECT e.matricula, e.nomeCompleto, COUNT(f.statusfrequencia), e.id "
 				+ "FROM estagiario e JOIN frequencia f "
 				+ "ON e.turma_id = f.turma_id AND e.id = f.estagiario_id "
@@ -136,17 +152,31 @@ public class FrequenciaServiceImpl extends GenericServiceImpl<Frequencia> implem
 	}
 
 	@Override
-	public List<Frequencia> getFrequenciaStatus(Long turma, Long estagiario, StatusFrequencia statusFrequencia, int limite) {
+	public List<Frequencia> getFrequenciaStatus(Long estagiario, StatusFrequencia statusFrequencia, int limite) {
 		Map<String, Object> params = new HashMap<String, Object>();
-		params.put("turma", turma);
 		params.put("estagiario", estagiario);
 		params.put("status", statusFrequencia);
-//		params.put("limite", limite);
-
-//		List<Frequencia> frequencias = frequenciaRepository.find(QueryType.JPQL,"select f from Frequencia f where f.turma.id = :turma and f.estagiario.id = :estagiario and f.statusFrequencia = :status LIMIT :limite", params);
-		List<Frequencia> frequencias = frequenciaRepository.find(QueryType.JPQL,"select f from Frequencia f where f.turma.id = :turma and f.estagiario.id = :estagiario and f.statusFrequencia = :status ORDER BY data ASC", params, 0, limite);
+		List<Frequencia> frequencias = frequenciaRepository.find(QueryType.JPQL,"select f from Frequencia f where f.estagiario.id = :estagiario and f.statusFrequencia = :status ORDER BY data ASC", params, 0, limite);
 		
 		return frequencias;
+	}
+
+	@Override
+	public List<Object> getFrequenciass(Date data, Turma turma) {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("data", data);
+		params.put("turma", turma.getId());
+		
+		List<Object> frequenciass = objetoRepository.find(QueryType.NATIVE, 
+				"select f.id, e.nomeCompleto, f.observacao, f.statusFrequencia, f.tipoFrequencia  "
+				+ "from estagiario e left join frequencia f "
+				+ "on e.turma_id = f.turma_id and e.id = f.estagiario_id and f.data = :data "
+				+ "WHERE e.turma_id = :turma "
+				+ "group by f.id, e.nomeCompleto, f.observacao, f.statusFrequencia "
+				+ "order by e.nomeCompleto asc "
+				+ "", params);
+		
+		return frequenciass;
 	}
 
 

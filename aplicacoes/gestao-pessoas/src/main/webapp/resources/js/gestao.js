@@ -25,7 +25,6 @@ $(document).ready(function() {
         errorElement: 'span',
         errorClass: 'help-block',
         errorPlacement: function(error, element) {
-            error.insertAfter(element.parent().children().last());
         },
         messages:{
         	nome:{
@@ -166,6 +165,28 @@ $(document).ready(function() {
 				required : "Campo obrigatório",
 			},
 			cep : {
+				required : "Campo obrigatório",
+			},
+		}
+	});	
+
+	$( "#meusDadosForm" ).validate({
+        rules: {
+            
+        },
+        highlight: function(element) {
+            $(element).closest('.form-item').addClass('has-error');
+        },
+        unhighlight: function(element) {
+            $(element).closest('.form-item').removeClass('has-error');
+        },
+        errorElement: 'span',
+        errorClass: 'help-block',
+        errorPlacement: function(error, element) {
+            error.insertAfter(element.parent().children().last());
+        },
+        messages:{
+			endereco : {
 				required : "Campo obrigatório",
 			},
 		}

@@ -1,22 +1,24 @@
 package ufc.quixada.npi.gp.model.enums;
 
 public enum StatusFrequencia {
-	AGUARDO("Aguardando dia"), 
-	PRESENTE("Presente"), 
-	FALTA("Falta"), 
-	ATRASADO("Atrasado"), 
+	AGUARDO("Aguardando dia", ""), 
 
-	AGENDAMENTO_ATRASO("Agendamento para atraso"), 
-	REPOSICAO_ATRASO("Reposição para atraso"), 
-	AGENDAMENTO_FALTA("Agendamento para falta"),
-	REPOSICAO_FALTA("Reposição para falta"), 
+	PRESENTE("Presente", "Estou presente no NPI!!!"),
+	FALTA("Falta", "Você não esta no NPI."), 
+	ATRASADO("Atrasado", "Ops, você chegou atrasaso."), 
 
-	FERIADO("Feriado");	
-	
+	FERIADO("Feriado", "Hoje é um feriado, descanse."),
+	ABONADO("Abonado", ""),
+
+	REPONDO_ATRASO("Reposição Agendada", ""),
+	REPONDO_FALTA("Reposição Agendada", "");
+
 	private String label;
+	private String mensagem;
 
-	private StatusFrequencia(String label) {
+	private StatusFrequencia(String label, String mensagem) {
 		this.label = label;
+		this.mensagem = mensagem;
 	}
 
 	public String getLabel() {
@@ -25,6 +27,14 @@ public enum StatusFrequencia {
 
 	public void setLabel(String label) {
 		this.label = label;
+	}
+
+	public String getMensagem() {
+		return mensagem;
+	}
+
+	public void setMensagem(String mensagem) {
+		this.mensagem = mensagem;
 	}
 
 }

@@ -58,13 +58,13 @@
 						<li id="turmas"><a class="hvr-sweep-to-top" href="<c:url value="/turma/minhas-turmas" />">Minhas Turmas <span class="fa fa-th-list"></span></a></li>
 						<li id="estagiarios"><a class="hvr-sweep-to-top" href="<c:url value="/coordenador/estagiarios" />">Estagiários <span class="fa fa-user"></span></a></li>
 						<li id="menu-frequencias"><a class="hvr-sweep-to-top" href="<c:url value="/frequencia/frequencias" />">Frequência <span class="fa fa-check-square-o"></span></a></li>
-						<li id="estagiarios"><a class="hvr-sweep-to-top" href="<c:url value="/coordenador/reposicao" />">Reposições <span class="fa fa-cogs"></span></a></li>
+						<li id="estagiarios"><a class="hvr-sweep-to-top" href="<c:url value="/frequencia/reposicao" />">Reposições <span class="fa fa-cogs"></span></a></li>
 					</ul><!-- Final Menu Cordenador -->
 				</sec:authorize>
 	
 				<sec:authorize access="hasRole('ROLE_ESTAGIARIO')">
 					<ul class="nav navbar-nav"><!-- Inicio Menu Estagiario -->
-						<li id="minha-presenca"><a class="hvr-sweep-to-top" href="<c:url value="/estagiario/minha-presenca" />">Minha Presença <span class="fa fa-th-list"></span></a></li>
+						<li id="minha-presenca"><a class="hvr-sweep-to-top" href="<c:url value="/frequencia/minha-presenca" />">Minha Presença <span class="fa fa-th-list"></span></a></li>
 						<li id="meu-projeto"><a class="hvr-sweep-to-top" href="<c:url value="/estagiario/meu-projeto" />">Meu Projeto <span class="fa fa-folder"></span></a></li>
 						<li id="documentos"><a class="hvr-sweep-to-top" href="<c:url value="/estagiario/documentos" />">Documentos <span class="fa fa-th-list"></span></a></li>
 						<li id="avaliacao"><a class="hvr-sweep-to-top" href="<c:url value="/estagiario/avaliacao" />">Avaliação <span class="fa fa-check"></span></a></li>

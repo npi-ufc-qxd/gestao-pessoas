@@ -1,5 +1,7 @@
 package ufc.quixada.npi.gp.controller;
 
+import static ufc.quixada.npi.gp.utils.Constants.*;
+
 import java.io.IOException;
 import java.util.Collection;
 
@@ -47,11 +49,11 @@ public class AuthenticationSuccessHandlerImpl implements
 		for (GrantedAuthority grantedAuthority : authorities) {
 			switch (grantedAuthority.getAuthority()) {
 				case "ROLE_COORDENADOR":
-					return "/coordenador/index";
+					return "/coordenador/inicial";
 	
 				case "ROLE_ESTAGIARIO":
-					return "/estagiario/index";
-	
+					return "/estagiario/inicial";
+
 				default:
 					return "/login";
 			}

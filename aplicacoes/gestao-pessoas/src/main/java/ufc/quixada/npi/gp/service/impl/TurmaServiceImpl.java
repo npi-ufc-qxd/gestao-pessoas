@@ -21,11 +21,11 @@ public class TurmaServiceImpl extends GenericServiceImpl<Turma> implements Turma
 	private GenericRepository<Turma> turmaRepository;	
 
 	@Override
-	public List<Turma> getTurmaPeriodo(String ano, String semestre) {
+	public List<Turma> getTurmaPeriodo(String ano, String semestre, Long idSupervisor) {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("ano", ano);
 		params.put("semestre", semestre);
-		params.put("supervisor", 1L);
+		params.put("supervisor", idSupervisor);
 		List<Turma> turmas = turmaRepository.find(QueryType.JPQL,"select t.id, t.nome from Turma t join t.periodo p where p.ano = :ano and p.semestre = :semestre and t.supervisor.id = :supervisor", params);
 
 		return turmas;

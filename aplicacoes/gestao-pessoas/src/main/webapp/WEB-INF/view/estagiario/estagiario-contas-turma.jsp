@@ -44,7 +44,7 @@
 					<label for="minha-turma" class="col-sm-2 control-label">Selecione Turma:</label>
 					<div class="col-sm-10" id="minha-turma">
 					<c:forEach var="turma" items="${turmasSelect}" varStatus="cont">
-					    <ul class="col-sm-5 list-unstyled horarios">
+					    <ul class="list-unstyled horarios ">
 					        <li>
 					        	<label class="btn btn-primary">
 									<form:radiobutton path="turma.id" value="${turma.id}" required="required" cssClass="customError"/> <b>${turma.periodo.ano}.${turma.periodo.semestre} - ${turma.nome}, Sup. ${turma.supervisor.nome}</b>

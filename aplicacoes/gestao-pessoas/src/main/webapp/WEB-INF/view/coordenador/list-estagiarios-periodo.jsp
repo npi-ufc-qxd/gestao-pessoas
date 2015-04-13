@@ -35,6 +35,7 @@
 			<div class="form-group">
 				<select id="turmaFiltro" name="turma" class="selectpicker filtroTurma estagiariosTurma" data-width="auto"></select>
 			</div>
+			
 		</form>
 	</div>
 	
@@ -65,19 +66,11 @@
 						</c:forEach>
 			       </tbody>
 				</table>
-
-				<div align="center" style="margin: 20px 0;">
-					<a href="<c:url value="/coordenador/jrreport" ></c:url>">
-						<button class="btn btn-primary">Termo de Compromisso <span class="glyphicon glyphicon-plus"></span></button>
-					</a>
-					<a href="<c:url value="/coordenador/declaracaoEstagio" ></c:url>">
-						<button class="btn btn-primary">Declaração de Estágio <span class="glyphicon glyphicon-plus"></span></button>
-					</a>
-					<a href="<c:url value="#/coordenador/emitirFrequencia" ></c:url>">
-						<button class="btn btn-primary">Emitir Frequência<span class="glyphicon glyphicon-plus"></span></button>
-					</a>
-				</div>
 			</c:if>
+			<div id="relatorios" align="center" style="margin: 20px 0;" class="hidden">
+				<a id="termos" class="btn btn-primary" href="<c:url value="/coordenador/jrreport" ></c:url>"><i class="fa fa-file-pdf-o"></i> Termo de Compromisso</a>
+				<a id="declaracoes" class="btn btn-primary" href="<c:url value="/coordenador/declaracaoEstagio" ></c:url>"><i class="fa fa-file-pdf-o"></i> Declaração de Estágio</a>
+			</div>
 		</div>
 	</div>
 

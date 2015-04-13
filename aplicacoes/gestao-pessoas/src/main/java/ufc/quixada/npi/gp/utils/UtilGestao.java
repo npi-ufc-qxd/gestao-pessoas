@@ -39,6 +39,16 @@ public class UtilGestao {
 		return false;
 	}
 
+	public static boolean isDiaTrabaho() {
+		LocalDate dia = new LocalDate();
+
+		if (dia.getDayOfWeek() != 0 || dia.getDayOfWeek() != 6) {
+			return true;
+		}
+		
+		return false;
+	}
+
 	public static boolean isDiaTrabahoTurma(List<Horario> horarios, LocalDate dia) {
 
 		for (Horario horario : horarios) {

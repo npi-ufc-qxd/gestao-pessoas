@@ -85,8 +85,7 @@ a {
 border-bottom: 1px solid #333; background: #D3DFEA; padding: 3px;	
 }
 .horarios{ 
-	margin-left: -25px;
-	margin-right: 100px;
+	margin-left: -10px;
 }
 
 .horarios > li { 
@@ -94,5 +93,31 @@ border-bottom: 1px solid #333; background: #D3DFEA; padding: 3px;
 .horarios-dias {
 	margin-bottom: 2px;
 	font-weight: bold;
+}
+
+#boxPresenca{
+	border: none !important;
+	background: #EDEDED;
+	margin-left: 31%;
+}
+#boxPresenca .panel {
+	border: none !important;
+	border-radius: 0px
+}
+#boxPresenca .panel-heading{
+	border: none !important;
+	background: #2C3F52;
+	color: #EDEDED;
+}
+#boxPresenca .label{
+	margin: 2px 0 0 0;
+}
+.error-message {
+	display: block;
+	margin-left: 23px;
+	color: #a94442;
+}
+.sucesso-message {
+	padding: 8px;
 }
 

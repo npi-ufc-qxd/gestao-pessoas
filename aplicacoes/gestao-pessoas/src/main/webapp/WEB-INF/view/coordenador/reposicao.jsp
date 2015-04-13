@@ -33,12 +33,12 @@
 			</div>
 			
 			<div class="form-group">
-				<select id="turmaFiltro" name="turma" class="selectpicker filtroTurma reposicaoTurma reposicao" data-width="auto"></select>
+				<select id="turmaFiltro" name="turma" class="selectpicker turmaFiltroReposicao reposicaoTurma reposicao" data-width="auto"></select>
 			</div>
 
 			<div class="form-group status">
 				<select id="statusReposicao" name="statusReposicao" class="selectpicker filtroReposicaoStatus union reposicao" data-width="auto">
-					<option>Status</option>
+					<option>Motivo</option>
 					<option value="ATRASADO">Atrasado</option>
 					<option value="FALTA">Falta</option>
 				</select>
@@ -74,13 +74,15 @@
 						<li class="list-group-item"><b>${estagiario[0]}</b> - ${estagiario[1]}</li>
 						<c:forEach var="i" begin="1" end="${contReposicao}">
 							<li class="list-group-item" id="reposicao${estagiario[3]}${i}">
-								<form class="form-inline formReposicao" role="form">
+								<div class="form-inline formReposicao" role="form">
 									<div class="form-group" >
 										<label><span class="badge">${i}</span></label>
 										<input type="text" id="data_reposicao${estagiario[3]}${i}" class="form-control data" placeholder="Data de reposição">
+										<label class="sucesso-message"></label>
 									</div>
 									<button type="button" class="btn btn-primary agendarreposicao" data-li="#reposicao${estagiario[3]}${i}" data-input="#data_reposicao${estagiario[3]}${i}" data-estagiario="${estagiario[3]}">Agendar Reposição</button>
-								</form>
+									<span class="error-message"></span>
+								</div>
 							</li>
 						</c:forEach>								
 					</ol>
@@ -89,7 +91,14 @@
 		</div>
 
 	</div>
+	
+	<div id="zxc"></div>
 
 	<jsp:include page="../modulos/footer.jsp" />
+	<script type="text/javascript">
+		$("#zxc").ready(function() {
+			var n = noty({text: 'noty - a jquery notification library!'});
+		})
+	</script>
 </body>
 </html>

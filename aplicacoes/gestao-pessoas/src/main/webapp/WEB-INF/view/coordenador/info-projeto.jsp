@@ -42,7 +42,6 @@
 							<tr class="">
 								<th class="col-sm-1">Matricula</th>
 								<th class="col-sm-5">Nome</th>
-								<th></th>
 				           </tr>
 				       </thead>
 		
@@ -51,9 +50,6 @@
 								<tr class="linha">
 									<td>${estagiario.matricula}</td>
 									<td>${estagiario.pessoa.nome}</td>
-									<td align="right">
-										<a href="<c:url value="#" />" class="btn btn-info"><span class="glyphicon glyphicon-eye-open"></span></a>
-									</td>
 								</tr>
 							</c:forEach>
 				       </tbody>

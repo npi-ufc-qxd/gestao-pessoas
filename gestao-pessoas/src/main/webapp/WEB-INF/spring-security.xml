@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans:beans xmlns="http://www.springframework.org/schema/security" 
+	xmlns:beans="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.2.xsd 
+	http://www.springframework.org/schema/security
+	http://www.springframework.org/schema/security/spring-security-3.2.xsd"> 
+  
+	<http auto-config="true" use-expressions="true">
+		<access-denied-handler error-page="/403" />
+ 		<intercept-url pattern="/login*" access="permitAll" /> 
+ 		<intercept-url pattern="/webjars/**" access="permitAll" /> 		
+ 		<intercept-url pattern="/resources/**" access="permitAll" />
+ 		<intercept-url pattern="/estagiario/cadastre-se" access="permitAll" />
+ 		
+<!--  		<intercept-url pattern="/estagiario/in**" access="hasRole('ROLE_ESTAGIARIO')" /> -->
+<!--  		<intercept-url pattern="/estagiario/minha-**" access="hasRole('ROLE_ESTAGIARIO')" /> -->
+<!--  		<intercept-url pattern="/estagiario/meu**" access="hasRole('ROLE_ESTAGIARIO')" /> -->
+<!--  		<intercept-url pattern="/estagiario/conta**" access="hasRole('ROLE_ESTAGIARIO')" /> -->
+
+ 		<intercept-url pattern="/frequencia/minha-presenca**" access="hasRole('ROLE_ESTAGIARIO')"/>
+ 		<intercept-url pattern="/frequencia/**" access="hasRole('ROLE_COORDENADOR')"/>
+
+ 		<intercept-url pattern="/coordenador/**" access="hasRole('ROLE_COORDENADOR')"/>
+ 		<intercept-url pattern="/periodo/**" access="hasRole('ROLE_COORDENADOR')"/>
+ 		<intercept-url pattern="/turma/**" access="hasRole('ROLE_COORDENADOR')"/>
+
+ 		<form-login login-page="/login" default-target-url="/" authentication-failure-url="/loginfailed" authentication-success-handler-ref="loginSucess" />
+ 		<logout logout-success-url="/login" invalidate-session="true"/> 	
+ 	</http>
+ 	
+	<beans:bean id="loginSucess" class="ufc.quixada.npi.gp.controller.AuthenticationSuccessHandlerImpl" />
+  
+ 	<authentication-manager>
+		<authentication-provider>
+			<password-encoder hash="sha-256"/>
+			<jdbc-user-service 
+				data-source-ref="gestao_pessoas" 
+				users-by-username-query="SELECT cpf, password, habilitado FROM pessoa WHERE cpf = ?"
+				authorities-by-username-query="SELECT u.cpf, p.nome FROM pessoa AS u, papel_pessoa AS pu, papel AS p WHERE u.id = pu.pessoa_id AND pu.papel_id = p.id AND u.cpf=?"/>
+		
+		</authentication-provider>
+ 	</authentication-manager>
+	
+	<global-method-security  secured-annotations = "enabled"  />
+</beans:beans>

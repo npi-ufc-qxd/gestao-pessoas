@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Declaracao_Estagio" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="58"/>
+	<field name="nomeCompleto" class="java.lang.String"/>
+	<field name="pessoa.cpf" class="java.lang.String"/>
+	<field name="curso.labelCurso" class="java.lang.String"/>
+	<detail>
+		<band height="795" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="140" width="555" height="79"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[UNIVERSIDADE FEDERAL DO CEARÁ
+ CAMPUS DE QUIXADÁ
+
+NÚCLEO DE PRÁTICAS EM INFORMÁTICA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="258" width="555" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="14" isBold="true" isUnderline="true" isStrikeThrough="false"/>
+				</textElement>
+				<text><![CDATA[DECLARAÇÃO DE ESTÁGIO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="103" y="419" width="375" height="41"/>
+				<textElement textAlignment="Right">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[
+Quixadá-CE, 28 de Novembro de 2014.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="103" y="536" width="375" height="47"/>
+				<textElement textAlignment="Center">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Prof. MSc. Camilo Camilo Almendra
+Supervisor Responsável
+UFC – Campus Quixadá]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="103" y="766" width="375" height="29"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Av. José de Freitas Queiroz, 5003 – CEP: 63.900-000 – Quixadá-Ceará
+Tel.: (88) 3412 0919	E-mail: secretaria@quixada.ufc.br]]></text>
+			</staticText>
+			<image>
+				<reportElement x="239" y="19" width="102" height="94"/>
+				<imageExpression><![CDATA["./ufc.jpg"]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement x="103" y="315" width="375" height="104"/>
+				<textElement textAlignment="Justified">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Declaro, para os devidos fins, que " + $F{nomeCompleto} + ", CPF " + $F{pessoa.cpf} +", estudante do curso de " + $F{curso.labelCurso} + ", cumpriu estágio supervisionado não-remunerado no Núcleo de Práticas em Informática do Campus da UFC Quixadá, no período de 28 de Julho de 2014 a 28 de Novembro de 2014, cumprindo carga horária semanal de 12 (doze) horas."]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

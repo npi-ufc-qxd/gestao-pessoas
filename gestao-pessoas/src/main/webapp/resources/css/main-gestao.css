@@ -1,0 +1,123 @@
+body {
+	background: #EDEDED;
+	color: #2C3F52;
+}
+a {
+	cursor:pointer;
+	cursor:hand;
+}
+
+.form-control {
+	border-radius: 0;
+}
+
+#modelos ul li {
+	margin-bottom: 4px;
+}
+
+/* BOTÕES */
+.btn {
+	border-radius: 0;
+}
+
+/* COLORS ICONS FONT AWESOME */
+.fa-sign-out{
+	overflow: hidden;
+	color: #fff;
+}
+
+/* FOOTER */
+.gp-footer {
+	position: fixed;
+	bottom: 0px;
+	width: 100%;
+	padding: 10px 0;
+	color: #999;
+	text-align: center;
+	background-color: #f9f9f9;
+	border-top: 3px solid #e5e5e5;
+	margin-top: 15px;
+}
+
+.gp-footer p:last-child {
+	margin-bottom: 0;
+}
+.footer-height {
+	height: 50px;
+}
+
+/* COLORS BADGE */
+.badge-success{
+	background: #0099da;
+}
+.badge-danger{
+	background: #d9534f;
+}
+
+.error-icon {
+	background-image: url("../images/error.ico");
+	background-repeat:no-repeat;
+	background-position: right center;
+}
+.success-icon {
+	background-image: url("../images/ok.ico");
+	background-repeat:no-repeat;
+	background-position: right center;
+}
+.flippant-modal-dark, .flippant-modal-light {
+	height: 90%;
+}
+
+#titulo-cadastro-npi{
+	color: #]E0EFFC;
+}
+#finalizarCadastro {
+	border-bottom: 3px solid #e5e5e5;
+	background-color: #f9f9f9;
+	padding: 10px;
+	margin: -20px 0;
+}
+#conta {
+	display: inline;
+}
+
+.filtro {
+border-bottom: 1px solid #333; background: #D3DFEA; padding: 3px;	
+}
+.horarios{ 
+	margin-left: -10px;
+}
+
+.horarios > li { 
+}
+.horarios-dias {
+	margin-bottom: 2px;
+	font-weight: bold;
+}
+
+#boxPresenca{
+	border: none !important;
+	background: #EDEDED;
+	margin-left: 31%;
+}
+#boxPresenca .panel {
+	border: none !important;
+	border-radius: 0px
+}
+#boxPresenca .panel-heading{
+	border: none !important;
+	background: #2C3F52;
+	color: #EDEDED;
+}
+#boxPresenca .label{
+	margin: 2px 0 0 0;
+}
+.error-message {
+	display: block;
+	margin-left: 23px;
+	color: #a94442;
+}
+.sucesso-message {
+	padding: 8px;
+}
+

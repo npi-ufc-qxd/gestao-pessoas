@@ -1,8 +1,12 @@
 package ufc.quixada.npi.gp.controller;
 
-import static ufc.quixada.npi.gp.utils.Constants.*;
+import static ufc.quixada.npi.gp.utils.Constants.MENSAGEM_DATA_FUTURA;
+import static ufc.quixada.npi.gp.utils.Constants.PAGINA_LISTAR_FREQUENCIAS;
+import static ufc.quixada.npi.gp.utils.Constants.PAGINA_MINHA_PRESENCA;
+import static ufc.quixada.npi.gp.utils.Constants.PAGINA_REPOSICAO;
+import static ufc.quixada.npi.gp.utils.Constants.REDIRECT_MINHA_PRESENCA;
+import static ufc.quixada.npi.gp.utils.Constants.USUARIO_LOGADO;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashSet;
@@ -68,7 +72,6 @@ public class FrequenciaController {
 
 	@RequestMapping(value = "/frequencias", method = RequestMethod.GET)
 	public String frequencia(ModelMap modelMap) {
-		modelMap.addAttribute("frequencias", frequenciaService.find(Frequencia.class));
 		return PAGINA_LISTAR_FREQUENCIAS;
 	}	
 

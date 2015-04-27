@@ -135,3 +135,9 @@ footer > p {
 	margin-bottom: 0;
 	color: #7C7C7C;
 }
+
+.clear {
+	clear: both;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}

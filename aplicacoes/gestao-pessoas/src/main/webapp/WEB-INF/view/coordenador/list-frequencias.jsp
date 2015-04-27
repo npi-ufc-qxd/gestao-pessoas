@@ -59,17 +59,10 @@
 				</thead>
 			</table>
 
-			<table id="tableFrequencias" class="display" cellspacing="0" width="100%">
-				<thead>
-					<tr>
-						<th>Nome</th>
-						<th>Observaçao</th>
-						<th>Status</th>
-					</tr>
-				</thead>
-			</table>
 		</div>
 	</div>
 	<jsp:include page="../modulos/footer.jsp" />
+	<script src="<c:url value="/resources/js/frequencia.js" />"></script>
+	
 </body>
 </html>

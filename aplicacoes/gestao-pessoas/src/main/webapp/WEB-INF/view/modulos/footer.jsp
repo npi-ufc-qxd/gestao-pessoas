@@ -16,6 +16,8 @@
 <script src="<c:url value="/resources/js/bootstrap-editable.min.js" />"></script>
 <script src="<c:url value="/resources/js/jquery.bootgrid.min.js" />"></script>
 
+<div class="clear"></div>
+
 <footer class="gp-footer footer-height">
 	<p>Universidade Federal do Ceará - Todos os direitos reservados &copy;.</p>
 </footer>

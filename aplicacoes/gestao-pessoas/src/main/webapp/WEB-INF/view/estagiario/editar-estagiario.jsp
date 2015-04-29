@@ -3,16 +3,20 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-
+<jsp:include page="../modulos/header-estrutura.jsp" />
+<jsp:include page="../modulos/header.jsp" />
 <div class="container">
 	<h2 id="titulo-cadastro-npi">
 		<a class="header-anchor" href="#"><span
-			class="glyphicon glyphicon-link"></span></a> Meu cadastro
+			class="glyphicon glyphicon-link"></span></a> Meus Dados
 	</h2>
 	<form:form id="DadosPessoaisEstagiarioForm" role="form"
 		commandName="estagiario" modelAttribute="estagiario"
-		servletRelativeAction="/estagiario/meu-cadastro-npi" method="POST"
+		servletRelativeAction="/estagiario/editar-estagiario" method="POST"
 		cssClass="form-horizontal">
+
+		<form:hidden path="id" />
+		<form:hidden path="pessoa.id" />
 
 		<div class="form-group">
 			<div class="form-item">
@@ -191,9 +195,9 @@
 				</div>
 			</div>
 		</div>
-
 		<div class="form-group" align="center">
-			<button type="submit" class="btn btn-primary">Cadastrar</button>
+			<button type="submit" class="btn btn-primary">Atualizar</button>
 		</div>
 	</form:form>
+	<jsp:include page="../modulos/footer.jsp" />
 </div>

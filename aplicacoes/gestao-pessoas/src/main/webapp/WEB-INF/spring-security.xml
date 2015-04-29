@@ -21,6 +21,7 @@
 <!--  		<intercept-url pattern="/estagiario/conta**" access="hasRole('ROLE_ESTAGIARIO')" /> -->
 
  		<intercept-url pattern="/frequencia/minha-presenca**" access="hasRole('ROLE_ESTAGIARIO')"/>
+ 		<intercept-url pattern="/estagiario/**" access="hasRole('ROLE_ESTAGIARIO')"/>
  		<intercept-url pattern="/frequencia/**" access="hasRole('ROLE_COORDENADOR')"/>
 
  		<intercept-url pattern="/coordenador/**" access="hasRole('ROLE_COORDENADOR')"/>

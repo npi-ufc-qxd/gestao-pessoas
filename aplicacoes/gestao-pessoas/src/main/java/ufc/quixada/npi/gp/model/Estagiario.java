@@ -25,6 +25,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import ufc.quixada.npi.gp.model.enums.Curso;
 import ufc.quixada.npi.gp.model.enums.Estado;
+import ufc.quixada.npi.gp.model.enums.Semestre;
 
 @Entity
 public class Estagiario {
@@ -51,9 +52,8 @@ public class Estagiario {
 	@NotNull(message = "Campo obrigatório.")
 	private Integer matricula;
 
-	@NotNull(message = "Campo obrigatório.")
-	@NotEmpty(message = "Campo obrigatório.")
-	private String semestre;
+	@Enumerated(EnumType.STRING)
+	private Semestre semestre;
 
 	@NotNull(message = "Campo obrigatório.")
 	@NotEmpty(message = "Campo obrigatório.")
@@ -86,7 +86,7 @@ public class Estagiario {
 	@ManyToOne
 	private Turma turma;
 	
-	@Basic(fetch = FetchType.LAZY)
+	@Basic(fetch = FetchType.EAGER)
 	@OneToOne(cascade=CascadeType.REFRESH) 
 	private Pessoa pessoa;
 
@@ -120,7 +120,7 @@ public class Estagiario {
 
 	public Estagiario(Long id, String nomeCompleto, Date dataNascimento,
 			String nomeMae, String endereco, String cep, String cidade,
-			Estado uf, String telefone, Curso curso, String semestre,
+			Estado uf, String telefone, Curso curso, Semestre semestre,
 			int matricula, String contaRedmine, String contaGithub,
 			String contaHangout, Pessoa pessoa) {
 		super();
@@ -222,11 +222,11 @@ public class Estagiario {
 		this.curso = curso;
 	}
 
-	public String getSemestre() {
+	public Semestre getSemestre() {
 		return semestre;
 	}
 
-	public void setSemestre(String semestre) {
+	public void setSemestre(Semestre semestre) {
 		this.semestre = semestre;
 	}
 

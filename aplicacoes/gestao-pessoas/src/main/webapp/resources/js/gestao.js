@@ -10,7 +10,6 @@ $(document).ready(function() {
 	$(".cep").mask("99.999-999");
 	$(".matricula").mask("9999999");
 	$(".telefone").mask("(99) - 9999-9999");
-	$(".semestre").mask("99");
 
 	$('#adicionarProjetoForm').validate({
         rules: {
@@ -121,7 +120,7 @@ $(document).ready(function() {
         }
     });	
 
-	$( "#adicionarDadosPessoaisEstagiarioForm" ).validate({
+	$( "#DadosPessoaisEstagiarioForm" ).validate({
         rules: {
             
         },
@@ -144,9 +143,6 @@ $(document).ready(function() {
 				required : "Campo obrigatório",
 			},
 			nomeMae : {
-				required : "Campo obrigatório",
-			},
-			semestre : {
 				required : "Campo obrigatório",
 			},
 			matricula : {

@@ -29,6 +29,9 @@ public class Frequencia {
 
 	@Temporal(TemporalType.DATE)
 	private Date data;
+	
+	@Temporal(TemporalType.TIME)
+	private Date tempo;
 
 	@Enumerated(EnumType.STRING)
 	private TipoFrequencia tipoFrequencia;
@@ -71,7 +74,15 @@ public class Frequencia {
 	public Date getData() {
 		return data;
 	}
+	
+	public Date getTempo() {
+		return tempo;
+	}
 
+	public void setTempo(Date tempo) {
+		this.tempo = tempo;
+	}
+	
 	public void setData(Date data) {
 		this.data = data;
 	}

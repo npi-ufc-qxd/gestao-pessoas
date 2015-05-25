@@ -85,14 +85,13 @@ public class Estagiario {
 	@Basic(fetch = FetchType.LAZY)
 	@ManyToOne
 	private Turma turma;
-	
-	@Basic(fetch = FetchType.EAGER)
+
 	@OneToOne(cascade=CascadeType.REFRESH) 
 	private Pessoa pessoa;
 
 	@Basic(fetch = FetchType.LAZY)
-	@OneToMany(cascade = {CascadeType.REFRESH, CascadeType.MERGE, CascadeType.PERSIST})
-	@JoinColumn(name= "estagiario_id")
+	@OneToMany(mappedBy = "estagiario",cascade = {CascadeType.PERSIST})
+//	@JoinColumn(name= "estagiario_id")
 	private List<Frequencia> frequencias;
 
 	public List<Frequencia> getFrequencias() {

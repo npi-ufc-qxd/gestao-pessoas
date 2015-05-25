@@ -11,7 +11,6 @@
 </head>
 <body>
 	<jsp:include page="../modulos/header.jsp" />
-
 	<div class="container" align="center">
 		<c:if test="${not empty message}">
 			<div class="alert alert-info msg">

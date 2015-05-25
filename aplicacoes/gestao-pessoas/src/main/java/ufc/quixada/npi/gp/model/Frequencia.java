@@ -33,7 +33,7 @@ public class Frequencia {
 	private Date data;
 	
 	@Temporal(TemporalType.TIME)
-	private Date tempo;
+	private Date horario;
 
 	@Enumerated(EnumType.STRING)
 	private TipoFrequencia tipoFrequencia;
@@ -79,11 +79,11 @@ public class Frequencia {
 	}
 	
 	public Date getTempo() {
-		return tempo;
+		return horario;
 	}
 
 	public void setTempo(Date tempo) {
-		this.tempo = tempo;
+		this.horario = tempo;
 	}
 	
 	public void setData(Date data) {

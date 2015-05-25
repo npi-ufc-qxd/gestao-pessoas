@@ -17,7 +17,9 @@
 
 		<form:hidden path="id" />
 		<form:hidden path="pessoa.id" />
-
+		<form:hidden path="projeto.id" />
+		<form:hidden path="turma.id" />
+		
 		<div class="form-group">
 			<div class="form-item">
 				<label for="nomeCompleto" class="col-sm-2 control-label">*Nome

@@ -81,11 +81,10 @@
 		<div class="form-group">
 			<div class="form-item">
 				<label for="curso" class="col-sm-2 control-label">*Semestre:</label>
-				<div class="col-sm-1">
-					<form:select path="semestre" cssClass="selectpicker"
-						data-width="auto" required="required">
-						<form:options itemLabel="labelSemestre" />
-					</form:select>
+				<div class="col-sm-2">
+					<form:input id="semestre" path="semestre"
+						cssClass="form-control semestre" placeholder="Semestre"
+						required="required" />			
 					<div class="error-validation">
 						<form:errors path="semestre"></form:errors>
 					</div>
@@ -106,7 +105,7 @@
 
 			<div class="form-item">
 				<label for="matricula" class="col-sm-3 control-label">*Matricula:</label>
-				<div class="col-sm-3">
+				<div class="col-sm-2">
 					<form:input id="matricula" path="matricula"
 						cssClass="form-control matricula" placeholder="Matricula"
 						required="required" />
@@ -200,6 +199,7 @@
 		<div class="form-group" align="center">
 			<button type="submit" class="btn btn-primary">Atualizar</button>
 		</div>
+		
 	</form:form>
-	<jsp:include page="../modulos/footer.jsp" />
 </div>
+<jsp:include page="../modulos/footer.jsp" />

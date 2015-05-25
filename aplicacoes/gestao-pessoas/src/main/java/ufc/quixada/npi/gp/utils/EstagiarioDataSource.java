@@ -1,21 +1,16 @@
 package ufc.quixada.npi.gp.utils;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import ufc.quixada.npi.gp.model.Estagiario;
-import ufc.quixada.npi.gp.model.Pessoa;
-import ufc.quixada.npi.gp.model.enums.Curso;
-import ufc.quixada.npi.gp.model.enums.Estado;
-import ufc.quixada.npi.gp.model.enums.Semestre;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.data.JRAbstractBeanDataSourceProvider;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import ufc.quixada.npi.gp.model.Estagiario;
 
 public class EstagiarioDataSource extends JRAbstractBeanDataSourceProvider {
-	
+
 	public EstagiarioDataSource() {
 		super(Estagiario.class);
 	}
@@ -24,17 +19,7 @@ public class EstagiarioDataSource extends JRAbstractBeanDataSourceProvider {
 
 	@Override
 	public JRDataSource create(JasperReport jrReport) throws JRException {
-		listEstagiario = new ArrayList<Estagiario>();
-		
-		listEstagiario = new ArrayList<Estagiario>();
-		Pessoa pessoa = new Pessoa("123456", "Jefferson", "Barbosa",
-				"jefferson@hotmail.com", "6507687");
-		listEstagiario.add(new Estagiario((long) 1, "Jefferson1", null,
-				"Algum", "teste", "63900056", "Quixadá", Estado.CEARA, "36720000",
-				Curso.CIÊNCIA_COMPUTAÇÃO, Semestre.OITAVO_SEMESTRE, 338888, "redmine", "github", "hagout",
-				pessoa));
-		
-		return new JRBeanCollectionDataSource(listEstagiario);
+		return new JRBeanCollectionDataSource(null);
 	}
 
 	@Override

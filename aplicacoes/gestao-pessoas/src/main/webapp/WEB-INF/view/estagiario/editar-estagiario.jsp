@@ -201,5 +201,5 @@
 			<button type="submit" class="btn btn-primary">Atualizar</button>
 		</div>
 	</form:form>
-	<jsp:include page="../modulos/footer.jsp" />
 </div>
+<jsp:include page="../modulos/footer.jsp" />

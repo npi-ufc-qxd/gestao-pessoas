@@ -12,12 +12,13 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotEmpty;
@@ -32,7 +33,7 @@ public class Estagiario {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	@NotNull(message = "Campo obrigatório.")
 	@NotEmpty(message = "Campo obrigatório.")
 	private String nomeMae;
@@ -52,8 +53,9 @@ public class Estagiario {
 	private Integer matricula;
 
 	@NotNull(message = "Campo obrigatório.")
-	@NotEmpty(message = "Campo obrigatório.")
-	private String semestre;
+	@Min(value = 1, message = "Informe um semestre valido")
+	@Max(value = 12, message = "Informe um semestre valido")
+	private Integer semestre;
 
 	@NotNull(message = "Campo obrigatório.")
 	@NotEmpty(message = "Campo obrigatório.")
@@ -77,31 +79,27 @@ public class Estagiario {
 
 	@Enumerated(EnumType.STRING)
 	private Estado uf;
-	
+
 	@Basic(fetch = FetchType.LAZY)
 	@ManyToOne
 	private Projeto projeto;
-	
+
 	@Basic(fetch = FetchType.LAZY)
 	@ManyToOne
 	private Turma turma;
-	
-	@Basic(fetch = FetchType.LAZY)
-	@OneToOne(cascade=CascadeType.REFRESH) 
+
+	@OneToOne(cascade = CascadeType.REFRESH)
 	private Pessoa pessoa;
 
 	@Basic(fetch = FetchType.LAZY)
-	@OneToMany(cascade = {CascadeType.REFRESH, CascadeType.MERGE, CascadeType.PERSIST})
-	@JoinColumn(name= "estagiario_id")
+	@OneToMany(mappedBy = "estagiario", cascade = { CascadeType.PERSIST })
+	// @JoinColumn(name= "estagiario_id")
 	private List<Frequencia> frequencias;
 
 	public List<Frequencia> getFrequencias() {
 		return frequencias;
 	}
 
-	/**
-	 * @param frequencias the frequencias to set
-	 */
 	public void setFrequencias(List<Frequencia> frequencias) {
 		this.frequencias = frequencias;
 	}
@@ -113,14 +111,14 @@ public class Estagiario {
 	public void setTurma(Turma turma) {
 		this.turma = turma;
 	}
-	
-	public Estagiario(){
+
+	public Estagiario() {
 		super();
 	}
 
 	public Estagiario(Long id, String nomeCompleto, Date dataNascimento,
 			String nomeMae, String endereco, String cep, String cidade,
-			Estado uf, String telefone, Curso curso, String semestre,
+			Estado uf, String telefone, Curso curso, Integer semestre,
 			int matricula, String contaRedmine, String contaGithub,
 			String contaHangout, Pessoa pessoa) {
 		super();
@@ -222,11 +220,11 @@ public class Estagiario {
 		this.curso = curso;
 	}
 
-	public String getSemestre() {
+	public Integer getSemestre() {
 		return semestre;
 	}
 
-	public void setSemestre(String semestre) {
+	public void setSemestre(Integer semestre) {
 		this.semestre = semestre;
 	}
 
@@ -269,7 +267,7 @@ public class Estagiario {
 	public void setContaHangout(String contaHangout) {
 		this.contaHangout = contaHangout;
 	}
-	
+
 	public Projeto getProjeto() {
 		return projeto;
 	}
@@ -278,15 +276,15 @@ public class Estagiario {
 		this.projeto = projeto;
 	}
 
-//	@Override
-//	public String toString() {
-//		return "Estagiario [id=" + id + ", nomeCompleto=" + nomeCompleto
-//				+ ", dataNascimento=" + dataNascimento + ", nomeMae=" + nomeMae
-//				+ ", endereco=" + endereco + ", cep=" + cep + ", cidade="
-//				+ cidade + ", uf=" + uf + ", telefone=" + telefone + ", curso="
-//				+ curso + ", semestre=" + semestre + ", matricula=" + matricula
-//				+ ", contaRedmine=" + contaRedmine + ", contaGithub="
-//				+ contaGithub + ", contaHangout=" + contaHangout + ", pessoa="
-//				+ pessoa + "]";
-//	}	
+	// @Override
+	// public String toString() {
+	// return "Estagiario [id=" + id + ", nomeCompleto=" + nomeCompleto
+	// + ", dataNascimento=" + dataNascimento + ", nomeMae=" + nomeMae
+	// + ", endereco=" + endereco + ", cep=" + cep + ", cidade="
+	// + cidade + ", uf=" + uf + ", telefone=" + telefone + ", curso="
+	// + curso + ", semestre=" + semestre + ", matricula=" + matricula
+	// + ", contaRedmine=" + contaRedmine + ", contaGithub="
+	// + contaGithub + ", contaHangout=" + contaHangout + ", pessoa="
+	// + pessoa + "]";
+	// }
 }

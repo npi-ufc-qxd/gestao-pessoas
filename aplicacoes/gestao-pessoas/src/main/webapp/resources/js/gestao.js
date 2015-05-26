@@ -1,8 +1,12 @@
 $(document).ready(function() {
 	
+	$("#semestre").keyup(function() {
+		if(!$.isNumeric(this))
+			$(this).text("");
+	});	
+	
 	$('[data-toggle="tooltip"]').tooltip();
 	$('[data-toggle="popover"]').popover()
-
 	$(".ano").mask("9999");	
 	$(".hora").mask("99:99");
 	$(".cpf").mask("999.999.999-99");
@@ -10,7 +14,6 @@ $(document).ready(function() {
 	$(".cep").mask("99.999-999");
 	$(".matricula").mask("9999999");
 	$(".telefone").mask("(99) - 9999-9999");
-	$(".semestre").mask("99");
 
 	$('#adicionarProjetoForm').validate({
         rules: {
@@ -121,9 +124,14 @@ $(document).ready(function() {
         }
     });	
 
-	$( "#adicionarDadosPessoaisEstagiarioForm" ).validate({
+	$( "#DadosPessoaisEstagiarioForm" ).validate({
         rules: {
-            
+		 semestre: {
+			 required: true,
+			 number: true,
+			 min: 1,
+			 max: 12,
+		 }
         },
         highlight: function(element) {
             $(element).closest('.form-item').addClass('has-error');
@@ -146,9 +154,6 @@ $(document).ready(function() {
 			nomeMae : {
 				required : "Campo obrigatório",
 			},
-			semestre : {
-				required : "Campo obrigatório",
-			},
 			matricula : {
 				required : "Campo obrigatório",
 			},
@@ -166,6 +171,12 @@ $(document).ready(function() {
 			},
 			cep : {
 				required : "Campo obrigatório",
+			},
+			semestre: {
+				required : "Campo obrigatório",
+            	number: "Informe um numero",
+            	min: "Informe um semestre valido",
+               	max: "Informe um semestre valido"
 			},
 		}
 	});	

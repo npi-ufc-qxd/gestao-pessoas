@@ -3,17 +3,23 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-
+<jsp:include page="../modulos/header-estrutura.jsp" />
+<jsp:include page="../modulos/header.jsp" />
 <div class="container">
 	<h2 id="titulo-cadastro-npi">
 		<a class="header-anchor" href="#"><span
-			class="glyphicon glyphicon-link"></span></a> Meu cadastro
+			class="glyphicon glyphicon-link"></span></a> Meus Dados
 	</h2>
 	<form:form id="DadosPessoaisEstagiarioForm" role="form"
 		commandName="estagiario" modelAttribute="estagiario"
-		servletRelativeAction="/estagiario/meu-cadastro-npi" method="POST"
+		servletRelativeAction="/estagiario/editar-estagiario" method="POST"
 		cssClass="form-horizontal">
 
+		<form:hidden path="id" />
+		<form:hidden path="pessoa.id" />
+		<form:hidden path="projeto.id" />
+		<form:hidden path="turma.id" />
+		
 		<div class="form-group">
 			<div class="form-item">
 				<label for="nomeCompleto" class="col-sm-2 control-label">*Nome
@@ -75,8 +81,8 @@
 		<div class="form-group">
 			<div class="form-item">
 				<label for="curso" class="col-sm-2 control-label">*Semestre:</label>
-				<div class="col-sm-1">
-					<form:input type="number" id="semestre" path="semestre"
+				<div class="col-sm-2">
+					<form:input id="semestre" path="semestre"
 						cssClass="form-control semestre" placeholder="Semestre"
 						required="required" />			
 					<div class="error-validation">
@@ -99,7 +105,7 @@
 
 			<div class="form-item">
 				<label for="matricula" class="col-sm-3 control-label">*Matricula:</label>
-				<div class="col-sm-3">
+				<div class="col-sm-2">
 					<form:input id="matricula" path="matricula"
 						cssClass="form-control matricula" placeholder="Matricula"
 						required="required" />
@@ -190,9 +196,9 @@
 				</div>
 			</div>
 		</div>
-
 		<div class="form-group" align="center">
-			<button type="submit" class="btn btn-primary">Cadastrar</button>
+			<button type="submit" class="btn btn-primary">Atualizar</button>
 		</div>
 	</form:form>
 </div>
+<jsp:include page="../modulos/footer.jsp" />

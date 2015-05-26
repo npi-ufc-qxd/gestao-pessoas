@@ -8,6 +8,7 @@ import static ufc.quixada.npi.gp.utils.Constants.REDIRECT_MINHA_PRESENCA;
 import static ufc.quixada.npi.gp.utils.Constants.USUARIO_LOGADO;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -48,6 +49,7 @@ import ufc.quixada.npi.gp.model.ReposicaoJson;
 import ufc.quixada.npi.gp.model.Turma;
 import ufc.quixada.npi.gp.model.enums.StatusFrequencia;
 import ufc.quixada.npi.gp.model.enums.TipoFrequencia;
+import ufc.quixada.npi.gp.service.DadoConsolidado;
 import ufc.quixada.npi.gp.service.EstagiarioService;
 import ufc.quixada.npi.gp.service.FrequenciaService;
 import ufc.quixada.npi.gp.service.PessoaService;
@@ -202,8 +204,10 @@ public class FrequenciaController {
 	@RequestMapping(value = "/minha-presenca", method = RequestMethod.GET)
 	public String minhaPresenca(HttpSession session, Model model) {
 		boolean liberarPresenca = false;
+		
 		Estagiario estagiario = estagiarioService.getEstagiarioByPessoaId(getUsuarioLogado(session).getId());
-
+		
+		/*
 		Set<LocalDate> dataDosFeriados = new HashSet<LocalDate>();
 		for (Folga folga : estagiario.getTurma().getPeriodo().getFolgas()) {
 			dataDosFeriados.add(new LocalDate(folga.getData()));
@@ -211,17 +215,54 @@ public class FrequenciaController {
 		
 		HolidayCalendar<LocalDate> calendarioDeFeriados = new DefaultHolidayCalendar<LocalDate>(dataDosFeriados);
 		LocalDateKitCalculatorsFactory.getDefaultInstance().registerHolidays("NPI", calendarioDeFeriados);
+		
+		
 		DateCalculator<LocalDate> calendarioDeFeriadosNPI = LocalDateKitCalculatorsFactory.getDefaultInstance().getDateCalculator("NPI", HolidayHandlerType.FORWARD);
-
 		boolean horarioDeTrabalho = UtilGestao.isHoraPermitida(estagiario.getTurma().getHorarios());
 		boolean diaDeTrabalho = UtilGestao.isDiaTrabaho();
-		LocalDate dia = new LocalDate();
-
-		Frequencia frequenciaDeHoje = frequenciaService.getFrequenciaDeHojeByEstagiario(estagiario.getId());
+		LocalDate dia = new LocalDate();	
+		*/
 		
+		Frequencia frequenciaDeHoje = frequenciaService.getFrequenciaDeHojeByEstagiario(estagiario.getId());	
+		List<Frequencia> frequencia = frequenciaService.getFrequenciaByEstagiario(estagiario.getId());
+		DadoConsolidado dadosConsolidados = frequenciaService.calcularDadosConsolidados(frequencia);
+		
+		if(frequenciaDeHoje != null){
+			//frequencia está habilitada?
+			liberarPresenca = frequenciaService.frequenciaAvaliable(frequenciaDeHoje, estagiario);
+			
+			if(frequenciaDeHoje.getStatusFrequencia().equals(StatusFrequencia.PRESENTE)){
+				model.addAttribute("message", "Já realizei minha presença de hoje");
+			}
+			else if(liberarPresenca){
+				model.addAttribute("message", frequenciaDeHoje.getStatusFrequencia().getMensagem());
+			}
+			else {
+				model.addAttribute("message", "Sua presença não esta liberada.");
+			}
+			
+			model.addAttribute("frequenciaHoje", frequenciaDeHoje);
+			model.addAttribute("estagiario", estagiario);
+			model.addAttribute("liberarPresenca", liberarPresenca);
+			model.addAttribute("frequencia", frequencia);		
+			model.addAttribute("dadosConsolidados", dadosConsolidados);
+		}
+		else{
+			model.addAttribute("message", "Frequência de hoje não cadastrada");
+		}
+		return PAGINA_MINHA_PRESENCA;
+		
+		/*
 		if (!calendarioDeFeriadosNPI.isNonWorkingDay(dia)) {
 			if (frequenciaDeHoje != null) {
+
+				if(frequenciaDeHoje.getStatusFrequencia().equals(StatusFrequencia.AGUARDO)){
+					liberarPresenca = true;
+				}
 				model.addAttribute("message", frequenciaDeHoje.getStatusFrequencia().getMensagem());
+				model.addAttribute("frequenciaHoje", frequenciaDeHoje);
+				model.addAttribute("frequencia", frequencia);		
+				model.addAttribute("dadosConsolidados", dadosConsolidados);
 			} else if (horarioDeTrabalho && diaDeTrabalho) {
 				liberarPresenca = true;
 			} else {
@@ -230,51 +271,58 @@ public class FrequenciaController {
 		} else {
 			model.addAttribute("message", "Hoje é um feriado.");
 		}
-
+		
 		model.addAttribute("estagiario", estagiario);
 		model.addAttribute("liberarPresenca", liberarPresenca);
-		return PAGINA_MINHA_PRESENCA;
+		return PAGINA_MINHA_PRESENCA;*/
 	}
-
+	
 	@RequestMapping(value = "/minha-presenca", method = RequestMethod.POST)
-	public String presenteNPI(HttpSession session, @RequestParam("cpf") String cpf, @RequestParam("senha") String senha, Model model) {
+	public String presenteNPI(HttpSession session, @RequestParam("senha") String senha, Model model) {
 		ShaPasswordEncoder encoder = new ShaPasswordEncoder(256);
-		Estagiario estagiario = estagiarioService.getEstagiarioPesssoa(cpf, encoder.encodePassword(senha, ""));
+		Pessoa pessoa = getUsuarioLogado(session);
+		Estagiario estagiario = estagiarioService.getEstagiarioByPessoaId(pessoa.getId());
+		
+		if (pessoa.getPassword().equals(encoder.encodePassword(senha, ""))) {
+			/*Estagiario estagiario = estagiarioService.getEstagiarioByPessoaId(pessoa.getId());
 
+			Set<LocalDate> dataDosFeriados = new HashSet<LocalDate>();
+			for (Folga folga : estagiario.getTurma().getPeriodo().getFolgas()) {
+				dataDosFeriados.add(new LocalDate(folga.getData()));
+			}
+			
+			HolidayCalendar<LocalDate> calendarioDeFeriados = new DefaultHolidayCalendar<LocalDate>(dataDosFeriados);
+			LocalDateKitCalculatorsFactory.getDefaultInstance().registerHolidays("NPI", calendarioDeFeriados);
+			
+			DateCalculator<LocalDate> calendario = LocalDateKitCalculatorsFactory.getDefaultInstance().getDateCalculator("NPI", HolidayHandlerType.FORWARD);
 
-		if(estagiario == null){
-			model.addAttribute("estagiario", estagiarioService.getEstagiarioByPessoaId(getUsuarioLogado(session).getId()));
+			boolean horarioDeTrabalho = UtilGestao.isHoraPermitida(estagiario.getTurma().getHorarios());
+			boolean diaDeTrabalho = UtilGestao.isDiaTrabaho();			
+			LocalDate dia = new LocalDate();*/
+			
+			Frequencia frequenciaDeHoje = frequenciaService.getFrequenciaDeHojeByEstagiario(estagiario.getId());
+			
+			if(frequenciaService.frequenciaAvaliable(frequenciaDeHoje, estagiario)){
+				/*Frequencia frequencia = new Frequencia();
+
+				frequencia.setData(dia.toDate());
+				frequencia.setEstagiario(estagiario);
+				frequencia.setTurma(estagiario.getTurma());
+				frequencia.setTipoFrequencia(TipoFrequencia.NORMAL);
+				frequencia.setStatusFrequencia(StatusFrequencia.PRESENTE);
+				 */
+				frequenciaDeHoje.setStatusFrequencia(StatusFrequencia.PRESENTE);
+				frequenciaService.update(frequenciaDeHoje);
+			}	
+
+			
+		} else {
+			//model.addAttribute("estagiario", estagiarioService.getEstagiarioByPessoaId(getUsuarioLogado(session).getId()));
+			model.addAttribute("estagiario", estagiario);
 			model.addAttribute("error", "Usuario e/ou senha inválidos");
 			model.addAttribute("liberarPresenca", true);
-			return "estagiario/minha-presenca";
-		}
-
-		Set<LocalDate> dataDosFeriados = new HashSet<LocalDate>();
-		for (Folga folga : estagiario.getTurma().getPeriodo().getFolgas()) {
-			dataDosFeriados.add(new LocalDate(folga.getData()));
 		}
 		
-		HolidayCalendar<LocalDate> calendarioDeFeriados = new DefaultHolidayCalendar<LocalDate>(dataDosFeriados);
-		LocalDateKitCalculatorsFactory.getDefaultInstance().registerHolidays("NPI", calendarioDeFeriados);
-		DateCalculator<LocalDate> calendario = LocalDateKitCalculatorsFactory.getDefaultInstance().getDateCalculator("NPI", HolidayHandlerType.FORWARD);
-
-		boolean horarioDeTrabalho = UtilGestao.isHoraPermitida(estagiario.getTurma().getHorarios());
-		boolean diaDeTrabalho = UtilGestao.isDiaTrabaho();
-		
-		LocalDate dia = new LocalDate();
-		if( (!calendario.isNonWorkingDay(dia) ) && ( diaDeTrabalho && horarioDeTrabalho ))
-		{
-			Frequencia frequencia = new Frequencia();
-
-			frequencia.setData(dia.toDate());
-			frequencia.setEstagiario(estagiario);
-			frequencia.setTurma(estagiario.getTurma());
-			frequencia.setTipoFrequencia(TipoFrequencia.NORMAL);
-			frequencia.setStatusFrequencia(StatusFrequencia.PRESENTE);
-
-			frequenciaService.update(frequencia);
-		}	
-
 		return REDIRECT_MINHA_PRESENCA;
 	}
 
@@ -285,7 +333,6 @@ public class FrequenciaController {
 		}
 		return (Pessoa) session.getAttribute(USUARIO_LOGADO);
 	}	
-	
 
 }
 

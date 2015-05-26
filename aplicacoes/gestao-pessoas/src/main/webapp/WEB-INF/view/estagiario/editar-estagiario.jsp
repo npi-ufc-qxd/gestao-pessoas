@@ -199,7 +199,6 @@
 		<div class="form-group" align="center">
 			<button type="submit" class="btn btn-primary">Atualizar</button>
 		</div>
-		
 	</form:form>
 </div>
 <jsp:include page="../modulos/footer.jsp" />

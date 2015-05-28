@@ -4,7 +4,7 @@
 
 -- Dumped from database version 9.3.6
 -- Dumped by pg_dump version 9.3.6
--- Started on 2015-05-28 09:29:29 BRT
+-- Started on 2015-05-28 11:02:10 BRT
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -64,7 +64,7 @@ CREATE SEQUENCE estagiario_id_seq
 ALTER TABLE public.estagiario_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2054 (class 0 OID 0)
+-- TOC entry 2088 (class 0 OID 0)
 -- Dependencies: 172
 -- Name: estagiario_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -107,12 +107,103 @@ CREATE SEQUENCE frequencia_id_seq
 ALTER TABLE public.frequencia_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2055 (class 0 OID 0)
+-- TOC entry 2089 (class 0 OID 0)
 -- Dependencies: 176
 -- Name: frequencia_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
 ALTER SEQUENCE frequencia_id_seq OWNED BY frequencia.id;
+
+
+--
+-- TOC entry 181 (class 1259 OID 17066)
+-- Name: papel; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE papel (
+    id bigint NOT NULL,
+    nome character varying(255) NOT NULL
+);
+
+
+ALTER TABLE public.papel OWNER TO postgres;
+
+--
+-- TOC entry 180 (class 1259 OID 17064)
+-- Name: papel_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE papel_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.papel_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 2090 (class 0 OID 0)
+-- Dependencies: 180
+-- Name: papel_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE papel_id_seq OWNED BY papel.id;
+
+
+--
+-- TOC entry 188 (class 1259 OID 17099)
+-- Name: papel_pessoa; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE papel_pessoa (
+    pessoa_id bigint NOT NULL,
+    papel_id bigint NOT NULL
+);
+
+
+ALTER TABLE public.papel_pessoa OWNER TO postgres;
+
+--
+-- TOC entry 190 (class 1259 OID 17104)
+-- Name: periodo; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE periodo (
+    id bigint NOT NULL,
+    ano character varying(255) NOT NULL,
+    inicio date NOT NULL,
+    semestre character varying(255) NOT NULL,
+    statusperiodo character varying(255),
+    termino date NOT NULL
+);
+
+
+ALTER TABLE public.periodo OWNER TO postgres;
+
+--
+-- TOC entry 189 (class 1259 OID 17102)
+-- Name: periodo_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE periodo_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.periodo_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 2091 (class 0 OID 0)
+-- Dependencies: 189
+-- Name: periodo_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE periodo_id_seq OWNED BY periodo.id;
 
 
 --
@@ -148,12 +239,128 @@ CREATE SEQUENCE pessoa_id_seq
 ALTER TABLE public.pessoa_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2056 (class 0 OID 0)
+-- TOC entry 2092 (class 0 OID 0)
 -- Dependencies: 191
 -- Name: pessoa_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
 ALTER SEQUENCE pessoa_id_seq OWNED BY pessoa.id;
+
+
+--
+-- TOC entry 183 (class 1259 OID 17074)
+-- Name: projeto; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE projeto (
+    id bigint NOT NULL,
+    descricao text,
+    nome character varying(255)
+);
+
+
+ALTER TABLE public.projeto OWNER TO postgres;
+
+--
+-- TOC entry 182 (class 1259 OID 17072)
+-- Name: projeto_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE projeto_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.projeto_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 2093 (class 0 OID 0)
+-- Dependencies: 182
+-- Name: projeto_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE projeto_id_seq OWNED BY projeto.id;
+
+
+--
+-- TOC entry 185 (class 1259 OID 17085)
+-- Name: servidor; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE servidor (
+    id bigint NOT NULL,
+    siape character varying(255),
+    pessoa_id bigint,
+    turma_id bigint
+);
+
+
+ALTER TABLE public.servidor OWNER TO postgres;
+
+--
+-- TOC entry 184 (class 1259 OID 17083)
+-- Name: servidor_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE servidor_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.servidor_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 2094 (class 0 OID 0)
+-- Dependencies: 184
+-- Name: servidor_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE servidor_id_seq OWNED BY servidor.id;
+
+
+--
+-- TOC entry 187 (class 1259 OID 17093)
+-- Name: turma; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE turma (
+    id bigint NOT NULL,
+    nome character varying(255),
+    periodo_id bigint,
+    supervisor_id bigint
+);
+
+
+ALTER TABLE public.turma OWNER TO postgres;
+
+--
+-- TOC entry 186 (class 1259 OID 17091)
+-- Name: turma_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE turma_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.turma_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 2095 (class 0 OID 0)
+-- Dependencies: 186
+-- Name: turma_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE turma_id_seq OWNED BY turma.id;
 
 
 --
@@ -173,7 +380,23 @@ ALTER TABLE ONLY frequencia ALTER COLUMN id SET DEFAULT nextval('frequencia_id_s
 
 
 --
--- TOC entry 1923 (class 2604 OID 17118)
+-- TOC entry 1923 (class 2604 OID 17069)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY papel ALTER COLUMN id SET DEFAULT nextval('papel_id_seq'::regclass);
+
+
+--
+-- TOC entry 1927 (class 2604 OID 17107)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY periodo ALTER COLUMN id SET DEFAULT nextval('periodo_id_seq'::regclass);
+
+
+--
+-- TOC entry 1928 (class 2604 OID 17118)
 -- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -181,46 +404,70 @@ ALTER TABLE ONLY pessoa ALTER COLUMN id SET DEFAULT nextval('pessoa_id_seq'::reg
 
 
 --
--- TOC entry 2045 (class 0 OID 17028)
+-- TOC entry 1924 (class 2604 OID 17077)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY projeto ALTER COLUMN id SET DEFAULT nextval('projeto_id_seq'::regclass);
+
+
+--
+-- TOC entry 1925 (class 2604 OID 17088)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY servidor ALTER COLUMN id SET DEFAULT nextval('servidor_id_seq'::regclass);
+
+
+--
+-- TOC entry 1926 (class 2604 OID 17096)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY turma ALTER COLUMN id SET DEFAULT nextval('turma_id_seq'::regclass);
+
+
+--
+-- TOC entry 2068 (class 0 OID 17028)
 -- Dependencies: 173
 -- Data for Name: estagiario; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-INSERT INTO estagiario (id, cep, cidade, contagithub, contahangout, contaredmine, curso, datanascimento, endereco, matricula, nomecompleto, nomemae, semestre, telefone, uf, pessoa_id, projeto_id, turma_id) VALUES (5, '63.900-000', 'Quixadá', 'github', 'hangout', 'redmine', 'ENGENHARIA_SOFTWARE', '1993-03-29 00:00:00', 'Avenida José Caetano de Almeida, Nº 202, Centro', 1234567, 'João Marcos Epifanio da Silva', 'Mae', '7', '(88)-1234-5678', 'CEARA', 5, 1, 1);
-INSERT INTO estagiario (id, cep, cidade, contagithub, contahangout, contaredmine, curso, datanascimento, endereco, matricula, nomecompleto, nomemae, semestre, telefone, uf, pessoa_id, projeto_id, turma_id) VALUES (6, '63.900-000', 'Quixadá', 'github', 'hangout', 'redmine', 'ENGENHARIA_SOFTWARE', '1993-03-29 00:00:00', 'Avenida José Caetano de Almeida, Nº 202, Centro', 1234567, 'Priscila Rocha Ferreira Rodrigues', 'Mae', '7', '(88)-1234-5678', 'CEARA', 6, 1, 1);
+INSERT INTO estagiario (id, cep, cidade, contagithub, contahangout, contaredmine, curso, datanascimento, endereco, matricula, nomecompleto, nomemae, semestre, telefone, uf, pessoa_id, projeto_id, turma_id) VALUES (24, '63.900-000', 'Quixadá', 'github', 'hangout', 'redmine', 'ENGENHARIA_SOFTWARE', '1993-03-29 00:00:00', 'Avenida José Caetano de Almeida, Nº 202, Centro', 1234567, 'Antonio Erivelton Facundo da Cunha', 'Mae', '6', '(88)-1234-5678', 'CEARA', 24, 3, 6);
+INSERT INTO estagiario (id, cep, cidade, contagithub, contahangout, contaredmine, curso, datanascimento, endereco, matricula, nomecompleto, nomemae, semestre, telefone, uf, pessoa_id, projeto_id, turma_id) VALUES (5, '63.900-000', 'Quixadá', 'github', 'hangout', 'redmine', 'ENGENHARIA_SOFTWARE', '1993-03-29 00:00:00', 'Avenida José Caetano de Almeida, Nº 202, Centro', 1234567, 'João Marcos Epifanio da Silva', 'Mae', '7', '(88)-1234-5678', 'CEARA', 5, 1, 4);
 INSERT INTO estagiario (id, cep, cidade, contagithub, contahangout, contaredmine, curso, datanascimento, endereco, matricula, nomecompleto, nomemae, semestre, telefone, uf, pessoa_id, projeto_id, turma_id) VALUES (3, '63.900-000', 'Quixadá', 'github', 'hangout', 'redmine', 'ENGENHARIA_SOFTWARE', '1993-03-29 00:00:00', 'Avenida José Caetano de Almeida, Nº 202, Centro', 1234567, 'Jonas de Sousa Ferreira', 'Mae', '9', '(88)-1234-5678', 'CEARA', 3, 1, 1);
 INSERT INTO estagiario (id, cep, cidade, contagithub, contahangout, contaredmine, curso, datanascimento, endereco, matricula, nomecompleto, nomemae, semestre, telefone, uf, pessoa_id, projeto_id, turma_id) VALUES (8, '63.900-000', 'Quixadá', 'github', 'hangout', 'redmine', 'ENGENHARIA_SOFTWARE', '1993-03-29 00:00:00', 'Avenida José Caetano de Almeida, Nº 202, Centro', 1234567, 'Layna Cristina de Queiroz Castro', 'Mae', '7', '(88)-1234-5678', 'CEARA', 8, 1, 1);
-INSERT INTO estagiario (id, cep, cidade, contagithub, contahangout, contaredmine, curso, datanascimento, endereco, matricula, nomecompleto, nomemae, semestre, telefone, uf, pessoa_id, projeto_id, turma_id) VALUES (7, '63.900-000', 'Quixadá', 'github', 'hangout', 'redmine', 'ENGENHARIA_SOFTWARE', '1993-03-29 00:00:00', 'Avenida José Caetano de Almeida, Nº 202, Centro', 1234567, 'Márcio de Souza Nobre', 'Mae', '7', '(88)-1234-5678', 'CEARA', 7, 1, 1);
-INSERT INTO estagiario (id, cep, cidade, contagithub, contahangout, contaredmine, curso, datanascimento, endereco, matricula, nomecompleto, nomemae, semestre, telefone, uf, pessoa_id, projeto_id, turma_id) VALUES (9, '63.900-000', 'Quixadá', 'github', 'hangout', 'redmine', 'ENGENHARIA_SOFTWARE', '1993-03-29 00:00:00', 'Avenida José Caetano de Almeida, Nº 202, Centro', 1234567, 'Ana Cristina Soriano Lima', 'Mae', '7', '(88)-1234-5678', 'CEARA', 9, 1, 1);
-INSERT INTO estagiario (id, cep, cidade, contagithub, contahangout, contaredmine, curso, datanascimento, endereco, matricula, nomecompleto, nomemae, semestre, telefone, uf, pessoa_id, projeto_id, turma_id) VALUES (11, '63.900-000', 'Quixadá', 'github', 'hangout', 'redmine', 'ENGENHARIA_SOFTWARE', '1993-03-29 00:00:00', 'Avenida José Caetano de Almeida, Nº 202, Centro', 1234567, 'André Luis Ferreira Sá', 'Mae', '8', '(88)-1234-5678', 'CEARA', 11, 2, 1);
-INSERT INTO estagiario (id, cep, cidade, contagithub, contahangout, contaredmine, curso, datanascimento, endereco, matricula, nomecompleto, nomemae, semestre, telefone, uf, pessoa_id, projeto_id, turma_id) VALUES (12, '63.900-000', 'Quixadá', 'github', 'hangout', 'redmine', 'ENGENHARIA_SOFTWARE', '1993-03-29 00:00:00', 'Avenida José Caetano de Almeida, Nº 202, Centro', 1234567, 'Thiago Pereira Rosa', 'Mae', '8', '(88)-1234-5678', 'CEARA', 12, 2, 1);
+INSERT INTO estagiario (id, cep, cidade, contagithub, contahangout, contaredmine, curso, datanascimento, endereco, matricula, nomecompleto, nomemae, semestre, telefone, uf, pessoa_id, projeto_id, turma_id) VALUES (9, '63.900-000', 'Quixadá', 'github', 'hangout', 'redmine', 'ENGENHARIA_SOFTWARE', '1993-03-29 00:00:00', 'Avenida José Caetano de Almeida, Nº 202, Centro', 1234567, 'Ana Cristina Soriano Lima', 'Mae', '7', '(88)-1234-5678', 'CEARA', 9, 1, 3);
+INSERT INTO estagiario (id, cep, cidade, contagithub, contahangout, contaredmine, curso, datanascimento, endereco, matricula, nomecompleto, nomemae, semestre, telefone, uf, pessoa_id, projeto_id, turma_id) VALUES (11, '63.900-000', 'Quixadá', 'github', 'hangout', 'redmine', 'ENGENHARIA_SOFTWARE', '1993-03-29 00:00:00', 'Avenida José Caetano de Almeida, Nº 202, Centro', 1234567, 'André Luis Ferreira Sá', 'Mae', '8', '(88)-1234-5678', 'CEARA', 11, 2, 4);
+INSERT INTO estagiario (id, cep, cidade, contagithub, contahangout, contaredmine, curso, datanascimento, endereco, matricula, nomecompleto, nomemae, semestre, telefone, uf, pessoa_id, projeto_id, turma_id) VALUES (15, '63.900-000', 'Quixadá', 'github', 'hangout', 'redmine', 'ENGENHARIA_SOFTWARE', '1993-03-29 00:00:00', 'Avenida José Caetano de Almeida, Nº 202, Centro', 1234567, 'Fabio Janyo Fonteles Maia', 'Mae', '8', '(88)-1234-5678', 'CEARA', 15, 2, 5);
+INSERT INTO estagiario (id, cep, cidade, contagithub, contahangout, contaredmine, curso, datanascimento, endereco, matricula, nomecompleto, nomemae, semestre, telefone, uf, pessoa_id, projeto_id, turma_id) VALUES (20, '63.900-000', 'Quixadá', 'github', 'hangout', 'redmine', 'ENGENHARIA_SOFTWARE', '1993-03-29 00:00:00', 'Avenida José Caetano de Almeida, Nº 202, Centro', 1234567, 'Fernanda Maria Pinheiro Amâncio', 'Mae', '8', '(88)-1234-5678', 'CEARA', 20, 2, 3);
 INSERT INTO estagiario (id, cep, cidade, contagithub, contahangout, contaredmine, curso, datanascimento, endereco, matricula, nomecompleto, nomemae, semestre, telefone, uf, pessoa_id, projeto_id, turma_id) VALUES (10, '63.900-000', 'Quixadá', 'github', 'hangout', 'redmine', 'ENGENHARIA_SOFTWARE', '1993-03-29 00:00:00', 'Avenida José Caetano de Almeida, Nº 202, Centro', 1234567, 'Wellington Lucas Moura', 'Mae', '7', '(88)-1234-5678', 'CEARA', 10, 1, 1);
-INSERT INTO estagiario (id, cep, cidade, contagithub, contahangout, contaredmine, curso, datanascimento, endereco, matricula, nomecompleto, nomemae, semestre, telefone, uf, pessoa_id, projeto_id, turma_id) VALUES (14, '63.900-000', 'Quixadá', 'github', 'hangout', 'redmine', 'ENGENHARIA_SOFTWARE', '1993-03-29 00:00:00', 'Avenida José Caetano de Almeida, Nº 202, Centro', 1234567, 'Felype Tabosa Cabral', 'Mae', '8', '(88)-1234-5678', 'CEARA', 14, 2, 1);
-INSERT INTO estagiario (id, cep, cidade, contagithub, contahangout, contaredmine, curso, datanascimento, endereco, matricula, nomecompleto, nomemae, semestre, telefone, uf, pessoa_id, projeto_id, turma_id) VALUES (15, '63.900-000', 'Quixadá', 'github', 'hangout', 'redmine', 'ENGENHARIA_SOFTWARE', '1993-03-29 00:00:00', 'Avenida José Caetano de Almeida, Nº 202, Centro', 1234567, 'Fabio Janyo Fonteles Maia', 'Mae', '8', '(88)-1234-5678', 'CEARA', 15, 2, 1);
+INSERT INTO estagiario (id, cep, cidade, contagithub, contahangout, contaredmine, curso, datanascimento, endereco, matricula, nomecompleto, nomemae, semestre, telefone, uf, pessoa_id, projeto_id, turma_id) VALUES (12, '63.900-000', 'Quixadá', 'github', 'hangout', 'redmine', 'ENGENHARIA_SOFTWARE', '1993-03-29 00:00:00', 'Avenida José Caetano de Almeida, Nº 202, Centro', 1234567, 'Thiago Pereira Rosa', 'Mae', '8', '(88)-1234-5678', 'CEARA', 12, 2, 2);
+INSERT INTO estagiario (id, cep, cidade, contagithub, contahangout, contaredmine, curso, datanascimento, endereco, matricula, nomecompleto, nomemae, semestre, telefone, uf, pessoa_id, projeto_id, turma_id) VALUES (17, '63.900-000', 'Quixadá', 'github', 'hangout', 'redmine', 'ENGENHARIA_SOFTWARE', '1993-03-29 00:00:00', 'Avenida José Caetano de Almeida, Nº 202, Centro', 1234567, 'Talita Vasconcelos da silva', 'Mae', '8', '(88)-1234-5678', 'CEARA', 17, 2, 6);
 INSERT INTO estagiario (id, cep, cidade, contagithub, contahangout, contaredmine, curso, datanascimento, endereco, matricula, nomecompleto, nomemae, semestre, telefone, uf, pessoa_id, projeto_id, turma_id) VALUES (13, '63.900-000', 'Quixadá', 'github', 'hangout', 'redmine', 'ENGENHARIA_SOFTWARE', '1993-03-29 00:00:00', 'Avenida José Caetano de Almeida, Nº 202, Centro', 1234567, 'Otávio Augusto de Souza', 'Mae', '8', '(88)-1234-5678', 'CEARA', 13, 2, 1);
 INSERT INTO estagiario (id, cep, cidade, contagithub, contahangout, contaredmine, curso, datanascimento, endereco, matricula, nomecompleto, nomemae, semestre, telefone, uf, pessoa_id, projeto_id, turma_id) VALUES (16, '63.900-000', 'Quixadá', 'github', 'hangout', 'redmine', 'ENGENHARIA_SOFTWARE', '1993-03-29 00:00:00', 'Avenida José Caetano de Almeida, Nº 202, Centro', 1234567, 'Wagner Francalino Silva', 'Mae', '8', '(88)-1234-5678', 'CEARA', 16, 2, 1);
-INSERT INTO estagiario (id, cep, cidade, contagithub, contahangout, contaredmine, curso, datanascimento, endereco, matricula, nomecompleto, nomemae, semestre, telefone, uf, pessoa_id, projeto_id, turma_id) VALUES (17, '63.900-000', 'Quixadá', 'github', 'hangout', 'redmine', 'ENGENHARIA_SOFTWARE', '1993-03-29 00:00:00', 'Avenida José Caetano de Almeida, Nº 202, Centro', 1234567, 'Talita Vasconcelos da silva', 'Mae', '8', '(88)-1234-5678', 'CEARA', 17, 2, 1);
+INSERT INTO estagiario (id, cep, cidade, contagithub, contahangout, contaredmine, curso, datanascimento, endereco, matricula, nomecompleto, nomemae, semestre, telefone, uf, pessoa_id, projeto_id, turma_id) VALUES (19, '63.900-000', 'Quixadá', 'github', 'hangout', 'redmine', 'ENGENHARIA_SOFTWARE', '1993-03-29 00:00:00', 'Avenida José Caetano de Almeida, Nº 202, Centro', 1234567, 'Francisco Caio Pessoa Cavalcante', 'Mae', '8', '(88)-1234-5678', 'CEARA', 19, 2, 7);
 INSERT INTO estagiario (id, cep, cidade, contagithub, contahangout, contaredmine, curso, datanascimento, endereco, matricula, nomecompleto, nomemae, semestre, telefone, uf, pessoa_id, projeto_id, turma_id) VALUES (18, '63.900-000', 'Quixadá', 'github', 'hangout', 'redmine', 'ENGENHARIA_SOFTWARE', '1993-03-29 00:00:00', 'Avenida José Caetano de Almeida, Nº 202, Centro', 1234567, 'André Luiz Oliveira Martins', 'Mae', '8', '(88)-1234-5678', 'CEARA', 18, 2, 1);
-INSERT INTO estagiario (id, cep, cidade, contagithub, contahangout, contaredmine, curso, datanascimento, endereco, matricula, nomecompleto, nomemae, semestre, telefone, uf, pessoa_id, projeto_id, turma_id) VALUES (19, '63.900-000', 'Quixadá', 'github', 'hangout', 'redmine', 'ENGENHARIA_SOFTWARE', '1993-03-29 00:00:00', 'Avenida José Caetano de Almeida, Nº 202, Centro', 1234567, 'Francisco Caio Pessoa Cavalcante', 'Mae', '8', '(88)-1234-5678', 'CEARA', 19, 2, 1);
-INSERT INTO estagiario (id, cep, cidade, contagithub, contahangout, contaredmine, curso, datanascimento, endereco, matricula, nomecompleto, nomemae, semestre, telefone, uf, pessoa_id, projeto_id, turma_id) VALUES (20, '63.900-000', 'Quixadá', 'github', 'hangout', 'redmine', 'ENGENHARIA_SOFTWARE', '1993-03-29 00:00:00', 'Avenida José Caetano de Almeida, Nº 202, Centro', 1234567, 'Fernanda Maria Pinheiro Amâncio', 'Mae', '8', '(88)-1234-5678', 'CEARA', 20, 2, 1);
-INSERT INTO estagiario (id, cep, cidade, contagithub, contahangout, contaredmine, curso, datanascimento, endereco, matricula, nomecompleto, nomemae, semestre, telefone, uf, pessoa_id, projeto_id, turma_id) VALUES (21, '63.900-000', 'Quixadá', 'github', 'hangout', 'redmine', 'ENGENHARIA_SOFTWARE', '1993-03-29 00:00:00', 'Avenida José Caetano de Almeida, Nº 202, Centro', 1234567, 'Ítalo Bandeira Pereira Leite', 'Mae', '6', '(88)-1234-5678', 'CEARA', 21, 3, 1);
-INSERT INTO estagiario (id, cep, cidade, contagithub, contahangout, contaredmine, curso, datanascimento, endereco, matricula, nomecompleto, nomemae, semestre, telefone, uf, pessoa_id, projeto_id, turma_id) VALUES (23, '63.900-000', 'Quixadá', 'github', 'hangout', 'redmine', 'ENGENHARIA_SOFTWARE', '1993-03-29 00:00:00', 'Avenida José Caetano de Almeida, Nº 202, Centro', 1234567, 'João Pedro Bernardino Andrade', 'Mae', '6', '(88)-1234-5678', 'CEARA', 23, 3, 1);
-INSERT INTO estagiario (id, cep, cidade, contagithub, contahangout, contaredmine, curso, datanascimento, endereco, matricula, nomecompleto, nomemae, semestre, telefone, uf, pessoa_id, projeto_id, turma_id) VALUES (24, '63.900-000', 'Quixadá', 'github', 'hangout', 'redmine', 'ENGENHARIA_SOFTWARE', '1993-03-29 00:00:00', 'Avenida José Caetano de Almeida, Nº 202, Centro', 1234567, 'Antonio Erivelton Facundo da Cunha', 'Mae', '6', '(88)-1234-5678', 'CEARA', 24, 3, 1);
-INSERT INTO estagiario (id, cep, cidade, contagithub, contahangout, contaredmine, curso, datanascimento, endereco, matricula, nomecompleto, nomemae, semestre, telefone, uf, pessoa_id, projeto_id, turma_id) VALUES (22, '63.900-000', 'Quixadá', 'github', 'hangout', 'redmine', 'ENGENHARIA_SOFTWARE', '1993-03-29 00:00:00', 'Avenida José Caetano de Almeida, Nº 202, Centro', 1234567, 'Iury Maia de Almeida', 'Mae', '6', '(88)-1234-5678', 'CEARA', 22, 3, 1);
-INSERT INTO estagiario (id, cep, cidade, contagithub, contahangout, contaredmine, curso, datanascimento, endereco, matricula, nomecompleto, nomemae, semestre, telefone, uf, pessoa_id, projeto_id, turma_id) VALUES (25, '63.900-000', 'Quixadá', 'github', 'hangout', 'redmine', 'ENGENHARIA_SOFTWARE', '1993-03-29 00:00:00', 'Avenida José Caetano de Almeida, Nº 202, Centro', 1234567, 'Natasha da Silveira Pinheiro', 'Mae', '6', '(88)-1234-5678', 'CEARA', 25, 3, 1);
+INSERT INTO estagiario (id, cep, cidade, contagithub, contahangout, contaredmine, curso, datanascimento, endereco, matricula, nomecompleto, nomemae, semestre, telefone, uf, pessoa_id, projeto_id, turma_id) VALUES (14, '63.900-000', 'Quixadá', 'github', 'hangout', 'redmine', 'ENGENHARIA_SOFTWARE', '1993-03-29 00:00:00', 'Avenida José Caetano de Almeida, Nº 202, Centro', 1234567, 'Felype Tabosa Cabral', 'Mae', '8', '(88)-1234-5678', 'CEARA', 14, 2, 2);
+INSERT INTO estagiario (id, cep, cidade, contagithub, contahangout, contaredmine, curso, datanascimento, endereco, matricula, nomecompleto, nomemae, semestre, telefone, uf, pessoa_id, projeto_id, turma_id) VALUES (21, '63.900-000', 'Quixadá', 'github', 'hangout', 'redmine', 'ENGENHARIA_SOFTWARE', '1993-03-29 00:00:00', 'Avenida José Caetano de Almeida, Nº 202, Centro', 1234567, 'Ítalo Bandeira Pereira Leite', 'Mae', '6', '(88)-1234-5678', 'CEARA', 21, 3, 6);
+INSERT INTO estagiario (id, cep, cidade, contagithub, contahangout, contaredmine, curso, datanascimento, endereco, matricula, nomecompleto, nomemae, semestre, telefone, uf, pessoa_id, projeto_id, turma_id) VALUES (23, '63.900-000', 'Quixadá', 'github', 'hangout', 'redmine', 'ENGENHARIA_SOFTWARE', '1993-03-29 00:00:00', 'Avenida José Caetano de Almeida, Nº 202, Centro', 1234567, 'João Pedro Bernardino Andrade', 'Mae', '6', '(88)-1234-5678', 'CEARA', 23, 3, 5);
+INSERT INTO estagiario (id, cep, cidade, contagithub, contahangout, contaredmine, curso, datanascimento, endereco, matricula, nomecompleto, nomemae, semestre, telefone, uf, pessoa_id, projeto_id, turma_id) VALUES (25, '63.900-000', 'Quixadá', 'github', 'hangout', 'redmine', 'ENGENHARIA_SOFTWARE', '1993-03-29 00:00:00', 'Avenida José Caetano de Almeida, Nº 202, Centro', 1234567, 'Natasha da Silveira Pinheiro', 'Mae', '6', '(88)-1234-5678', 'CEARA', 25, 3, 7);
+INSERT INTO estagiario (id, cep, cidade, contagithub, contahangout, contaredmine, curso, datanascimento, endereco, matricula, nomecompleto, nomemae, semestre, telefone, uf, pessoa_id, projeto_id, turma_id) VALUES (22, '63.900-000', 'Quixadá', 'github', 'hangout', 'redmine', 'ENGENHARIA_SOFTWARE', '1993-03-29 00:00:00', 'Avenida José Caetano de Almeida, Nº 202, Centro', 1234567, 'Iury Maia de Almeida', 'Mae', '6', '(88)-1234-5678', 'CEARA', 22, 3, 5);
+INSERT INTO estagiario (id, cep, cidade, contagithub, contahangout, contaredmine, curso, datanascimento, endereco, matricula, nomecompleto, nomemae, semestre, telefone, uf, pessoa_id, projeto_id, turma_id) VALUES (28, '63.900-000', 'Quixadá', 'github', 'hangout', 'redmine', 'ENGENHARIA_SOFTWARE', '1990-01-15 00:00:00', 'Avenida José Caetano de Almeida, Nº 202, Centro', 1234567, 'Lucas Maia Lima Brito', 'Mae', '6', '(88)-1234-5678', 'CEARA', 28, 3, 5);
 INSERT INTO estagiario (id, cep, cidade, contagithub, contahangout, contaredmine, curso, datanascimento, endereco, matricula, nomecompleto, nomemae, semestre, telefone, uf, pessoa_id, projeto_id, turma_id) VALUES (26, '63.900-000', 'Quixadá', 'github', 'hangout', 'redmine', 'ENGENHARIA_SOFTWARE', '1993-03-29 00:00:00', 'Avenida José Caetano de Almeida, Nº 202, Centro', 1234567, 'Kleiton de Almeida Rufino', 'Mae', '6', '(88)-1234-5678', 'CEARA', 26, 3, 1);
 INSERT INTO estagiario (id, cep, cidade, contagithub, contahangout, contaredmine, curso, datanascimento, endereco, matricula, nomecompleto, nomemae, semestre, telefone, uf, pessoa_id, projeto_id, turma_id) VALUES (27, '63.900-000', 'Quixadá', 'github', 'hangout', 'redmine', 'ENGENHARIA_SOFTWARE', '1993-12-01 00:00:00', 'Avenida José Caetano de Almeida, Nº 202, Centro', 1234567, 'Luiz Isaias de Souza Silva', 'Mae', '6', '(88)-1234-5678', 'CEARA', 27, 3, 1);
 INSERT INTO estagiario (id, cep, cidade, contagithub, contahangout, contaredmine, curso, datanascimento, endereco, matricula, nomecompleto, nomemae, semestre, telefone, uf, pessoa_id, projeto_id, turma_id) VALUES (29, '63.900-000', 'Quixadá', 'github', 'hangout', 'redmine', 'ENGENHARIA_SOFTWARE', '1991-03-29 00:00:00', 'Avenida José Caetano de Almeida, Nº 202, Centro', 1234567, 'Leuson Mario Pedro da Silva', 'Mae', '6', '(88)-1234-5678', 'CEARA', 29, 3, 1);
-INSERT INTO estagiario (id, cep, cidade, contagithub, contahangout, contaredmine, curso, datanascimento, endereco, matricula, nomecompleto, nomemae, semestre, telefone, uf, pessoa_id, projeto_id, turma_id) VALUES (28, '63.900-000', 'Quixadá', 'github', 'hangout', 'redmine', 'ENGENHARIA_SOFTWARE', '1990-01-15 00:00:00', 'Avenida José Caetano de Almeida, Nº 202, Centro', 1234567, 'Lucas Maia Lima Brito', 'Mae', '6', '(88)-1234-5678', 'CEARA', 28, 3, 1);
-INSERT INTO estagiario (id, cep, cidade, contagithub, contahangout, contaredmine, curso, datanascimento, endereco, matricula, nomecompleto, nomemae, semestre, telefone, uf, pessoa_id, projeto_id, turma_id) VALUES (30, '63.900-000', 'Quixadá', 'github', 'hangout', 'redmine', 'ENGENHARIA_SOFTWARE', '1992-03-29 00:00:00', 'Avenida José Caetano de Almeida, Nº 202, Centro', 1234567, 'Ygor Rocha Reis', 'Mae', '6', '(88)-1234-5678', 'CEARA', 30, 3, 1);
+INSERT INTO estagiario (id, cep, cidade, contagithub, contahangout, contaredmine, curso, datanascimento, endereco, matricula, nomecompleto, nomemae, semestre, telefone, uf, pessoa_id, projeto_id, turma_id) VALUES (30, '63.900-000', 'Quixadá', 'github', 'hangout', 'redmine', 'ENGENHARIA_SOFTWARE', '1992-03-29 00:00:00', 'Avenida José Caetano de Almeida, Nº 202, Centro', 1234567, 'Ygor Rocha Reis', 'Mae', '6', '(88)-1234-5678', 'CEARA', 30, 3, 2);
+INSERT INTO estagiario (id, cep, cidade, contagithub, contahangout, contaredmine, curso, datanascimento, endereco, matricula, nomecompleto, nomemae, semestre, telefone, uf, pessoa_id, projeto_id, turma_id) VALUES (7, '63.900-000', 'Quixadá', 'github', 'hangout', 'redmine', 'ENGENHARIA_SOFTWARE', '1993-03-29 00:00:00', 'Avenida José Caetano de Almeida, Nº 202, Centro', 1234567, 'Márcio de Souza Nobre', 'Mae', '7', '(88)-1234-5678', 'CEARA', 7, 1, 2);
+INSERT INTO estagiario (id, cep, cidade, contagithub, contahangout, contaredmine, curso, datanascimento, endereco, matricula, nomecompleto, nomemae, semestre, telefone, uf, pessoa_id, projeto_id, turma_id) VALUES (4, '63.900-000', 'Quixadá', 'github', 'hangout', 'redmine', 'ENGENHARIA_SOFTWARE', '1993-03-29 00:00:00', 'Avenida José Caetano de Almeida, Nº 202, Centro', 1234567, 'Marcilio Santos Valois', 'Mae', '9', '(88)-1234-5678', 'CEARA', 4, 1, 2);
 INSERT INTO estagiario (id, cep, cidade, contagithub, contahangout, contaredmine, curso, datanascimento, endereco, matricula, nomecompleto, nomemae, semestre, telefone, uf, pessoa_id, projeto_id, turma_id) VALUES (2, '63.900-000', 'Quixadá', 'github', 'hangout', 'redmine', 'ENGENHARIA_SOFTWARE', '1993-03-29 00:00:00', 'Avenida José Caetano de Almeida, Nº 202, Centro', 1234567, 'Beatriz Brito do Rego', 'Mae', '9', '(88)-1234-5678', 'CEARA', 31, 1, 1);
-INSERT INTO estagiario (id, cep, cidade, contagithub, contahangout, contaredmine, curso, datanascimento, endereco, matricula, nomecompleto, nomemae, semestre, telefone, uf, pessoa_id, projeto_id, turma_id) VALUES (4, '63.900-000', 'Quixadá', 'github', 'hangout', 'redmine', 'ENGENHARIA_SOFTWARE', '1993-03-29 00:00:00', 'Avenida José Caetano de Almeida, Nº 202, Centro', 1234567, 'Marcilio Santos Valois', 'Mae', '9', '(88)-1234-5678', 'CEARA', 4, 1, 1);
+INSERT INTO estagiario (id, cep, cidade, contagithub, contahangout, contaredmine, curso, datanascimento, endereco, matricula, nomecompleto, nomemae, semestre, telefone, uf, pessoa_id, projeto_id, turma_id) VALUES (6, '63.900-000', 'Quixadá', 'github', 'hangout', 'redmine', 'ENGENHARIA_SOFTWARE', '1993-03-29 00:00:00', 'Avenida José Caetano de Almeida, Nº 202, Centro', 1234567, 'Priscila Rocha Ferreira Rodrigues', 'Mae', '7', '(88)-1234-5678', 'CEARA', 6, 1, 4);
 INSERT INTO estagiario (id, cep, cidade, contagithub, contahangout, contaredmine, curso, datanascimento, endereco, matricula, nomecompleto, nomemae, semestre, telefone, uf, pessoa_id, projeto_id, turma_id) VALUES (1, '63.900-056', 'Quixadá', 'git', 'hang', 'red', 'SISTEMAS_INFORMAÇÃO', '2015-03-29 00:00:00', 'Avenida José Caetano de Almeida, Nº 202, Centro', 1234567, 'Jeff', 'Mae', '8', '(88) - 1234-5678', 'CEARA', 2, 1, 1);
-INSERT INTO estagiario (id, cep, cidade, contagithub, contahangout, contaredmine, curso, datanascimento, endereco, matricula, nomecompleto, nomemae, semestre, telefone, uf, pessoa_id, projeto_id, turma_id) VALUES (31, '63.900-000', 'Quixadá', 'github', 'hangout', 'red', 'ENGENHARIA_SOFTWARE', '2015-05-01 00:00:00', 'test', 3333333, 'Teste', 'mae', '6', '(88) - 1234-5678', 'CEARA', 41, NULL, 1);
+INSERT INTO estagiario (id, cep, cidade, contagithub, contahangout, contaredmine, curso, datanascimento, endereco, matricula, nomecompleto, nomemae, semestre, telefone, uf, pessoa_id, projeto_id, turma_id) VALUES (31, '63.900-000', 'Quixadá', 'github', 'hangout', 'red', 'ENGENHARIA_SOFTWARE', '2015-05-01 00:00:00', 'test', 3333333, 'Teste', 'mae', '6', '(88) - 1234-5678', 'CEARA', 41, NULL, 3);
 
 
 --
--- TOC entry 2057 (class 0 OID 0)
+-- TOC entry 2096 (class 0 OID 0)
 -- Dependencies: 172
 -- Name: estagiario_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -229,7 +476,7 @@ SELECT pg_catalog.setval('estagiario_id_seq', 31, true);
 
 
 --
--- TOC entry 2047 (class 0 OID 17047)
+-- TOC entry 2070 (class 0 OID 17047)
 -- Dependencies: 177
 -- Data for Name: frequencia; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -1437,7 +1684,7 @@ INSERT INTO frequencia (id, data, observacao, statusfrequencia, tipofrequencia, 
 
 
 --
--- TOC entry 2058 (class 0 OID 0)
+-- TOC entry 2097 (class 0 OID 0)
 -- Dependencies: 176
 -- Name: frequencia_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -1446,7 +1693,84 @@ SELECT pg_catalog.setval('frequencia_id_seq', 1218, true);
 
 
 --
--- TOC entry 2049 (class 0 OID 17115)
+-- TOC entry 2072 (class 0 OID 17066)
+-- Dependencies: 181
+-- Data for Name: papel; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO papel (id, nome) VALUES (1, 'ROLE_COORDENADOR');
+INSERT INTO papel (id, nome) VALUES (2, 'ROLE_ESTAGIARIO');
+
+
+--
+-- TOC entry 2098 (class 0 OID 0)
+-- Dependencies: 180
+-- Name: papel_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('papel_id_seq', 1, false);
+
+
+--
+-- TOC entry 2079 (class 0 OID 17099)
+-- Dependencies: 188
+-- Data for Name: papel_pessoa; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO papel_pessoa (pessoa_id, papel_id) VALUES (1, 1);
+INSERT INTO papel_pessoa (pessoa_id, papel_id) VALUES (2, 2);
+INSERT INTO papel_pessoa (pessoa_id, papel_id) VALUES (41, 2);
+INSERT INTO papel_pessoa (pessoa_id, papel_id) VALUES (3, 2);
+INSERT INTO papel_pessoa (pessoa_id, papel_id) VALUES (4, 2);
+INSERT INTO papel_pessoa (pessoa_id, papel_id) VALUES (5, 2);
+INSERT INTO papel_pessoa (pessoa_id, papel_id) VALUES (6, 2);
+INSERT INTO papel_pessoa (pessoa_id, papel_id) VALUES (7, 2);
+INSERT INTO papel_pessoa (pessoa_id, papel_id) VALUES (8, 2);
+INSERT INTO papel_pessoa (pessoa_id, papel_id) VALUES (9, 2);
+INSERT INTO papel_pessoa (pessoa_id, papel_id) VALUES (10, 2);
+INSERT INTO papel_pessoa (pessoa_id, papel_id) VALUES (11, 2);
+INSERT INTO papel_pessoa (pessoa_id, papel_id) VALUES (12, 2);
+INSERT INTO papel_pessoa (pessoa_id, papel_id) VALUES (13, 2);
+INSERT INTO papel_pessoa (pessoa_id, papel_id) VALUES (14, 2);
+INSERT INTO papel_pessoa (pessoa_id, papel_id) VALUES (15, 2);
+INSERT INTO papel_pessoa (pessoa_id, papel_id) VALUES (16, 2);
+INSERT INTO papel_pessoa (pessoa_id, papel_id) VALUES (17, 2);
+INSERT INTO papel_pessoa (pessoa_id, papel_id) VALUES (18, 2);
+INSERT INTO papel_pessoa (pessoa_id, papel_id) VALUES (19, 2);
+INSERT INTO papel_pessoa (pessoa_id, papel_id) VALUES (20, 2);
+INSERT INTO papel_pessoa (pessoa_id, papel_id) VALUES (21, 2);
+INSERT INTO papel_pessoa (pessoa_id, papel_id) VALUES (22, 2);
+INSERT INTO papel_pessoa (pessoa_id, papel_id) VALUES (23, 2);
+INSERT INTO papel_pessoa (pessoa_id, papel_id) VALUES (24, 2);
+INSERT INTO papel_pessoa (pessoa_id, papel_id) VALUES (25, 2);
+
+
+--
+-- TOC entry 2081 (class 0 OID 17104)
+-- Dependencies: 190
+-- Data for Name: periodo; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO periodo (id, ano, inicio, semestre, statusperiodo, termino) VALUES (1, '2015', '2015-02-19', '1', 'ABERTO', '2015-06-12');
+INSERT INTO periodo (id, ano, inicio, semestre, statusperiodo, termino) VALUES (3, '2015', '2015-04-01', '2', 'ABERTO', '2015-06-30');
+INSERT INTO periodo (id, ano, inicio, semestre, statusperiodo, termino) VALUES (4, '2013', '2015-04-01', '1', 'ABERTO', '2015-03-01');
+INSERT INTO periodo (id, ano, inicio, semestre, statusperiodo, termino) VALUES (5, '2016', '2016-02-16', '1', 'ABERTO', '2016-06-30');
+INSERT INTO periodo (id, ano, inicio, semestre, statusperiodo, termino) VALUES (6, '2014', '2015-04-01', '1', 'ABERTO', '2015-06-30');
+INSERT INTO periodo (id, ano, inicio, semestre, statusperiodo, termino) VALUES (7, '2014', '2014-02-19', '2', 'ABERTO', '2014-06-30');
+INSERT INTO periodo (id, ano, inicio, semestre, statusperiodo, termino) VALUES (8, '2013', '2013-02-19', '2', 'ABERTO', '2013-06-30');
+
+
+--
+-- TOC entry 2099 (class 0 OID 0)
+-- Dependencies: 189
+-- Name: periodo_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('periodo_id_seq', 4, true);
+
+
+--
+-- TOC entry 2083 (class 0 OID 17115)
 -- Dependencies: 192
 -- Data for Name: pessoa; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -1495,7 +1819,7 @@ INSERT INTO pessoa (id, cpf, email, habilitado, nome, password) VALUES (41, '023
 
 
 --
--- TOC entry 2059 (class 0 OID 0)
+-- TOC entry 2100 (class 0 OID 0)
 -- Dependencies: 191
 -- Name: pessoa_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -1504,7 +1828,76 @@ SELECT pg_catalog.setval('pessoa_id_seq', 1, false);
 
 
 --
--- TOC entry 1925 (class 2606 OID 17036)
+-- TOC entry 2074 (class 0 OID 17074)
+-- Dependencies: 183
+-- Data for Name: projeto; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO projeto (id, descricao, nome) VALUES (1, 'Projeto destinado a gestão de pessoas', 'GRH');
+INSERT INTO projeto (id, descricao, nome) VALUES (2, 'Projeto destinado a gestão de programas acadêmicos', 'GPA');
+INSERT INTO projeto (id, descricao, nome) VALUES (3, 'Projeto destinado ao atendimento a serviços de psicologia e nutrição', 'SISAT');
+INSERT INTO projeto (id, descricao, nome) VALUES (4, 'Projeto destinado a gestão de aquisição de livros', 'GAL');
+
+
+--
+-- TOC entry 2101 (class 0 OID 0)
+-- Dependencies: 182
+-- Name: projeto_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('projeto_id_seq', 1, true);
+
+
+--
+-- TOC entry 2076 (class 0 OID 17085)
+-- Dependencies: 185
+-- Data for Name: servidor; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO servidor (id, siape, pessoa_id, turma_id) VALUES (1, NULL, 1, 1);
+INSERT INTO servidor (id, siape, pessoa_id, turma_id) VALUES (2, NULL, 1, 2);
+INSERT INTO servidor (id, siape, pessoa_id, turma_id) VALUES (3, NULL, 2, 3);
+INSERT INTO servidor (id, siape, pessoa_id, turma_id) VALUES (4, NULL, 3, 4);
+INSERT INTO servidor (id, siape, pessoa_id, turma_id) VALUES (5, NULL, 4, 5);
+INSERT INTO servidor (id, siape, pessoa_id, turma_id) VALUES (6, NULL, 5, 6);
+INSERT INTO servidor (id, siape, pessoa_id, turma_id) VALUES (7, NULL, 6, 7);
+
+
+--
+-- TOC entry 2102 (class 0 OID 0)
+-- Dependencies: 184
+-- Name: servidor_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('servidor_id_seq', 1, false);
+
+
+--
+-- TOC entry 2078 (class 0 OID 17093)
+-- Dependencies: 187
+-- Data for Name: turma; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+INSERT INTO turma (id, nome, periodo_id, supervisor_id) VALUES (3, 'NPI_MANHA', 4, 2);
+INSERT INTO turma (id, nome, periodo_id, supervisor_id) VALUES (1, 'NPI_MANHA', 1, 1);
+INSERT INTO turma (id, nome, periodo_id, supervisor_id) VALUES (2, 'NPI_TARDE', 3, 1);
+INSERT INTO turma (id, nome, periodo_id, supervisor_id) VALUES (4, 'NPI_TARDE', 5, 3);
+INSERT INTO turma (id, nome, periodo_id, supervisor_id) VALUES (5, 'NPI_TARDE', 6, 4);
+INSERT INTO turma (id, nome, periodo_id, supervisor_id) VALUES (6, 'NPI_MANHA', 7, 5);
+INSERT INTO turma (id, nome, periodo_id, supervisor_id) VALUES (7, 'NPI_TARDE', 8, 6);
+
+
+--
+-- TOC entry 2103 (class 0 OID 0)
+-- Dependencies: 186
+-- Name: turma_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('turma_id_seq', 1, false);
+
+
+--
+-- TOC entry 1930 (class 2606 OID 17036)
 -- Name: estagiario_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -1513,7 +1906,7 @@ ALTER TABLE ONLY estagiario
 
 
 --
--- TOC entry 1927 (class 2606 OID 17055)
+-- TOC entry 1932 (class 2606 OID 17055)
 -- Name: frequencia_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -1522,7 +1915,25 @@ ALTER TABLE ONLY frequencia
 
 
 --
--- TOC entry 1929 (class 2606 OID 17123)
+-- TOC entry 1934 (class 2606 OID 17071)
+-- Name: papel_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY papel
+    ADD CONSTRAINT papel_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 1942 (class 2606 OID 17112)
+-- Name: periodo_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY periodo
+    ADD CONSTRAINT periodo_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 1946 (class 2606 OID 17123)
 -- Name: pessoa_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -1531,7 +1942,43 @@ ALTER TABLE ONLY pessoa
 
 
 --
--- TOC entry 1931 (class 2606 OID 17127)
+-- TOC entry 1936 (class 2606 OID 17082)
+-- Name: projeto_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY projeto
+    ADD CONSTRAINT projeto_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 1938 (class 2606 OID 17090)
+-- Name: servidor_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY servidor
+    ADD CONSTRAINT servidor_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 1940 (class 2606 OID 17098)
+-- Name: turma_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY turma
+    ADD CONSTRAINT turma_pkey PRIMARY KEY (id);
+
+
+--
+-- TOC entry 1944 (class 2606 OID 17125)
+-- Name: uk_eij1698us3frbj6mgem9ys2vm; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY periodo
+    ADD CONSTRAINT uk_eij1698us3frbj6mgem9ys2vm UNIQUE (ano, semestre);
+
+
+--
+-- TOC entry 1948 (class 2606 OID 17127)
 -- Name: uk_ep5sgykgcja0n7l38mpomc3jy; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -1540,7 +1987,25 @@ ALTER TABLE ONLY pessoa
 
 
 --
--- TOC entry 1933 (class 2606 OID 17138)
+-- TOC entry 1957 (class 2606 OID 17183)
+-- Name: fk_23vcfmbo6avvu0cdmen8h5ae6; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY turma
+    ADD CONSTRAINT fk_23vcfmbo6avvu0cdmen8h5ae6 FOREIGN KEY (supervisor_id) REFERENCES pessoa(id);
+
+
+--
+-- TOC entry 1958 (class 2606 OID 17188)
+-- Name: fk_24etpgof2g75x61ngndmipwma; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY papel_pessoa
+    ADD CONSTRAINT fk_24etpgof2g75x61ngndmipwma FOREIGN KEY (papel_id) REFERENCES papel(id);
+
+
+--
+-- TOC entry 1950 (class 2606 OID 17138)
 -- Name: fk_5tjga9wxt9lpc2ihcl791lpf6; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1549,7 +2014,7 @@ ALTER TABLE ONLY estagiario
 
 
 --
--- TOC entry 1936 (class 2606 OID 17158)
+-- TOC entry 1953 (class 2606 OID 17158)
 -- Name: fk_76fs2c0vklkpj4rvradygo31p; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1558,7 +2023,16 @@ ALTER TABLE ONLY frequencia
 
 
 --
--- TOC entry 1934 (class 2606 OID 17143)
+-- TOC entry 1955 (class 2606 OID 17173)
+-- Name: fk_austt5cqg46ojlbcgk12n2uid; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY servidor
+    ADD CONSTRAINT fk_austt5cqg46ojlbcgk12n2uid FOREIGN KEY (turma_id) REFERENCES turma(id);
+
+
+--
+-- TOC entry 1951 (class 2606 OID 17143)
 -- Name: fk_c1215tokjdb317pgowhbogg6e; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1567,7 +2041,7 @@ ALTER TABLE ONLY estagiario
 
 
 --
--- TOC entry 1932 (class 2606 OID 17133)
+-- TOC entry 1949 (class 2606 OID 17133)
 -- Name: fk_dlw0njses1e4uu5qi7fbf8yig; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1576,7 +2050,7 @@ ALTER TABLE ONLY estagiario
 
 
 --
--- TOC entry 1935 (class 2606 OID 17153)
+-- TOC entry 1952 (class 2606 OID 17153)
 -- Name: fk_e6eb8s2cjbeuddenogxba6tdo; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1584,7 +2058,34 @@ ALTER TABLE ONLY frequencia
     ADD CONSTRAINT fk_e6eb8s2cjbeuddenogxba6tdo FOREIGN KEY (estagiario_id) REFERENCES estagiario(id);
 
 
--- Completed on 2015-05-28 09:29:30 BRT
+--
+-- TOC entry 1956 (class 2606 OID 17178)
+-- Name: fk_gho49v5t6gwo1sn2pa05tew0q; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY turma
+    ADD CONSTRAINT fk_gho49v5t6gwo1sn2pa05tew0q FOREIGN KEY (periodo_id) REFERENCES periodo(id);
+
+
+--
+-- TOC entry 1959 (class 2606 OID 17193)
+-- Name: fk_l55dwty6ypxia8ont5qvvlpd; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY papel_pessoa
+    ADD CONSTRAINT fk_l55dwty6ypxia8ont5qvvlpd FOREIGN KEY (pessoa_id) REFERENCES pessoa(id);
+
+
+--
+-- TOC entry 1954 (class 2606 OID 17168)
+-- Name: fk_t6c8uqjrc3l47dmvomb70p3er; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY servidor
+    ADD CONSTRAINT fk_t6c8uqjrc3l47dmvomb70p3er FOREIGN KEY (pessoa_id) REFERENCES pessoa(id);
+
+
+-- Completed on 2015-05-28 11:02:11 BRT
 
 --
 -- PostgreSQL database dump complete

@@ -22,7 +22,9 @@ public class PapelServiceImpl extends GenericServiceImpl<Papel> implements	Papel
 	public Papel getPapel(String papel) {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("papel", papel);
-		Papel papelPessoa = papelRepository.find(QueryType.JPQL, "from Papel where nome = :papel", params).get(0);
+
+		Papel papelPessoa = (Papel) findFirst(QueryType.JPQL, "from Papel where nome = :papel", params);
+
 		return papelPessoa;
 	}
 

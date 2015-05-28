@@ -1,7 +1,5 @@
 package ufc.quixada.npi.gp.controller;
 
-import static ufc.quixada.npi.gp.utils.Constants.*;
-
 import java.io.IOException;
 import java.util.Collection;
 
@@ -17,8 +15,7 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 
 import ufc.quixada.npi.gp.utils.Constants;
 
-public class AuthenticationSuccessHandlerImpl implements
-		AuthenticationSuccessHandler {
+public class AuthenticationSuccessHandlerImpl implements AuthenticationSuccessHandler {
 
 	private RedirectStrategy redirectStrategy;
 

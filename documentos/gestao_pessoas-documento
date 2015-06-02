@@ -1974,13 +1974,13 @@ INSERT INTO papel_pessoa (pessoa_id, papel_id) VALUES (40, 2);
 -- Data for Name: periodo; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-INSERT INTO periodo (id, ano, inicio, semestre, statusperiodo, termino) VALUES (1, '2015', '2015-02-19', '1', 'ABERTO', '2015-06-12');
-INSERT INTO periodo (id, ano, inicio, semestre, statusperiodo, termino) VALUES (3, '2015', '2015-04-01', '2', 'ABERTO', '2015-06-30');
-INSERT INTO periodo (id, ano, inicio, semestre, statusperiodo, termino) VALUES (5, '2016', '2016-02-16', '1', 'ABERTO', '2016-06-30');
-INSERT INTO periodo (id, ano, inicio, semestre, statusperiodo, termino) VALUES (7, '2014', '2014-02-19', '2', 'ABERTO', '2014-06-30');
-INSERT INTO periodo (id, ano, inicio, semestre, statusperiodo, termino) VALUES (8, '2013', '2013-02-19', '2', 'ABERTO', '2013-06-30');
-INSERT INTO periodo (id, ano, inicio, semestre, statusperiodo, termino) VALUES (4, '2013', '2013-04-01', '1', 'ABERTO', '2013-06-01');
-INSERT INTO periodo (id, ano, inicio, semestre, statusperiodo, termino) VALUES (6, '2014', '2014-04-01', '1', 'ABERTO', '2014-06-30');
+INSERT INTO periodo (id, ano, inicio, semestre, termino) VALUES (1, '2015', '2015-02-19', '1', '2015-06-12');
+INSERT INTO periodo (id, ano, inicio, semestre, termino) VALUES (3, '2015', '2015-04-01', '2', '2015-06-30');
+INSERT INTO periodo (id, ano, inicio, semestre, termino) VALUES (5, '2016', '2016-02-16', '1', '2016-06-30');
+INSERT INTO periodo (id, ano, inicio, semestre, termino) VALUES (7, '2014', '2014-02-19', '2', '2014-06-30');
+INSERT INTO periodo (id, ano, inicio, semestre, termino) VALUES (8, '2013', '2013-02-19', '2', '2013-06-30');
+INSERT INTO periodo (id, ano, inicio, semestre, termino) VALUES (4, '2013', '2013-04-01', '1', '2013-06-01');
+INSERT INTO periodo (id, ano, inicio, semestre, termino) VALUES (6, '2014', '2014-04-01', '1', '2014-06-30');
 
 
 --
@@ -2077,13 +2077,13 @@ SELECT pg_catalog.setval('projeto_id_seq', 1, true);
 -- Data for Name: turma; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-INSERT INTO turma (id, nome, periodo_id, supervisor_id) VALUES (3, 'NPI_MANHA', 4, 2);
-INSERT INTO turma (id, nome, periodo_id, supervisor_id) VALUES (1, 'NPI_MANHA', 1, 1);
-INSERT INTO turma (id, nome, periodo_id, supervisor_id) VALUES (4, 'NPI_TARDE', 5, 3);
-INSERT INTO turma (id, nome, periodo_id, supervisor_id) VALUES (5, 'NPI_TARDE', 6, 4);
-INSERT INTO turma (id, nome, periodo_id, supervisor_id) VALUES (6, 'NPI_MANHA', 7, 5);
-INSERT INTO turma (id, nome, periodo_id, supervisor_id) VALUES (7, 'NPI_TARDE', 8, 6);
-INSERT INTO turma (id, nome, periodo_id, supervisor_id) VALUES (2, 'NPI_TARDE', 3, 1);
+INSERT INTO turma (id, nome, periodo_id, statusturma, supervisor_id) VALUES (3, 'NPI_MANHA', 4, 'ABERTA', 2);
+INSERT INTO turma (id, nome, periodo_id, statusturma, supervisor_id) VALUES (1, 'NPI_MANHA', 1, 'ABERTA', 1);
+INSERT INTO turma (id, nome, periodo_id, statusturma, supervisor_id) VALUES (4, 'NPI_TARDE', 5, 'ABERTA', 3);
+INSERT INTO turma (id, nome, periodo_id, statusturma, supervisor_id) VALUES (5, 'NPI_TARDE', 6, 'ABERTA', 4);
+INSERT INTO turma (id, nome, periodo_id, statusturma, supervisor_id) VALUES (6, 'NPI_MANHA', 7, 'ABERTA', 5);
+INSERT INTO turma (id, nome, periodo_id, statusturma, supervisor_id) VALUES (7, 'NPI_TARDE', 8, 'ABERTA', 6);
+INSERT INTO turma (id, nome, periodo_id, statusturma, supervisor_id) VALUES (2, 'NPI_TARDE', 3, 'ABERTA', 1);
 
 
 --

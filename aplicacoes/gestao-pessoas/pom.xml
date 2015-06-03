@@ -48,7 +48,7 @@
 		<dandelion.datatables.version>0.9.3</dandelion.datatables.version>
 		
 		<!-- NPI -->
-		<npi.core.version>0.0.6</npi.core.version>
+		<npi.core.version>0.1.0</npi.core.version>
 
 	</properties>
 	
@@ -298,6 +298,12 @@
 			<groupId>br.ufc.quixada.npi</groupId>
 			<artifactId>npi-core-api</artifactId>
 			<version>${npi.core.version}</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>mail</artifactId>
+					<groupId>javax.mail</groupId>
+				</exclusion>
+			</exclusions>			
 		</dependency>
 
 

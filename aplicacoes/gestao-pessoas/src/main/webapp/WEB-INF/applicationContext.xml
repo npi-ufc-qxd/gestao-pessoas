@@ -39,13 +39,16 @@
 	<tx:annotation-driven transaction-manager="txManager" proxy-target-class="true" />
 
 	<context:annotation-config />
-	<context:component-scan base-package="ufc.quixada.npi.gp.repository" />
-	<context:component-scan base-package="ufc.quixada.npi.gp.service" />
-	<context:component-scan base-package="ufc.quixada.npi.gp.controller" />
-
+<!-- 	<context:component-scan base-package="br.ufc.quixada.npi.service.GenericService" /> -->
+	<context:component-scan base-package="br.ufc.quixada.npi.service.impl.GenericServiceImpl" />
 	<context:component-scan base-package="br.ufc.quixada.npi.repository" />
-	<context:component-scan base-package="br.ufc.quixada.npi.service" />
+	<context:component-scan base-package="br.ufc.quixada.npi.repository.jpa" />
+	<context:component-scan base-package="br.ufc.quixada.npi.enumeration" />
 
+	<context:component-scan base-package="ufc.quixada.npi.gp.repository" />
+	<context:component-scan base-package="ufc.quixada.npi.gp.service.*" />
+	<context:component-scan base-package="ufc.quixada.npi.gp.service.impl.*" />
+	<context:component-scan base-package="ufc.quixada.npi.gp.controller" />
 	<context:component-scan base-package="ufc.quixada.npi.gp.tasks" />
-
 </beans>
+

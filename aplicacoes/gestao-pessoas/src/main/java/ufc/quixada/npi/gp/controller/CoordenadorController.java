@@ -1,6 +1,23 @@
 package ufc.quixada.npi.gp.controller;
 
-import static ufc.quixada.npi.gp.utils.Constants.*;
+import static ufc.quixada.npi.gp.utils.Constants.PAGINA_ADICONAR_MEMBROS_PROJETO;
+import static ufc.quixada.npi.gp.utils.Constants.PAGINA_CADASTRAR_FOLGA;
+import static ufc.quixada.npi.gp.utils.Constants.PAGINA_CADASTRAR_PERIODO;
+import static ufc.quixada.npi.gp.utils.Constants.PAGINA_CADASTRAR_PROJETO;
+import static ufc.quixada.npi.gp.utils.Constants.PAGINA_DECLARACAO_ESTAGIO;
+import static ufc.quixada.npi.gp.utils.Constants.PAGINA_DETALHES_PERIODO;
+import static ufc.quixada.npi.gp.utils.Constants.PAGINA_DETALHES_PROJETO;
+import static ufc.quixada.npi.gp.utils.Constants.PAGINA_EDITAR_FOLGA;
+import static ufc.quixada.npi.gp.utils.Constants.PAGINA_EDITAR_PERIODO;
+import static ufc.quixada.npi.gp.utils.Constants.PAGINA_EDITAR_PROJETO;
+import static ufc.quixada.npi.gp.utils.Constants.PAGINA_INICIAL_COORDENADOR;
+import static ufc.quixada.npi.gp.utils.Constants.PAGINA_LISTAR_ESTAGIARIOS_PERIODO;
+import static ufc.quixada.npi.gp.utils.Constants.PAGINA_LISTAR_FOLGAS;
+import static ufc.quixada.npi.gp.utils.Constants.PAGINA_LISTAR_PERIODOS;
+import static ufc.quixada.npi.gp.utils.Constants.PAGINA_LISTAR_PROJETOS;
+import static ufc.quixada.npi.gp.utils.Constants.PAGINA_TCE;
+import static ufc.quixada.npi.gp.utils.Constants.REDIRECT_PAGINA_LISTAR_PERIODOS;
+import static ufc.quixada.npi.gp.utils.Constants.REDIRECT_PAGINA_LISTAR_PROJETOS;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,9 +49,10 @@ import ufc.quixada.npi.gp.model.Periodo;
 import ufc.quixada.npi.gp.model.Projeto;
 import ufc.quixada.npi.gp.model.Turma;
 import ufc.quixada.npi.gp.service.EstagiarioService;
+import ufc.quixada.npi.gp.service.FolgaService;
 import ufc.quixada.npi.gp.service.PeriodoService;
+import ufc.quixada.npi.gp.service.ProjetoService;
 import ufc.quixada.npi.gp.service.TurmaService;
-import br.ufc.quixada.npi.service.GenericService;
 
 @Component
 @Controller
@@ -47,7 +65,7 @@ public class CoordenadorController {
 	private JRDataSource jrDatasource;
 
 	@Inject
-	private GenericService<Projeto> projetoService;
+	private ProjetoService projetoService;
 
 	@Inject
 	private TurmaService turmaService;
@@ -56,7 +74,7 @@ public class CoordenadorController {
 	private PeriodoService periodoService;
 
 	@Inject
-	private GenericService<Folga> folgaService;
+	private FolgaService folgaService;
 
 	@RequestMapping(value = {"/inicial", "/index"}, method = RequestMethod.GET)	public String inicial(ModelMap modelMap, HttpSession session) throws JRException {
 		modelMap.addAttribute("usuario", SecurityContextHolder.getContext().getAuthentication().getName());

@@ -12,6 +12,19 @@
 	<title>Cadastro de Projetos</title>
 </head>
 <body>
+
+	<c:if test="${action eq 'cadastrar' }">
+		<c:set var="url" value="/coordenador/projeto/"></c:set>
+		<c:set var="titulo" value="Novo Projeto"></c:set>
+		<c:set var="botao" value="adicionar projeto"></c:set>
+	</c:if>
+	<c:if test="${action eq 'editar' }">
+		<c:set var="url" value="/coordenador/projeto/editar/${projeto.id}"></c:set>
+		<c:set var="titulo" value="Atualizar Projeto"></c:set>
+		<c:set var="botao" value="atualizar projeto"></c:set>
+	</c:if>
+
+
 	<jsp:include page="../modulos/header.jsp" />
 
 	<div class="container">
@@ -28,9 +41,9 @@
 				</c:if>
 			
 			
-				<h1 align="center">Novo Projeto</h1>
+				<h1 align="center">${titulo}</h1>
 
-				<form:form id="adicionarProjetoForm" role="form" modelAttribute="projeto" servletRelativeAction="/coordenador/projeto" method="POST" cssClass="form-horizontal">
+				<form:form id="adicionarProjetoForm" role="form" modelAttribute="projeto" servletRelativeAction="${url}" method="POST" cssClass="form-horizontal">
 					<form:hidden path="id"/>
 
 					<div class="form-group">
@@ -58,7 +71,7 @@
 					</c:forEach>
 
 					<div class="form-group">
-						<input name="submitProjeto" type="submit" class="btn btn-primary" value="Cadastrar" /> 
+						<input name="submitProjeto" type="submit" class="btn btn-primary" value="${botao}" />
 					</div>
 				</form:form>
 			</div>

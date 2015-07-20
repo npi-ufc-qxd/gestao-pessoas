@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -11,6 +13,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+
+import ufc.quixada.npi.gp.model.enums.StatusTurma;
 
 @Entity
 public class Turma {
@@ -27,6 +31,17 @@ public class Turma {
 
 	@OneToOne//(fetch = FetchType.LAZY)
 	private Pessoa supervisor;
+	
+	@Enumerated(EnumType.STRING)
+	private StatusTurma statusTurma;
+
+	public StatusTurma getStatusTurma() {
+		return statusTurma;
+	}
+
+	public void setStatusTurma(StatusTurma statusTurma) {
+		this.statusTurma = statusTurma;
+	}
 
 	public List<Horario> getHorarios() {
 		return horarios;

@@ -1,6 +1,6 @@
 package ufc.quixada.npi.gp.controller;
 
-import static ufc.quixada.npi.gp.utils.Constants.PAGINA_ADICONAR_MEMBROS_PROJETO;
+import static ufc.quixada.npi.gp.utils.Constants.PAGINA_VINCULAR_MEMBROS_PROJETO;
 import static ufc.quixada.npi.gp.utils.Constants.PAGINA_CADASTRAR_FOLGA;
 import static ufc.quixada.npi.gp.utils.Constants.PAGINA_CADASTRAR_PERIODO;
 import static ufc.quixada.npi.gp.utils.Constants.PAGINA_CADASTRAR_PROJETO;
@@ -33,6 +33,7 @@ import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -48,6 +49,7 @@ import ufc.quixada.npi.gp.model.Folga;
 import ufc.quixada.npi.gp.model.Periodo;
 import ufc.quixada.npi.gp.model.Projeto;
 import ufc.quixada.npi.gp.model.Turma;
+import ufc.quixada.npi.gp.model.enums.StatusTurma;
 import ufc.quixada.npi.gp.service.EstagiarioService;
 import ufc.quixada.npi.gp.service.FolgaService;
 import ufc.quixada.npi.gp.service.PeriodoService;
@@ -99,78 +101,6 @@ public class CoordenadorController {
 		return PAGINA_DECLARACAO_ESTAGIO;
 	}
 
-	@RequestMapping(value = "/projetos", method = RequestMethod.GET)
-	public String listarProjetos( ModelMap model) {
-		model.addAttribute("projetos", projetoService.find(Projeto.class));
-		return PAGINA_LISTAR_PROJETOS;
-	}
-
-	@RequestMapping(value = "/projeto", method = RequestMethod.GET)
-	public String novoProjeto( ModelMap model) {
-		model.addAttribute("projeto", new Projeto());
-		return PAGINA_CADASTRAR_PROJETO;
-	}
-	@RequestMapping(value = "/projeto", method = RequestMethod.POST)
-	public String adicionarProjeto(ModelMap model, @Valid @ModelAttribute("projeto") Projeto projeto, BindingResult result) {
-		
-		if (result.hasErrors()) {
-			return PAGINA_CADASTRAR_PROJETO;
-		}
-		
-		if(projeto.getId() == null)
-			projetoService.save(projeto);
-		else{
-			projeto = atualizarProjeto(projeto);
-			projetoService.update(projeto);
-		}
-		return REDIRECT_PAGINA_LISTAR_PROJETOS;
-	}
-
-	@RequestMapping(value = "/projeto/{idProjeto}/editar", method = RequestMethod.GET)
-	public String editarProjeto(@PathVariable("idProjeto") Long idProjeto, ModelMap model) {
-		model.addAttribute("projeto", projetoService.find(Projeto.class, idProjeto));
-		return PAGINA_EDITAR_PROJETO;
-	}
-
-	@RequestMapping(value = "/projeto/{idProjeto}/detalhes", method = RequestMethod.GET)
-	public String detalhesProjeto(@PathVariable("idProjeto") Long idProjeto, ModelMap model) {
-		Projeto projeto = projetoService.find(Projeto.class, idProjeto);
-		model.addAttribute("projeto", projeto);
-		return PAGINA_DETALHES_PROJETO;
-	}
-
-	@RequestMapping(value = "/projeto/{idProjeto}/excluir", method = RequestMethod.GET)
-	public String excluirProjeto(@PathVariable("idProjeto") Long idProjeto, ModelMap model) {
-		Projeto projeto = projetoService.find(Projeto.class, idProjeto);
-		
-		if(projeto != null){
-			projetoService.delete(projeto);
-		}
-		
-		return REDIRECT_PAGINA_LISTAR_PROJETOS;
-	}
-
-	@RequestMapping(value = "/{idProjeto}/add-membros-projeto", method = RequestMethod.GET)
-	public String vincularMembrosProjeto(ModelMap model, @PathVariable("idProjeto") Long idProjeto) {
-		model.addAttribute("projeto", projetoService.find(Projeto.class, idProjeto));
-		
-		return PAGINA_ADICONAR_MEMBROS_PROJETO;
-	}
-	
-	@RequestMapping(value = "/{idProjeto}/add-membros-projeto", method = RequestMethod.POST)
-	public String vincularEstagiariosProjeto(ModelMap modelMap, HttpSession session, @RequestParam("turma") Long turma, @PathVariable("idProjeto") Long idProjeto) {
-		modelMap.addAttribute("projeto", projetoService.find(Projeto.class, idProjeto));
-		modelMap.addAttribute("estagiarios", turmaService.find(Turma.class, turma).getEstagiarios());
-
-		return PAGINA_ADICONAR_MEMBROS_PROJETO;
-	}
-
-	@RequestMapping(value = "/vincular-membros-projeto", method = RequestMethod.POST)
-	public String vincularMembrosProjeto(ModelMap model, @ModelAttribute("projeto") Projeto projeto) {
-		projeto = atualizarProjeto(projeto);
-		projetoService.update(projeto);
-		return REDIRECT_PAGINA_LISTAR_PROJETOS;
-	}
 
 	@RequestMapping(value = "/estagiarios", method = RequestMethod.GET)
 	public String listaEstagiarios(ModelMap modelMap, HttpSession session) {
@@ -184,6 +114,96 @@ public class CoordenadorController {
 		modelMap.addAttribute("estagiarios", estagiarios);
 
 		return PAGINA_LISTAR_ESTAGIARIOS_PERIODO;
+	}
+
+	@RequestMapping(value = "/projetos", method = RequestMethod.GET)
+	public String listarProjetos( ModelMap model) {
+		model.addAttribute("projetos", projetoService.find(Projeto.class));
+		return PAGINA_LISTAR_PROJETOS;
+	}
+
+	@RequestMapping(value = "/projeto", method = RequestMethod.GET)
+	public String novoProjeto( ModelMap model) {
+		model.addAttribute("action", "cadastrar");
+		
+		model.addAttribute("projeto", new Projeto());
+		return PAGINA_CADASTRAR_PROJETO;
+	}
+	
+	@RequestMapping(value = "/projeto", method = RequestMethod.POST)
+	public String adicionarProjeto(ModelMap model, @Valid @ModelAttribute("projeto") Projeto projeto, BindingResult result) {
+		model.addAttribute("action", "cadastrar");
+		
+		if (result.hasErrors()) {
+			return PAGINA_CADASTRAR_PROJETO;
+		}
+
+		projetoService.save(projeto);
+
+		return REDIRECT_PAGINA_LISTAR_PROJETOS;
+	}
+
+	@RequestMapping(value = "/projeto/editar/{idProjeto}", method = RequestMethod.GET)
+	public String editarProjeto(@PathVariable("idProjeto") Long idProjeto, ModelMap model) {
+		model.addAttribute("action", "editar");
+		model.addAttribute("projeto", projetoService.find(Projeto.class, idProjeto));
+
+		return PAGINA_EDITAR_PROJETO;
+	}
+
+	@RequestMapping(value = "/projeto/editar/{idProjeto}", method = RequestMethod.POST)
+	public String editarProjeto(Model model, @Valid @ModelAttribute("projeto") Projeto projeto, BindingResult result) {
+		model.addAttribute("action", "editar");
+
+		if (result.hasErrors()) {
+			return PAGINA_CADASTRAR_PROJETO;
+		}
+	
+		projeto = atualizarProjeto(projeto);
+		projetoService.update(projeto);
+
+		return REDIRECT_PAGINA_LISTAR_PROJETOS;
+	}
+
+	@RequestMapping(value = "/projeto/detalhes/{idProjeto}", method = RequestMethod.GET)
+	public String detalhesProjeto(@PathVariable("idProjeto") Long idProjeto, ModelMap model) {
+		Projeto projeto = projetoService.find(Projeto.class, idProjeto);
+		model.addAttribute("projeto", projeto);
+		return PAGINA_DETALHES_PROJETO;
+	}
+
+	@RequestMapping(value = "/projeto/excluir/{idProjeto}", method = RequestMethod.GET)
+	public String excluirProjeto(@PathVariable("idProjeto") Long idProjeto, ModelMap model) {
+		Projeto projeto = projetoService.find(Projeto.class, idProjeto);
+		
+		if(projeto != null){
+			projetoService.delete(projeto);
+		}
+		
+		return REDIRECT_PAGINA_LISTAR_PROJETOS;
+	}
+
+	@RequestMapping(value = "/projeto/{idProjeto}/vincular-membros-projeto", method = RequestMethod.GET)
+	public String vincularMembrosProjeto(ModelMap model, @PathVariable("idProjeto") Long idProjeto) {
+		model.addAttribute("turmas", turmaService.getTurmasSupervisorByStatus(StatusTurma.ABERTA, new  Long(41)));
+		model.addAttribute("projeto", projetoService.find(Projeto.class, idProjeto));
+		
+		return PAGINA_VINCULAR_MEMBROS_PROJETO;
+	}
+	
+	@RequestMapping(value = "/projeto/{idProjeto}/vincular-membros-projeto", method = RequestMethod.POST)
+	public String vincularEstagiariosProjeto(ModelMap modelMap, HttpSession session, @RequestParam("turma") Long turma, @PathVariable("idProjeto") Long idProjeto) {
+		modelMap.addAttribute("projeto", projetoService.find(Projeto.class, idProjeto));
+		modelMap.addAttribute("estagiarios", turmaService.find(Turma.class, turma).getEstagiarios());
+
+		return PAGINA_VINCULAR_MEMBROS_PROJETO;
+	}
+
+	@RequestMapping(value = "/projeto/vincular-membros-projeto", method = RequestMethod.POST)
+	public String vincularMembrosProjeto(ModelMap model, @ModelAttribute("projeto") Projeto projeto) {
+		projeto = atualizarProjeto(projeto);
+		projetoService.update(projeto);
+		return REDIRECT_PAGINA_LISTAR_PROJETOS;
 	}
 
 	@RequestMapping(value = "/periodos", method = RequestMethod.GET)

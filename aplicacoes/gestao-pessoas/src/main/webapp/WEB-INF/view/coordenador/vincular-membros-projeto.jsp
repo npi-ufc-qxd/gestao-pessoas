@@ -15,33 +15,22 @@
 	<jsp:include page="../modulos/header.jsp" />
 
 	<div class="container">
-		<h4><b>Adicionar Membros ao Projeto ${projeto.nome}</b></h4>
+		<h4><b>Atualizar menbros do projeto ${projeto.nome}</b></h4>
 		<form id="filtroFrequenciaDaTurma" class="form-inline filtro">
-			<input id="idProjeto" type="hidden" value="${projeto.id}" >
-			<label class="info">Selecione o periodo:</label>
 			<div class="form-group">
-				<input id="anoFiltro" name="ano" type="text" class="form-control filtroAno col-sm-1" placeholder="ano" size="4">
-			</div>
-		
-			<div class="form-group">
-			<select id="semestreFiltro" name="semestre" class="selectpicker filtroSemestre" data-width="auto">
-				<option value="">Semestre</option>
-				<option value="1">1</option>
-				<option value="2">2</option>
-			</select>
-			</div>
-			
-			<div class="form-group">
-				<select id="turmaFiltro" name="turma" class="selectpicker filtroTurma estagiariosProjeto" data-width="auto"></select>
+				<select id="turma" name="turma" class="selectpicker selectTurma">
+					<option value="">Selecione a Turma</option>
+
+					<c:forEach var="turma" items="${turmas}">
+						<option value="${turma.id}">${turma.periodo.ano}.${turma.periodo.semestre} - ${turma.nome}</option>
+					</c:forEach>
+				</select>
 			</div>
 		</form>
 	</div>
-	
+
 	<div class="container">
 		<div class="tab-pane active" id="viewEstagiarios">
-
-<%-- 			<c:if test="${empty estagiarios}"><div class="alert alert-warning" role="alert">Não há estagiarios matriculados nesta turma.</div></c:if> --%>
-			
 			<c:if test="${not empty estagiarios}">
 				<h1 align="left" style="border-bottom: 1px solid #333;">Estagiários</h1>
 				
@@ -82,5 +71,42 @@
 	</div>
 
 	<jsp:include page="../modulos/footer.jsp" />
+
+	<script type="text/javascript">
+		$(".selectTurma").change(function() {
+			var idTurma = $(this).val().trim();
+
+			if (!isNaN(idTurma)) {
+				loadEstagiariosTurma(idTurma, '/gestao-pessoas/coordenador/estagiarios-turma');
+			}
+		});
+
+		function loadEstagiariosTurma(idTurma, url) {
+			console.log('loadEstagiariosTurma :' + turma);
+			
+			$.ajax({
+				url: url,
+				type: "POST",
+				dataType: "html",
+				data: {
+					"turma" : idTurma,
+				},
+				success: function(result) {
+					loadEstagiarios(result);
+				},
+				error: function(error) {
+					alert("error");
+				}
+			});
+		}
+		
+		function loadEstagiarios(result) {	
+			$("#viewEstagiarios").html($(result).find("#viewEstagiarios"));
+			$("#viewEstagiarios").removeClass('hidden');
+		}
+		
+		
+	</script>
+	
 </body>
 </html>

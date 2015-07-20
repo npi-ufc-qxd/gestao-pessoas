@@ -1,16 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+
 <html>
 <head>
-<jsp:include page="../modulos/header-estrutura.jsp" />
-
-<title>Projetos</title>
+	<jsp:include page="../modulos/header-estrutura.jsp" />
+	<title>Projetos</title>
 </head>
-
-<style>
-</style>
 
 <body>
 	<jsp:include page="../modulos/header.jsp" />
@@ -41,10 +38,10 @@
 								<td>${projeto.nome}</td>
 								<td>${projeto.descricao}</td>
 								<td align="right">
-									<a href="<c:url value="/coordenador/${projeto.id}/add-membros-projeto" />" class="btn btn-primary"><span class="fa fa-user-plus"></span></a>
-									<a href="<c:url value="/coordenador/projeto/${projeto.id}/detalhes" />" class="btn btn-info"><span class="glyphicon glyphicon-eye-open"></span></a>
-									<a href="<c:url value="/coordenador/projeto/${projeto.id}/editar" />" class="btn btn-success"><span class="glyphicon glyphicon-pencil"></span></a>
-									<a href="<c:url value="/coordenador/projeto/${projeto.id}/excluir" />" class="btn btn-danger"> <span class="glyphicon glyphicon-trash"></span></a>
+									<a href="<c:url value="/coordenador/projeto/${projeto.id}/vincular-membros-projeto" />" class="btn btn-primary"><span class="fa fa-user-plus"></span></a>
+									<a href="<c:url value="/coordenador/projeto/detalhes/${projeto.id}" />" class="btn btn-info"><span class="glyphicon glyphicon-eye-open"></span></a>
+									<a href="<c:url value="/coordenador/projeto/editar/${projeto.id}" />" class="btn btn-success"><span class="glyphicon glyphicon-pencil"></span></a>
+									<a href="<c:url value="/coordenador/projeto/excluir/${projeto.id}" />" class="btn btn-danger"> <span class="glyphicon glyphicon-trash"></span></a>
 								</td>
 							</tr>
 
@@ -54,6 +51,6 @@
 			</c:if>
 		</div>
 	</div>
-
+	
 </body>
 </html>

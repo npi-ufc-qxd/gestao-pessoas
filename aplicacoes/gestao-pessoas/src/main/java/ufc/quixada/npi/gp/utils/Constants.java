@@ -22,7 +22,7 @@ public class Constants {
 
 	public static final String PAGINA_MEU_PROJETO = "estagiario/meu-projeto";
 
-	public static final String PAGINA_ADICONAR_MEMBROS_PROJETO = "coordenador/add-membros-projeto";
+	public static final String PAGINA_VINCULAR_MEMBROS_PROJETO = "coordenador/vincular-membros-projeto";
 
 	public static final String PAGINA_CADASTRAR_PERIODO = "coordenador/form-periodo";
 

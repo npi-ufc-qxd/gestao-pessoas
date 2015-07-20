@@ -19,23 +19,15 @@
 
 		<h4><b>Estagiarios</b></h4>
 		<form id="filtroFrequenciaDaTurma" class="form-inline filtro">
-			<label class="info">Selecione o periodo:</label>
-			<div class="form-group">
-				<input id="anoFiltro" name="ano" type="text" class="form-control filtroAno col-sm-1" placeholder="ano" size="4">
-			</div>
-		
+			<label class="info">Selecione a turma:</label>
+
 			<div class="form-group">
 			<select id="semestreFiltro" name="semestre" class="selectpicker filtroSemestre" data-width="auto">
-				<option value="">Semestre</option>
+				<option value="">Selecione a turma</option>
 				<option value="1">1</option>
 				<option value="2">2</option>
 			</select>
 			</div>
-			
-			<div class="form-group">
-				<select id="turmaFiltro" name="turma" class="selectpicker filtroTurma estagiariosTurma" data-width="auto"></select>
-			</div>
-			
 		</form>
 	</div>
 	

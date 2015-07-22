@@ -2,53 +2,78 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:jee="http://www.springframework.org/schema/jee"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans          
            http://www.springframework.org/schema/beans/spring-beans.xsd
            http://www.springframework.org/schema/context 
 		   http://www.springframework.org/schema/context/spring-context.xsd
 		   http://www.springframework.org/schema/tx
 		   http://www.springframework.org/schema/tx/spring-tx.xsd
-		   http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
-        http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+		   http://www.springframework.org/schema/jee 
+           http://www.springframework.org/schema/jee/spring-jee-3.2.xsd">
 
 	<context:property-placeholder location="classpath:notification.properties" />
 
-	<bean id="emf"
-		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+	<bean id="applicationContextProvder" class="ufc.quixada.npi.gp.model.PessoaEntityListener"/>
+
+	<bean id="emf" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
 		<property name="persistenceUnitName" value="dev" />
 		<property name="dataSource" ref="gestao_pessoas" />
 	</bean>
+
 	<bean id="gestao_pessoas" class="org.springframework.jndi.JndiObjectFactoryBean">
 		<property name="jndiName" value="java:comp/env/gestao_pessoas" />
 	</bean>
+
 	<bean id="txManager" class="org.springframework.orm.jpa.JpaTransactionManager">
 		<property name="entityManagerFactory" ref="emf" />
 	</bean>
 
 	<bean id="multipartResolver"
 		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
-		<!-- one of the properties available; the maximum file size in bytes -->
-		<!-- <property name="maxUploadSize" value="100000"/> -->
 	</bean>
 
 	<bean class="org.springframework.web.servlet.view.XmlViewResolver">
 		<property name="location" value="WEB-INF/jasper-views.xml" />
 		<property name="order" value="0"/>
 	</bean>
-	
+
+    <jee:jndi-lookup id="ldapUrl" jndi-name="java:comp/env/ldap/url" expected-type="java.lang.String" />
+    <jee:jndi-lookup id="ldapBase" jndi-name="java:comp/env/ldap/base" expected-type="java.lang.String" />
+    <jee:jndi-lookup id="ldapUserDn" jndi-name="java:comp/env/ldap/userdn" expected-type="java.lang.String" />
+    <jee:jndi-lookup id="ldapPassword" jndi-name="java:comp/env/ldap/password" expected-type="java.lang.String" />
+    <jee:jndi-lookup id="ldapOu" jndi-name="java:comp/env/ldapou" expected-type="java.lang.String" />
+                     
+    <bean id="contextSource" class="org.springframework.ldap.core.support.LdapContextSource">
+        <property name="url" ref="ldapUrl" />
+        <property name="base" ref="ldapBase" />
+        <property name="userDn" ref="ldapUserDn" />
+        <property name="password" ref="ldapPassword" />
+    </bean>
+    
+    <bean id="ldapTemplate" class="org.springframework.ldap.core.LdapTemplate">
+        <constructor-arg ref="contextSource" />
+    </bean>
+    
+    <bean id="base" class="java.lang.String">
+        <constructor-arg ref="ldapOu" />
+    </bean>
+
 	<tx:annotation-driven transaction-manager="txManager" proxy-target-class="true" />
 
 	<context:annotation-config />
-<!-- 	<context:component-scan base-package="br.ufc.quixada.npi.service.GenericService" /> -->
+
 	<context:component-scan base-package="br.ufc.quixada.npi.service.impl.GenericServiceImpl" />
 	<context:component-scan base-package="br.ufc.quixada.npi.repository" />
 	<context:component-scan base-package="br.ufc.quixada.npi.repository.jpa" />
 	<context:component-scan base-package="br.ufc.quixada.npi.enumeration" />
+	<context:component-scan base-package="br.ufc.quixada.npi.ldap.*" />
 
 	<context:component-scan base-package="ufc.quixada.npi.gp.repository" />
 	<context:component-scan base-package="ufc.quixada.npi.gp.service.*" />
 	<context:component-scan base-package="ufc.quixada.npi.gp.service.impl.*" />
 	<context:component-scan base-package="ufc.quixada.npi.gp.controller" />
 	<context:component-scan base-package="ufc.quixada.npi.gp.tasks" />
-</beans>
 
+
+</beans>

@@ -5,194 +5,160 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <div class="container">
-	<h2 id="titulo-cadastro-npi">
-		<a class="header-anchor" href="#"><span
-			class="glyphicon glyphicon-link"></span></a> Meu cadastro
-	</h2>
-	<form:form id="DadosPessoaisEstagiarioForm" role="form"
-		commandName="estagiario" modelAttribute="estagiario"
-		servletRelativeAction="/estagiario/meu-cadastro-npi" method="POST"
-		cssClass="form-horizontal">
 
+<div class="row">
+	<div class="col-sm-1"></div>
+
+	<div class="col-sm-10">
+	<h2 id="titulo-cadastro-npi"><a class="header-anchor" href="#"><span class="glyphicon glyphicon-link"></span></a> Meu cadastro</h2>
+	<form:form id="DadosPessoaisEstagiarioForm" role="form" commandName="estagiario" modelAttribute="estagiario" servletRelativeAction="/estagiario/meu-cadastro-npi" method="POST" cssClass="form-horizontal">
+		
 		<div class="form-group">
-			<div class="form-item">
-				<label for="nomeCompleto" class="col-sm-2 control-label">*Nome
-					Completo:</label>
-				<div class="col-sm-10">
-					<form:input id="nomeCompleto" path="nomeCompleto"
-						cssClass="form-control" placeholder="Meu nome completo"
-						required="required" />
-					<div class="error-validation">
-						<form:errors path="nomeCompleto"></form:errors>
-					</div>
+			<div class="form-item col-sm-4">
+				<label for="localEstagio" class="control-label">*Local do Estagio:</label>
+				<form:select id="localEstagio" path="localEstagio" cssClass="form-control selectpicker" required="required">
+					<form:options itemLabel="labelLocal" />
+				</form:select>
+				<div class="error-validation"><form:errors path="localEstagio"></form:errors></div>
+			</div>
+		</div>
+
+		<h4>Dados Pessoais</h4>
+		
+		<div class="form-group">
+			<div class="form-item col-sm-9">
+				<label for="nomeCompleto" class="control-label">*Nome Completo:</label>
+				<form:input id="nomeCompleto" path="nomeCompleto" cssClass="form-control" placeholder="Meu nome completo" required="required" />
+				<div class="error-validation"><form:errors path="nomeCompleto"></form:errors></div>
+			</div>
+			
+			<div class="form-item col-sm-3">
+				<label for="dataNascimento" class="control-label">*Data de Nascimento:</label>
+				<form:input id="dataNascimento" type="text" path="dataNascimento" cssClass="form-control data" required="required" />
+				<div class="error-validation">
+					<form:errors path="dataNascimento"></form:errors>
+					<c:if test="${not empty error_inicio}"><span>${error_inicio}</span></c:if>
 				</div>
 			</div>
 		</div>
 
 		<div class="form-group">
-			<div class="form-item">
-				<label for="nomeMae" class="col-sm-2 control-label">*Nome da
-					Mãe:</label>
-				<div class="col-sm-10">
-					<form:input id="nomeMae" path="nomeMae" cssClass="form-control"
-						placeholder="Nome Mãe" required="required" />
-					<div class="error-validation">
-						<form:errors path="nomeMae"></form:errors>
-					</div>
-				</div>
+			<div class="form-item col-sm-12">
+				<label for="nomeMae" class="control-label">*Nome da Mãe:</label>
+				<form:input id="nomeMae" path="nomeMae" cssClass="form-control" placeholder="Nome Mãe" required="required" />
+				<div class="error-validation"><form:errors path="nomeMae"></form:errors></div>
 			</div>
 		</div>
 
 		<div class="form-group">
-			<div class="form-item">
-				<label for="telefone" class="col-sm-2 control-label">*Telefone:</label>
-				<div class="col-sm-4">
-					<form:input id="telefone" path="telefone"
-						cssClass="form-control telefone" placeholder="Telefone"
-						required="required" />
-				</div>
+			<div class="form-item col-sm-12">
+				<label for="telefone" class=" control-label">*Telefone:</label>
+				<form:input id="telefone" path="telefone" cssClass="form-control telefone" placeholder="Telefone" required="required" />
 				<div class="error-validation">
 					<form:errors path="telefone"></form:errors>
 				</div>
 			</div>
+		</div>
 
-			<div class="form-item">
-				<label for="dataNascimento" class="col-sm-2 control-label">*Data
-					de Nascimento:</label>
-				<div class="col-sm-4">
-					<form:input id="dataNascimento" type="text" path="dataNascimento"
-						cssClass="form-control data" required="required" />
-					<div class="error-validation">
-						<form:errors path="dataNascimento"></form:errors>
-						<c:if test="${not empty error_inicio}">
-							<span>${error_inicio}</span>
-						</c:if>
-					</div>
+		<h4>Informações do Curso</h4>
+
+		<div class="form-group">
+			<div class="form-item col-sm-4">
+				<label for="matricula" class="control-label">*Matricula:</label>
+				<form:input id="matricula" path="matricula" cssClass="form-control" placeholder="Matricula" required="required" maxlength="7" size="7" />
+				<div class="error-validation">
+					<form:errors path="matricula"></form:errors>
 				</div>
+			</div>
+
+			<div class="form-item col-sm-4">
+				<label for="curso" class="control-label">*Curso:</label>
+				<form:select path="curso" cssClass="form-control selectpicker" required="required">
+					<form:options itemLabel="labelCurso" />
+				</form:select>
+				<div class="error-validation"><form:errors path="curso"></form:errors></div>
+			</div>
+
+			<div class="form-item col-sm-4">
+				<label for="curso" class="control-label">*Semestre:</label>
+				<form:input type="number" id="semestre" path="semestre" cssClass="form-control semestre" placeholder="Semestre" required="required" />			
+				<div class="error-validation">
+					<form:errors path="semestre"></form:errors>
+				</div>
+			</div>
+		</div>
+
+		<h4>Contas</h4>
+		
+		<div class="form-group">
+			<div class="form-item col-sm-4">
+				<label for="contaRedmine" class=" control-label">Conta Redmine:</label>
+				<div class="input-group">
+					<span class="input-group-addon">@</span>
+					<form:input id="contaRedmine" path="contaRedmine" class="form-control" placeholder="Conta Redmine" aria-describedby="sizing-addon2"></form:input>
+				</div>
+			</div>
+
+			<div class="form-item col-sm-4">
+				<label for="contaGithub" class="control-label">Conta github:</label>
+				<div class="input-group">
+					<span class="input-group-addon">@</span>
+					<form:input id="contaGithub" path="contaGithub" class="form-control" placeholder="Conta github"></form:input>
+				</div>
+			</div>
+
+			<div class="form-item col-sm-4">
+				<label for="contaHangout" class="control-label">Conta Hangout:</label>
+				<div class="input-group">
+					<span class="input-group-addon">@</span>
+					<form:input id="contaHangout" path="contaHangout" class="form-control" placeholder="Conta Hangout"></form:input>
+				</div>
+
+			</div>
+		</div>
+		
+
+		
+		<h4>Endereço</h4>
+
+		<div class="form-group">
+			<div class="form-item col-sm-12">
+				<label for="endereco" class="control-label">*Endereço:</label>
+				<form:input id="endereco" path="endereco" cssClass="form-control" placeholder="Rua, Nº, Bairro" required="required" />
+				<div class="error-validation"><form:errors path="endereco"></form:errors></div>
 			</div>
 		</div>
 
 		<div class="form-group">
-			<div class="form-item">
-				<label for="curso" class="col-sm-2 control-label">*Semestre:</label>
-				<div class="col-sm-1">
-					<form:input type="number" id="semestre" path="semestre"
-						cssClass="form-control semestre" placeholder="Semestre"
-						required="required" />			
-					<div class="error-validation">
-						<form:errors path="semestre"></form:errors>
-					</div>
-				</div>
-			</div>
-			<div class="form-item">
-				<label for="curso" class="col-sm-2 control-label">*Curso:</label>
-				<div class="col-sm-1">
-					<form:select path="curso" cssClass="selectpicker" data-width="auto"
-						required="required">
-						<form:options itemLabel="labelCurso" />
-					</form:select>
-					<div class="error-validation">
-						<form:errors path="curso"></form:errors>
-					</div>
-				</div>
+			<div class="form-item col-sm-4">
+				<label for="cidade" class="control-label">*Cidade:</label>
+				<form:input id="cidade" path="cidade" cssClass="form-control" placeholder="Cidade" required="required" />
+				<div class="error-validation"><form:errors path="cidade"></form:errors></div>
 			</div>
 
-			<div class="form-item">
-				<label for="matricula" class="col-sm-3 control-label">*Matricula:</label>
-				<div class="col-sm-3">
-					<form:input id="matricula" path="matricula"
-						cssClass="form-control matricula" placeholder="Matricula"
-						required="required" />
-					<div class="error-validation">
-						<form:errors path="matricula"></form:errors>
-					</div>
-				</div>
+			<div class="form-item col-sm-4">
+				<label for="uf" class="control-label">*UF:</label>
+				<form:select id="uf" path="uf" cssClass="form-control selectpicker" required="required">
+					<form:options itemLabel="estado" />
+				</form:select>
+				<div class="error-validation"><form:errors path="uf"></form:errors></div>
+			</div>
+
+			<div class="form-item col-sm-4">
+				<label for="cep" class="control-label">*CEP :</label>
+				<form:input id="cep" path="cep" cssClass="form-control cep" placeholder="CEP" required="required" />
+				<div class="error-validation"><form:errors path="cep"></form:errors></div>
 			</div>
 		</div>
 
 		<div class="form-group">
-			<div class="form-item">
-				<label for="endereco" class="col-sm-2 control-label">*Endereço:</label>
-				<div class="col-sm-10">
-					<form:input id="endereco" path="endereco" cssClass="form-control"
-						placeholder="Rua, Nº, Bairro" required="required" />
-					<div class="error-validation">
-						<form:errors path="endereco"></form:errors>
-					</div>
-				</div>
+			<div class="form-item col-sm-12" align="center">
+				<button type="submit" class="btn btn-primary">Cadastrar</button>
 			</div>
-		</div>
-
-		<div class="form-group">
-			<div class="form-item">
-				<label for="cidade" class="col-sm-2 control-label">*Cidade:</label>
-				<div class="col-sm-2">
-					<form:input id="cidade" path="cidade" cssClass="form-control"
-						placeholder="Cidade" required="required" />
-					<div class="error-validation">
-						<form:errors path="cidade"></form:errors>
-					</div>
-				</div>
-			</div>
-
-			<div class="form-item">
-				<label for="uf" class="col-sm-1 control-label">*UF:</label>
-				<div class="col-sm-2">
-					<form:select id="uf" path="uf" cssClass="selectpicker"
-						data-width="auto" required="required">
-						<form:options itemLabel="estado" />
-					</form:select>
-					<div class="error-validation">
-						<form:errors path="uf"></form:errors>
-					</div>
-				</div>
-			</div>
-
-			<div class="form-item">
-				<label for="cep" class="col-sm-1 control-label">*CEP :</label>
-				<div class="col-sm-4">
-					<form:input id="cep" path="cep" cssClass="form-control cep"
-						placeholder="CEP" required="required" />
-					<div class="error-validation">
-						<form:errors path="cep"></form:errors>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="form-group">
-			<div class="form-item">
-				<label for="contaRedmine" class="col-sm-2 control-label">Conta
-					Redmine:</label>
-				<div class="col-sm-10">
-					<form:input id="contaRedmine" path="contaRedmine"
-						class="form-control" placeholder="Conta Redmine"
-						aria-describedby="sizing-addon2"></form:input>
-				</div>
-			</div>
-		</div>
-		<div class="form-group">
-			<div class="form-item">
-				<label for="contaGithub" class="col-sm-2 control-label">Conta
-					github:</label>
-				<div class="col-sm-10">
-					<form:input id="contaGithub" path="contaGithub"
-						class="form-control" placeholder="Conta github"></form:input>
-				</div>
-			</div>
-		</div>
-		<div class="form-group">
-			<div class="form-item">
-				<label for="contaHangout" class="col-sm-2 control-label">Conta
-					Hangout:</label>
-				<div class="col-sm-10">
-					<form:input id="contaHangout" path="contaHangout"
-						class="form-control" placeholder="Conta Hangout"></form:input>
-				</div>
-			</div>
-		</div>
-
-		<div class="form-group" align="center">
-			<button type="submit" class="btn btn-primary">Cadastrar</button>
 		</div>
 	</form:form>
+
+	</div>
+	<div class="col-sm-1"></div>
 </div>
+</div><br><br><br>

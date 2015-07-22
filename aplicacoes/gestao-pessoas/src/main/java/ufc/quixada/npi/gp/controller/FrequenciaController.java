@@ -328,7 +328,7 @@ public class FrequenciaController {
 
 	private Pessoa getUsuarioLogado(HttpSession session) {
 		if (session.getAttribute(USUARIO_LOGADO) == null) {
-			Pessoa pessoa = pessoaService.getPessoaByCPF(SecurityContextHolder.getContext().getAuthentication().getName());
+			Pessoa pessoa = pessoaService.getPessoaByCpf(SecurityContextHolder.getContext().getAuthentication().getName());
 			session.setAttribute(USUARIO_LOGADO, pessoa);
 		}
 		return (Pessoa) session.getAttribute(USUARIO_LOGADO);

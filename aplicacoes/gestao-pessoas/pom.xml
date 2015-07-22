@@ -49,6 +49,7 @@
 		
 		<!-- NPI -->
 		<npi.core.version>0.1.0</npi.core.version>
+		<npi.ldap.version>0.1</npi.ldap.version>
 
 	</properties>
 	
@@ -305,7 +306,12 @@
 				</exclusion>
 			</exclusions>			
 		</dependency>
-
+		
+		<dependency>
+			<groupId>br.ufc.quixada.npi</groupId>
+			<artifactId>npi-ldap</artifactId>
+			<version>${npi.ldap.version}</version>
+		</dependency>
 
 	</dependencies>
 	<build>

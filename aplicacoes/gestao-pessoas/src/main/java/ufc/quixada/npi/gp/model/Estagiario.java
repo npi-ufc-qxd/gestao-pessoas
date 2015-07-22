@@ -26,6 +26,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import ufc.quixada.npi.gp.model.enums.Curso;
 import ufc.quixada.npi.gp.model.enums.Estado;
+import ufc.quixada.npi.gp.model.enums.LocalEstagio;
 
 @Entity
 public class Estagiario {
@@ -37,6 +38,9 @@ public class Estagiario {
 	@NotNull(message = "Campo obrigatório.")
 	@NotEmpty(message = "Campo obrigatório.")
 	private String nomeMae;
+
+	@Enumerated(EnumType.STRING)
+	private LocalEstagio localEstagio;
 
 	@NotNull(message = "Campo obrigatório.")
 	@NotEmpty(message = "Campo obrigatório.")
@@ -274,6 +278,14 @@ public class Estagiario {
 
 	public void setProjeto(Projeto projeto) {
 		this.projeto = projeto;
+	}
+
+	public LocalEstagio getLocalEstagio() {
+		return localEstagio;
+	}
+
+	public void setLocalEstagio(LocalEstagio localEstagio) {
+		this.localEstagio = localEstagio;
 	}
 
 	// @Override

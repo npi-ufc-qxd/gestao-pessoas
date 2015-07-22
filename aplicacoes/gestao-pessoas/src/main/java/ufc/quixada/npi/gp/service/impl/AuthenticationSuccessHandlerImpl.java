@@ -1,4 +1,4 @@
-package ufc.quixada.npi.gp.controller;
+package ufc.quixada.npi.gp.service.impl;
 
 import java.io.IOException;
 import java.util.Collection;
@@ -13,6 +13,7 @@ import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
+import ufc.quixada.npi.gp.service.PessoaService;
 import ufc.quixada.npi.gp.utils.Constants;
 
 public class AuthenticationSuccessHandlerImpl implements AuthenticationSuccessHandler {
@@ -27,15 +28,11 @@ public class AuthenticationSuccessHandlerImpl implements AuthenticationSuccessHa
 	}
 
 	@Override
-	public void onAuthenticationSuccess(HttpServletRequest request,
-			HttpServletResponse response, Authentication authentication)
-			throws IOException {
+	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
 		handle(request, response, authentication);
 	}
 
-	private void handle(HttpServletRequest request,
-			HttpServletResponse response, Authentication authentication)
-			throws IOException {
+	private void handle(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
 		usuarioLogado(request, authentication);
 		redirectStrategy.sendRedirect(request, response, determineUrl(authentication));
 	}
@@ -45,6 +42,15 @@ public class AuthenticationSuccessHandlerImpl implements AuthenticationSuccessHa
 		Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
 		for (GrantedAuthority grantedAuthority : authorities) {
 			switch (grantedAuthority.getAuthority()) {
+				case "DOCENTE":
+					return "/coordenador/inicial";
+
+				case "STA":
+					return "/coordenador/inicial";
+
+				case "DISCENTE":
+					return "/home/meu-cadastro-npi";
+
 				case "ROLE_COORDENADOR":
 					return "/coordenador/inicial";
 	
@@ -60,7 +66,7 @@ public class AuthenticationSuccessHandlerImpl implements AuthenticationSuccessHa
 	
 	private void usuarioLogado(HttpServletRequest request, Authentication authentication) {
 		if (request.getSession().getAttribute(Constants.USUARIO_LOGADO) == null) {
-			request.getSession().setAttribute(Constants.USUARIO_LOGADO, servicePessoa.getPessoaByCPF(authentication.getName()));
+			request.getSession().setAttribute(Constants.USUARIO_LOGADO, servicePessoa.getPessoaByCpf(authentication.getName()));
 		}
 	}
 	

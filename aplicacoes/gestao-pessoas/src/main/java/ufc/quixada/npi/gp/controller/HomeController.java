@@ -1,6 +1,7 @@
 package ufc.quixada.npi.gp.controller;
 
 import static ufc.quixada.npi.gp.utils.Constants.PAGINA_INICIAL_ESTAGIARIO;
+import static ufc.quixada.npi.gp.utils.Constants.PAGINA_FORM_ESTAGIARIO;
 import static ufc.quixada.npi.gp.utils.Constants.REDIRECT_PAGINA_INICIAL_ESTAGIARIO;
 
 import javax.inject.Inject;
@@ -34,34 +35,32 @@ public class HomeController {
 	@Inject
 	private PessoaService pessoaService; 
 
-	@RequestMapping(value = "/meu-cadastro-npi", method = RequestMethod.GET)
+	@RequestMapping(value = "/meu-cadastro", method = RequestMethod.GET)
 	public String inicial(ModelMap modelMap, HttpSession session) {
-
-		modelMap.addAttribute("usuario", SecurityContextHolder.getContext().getAuthentication().getName());
+		modelMap.addAttribute("action", "cadastrar");
 		modelMap.addAttribute("estagiario", new Estagiario());
 
-		return PAGINA_INICIAL_ESTAGIARIO;
+		return PAGINA_FORM_ESTAGIARIO;
 	}
 
-	@RequestMapping(value = "/meu-cadastro-npi", method = RequestMethod.POST)
+	@RequestMapping(value = "/meu-cadastro", method = RequestMethod.POST)
 	public String adicionarEstagiario( @Valid @ModelAttribute("estagiario") Estagiario estagiario, BindingResult result, HttpSession session, RedirectAttributes redirect, Model model) {
 
 		if (result.hasErrors()) {
 			return PAGINA_INICIAL_ESTAGIARIO;
 		}
 
-		SecurityContextHolder.getContext().getAuthentication().getName();
+		String cpf = SecurityContextHolder.getContext().getAuthentication().getName();
+		Pessoa pessoa = new Pessoa(cpf);
+		pessoaService.save(pessoa);
 
-		Pessoa pessoa = null;
-		
 		estagiario.setPessoa(pessoa);
-
 		estagiarioService.save(estagiario);
 
-		redirect.addFlashAttribute("info", "Parabéns, " + pessoa.getNome()
-				+ ", seu cadastro foi realizado com sucesso!");
+		redirect.addFlashAttribute("info", pessoa.getNome() + ", seu cadastro foi realizado com sucesso!");
 		model.addAttribute("estagiarioCadastrado", true);
 		model.addAttribute("estagiario", estagiario);
+
 		return REDIRECT_PAGINA_INICIAL_ESTAGIARIO;
 	}
 	

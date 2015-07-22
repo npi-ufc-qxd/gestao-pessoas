@@ -8,6 +8,8 @@ import br.ufc.quixada.npi.service.GenericService;
 public interface EstagiarioService extends GenericService<Estagiario>{
 
 	Estagiario getEstagiarioByPessoaId(Long id);
+
+	Estagiario getEstagiarioByCpf(String cpf);
 	
 	Estagiario getEstagiarioPesssoa(String cpf, String senha);
 	

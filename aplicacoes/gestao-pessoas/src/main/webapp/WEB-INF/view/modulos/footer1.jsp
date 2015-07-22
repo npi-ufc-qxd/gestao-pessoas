@@ -16,6 +16,7 @@
 <script src="<c:url value="/resources/js/bootstrap-editable.min.js" />"></script>
 <script src="<c:url value="/resources/js/jquery.bootgrid.min.js" />"></script>
 
+<br>
 <div class="clear"></div>
 
 <footer class="gp-footer footer-height">

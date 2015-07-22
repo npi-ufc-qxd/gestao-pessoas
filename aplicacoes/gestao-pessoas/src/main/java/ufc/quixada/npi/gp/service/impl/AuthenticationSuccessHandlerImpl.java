@@ -49,7 +49,7 @@ public class AuthenticationSuccessHandlerImpl implements AuthenticationSuccessHa
 					return "/coordenador/inicial";
 
 				case "DISCENTE":
-					return "/home/meu-cadastro-npi";
+					return "/home/meu-cadastro";
 
 				case "ROLE_COORDENADOR":
 					return "/coordenador/inicial";

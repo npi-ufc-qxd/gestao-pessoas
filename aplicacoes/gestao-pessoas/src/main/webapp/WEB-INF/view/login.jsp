@@ -46,7 +46,7 @@
 				
 				<div class="form-body">
 					<div class="form-group form-icon ${not empty error ? 'has-error' : ''}">
-					    <input id="cpf" class="form-control input-lg cpf" type="text" name='j_username' value='' placeholder="cpf" required="required">
+					    <input id="cpf" class="form-control input-lg" type="text" name='j_username' value='' placeholder="cpf" required="required" min="11" size="11">
 						<label for="cpf" class="fa fa-user label-icon"></label>
 					</div>
 					

@@ -46,6 +46,16 @@ public class EstagiarioServiceImpl extends GenericServiceImpl<Estagiario> implem
 		return estagiario;
 	}
 
+	@Override
+	public Estagiario getEstagiarioByCpf(String cpf) {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("cpf", cpf);
+
+		Estagiario estagiario = (Estagiario) findFirst(QueryType.JPQL, "select e from Estagiario e where e.pessoa.cpf = :cpf", params);
+		
+		return estagiario;
+	}
+
 
 
 }

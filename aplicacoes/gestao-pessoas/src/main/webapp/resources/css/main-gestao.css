@@ -30,3 +30,23 @@ a {
 .secao-form-h4 {
 	border-bottom: 1px solid #333;
 }
+
+a.funcionalidades:hover {
+	color: #ffffff;
+	font-weight: bold;
+}
+
+a.funcionalidades:focus {
+	color: #ffffff;
+	font-weight: bold;
+}
+
+.text-view-info {
+    height: 39px;
+    padding: 8px 12px;
+    font-size: 15px;
+    line-height: 1.4;
+    color: #6f6f6f;
+    background-color: #ffffff;
+    background-image: none;
+}

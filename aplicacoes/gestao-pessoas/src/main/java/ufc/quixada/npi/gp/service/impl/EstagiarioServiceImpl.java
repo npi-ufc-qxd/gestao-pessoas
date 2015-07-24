@@ -4,15 +4,21 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.inject.Inject;
 import javax.inject.Named;
 
 import ufc.quixada.npi.gp.model.Estagiario;
+import ufc.quixada.npi.gp.model.Turma;
 import ufc.quixada.npi.gp.service.EstagiarioService;
 import br.ufc.quixada.npi.enumeration.QueryType;
+import br.ufc.quixada.npi.repository.GenericRepository;
 import br.ufc.quixada.npi.service.impl.GenericServiceImpl;
 
 @Named
 public class EstagiarioServiceImpl extends GenericServiceImpl<Estagiario> implements EstagiarioService{
+	
+	@Inject
+	private GenericRepository<Turma> turmaRepository;
 
 	@Override
 	public Estagiario getEstagiarioByPessoaId(Long id) {
@@ -56,6 +62,18 @@ public class EstagiarioServiceImpl extends GenericServiceImpl<Estagiario> implem
 		return estagiario;
 	}
 
+	@Override
+	public boolean possuiTurma(String cpf) {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("cpf", cpf);
 
+		Turma turma = (Turma) findFirst(QueryType.JPQL, "select e.turma from Estagiario e where e.pessoa.cpf = :cpf", params);
+
+		if (turma != null) {
+			return true;
+		}
+
+		return false;
+	}
 
 }

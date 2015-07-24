@@ -14,4 +14,8 @@ public interface PessoaService  extends GenericService<Pessoa> {
 
 	List<Papel> getPapeis(String cpf);
 	
+	boolean isServidor(String cpf);
+	
+	boolean isEstagiario(String cpf);
+	
 }

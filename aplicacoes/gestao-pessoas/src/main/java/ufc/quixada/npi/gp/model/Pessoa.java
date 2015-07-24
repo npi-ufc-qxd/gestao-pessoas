@@ -2,6 +2,7 @@ package ufc.quixada.npi.gp.model;
 
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
@@ -13,6 +14,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.Size;
 
 @Entity
 @EntityListeners(PessoaEntityListener.class)
@@ -34,6 +36,9 @@ public class Pessoa {
 
 	@Transient
 	private String email;
+
+	@Transient
+	private String siape;
 
 	public Pessoa(){}
 
@@ -79,6 +84,14 @@ public class Pessoa {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public String getSiape() {
+		return siape;
+	}
+
+	public void setSiape(String siape) {
+		this.siape = siape;
 	}
 
 }

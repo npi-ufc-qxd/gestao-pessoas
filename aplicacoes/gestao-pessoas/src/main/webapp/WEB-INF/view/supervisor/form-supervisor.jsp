@@ -34,32 +34,16 @@
 
 				<form:hidden path="id"/>
 
-				<h4 class="secao-form-h4">Informações do Estágio</h4>
+				<h4 class="secao-form-h4">Informações do Supervisor</h4>
 		
 				<div class="form-group">
 					<div class="form-item col-sm-4">
-						<label for="localEstagio" class="control-label">*Local do Estagio:</label>
-						<form:select id="localEstagio" path="localEstagio" cssClass="form-control selectpicker" required="required">
-							<form:options itemLabel="labelLocal" />
-						</form:select>
-						<div class="error-validation"><form:errors path="localEstagio"></form:errors></div>
+						<label for="localEstagio" class="control-label">CPF:</label>
+						<div class="error-validation"><form:errors path="cpf"></form:errors></div>
+						<form:input id="cpf" path="cpf" cssClass="form-control" placeholder="Meu nome completo" required="required" disabled=""/>
 					</div>
 				</div>
 		
-				<h4 class="secao-form-h4">View Dados</h4>
-				
-				<div class="form-group">
-					<div class="form-item col-sm-9">
-						<label for="nomeCompleto" class="control-label">*Nome Completo: <span class="text-view-info">${estagiario.nomeCompleto}</span></label>
-						
-					</div>
-					
-					<div class="form-item col-sm-3">
-						<label for="dataNascimento" class="control-label">*Data de Nascimento:</label>
-						<label class="text-view-info">${estagiario.dataNascimento}</label>
-					</div>
-				</div>
-
 				<h4 class="secao-form-h4">Dados Pessoais</h4>
 				
 				<div class="form-group">

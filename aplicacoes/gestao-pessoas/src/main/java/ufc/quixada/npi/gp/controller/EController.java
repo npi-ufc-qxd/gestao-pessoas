@@ -36,7 +36,13 @@ public class EController {
 
 
 	@RequestMapping(value = "/inicio", method = RequestMethod.GET)
-	public String paginaInicial(Model model) {
+	public String paginaInicial(Model model, HttpSession session) {
+		Pessoa pessoa = getUsuarioLogado(session);
+		
+		if(!estagiarioService.possuiTurma(pessoa.getCpf())){
+			model.addAttribute("warning", "Aguarde, você sera vinculada a uma turma, desde já sinta-se parte deste grupo, NPI.");
+		}
+
 		return PAGINA_INICIAL_ESTAGIARIO;
 	}
 
@@ -70,6 +76,8 @@ public class EController {
 
 		estagiario.setPessoa(pessoa);
 		estagiarioService.update(estagiario);
+		
+		getUsuarioLogado(session);
 
 		redirect.addFlashAttribute("info", "Parabéns, " + pessoa.getNome() + ", seu cadastro foi realizado com sucesso!");
 

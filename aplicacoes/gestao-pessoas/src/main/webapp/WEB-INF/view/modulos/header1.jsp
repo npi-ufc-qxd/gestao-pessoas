@@ -3,7 +3,7 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 
 <sec:authorize access="permitAll">
-<nav class="navbar navbar-inverse">
+<nav class="navbar navbar-inverse navbar-fixed-top">
 	<div class="container">
 		<div class="navbar-header">
 			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-npi">
@@ -17,13 +17,9 @@
 		
 		<div class="collapse navbar-collapse" id="navbar-npi">
 
-			<ul class="nav navbar-nav">
-				<li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>
-			</ul>
-		
 			<sec:authorize access="hasRole('ROLE_COORDENADOR')">
 				<ul class="nav navbar-nav">
-					<li id="projetos"><a href="<c:url value="/coordenador/projetos" />">Projetos <span class="fa fa-folder"></span></a></li>
+					<li id="projetos" class="active"><a href="<c:url value="/coordenador/projetos" />">Projetos <span class="fa fa-folder"></span></a></li>
 
 					<li id="periodos"><a href="<c:url value="/coordenador/periodos" />">Periodos <span class="fa fa-calendar"></span></a></li>
 
@@ -55,10 +51,10 @@
 				<li class="dropdown">
 					<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-user"></i> <i class="glyphicon glyphicon-chevron-down"></i></a>
 					<ul class="dropdown-menu">
-						<li><a href="#"><i class="glyphicon glyphicon-user"></i> Perfil</a></li>
+						<li><a href="<c:url value="/estagiari/meus-dados" />"><i class="glyphicon glyphicon-user"></i> Meus Dados</a></li>
 						<li><a href="<c:url value="/j_spring_security_logout" />"><i class="glyphicon glyphicon-off"></i> Sair</a></li>
 						<li class="divider"></li>
-						<li><a href="#"><i class="glyphicon glyphicon-info-sign"></i> Sobre</a></li>
+						<li><a href="<c:url value="#/home/sobre" />"><i class="glyphicon glyphicon-info-sign"></i> Sobre</a></li>
 					</ul>
 				</li>  
 			</ul>
@@ -66,3 +62,4 @@
 	</div>
 </nav>
 </sec:authorize>
+<br><br>

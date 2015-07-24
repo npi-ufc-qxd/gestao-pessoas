@@ -8,7 +8,7 @@ import org.springframework.context.ApplicationContextAware;
 import br.ufc.quixada.npi.ldap.model.Usuario;
 import br.ufc.quixada.npi.ldap.service.UsuarioService;
 
-public class PessoaEntityListener implements ApplicationContextAware {
+public class ServidorEntityListener implements ApplicationContextAware {
 	
 	private static ApplicationContext context;
 	

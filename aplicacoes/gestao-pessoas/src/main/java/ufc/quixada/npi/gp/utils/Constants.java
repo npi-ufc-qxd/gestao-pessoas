@@ -68,6 +68,10 @@ public class Constants {
 
 	public static final String PAGINA_LISTAR_ = "";
 
+	public static final String PAGINA_FORM_ESTAGIARIO = "estagiario/form-estagiario";
+
+	public static final String PAGINA_INFO_ESTAGIARIO = "estagiario/info-estagiario";
+
 	/** Redirecionamentos */
 
 	public static final String REDIRECT_PAGINA_LISTAR_PROJETOS = "redirect:/coordenador/projetos";
@@ -76,7 +80,7 @@ public class Constants {
 
 	public static final String REDIRECT_PAGINA_INICIAL_COORDENADOR = "redirect:/coordenador/inicial";
 
-	public static final String REDIRECT_PAGINA_INICIAL_ESTAGIARIO = "redirect:/estagiario/inicial";
+	public static final String REDIRECT_PAGINA_INICIAL_ESTAGIARIO = "redirect:/estagiari/inicio";
 	
 	public static final String REDIRECT_MINHA_PRESENCA = "redirect:/frequencia/minha-presenca";
 	

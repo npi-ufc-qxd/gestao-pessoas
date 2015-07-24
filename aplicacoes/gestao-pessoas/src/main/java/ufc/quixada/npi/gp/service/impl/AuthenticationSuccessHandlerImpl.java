@@ -13,7 +13,6 @@ import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
-import ufc.quixada.npi.gp.service.PessoaService;
 import ufc.quixada.npi.gp.utils.Constants;
 
 public class AuthenticationSuccessHandlerImpl implements AuthenticationSuccessHandler {
@@ -38,27 +37,27 @@ public class AuthenticationSuccessHandlerImpl implements AuthenticationSuccessHa
 	}
 
 	private String determineUrl(Authentication authentication) {
+		
+		String cpf = authentication.getName();
 
 		Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
+		
 		for (GrantedAuthority grantedAuthority : authorities) {
-			switch (grantedAuthority.getAuthority()) {
-				case "DOCENTE":
-					return "/coordenador/inicial";
 
-				case "STA":
-					return "/coordenador/inicial";
+			String papel = grantedAuthority.getAuthority();
+			
+			if(servicePessoa.isEstagiario(cpf)){
+				return "/estagiari/inicio";
+			}
 
-				case "DISCENTE":
-					return "/home/meu-cadastro-npi";
+			if(papel.equals("DISCENTE")) {
+				return "/home/meu-cadastro";
+			}
 
-				case "ROLE_COORDENADOR":
-					return "/coordenador/inicial";
-	
-				case "ROLE_ESTAGIARIO":
-					return "/estagiario/inicial";
+			boolean supervisor = (papel.equals("DOSCENTE") || papel.equals("STA") ||  papel.equals("ROLE_SUPERVISOR") ? true: false );
 
-				default:
-					return "/login";
+			if(supervisor){
+				return "/supervisor/inicio";
 			}
 		}
 		return "/login";

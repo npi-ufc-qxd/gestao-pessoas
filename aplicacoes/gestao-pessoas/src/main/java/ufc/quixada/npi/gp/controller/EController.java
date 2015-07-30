@@ -1,8 +1,7 @@
 package ufc.quixada.npi.gp.controller;
 
-import static ufc.quixada.npi.gp.utils.Constants.PAGINA_INICIAL_ESTAGIARIO;
 import static ufc.quixada.npi.gp.utils.Constants.PAGINA_FORM_ESTAGIARIO;
-import static ufc.quixada.npi.gp.utils.Constants.PAGINA_INFO_ESTAGIARIO;
+import static ufc.quixada.npi.gp.utils.Constants.PAGINA_INICIAL_ESTAGIARIO;
 import static ufc.quixada.npi.gp.utils.Constants.REDIRECT_PAGINA_INICIAL_ESTAGIARIO;
 
 import javax.inject.Inject;
@@ -33,7 +32,6 @@ public class EController {
 
 	@Inject
 	private EstagiarioService estagiarioService;
-
 
 	@RequestMapping(value = "/inicio", method = RequestMethod.GET)
 	public String paginaInicial(Model model, HttpSession session) {

@@ -5,11 +5,11 @@
 <html>
 <head>
 	<title>Home - Supervisor</title>
-	<jsp:include page="../modulos/header-estrutura.jsp" />
+	<jsp:include page="../modulos/header-estrutura1.jsp" />
 </head>
 <body>
-	<jsp:include page="../modulos/header.jsp" />
+	<jsp:include page="../modulos/header1.jsp" />
 
-	<jsp:include page="../modulos/footer.jsp" />
+	<jsp:include page="../modulos/footer1.jsp" />
 </body>
 </html>

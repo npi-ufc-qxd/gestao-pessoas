@@ -51,6 +51,20 @@ public class PessoaServiceImpl extends GenericServiceImpl<Pessoa> implements Pes
 	}
 
 	@Override
+	public boolean isPessoa(String cpf) {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("cpf", cpf);
+		
+		Pessoa pessoa = (Pessoa) pessoaRepository.findFirst(QueryType.JPQL, "from Pessoa where cpf = :cpf", params);
+
+		if(pessoa !=null){
+			return true;
+		}
+	
+		return false;
+	}	
+	
+	@Override
 	public boolean isServidor(String cpf) {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("cpf", cpf);

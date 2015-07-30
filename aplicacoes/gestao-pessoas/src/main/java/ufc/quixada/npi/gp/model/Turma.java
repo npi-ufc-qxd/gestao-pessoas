@@ -13,6 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.validation.constraints.NotNull;
 
 import ufc.quixada.npi.gp.model.enums.StatusTurma;
 
@@ -25,6 +26,7 @@ public class Turma {
 	
 	private String nome;
 
+	@NotNull(message = "Informe pelo menos um horario.")
 	@OneToMany(cascade = {CascadeType.REFRESH, CascadeType.MERGE, CascadeType.PERSIST})
 	@JoinColumn(name= "turma_id")
 	List<Horario> horarios;

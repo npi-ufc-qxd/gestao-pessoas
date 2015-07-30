@@ -54,7 +54,7 @@ public class AuthenticationSuccessHandlerImpl implements AuthenticationSuccessHa
 				return "/home/meu-cadastro";
 			}
 
-			boolean supervisor = (papel.equals("DOSCENTE") || papel.equals("STA") ||  papel.equals("ROLE_SUPERVISOR") ? true: false );
+			boolean supervisor = (papel.equals("DOCENTE") || papel.equals("STA") ||  papel.equals("ROLE_SUPERVISOR") ? true: false );
 
 			if(supervisor){
 				return "/supervisor/inicio";

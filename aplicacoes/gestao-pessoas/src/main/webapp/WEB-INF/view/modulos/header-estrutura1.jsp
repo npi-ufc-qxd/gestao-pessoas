@@ -4,6 +4,7 @@
 <link href="<c:url value="/webjars/font-awesome/4.3.0/css/font-awesome.css" />" rel="stylesheet" />
 
 <link href="<c:url value="/webjars/bootstrap/3.3.2/css/bootstrap.min.css" />" rel="stylesheet" />
+<link href="<c:url value="/resources/css/bootstrap-time.min.css" />" rel="stylesheet" />
 <link href="<c:url value="/resources/css/bootstrap-select.min.css" />" rel="stylesheet" />
 <link href="<c:url value="/resources/css/datepicker3.css" />" rel="stylesheet" />
 <link href="<c:url value="/resources/css/bootstrap-yeti.min.css" />" rel="stylesheet" />

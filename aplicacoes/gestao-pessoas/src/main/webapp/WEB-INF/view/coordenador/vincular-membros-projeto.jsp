@@ -16,6 +16,17 @@
 
 	<div class="container">
 		<h4><b>Atualizar menbros do projeto ${projeto.nome}</b></h4>
+		
+<!-- 			<div class="btn-group"> -->
+<!-- 				<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Selecione a turma <span class="caret"></span></button> -->
+<!-- 				<ul class="dropdown-menu"> -->
+<%-- 					<c:forEach var="turma" items="${turmas}"> --%>
+<%-- 					    <li><a href="${turma.id}">${turma.periodo.ano}.${turma.periodo.semestre} - ${turma.nome}</a></li> --%>
+<%-- 					</c:forEach> --%>
+<!-- 				</ul> -->
+<!-- 			</div> -->
+		
+		
 		<form id="filtroFrequenciaDaTurma" class="form-inline filtro">
 			<div class="form-group">
 				<select id="turma" name="turma" class="selectpicker selectTurma">

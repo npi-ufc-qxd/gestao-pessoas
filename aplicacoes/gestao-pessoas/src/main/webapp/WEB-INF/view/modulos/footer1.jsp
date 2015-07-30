@@ -15,6 +15,7 @@
 <script src="<c:url value="/resources/js/flippant.min.js" />"></script>
 <script src="<c:url value="/resources/js/bootstrap-editable.min.js" />"></script>
 <script src="<c:url value="/resources/js/jquery.bootgrid.min.js" />"></script>
+<script src="<c:url value="/resources/js/bootstrap-time.js" />"></script>
 
 <br>
 <div class="clear"></div>

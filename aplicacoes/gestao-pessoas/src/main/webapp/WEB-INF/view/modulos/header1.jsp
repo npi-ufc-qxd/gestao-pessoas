@@ -17,7 +17,7 @@
 		
 		<div class="collapse navbar-collapse" id="navbar-npi">
 
-			<sec:authorize access="hasRole('ROLE_COORDENADOR')">
+			<sec:authorize access="hasAnyRole('ROLE_SUPERVISOR', 'DOCENTE')">
 				<ul class="nav navbar-nav">
 					<li id="projetos" class="active"><a href="<c:url value="/coordenador/projetos" />">Projetos <span class="fa fa-folder"></span></a></li>
 
@@ -33,7 +33,7 @@
 				</ul>
 			</sec:authorize>
 
-			<sec:authorize access="hasRole('ROLE_ESTAGIARIO')">
+			<sec:authorize access="hasRole('ROLE_ESTAGIARIO_NPI')">
 				<ul class="nav navbar-nav">
 					<li id="editar-dados"><a href="<c:url value="/estagiario/editar-estagiario" />">Meus Dados<span class="fa fa-th-list"></span></a></li>
 

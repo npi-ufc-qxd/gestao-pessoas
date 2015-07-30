@@ -42,6 +42,15 @@ a.funcionalidades:focus {
 }
 
 .text-view-info {
+    padding: 4px 8px;
+    font-size: 15px;
+    line-height: 1.4;
+    color: #6f6f6f;
+}
+
+.form-horario {
+    display: block;
+    width: 100%;
     height: 39px;
     padding: 8px 12px;
     font-size: 15px;
@@ -49,4 +58,15 @@ a.funcionalidades:focus {
     color: #6f6f6f;
     background-color: #ffffff;
     background-image: none;
+    border: 1px solid #cccccc;
+    border-radius: 0;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
+    -webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
+    -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+}
+.form-horario-ckeckbox {
+    display: inline;
+    width: 14%;
 }

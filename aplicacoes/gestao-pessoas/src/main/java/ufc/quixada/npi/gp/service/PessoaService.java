@@ -13,9 +13,11 @@ public interface PessoaService  extends GenericService<Pessoa> {
 	Pessoa getPessoaById(Long id);
 
 	List<Papel> getPapeis(String cpf);
-	
+
 	boolean isServidor(String cpf);
 	
 	boolean isEstagiario(String cpf);
+
+	boolean isPessoa(String cpf);
 	
 }

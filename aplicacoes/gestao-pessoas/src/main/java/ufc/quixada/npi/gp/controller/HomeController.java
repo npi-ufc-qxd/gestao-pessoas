@@ -76,7 +76,7 @@ public class HomeController {
 		redirect.addFlashAttribute("success", "Seu cadastro foi realizado com sucesso! Agora, voçê faz parte do NPI!");
 		redirect.addFlashAttribute("warning", "Aguarde, você sera vinculada a uma turma, desde já sinta-se parte deste grupo, NPI.");
 
-		return REDIRECT_PAGINA_INICIAL_ESTAGIARIO;
+		return "redirect:/estagiario/inicio";
 	}
 
 	@RequestMapping(value = "/solicitar-acesso", method = RequestMethod.GET)

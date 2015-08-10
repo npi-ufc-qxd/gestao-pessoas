@@ -8,7 +8,7 @@
 	<c:set var="titulo" value="Meu Cadastro"></c:set>
 </c:if>
 <c:if test="${action eq 'editar' }">
-	<c:set var="url" value="/estagiari/editar-perfil"></c:set>
+	<c:set var="url" value="/estagiario/editar-perfil"></c:set>
 	<c:set var="titulo" value="Meu Dados"></c:set>
 </c:if>
 

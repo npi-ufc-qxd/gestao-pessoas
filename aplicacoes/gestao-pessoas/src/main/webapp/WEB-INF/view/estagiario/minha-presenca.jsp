@@ -17,6 +17,17 @@
 
 <div class="container">
 	<div class="row">
+
+	<c:if test="${not possuiTurma}">
+	
+	<div class="alert alert-dismissible alert-warning">
+		<button type="button" class="close" data-dismiss="alert">×</button>
+		<strong>Atençao! ${nomeFormatado}</strong>
+		<span>Aguarde, você sera vinculada a uma turma, desde já sinta-se parte deste grupo, NPI.</span>
+	</div>
+	</c:if>
+
+	<c:if test="${possuiTurma}">
 	
 	<c:if test="${not frequenciaNaoRealizada}">
 	<div class="alert alert-dismissible alert-success">
@@ -28,7 +39,7 @@
 	<c:if test="${liberarPresenca}">
 	<div class="panel panel-info">
 		<div class="panel-heading">
-			<form class="form-inline form-minha-presenca" action="<c:url value="/estagiari/minha-presenca"></c:url>" method="POST" align="center">
+			<form class="form-inline form-minha-presenca" action="<c:url value="/estagiario/minha-presenca"></c:url>" method="POST" align="center">
 				<c:if test="${not empty error}">
 					<div class="form-group" align="center">
 						<label class="control-label col-xs-2"></label>
@@ -98,6 +109,9 @@
 			</table>
 		</div>
 	</div>
+	
+	</c:if>
+	
 	</div>
 </div><br><br>
 

@@ -34,7 +34,7 @@
 
 					<li id="menu-frequencias"><a href="<c:url value="/supervisor/frequencias" />"><span class="fa fa-calendar-check-o"></span> Frequência</a></li>
 
-					<li id="menu-reposicao"><a href="<c:url value="/frequencia/reposicao" />">Reposições</span></a></li>
+<%-- 					<li id="menu-reposicao"><a href="<c:url value="/frequencia/reposicao" />">Reposições</span></a></li> --%>
 				</ul>
 			</sec:authorize>
 
@@ -58,7 +58,7 @@
 							<li><a href="<c:url value="/estagiario/meus-dados" />"><i class="glyphicon glyphicon-user"></i> Meus Dados</a></li>
 						</sec:authorize>
 						<sec:authorize access="hasAnyRole('ROLE_SUPERVISOR', 'DOCENTE')">
-							<li><a href="<c:url value="#/supervisor/meus-dados" />"><i class="glyphicon glyphicon-user"></i> Meus Dados</a></li>
+<%-- 							<li><a href="<c:url value="#/supervisor/meus-dados" />"><i class="glyphicon glyphicon-user"></i> Meus Dados</a></li> --%>
 						</sec:authorize>
 						<li><a href="<c:url value="/j_spring_security_logout" />"><i class="glyphicon glyphicon-off"></i> Sair</a></li>
 						<li class="divider"></li>

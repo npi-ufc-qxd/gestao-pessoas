@@ -192,6 +192,10 @@ public class SupervisorController {
 		}
 
 		try {
+			Periodo periodoBanco = periodoService.find(Periodo.class, periodo.getId());
+
+			periodo.setFolgas(periodoBanco.getFolgas());
+			periodo.setTurmas(periodoBanco.getTurmas());
 			periodoService.update(periodo);
 		} catch (Exception e) {
 			model.addAttribute("erro", "O periodo "  + periodo.getAno() + "." + periodo.getSemestre() + " já esta cadastrado.");

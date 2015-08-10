@@ -120,40 +120,49 @@ public class EstagiarioController {
 	@RequestMapping(value = "/minha-presenca", method = RequestMethod.GET)
 	public String minhaPresenca(HttpSession session, Model model) {
 		Pessoa pessoa = getUsuarioLogado(session);
-
-		boolean liberarPresenca = false;
 		
 		Estagiario estagiario = estagiarioService.getEstagiarioByPessoaId(pessoa.getId());
+
+		boolean liberarPresenca = false;
+
+		boolean possuiTurma  = estagiario.getTurma() != null ? true : false;
 		
-		boolean frequenciaNaoRealizada = frequenciaService.getFrequenciaDeHojeByEstagiario(estagiario.getId()) == null ? true : false;
-		
-		if(estagiario.getTurma() != null) {
+		if(possuiTurma) {
+			
+			boolean frequenciaNaoRealizada = frequenciaService.getFrequenciaDeHojeByEstagiario(estagiario.getId()) == null ? true : false;
+
+			
 			if(frequenciaService.liberarPreseca(estagiario.getTurma()) && frequenciaNaoRealizada){
 				liberarPresenca = true;
 			}
+
+			List<Frequencia> frequencias = frequenciaService.getFrequenciaByEstagiario(estagiario.getId());
+
+			LocalDate inicioPeriodoTemporario;
+			if(!frequenciaNaoRealizada){
+				inicioPeriodoTemporario = new LocalDate(new Date()).plusDays(1);
+			}else{
+				inicioPeriodoTemporario = new LocalDate(new Date());
+			}
+
+			LocalDate fimPeriodo = new LocalDate(estagiario.getTurma().getPeriodo().getTermino());
+			
+			List<Frequencia> frequenciasEmAguardo = gerarFrequencia(estagiario, inicioPeriodoTemporario, fimPeriodo); 
+			
+			frequencias.addAll(frequenciasEmAguardo);
+
+			DadoConsolidado dadosConsolidados = frequenciaService.calcularDadosConsolidados(frequencias);
+
+			model.addAttribute("frequencias", frequencias);
+			model.addAttribute("dadosConsolidados", dadosConsolidados);		
+			model.addAttribute("dadosConsolidados", dadosConsolidados);		
+			model.addAttribute("estagiario", estagiario);
+			model.addAttribute("liberarPresenca", liberarPresenca);
+			model.addAttribute("frequenciaNaoRealizada", frequenciaNaoRealizada);
 		}
 
-		List<Frequencia> frequencias = frequenciaService.getFrequenciaByEstagiario(estagiario.getId());
+		model.addAttribute("possuiTurma", possuiTurma);
 
-		LocalDate inicioPeriodoTemporario;
-		if(!frequenciaNaoRealizada){
-			inicioPeriodoTemporario = new LocalDate(new Date()).plusDays(1);
-		}else{
-			inicioPeriodoTemporario = new LocalDate(new Date());
-		}
-		
-		LocalDate fimPeriodo = new LocalDate(estagiario.getTurma().getPeriodo().getTermino());
-		frequencias.addAll(gerarFrequencia(estagiario, inicioPeriodoTemporario, fimPeriodo));
-
-		DadoConsolidado dadosConsolidados = frequenciaService.calcularDadosConsolidados(frequencias);
-
-		model.addAttribute("estagiario", estagiario);
-		model.addAttribute("frequencias", frequencias);
-		model.addAttribute("dadosConsolidados", dadosConsolidados);		
-		model.addAttribute("dadosConsolidados", dadosConsolidados);		
-		model.addAttribute("liberarPresenca", liberarPresenca);
-		model.addAttribute("frequenciaNaoRealizada", frequenciaNaoRealizada);
-		
 		return PAGINA_MINHA_PRESENCA;
 	}
 
@@ -184,7 +193,7 @@ public class EstagiarioController {
 			frequenciaService.save(frequencia);
 		}
 
-		return "redirect:/estagiari/minha-presenca";
+		return "redirect:/estagiario/minha-presenca";
 	}
 	
 	@RequestMapping(value = "/meu-projeto", method = RequestMethod.GET)

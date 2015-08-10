@@ -2,34 +2,18 @@ package ufc.quixada.npi.gp.controller;
 
 import static ufc.quixada.npi.gp.utils.Constants.MENSAGEM_DATA_FUTURA;
 import static ufc.quixada.npi.gp.utils.Constants.PAGINA_LISTAR_FREQUENCIAS;
-import static ufc.quixada.npi.gp.utils.Constants.PAGINA_MINHA_PRESENCA;
 import static ufc.quixada.npi.gp.utils.Constants.PAGINA_REPOSICAO;
-import static ufc.quixada.npi.gp.utils.Constants.REDIRECT_MINHA_PRESENCA;
-import static ufc.quixada.npi.gp.utils.Constants.USUARIO_LOGADO;
 
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import javax.inject.Inject;
-import javax.servlet.http.HttpSession;
-
-import net.objectlab.kit.datecalc.common.DateCalculator;
-import net.objectlab.kit.datecalc.common.DefaultHolidayCalendar;
-import net.objectlab.kit.datecalc.common.HolidayCalendar;
-import net.objectlab.kit.datecalc.common.HolidayHandlerType;
-import net.objectlab.kit.datecalc.joda.LocalDateKitCalculatorsFactory;
 
 import org.joda.time.DateTime;
-import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.springframework.http.MediaType;
-import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -40,21 +24,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import ufc.quixada.npi.gp.model.Estagiario;
-import ufc.quixada.npi.gp.model.FiltroJson;
-import ufc.quixada.npi.gp.model.Folga;
 import ufc.quixada.npi.gp.model.Frequencia;
-import ufc.quixada.npi.gp.model.Pessoa;
 import ufc.quixada.npi.gp.model.ReposicaoJson;
-import ufc.quixada.npi.gp.model.Turma;
 import ufc.quixada.npi.gp.model.enums.StatusFrequencia;
 import ufc.quixada.npi.gp.model.enums.TipoFrequencia;
-import ufc.quixada.npi.gp.service.DadoConsolidado;
 import ufc.quixada.npi.gp.service.EstagiarioService;
 import ufc.quixada.npi.gp.service.FrequenciaService;
 import ufc.quixada.npi.gp.service.PessoaService;
 import ufc.quixada.npi.gp.service.TurmaService;
-import ufc.quixada.npi.gp.utils.UtilGestao;
 
 @Controller
 @RequestMapping("frequencia")
@@ -77,12 +54,12 @@ public class FrequenciaController {
 		return PAGINA_LISTAR_FREQUENCIAS;
 	}
 
-	@RequestMapping(value = "/frequencias.json", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-	@ResponseBody
-	public List<Frequencia> getFrequencias(@RequestBody FiltroJson frequenciaJson, Model model) {
-		List<Frequencia> frequencias = frequenciaService.getFrequencias(frequenciaJson.getData(), turmaService.find(Turma.class, frequenciaJson.getTurma()));
-		return frequencias;
-	}
+//	@RequestMapping(value = "/frequencias.json", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+//	@ResponseBody
+//	public List<Frequencia> getFrequencias(@RequestBody FiltroJson frequenciaJson, Model model) {
+//		List<Frequencia> frequencias = frequenciaService.getFrequencias(frequenciaJson.getData(), turmaService.find(Turma.class, frequenciaJson.getTurma()));
+//		return frequencias;
+//	}
 
 	@RequestMapping(value = "/observacao", method = RequestMethod.POST)
 	public String frequenciaObservar(@RequestParam("pk") Long idFrequencia, @RequestParam("value") String observacao, Model model) {
@@ -201,138 +178,8 @@ public class FrequenciaController {
 		}
 		return model;
 	}
-	@RequestMapping(value = "/minha-presenca", method = RequestMethod.GET)
-	public String minhaPresenca(HttpSession session, Model model) {
-		boolean liberarPresenca = false;
-		
-		Estagiario estagiario = estagiarioService.getEstagiarioByPessoaId(getUsuarioLogado(session).getId());
-		
-		/*
-		Set<LocalDate> dataDosFeriados = new HashSet<LocalDate>();
-		for (Folga folga : estagiario.getTurma().getPeriodo().getFolgas()) {
-			dataDosFeriados.add(new LocalDate(folga.getData()));
-		}
-		
-		HolidayCalendar<LocalDate> calendarioDeFeriados = new DefaultHolidayCalendar<LocalDate>(dataDosFeriados);
-		LocalDateKitCalculatorsFactory.getDefaultInstance().registerHolidays("NPI", calendarioDeFeriados);
-		
-		
-		DateCalculator<LocalDate> calendarioDeFeriadosNPI = LocalDateKitCalculatorsFactory.getDefaultInstance().getDateCalculator("NPI", HolidayHandlerType.FORWARD);
-		boolean horarioDeTrabalho = UtilGestao.isHoraPermitida(estagiario.getTurma().getHorarios());
-		boolean diaDeTrabalho = UtilGestao.isDiaTrabaho();
-		LocalDate dia = new LocalDate();	
-		*/
-		
-		Frequencia frequenciaDeHoje = frequenciaService.getFrequenciaDeHojeByEstagiario(estagiario.getId());	
-		List<Frequencia> frequencia = frequenciaService.getFrequenciaByEstagiario(estagiario.getId());
-		DadoConsolidado dadosConsolidados = frequenciaService.calcularDadosConsolidados(frequencia);
-		
-		if(frequenciaDeHoje != null){
-			//frequencia está habilitada?
-			liberarPresenca = frequenciaService.frequenciaAvaliable(frequenciaDeHoje, estagiario);
-			
-			if(frequenciaDeHoje.getStatusFrequencia().equals(StatusFrequencia.PRESENTE)){
-				model.addAttribute("message", "Já realizei minha presença de hoje");
-			}
-			else if(liberarPresenca){
-				model.addAttribute("message", frequenciaDeHoje.getStatusFrequencia().getMensagem());
-			}
-			else {
-				model.addAttribute("message", "Sua presença não esta liberada.");
-			}
-			
-			model.addAttribute("frequenciaHoje", frequenciaDeHoje);
-			model.addAttribute("estagiario", estagiario);
-			model.addAttribute("liberarPresenca", liberarPresenca);
-			model.addAttribute("frequencia", frequencia);		
-			model.addAttribute("dadosConsolidados", dadosConsolidados);
-		}
-		else{
-			model.addAttribute("message", "Frequência de hoje não cadastrada");
-		}
-		return PAGINA_MINHA_PRESENCA;
-		
-		/*
-		if (!calendarioDeFeriadosNPI.isNonWorkingDay(dia)) {
-			if (frequenciaDeHoje != null) {
 
-				if(frequenciaDeHoje.getStatusFrequencia().equals(StatusFrequencia.AGUARDO)){
-					liberarPresenca = true;
-				}
-				model.addAttribute("message", frequenciaDeHoje.getStatusFrequencia().getMensagem());
-				model.addAttribute("frequenciaHoje", frequenciaDeHoje);
-				model.addAttribute("frequencia", frequencia);		
-				model.addAttribute("dadosConsolidados", dadosConsolidados);
-			} else if (horarioDeTrabalho && diaDeTrabalho) {
-				liberarPresenca = true;
-			} else {
-				model.addAttribute("message", "Sua presença não esta liberada.");
-			}
-		} else {
-			model.addAttribute("message", "Hoje é um feriado.");
-		}
-		
-		model.addAttribute("estagiario", estagiario);
-		model.addAttribute("liberarPresenca", liberarPresenca);
-		return PAGINA_MINHA_PRESENCA;*/
-	}
-	
-	@RequestMapping(value = "/minha-presenca", method = RequestMethod.POST)
-	public String presenteNPI(HttpSession session, @RequestParam("senha") String senha, Model model) {
-		ShaPasswordEncoder encoder = new ShaPasswordEncoder(256);
-		Pessoa pessoa = getUsuarioLogado(session);
-		Estagiario estagiario = estagiarioService.getEstagiarioByPessoaId(pessoa.getId());
-		
-		if (pessoa.getPassword().equals(encoder.encodePassword(senha, ""))) {
-			/*Estagiario estagiario = estagiarioService.getEstagiarioByPessoaId(pessoa.getId());
 
-			Set<LocalDate> dataDosFeriados = new HashSet<LocalDate>();
-			for (Folga folga : estagiario.getTurma().getPeriodo().getFolgas()) {
-				dataDosFeriados.add(new LocalDate(folga.getData()));
-			}
-			
-			HolidayCalendar<LocalDate> calendarioDeFeriados = new DefaultHolidayCalendar<LocalDate>(dataDosFeriados);
-			LocalDateKitCalculatorsFactory.getDefaultInstance().registerHolidays("NPI", calendarioDeFeriados);
-			
-			DateCalculator<LocalDate> calendario = LocalDateKitCalculatorsFactory.getDefaultInstance().getDateCalculator("NPI", HolidayHandlerType.FORWARD);
-
-			boolean horarioDeTrabalho = UtilGestao.isHoraPermitida(estagiario.getTurma().getHorarios());
-			boolean diaDeTrabalho = UtilGestao.isDiaTrabaho();			
-			LocalDate dia = new LocalDate();*/
-			
-			Frequencia frequenciaDeHoje = frequenciaService.getFrequenciaDeHojeByEstagiario(estagiario.getId());
-			
-			if(frequenciaService.frequenciaAvaliable(frequenciaDeHoje, estagiario)){
-				/*Frequencia frequencia = new Frequencia();
-
-				frequencia.setData(dia.toDate());
-				frequencia.setEstagiario(estagiario);
-				frequencia.setTurma(estagiario.getTurma());
-				frequencia.setTipoFrequencia(TipoFrequencia.NORMAL);
-				frequencia.setStatusFrequencia(StatusFrequencia.PRESENTE);
-				 */
-				frequenciaDeHoje.setStatusFrequencia(StatusFrequencia.PRESENTE);
-				frequenciaService.update(frequenciaDeHoje);
-			}	
-
-			
-		} else {
-			//model.addAttribute("estagiario", estagiarioService.getEstagiarioByPessoaId(getUsuarioLogado(session).getId()));
-			model.addAttribute("estagiario", estagiario);
-			model.addAttribute("error", "Usuario e/ou senha inválidos");
-			model.addAttribute("liberarPresenca", true);
-		}
-		
-		return REDIRECT_MINHA_PRESENCA;
-	}
-
-	private Pessoa getUsuarioLogado(HttpSession session) {
-		if (session.getAttribute(USUARIO_LOGADO) == null) {
-			Pessoa pessoa = pessoaService.getPessoaByCpf(SecurityContextHolder.getContext().getAuthentication().getName());
-			session.setAttribute(USUARIO_LOGADO, pessoa);
-		}
-		return (Pessoa) session.getAttribute(USUARIO_LOGADO);
-	}	
 
 }
 

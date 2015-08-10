@@ -13,7 +13,7 @@
 				<span class="icon-bar"></span>
 			</button>
 			<sec:authorize access="hasRole('ROLE_ESTAGIARIO_NPI')">
-				<a class="navbar-brand" href="<c:url value="/estagiari/inicio" />"><span class="fa fa-group"></span> Gestão NPI</a>
+				<a class="navbar-brand" href="<c:url value="/estagiario/inicio" />"><span class="fa fa-group"></span> Gestão NPI</a>
 			</sec:authorize>
 			<sec:authorize access="hasAnyRole('ROLE_SUPERVISOR', 'DOCENTE')">
 				<a class="navbar-brand" href="<c:url value="/supervisor/inicio" />"><span class="fa fa-group"></span> Gestão NPI</a>
@@ -40,7 +40,7 @@
 
 			<sec:authorize access="hasRole('ROLE_ESTAGIARIO_NPI')">
 				<ul class="nav navbar-nav menu">
-					<li id="minha-presenca"><a href="<c:url value="/estagiari/minha-presenca" />"><span class="fa fa-calendar-check-o"></span> Minha Presença</a></li>
+					<li id="minha-presenca"><a href="<c:url value="/estagiario/minha-presenca" />"><span class="fa fa-calendar-check-o"></span> Minha Presença</a></li>
 
 					<li id="meu-projeto"><a href="<c:url value="/estagiario/meu-projeto" />"><span class="fa fa-briefcase"></span> Meu Projeto</a></li>
 
@@ -55,7 +55,7 @@
 					<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-user"></i> <i class="glyphicon glyphicon-chevron-down"></i></a>
 					<ul class="dropdown-menu">
 						<sec:authorize access="hasRole('ROLE_ESTAGIARIO_NPI')">
-							<li><a href="<c:url value="/estagiari/meus-dados" />"><i class="glyphicon glyphicon-user"></i> Meus Dados</a></li>
+							<li><a href="<c:url value="/estagiario/meus-dados" />"><i class="glyphicon glyphicon-user"></i> Meus Dados</a></li>
 						</sec:authorize>
 						<sec:authorize access="hasAnyRole('ROLE_SUPERVISOR', 'DOCENTE')">
 							<li><a href="<c:url value="#/supervisor/meus-dados" />"><i class="glyphicon glyphicon-user"></i> Meus Dados</a></li>

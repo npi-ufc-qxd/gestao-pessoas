@@ -78,11 +78,21 @@
 		       </thead>
 		       <tbody class="text-view-info">
 					<c:forEach var="frequencia" items="${frequencias}">
-						<tr>
-							<td><fmt:formatDate value="${frequencia.data}" pattern="dd/MM/yyyy" /></td>
-							<td>${frequencia.observacao}</td>
-							<td>${frequencia.statusFrequencia}</td>
-						</tr>
+				        <c:choose>
+				            <c:when test="${frequencia.statusFrequencia != 'AGUARDO'}">
+				            	<tr class="success">
+									<td><fmt:formatDate value="${frequencia.data}" pattern="dd/MM/yyyy" /></td>
+									<td>${frequencia.observacao}</td>
+									<td>${frequencia.statusFrequencia}</td>
+								</tr>
+				            </c:when>
+				            <c:otherwise>
+					            <tr class="warning">
+									<td><strong><fmt:formatDate value="${frequencia.data}" pattern="dd/MM/yyyy" /></strong></td>
+									<td colspan="2">Aguardando data para lançamento da frequência.</td>
+								</tr>
+				            </c:otherwise>
+				        </c:choose>
 					</c:forEach>
 		       </tbody>
 			</table>

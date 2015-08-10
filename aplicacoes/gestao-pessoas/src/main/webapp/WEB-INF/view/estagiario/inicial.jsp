@@ -8,7 +8,7 @@
 
 <html>
 	<head>
-		<title>Estagiários</title>
+		<title>Inicio</title>
 		<jsp:include page="../modulos/header-estrutura1.jsp" />
 	</head>
 <body>

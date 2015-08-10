@@ -14,7 +14,7 @@
 
 <html>
 	<head>
-		<title>Estagiário</title>
+		<title>Meus Dados</title>
 		<jsp:include page="../modulos/header-estrutura1.jsp" />
 	</head>
 <body>
@@ -22,15 +22,14 @@
 
 <div class="container">
 	<div class="row">
-	<div class="panel panel-default">
-	<div class="panel-body">
+	<div class="panel panel-primary">
 
-		<div class="col-sm-1"></div>
-
-		<div class="col-sm-10">
+		<div class="panel-heading">
 			<h2 id="titulo-cadastro-npi"><a class="header-anchor" href="#"><span class="glyphicon glyphicon-user"></span></a> ${titulo}</h2>
-			
-			<form:form id="DadosPessoaisEstagiarioForm" role="form" commandName="estagiario" modelAttribute="estagiario" servletRelativeAction="${url}" method="POST" cssClass="form-horizontal">
+		</div>
+
+		<form:form id="DadosPessoaisEstagiarioForm" role="form" commandName="estagiario" modelAttribute="estagiario" servletRelativeAction="${url}" method="POST" cssClass="form-horizontal">
+			<div class="panel-body">
 
 				<form:hidden path="id"/>
 
@@ -43,20 +42,6 @@
 							<form:options itemLabel="labelLocal" />
 						</form:select>
 						<div class="error-validation"><form:errors path="localEstagio"></form:errors></div>
-					</div>
-				</div>
-		
-				<h4 class="secao-form-h4">View Dados</h4>
-				
-				<div class="form-group">
-					<div class="form-item col-sm-9">
-						<label for="nomeCompleto" class="control-label">*Nome Completo: <span class="text-view-info">${estagiario.nomeCompleto}</span></label>
-						
-					</div>
-					
-					<div class="form-item col-sm-3">
-						<label for="dataNascimento" class="control-label">*Data de Nascimento:</label>
-						<label class="text-view-info">${estagiario.dataNascimento}</label>
 					</div>
 				</div>
 
@@ -187,23 +172,18 @@
 						<div class="error-validation"><form:errors path="cep"></form:errors></div>
 					</div>
 				</div>
-		
-				<div class="form-group">
-					<div class="form-item col-sm-12" align="center">
-						<c:if test="${action eq 'cadastrar' }"><button type="submit" class="btn btn-primary">Cadastrar</button></c:if>
-						<c:if test="${action eq 'editar' }"><button type="submit" class="btn btn-success">Salvar alterações</button></c:if>
-					</div>
+			</div>
+			
+			<div class="panel-footer" align="center">
+				<div class="controls">
+					<c:if test="${action eq 'cadastrar' }"><button type="submit" class="btn btn-primary">Cadastrar</button></c:if>
+					<c:if test="${action eq 'editar' }"><button type="submit" class="btn btn-success">Salvar alterações</button></c:if>
 				</div>
-			</form:form>
-		</div>
-		
-		<div class="col-sm-1"></div>
-
+			</div>
+		</form:form>
 	</div>
 	</div>
-	</div>
-
-</div>
+</div><br><br>
 
 	<jsp:include page="../modulos/footer1.jsp" />
 </body>

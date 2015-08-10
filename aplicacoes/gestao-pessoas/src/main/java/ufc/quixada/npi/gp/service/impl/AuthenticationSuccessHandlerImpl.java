@@ -47,7 +47,7 @@ public class AuthenticationSuccessHandlerImpl implements AuthenticationSuccessHa
 			String papel = grantedAuthority.getAuthority();
 			
 			if(servicePessoa.isEstagiario(cpf)){
-				return "/estagiari/inicio";
+				return "/estagiario/inicio";
 			}
 
 			if(papel.equals("DISCENTE") || papel.equals("ROLE_ESTAGIARIO_NPI") ) {

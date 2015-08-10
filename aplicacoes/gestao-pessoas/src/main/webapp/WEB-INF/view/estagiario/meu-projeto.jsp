@@ -5,12 +5,12 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<jsp:include page="../modulos/header-estrutura.jsp" />
+<jsp:include page="../modulos/header-estrutura1.jsp" />
 
 <title>Projetos</title>
 </head>
 <body>
-	<jsp:include page="../modulos/header.jsp" />
+	<jsp:include page="../modulos/header1.jsp" />
 
 	<div class="container">
 		<div class="tab-pane active" id="meus-projetos">

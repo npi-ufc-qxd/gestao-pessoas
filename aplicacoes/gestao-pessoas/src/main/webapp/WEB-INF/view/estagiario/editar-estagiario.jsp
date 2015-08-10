@@ -3,8 +3,8 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<jsp:include page="../modulos/header-estrutura.jsp" />
-<jsp:include page="../modulos/header.jsp" />
+<jsp:include page="../modulos/header-estrutura1.jsp" />
+<jsp:include page="../modulos/header1.jsp" />
 <div class="container">
 	<h2 id="titulo-cadastro-npi">
 		<a class="header-anchor" href="#"><span
@@ -201,4 +201,4 @@
 		</div>
 	</form:form>
 </div>
-<jsp:include page="../modulos/footer.jsp" />
+<jsp:include page="../modulos/footer1.jsp" />

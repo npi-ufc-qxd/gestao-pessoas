@@ -7,11 +7,11 @@
 <html>
 <head>
 	<title>Meus Dados</title>
-	<jsp:include page="../modulos/header-estrutura.jsp" />
+	<jsp:include page="../modulos/header-estrutura1.jsp" />
 </head>
 <body>
 
-	<jsp:include page="../modulos/header.jsp" />
+	<jsp:include page="../modulos/header1.jsp" />
 	
 
 	<div class="container">
@@ -34,7 +34,7 @@
 			</div>
 		</form:form>
 	</div>
-	<jsp:include page="../modulos/footer.jsp" />
+	<jsp:include page="../modulos/footer1.jsp" />
 	
 	<script type="text/javascript">
 		$("#semestre").text("00");

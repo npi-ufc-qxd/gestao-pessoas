@@ -200,7 +200,7 @@ function lBootgrid(result, table) {
 	        	"observacao": function(column, row) {
 	    			$.each( column, function( key, value ) {
 	    				console.log("col : " + key + ": " + value );
-	    			});	        		
+	    			});
 	    			$.each( row, function( key, value ) {
 	    				console.log("row : " + key + ": " + value );
 	    			});

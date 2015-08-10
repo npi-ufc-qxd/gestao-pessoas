@@ -46,6 +46,7 @@ a.funcionalidades:focus {
     font-size: 15px;
     line-height: 1.4;
     color: #6f6f6f;
+    vertical-align: middle;
 }
 
 .form-horario {
@@ -69,4 +70,38 @@ a.funcionalidades:focus {
 .form-horario-ckeckbox {
     display: inline;
     width: 14%;
+}
+
+.bfh-timepicker-toggle>input[readonly] {
+    cursor: inherit;
+    background-color: #ffffff;
+}
+
+.panel-primary>.panel-heading {
+	background-color: #006687;
+}
+.header-anchor {
+	color:#ffffff;
+}
+
+h1, .h1, h2, .h2, h3, .h3 {
+    margin-top: 5px;
+}
+
+.titulo-turma-select {
+    display: inline;
+    vertical-align: middle;
+    margin-left: 10px;
+}
+.form-minha-presenca {
+	margin: 0;
+}
+
+.titulo-panels {
+    display: inline;
+    vertical-align: middle;	
+}
+.div-inline {
+    display: inline;
+    vertical-align: middle;	
 }

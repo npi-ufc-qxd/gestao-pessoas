@@ -12,38 +12,41 @@
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
 			</button>
-			<a class="navbar-brand" href="#"><span class="fa fa-group"></span> Gestão NPI</a>
+			<sec:authorize access="hasRole('ROLE_ESTAGIARIO_NPI')">
+				<a class="navbar-brand" href="<c:url value="/estagiari/inicio" />"><span class="fa fa-group"></span> Gestão NPI</a>
+			</sec:authorize>
+			<sec:authorize access="hasAnyRole('ROLE_SUPERVISOR', 'DOCENTE')">
+				<a class="navbar-brand" href="<c:url value="/supervisor/inicio" />"><span class="fa fa-group"></span> Gestão NPI</a>
+			</sec:authorize>
 		</div>
 		
 		<div class="collapse navbar-collapse" id="navbar-npi">
 
 			<sec:authorize access="hasAnyRole('ROLE_SUPERVISOR', 'DOCENTE')">
-				<ul class="nav navbar-nav">
-					<li id="projetos" class="active"><a href="<c:url value="/coordenador/projetos" />">Projetos <span class="fa fa-folder"></span></a></li>
+				<ul class="nav navbar-nav menu">
+					<li id="periodos"><a href="<c:url value="/supervisor/periodos" />"><span class="fa fa-calendar"></span> Periodos</a></li>
 
-					<li id="periodos"><a href="<c:url value="/coordenador/periodos" />">Periodos <span class="fa fa-calendar"></span></a></li>
+					<li id="turmas"><a href="<c:url value="/supervisor/minhas-turmas" />"><span class="fa fa-th-list"></span> Minhas Turmas</a></li>
 
-					<li id="turmas"><a href="<c:url value="/turma/minhas-turmas" />">Minhas Turmas <span class="fa fa-th-list"></span></a></li>
+					<li id="projetos"><a href="<c:url value="/supervisor/projetos" />"><span class="fa fa-briefcase"></span> Projetos</a></li>
 
-					<li id="estagiarios"><a href="<c:url value="/coordenador/estagiarios" />">Estagiários <span class="fa fa-user"></span></a></li>
+					<li id="estagiarios"><a href="<c:url value="/supervisor/estagiarios" />"><span class="fa fa-user"></span> Estagiários</a></li>
 
-					<li id="menu-frequencias"><a href="<c:url value="/frequencia/frequencias" />">Frequência <span class="fa fa-check-square-o"></span></a></li>
+					<li id="menu-frequencias"><a href="<c:url value="/supervisor/frequencias" />"><span class="fa fa-calendar-check-o"></span> Frequência</a></li>
 
-					<li id="estagiarios"><a href="<c:url value="/frequencia/reposicao" />">Reposições <span class="fa fa-cogs"></span></a></li>
+					<li id="menu-reposicao"><a href="<c:url value="/frequencia/reposicao" />">Reposições</span></a></li>
 				</ul>
 			</sec:authorize>
 
 			<sec:authorize access="hasRole('ROLE_ESTAGIARIO_NPI')">
-				<ul class="nav navbar-nav">
-					<li id="editar-dados"><a href="<c:url value="/estagiario/editar-estagiario" />">Meus Dados<span class="fa fa-th-list"></span></a></li>
+				<ul class="nav navbar-nav menu">
+					<li id="minha-presenca"><a href="<c:url value="/estagiari/minha-presenca" />"><span class="fa fa-calendar-check-o"></span> Minha Presença</a></li>
 
-					<li id="minha-presenca"><a href="<c:url value="/frequencia/minha-presenca" />">Minha Presença <span class="fa fa-th-list"></span></a></li>
+					<li id="meu-projeto"><a href="<c:url value="/estagiario/meu-projeto" />"><span class="fa fa-briefcase"></span> Meu Projeto</a></li>
 
-					<li id="meu-projeto"><a href="<c:url value="/estagiario/meu-projeto" />">Meu Projeto <span class="fa fa-folder"></span></a></li>
-
-					<li id="documentos"><a href="<c:url value="/estagiario/documentos" />">Documentos <span class="fa fa-th-list"></span></a></li>
+					<li id="documentos"><a href="<c:url value="/estagiario/documentos" />"><span class="fa fa-folder-open"></span> Documentos</a></li>
 					
-					<li id="avaliacao"><a href="<c:url value="/estagiario/avaliacao" />">Avaliação <span class="fa fa-check"></span></a></li>
+					<li id="avaliacao"><a href="<c:url value="/estagiario/avaliacao" />"><span class="fa fa-check-square-o"></span> Avaliação</a></li>
 				</ul>
 			</sec:authorize>
 
@@ -51,7 +54,12 @@
 				<li class="dropdown">
 					<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-user"></i> <i class="glyphicon glyphicon-chevron-down"></i></a>
 					<ul class="dropdown-menu">
-						<li><a href="<c:url value="/estagiari/meus-dados" />"><i class="glyphicon glyphicon-user"></i> Meus Dados</a></li>
+						<sec:authorize access="hasRole('ROLE_ESTAGIARIO_NPI')">
+							<li><a href="<c:url value="/estagiari/meus-dados" />"><i class="glyphicon glyphicon-user"></i> Meus Dados</a></li>
+						</sec:authorize>
+						<sec:authorize access="hasAnyRole('ROLE_SUPERVISOR', 'DOCENTE')">
+							<li><a href="<c:url value="#/supervisor/meus-dados" />"><i class="glyphicon glyphicon-user"></i> Meus Dados</a></li>
+						</sec:authorize>
 						<li><a href="<c:url value="/j_spring_security_logout" />"><i class="glyphicon glyphicon-off"></i> Sair</a></li>
 						<li class="divider"></li>
 						<li><a href="<c:url value="#/home/sobre" />"><i class="glyphicon glyphicon-info-sign"></i> Sobre</a></li>
@@ -62,4 +70,4 @@
 	</div>
 </nav>
 </sec:authorize>
-<br><br>
+<br><br><br>

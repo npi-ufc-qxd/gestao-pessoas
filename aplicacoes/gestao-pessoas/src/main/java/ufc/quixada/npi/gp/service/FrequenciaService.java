@@ -21,7 +21,7 @@ public interface FrequenciaService extends GenericService<Frequencia>{
 
 	List<Frequencia> getFrequenciaTurma(Turma turma);
 
-	List<Frequencia> getFrequencias(Date data, Turma turma);
+	List<Frequencia> getFrequencias(Date data, Long idTurma);
 
 	List<Object> getFrequenciass(Date data, Turma turma);
 
@@ -39,6 +39,8 @@ public interface FrequenciaService extends GenericService<Frequencia>{
 	@Transactional
 	void atualizarStatus();
 
-	boolean frequenciaAvaliable(Frequencia frequencia, Estagiario estagiario);
+	boolean liberarPreseca(Turma turma);
+	
+
                                                                                                                   
 }

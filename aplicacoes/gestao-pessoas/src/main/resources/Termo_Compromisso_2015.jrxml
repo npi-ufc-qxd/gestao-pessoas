@@ -8,7 +8,7 @@
 	<field name="nomeMae" class="java.lang.String"/>
 	<field name="telefone" class="java.lang.String"/>
 	<field name="pessoa.cpf" class="java.lang.String"/>
-	<field name="semestre" class="java.lang.String"/>
+	<field name="semestre" class="java.lang.Integer"/>
 	<field name="matricula" class="java.lang.Integer"/>
 	<field name="pessoa.email" class="java.lang.String"/>
 	<field name="endereco" class="java.lang.String"/>

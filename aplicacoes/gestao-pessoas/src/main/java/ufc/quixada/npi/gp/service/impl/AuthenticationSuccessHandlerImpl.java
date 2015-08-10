@@ -50,7 +50,7 @@ public class AuthenticationSuccessHandlerImpl implements AuthenticationSuccessHa
 				return "/estagiari/inicio";
 			}
 
-			if(papel.equals("DISCENTE")) {
+			if(papel.equals("DISCENTE") || papel.equals("ROLE_ESTAGIARIO_NPI") ) {
 				return "/home/meu-cadastro";
 			}
 

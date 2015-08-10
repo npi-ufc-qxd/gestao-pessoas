@@ -16,14 +16,14 @@
 	
 	<div class="container">
 	<div class="row">
-	<div class="panel panel-default">
-	<div class="panel-body">
-
-		<div class="col-sm-1"></div>
-
-		<div class="col-sm-10">
+	<div class="panel panel-primary">
+	
+		<div class="panel-heading">
 			<h2 id="titulo-cadastro-npi"><a class="header-anchor" href="#"><span class="glyphicon glyphicon-link"></span></a> Atualizar Vínculos: ${turma.nome}</h2>
-			<form:form id="vincularEstagiarioTurma" role="form" modelAttribute="turma" servletRelativeAction="/supervisor/vincular-estagiarios-turma/${turma.id}" method="POST">
+		</div>
+		
+		<form:form id="vincularEstagiarioTurma" role="form" modelAttribute="turma" servletRelativeAction="/supervisor/vincular-estagiarios-turma/${turma.id}" method="POST">
+			<div class="panel-body">
 				<form:hidden path="id"/>
 				<table class="table table-striped table-hover">
 					<thead>
@@ -42,21 +42,26 @@
 						</c:forEach>
 					</tbody>
 				</table>
-
-				<div class="form-group" align="center">
+			</div>
+			
+			<div class="panel-footer" align="center">
+				<div class="controls">
 					<button type="submit" class="btn btn-success">Atualizar vínculos <span class="glyphicon glyphicon-refresh"></span></button>
 				</div>
-				
-			</form:form>
-	    </div>
+			</div>
 
-		<div class="col-sm-1"></div>
-
+		</form:form>
+    </div>
 	</div>
-	</div>
-	</div>
-	</div>
+</div>
 
 	<jsp:include page="../modulos/footer1.jsp" />
+	
+    <script type="text/javascript">
+		$(document).ready(function(){
+			$(".menu #turmas").addClass("active");
+		});
+	</script>	
+	
 </body>
 </html>

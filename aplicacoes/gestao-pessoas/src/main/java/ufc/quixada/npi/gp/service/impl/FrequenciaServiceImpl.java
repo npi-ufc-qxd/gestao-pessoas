@@ -27,6 +27,7 @@ import ufc.quixada.npi.gp.model.enums.StatusFrequencia;
 import ufc.quixada.npi.gp.repository.FrequenciaRepository;
 import ufc.quixada.npi.gp.service.DadoConsolidado;
 import ufc.quixada.npi.gp.service.FrequenciaService;
+import ufc.quixada.npi.gp.utils.UtilGestao;
 import br.ufc.quixada.npi.enumeration.QueryType;
 import br.ufc.quixada.npi.service.impl.GenericServiceImpl;
 
@@ -45,10 +46,10 @@ public class FrequenciaServiceImpl extends GenericServiceImpl<Frequencia> implem
 	}
 
 	@Transactional
-	public List<Frequencia> getFrequencias(Date data, Turma turma) {
+	public List<Frequencia> getFrequencias(Date data, Long idTurma) {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("data", data);
-		params.put("turma", turma.getId());
+		params.put("turma", idTurma);
 		
 		@SuppressWarnings("unchecked")
 		List<Frequencia> frequencias = find(QueryType.JPQL, "select f.id, f.estagiario.nomeCompleto, f.observacao, f.statusFrequencia, f.tipoFrequencia from Frequencia f join f.turma t where t.id = :turma and f.data = :data", params);
@@ -247,9 +248,9 @@ public class FrequenciaServiceImpl extends GenericServiceImpl<Frequencia> implem
 	}
 
 	@Override
-	public boolean frequenciaAvaliable(Frequencia frequencia, Estagiario estagiario) {
+	public boolean liberarPreseca(Turma turma ) {
 		Set<LocalDate> dataDosFeriados = new HashSet<LocalDate>();
-		for (Folga folga : estagiario.getTurma().getPeriodo().getFolgas()) {
+		for (Folga folga : turma.getPeriodo().getFolgas()) {
 			dataDosFeriados.add(new LocalDate(folga.getData()));
 		}
 
@@ -257,21 +258,15 @@ public class FrequenciaServiceImpl extends GenericServiceImpl<Frequencia> implem
 
 		LocalDateKitCalculatorsFactory.getDefaultInstance().registerHolidays("NPI", calendarioDeFeriados);
 		DateCalculator<LocalDate> calendarioDeFeriadosNPI = LocalDateKitCalculatorsFactory.getDefaultInstance().getDateCalculator("NPI", HolidayHandlerType.FORWARD);
-		
-		// boolean horarioDeTrabalho =
-		// UtilGestao.isHoraPermitida(estagiario.getTurma().getHorarios());
-		// boolean diaDeTrabalho = UtilGestao.isDiaTrabaho();
 
 		LocalDate dia = new LocalDate();
 
 		if (!calendarioDeFeriadosNPI.isNonWorkingDay(dia)) {
-			// if(horarioDeTrabalho && diaDeTrabalho)
-
-			if (frequencia.getStatusFrequencia().equals(StatusFrequencia.AGUARDO)) {
+			if(UtilGestao.hojeEDiaDeTrabahoDaTurma(turma.getHorarios()) && UtilGestao.isHoraPermitida(turma.getHorarios())){
 				return true;
 			}
 		}
-		
+
 		return false;
 	}
 }

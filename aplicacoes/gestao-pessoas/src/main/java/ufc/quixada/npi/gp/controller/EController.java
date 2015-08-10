@@ -212,7 +212,6 @@ public class EController {
 		int cont = 0;
 		
 		while (!inicioPeriodoTemporario.isAfter(fimPeriodo)) {
-			System.out.println(!inicioPeriodoTemporario.isAfter(fimPeriodo));
 			cont++;
 
 			if (UtilGestao.isDiaDeTrabahoDaTurma(estagiario.getTurma().getHorarios(), inicioPeriodoTemporario)) {

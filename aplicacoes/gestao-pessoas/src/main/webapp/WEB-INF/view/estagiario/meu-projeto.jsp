@@ -53,6 +53,7 @@
 			</c:if>
 		</div>
 	</div>
+	<jsp:include page="../modulos/footer1.jsp" />
 
 </body>
 </html>

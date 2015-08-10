@@ -44,9 +44,9 @@
 
 					<li id="meu-projeto"><a href="<c:url value="/estagiario/meu-projeto" />"><span class="fa fa-briefcase"></span> Meu Projeto</a></li>
 
-					<li id="documentos"><a href="<c:url value="/estagiario/documentos" />"><span class="fa fa-folder-open"></span> Documentos</a></li>
+<%-- 					<li id="documentos"><a href="<c:url value="/estagiario/documentos" />"><span class="fa fa-folder-open"></span> Documentos</a></li> --%>
 					
-					<li id="avaliacao"><a href="<c:url value="/estagiario/avaliacao" />"><span class="fa fa-check-square-o"></span> Avaliação</a></li>
+<%-- 					<li id="avaliacao"><a href="<c:url value="/estagiario/avaliacao" />"><span class="fa fa-check-square-o"></span> Avaliação</a></li> --%>
 				</ul>
 			</sec:authorize>
 

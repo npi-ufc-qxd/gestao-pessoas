@@ -26,6 +26,11 @@ public class Servidor {
 		super();
 	}
 
+	public Servidor(Pessoa pessoa, String siape) {
+		setPessoa(pessoa);
+		setSiape(siape);
+	}
+
 	public String getSiape() {
 		return siape;
 	}
@@ -34,11 +39,11 @@ public class Servidor {
 		this.siape = siape;
 	}
 
-	public Pessoa getUsuario() {
+	public Pessoa getPessoa() {
 		return pessoa;
 	}
 
-	public void setUsuario(Pessoa pessoa) {
+	public void setPessoa(Pessoa pessoa) {
 		this.pessoa = pessoa;
 	}
 

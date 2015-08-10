@@ -13,6 +13,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import ufc.quixada.npi.gp.model.enums.StatusTurma;
 
@@ -24,7 +29,7 @@ public class Turma {
 	private Long id;
 	
 	private String nome;
-
+	
 	@OneToMany(cascade = {CascadeType.REFRESH, CascadeType.MERGE, CascadeType.PERSIST})
 	@JoinColumn(name= "turma_id")
 	List<Horario> horarios;

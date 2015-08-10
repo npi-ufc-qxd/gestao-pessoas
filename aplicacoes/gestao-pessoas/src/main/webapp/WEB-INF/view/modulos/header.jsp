@@ -56,7 +56,7 @@
 			</div>
 
 			<div id="navbar" class="navbar-collapse collapse">
-				<sec:authorize access="hasRole('ROLE_COORDENADOR')">
+				<sec:authorize access="hasRole('ROLE_SUPERVISOR')">
 					<ul class="nav navbar-nav">
 						<!-- Inicio Menu Cordenador -->
 						<li id="projetos"><a class="hvr-sweep-to-top"

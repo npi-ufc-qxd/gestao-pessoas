@@ -75,7 +75,7 @@ public class FrequenciaController {
 	@RequestMapping(value = "/frequencias", method = RequestMethod.GET)
 	public String frequencia(ModelMap modelMap) {
 		return PAGINA_LISTAR_FREQUENCIAS;
-	}	
+	}
 
 	@RequestMapping(value = "/frequencias.json", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody

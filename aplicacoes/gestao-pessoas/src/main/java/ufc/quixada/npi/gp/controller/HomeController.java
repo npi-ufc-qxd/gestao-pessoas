@@ -3,6 +3,8 @@ package ufc.quixada.npi.gp.controller;
 import static ufc.quixada.npi.gp.utils.Constants.PAGINA_FORM_ESTAGIARIO;
 import static ufc.quixada.npi.gp.utils.Constants.REDIRECT_PAGINA_INICIAL_ESTAGIARIO;
 
+import java.util.ArrayList;
+
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -19,8 +21,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import ufc.quixada.npi.gp.model.Estagiario;
+import ufc.quixada.npi.gp.model.Papel;
 import ufc.quixada.npi.gp.model.Pessoa;
 import ufc.quixada.npi.gp.service.EstagiarioService;
+import ufc.quixada.npi.gp.service.PapelService;
 import ufc.quixada.npi.gp.service.PessoaService;
 import ufc.quixada.npi.gp.utils.Constants;
 
@@ -34,6 +38,9 @@ public class HomeController {
 
 	@Inject
 	private PessoaService pessoaService;
+
+	@Inject
+	private PapelService papelService;
 
 	@RequestMapping(value = "/meu-cadastro", method = RequestMethod.GET)
 	public String paginaCadastroEstagiario(ModelMap modelMap, HttpSession session) {
@@ -51,8 +58,15 @@ public class HomeController {
 		}
 
 		String cpf = SecurityContextHolder.getContext().getAuthentication().getName();
+
+		Papel papel = papelService.getPapel("ROLE_ESTAGIARIO_NPI");
+
 		Pessoa pessoa = new Pessoa(cpf);
+		pessoa.setPapeis(new ArrayList<Papel>());
+		pessoa.getPapeis().add(papel);
+
 		pessoaService.save(pessoa);
+
 
 		estagiario.setPessoa(pessoa);
 		estagiarioService.save(estagiario);

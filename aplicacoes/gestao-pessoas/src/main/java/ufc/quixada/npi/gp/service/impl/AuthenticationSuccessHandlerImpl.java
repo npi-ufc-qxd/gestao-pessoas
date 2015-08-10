@@ -50,11 +50,11 @@ public class AuthenticationSuccessHandlerImpl implements AuthenticationSuccessHa
 				return "/estagiari/inicio";
 			}
 
-			if(papel.equals("DISCENTE")) {
+			if(papel.equals("DISCENTE") || papel.equals("ROLE_ESTAGIARIO_NPI") ) {
 				return "/home/meu-cadastro";
 			}
 
-			boolean supervisor = (papel.equals("DOSCENTE") || papel.equals("STA") ||  papel.equals("ROLE_SUPERVISOR") ? true: false );
+			boolean supervisor = (papel.equals("DOCENTE") || papel.equals("STA") ||  papel.equals("ROLE_SUPERVISOR") ? true: false );
 
 			if(supervisor){
 				return "/supervisor/inicio";

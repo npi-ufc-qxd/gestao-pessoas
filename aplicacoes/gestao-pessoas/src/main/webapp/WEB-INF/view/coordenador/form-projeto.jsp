@@ -8,7 +8,7 @@
 
 <html>
 <head>
-	<jsp:include page="../modulos/header-estrutura.jsp" />
+	<jsp:include page="../modulos/header-estrutura1.jsp" />
 	<title>Cadastro de Projetos</title>
 </head>
 <body>
@@ -25,7 +25,7 @@
 	</c:if>
 
 
-	<jsp:include page="../modulos/header.jsp" />
+	<jsp:include page="../modulos/header1.jsp" />
 
 	<div class="container">
 		<div class="novo-projeto" align="left">
@@ -78,6 +78,6 @@
 		</div>
 	</div>
 
-	<jsp:include page="../modulos/footer.jsp" />
+	<jsp:include page="../modulos/footer1.jsp" />
 </body>
 </html>

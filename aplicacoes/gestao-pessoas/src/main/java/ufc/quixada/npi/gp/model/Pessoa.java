@@ -14,7 +14,6 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
-import javax.validation.constraints.Size;
 
 @Entity
 @EntityListeners(PessoaEntityListener.class)
@@ -29,6 +28,7 @@ public class Pessoa {
 	@JoinTable(name = "papel_pessoa", joinColumns = @JoinColumn(name = "pessoa_id"), inverseJoinColumns = @JoinColumn(name = "papel_id"))
 	private List<Papel> papeis;
 
+	@Column(unique = true)
 	private String cpf;
 
 	@Transient

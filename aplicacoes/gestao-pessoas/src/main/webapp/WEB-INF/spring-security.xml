@@ -29,13 +29,14 @@
  		<intercept-url pattern="/webjars/**" access="permitAll" /> 		
  		<intercept-url pattern="/resources/**" access="permitAll" />
  		<intercept-url pattern="/estagiario/cadastre-se" access="permitAll" />
- 		<intercept-url pattern="/frequencia/minha-presenca**" access="hasRole('ROLE_ESTAGIARIO')"/>
- 		<intercept-url pattern="/estagiario/**" access="hasRole('ROLE_ESTAGIARIO')"/>
- 		<intercept-url pattern="/frequencia/**" access="hasRole('ROLE_COORDENADOR')"/>
+ 		
+ 		<intercept-url pattern="/frequencia/minha-presenca**" access="hasRole('ROLE_ESTAGIARIO_NPI')"/>
+ 		<intercept-url pattern="/estagiario/**" access="hasRole('ROLE_ESTAGIARIO_NPI')"/>
+ 		<intercept-url pattern="/frequencia/**" access="hasAnyRole('ROLE_SUPERVISOR', 'DOCENTE')"/>
 
- 		<intercept-url pattern="/coordenador/**" access="hasRole('ROLE_COORDENADOR')"/>
- 		<intercept-url pattern="/periodo/**" access="hasRole('ROLE_COORDENADOR')"/>
- 		<intercept-url pattern="/turma/**" access="hasRole('ROLE_COORDENADOR')"/>
+ 		<intercept-url pattern="/coordenador/**" access="hasAnyRole('ROLE_SUPERVISOR', 'DOCENTE')"/>
+ 		<intercept-url pattern="/periodo/**" access="hasAnyRole('ROLE_SUPERVISOR', 'DOCENTE')"/>
+ 		<intercept-url pattern="/turma/**" access="hasAnyRole('ROLE_SUPERVISOR', 'DOCENTE')"/>
 
  		<form-login login-page="/login" default-target-url="/" authentication-failure-url="/loginfailed" authentication-success-handler-ref="loginSucess" />
  		<logout logout-success-url="/login" invalidate-session="true"/> 	

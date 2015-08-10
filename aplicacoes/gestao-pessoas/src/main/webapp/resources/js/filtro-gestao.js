@@ -9,8 +9,6 @@ $(document).ready(function() {
 	$('#turmaFiltro').selectpicker('hide');
 	$('#statusReposicao').selectpicker('hide');
 	$("#viewFrequencias").addClass('hidden');
-	$("#termos").addClass('hidden');
-	$("#declaracoes").addClass('hidden');
 
 	$('#turmaEstagiarios').hide();
 	//$('.selectpicker').selectpicker('refresh')

@@ -1,7 +1,6 @@
 package ufc.quixada.npi.gp.controller;
 
 import static ufc.quixada.npi.gp.utils.Constants.PAGINA_FORM_ESTAGIARIO;
-import static ufc.quixada.npi.gp.utils.Constants.REDIRECT_PAGINA_INICIAL_ESTAGIARIO;
 
 import java.util.ArrayList;
 
@@ -79,39 +78,6 @@ public class HomeController {
 		return "redirect:/estagiario/inicio";
 	}
 
-	@RequestMapping(value = "/solicitar-acesso", method = RequestMethod.GET)
-	public String paginaConfimarcaoSupervisor(ModelMap modelMap, HttpSession session) {
-		modelMap.addAttribute("action", "cadastrar");
-		
-		
-		
-		modelMap.addAttribute("estagiario", new Estagiario());
-
-		return PAGINA_FORM_ESTAGIARIO;
-	}
-
-	@RequestMapping(value = "/solicitar-acesso", method = RequestMethod.POST)
-	public String confirmarServidor( @Valid @ModelAttribute("estagiario") Estagiario estagiario, BindingResult result, HttpSession session, RedirectAttributes redirect, Model model) {
-
-		if (result.hasErrors()) {
-			return PAGINA_FORM_ESTAGIARIO;
-		}
-
-		String cpf = SecurityContextHolder.getContext().getAuthentication().getName();
-		Pessoa pessoa = new Pessoa(cpf);
-		pessoaService.save(pessoa);
-
-		estagiario.setPessoa(pessoa);
-		estagiarioService.save(estagiario);
-		
-		getUsuarioLogado(session);
-
-		redirect.addFlashAttribute("success", "Seu cadastro foi realizado com sucesso! Agora, voçê faz parte do NPI!");
-		redirect.addFlashAttribute("warning", "Aguarde, você sera vinculada a uma turma, desde já sinta-se parte deste grupo, NPI.");
-
-		return REDIRECT_PAGINA_INICIAL_ESTAGIARIO;
-	}
-	
 	private Pessoa getUsuarioLogado(HttpSession session) {
 		if (session.getAttribute(Constants.USUARIO_LOGADO) == null) {
 			Pessoa pessoa = pessoaService.getPessoaByCpf(SecurityContextHolder.getContext().getAuthentication().getName());

@@ -269,6 +269,8 @@ function ativarEditable(){
 	          	{ value: 'FALTA', text: 'FALTA' },
 	          	{ value: 'ATRASADO', text: 'ATRASADO'}, 
 	          	{ value: 'ABONADO', text: 'ABONADO' },
+	          	{ value: 'PRESENTE', text: 'PRESENTE' },
+	          	{ value: 'FERIADO', text: 'FERIADO' },
         ]
     });
 };

@@ -112,32 +112,6 @@
 			$("#table-frequencias").html($(result).find("#table-frequencias"));
 			ativarEditable();
 		}
-		
-		function ativarEditable(){
-		    $('.observacaoFrequencia').editable({
-		    	url : '/gestao-pessoas/supervisor/frequencia-realizar-observacao',
-		    	title : 'Observaçao',
-		    	type : 'textarea',
-		        emptytext : "faça sua observação",
-		        placement: 'right',
-		    });
-
-		    $('.statusFrequencia').editable({
-		    	url : '/gestao-pessoas/supervisor/frequencia-atualizar-status',
-		        type: 'select',
-		        title: 'Editar Status',
-		        value: 'ATRASADO',
-		        placement: 'right',
-		        source: [
-	                 {value: 'ABONADO'},
-	                 {value: 'ATRASADO'},
-	               	 {value: 'FALTA'} 
-		        ],
-		        success: true,
-		        error: false,
-		    });
-			
-		}
 	</script>
 
 </body>

@@ -5,6 +5,8 @@ $(document).ready(function() {
 			$(this).text("");
 	});	
 	
+	ativarEditable();
+	
 	$('[data-toggle="tooltip"]').tooltip();
 	$('[data-toggle="popover"]').popover()
 	$(".ano").mask("9999");	
@@ -246,32 +248,27 @@ $(document).ready(function() {
 		autoclose: true,
 		format: "dd/mm/yyyy",
 		orientation: "top auto",
-//		daysOfWeekDisabled: "0,6"
 	});
-	
-//	$('.statusFrequencia a').editable({
-//	    type: 'select',
-//	    url: '#',
-//        value: 'ATRASADO',
-//        source: [
-//                 {value: 'PRESENTE', text: 'Presente' },
-//                 {value: 'ATRASADO', text: 'Atrasado'},
-//               	 {value: 'FALTA', text: 'Falta'} 
-//        ],
-//   		success: function(response, newValue) {
-//   		}	
-//	});
-//
-//	$('.observacaoFrequencia a').editable({
-//	    type: 'textarea',
-//	    url: '',
-//	    rows: 4,
-//	    placeholder: 'Observação',
-//	    emptytext: 'Obs.:',
-//	    emptyclass: 'label label-info',
-//   		success: function(response, newValue) {
-//   		}	
-//	});
-
 });
 
+function ativarEditable(){
+    $('.observacaoFrequencia').editable({
+    	url : '/gestao-pessoas/supervisor/frequencia-realizar-observacao',
+    	title : 'Observaçao',
+    	type : 'textarea',
+        emptytext : "faça sua observação",
+        placement: 'right',
+    });
+
+    $('.statusFrequencia').editable({
+    	url : '/gestao-pessoas/supervisor/frequencia-atualizar-status',
+        type: 'select',
+        title: 'Presença',
+        placement: 'right',
+        source: [
+	          	{ value: 'FALTA', text: 'FALTA' },
+	          	{ value: 'ATRASADO', text: 'ATRASADO'}, 
+	          	{ value: 'ABONADO', text: 'ABONADO' },
+        ]
+    });
+};

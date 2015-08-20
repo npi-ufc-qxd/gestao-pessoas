@@ -70,26 +70,9 @@
 	<jsp:include page="../modulos/footer1.jsp" />
 	
 	<script type="text/javascript">
-	    $('.observacaoFrequencia').editable({
-	    	url : '/gestao-pessoas/supervisor/frequencia-realizar-observacao',
-	    	title : 'Observaçao',
-	    	type : 'textarea',
-	        emptytext : "faça sua observação",
-	        placement: 'right',
-	    });
-
-	    $('.statusFrequencia').editable({
-	    	url : '/gestao-pessoas/supervisor/frequencia-atualizar-status',
-	        type: 'select',
-	        title: 'Presença',
-	        placement: 'right',
-	        value: 'ATRASADO',
-	        source: [
-                 {value: 'ABONADO'},
-                 {value: 'ATRASADO'},
-               	 {value: 'FALTA'}
-	        ]
-	    });
+		$(document).ready(function(){
+			$(".menu #estagiarios").addClass("active");
+		});
 	</script>
 
 </body>

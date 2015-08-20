@@ -24,6 +24,7 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 
 import org.joda.time.LocalDate;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
@@ -543,12 +544,15 @@ public class SupervisorController {
 	}
 	@RequestMapping(value = "/frequencia-realizar-observacao", method = RequestMethod.POST)
 	public String frequenciaObservar(@RequestParam("pk") Long idFrequencia, @RequestParam("value") String observacao, Model model) {
-
 		Frequencia frequencia = frequenciaService.find(Frequencia.class, idFrequencia);
-		frequencia.setObservacao(observacao);
-		frequenciaService.update(frequencia);
 		
-		return "sucesso";
+		if(frequencia != null){
+			frequencia.setObservacao(observacao);
+			frequenciaService.update(frequencia);
+			return "supervisor/frequencia-estagiario";
+		}
+		
+		return "";
 	}
 	
 	@RequestMapping(value = "/frequencia-atualizar-status", method = RequestMethod.POST)
@@ -558,9 +562,10 @@ public class SupervisorController {
 		if(frequencia != null){
 			frequencia.setStatusFrequencia(status);
 			frequenciaService.update(frequencia);
+			return "supervisor/frequencia-estagiario";
 		}
 
-		return "sucesso";
+		return "";
 	}
 
 	private Pessoa getUsuarioLogado(HttpSession session) {
@@ -617,7 +622,6 @@ public class SupervisorController {
 		int cont = 0;
 		
 		while (!inicioPeriodoTemporario.isAfter(fimPeriodo)) {
-			System.out.println(!inicioPeriodoTemporario.isAfter(fimPeriodo));
 			cont++;
 
 			if (UtilGestao.isDiaDeTrabahoDaTurma(estagiario.getTurma().getHorarios(), inicioPeriodoTemporario)) {

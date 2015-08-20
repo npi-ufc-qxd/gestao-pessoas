@@ -1,6 +1,6 @@
 package ufc.quixada.npi.gp.controller;
 
-import static ufc.quixada.npi.gp.utils.Constants.PAGINA_FORM_ESTAGIARIO;
+import ufc.quixada.npi.gp.utils.Constants;
 
 import java.util.ArrayList;
 
@@ -46,14 +46,14 @@ public class HomeController {
 		modelMap.addAttribute("action", "cadastrar");
 		modelMap.addAttribute("estagiario", new Estagiario());
 
-		return PAGINA_FORM_ESTAGIARIO;
+		return Constants.PAGINA_FORM_ESTAGIARIO;
 	}
 
 	@RequestMapping(value = "/meu-cadastro", method = RequestMethod.POST)
 	public String adicionarEstagiario( @Valid @ModelAttribute("estagiario") Estagiario estagiario, BindingResult result, HttpSession session, RedirectAttributes redirect, Model model) {
 
 		if (result.hasErrors()) {
-			return PAGINA_FORM_ESTAGIARIO;
+			return Constants.PAGINA_FORM_ESTAGIARIO;
 		}
 
 		String cpf = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -75,7 +75,7 @@ public class HomeController {
 		redirect.addFlashAttribute("success", "Seu cadastro foi realizado com sucesso! Agora, voçê faz parte do NPI!");
 		redirect.addFlashAttribute("warning", "Aguarde, você sera vinculada a uma turma, desde já sinta-se parte deste grupo, NPI.");
 
-		return "redirect:/estagiario/inicio";
+		return Constants.REDIRECT_PAGINA_INICIAL_ESTAGIARIO;
 	}
 
 	private Pessoa getUsuarioLogado(HttpSession session) {

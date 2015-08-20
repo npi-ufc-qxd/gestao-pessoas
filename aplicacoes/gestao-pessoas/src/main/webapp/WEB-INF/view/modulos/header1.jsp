@@ -13,10 +13,10 @@
 				<span class="icon-bar"></span>
 			</button>
 			<sec:authorize access="hasRole('ROLE_ESTAGIARIO_NPI')">
-				<a class="navbar-brand" href="<c:url value="/estagiario/inicio" />"><span class="fa fa-group"></span> Gestão NPI</a>
+				<a class="navbar-brand" href="<c:url value="/estagiario/" />"><span class="fa fa-group"></span> Gestão de Pessoas</a>
 			</sec:authorize>
 			<sec:authorize access="hasAnyRole('ROLE_SUPERVISOR', 'DOCENTE')">
-				<a class="navbar-brand" href="<c:url value="/supervisor/inicio" />"><span class="fa fa-group"></span> Gestão NPI</a>
+				<a class="navbar-brand" href="<c:url value="/supervisor/" />"><span class="fa fa-group"></span> Gestão de Pessoas</a>
 			</sec:authorize>
 		</div>
 		
@@ -24,7 +24,7 @@
 
 			<sec:authorize access="hasAnyRole('ROLE_SUPERVISOR', 'DOCENTE')">
 				<ul class="nav navbar-nav menu">
-					<li id="periodos"><a href="<c:url value="/supervisor/periodos" />"><span class="fa fa-calendar"></span> Periodos</a></li>
+					<li id="periodos"><a href="<c:url value="/supervisor/periodos" />"><span class="fa fa-calendar"></span> Períodos</a></li>
 
 					<li id="turmas"><a href="<c:url value="/supervisor/minhas-turmas" />"><span class="fa fa-th-list"></span> Minhas Turmas</a></li>
 

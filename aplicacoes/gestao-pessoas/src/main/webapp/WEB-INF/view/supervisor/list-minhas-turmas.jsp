@@ -12,15 +12,30 @@
 <body>
 	<jsp:include page="../modulos/header1.jsp" />
 
-	<div class="container">
-		<div class="tab-pane active" id="meus-projetos">
-			<c:if test="${empty turmas}">
+<!-- 	<div class="container"> -->
+<!-- 		<div class="tab-pane active" id="meus-projetos"> -->
+		
+	
+<div class="container">
+	<div class="row">
+
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h2 class="titulo-panels"><a class="header-anchor" href="#"><span class="glyphicon glyphicon-user"></span></a> Turmas</h2>
+
+			<div class="pull-right">
+				<a href="<c:url value="/supervisor/adicionar-turma" ></c:url>"><button class="btn btn-success"><span class="fa fa-plus-square"></span> Turma</button></a>
+			</div><br>
+
+		</div>
+
+		<div class="panel-body">
+		
+		<c:if test="${empty turmas}">
 				<div class="alert alert-warning" role="alert">Não há Turmas cadastrados.</div>
 			</c:if>
 			
 			<c:if test="${not empty turmas}">
-				<h1 align="left" style="border-bottom: 1px solid #333;">Minhas Turmas</h1>
-
 				<table id="minhas-turmas" class="table table-striped form-inline">
 					<thead>
 						<tr class="">
@@ -63,8 +78,14 @@
 				
 				
 			</c:if>
+		
 		</div>
 	</div>
+	
+	</div>
+		
+</div>
+
 
 	<jsp:include page="../modulos/footer1.jsp" />
 	<script type="text/javascript">

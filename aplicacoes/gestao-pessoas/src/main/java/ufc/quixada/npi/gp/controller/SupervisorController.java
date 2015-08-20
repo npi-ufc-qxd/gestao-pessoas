@@ -102,7 +102,7 @@ public class SupervisorController {
 	
 	private JRDataSource jrDatasource;
 
-	@RequestMapping(value = "/inicio", method = RequestMethod.GET)	
+	@RequestMapping(value = {"","/"}, method = RequestMethod.GET)	
 	public String paginaInicial(Model Model, HttpSession session)  {
 		
 		String cpf = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -121,7 +121,7 @@ public class SupervisorController {
 			servidorService.save(servidor);
 		}
 
-		return "supervisor/inicial";
+		return "redirect:/supervisor/minhas-turmas";
 	}
 	
 	@RequestMapping(value = "/tce-turma/{idTurma}", method = RequestMethod.GET)
@@ -347,7 +347,7 @@ public class SupervisorController {
 		model.addAttribute("turma", turmaDoBanco);
 		model.addAttribute("estagiarios", estagiarioService.find(Estagiario.class));
 
-		return "redirect:/supervisor/vincular-estagiarios-turma/" + turmaDoBanco.getId();
+		return "redirect:/supervisor/informacoes-turma/" + turmaDoBanco.getId();
 	}
 
 	@RequestMapping(value = "/projetos", method = RequestMethod.GET)

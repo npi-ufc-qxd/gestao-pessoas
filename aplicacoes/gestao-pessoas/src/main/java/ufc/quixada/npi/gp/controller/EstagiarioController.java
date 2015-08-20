@@ -68,7 +68,7 @@ public class EstagiarioController {
 	@Inject
 	private UsuarioService usuarioService; 
 
-	@RequestMapping(value = "/inicio", method = RequestMethod.GET)
+	@RequestMapping(value = {"/",""}, method = RequestMethod.GET)
 	public String paginaInicial(Model model, HttpSession session) {
 		Pessoa pessoa = getUsuarioLogado(session);
 		

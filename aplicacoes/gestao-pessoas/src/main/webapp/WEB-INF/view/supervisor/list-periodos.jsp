@@ -50,8 +50,8 @@
 								<td align="right">
 									<a href="<c:url value="/supervisor/periodo/${periodo.id}/adicionar-turma" />" class="btn btn-success btn-sm"><span class="fa fa-plus-square"></span> Turma</a>
 									<a href="<c:url value="/supervisor/periodo/${periodo.id}/adicionar-folga" />" class="btn btn-warning btn-sm"><span class="fa fa-plus-square"></span> Folgas</a>
-									<a href="<c:url value="/supervisor/informacoes-periodo/${periodo.id}" />" class="btn btn-info btn-sm"><span class="glyphicon glyphicon-eye-open"></span>&nbsp;</a>
-									<a href="<c:url value="/supervisor/editar-periodo/${periodo.id}" />" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-pencil"></span>&nbsp;</a>
+									<a href="<c:url value="/supervisor/informacoes-periodo/${periodo.id}" />" class="btn btn-info btn-sm"><span class="glyphicon glyphicon-eye-open"></span> Informações</a>
+									<a href="<c:url value="/supervisor/editar-periodo/${periodo.id}" />" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-pencil"></span> Editar</a>
 								</td>
 							</tr>
 						</c:forEach>

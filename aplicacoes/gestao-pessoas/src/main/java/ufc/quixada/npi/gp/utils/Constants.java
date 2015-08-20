@@ -80,7 +80,7 @@ public class Constants {
 
 	public static final String REDIRECT_PAGINA_INICIAL_COORDENADOR = "redirect:/coordenador/inicial";
 
-	public static final String REDIRECT_PAGINA_INICIAL_ESTAGIARIO = "redirect:/estagiari/inicio";
+	public static final String REDIRECT_PAGINA_INICIAL_ESTAGIARIO = "redirect:/estagiario/inicio";
 	
 	public static final String REDIRECT_MINHA_PRESENCA = "redirect:/frequencia/minha-presenca";
 	

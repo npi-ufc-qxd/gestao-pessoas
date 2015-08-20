@@ -47,7 +47,7 @@
 									<a href="<c:url value="/supervisor/vincular-membros-projeto/${projeto.id}" />" class="btn btn-success"><span class="glyphicon glyphicon-link"></span></a>
 									<a href="<c:url value="/supervisor/informacoes-projeto/${projeto.id}" />" class="btn btn-info"><span class="glyphicon glyphicon-eye-open"></span></a>
 									<a href="<c:url value="/supervisor/editar-projeto/${projeto.id}" />" class="btn btn-primary"><span class="glyphicon glyphicon-pencil"></span></a>
-									<a href="<c:url value="#/supervisor/excluir-projeto/${projeto.id}" />" class="btn btn-danger"> <span class="glyphicon glyphicon-trash"></span></a>
+<%-- 									<a href="<c:url value="#/supervisor/excluir-projeto/${projeto.id}" />" class="btn btn-danger"> <span class="glyphicon glyphicon-trash"></span></a> --%>
 								</td>
 							</tr>
 

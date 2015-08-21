@@ -26,7 +26,7 @@
 				<ul class="nav navbar-nav menu">
 					<li id="periodos"><a href="<c:url value="/supervisor/periodos" />"><span class="fa fa-calendar"></span> Períodos</a></li>
 
-					<li id="turmas"><a href="<c:url value="/supervisor/minhas-turmas" />"><span class="fa fa-th-list"></span> Minhas Turmas</a></li>
+					<li id="turmas"><a href="<c:url value="/supervisor/turmas" />"><span class="fa fa-th-list"></span> Minhas Turmas</a></li>
 
 					<li id="projetos"><a href="<c:url value="/supervisor/projetos" />"><span class="fa fa-briefcase"></span> Projetos</a></li>
 

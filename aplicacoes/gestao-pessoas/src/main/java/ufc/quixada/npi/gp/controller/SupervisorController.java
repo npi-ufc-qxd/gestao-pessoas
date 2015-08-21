@@ -121,10 +121,10 @@ public class SupervisorController {
 			servidorService.save(servidor);
 		}
 
-		return "redirect:/supervisor/minhas-turmas";
+		return "redirect:/supervisor/turmas";
 	}
 	
-	@RequestMapping(value = "/tce-turma/{idTurma}", method = RequestMethod.GET)
+	@RequestMapping(value = "/turma/{idTurma}/tce", method = RequestMethod.GET)
 	public String gerarTermoDeCompromisso(@PathVariable("idTurma") Long idTurma, Model model) throws JRException {
 		jrDatasource = new JRBeanCollectionDataSource(estagiarioService.getEstagiarioTurma(idTurma));
 		
@@ -133,7 +133,7 @@ public class SupervisorController {
 		return PAGINA_TCE;
 	}
 
-	@RequestMapping(value = "/declaracoes-turma/{idTurma}", method = RequestMethod.GET)
+	@RequestMapping(value = "/turma/{idTurma}/declaracoes", method = RequestMethod.GET)
 	public String gerarDeclaracaoEstagio( Model model, @PathVariable("idTurma") Long idTurma) throws JRException {
 		jrDatasource = new JRBeanCollectionDataSource(estagiarioService.getEstagiarioTurma(idTurma));
 		
@@ -148,7 +148,7 @@ public class SupervisorController {
 		return "supervisor/list-periodos";
 	}
 
-	@RequestMapping(value = "/adicionar-periodo", method = RequestMethod.GET)
+	@RequestMapping(value = "/periodo", method = RequestMethod.GET)
 	public String novoPeriodo(Model model) {
 		model.addAttribute("periodo", new Periodo());
 		model.addAttribute("action", "cadastrar");
@@ -156,7 +156,7 @@ public class SupervisorController {
 		return "supervisor/form-periodo";
 	}
 
-	@RequestMapping(value = "/adicionar-periodo", method = RequestMethod.POST)
+	@RequestMapping(value = "/periodo", method = RequestMethod.POST)
 	public String adicionarPeriodo(Model model, @Valid @ModelAttribute("periodo") Periodo periodo, BindingResult result, RedirectAttributes redirectAttributes) {
 		model.addAttribute("action", "cadastrar");
 
@@ -176,7 +176,7 @@ public class SupervisorController {
 
 	}
 
-	@RequestMapping(value = "/editar-periodo/{idPeriodo}", method = RequestMethod.GET)
+	@RequestMapping(value = "/periodo/{idPeriodo}/editar", method = RequestMethod.GET)
 	public String paginaEditarPeriodo(@PathVariable("idPeriodo") Long idPeriodo, Model model) {
 		model.addAttribute("periodo", periodoService.find(Periodo.class, idPeriodo));
 		model.addAttribute("action", "editar");
@@ -184,7 +184,7 @@ public class SupervisorController {
 		return "supervisor/form-periodo";
 	}
 
-	@RequestMapping(value = "/editar-periodo/{idPeriodo}", method = RequestMethod.POST)
+	@RequestMapping(value = "/periodo/{idPeriodo}/editar", method = RequestMethod.POST)
 	public String editarPeriodo(Model model, @Valid @ModelAttribute("periodo") Periodo periodo, BindingResult result, RedirectAttributes redirectAttributes) {
 		model.addAttribute("action", "editar");
 
@@ -207,14 +207,14 @@ public class SupervisorController {
 		return "redirect:/supervisor/periodos";
 	}
 	
-	@RequestMapping(value = "/informacoes-periodo/{idPeriodo}", method = RequestMethod.GET)
+	@RequestMapping(value = "/periodo/{idPeriodo}", method = RequestMethod.GET)
 	public String detalhesPeriodo(@PathVariable("idPeriodo") Long idPeriodo, Model model) {
 		model.addAttribute("periodo", periodoService.find(Periodo.class, idPeriodo));
 
 		return "supervisor/info-periodo";
 	}
 
-	@RequestMapping(value = "periodo/{idPeriodo}/adicionar-turma", method = RequestMethod.GET)
+	@RequestMapping(value = "periodo/{idPeriodo}/turma", method = RequestMethod.GET)
 	public String novaTurmaPeriodo(Model model, @PathVariable("idPeriodo") Long idPeriodo) {
 		model.addAttribute("action", "cadastrar");
 
@@ -228,7 +228,7 @@ public class SupervisorController {
 		return "supervisor/form-turma";
 	}
 
-	@RequestMapping(value = "periodo/{idPeriodo}/adicionar-turma", method = RequestMethod.POST)
+	@RequestMapping(value = "periodo/{idPeriodo}/turma", method = RequestMethod.POST)
 	public String adicionarTurmaPeriodo(Model model, @Valid @ModelAttribute("turma") Turma turma,  @PathVariable("idPeriodo") Long idPeriodo, BindingResult result, HttpSession session) {
 		model.addAttribute("action", "cadastrar");
 
@@ -257,7 +257,7 @@ public class SupervisorController {
 		return "redirect:/supervisor/periodos";
 	}
 	
-	@RequestMapping(value = "/periodo/{idPeriodo}/adicionar-folga", method = RequestMethod.GET)
+	@RequestMapping(value = "/periodo/{idPeriodo}/folga", method = RequestMethod.GET)
 	public String novaFolgaPeriodo(@PathVariable("idPeriodo") Long idPeriodo, Model model) {
 		model.addAttribute("action", "cadastrar");
 		model.addAttribute("periodo", periodoService.find(Periodo.class, idPeriodo));
@@ -266,7 +266,7 @@ public class SupervisorController {
 		return "supervisor/form-folga";
 	}
 
-	@RequestMapping(value = "/periodo/{idPeriodo}/adicionar-folga", method = RequestMethod.POST)
+	@RequestMapping(value = "/periodo/{idPeriodo}/folga", method = RequestMethod.POST)
 	public String adicionarFolgaPeriodo(@PathVariable("idPeriodo") Long idPeriodo, @Valid @ModelAttribute("folga") Folga folga, BindingResult result, Model model) {
 		model.addAttribute("action", "cadastrar");
 		
@@ -284,7 +284,7 @@ public class SupervisorController {
 		return "redirect:/supervisor/periodos";
 	}
 	
-	@RequestMapping(value = "/periodo/{idPeriodo}/editar-folga/{idFolga}", method = RequestMethod.GET)
+	@RequestMapping(value = "/periodo/{idPeriodo}/folga/{idFolga}/editar", method = RequestMethod.GET)
 	public String paginaEditarFolga(@PathVariable("idFolga") Long idFolga, Model model) {
 		model.addAttribute("action", "editar");
 		Folga folga = folgaService.find(Folga.class, idFolga);
@@ -294,7 +294,7 @@ public class SupervisorController {
 		return "supervisor/form-folga";
 	}
 
-	@RequestMapping(value = "/periodo/{idPeriodo}/editar-folga/{idFolga}", method = RequestMethod.POST)
+	@RequestMapping(value = "/periodo/{idPeriodo}/folga/{idFolga}/editar", method = RequestMethod.POST)
 	public String editarFolga(@PathVariable("idPeriodo") Long idPeriodo, @Valid @ModelAttribute("folga") Folga folga, BindingResult result, Model model) {
 		model.addAttribute("action", "editar");
 		
@@ -312,30 +312,30 @@ public class SupervisorController {
 		return "redirect:/supervisor/periodos";
 	}
 	
-	@RequestMapping(value = "/minhas-turmas", method = RequestMethod.GET)
+	@RequestMapping(value = "/turmas", method = RequestMethod.GET)
 	public String listarTurmas(Model model, HttpSession session) {
 		Pessoa pessoa = getUsuarioLogado(session);
 		model.addAttribute("turmas", turmaService.getMinhasTurma(pessoa.getId()));
 
-		return "supervisor/list-minhas-turmas";
+		return "supervisor/list-turmas";
 	}
 
-	@RequestMapping(value = "informacoes-turma/{idTurma}", method = RequestMethod.GET)
+	@RequestMapping(value = "/turma/{idTurma}", method = RequestMethod.GET)
 	public String detalhesTurma(@PathVariable("idTurma") Long idTurma, Model model) {
 		model.addAttribute("turma", turmaService.find(Turma.class, idTurma));
 		return "supervisor/info-turma";
 	}
 	
-	@RequestMapping(value = "/vincular-estagiarios-turma/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/turma/{id}/vincular", method = RequestMethod.GET)
 	public String paginaVincularEstagiarioTurma(Model model, HttpSession session, @PathVariable("id") Long idTurma)  {
 
 		model.addAttribute("turma", turmaService.find(Turma.class, idTurma));
 		model.addAttribute("estagiarios", estagiarioService.find(Estagiario.class));
 
-		return "supervisor/vincular-estagiarios-turma";
+		return "supervisor/form-vincular-estagiarios-turma";
 	}
 
-	@RequestMapping(value = "/vincular-estagiarios-turma/{id}", method = RequestMethod.POST)
+	@RequestMapping(value = "/turma/{id}/vincular", method = RequestMethod.POST)
 	public String atualizarVinculoEstagiarioTurma(Model model, HttpSession session, @ModelAttribute("turma") Turma turma)  {
 		
 		Turma turmaDoBanco = turmaService.find(Turma.class, turma.getId());
@@ -347,7 +347,7 @@ public class SupervisorController {
 		model.addAttribute("turma", turmaDoBanco);
 		model.addAttribute("estagiarios", estagiarioService.find(Estagiario.class));
 
-		return "redirect:/supervisor/informacoes-turma/" + turmaDoBanco.getId();
+		return "redirect:/supervisor/turma/" + turmaDoBanco.getId();
 	}
 
 	@RequestMapping(value = "/projetos", method = RequestMethod.GET)
@@ -357,7 +357,7 @@ public class SupervisorController {
 		return "supervisor/list-projetos";
 	}
 
-	@RequestMapping(value = "/adicionar-projeto", method = RequestMethod.GET)
+	@RequestMapping(value = "/projeto", method = RequestMethod.GET)
 	public String novoProjeto( Model model) {
 		model.addAttribute("action", "cadastrar");
 		model.addAttribute("projeto", new Projeto());
@@ -365,7 +365,7 @@ public class SupervisorController {
 		return "supervisor/form-projeto";
 	}
 	
-	@RequestMapping(value = "/adicionar-projeto", method = RequestMethod.POST)
+	@RequestMapping(value = "/projeto", method = RequestMethod.POST)
 	public String adicionarProjeto(Model model, @Valid @ModelAttribute("projeto") Projeto projeto, BindingResult result) {
 		model.addAttribute("action", "cadastrar");
 		
@@ -378,7 +378,7 @@ public class SupervisorController {
 		return "redirect:/supervisor/projetos";
 	}
 
-	@RequestMapping(value = "/editar-projeto/{idProjeto}", method = RequestMethod.GET)
+	@RequestMapping(value = "/projeto/{idProjeto}/editar", method = RequestMethod.GET)
 	public String editarProjeto(@PathVariable("idProjeto") Long idProjeto, Model model) {
 		model.addAttribute("action", "editar");
 		model.addAttribute("projeto", projetoService.find(Projeto.class, idProjeto));
@@ -386,7 +386,7 @@ public class SupervisorController {
 		return "supervisor/form-projeto";
 	}
 
-	@RequestMapping(value = "/editar-projeto/{idProjeto}", method = RequestMethod.POST)
+	@RequestMapping(value = "/projeto/{idProjeto}/editar", method = RequestMethod.POST)
 	public String editarProjeto(Model model, @Valid @ModelAttribute("projeto") Projeto projeto, BindingResult result) {
 		model.addAttribute("action", "editar");
 

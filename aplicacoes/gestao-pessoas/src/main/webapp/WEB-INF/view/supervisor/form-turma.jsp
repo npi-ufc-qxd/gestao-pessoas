@@ -5,11 +5,11 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <c:if test="${action eq 'cadastrar' }">
-	<c:set var="url" value="/supervisor/periodo/${periodo.id}/adicionar-turma"></c:set>
+	<c:set var="url" value="/supervisor/periodo/${periodo.id}/turma"></c:set>
 	<c:set var="titulo" value="Nova Turma"></c:set>
 </c:if>
 <c:if test="${action eq 'editar' }">
-	<c:set var="url" value="/supervisor/periodo/${periodo.id}/editar-turma/${turma.id}"></c:set>
+	<c:set var="url" value="/supervisor/periodo/${periodo.id}/turma/${turma.id}/editar"></c:set>
 	<c:set var="titulo" value="Editar Turma"></c:set>
 </c:if>
 

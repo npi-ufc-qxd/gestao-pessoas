@@ -20,7 +20,7 @@
 			<h2 class="titulo-panels"><a class="header-anchor" href="#"><span class="glyphicon glyphicon-user"></span></a> Periodos</h2>
 
 			<div class="pull-right">
-				<a href="<c:url value="/supervisor/adicionar-periodo" ></c:url>"><button class="btn btn-success"><span class="fa fa-plus-square"></span> Periodo</button></a>
+				<a href="<c:url value="/supervisor/periodo" ></c:url>"><button class="btn btn-success"><span class="fa fa-plus-square"></span> Periodo</button></a>
 			</div><br>
 
 		</div>
@@ -48,10 +48,10 @@
 								<td><fmt:formatDate value="${periodo.termino}" pattern="dd/MM/yyyy" /></td>
 							
 								<td align="right">
-									<a href="<c:url value="/supervisor/periodo/${periodo.id}/adicionar-turma" />" class="btn btn-success btn-sm"><span class="fa fa-plus-square"></span> Turma</a>
-									<a href="<c:url value="/supervisor/periodo/${periodo.id}/adicionar-folga" />" class="btn btn-warning btn-sm"><span class="fa fa-plus-square"></span> Folgas</a>
-									<a href="<c:url value="/supervisor/informacoes-periodo/${periodo.id}" />" class="btn btn-info btn-sm"><span class="glyphicon glyphicon-eye-open"></span> Informações</a>
-									<a href="<c:url value="/supervisor/editar-periodo/${periodo.id}" />" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-pencil"></span> Editar</a>
+									<a href="<c:url value="/supervisor/periodo/${periodo.id}/turma" />" class="btn btn-success btn-sm"><span class="fa fa-plus-square"></span> Turma</a>
+									<a href="<c:url value="/supervisor/periodo/${periodo.id}/folga" />" class="btn btn-warning btn-sm"><span class="fa fa-plus-square"></span> Folgas</a>
+									<a href="<c:url value="/supervisor/periodo/${periodo.id}" />" class="btn btn-info btn-sm"><span class="glyphicon glyphicon-eye-open"></span> Informações</a>
+									<a href="<c:url value="/supervisor/periodo/${periodo.id}/editar" />" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-pencil"></span> Editar</a>
 								</td>
 							</tr>
 						</c:forEach>

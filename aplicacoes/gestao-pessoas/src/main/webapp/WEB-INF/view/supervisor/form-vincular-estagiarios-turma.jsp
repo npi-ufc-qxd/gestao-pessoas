@@ -9,7 +9,7 @@
 <head>
 <jsp:include page="../modulos/header-estrutura1.jsp" />
 
-<title>Vincular Estagiarios a turma</title>
+<title>Vincular estagiários a turma</title>
 </head>
 <body>
 	<jsp:include page="../modulos/header1.jsp" />
@@ -22,13 +22,13 @@
 			<h2 id="titulo-cadastro-npi"><a class="header-anchor" href="#"><span class="glyphicon glyphicon-link"></span></a> Atualizar Vínculos: ${turma.nome}</h2>
 		</div>
 		
-		<form:form id="vincularEstagiarioTurma" role="form" modelAttribute="turma" servletRelativeAction="/supervisor/vincular-estagiarios-turma/${turma.id}" method="POST">
+		<form:form id="vincularEstagiarioTurma" role="form" modelAttribute="turma" servletRelativeAction="/supervisor/turma/${turma.id}/vincular" method="POST">
 			<div class="panel-body">
 				<form:hidden path="id"/>
 				<table class="table table-striped table-hover">
 					<thead>
 						<tr>
-							<th>Selecione os Estagariarios</th>
+							<th>Selecione os estagiários</th>
 						</tr>
 					</thead>
 					<tbody>

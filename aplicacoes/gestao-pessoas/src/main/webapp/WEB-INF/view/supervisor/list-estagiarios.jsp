@@ -81,8 +81,8 @@
 				</div>
 				<div class="panel-footer" align="center">
 					<div class="controls">
-						<a class="btn btn-default" href="<c:url value="/supervisor/tce-turma/${idTurma }" ></c:url>"><i class="fa fa-file-pdf-o"></i> Termo de Compromisso</a>
-						<a class="btn btn-primary" href="<c:url value="/supervisor/declaracoes-turma/${idTurma }" ></c:url>"><i class="fa fa-file-pdf-o"></i> Declaração de Estágio</a>
+						<a class="btn btn-default" href="<c:url value="/supervisor/turma/${idTurma }/tce" ></c:url>"><i class="fa fa-file-pdf-o"></i> Termo de Compromisso</a>
+						<a class="btn btn-primary" href="<c:url value="/supervisor/turma/${idTurma }/declaracoes" ></c:url>"><i class="fa fa-file-pdf-o"></i> Declaração de Estágio</a>
 					</div>
 				</div>
 		</c:if>

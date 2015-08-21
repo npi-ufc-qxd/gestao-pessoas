@@ -7,12 +7,12 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
 <c:if test="${action eq 'cadastrar' }">
-	<c:set var="url" value="/supervisor/adicionar-periodo"></c:set>
+	<c:set var="url" value="/supervisor/periodo"></c:set>
 	<c:set var="titulo" value="Adicionar Periodo"></c:set>
 	<c:set var="botao" value="Salvar"></c:set>
 </c:if>
 <c:if test="${action eq 'editar' }">
-	<c:set var="url" value="/supervisor/editar-periodo/${periodo.id }"></c:set>
+	<c:set var="url" value="/supervisor/periodo/${periodo.id }/editar"></c:set>
 	<c:set var="titulo" value="Editar Periodo"></c:set>
 	<c:set var="botao" value="Editar"></c:set>
 </c:if>

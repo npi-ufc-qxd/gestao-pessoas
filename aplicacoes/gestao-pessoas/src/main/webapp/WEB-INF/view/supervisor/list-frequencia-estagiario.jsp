@@ -48,8 +48,8 @@
 				            <c:when test="${frequencia.statusFrequencia != 'AGUARDO'}">
 				            	<tr class="success">
 									<td><strong><fmt:formatDate value="${frequencia.data}" pattern="dd/MM/yyyy" /></strong></td>
-									<td><a href="#" class="observacaoFrequencia" data-pk="${frequencia.id}">${frequencia.observacao}</a></td>
-									<td><a href="#" class="statusFrequencia" data-pk="${frequencia.id}">${frequencia.statusFrequencia}</a></td>
+									<td><a href="#" class="observacaoFrequencia" title="Realizar observação" data-pk="${frequencia.id}">${frequencia.observacao}</a></td>
+									<td><a href="#" class="statusFrequencia" title="Atualizar status" data-pk="${frequencia.id}">${frequencia.statusFrequencia}</a></td>
 								</tr>
 				            </c:when>
 				            <c:otherwise>

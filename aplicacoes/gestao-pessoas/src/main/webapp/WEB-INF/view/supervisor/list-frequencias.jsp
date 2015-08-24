@@ -64,8 +64,8 @@
 						<c:forEach var="frequencia" items="${frequencias}">
 							<tr>
 								<td>${frequencia[1]}</td>
-								<td><a href="#" class="observacaoFrequencia" data-pk="${frequencia[0]}">${frequencia[2]}</a></td>
-								<td><a href="#" class="statusFrequencia" data-pk="${frequencia[0]}">${frequencia[3]}</a></td>
+								<td><a href="#" class="observacaoFrequencia" title="Realizar observação" data-pk="${frequencia[0]}">${frequencia[2]}</a></td>
+								<td><a href="#" class="statusFrequencia" title="Atualizar status" data-pk="${frequencia[0]}">${frequencia[3]}</a></td>
 							</tr>
 						</c:forEach>
 			       </tbody>

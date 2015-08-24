@@ -57,7 +57,7 @@
 									
 									<td><span class="badge ${fn:length(turma.estagiarios) gt 0 ? 'badge-success' : 'badge-danger' }">${fn:length(turma.estagiarios)}</span></td>
 									<td align="right">
-										<a href="<c:url value="/supervisor/turma/${turma.id}" />" class="btn btn-info"><span class="glyphicon glyphicon-eye-open"></span> Informações</a>
+										<a href="<c:url value="/supervisor/turma/${turma.id}" />" title="Informações" class="btn btn-info"><span class="glyphicon glyphicon-eye-open"></span>&nbsp;</a>
 									</td>
 							</tr>
 						</c:forEach>

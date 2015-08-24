@@ -71,35 +71,6 @@ $(document).ready(function() {
             },
         }
     });
-	
-	$('#adicionarTurmaForm').validate({
-		ignore: ':hidden:not(.selectpicker)',
-        rules: {
-            
-        },
-        highlight: function(element) {
-            $(element).closest('.form-item').addClass('has-error');
-        },
-        unhighlight: function(element) {
-            $(element).closest('.form-item').removeClass('has-error');
-        },
-        errorElement: 'span',
-        errorClass: 'help-block',
-        errorPlacement: function(error, element) {
-            error.insertAfter(element.parent().children().last());
-        },
-        messages:{
-        	horaFinal:{
-                required:"Campo obrigatório",
-            },
-            horaInicio:{
-                required:"Campo obrigatório",
-            },
-            inicioSemana:{
-                required:"Campo obrigatório",
-            },
-        }
-    });
 
 	$('#adicionarFolgaForm').validate({
         rules: {

@@ -231,13 +231,6 @@ public class SupervisorController {
 		model.addAttribute("action", "cadastrar");
 
 		Periodo periodo = periodoService.find(Periodo.class, idPeriodo);
-		
-		if (turma.getHorarios() == null) {
-			model.addAttribute("periodo", periodo);
-			model.addAttribute("dias", Dia.values());
-			model.addAttribute("horarioError", "Informe pelo menos um horario.");
-			return "supervisor/form-turma";
-		}
 
 		if (result.hasErrors()) {
 			model.addAttribute("periodo", periodo);

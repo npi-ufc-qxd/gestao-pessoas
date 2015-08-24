@@ -37,7 +37,7 @@
 					<div class="form-item col-sm-12">
 						<fmt:formatDate var="inicio" value="${periodo.inicio}" pattern="dd/MM/yyyy" />
 						<fmt:formatDate var="termino" value="${periodo.termino}" pattern="dd/MM/yyyy" />
-						<label class="control-label text-view-info"><strong>Periodo</strong>: ${periodo.ano}.${periodo.semestre}, de ${inicio} a ${termino}</label>
+						<label class="control-label text-view-info"><strong>Período</strong>: ${periodo.ano}.${periodo.semestre}, de ${inicio} a ${termino}</label>
 					</div>
 				</div>
 
@@ -76,7 +76,7 @@
 					</div>
 
 					<div id="inicioDoExpediente" class="form-item col-sm-3">
-						<label class="control-label">*Inicio do Expediente:</label>
+						<label class="control-label">*Início do Expediente:</label>
 						<div class="bfh-timepicker" data-name="inicioDoExpediente" data-placeholder="Inicio do Expediente" data-time=""></div>
 					</div>
 					<div id="finalDoExpediente" class="form-item col-sm-3">

@@ -8,12 +8,12 @@
 
 <c:if test="${action eq 'cadastrar' }">
 	<c:set var="url" value="/supervisor/periodo"></c:set>
-	<c:set var="titulo" value="Adicionar Periodo"></c:set>
+	<c:set var="titulo" value="Adicionar Período"></c:set>
 	<c:set var="botao" value="Salvar"></c:set>
 </c:if>
 <c:if test="${action eq 'editar' }">
 	<c:set var="url" value="/supervisor/periodo/${periodo.id }/editar"></c:set>
-	<c:set var="titulo" value="Editar Periodo"></c:set>
+	<c:set var="titulo" value="Editar Período"></c:set>
 	<c:set var="botao" value="Editar"></c:set>
 </c:if>
 
@@ -66,7 +66,7 @@
 
 				<div class="form-group">
 					<div class="form-item col-sm-6">
-						<label for="inicio" class="control-label">Inicio: </label>
+						<label for="inicio" class="control-label">Início: </label>
 						<form:input id="inicio" path="inicio" cssClass="form-control data" placeholder="Inicio do periodo" required="required"/>
 						<div class="error-validation"><form:errors path="inicio"></form:errors></div>
 					</div>

@@ -6,7 +6,7 @@
 <html>
 	<head>
 		<jsp:include page="../modulos/header-estrutura1.jsp" />
-		<title>Periodos</title>
+		<title>Períodos</title>
 	</head>
 <body>
 	<jsp:include page="../modulos/header1.jsp" />
@@ -17,16 +17,16 @@
 
 	<div class="panel panel-primary">
 		<div class="panel-heading">
-			<h2 class="titulo-panels"><a class="header-anchor" href="#"><span class="glyphicon glyphicon-user"></span></a> Periodos</h2>
+			<h2 class="titulo-panels"><a class="header-anchor" href="#"><span class="glyphicon glyphicon-user"></span></a> Períodos</h2>
 
 			<div class="pull-right">
-				<a href="<c:url value="/supervisor/periodo" ></c:url>"><button class="btn btn-success"><span class="fa fa-plus-square"></span> Periodo</button></a>
+				<a href="<c:url value="/supervisor/periodo" ></c:url>"><button class="btn btn-success"><span class="fa fa-plus-square"></span> Período</button></a>
 			</div><br>
 
 		</div>
 
 		<div class="panel-body">
-			<c:if test="${empty periodos}"><div class="alert alert-warning" role="alert">Não há Periodos cadastrados.</div></c:if>
+			<c:if test="${empty periodos}"><div class="alert alert-warning" role="alert">Não há Períodos cadastrados.</div></c:if>
 
 			<c:if test="${not empty periodos}">
 				<table id="periodos" class="table table-striped table-hover">
@@ -34,7 +34,7 @@
 						<tr>
 							<th>Ano</th>
 							<th>Semestre</th>
-							<th>Inicio</th>
+							<th>Início</th>
 							<th>Término</th>
 							<th></th>
 						</tr>

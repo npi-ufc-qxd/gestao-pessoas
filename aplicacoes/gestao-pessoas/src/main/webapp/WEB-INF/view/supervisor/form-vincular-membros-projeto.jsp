@@ -42,7 +42,7 @@
 						<thead>
 							<tr>
 								<th>Selecione</th>
-								<th>Matricula</th>
+								<th>Matrícula</th>
 								<th></th>
 				           </tr>
 				       </thead>

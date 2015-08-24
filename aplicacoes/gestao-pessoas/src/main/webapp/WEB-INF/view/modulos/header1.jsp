@@ -61,8 +61,8 @@
 <%-- 							<li><a href="<c:url value="#/supervisor/meus-dados" />"><i class="glyphicon glyphicon-user"></i> Meus Dados</a></li> --%>
 						</sec:authorize>
 						<li><a href="<c:url value="/j_spring_security_logout" />"><i class="glyphicon glyphicon-off"></i> Sair</a></li>
-						<li class="divider"></li>
-						<li><a href="<c:url value="#/home/sobre" />"><i class="glyphicon glyphicon-info-sign"></i> Sobre</a></li>
+<!-- 						<li class="divider"></li> -->
+<%-- 						<li><a href="<c:url value="#/home/sobre" />"><i class="glyphicon glyphicon-info-sign"></i> Sobre</a></li> --%>
 					</ul>
 				</li>  
 			</ul>

@@ -27,7 +27,7 @@
 
 	<div class="panel panel-primary">
 		<div class="panel-heading">
-			<h3 class="titulo-panels"><a class="header-anchor" href="#"><span class="glyphicon glyphicon-user"></span></a> Estagiarios</h3>
+			<h3 class="titulo-panels"><a class="header-anchor" href="#"><span class="glyphicon glyphicon-user"></span></a> Estagiários</h3>
 
 			<div class="btn-group">
 				 <c:if test="${empty nomeTurma}">
@@ -50,7 +50,7 @@
 			<div class="panel-body">
 				<div class="alert alert-dismissible alert-warning">
 					<button type="button" class="close" data-dismiss="alert">×</button>
-					<p>Não há estagiarios vinculados a esta turma.</p>
+					<p>Não há estagiários vinculados a esta turma.</p>
 				</div>
 			</div>
 		</c:if>
@@ -61,7 +61,7 @@
 						<caption><h5><strong>${estagiarios[0].turma.nome} - ${estagiarios[0].turma.periodo.ano}.${estagiarios[0].turma.periodo.semestre}</strong></h5></caption>
 						<thead>
 							<tr>
-								<th>Matricula</th>
+								<th>Matrícula</th>
 								<th>Nome</th>
 								<th></th>
 				           </tr>

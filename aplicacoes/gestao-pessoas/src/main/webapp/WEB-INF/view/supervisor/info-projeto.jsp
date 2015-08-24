@@ -35,7 +35,7 @@
 					<table id="membros-projeto" class="table table-striped">
 						<thead>
 							<tr class="">
-								<th class="col-sm-1">Matricula</th>
+								<th class="col-sm-1">Matrícula</th>
 								<th class="col-sm-5">Nome</th>
 				           </tr>
 				       </thead>

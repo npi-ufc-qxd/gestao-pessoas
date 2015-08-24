@@ -8,7 +8,7 @@
 <head>
 <jsp:include page="../modulos/header-estrutura1.jsp" />
 
-<title>Informações do Periodo</title>
+<title>Informações do Período</title>
 </head>
 <body>
 	<jsp:include page="../modulos/header1.jsp" />
@@ -18,21 +18,21 @@
 			<fmt:formatDate var="inicio" value="${periodo.inicio }" pattern="dd/MM/yyyy" />
 			<fmt:formatDate var="termino" value="${periodo.termino }" pattern="dd/MM/yyyy" />
 
-			<h3 align="left" style="border-bottom: 1px solid #333;">Periodo: ${periodo.ano}.${periodo.semestre}, de ${inicio} a ${termino}</h3>
+			<h3 align="left" style="border-bottom: 1px solid #333;">Período: ${periodo.ano}.${periodo.semestre}, de ${inicio} a ${termino}</h3>
 
 			<c:if test="${not empty periodo}">
 				<div class="col-sm-6">			
-				<h4 align="left" style="border-bottom: 1px solid #333;"><span style="vertical-align:top;" class="badge ${fn:length(periodo.turmas) gt 0 ? 'badge-success' : 'badge-danger' }">${fn:length(periodo.turmas)}</span> Turmas deste periodo</h4>
+				<h4 align="left" style="border-bottom: 1px solid #333;"><span style="vertical-align:top;" class="badge ${fn:length(periodo.turmas) gt 0 ? 'badge-success' : 'badge-danger' }">${fn:length(periodo.turmas)}</span> Turmas deste período</h4>
 				
-				<c:if test="${empty periodo.turmas}"><div class="alert alert-warning" role="alert">Não há turmas vinculadas a este periodo.</div></c:if>
+				<c:if test="${empty periodo.turmas}"><div class="alert alert-warning" role="alert">Não há turmas vinculadas a este período.</div></c:if>
 				
 				<c:if test="${not empty periodo.turmas}">
 					<table id="turmas-periodo" class="table table-striped">
 						<thead>
-							<tr class="">
+							<tr>
 								<th>Turma</th>
 								<th>Supervisor</th>
-								<th>N° de Estagiarios</th>
+								<th>N° de Estagiários</th>
 				           </tr>
 				       </thead>
 
@@ -50,9 +50,9 @@
 				</div>
 				
 				<div class="col-sm-6">
-				<h4 align="left" style="border-bottom: 1px solid #333;"><span style="vertical-align:top;" class="badge ${fn:length(periodo.folgas) gt 0 ? 'badge-success' : 'badge-danger' }">${fn:length(periodo.folgas)}</span> Folgas deste periodo</h4>
+				<h4 align="left" style="border-bottom: 1px solid #333;"><span style="vertical-align:top;" class="badge ${fn:length(periodo.folgas) gt 0 ? 'badge-success' : 'badge-danger' }">${fn:length(periodo.folgas)}</span> Folgas deste período</h4>
 				
-				<c:if test="${empty periodo.folgas}"><div class="alert alert-warning" role="alert">Não há folgas registradas neste periodo.</div></c:if>
+				<c:if test="${empty periodo.folgas}"><div class="alert alert-warning" role="alert">Não há folgas registradas neste período.</div></c:if>
 				
 				<c:if test="${not empty periodo.folgas}">
 					<table id="turmas-periodo" class="table table-striped">

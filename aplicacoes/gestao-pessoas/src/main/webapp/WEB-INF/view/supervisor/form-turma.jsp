@@ -5,11 +5,11 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <c:if test="${action eq 'cadastrar' }">
-	<c:set var="url" value="/supervisor/periodo/${periodo.id}/adicionar-turma"></c:set>
+	<c:set var="url" value="/supervisor/periodo/${periodo.id}/turma"></c:set>
 	<c:set var="titulo" value="Nova Turma"></c:set>
 </c:if>
 <c:if test="${action eq 'editar' }">
-	<c:set var="url" value="/supervisor/periodo/${periodo.id}/editar-turma/${turma.id}"></c:set>
+	<c:set var="url" value="/supervisor/periodo/${periodo.id}/turma/${turma.id}/editar"></c:set>
 	<c:set var="titulo" value="Editar Turma"></c:set>
 </c:if>
 
@@ -29,7 +29,7 @@
 			<h2 id="titulo-cadastro-npi"><a class="header-anchor" href="#"><span class="glyphicon glyphicon-user"></span></a> ${titulo}</h2>
 		</div>
 
-		<form:form id="adicionarTurmaForm" role="form" commandName="turma" servletRelativeAction="/supervisor/periodo/${periodo.id}/adicionar-turma"  method="POST" cssClass="form-horizontal">
+		<form:form id="adicionarTurmaForm" role="form" commandName="turma" servletRelativeAction="${url}"  method="POST" cssClass="form-horizontal">
 			<div class="panel-body">
 				<form:hidden path="id"/>				
 				
@@ -37,7 +37,7 @@
 					<div class="form-item col-sm-12">
 						<fmt:formatDate var="inicio" value="${periodo.inicio}" pattern="dd/MM/yyyy" />
 						<fmt:formatDate var="termino" value="${periodo.termino}" pattern="dd/MM/yyyy" />
-						<label class="control-label text-view-info"><strong>Periodo</strong>: ${periodo.ano}.${periodo.semestre}, de ${inicio} a ${termino}</label>
+						<label class="control-label text-view-info"><strong>Período</strong>: ${periodo.ano}.${periodo.semestre}, de ${inicio} a ${termino}</label>
 					</div>
 				</div>
 
@@ -76,7 +76,7 @@
 					</div>
 
 					<div id="inicioDoExpediente" class="form-item col-sm-3">
-						<label class="control-label">*Inicio do Expediente:</label>
+						<label class="control-label">*Início do Expediente:</label>
 						<div class="bfh-timepicker" data-name="inicioDoExpediente" data-placeholder="Inicio do Expediente" data-time=""></div>
 					</div>
 					<div id="finalDoExpediente" class="form-item col-sm-3">

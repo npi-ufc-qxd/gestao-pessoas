@@ -7,12 +7,12 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
 <c:if test="${action eq 'cadastrar' }">
-	<c:set var="url" value="/supervisor/periodo/${periodo.id }/adicionar-folga"></c:set>
+	<c:set var="url" value="/supervisor/periodo/${periodo.id }/folga"></c:set>
 	<c:set var="titulo" value="Adicionar Folga"></c:set>
 	<c:set var="botao" value="Salvar"></c:set>
 </c:if>
 <c:if test="${action eq 'editar' }">
-	<c:set var="url" value="/supervisor/periodo/${folga.periodo.id}/editar-folga/${folga.id }"></c:set>
+	<c:set var="url" value="/supervisor/periodo/${folga.periodo.id}/folga/${folga.id }/editar"></c:set>
 	<c:set var="titulo" value="Editar Folga"></c:set>
 	<c:set var="botao" value="Editar"></c:set>
 </c:if>
@@ -41,7 +41,7 @@
 					<div class="form-item col-sm-12">
 						<fmt:formatDate var="inicio" value="${periodo.inicio}" pattern="dd/MM/yyyy" />
 						<fmt:formatDate var="termino" value="${periodo.termino}" pattern="dd/MM/yyyy" />
-						<label class="control-label text-view-info"><strong>Periodo</strong>: ${periodo.ano}.${periodo.semestre}, de ${inicio} a ${termino}</label>
+						<label class="control-label text-view-info"><strong>Período</strong>: ${periodo.ano}.${periodo.semestre}, de ${inicio} a ${termino}</label>
 					</div>
 				</div>
 

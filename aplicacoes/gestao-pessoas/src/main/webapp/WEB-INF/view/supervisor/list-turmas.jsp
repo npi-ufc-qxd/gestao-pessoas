@@ -11,16 +11,22 @@
 	</head>
 <body>
 	<jsp:include page="../modulos/header1.jsp" />
+	
+<div class="container">
+	<div class="row">
 
-	<div class="container">
-		<div class="tab-pane active" id="meus-projetos">
-			<c:if test="${empty turmas}">
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h2 class="titulo-panels"><a class="header-anchor" href="#"><span class="glyphicon glyphicon-user"></span></a> Turmas</h2>
+		</div>
+
+		<div class="panel-body">
+		
+		<c:if test="${empty turmas}">
 				<div class="alert alert-warning" role="alert">Não há Turmas cadastrados.</div>
 			</c:if>
 			
 			<c:if test="${not empty turmas}">
-				<h1 align="left" style="border-bottom: 1px solid #333;">Minhas Turmas</h1>
-
 				<table id="minhas-turmas" class="table table-striped form-inline">
 					<thead>
 						<tr class="">
@@ -29,7 +35,7 @@
 							<th class="hidden">Semestre</th>
 							<th>Turma</th>
 							<th>Status</th>
-							<th>N° de Estagiarios</th>
+							<th>N° de Estagiários</th>
 							<th></th>
 			           </tr>
 			       </thead>
@@ -51,10 +57,7 @@
 									
 									<td><span class="badge ${fn:length(turma.estagiarios) gt 0 ? 'badge-success' : 'badge-danger' }">${fn:length(turma.estagiarios)}</span></td>
 									<td align="right">
-										<a href="<c:url value="/supervisor/vincular-estagiarios-turma/${turma.id}" />" class="btn btn-success"><span class="glyphicon glyphicon-link"></span> Vincular Estagiarios</a>
-										<a href="<c:url value="/supervisor/informacoes-turma/${turma.id}" />" class="btn btn-info"><span class="glyphicon glyphicon-eye-open"></span> Informações</a>
-<%-- 										<a href="<c:url value="#/turma/${turma.id}/editar" />" class="btn btn-primary"><span class="glyphicon glyphicon-pencil"></span></a> --%>
-<%-- 										<a href="<c:url value="#/turma/${turma.id}/excluir" />" class="btn btn-danger"> <span class="glyphicon glyphicon-trash"></span></a> --%>
+										<a href="<c:url value="/supervisor/turma/${turma.id}" />" class="btn btn-info"><span class="glyphicon glyphicon-eye-open"></span> Informações</a>
 									</td>
 							</tr>
 						</c:forEach>
@@ -63,8 +66,14 @@
 				
 				
 			</c:if>
+		
 		</div>
 	</div>
+	
+	</div>
+		
+</div>
+
 
 	<jsp:include page="../modulos/footer1.jsp" />
 	<script type="text/javascript">

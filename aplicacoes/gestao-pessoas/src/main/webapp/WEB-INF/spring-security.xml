@@ -29,8 +29,8 @@
  		<intercept-url pattern="/webjars/**" access="permitAll" /> 		
  		<intercept-url pattern="/resources/**" access="permitAll" />
  		
- 		<intercept-url pattern="/estagiario/**" access="hasRole('ROLE_ESTAGIARIO_NPI')"/>
- 		<intercept-url pattern="/home/**" access="hasRole('ROLE_ESTAGIARIO_NPI')"/>
+ 		<intercept-url pattern="/home/**" access="hasRole('DISCENTE')"/>
+ 		<intercept-url pattern="/estagiario/**" access="hasAnyRole('DISCENTE', 'ROLE_ESTAGIARIO_NPI')"/>
  		<intercept-url pattern="/supervisor/**" access="hasAnyRole('ROLE_SUPERVISOR', 'DOCENTE')"/>
  		<intercept-url pattern="/documento/**" access="hasAnyRole('ROLE_SUPERVISOR', 'DOCENTE', 'ROLE_ESTAGIARIO_NPI')"/>
 

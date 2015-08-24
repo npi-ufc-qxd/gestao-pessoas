@@ -27,7 +27,7 @@
 
 	<div class="panel panel-primary">
 		<div class="panel-heading">
-			<h3 class="titulo-panels"><a class="header-anchor" href="#"><span class="glyphicon glyphicon-user"></span></a> Estagiarios</h3>
+			<h3 class="titulo-panels"><a class="header-anchor" href="#"><span class="glyphicon glyphicon-user"></span></a> Estagiários</h3>
 
 			<div class="btn-group">
 				 <c:if test="${empty nomeTurma}">
@@ -40,7 +40,7 @@
 		         <ul class="dropdown-menu">
 	                <li><a href="<c:url value="/supervisor/estagiarios" />">Selecione a Turma&nbsp;&nbsp;</a></li>
 					<c:forEach var="turma" items="${turmas}">
-						<li><a href="<c:url value="/supervisor/estagiarios-turma/${turma.id}" />">${turma.periodo.ano}.${turma.periodo.semestre} - ${turma.nome}</a></li>
+						<li><a href="<c:url value="/supervisor/turma/${turma.id}/estagiarios" />">${turma.periodo.ano}.${turma.periodo.semestre} - ${turma.nome}</a></li>
 					</c:forEach>
 				</ul>
 			</div>
@@ -50,7 +50,7 @@
 			<div class="panel-body">
 				<div class="alert alert-dismissible alert-warning">
 					<button type="button" class="close" data-dismiss="alert">×</button>
-					<p>Não há estagiarios vinculados a esta turma.</p>
+					<p>Não há estagiários vinculados a esta turma.</p>
 				</div>
 			</div>
 		</c:if>
@@ -61,7 +61,7 @@
 						<caption><h5><strong>${estagiarios[0].turma.nome} - ${estagiarios[0].turma.periodo.ano}.${estagiarios[0].turma.periodo.semestre}</strong></h5></caption>
 						<thead>
 							<tr>
-								<th>Matricula</th>
+								<th>Matrícula</th>
 								<th>Nome</th>
 								<th></th>
 				           </tr>
@@ -72,7 +72,7 @@
 									<td>${estagiario.matricula}</td>
 									<td>${estagiario.nomeCompleto}</td>
 									<td align="right">
-										<a href="<c:url value="/supervisor/frequencia-estagiario/${estagiario.id}" />" class="btn btn-success btn-sm"><span class="fa fa-list"></span> Frequências</a>
+										<a href="<c:url value="/supervisor/estagiario/${estagiario.id}/frequencia" />" class="btn btn-success btn-sm"><span class="fa fa-list"></span> Frequências</a>
 									</td>
 								</tr>
 							</c:forEach>
@@ -81,8 +81,8 @@
 				</div>
 				<div class="panel-footer" align="center">
 					<div class="controls">
-						<a class="btn btn-default" href="<c:url value="/supervisor/tce-turma/${idTurma }" ></c:url>"><i class="fa fa-file-pdf-o"></i> Termo de Compromisso</a>
-						<a class="btn btn-primary" href="<c:url value="/supervisor/declaracoes-turma/${idTurma }" ></c:url>"><i class="fa fa-file-pdf-o"></i> Declaração de Estágio</a>
+						<a class="btn btn-default" href="<c:url value="/supervisor/turma/${idTurma }/tce" ></c:url>"><i class="fa fa-file-pdf-o"></i> Termo de Compromisso</a>
+						<a class="btn btn-primary" href="<c:url value="/supervisor/turma/${idTurma }/declaracoes" ></c:url>"><i class="fa fa-file-pdf-o"></i> Declaração de Estágio</a>
 					</div>
 				</div>
 		</c:if>

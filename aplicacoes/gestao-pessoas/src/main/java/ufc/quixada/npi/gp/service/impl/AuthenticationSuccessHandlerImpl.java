@@ -47,7 +47,7 @@ public class AuthenticationSuccessHandlerImpl implements AuthenticationSuccessHa
 			String papel = grantedAuthority.getAuthority();
 			
 			if(servicePessoa.isEstagiario(cpf)){
-				return "/estagiario/inicio";
+				return "/estagiario";
 			}
 
 			if(papel.equals("DISCENTE") || papel.equals("ROLE_ESTAGIARIO_NPI") ) {
@@ -57,7 +57,7 @@ public class AuthenticationSuccessHandlerImpl implements AuthenticationSuccessHa
 			boolean supervisor = (papel.equals("DOCENTE") || papel.equals("STA") ||  papel.equals("ROLE_SUPERVISOR") ? true: false );
 
 			if(supervisor){
-				return "/supervisor/inicio";
+				return "/supervisor/";
 			}
 		}
 		return "/login";

@@ -35,7 +35,7 @@
 		         <ul class="dropdown-menu">
 	                <li><a href="<c:url value="/supervisor/frequencias" />">Selecione a Turma&nbsp;&nbsp;</a></li>
 		         	<c:forEach var="turma" items="${turmas}">
-		              <li><a href="<c:url value="/supervisor/frequencias-turma/${turma.id}" />">${turma.periodo.ano}.${turma.periodo.semestre} - ${turma.nome}</a></li>
+		              <li><a href="<c:url value="/supervisor/turma/${turma.id}/frequencias" />">${turma.periodo.ano}.${turma.periodo.semestre} - ${turma.nome}</a></li>
 					</c:forEach>
 		         </ul>
 		     </div>
@@ -82,6 +82,8 @@
 	<script src="<c:url value="/resources/js/frequencia.js" />"></script>
 	
 	<script type="text/javascript">
+		$('.menu #menu-frequencias').addClass('active');
+	
 		$('#dataFiltroFrequencia').datepicker({
 			language: 'pt-BR',
 			format: "mm/dd/yyyy",
@@ -93,7 +95,7 @@
 			var idTurma = $("#idTurma").val();
 			
 			$.ajax({
-				url: '/gestao-pessoas/supervisor/frequencias-turma/' + idTurma,
+				url: '/gestao-pessoas/supervisor/turma/' + idTurma + '/frequencias',
 				type: "POST",
 				dataType: "html",
 				data: {
@@ -103,7 +105,7 @@
 					loadFrequencias(result);
 				},
 				error: function(error) {
-					alert(error);
+					alert('Error: ' + error);
 				}
 			});			
 		});

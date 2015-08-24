@@ -451,32 +451,6 @@ public class SupervisorController {
 		return "redirect:/supervisor/projetos";
 	}
 
-	@RequestMapping(value = "/estagiarios", method = RequestMethod.GET)
-	public String listaEstagiarios(Model model, HttpSession session) {
-		Pessoa pessoa = getUsuarioLogado(session);
-
-		model.addAttribute("turmas", turmaService.getTurmasSupervisorByStatus(StatusTurma.ABERTA, pessoa.getId()));
-
-		return "supervisor/list-estagiarios";
-	}
-
-	@RequestMapping(value = "/turma/{idTurma}/estagiarios", method = RequestMethod.GET)
-	public String estagiarios(Model model, HttpSession session, @PathVariable("idTurma") Long idTurma) {
-		Pessoa pessoa = getUsuarioLogado(session);
-
-		model.addAttribute("turmas", turmaService.getTurmasSupervisorByStatus(StatusTurma.ABERTA, pessoa.getId()));
-
-		List<Estagiario> estagiarios = turmaService.find(Turma.class, idTurma).getEstagiarios();
-		
-		if(estagiarios.isEmpty()){
-			model.addAttribute("warning", "Não há estagiarios vinculados a esta turma.");
-		}else{
-			model.addAttribute("estagiarios", estagiarios);
-		}
-
-		return "supervisor/list-estagiarios";
-	}
-	
 	@RequestMapping(value = "/frequencias", method = RequestMethod.GET)
 	public String paginaListarFrequenciaTurma(Model model, HttpSession session) {
 		Pessoa pessoa = getUsuarioLogado(session);

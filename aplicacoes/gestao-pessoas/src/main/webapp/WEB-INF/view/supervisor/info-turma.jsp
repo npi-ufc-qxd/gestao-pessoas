@@ -53,24 +53,34 @@
 			<c:if test="${empty turma.estagiarios}"><div class="alert alert-warning" role="alert">Não há estagiários vinculados a esta turma.</div></c:if>
 
 			<c:if test="${not empty turma.estagiarios}">
-				<table id="estagiarios-turma" class="table table-striped">
+			
+				<table id="estagiarios-turma" class="table table-striped table-hover">
 					<thead>
-						<tr class="">
-							<th class="col-sm-1">Matrícula</th>
-							<th class="col-sm-5">Nome</th>
+						<tr>
+							<th>Matrícula</th>
+							<th>Nome</th>
+							<th></th>
 			           </tr>
 			       </thead>
-	
-			       <tbody class="panel">
+			       <tbody>
 						<c:forEach var="estagiario" items="${turma.estagiarios}">
-							<tr class="linha">
+							<tr>
 								<td>${estagiario.matricula}</td>
 								<td>${estagiario.nomeCompleto}</td>
+								<td align="right">
+									<a href="<c:url value="/supervisor/estagiario/${estagiario.id}/frequencia" />" title="Frequências" class="btn btn-info btn-sm"><span class="fa fa-list"></span> Frequências</a>
+								</td>
 							</tr>
 						</c:forEach>
 			       </tbody>
 				</table>
 			</c:if>
+		</div>
+		<div class="panel-footer" align="center">
+			<div class="controls">
+				<a class="btn btn-default" href="<c:url value="/supervisor/turma/${idTurma }/tce" ></c:url>" title="Termo de Compromisso"><i class="fa fa-file-pdf-o"></i> Termo de Compromisso</a>
+				<a class="btn btn-primary" href="<c:url value="/supervisor/turma/${idTurma }/declaracoes" ></c:url>" title="Declaração de Estágio"><i class="fa fa-file-pdf-o"></i> Declaração de Estágio</a>
+			</div>
 		</div>
 	</div>
 	

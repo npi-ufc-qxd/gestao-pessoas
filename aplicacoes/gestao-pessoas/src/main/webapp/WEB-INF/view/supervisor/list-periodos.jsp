@@ -20,7 +20,7 @@
 			<h2 class="titulo-panels"><a class="header-anchor" href="#"><span class="glyphicon glyphicon-user"></span></a> Períodos</h2>
 
 			<div class="pull-right">
-				<a href="<c:url value="/supervisor/periodo" ></c:url>"><button class="btn btn-success"><span class="fa fa-plus-square"></span> Período</button></a>
+				<a href="<c:url value="/supervisor/periodo" ></c:url>" title="Novo Período"><button class="btn btn-success"><span class="fa fa-plus-square"></span> Período</button></a>
 			</div><br>
 
 		</div>
@@ -48,10 +48,10 @@
 								<td><fmt:formatDate value="${periodo.termino}" pattern="dd/MM/yyyy" /></td>
 							
 								<td align="right">
-									<a href="<c:url value="/supervisor/periodo/${periodo.id}/turma" />" class="btn btn-success btn-sm"><span class="fa fa-plus-square"></span> Turma</a>
-									<a href="<c:url value="/supervisor/periodo/${periodo.id}/folga" />" class="btn btn-warning btn-sm"><span class="fa fa-plus-square"></span> Folgas</a>
-									<a href="<c:url value="/supervisor/periodo/${periodo.id}" />" class="btn btn-info btn-sm"><span class="glyphicon glyphicon-eye-open"></span> Informações</a>
-									<a href="<c:url value="/supervisor/periodo/${periodo.id}/editar" />" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-pencil"></span> Editar</a>
+									<a href="<c:url value="/supervisor/periodo/${periodo.id}/turma" />" title="Nova Turma" class="btn btn-success btn-sm"><span class="fa fa-plus-square"></span> Turma</a>
+									<a href="<c:url value="/supervisor/periodo/${periodo.id}/folga" />" title="Nova Folga" class="btn btn-warning btn-sm"><span class="fa fa-plus-square"></span> Folga</a>
+									<a href="<c:url value="/supervisor/periodo/${periodo.id}" />" title="Informações" class="btn btn-info btn-sm"><span class="glyphicon glyphicon-eye-open"></span>&nbsp;</a>
+									<a href="<c:url value="/supervisor/periodo/${periodo.id}/editar" />" title="Editar" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-pencil"></span> &nbsp;</a>
 								</td>
 							</tr>
 						</c:forEach>

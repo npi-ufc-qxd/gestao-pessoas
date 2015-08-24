@@ -45,8 +45,7 @@
 			<h2 class="titulo-panels"><a class="header-anchor" href="#"><span class="glyphicon glyphicon-user"></span></a> Estagiários</h2>
 
 			<div class="pull-right">
-				<a href="<c:url value="/supervisor/turma/${turma.id}/vincular" />" class="btn btn-success"><span class="glyphicon glyphicon-link"></span> Vincular Estagiários</a>
-				
+				<a href="<c:url value="/supervisor/turma/${turma.id}/vincular" />" title="Vincular Estagiários" class="btn btn-success"><span class="glyphicon glyphicon-link"></span>&nbsp;</a>
 			</div>
 		</div>
 

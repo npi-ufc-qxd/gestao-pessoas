@@ -21,7 +21,7 @@
 			<h2 class="titulo-panels"><a class="header-anchor" href="#"><span class="glyphicon glyphicon-user"></span></a> Projetos</h2>
 
 			<div class="pull-right">
-				<a href="<c:url value="/supervisor/projeto" ></c:url>"><button class="btn btn-success"><span class="fa fa-plus-square"></span> Projeto</button></a>
+				<a href="<c:url value="/supervisor/projeto" ></c:url>" title="Novo Projeto"><button class="btn btn-success"><span class="fa fa-plus-square"></span> Projeto</button></a>
 			</div>
 		</div>
 
@@ -44,10 +44,9 @@
 								<td>${projeto.nome}</td>
 								<td>${projeto.descricao}</td>
 								<td align="right">
-									<a href="<c:url value="/supervisor/projeto/${projeto.id}/vincular" />" class="btn btn-success"><span class="glyphicon glyphicon-link"></span> Vincular Membros</a>
-									<a href="<c:url value="/supervisor/projeto/${projeto.id}/informacoes" />" class="btn btn-info"><span class="glyphicon glyphicon-eye-open"></span> Informações</a>
-									<a href="<c:url value="/supervisor/projeto/${projeto.id}/editar" />" class="btn btn-primary"><span class="glyphicon glyphicon-pencil"></span> Editar</a>
-<%-- 									<a href="<c:url value="#/supervisor/excluir-projeto/${projeto.id}" />" class="btn btn-danger"> <span class="glyphicon glyphicon-trash"></span></a> --%>
+									<a href="<c:url value="/supervisor/projeto/${projeto.id}/vincular" />" title="Vincular Membros" class="btn btn-success"><span class="glyphicon glyphicon-link"></span>&nbsp;</a>
+									<a href="<c:url value="/supervisor/projeto/${projeto.id}/informacoes" />" title="Informações" class="btn btn-info"><span class="glyphicon glyphicon-eye-open"></span>&nbsp;</a>
+									<a href="<c:url value="/supervisor/projeto/${projeto.id}/editar" />" title="Editar" class="btn btn-primary"><span class="glyphicon glyphicon-pencil"></span>&nbsp;</a>
 								</td>
 							</tr>
 

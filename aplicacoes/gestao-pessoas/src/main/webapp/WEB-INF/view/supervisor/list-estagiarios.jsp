@@ -72,7 +72,7 @@
 									<td>${estagiario.matricula}</td>
 									<td>${estagiario.nomeCompleto}</td>
 									<td align="right">
-										<a href="<c:url value="/supervisor/estagiario/${estagiario.id}/frequencia" />" class="btn btn-success btn-sm"><span class="fa fa-list"></span> Frequências</a>
+										<a href="<c:url value="/supervisor/estagiario/${estagiario.id}/frequencia" />" title="Frequências" class="btn btn-success btn-sm"><span class="fa fa-list"></span> Frequências</a>
 									</td>
 								</tr>
 							</c:forEach>
@@ -81,8 +81,8 @@
 				</div>
 				<div class="panel-footer" align="center">
 					<div class="controls">
-						<a class="btn btn-default" href="<c:url value="/supervisor/turma/${idTurma }/tce" ></c:url>"><i class="fa fa-file-pdf-o"></i> Termo de Compromisso</a>
-						<a class="btn btn-primary" href="<c:url value="/supervisor/turma/${idTurma }/declaracoes" ></c:url>"><i class="fa fa-file-pdf-o"></i> Declaração de Estágio</a>
+						<a class="btn btn-default" href="<c:url value="/supervisor/turma/${idTurma }/tce" ></c:url>" title="Termo de Compromisso"><i class="fa fa-file-pdf-o"></i> Termo de Compromisso</a>
+						<a class="btn btn-primary" href="<c:url value="/supervisor/turma/${idTurma }/declaracoes" ></c:url>" title="Declaração de Estágio"><i class="fa fa-file-pdf-o"></i> Declaração de Estágio</a>
 					</div>
 				</div>
 		</c:if>

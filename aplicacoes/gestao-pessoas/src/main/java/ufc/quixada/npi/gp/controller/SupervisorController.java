@@ -3,7 +3,6 @@ package ufc.quixada.npi.gp.controller;
 import static ufc.quixada.npi.gp.utils.Constants.PAGINA_DECLARACAO_ESTAGIO;
 import static ufc.quixada.npi.gp.utils.Constants.PAGINA_TCE;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
@@ -24,7 +23,6 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 
 import org.joda.time.LocalDate;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
@@ -102,9 +100,9 @@ public class SupervisorController {
 	
 	private JRDataSource jrDatasource;
 
-	@RequestMapping(value = {"","/"}, method = RequestMethod.GET)	
+	@RequestMapping(value = {"","/"}, method = RequestMethod.GET)
 	public String paginaInicial(Model Model, HttpSession session)  {
-		
+
 		String cpf = SecurityContextHolder.getContext().getAuthentication().getName();
 
 		if(!pessoaService.isPessoa(cpf)){
@@ -214,7 +212,7 @@ public class SupervisorController {
 		return "supervisor/info-periodo";
 	}
 
-	@RequestMapping(value = "periodo/{idPeriodo}/turma", method = RequestMethod.GET)
+	@RequestMapping(value = "/periodo/{idPeriodo}/turma", method = RequestMethod.GET)
 	public String novaTurmaPeriodo(Model model, @PathVariable("idPeriodo") Long idPeriodo) {
 		model.addAttribute("action", "cadastrar");
 
@@ -401,7 +399,7 @@ public class SupervisorController {
 		return "redirect:/supervisor/projetos";
 	}
 
-	@RequestMapping(value = "/informacoes-projeto/{idProjeto}", method = RequestMethod.GET)
+	@RequestMapping(value = "/projeto/{idProjeto}/informacoes", method = RequestMethod.GET)
 	public String detalhesProjeto(@PathVariable("idProjeto") Long idProjeto, Model model) {
 		Projeto projeto = projetoService.find(Projeto.class, idProjeto);
 
@@ -410,7 +408,7 @@ public class SupervisorController {
 		return "supervisor/info-projeto";
 	}
 
-	@RequestMapping(value = "/excluir-projeto/{idProjeto}", method = RequestMethod.GET)
+	@RequestMapping(value = "/projeto/{idProjeto}/excluir", method = RequestMethod.GET)
 	public String excluirProjeto(@PathVariable("idProjeto") Long idProjeto, Model model) {
 		Projeto projeto = projetoService.find(Projeto.class, idProjeto);
 		
@@ -421,28 +419,29 @@ public class SupervisorController {
 		return "redirect:/supervisor/projetos";
 	}
 	
-	@RequestMapping(value = "/vincular-membros-projeto/{idProjeto}", method = RequestMethod.GET)
+	@RequestMapping(value = "/projeto/{idProjeto}/vincular", method = RequestMethod.GET)
 	public String paginaVincularMembrosProjeto(Model model, @PathVariable("idProjeto") Long idProjeto, HttpSession session) {
 		Pessoa pessoa = getUsuarioLogado(session);
 
 		model.addAttribute("turmas", turmaService.getTurmasSupervisorByStatus(StatusTurma.ABERTA, pessoa.getId()));
 		model.addAttribute("projeto", projetoService.find(Projeto.class, idProjeto));
 		
-		return "supervisor/vincular-membros-projeto";
+		return "supervisor/form-vincular-membros-projeto";
 	}
 	
-	@RequestMapping(value = "/vincular-membros-projeto/{idProjeto}/turma/{idTurma}", method = RequestMethod.GET)
+	@RequestMapping(value = "/projeto/{idProjeto}/vincular/turma/{idTurma}", method = RequestMethod.GET)
 	public String vincularEstagiariosProjeto(Model model, HttpSession session, @PathVariable("idTurma") Long idTurma, @PathVariable("idProjeto") Long idProjeto) {
 		Pessoa pessoa = getUsuarioLogado(session);
 
 		model.addAttribute("turmas", turmaService.getTurmasSupervisorByStatus(StatusTurma.ABERTA, pessoa.getId()));
+		model.addAttribute("turma", turmaService.find(Turma.class, idTurma));
 		model.addAttribute("projeto", projetoService.find(Projeto.class, idProjeto));
 		model.addAttribute("estagiarios", turmaService.find(Turma.class, idTurma).getEstagiarios());
 
-		return "supervisor/vincular-membros-projeto";
+		return "supervisor/form-vincular-membros-projeto";
 	}
 
-	@RequestMapping(value = "/vincular-membros-projeto/{idProjeto}/turma/{idTurma}", method = RequestMethod.POST)
+	@RequestMapping(value = "/projeto/{idProjeto}/vincular/turma/{idTurma}", method = RequestMethod.POST)
 	public String vincularMembrosProjeto(Model model, @ModelAttribute("projeto") Projeto projeto) {
 		
 		projeto = atualizarProjeto(projeto);
@@ -461,7 +460,7 @@ public class SupervisorController {
 		return "supervisor/list-estagiarios";
 	}
 
-	@RequestMapping(value = "/estagiarios-turma/{idTurma}", method = RequestMethod.GET)
+	@RequestMapping(value = "/turma/{idTurma}/estagiarios", method = RequestMethod.GET)
 	public String estagiarios(Model model, HttpSession session, @PathVariable("idTurma") Long idTurma) {
 		Pessoa pessoa = getUsuarioLogado(session);
 
@@ -487,7 +486,7 @@ public class SupervisorController {
 		return "supervisor/list-frequencias";
 	}
 
-	@RequestMapping(value = "/frequencias-turma/{idTurma}", method = RequestMethod.GET)
+	@RequestMapping(value = "/turma/{idTurma}/frequencias", method = RequestMethod.GET)
 	public String listarFrequenciaTurma(@PathVariable("idTurma") Long idTurma, Model model, HttpSession session) {
 		Pessoa pessoa = getUsuarioLogado(session);
 		Date dataAtual = new Date();
@@ -501,7 +500,7 @@ public class SupervisorController {
 		return "supervisor/list-frequencias";
 	}
 
-	@RequestMapping(value = "/frequencias-turma/{idTurma}", method = RequestMethod.POST)
+	@RequestMapping(value = "/turma/{idTurma}/frequencias", method = RequestMethod.POST)
 	public String listarFrequenciaTurmaData(@PathVariable("idTurma") Long idTurma, @RequestParam("data") Date data, Model model, HttpSession session) {
 		Pessoa pessoa = getUsuarioLogado(session);
 
@@ -515,7 +514,7 @@ public class SupervisorController {
 		return "supervisor/list-frequencias";
 	}
 	
-	@RequestMapping(value = "/frequencia-estagiario/{idEstagiario}", method = RequestMethod.GET)
+	@RequestMapping(value = "/estagiario/{idEstagiario}/frequencia", method = RequestMethod.GET)
 	public String minhaPresenca(HttpSession session, Model model, @PathVariable("idEstagiario") Long idEstagiario) {
 
 		Estagiario estagiario = estagiarioService.find(Estagiario.class, idEstagiario);
@@ -540,29 +539,29 @@ public class SupervisorController {
 		model.addAttribute("frequencias", frequencias);
 		model.addAttribute("dadosConsolidados", dadosConsolidados);		
 		
-		return "supervisor/frequencia-estagiario";
+		return "supervisor/list-frequencia-estagiario";
 	}
-	@RequestMapping(value = "/frequencia-realizar-observacao", method = RequestMethod.POST)
+	@RequestMapping(value = "/frequencia/realizar-observacao", method = RequestMethod.POST)
 	public String frequenciaObservar(@RequestParam("pk") Long idFrequencia, @RequestParam("value") String observacao, Model model) {
 		Frequencia frequencia = frequenciaService.find(Frequencia.class, idFrequencia);
 		
 		if(frequencia != null){
 			frequencia.setObservacao(observacao);
 			frequenciaService.update(frequencia);
-			return "supervisor/frequencia-estagiario";
+			return "supervisor/list-frequencia-estagiario";
 		}
 		
 		return "";
 	}
 	
-	@RequestMapping(value = "/frequencia-atualizar-status", method = RequestMethod.POST)
+	@RequestMapping(value = "/frequencia/atualizar-status", method = RequestMethod.POST)
 	public String atualizarStatus(@RequestParam("pk") Long idFrequencia, @RequestParam("value") StatusFrequencia status, Model model, RedirectAttributes redirectAttributes) {
 		Frequencia frequencia = frequenciaService.find(Frequencia.class, idFrequencia);
 		
 		if(frequencia != null){
 			frequencia.setStatusFrequencia(status);
 			frequenciaService.update(frequencia);
-			return "supervisor/frequencia-estagiario";
+			return "supervisor/list-frequencia-estagiario";
 		}
 
 		return "";
@@ -619,10 +618,7 @@ public class SupervisorController {
 
 		List<Frequencia> frequencias = new ArrayList<Frequencia>();
 		
-		int cont = 0;
-		
 		while (!inicioPeriodoTemporario.isAfter(fimPeriodo)) {
-			cont++;
 
 			if (UtilGestao.isDiaDeTrabahoDaTurma(estagiario.getTurma().getHorarios(), inicioPeriodoTemporario)) {
 				Frequencia frequencia = new Frequencia();

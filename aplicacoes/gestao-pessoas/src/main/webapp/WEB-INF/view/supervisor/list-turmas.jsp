@@ -11,10 +11,6 @@
 	</head>
 <body>
 	<jsp:include page="../modulos/header1.jsp" />
-
-<!-- 	<div class="container"> -->
-<!-- 		<div class="tab-pane active" id="meus-projetos"> -->
-		
 	
 <div class="container">
 	<div class="row">
@@ -22,11 +18,6 @@
 	<div class="panel panel-primary">
 		<div class="panel-heading">
 			<h2 class="titulo-panels"><a class="header-anchor" href="#"><span class="glyphicon glyphicon-user"></span></a> Turmas</h2>
-
-			<div class="pull-right">
-				<a href="<c:url value="/supervisor/adicionar-turma" ></c:url>"><button class="btn btn-success"><span class="fa fa-plus-square"></span> Turma</button></a>
-			</div><br>
-
 		</div>
 
 		<div class="panel-body">

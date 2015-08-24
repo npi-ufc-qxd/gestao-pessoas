@@ -253,7 +253,7 @@ $(document).ready(function() {
 
 function ativarEditable(){
     $('.observacaoFrequencia').editable({
-    	url : '/gestao-pessoas/supervisor/frequencia-realizar-observacao',
+    	url : '/gestao-pessoas/supervisor/frequencia/realizar-observacao',
     	title : 'Observaçao',
     	type : 'textarea',
         emptytext : "faça sua observação",
@@ -261,7 +261,7 @@ function ativarEditable(){
     });
 
     $('.statusFrequencia').editable({
-    	url : '/gestao-pessoas/supervisor/frequencia-atualizar-status',
+    	url : '/gestao-pessoas/supervisor/frequencia/atualizar-status',
         type: 'select',
         title: 'Presença',
         placement: 'right',

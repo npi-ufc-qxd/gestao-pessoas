@@ -40,7 +40,7 @@
 		         <ul class="dropdown-menu">
 	                <li><a href="<c:url value="/supervisor/estagiarios" />">Selecione a Turma&nbsp;&nbsp;</a></li>
 					<c:forEach var="turma" items="${turmas}">
-						<li><a href="<c:url value="/supervisor/estagiarios-turma/${turma.id}" />">${turma.periodo.ano}.${turma.periodo.semestre} - ${turma.nome}</a></li>
+						<li><a href="<c:url value="/supervisor/turma/${turma.id}/estagiarios" />">${turma.periodo.ano}.${turma.periodo.semestre} - ${turma.nome}</a></li>
 					</c:forEach>
 				</ul>
 			</div>
@@ -72,7 +72,7 @@
 									<td>${estagiario.matricula}</td>
 									<td>${estagiario.nomeCompleto}</td>
 									<td align="right">
-										<a href="<c:url value="/supervisor/frequencia-estagiario/${estagiario.id}" />" class="btn btn-success btn-sm"><span class="fa fa-list"></span> Frequências</a>
+										<a href="<c:url value="/supervisor/estagiario/${estagiario.id}/frequencia" />" class="btn btn-success btn-sm"><span class="fa fa-list"></span> Frequências</a>
 									</td>
 								</tr>
 							</c:forEach>

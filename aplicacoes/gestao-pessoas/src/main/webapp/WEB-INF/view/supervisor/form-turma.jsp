@@ -29,7 +29,7 @@
 			<h2 id="titulo-cadastro-npi"><a class="header-anchor" href="#"><span class="glyphicon glyphicon-user"></span></a> ${titulo}</h2>
 		</div>
 
-		<form:form id="adicionarTurmaForm" role="form" commandName="turma" servletRelativeAction="/supervisor/periodo/${periodo.id}/adicionar-turma"  method="POST" cssClass="form-horizontal">
+		<form:form id="adicionarTurmaForm" role="form" commandName="turma" servletRelativeAction="${url}"  method="POST" cssClass="form-horizontal">
 			<div class="panel-body">
 				<form:hidden path="id"/>				
 				

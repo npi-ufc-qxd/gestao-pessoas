@@ -71,8 +71,7 @@
 									<td>${data}</td>
 									<td>${folga.descricao}</td>
 									<td align="right">
-										<a href="<c:url value="/supervisor/periodo/${periodo.id}/editar-folga/${folga.id}" />" class="btn btn-success"><span class="glyphicon glyphicon-pencil"></span></a>
-<%-- 										<a href="<c:url value="#/supervisor/periodo/${periodo.id}/excluir-folga/${folga.id}" />" class="btn btn-danger"> <span class="glyphicon glyphicon-trash"></span></a> --%>
+										<a href="<c:url value="/supervisor/periodo/${periodo.id}/folga/${folga.id}/editar" />" class="btn btn-success"><span class="glyphicon glyphicon-pencil"></span></a>
 									</td>
 								</tr>
 							</c:forEach>

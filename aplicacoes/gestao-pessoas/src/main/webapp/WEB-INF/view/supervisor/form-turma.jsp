@@ -29,10 +29,10 @@
 			<h2 id="titulo-cadastro-npi"><a class="header-anchor" href="#"><span class="glyphicon glyphicon-user"></span></a> ${titulo}</h2>
 		</div>
 
-		<form:form id="adicionarTurmaForm" role="form" commandName="turma" servletRelativeAction="${url}"  method="POST" cssClass="form-horizontal">
+		<form:form id="form-turma" role="form" commandName="turma" servletRelativeAction="${url}"  method="POST" cssClass="form-horizontal">
 			<div class="panel-body">
-				<form:hidden path="id"/>				
-				
+				<form:hidden path="id"/>
+
 				<div class="form-group">
 					<div class="form-item col-sm-12">
 						<fmt:formatDate var="inicio" value="${periodo.inicio}" pattern="dd/MM/yyyy" />
@@ -42,31 +42,53 @@
 				</div>
 
 				<div class="form-group">
-					<div class="form-item col-sm-4">
+					<div class="form-item col-sm-9">
+						<label for="nomeDaTurma" class="control-label">*Nome da Turma:</label>
+						<form:input id="nomeDaTurma" path="nome" cssClass="form-control" placeholder="Nome da Turma" required="required" />
+						<div class="error-validation"><form:errors path="nome"></form:errors></div>
+					</div>
+
+					<div class="form-item col-sm-3">
 						<label for="statusTurma" class="control-label">*Status:</label>
 						<form:select id="statusTurma" path="statusTurma" cssClass="form-control selectpicker" required="required">
 							<form:options itemLabel="label" />
 						</form:select>
 						<div class="error-validation"><form:errors path="statusTurma"></form:errors></div>
 					</div>
+				</div>
 
-					<div class="form-item col-sm-8">
-						<label for="nomeDaTurma" class="control-label">*Nome da Turma:</label>
-						<form:input id="nomeDaTurma" path="nome" cssClass="form-control" placeholder="Nome da Turma" required="required" />
-						<div class="error-validation"><form:errors path="nome"></form:errors></div>
+				<div class="form-group">
+					<div class="form-item col-sm-3">
+						<label for="ano" class="control-label">Ano:</label>
+						<form:input id="ano" path="ano" cssClass="form-control" placeholder="Ano" required="required"/>
+						<div class="error-validation"><form:errors path="ano"></form:errors></div>
+					</div>
+	
+					<div class="form-item col-sm-3">
+						<label for="semestre" class="control-label">Semestre:</label>
+						<form:select id="semestre" path="semestre" cssClass="selectpicker" data-width="100%">
+							<form:option value="1"></form:option>
+							<form:option value="2"></form:option>
+						</form:select>
+						<div class="error-validation"><form:errors path="semestre"></form:errors></div>
 					</div>
 
+					<div class="form-item col-sm-3">
+						<label for="inicio" class="control-label">Início: </label>
+						<form:input id="inicio" path="inicio" cssClass="form-control data" placeholder="Inicio do periodo" required="required"/>
+						<div class="error-validation"><form:errors path="inicio"></form:errors></div>
+					</div>
+	
+					<div class="form-item col-sm-3">
+						<label for="termino" class="control-label">Término: </label>
+						<form:input id="termino" path="termino" cssClass="form-control data" placeholder="Término do periodo" required="required"/>
+						<div class="error-validation"><form:errors path="termino"></form:errors></div>
+					</div>
 				</div>
 
 				<h5>Defina o Expediente</h5>
 				<div class="form-group">
-					<c:if test="${not empty horarioError}">
-						<div class="form-item col-sm-12 has-error">
-							<span class="help-block"><c:out value="${horarioError}"></c:out></span>
-						</div>
-					</c:if>
-				
-					<div class="form-item col-sm-4">
+					<div class="form-item col-sm-3">
 						<label for="diaDaSemana" class="control-label">*Selecione o Dia da Semana:</label>
 						<select id="diaDaSemana" class="form-control selectpicker" required="required">
 							<c:forEach items="${dias}" var="diaDaSemana" varStatus="contador">
@@ -83,7 +105,7 @@
 						<label class="control-label">*Final do Expediente:</label>
 						<div class="bfh-timepicker" data-name="finalDoExpediente" data-placeholder="Final do Expediente" data-time=""></div>
 					</div>
-					<div class="form-item col-sm-2">
+					<div class="form-item col-sm-3">
 						<label class="control-label">&nbsp;&nbsp;&nbsp;</label>
 						<button type="button" class="form-control btn btn-primary add-more">Adicionar</button>
 					</div>
@@ -135,7 +157,7 @@
 					
 					var horario = 				
 						'<div id="'+ idHorario +'" class="form-group">' +
-							'<div class="form-item col-sm-4">' +
+							'<div class="form-item col-sm-3">' +
 							'<input class="form-control" type="text" name="horarios['+ indice +'].dia" value="'+ diaDaSemana +'" readonly/>' +
 						'</div>' +
 						
@@ -153,7 +175,7 @@
 							'</div>' +
 						'</div>' +
 		
-						'<div class="form-item col-sm-2">' +
+						'<div class="form-item col-sm-3">' +
 							'<button value="#'+ idHorario +'" type="button" class="form-control btn btn-danger remove-me">Excluir</button>' +
 						'</div>' +
 					'</div>';

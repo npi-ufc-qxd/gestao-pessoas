@@ -41,7 +41,7 @@ $(document).ready(function() {
         }
     });
 	
-	$('#adicionarPeriodoForm').validate({
+	$('#form-turma').validate({
         rules: {
             
         },
@@ -57,6 +57,9 @@ $(document).ready(function() {
             error.insertAfter(element.parent().children().last());
         },
         messages:{
+        	nome:{
+                required:"Campo obrigatório",
+            },
         	ano:{
                 required:"Campo obrigatório",
             },

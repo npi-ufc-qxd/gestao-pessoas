@@ -30,8 +30,6 @@
 
 					<li id="projetos"><a href="<c:url value="/supervisor/projetos" />"><span class="fa fa-briefcase"></span> Projetos</a></li>
 
-					<li id="estagiarios"><a href="<c:url value="/supervisor/estagiarios" />"><span class="fa fa-user"></span> Estagiários</a></li>
-
 					<li id="menu-frequencias"><a href="<c:url value="/supervisor/frequencias" />"><span class="fa fa-calendar-check-o"></span> Frequência</a></li>
 
 <%-- 					<li id="menu-reposicao"><a href="<c:url value="/frequencia/reposicao" />">Reposições</span></a></li> --%>

@@ -19,13 +19,13 @@ import net.objectlab.kit.datecalc.joda.LocalDateKitCalculatorsFactory;
 import org.joda.time.LocalDate;
 import org.springframework.transaction.annotation.Transactional;
 
-import ufc.quixada.npi.gp.model.Estagiario;
 import ufc.quixada.npi.gp.model.Folga;
 import ufc.quixada.npi.gp.model.Frequencia;
 import ufc.quixada.npi.gp.model.Turma;
 import ufc.quixada.npi.gp.model.enums.StatusFrequencia;
 import ufc.quixada.npi.gp.repository.FrequenciaRepository;
 import ufc.quixada.npi.gp.service.DadoConsolidado;
+import ufc.quixada.npi.gp.service.FolgaService;
 import ufc.quixada.npi.gp.service.FrequenciaService;
 import ufc.quixada.npi.gp.utils.UtilGestao;
 import br.ufc.quixada.npi.enumeration.QueryType;
@@ -36,6 +36,9 @@ public class FrequenciaServiceImpl extends GenericServiceImpl<Frequencia> implem
 	
 	@Inject
 	FrequenciaRepository frequenciaRepository;
+	
+	@Inject
+	FolgaService folgaService;
 
 	@Transactional
 	public Frequencia getFrequencia() {
@@ -249,8 +252,11 @@ public class FrequenciaServiceImpl extends GenericServiceImpl<Frequencia> implem
 
 	@Override
 	public boolean liberarPreseca(Turma turma ) {
+		List<Folga> folgas = folgaService.find(Folga.class);
+		
 		Set<LocalDate> dataDosFeriados = new HashSet<LocalDate>();
-		for (Folga folga : turma.getPeriodo().getFolgas()) {
+
+		for (Folga folga : folgas) {
 			dataDosFeriados.add(new LocalDate(folga.getData()));
 		}
 

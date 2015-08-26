@@ -13,10 +13,8 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
-import net.objectlab.kit.datecalc.common.DateCalculator;
 import net.objectlab.kit.datecalc.common.DefaultHolidayCalendar;
 import net.objectlab.kit.datecalc.common.HolidayCalendar;
-import net.objectlab.kit.datecalc.common.HolidayHandlerType;
 import net.objectlab.kit.datecalc.joda.LocalDateKitCalculatorsFactory;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRException;
@@ -39,7 +37,6 @@ import ufc.quixada.npi.gp.model.Estagiario;
 import ufc.quixada.npi.gp.model.Folga;
 import ufc.quixada.npi.gp.model.Frequencia;
 import ufc.quixada.npi.gp.model.Papel;
-import ufc.quixada.npi.gp.model.Periodo;
 import ufc.quixada.npi.gp.model.Pessoa;
 import ufc.quixada.npi.gp.model.Projeto;
 import ufc.quixada.npi.gp.model.Servidor;
@@ -53,7 +50,6 @@ import ufc.quixada.npi.gp.service.EstagiarioService;
 import ufc.quixada.npi.gp.service.FolgaService;
 import ufc.quixada.npi.gp.service.FrequenciaService;
 import ufc.quixada.npi.gp.service.PapelService;
-import ufc.quixada.npi.gp.service.PeriodoService;
 import ufc.quixada.npi.gp.service.PessoaService;
 import ufc.quixada.npi.gp.service.ProjetoService;
 import ufc.quixada.npi.gp.service.ServidorService;
@@ -81,17 +77,14 @@ public class SupervisorController {
 	private PapelService papelService;
 	
 	@Inject
+	private FolgaService folgaService;
+	
+	@Inject
 	private EstagiarioService estagiarioService;
 	
 	@Inject
 	private TurmaService turmaService;
 
-	@Inject
-	private PeriodoService periodoService;
-	
-	@Inject
-	private FolgaService folgaService;
-	
 	@Inject
 	private ProjetoService projetoService; 
 	
@@ -140,83 +133,17 @@ public class SupervisorController {
 		return PAGINA_DECLARACAO_ESTAGIO;
 	}
 
-	@RequestMapping(value = "/periodos", method = RequestMethod.GET)
-	public String listarPeriodos(Model model) {
-		model.addAttribute("periodos", periodoService.find(Periodo.class));
-		return "supervisor/list-periodos";
+	@RequestMapping(value = "/turmas", method = RequestMethod.GET)
+	public String listarTurmas(Model model, HttpSession session) {
+		Pessoa pessoa = getUsuarioLogado(session);
+		model.addAttribute("turmas", turmaService.getMinhasTurma(pessoa.getId()));
+
+		return "supervisor/list-turmas";
 	}
 
-	@RequestMapping(value = "/periodo", method = RequestMethod.GET)
-	public String novoPeriodo(Model model) {
-		model.addAttribute("periodo", new Periodo());
+	@RequestMapping(value = "/turma", method = RequestMethod.GET)
+	public String novaTurma(Model model) {
 		model.addAttribute("action", "cadastrar");
-
-		return "supervisor/form-periodo";
-	}
-
-	@RequestMapping(value = "/periodo", method = RequestMethod.POST)
-	public String adicionarPeriodo(Model model, @Valid @ModelAttribute("periodo") Periodo periodo, BindingResult result, RedirectAttributes redirectAttributes) {
-		model.addAttribute("action", "cadastrar");
-
-		if (result.hasErrors()) {
-			return "supervisor/form-periodo";
-		}
-			
-		try {
-			periodoService.save(periodo);
-		} catch (Exception e) {
-			model.addAttribute("erro", "O periodo "  + periodo.getAno() + "." + periodo.getSemestre() + " já esta cadastrado.");
-			return "supervisor/form-periodo";
-		}
-		
-		redirectAttributes.addAttribute("info", "Periodo " + periodo.getAno() + "." + periodo.getSemestre() + " cadastrado com sucesso.");
-		return "redirect:/supervisor/periodos";
-
-	}
-
-	@RequestMapping(value = "/periodo/{idPeriodo}/editar", method = RequestMethod.GET)
-	public String paginaEditarPeriodo(@PathVariable("idPeriodo") Long idPeriodo, Model model) {
-		model.addAttribute("periodo", periodoService.find(Periodo.class, idPeriodo));
-		model.addAttribute("action", "editar");
-
-		return "supervisor/form-periodo";
-	}
-
-	@RequestMapping(value = "/periodo/{idPeriodo}/editar", method = RequestMethod.POST)
-	public String editarPeriodo(Model model, @Valid @ModelAttribute("periodo") Periodo periodo, BindingResult result, RedirectAttributes redirectAttributes) {
-		model.addAttribute("action", "editar");
-
-		if (result.hasErrors()) {
-			return "supervisor/form-periodo";
-		}
-
-		try {
-			Periodo periodoBanco = periodoService.find(Periodo.class, periodo.getId());
-
-			periodo.setFolgas(periodoBanco.getFolgas());
-			periodo.setTurmas(periodoBanco.getTurmas());
-			periodoService.update(periodo);
-		} catch (Exception e) {
-			model.addAttribute("erro", "O periodo "  + periodo.getAno() + "." + periodo.getSemestre() + " já esta cadastrado.");
-			return "supervisor/form-periodo";
-		}
-
-		redirectAttributes.addAttribute("info", "Periodo " + periodo.getAno() + "." + periodo.getSemestre() + " atualizado com sucesso.");
-		return "redirect:/supervisor/periodos";
-	}
-	
-	@RequestMapping(value = "/periodo/{idPeriodo}", method = RequestMethod.GET)
-	public String detalhesPeriodo(@PathVariable("idPeriodo") Long idPeriodo, Model model) {
-		model.addAttribute("periodo", periodoService.find(Periodo.class, idPeriodo));
-
-		return "supervisor/info-periodo";
-	}
-
-	@RequestMapping(value = "/periodo/{idPeriodo}/turma", method = RequestMethod.GET)
-	public String novaTurmaPeriodo(Model model, @PathVariable("idPeriodo") Long idPeriodo) {
-		model.addAttribute("action", "cadastrar");
-
-		model.addAttribute("periodo", periodoService.find(Periodo.class, idPeriodo));
 
 		Turma turma = new Turma();
 
@@ -226,91 +153,23 @@ public class SupervisorController {
 		return "supervisor/form-turma";
 	}
 
-	@RequestMapping(value = "periodo/{idPeriodo}/turma", method = RequestMethod.POST)
-	public String adicionarTurmaPeriodo(Model model, @Valid @ModelAttribute("turma") Turma turma,  @PathVariable("idPeriodo") Long idPeriodo, BindingResult result, HttpSession session) {
+	@RequestMapping(value = "/turma", method = RequestMethod.POST)
+	public String adicionarTurma(Model model, @Valid @ModelAttribute("turma") Turma turma,  BindingResult result, HttpSession session) {
 		model.addAttribute("action", "cadastrar");
 
-		Periodo periodo = periodoService.find(Periodo.class, idPeriodo);
-
 		if (result.hasErrors()) {
-			model.addAttribute("periodo", periodo);
 			model.addAttribute("dias", Dia.values());
 			return "supervisor/form-turma";
 		}
-		
-		
+
 		Pessoa pessoa = getUsuarioLogado(session);
 		
 		turma.setSupervisor(pessoa);
-		turma.setPeriodo(periodo);
 		turmaService.save(turma);
-		
-		return "redirect:/supervisor/periodos";
+
+		return "redirect:/supervisor/turmas";
 	}
 	
-	@RequestMapping(value = "/periodo/{idPeriodo}/folga", method = RequestMethod.GET)
-	public String novaFolgaPeriodo(@PathVariable("idPeriodo") Long idPeriodo, Model model) {
-		model.addAttribute("action", "cadastrar");
-		model.addAttribute("periodo", periodoService.find(Periodo.class, idPeriodo));
-		model.addAttribute("folga", new Folga());
-
-		return "supervisor/form-folga";
-	}
-
-	@RequestMapping(value = "/periodo/{idPeriodo}/folga", method = RequestMethod.POST)
-	public String adicionarFolgaPeriodo(@PathVariable("idPeriodo") Long idPeriodo, @Valid @ModelAttribute("folga") Folga folga, BindingResult result, Model model) {
-		model.addAttribute("action", "cadastrar");
-		
-		Periodo periodo = periodoService.find(Periodo.class, idPeriodo);
-		
-		if (result.hasErrors()) {
-			model.addAttribute("periodo", periodo);
-			return "supervisor/form-folga";
-		}
-
-		folga.setPeriodo(periodo);
-
-		folgaService.save(folga);
-
-		return "redirect:/supervisor/periodos";
-	}
-	
-	@RequestMapping(value = "/periodo/{idPeriodo}/folga/{idFolga}/editar", method = RequestMethod.GET)
-	public String paginaEditarFolga(@PathVariable("idFolga") Long idFolga, Model model) {
-		model.addAttribute("action", "editar");
-		Folga folga = folgaService.find(Folga.class, idFolga);
-		model.addAttribute("folga", folga);
-		model.addAttribute("periodo", folga.getPeriodo());
-
-		return "supervisor/form-folga";
-	}
-
-	@RequestMapping(value = "/periodo/{idPeriodo}/folga/{idFolga}/editar", method = RequestMethod.POST)
-	public String editarFolga(@PathVariable("idPeriodo") Long idPeriodo, @Valid @ModelAttribute("folga") Folga folga, BindingResult result, Model model) {
-		model.addAttribute("action", "editar");
-		
-		Periodo periodo = periodoService.find(Periodo.class, idPeriodo);
-		
-		if (result.hasErrors()) {
-			model.addAttribute("periodo", periodo);
-			return "supervisor/form-folga";
-		}
-
-		folga.setPeriodo(periodo);
-
-		folgaService.update(folga);
-
-		return "redirect:/supervisor/periodos";
-	}
-	
-	@RequestMapping(value = "/turmas", method = RequestMethod.GET)
-	public String listarTurmas(Model model, HttpSession session) {
-		Pessoa pessoa = getUsuarioLogado(session);
-		model.addAttribute("turmas", turmaService.getMinhasTurma(pessoa.getId()));
-
-		return "supervisor/list-turmas";
-	}
-
 	@RequestMapping(value = "/turma/{idTurma}", method = RequestMethod.GET)
 	public String detalhesTurma(@PathVariable("idTurma") Long idTurma, Model model) {
 		model.addAttribute("turma", turmaService.find(Turma.class, idTurma));
@@ -355,7 +214,7 @@ public class SupervisorController {
 
 		return "supervisor/form-projeto";
 	}
-	
+
 	@RequestMapping(value = "/projeto", method = RequestMethod.POST)
 	public String adicionarProjeto(Model model, @Valid @ModelAttribute("projeto") Projeto projeto, BindingResult result) {
 		model.addAttribute("action", "cadastrar");
@@ -497,7 +356,7 @@ public class SupervisorController {
 			inicioPeriodoTemporario = new LocalDate(new Date());
 		}
 		
-		LocalDate fimPeriodo = new LocalDate(estagiario.getTurma().getPeriodo().getTermino());
+		LocalDate fimPeriodo = new LocalDate(estagiario.getTurma().getTermino());
 		frequencias.addAll(gerarFrequencia(estagiario, inicioPeriodoTemporario, fimPeriodo));
 
 		DadoConsolidado dadosConsolidados = frequenciaService.calcularDadosConsolidados(frequencias);
@@ -572,16 +431,17 @@ public class SupervisorController {
 	private List<Frequencia> gerarFrequencia(Estagiario estagiario, LocalDate inicioPeriodoTemporario, LocalDate fimPeriodo) {
 
 		Set<LocalDate> dataDosFeriados = new HashSet<LocalDate>();
+		
+		List<Folga> folgas = folgaService.find(Folga.class);
 
-		if (estagiario.getTurma().getPeriodo().getFolgas() != null) {
-			for (Folga folga : estagiario.getTurma().getPeriodo().getFolgas()) {
+		if (folgas != null) {
+			for (Folga folga : folgas) {
 				dataDosFeriados.add(new LocalDate(folga.getData()));
 			}
 		}
 
 		HolidayCalendar<LocalDate> calendarioDeFeriados = new DefaultHolidayCalendar<LocalDate>(dataDosFeriados);
 		LocalDateKitCalculatorsFactory.getDefaultInstance().registerHolidays("NPI", calendarioDeFeriados);
-		DateCalculator<LocalDate> calendario = LocalDateKitCalculatorsFactory.getDefaultInstance().getDateCalculator("NPI", HolidayHandlerType.FORWARD);
 
 		List<Frequencia> frequencias = new ArrayList<Frequencia>();
 		

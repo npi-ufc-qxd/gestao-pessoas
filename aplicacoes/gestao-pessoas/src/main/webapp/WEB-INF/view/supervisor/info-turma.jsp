@@ -26,15 +26,23 @@
 
 			<c:if test="${not empty turma}">
 				<div class="form-group">
-					<label class="col-sm-1">Supervisor: </label><label>${turma.supervisor.nome}</label>
+					<label class="col-sm-1 text-view-info"><strong>Supervisor: </strong></label><label class="col-sm-11 text-view-info">${turma.supervisor.nome}</label>
 				</div>
 
 				<div class="form-group">
-					<label class="col-sm-1">Turma: </label><label>${turma.nome}</label>
+					<label class="col-sm-1 text-view-info"><strong>Turma: </strong></label><label class="col-sm-11 text-view-info">${turma.nome}</label>
 				</div>
 
 				<div class="form-group">
-					<label class="col-sm-1">Semestre: </label><label>${turma.periodo.ano}.${turma.periodo.semestre}</label>
+					<label class="col-sm-1 text-view-info"><strong>Semestre: </strong></label><label class="col-sm-11 text-view-info">${turma.ano}.${turma.semestre}</label>
+				</div>
+
+				<div class="form-group">
+					<label class="col-sm-1 text-view-info"><strong>Início: </strong></label><label class="col-sm-11 text-view-info">${turma.inicio}</label>
+				</div>
+
+				<div class="form-group">
+					<label class="col-sm-1 text-view-info"><strong>Término: </strong></label><label class="col-sm-11 text-view-info">${turma.termino}</label>
 				</div>
 			</c:if>
 		</div>
@@ -53,7 +61,6 @@
 			<c:if test="${empty turma.estagiarios}"><div class="alert alert-warning" role="alert">Não há estagiários vinculados a esta turma.</div></c:if>
 
 			<c:if test="${not empty turma.estagiarios}">
-			
 				<table id="estagiarios-turma" class="table table-striped table-hover">
 					<thead>
 						<tr>
@@ -76,12 +83,14 @@
 				</table>
 			</c:if>
 		</div>
-		<div class="panel-footer" align="center">
-			<div class="controls">
-				<a class="btn btn-default" href="<c:url value="/supervisor/turma/${idTurma }/tce" ></c:url>" title="Termo de Compromisso"><i class="fa fa-file-pdf-o"></i> Termo de Compromisso</a>
-				<a class="btn btn-primary" href="<c:url value="/supervisor/turma/${idTurma }/declaracoes" ></c:url>" title="Declaração de Estágio"><i class="fa fa-file-pdf-o"></i> Declaração de Estágio</a>
+		<c:if test="${not empty turma.estagiarios}">
+			<div class="panel-footer" align="center">
+				<div class="controls">
+					<a class="btn btn-default" href="<c:url value="/supervisor/turma/${idTurma }/tce" ></c:url>" title="Termo de Compromisso"><i class="fa fa-file-pdf-o"></i> Termo de Compromisso</a>
+					<a class="btn btn-primary" href="<c:url value="/supervisor/turma/${idTurma }/declaracoes" ></c:url>" title="Declaração de Estágio"><i class="fa fa-file-pdf-o"></i> Declaração de Estágio</a>
+				</div>
 			</div>
-		</div>
+		</c:if>
 	</div>
 	
 	</div>

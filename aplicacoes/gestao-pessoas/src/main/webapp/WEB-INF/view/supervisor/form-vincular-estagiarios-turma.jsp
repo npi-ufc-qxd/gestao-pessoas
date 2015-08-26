@@ -22,6 +22,13 @@
 			<h2 id="titulo-cadastro-npi"><a class="header-anchor" href="#"><span class="glyphicon glyphicon-link"></span></a> Atualizar Vínculos: ${turma.nome}</h2>
 		</div>
 		
+		<c:if test="${empty estagiarios }">
+			<div class="panel-body">
+				<div class="alert alert-warning" role="alert">Não há estagiários.</div>
+			</div>
+		</c:if>
+		
+		<c:if test="${not empty estagiarios }">
 		<form:form id="vincularEstagiarioTurma" role="form" modelAttribute="turma" servletRelativeAction="/supervisor/turma/${turma.id}/vincular" method="POST">
 			<div class="panel-body">
 				<form:hidden path="id"/>
@@ -51,6 +58,7 @@
 			</div>
 
 		</form:form>
+		</c:if>
     </div>
 	</div>
 </div>

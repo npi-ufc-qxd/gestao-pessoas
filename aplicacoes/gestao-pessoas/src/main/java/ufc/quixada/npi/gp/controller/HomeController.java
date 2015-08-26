@@ -1,7 +1,5 @@
 package ufc.quixada.npi.gp.controller;
 
-import ufc.quixada.npi.gp.utils.Constants;
-
 import java.util.ArrayList;
 
 import javax.inject.Inject;

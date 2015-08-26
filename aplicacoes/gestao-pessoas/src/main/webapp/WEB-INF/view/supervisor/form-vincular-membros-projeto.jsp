@@ -25,7 +25,7 @@
 	            <button type="button" data-toggle="dropdown" class="btn btn-default dropdown-toggle">Selecione a Turma&nbsp;&nbsp;<span class="caret"></span></button>
 	            <ul class="dropdown-menu">
 	            	<c:forEach var="turma" items="${turmas}">
-		                <li><a href="<c:url value="/supervisor/projeto/${projeto.id}/vincular/turma/${turma.id}" />">${turma.periodo.ano}.${turma.periodo.semestre} - ${turma.nome}</a></li>
+		                <li><a href="<c:url value="/supervisor/projeto/${projeto.id}/vincular/turma/${turma.id}" />">${turma.ano}.${turma.semestre} - ${turma.nome}</a></li>
 					</c:forEach>
 	            </ul>
 	        </div>	

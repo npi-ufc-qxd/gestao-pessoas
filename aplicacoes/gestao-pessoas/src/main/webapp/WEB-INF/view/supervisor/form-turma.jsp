@@ -5,11 +5,11 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <c:if test="${action eq 'cadastrar' }">
-	<c:set var="url" value="/supervisor/periodo/${periodo.id}/turma"></c:set>
+	<c:set var="url" value="/supervisor/turma"></c:set>
 	<c:set var="titulo" value="Nova Turma"></c:set>
 </c:if>
 <c:if test="${action eq 'editar' }">
-	<c:set var="url" value="/supervisor/periodo/${periodo.id}/turma/${turma.id}/editar"></c:set>
+	<c:set var="url" value="/supervisor/turma/${turma.id}/editar"></c:set>
 	<c:set var="titulo" value="Editar Turma"></c:set>
 </c:if>
 
@@ -32,14 +32,6 @@
 		<form:form id="form-turma" role="form" commandName="turma" servletRelativeAction="${url}"  method="POST" cssClass="form-horizontal">
 			<div class="panel-body">
 				<form:hidden path="id"/>
-
-				<div class="form-group">
-					<div class="form-item col-sm-12">
-						<fmt:formatDate var="inicio" value="${periodo.inicio}" pattern="dd/MM/yyyy" />
-						<fmt:formatDate var="termino" value="${periodo.termino}" pattern="dd/MM/yyyy" />
-						<label class="control-label text-view-info"><strong>Período</strong>: ${periodo.ano}.${periodo.semestre}, de ${inicio} a ${termino}</label>
-					</div>
-				</div>
 
 				<div class="form-group">
 					<div class="form-item col-sm-9">

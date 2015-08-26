@@ -5,7 +5,6 @@ import static ufc.quixada.npi.gp.utils.Constants.PAGINA_FORM_ESTAGIARIO;
 import static ufc.quixada.npi.gp.utils.Constants.PAGINA_INICIAL_ESTAGIARIO;
 import static ufc.quixada.npi.gp.utils.Constants.PAGINA_MEU_PROJETO;
 import static ufc.quixada.npi.gp.utils.Constants.PAGINA_MINHA_PRESENCA;
-import static ufc.quixada.npi.gp.utils.Constants.REDIRECT_MINHA_PRESENCA;
 import static ufc.quixada.npi.gp.utils.Constants.REDIRECT_PAGINA_INICIAL_ESTAGIARIO;
 
 import java.util.ArrayList;
@@ -14,20 +13,15 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import javassist.bytecode.analysis.Util;
-
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
-import net.objectlab.kit.datecalc.common.DateCalculator;
 import net.objectlab.kit.datecalc.common.DefaultHolidayCalendar;
 import net.objectlab.kit.datecalc.common.HolidayCalendar;
-import net.objectlab.kit.datecalc.common.HolidayHandlerType;
 import net.objectlab.kit.datecalc.joda.LocalDateKitCalculatorsFactory;
 
 import org.joda.time.LocalDate;
-import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -38,7 +32,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import br.ufc.quixada.npi.ldap.service.UsuarioService;
 import ufc.quixada.npi.gp.model.Estagiario;
 import ufc.quixada.npi.gp.model.Folga;
 import ufc.quixada.npi.gp.model.Frequencia;
@@ -47,10 +40,12 @@ import ufc.quixada.npi.gp.model.enums.StatusFrequencia;
 import ufc.quixada.npi.gp.model.enums.TipoFrequencia;
 import ufc.quixada.npi.gp.service.DadoConsolidado;
 import ufc.quixada.npi.gp.service.EstagiarioService;
+import ufc.quixada.npi.gp.service.FolgaService;
 import ufc.quixada.npi.gp.service.FrequenciaService;
 import ufc.quixada.npi.gp.service.PessoaService;
 import ufc.quixada.npi.gp.utils.Constants;
 import ufc.quixada.npi.gp.utils.UtilGestao;
+import br.ufc.quixada.npi.ldap.service.UsuarioService;
 
 @Controller
 @RequestMapping("estagiario")
@@ -66,7 +61,10 @@ public class EstagiarioController {
 	private FrequenciaService frequenciaService;
 	
 	@Inject
-	private UsuarioService usuarioService; 
+	private UsuarioService usuarioService;
+	
+	@Inject
+	private FolgaService folgaService;
 
 	@RequestMapping(value = {"/",""}, method = RequestMethod.GET)
 	public String paginaInicial(Model model, HttpSession session) {
@@ -145,7 +143,7 @@ public class EstagiarioController {
 				inicioPeriodoTemporario = new LocalDate(new Date());
 			}
 
-			LocalDate fimPeriodo = new LocalDate(estagiario.getTurma().getPeriodo().getTermino());
+			LocalDate fimPeriodo = new LocalDate(estagiario.getTurma().getTermino());
 			
 			List<Frequencia> frequenciasEmAguardo = gerarFrequencia(estagiario, inicioPeriodoTemporario, fimPeriodo); 
 			
@@ -223,24 +221,22 @@ public class EstagiarioController {
 
 	private List<Frequencia> gerarFrequencia(Estagiario estagiario, LocalDate inicioPeriodoTemporario, LocalDate fimPeriodo) {
 
+		List<Folga> folgas = folgaService.find(Folga.class);
+		
 		Set<LocalDate> dataDosFeriados = new HashSet<LocalDate>();
 
-		if (estagiario.getTurma().getPeriodo().getFolgas() != null) {
-			for (Folga folga : estagiario.getTurma().getPeriodo().getFolgas()) {
+		if (folgas != null) {
+			for (Folga folga : folgas) {
 				dataDosFeriados.add(new LocalDate(folga.getData()));
 			}
 		}
 
 		HolidayCalendar<LocalDate> calendarioDeFeriados = new DefaultHolidayCalendar<LocalDate>(dataDosFeriados);
 		LocalDateKitCalculatorsFactory.getDefaultInstance().registerHolidays("NPI", calendarioDeFeriados);
-		DateCalculator<LocalDate> calendario = LocalDateKitCalculatorsFactory.getDefaultInstance().getDateCalculator("NPI", HolidayHandlerType.FORWARD);
 
 		List<Frequencia> frequencias = new ArrayList<Frequencia>();
 		
-		int cont = 0;
-		
 		while (!inicioPeriodoTemporario.isAfter(fimPeriodo)) {
-			cont++;
 
 			if (UtilGestao.isDiaDeTrabahoDaTurma(estagiario.getTurma().getHorarios(), inicioPeriodoTemporario)) {
 				Frequencia frequencia = new Frequencia();

@@ -18,6 +18,11 @@
 	<div class="panel panel-primary">
 		<div class="panel-heading">
 			<h2 class="titulo-panels"><a class="header-anchor" href="#"><span class="glyphicon glyphicon-user"></span></a> Turmas</h2>
+
+			<div class="pull-right"> 
+				<a href="<c:url value="/supervisor/turma" ></c:url>" title="Novo Turma"><button class="btn btn-success"><span class="fa fa-plus-square"></span> Turma</button></a>
+			</div><br>
+			
 		</div>
 
 		<div class="panel-body">
@@ -27,25 +32,26 @@
 			</c:if>
 			
 			<c:if test="${not empty turmas}">
-				<table id="minhas-turmas" class="table table-striped form-inline">
+				<table id="minhas-turmas" class="table table-striped table-hover">
 					<thead>
 						<tr class="">
 							<th>Periodo</th>
 							<th class="hidden">Ano</th>
 							<th class="hidden">Semestre</th>
-							<th>Turma</th>
+							<th>Nome</th>
 							<th>Status</th>
-							<th>N° de Estagiários</th>
+							<th>Início</th>
+							<th>Término</th>
 							<th></th>
 			           </tr>
 			       </thead>
 
-			       <tbody class="panel">
+			       <tbody class="text-view-info">
 							<c:forEach var="turma" items="${turmas}">
 								<tr>
-									<td>${turma.periodo.ano}.${turma.periodo.semestre}</td>
-									<td class="hidden">${turma.periodo.ano}</td>
-									<td class="hidden">${turma.periodo.semestre}</td>
+									<td>${turma.ano}.${turma.semestre}</td>
+									<td class="hidden">${turma.ano}</td>
+									<td class="hidden">${turma.semestre}</td>
 									<td>${turma.nome}</td>
 									
 									<c:if test="${turma.statusTurma eq 'FECHADA'}">
@@ -54,10 +60,14 @@
 									<c:if test="${turma.statusTurma eq 'ABERTA'}">
 										<td><span class="label label-info">${turma.statusTurma}</span></td>
 									</c:if>
-									
-									<td><span class="badge ${fn:length(turma.estagiarios) gt 0 ? 'badge-success' : 'badge-danger' }">${fn:length(turma.estagiarios)}</span></td>
+
+									<td><fmt:formatDate value="${turma.inicio}" pattern="dd/MM/yyyy" /></td>
+
+									<td><fmt:formatDate value="${turma.termino}" pattern="dd/MM/yyyy" /></td>
+
 									<td align="right">
-										<a href="<c:url value="/supervisor/turma/${turma.id}" />" title="Informações" class="btn btn-info"><span class="glyphicon glyphicon-eye-open"></span>&nbsp;</a>
+										<a href="<c:url value="/supervisor/turma/${turma.id}" />" title="Informações" class="btn btn-info"><span class="glyphicon glyphicon-eye-open"></span></a>
+										<a href="<c:url value="/supervisor/turma/${turma.id}/editar" />" title="Editar" class="btn btn-primary"><span class="glyphicon glyphicon-pencil"></span></a>
 									</td>
 							</tr>
 						</c:forEach>

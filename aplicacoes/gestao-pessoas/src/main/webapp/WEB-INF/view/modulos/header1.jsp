@@ -24,15 +24,11 @@
 
 			<sec:authorize access="hasAnyRole('ROLE_SUPERVISOR', 'DOCENTE')">
 				<ul class="nav navbar-nav menu">
-					<li id="periodos"><a href="<c:url value="/supervisor/periodos" />"><span class="fa fa-calendar"></span> Períodos</a></li>
-
 					<li id="turmas"><a href="<c:url value="/supervisor/turmas" />"><span class="fa fa-th-list"></span> Minhas Turmas</a></li>
 
 					<li id="projetos"><a href="<c:url value="/supervisor/projetos" />"><span class="fa fa-briefcase"></span> Projetos</a></li>
 
 					<li id="menu-frequencias"><a href="<c:url value="/supervisor/frequencias" />"><span class="fa fa-calendar-check-o"></span> Frequência</a></li>
-
-<%-- 					<li id="menu-reposicao"><a href="<c:url value="/frequencia/reposicao" />">Reposições</span></a></li> --%>
 				</ul>
 			</sec:authorize>
 
@@ -41,10 +37,6 @@
 					<li id="minha-presenca"><a href="<c:url value="/estagiario/minha-presenca" />"><span class="fa fa-calendar-check-o"></span> Minha Presença</a></li>
 
 					<li id="meu-projeto"><a href="<c:url value="/estagiario/meu-projeto" />"><span class="fa fa-briefcase"></span> Meu Projeto</a></li>
-
-<%-- 					<li id="documentos"><a href="<c:url value="/estagiario/documentos" />"><span class="fa fa-folder-open"></span> Documentos</a></li> --%>
-					
-<%-- 					<li id="avaliacao"><a href="<c:url value="/estagiario/avaliacao" />"><span class="fa fa-check-square-o"></span> Avaliação</a></li> --%>
 				</ul>
 			</sec:authorize>
 

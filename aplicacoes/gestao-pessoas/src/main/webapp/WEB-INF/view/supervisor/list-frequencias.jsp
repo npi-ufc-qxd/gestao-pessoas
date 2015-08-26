@@ -29,13 +29,13 @@
 				 	<button type="button" data-toggle="dropdown" class="btn btn-default dropdown-toggle col-sm-12">Selecione a Turma&nbsp;&nbsp;<span class="caret"></span></button>
 				 </c:if>
 				 <c:if test="${not empty turma}">
-				 	<button type="button" data-toggle="dropdown" class="btn btn-default dropdown-toggle col-sm-12">${turma.periodo.ano}.${turma.periodo.semestre} - ${turma.nome}&nbsp;&nbsp;<span class="caret"></span></button>
+				 	<button type="button" data-toggle="dropdown" class="btn btn-default dropdown-toggle col-sm-12">${turma.ano}.${turma.semestre} - ${turma.nome}&nbsp;&nbsp;<span class="caret"></span></button>
 				 </c:if>
 		         
 		         <ul class="dropdown-menu">
 	                <li><a href="<c:url value="/supervisor/frequencias" />">Selecione a Turma&nbsp;&nbsp;</a></li>
 		         	<c:forEach var="turma" items="${turmas}">
-		              <li><a href="<c:url value="/supervisor/turma/${turma.id}/frequencias" />">${turma.periodo.ano}.${turma.periodo.semestre} - ${turma.nome}</a></li>
+		              <li><a href="<c:url value="/supervisor/turma/${turma.id}/frequencias" />">${turma.ano}.${turma.semestre} - ${turma.nome}</a></li>
 					</c:forEach>
 		         </ul>
 		     </div>

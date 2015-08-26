@@ -2,10 +2,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <c:if test="${action eq 'cadastrar' }">
 	<c:set var="url" value="/home/meu-cadastro"></c:set>
-	<c:set var="titulo" value="Meu Cadastro"></c:set>
+	<c:set var="titulo" value="Confirmação dos Dados"></c:set>
 </c:if>
 <c:if test="${action eq 'editar' }">
 	<c:set var="url" value="/estagiario/editar-perfil"></c:set>
@@ -22,7 +23,7 @@
 
 <div class="container">
 	<div class="row">
-	<div class="panel panel-primary">
+	<div class="panel ${action eq 'cadastrar' ? 'panel-success' : 'panel-primary' }">
 
 		<div class="panel-heading">
 			<h2 id="titulo-cadastro-npi"><a class="header-anchor" href="#"><span class="glyphicon glyphicon-user"></span></a> ${titulo}</h2>
@@ -50,17 +51,15 @@
 				<div class="form-group">
 					<div class="form-item col-sm-9">
 						<label for="nomeCompleto" class="control-label">*Nome Completo:</label>
-						<form:input id="nomeCompleto" path="nomeCompleto" cssClass="form-control" placeholder="Meu nome completo" required="required" />
+						<form:input id="nomeCompleto" path="nomeCompleto" cssClass="form-control" placeholder="Meu nome completo" required="required" value="${ empty estagiario.nomeCompleto ? usuario.nome : estagiario.nomeCompleto}" />
 						<div class="error-validation"><form:errors path="nomeCompleto"></form:errors></div>
 					</div>
 					
 					<div class="form-item col-sm-3">
+						<fmt:formatDate var="nascimento" value="${empty estagiario.dataNascimento? usuario.nascimento : estagiario.dataNascimento}" pattern="dd/MM/yyyy" />
 						<label for="dataNascimento" class="control-label">*Data de Nascimento:</label>
-						<form:input id="dataNascimento" type="text" path="dataNascimento" cssClass="form-control data" required="required" />
-						<div class="error-validation">
-							<form:errors path="dataNascimento"></form:errors>
-							<c:if test="${not empty error_inicio}"><span>${error_inicio}</span></c:if>
-						</div>
+						<form:input id="dataNascimento" type="text" path="dataNascimento" cssClass="form-control data" required="required" value="${nascimento }"/>
+						<div class="error-validation"> <form:errors path="dataNascimento"></form:errors></div>
 					</div>
 				</div>
 		
@@ -103,7 +102,7 @@
 		
 					<div class="form-item col-sm-4">
 						<label for="semestre" class="control-label">*Semestre:</label>
-						<form:input type="number" id="semestre" path="semestre" cssClass="form-control semestre" placeholder="Semestre" required="required" max="1" min="12" />			
+						<form:input type="number" id="semestre" path="semestre" cssClass="form-control semestre" placeholder="Semestre" required="required" max="12" min="1" />			
 						<div class="error-validation">
 							<form:errors path="semestre"></form:errors>
 						</div>
@@ -133,7 +132,7 @@
 						<label for="contaHangout" class="control-label">Conta Hangout:</label>
 						<div class="input-group">
 							<span class="input-group-addon">@</span>
-							<form:input id="contaHangout" path="contaHangout" class="form-control" placeholder="Conta Hangout"></form:input>
+							<form:input id="contaHangout" path="contaHangout" type="email" class="form-control" placeholder="Conta Hangout" value="${empty estagiario.contaHangout? usuario.email : estagiario.contaHangout}"></form:input>
 						</div>
 		
 					</div>
@@ -176,7 +175,7 @@
 			
 			<div class="panel-footer" align="center">
 				<div class="controls">
-					<c:if test="${action eq 'cadastrar' }"><button type="submit" class="btn btn-primary">Cadastrar</button></c:if>
+					<c:if test="${action eq 'cadastrar' }"><button type="submit" class="btn btn-success">Confirmar</button></c:if>
 					<c:if test="${action eq 'editar' }"><button type="submit" class="btn btn-success">Salvar alterações</button></c:if>
 				</div>
 			</div>

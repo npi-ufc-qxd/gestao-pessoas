@@ -21,6 +21,7 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -67,6 +68,7 @@ public class Estagiario {
 
 	private String contaRedmine;
 	private String contaGithub;
+	@Email(message = "Informe um e-mail valido")
 	private String contaHangout;
 
 	@NotNull(message = "Campo obrigatório.")

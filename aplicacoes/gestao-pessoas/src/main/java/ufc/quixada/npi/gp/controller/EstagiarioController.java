@@ -71,7 +71,7 @@ public class EstagiarioController {
 		Pessoa pessoa = getUsuarioLogado(session);
 		
 		if(!estagiarioService.possuiTurma(pessoa.getCpf())){
-			model.addAttribute("warning", "Aguarde, você sera vinculada a uma turma, desde já sinta-se parte deste grupo, NPI.");
+			model.addAttribute("possuiTurma", false);
 		}
 
 		return PAGINA_INICIAL_ESTAGIARIO;
@@ -80,9 +80,16 @@ public class EstagiarioController {
 	@RequestMapping(value = "/meus-dados", method = RequestMethod.GET)
 	public String paginaPerfilEstagiario(Model model) {
 		String cpf = SecurityContextHolder.getContext().getAuthentication().getName();
-		model.addAttribute("action", "editar");
-		model.addAttribute("estagiario", estagiarioService.getEstagiarioByCpf(cpf));
 
+		Estagiario estagiario = estagiarioService.getEstagiarioByCpf(cpf);
+		
+		if (estagiario == null) {
+			return "redirect:/home/meu-cadastro";
+		} else {
+			model.addAttribute("action", "editar");
+			model.addAttribute("estagiario", estagiario);
+		}
+		
 		return PAGINA_FORM_ESTAGIARIO;
 	}
 

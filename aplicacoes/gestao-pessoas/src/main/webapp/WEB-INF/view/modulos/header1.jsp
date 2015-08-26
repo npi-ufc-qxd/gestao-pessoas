@@ -12,7 +12,7 @@
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
 			</button>
-			<sec:authorize access="hasRole('ROLE_ESTAGIARIO_NPI')">
+			<sec:authorize access="hasAnyRole('ROLE_ESTAGIARIO_NPI', 'DISCENTE')">
 				<a class="navbar-brand" href="<c:url value="/estagiario/" />"><span class="fa fa-group"></span> Gestão de Pessoas</a>
 			</sec:authorize>
 			<sec:authorize access="hasAnyRole('ROLE_SUPERVISOR', 'DOCENTE')">
@@ -32,7 +32,7 @@
 				</ul>
 			</sec:authorize>
 
-			<sec:authorize access="hasRole('ROLE_ESTAGIARIO_NPI')">
+			<sec:authorize access="hasAnyRole('ROLE_ESTAGIARIO_NPI', 'DISCENTE')">
 				<ul class="nav navbar-nav menu">
 					<li id="minha-presenca"><a href="<c:url value="/estagiario/minha-presenca" />"><span class="fa fa-calendar-check-o"></span> Minha Presença</a></li>
 
@@ -44,15 +44,15 @@
 				<li class="dropdown">
 					<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-user"></i> <i class="glyphicon glyphicon-chevron-down"></i></a>
 					<ul class="dropdown-menu">
-						<sec:authorize access="hasRole('ROLE_ESTAGIARIO_NPI')">
+					<sec:authorize access="hasAnyRole('ROLE_ESTAGIARIO_NPI', 'DISCENTE')">
 							<li><a href="<c:url value="/estagiario/meus-dados" />"><i class="glyphicon glyphicon-user"></i> Meus Dados</a></li>
 						</sec:authorize>
 						<sec:authorize access="hasAnyRole('ROLE_SUPERVISOR', 'DOCENTE')">
 <%-- 							<li><a href="<c:url value="#/supervisor/meus-dados" />"><i class="glyphicon glyphicon-user"></i> Meus Dados</a></li> --%>
 						</sec:authorize>
-						<li><a href="<c:url value="/j_spring_security_logout" />"><i class="glyphicon glyphicon-off"></i> Sair</a></li>
-<!-- 						<li class="divider"></li> -->
 <%-- 						<li><a href="<c:url value="#/home/sobre" />"><i class="glyphicon glyphicon-info-sign"></i> Sobre</a></li> --%>
+						<li class="divider"></li>
+						<li><a href="<c:url value="/j_spring_security_logout" />"><i class="glyphicon glyphicon-off"></i> Sair</a></li>
 					</ul>
 				</li>  
 			</ul>

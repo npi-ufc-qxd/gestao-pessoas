@@ -45,7 +45,7 @@
 		       <tbody class="text-view-info">
 					<c:forEach var="frequencia" items="${frequencias}">
 				        <c:choose>
-				            <c:when test="${frequencia.statusFrequencia != 'AGUARDO'}">
+				            <c:when test="${frequencia.statusFrequencia != ''}">
 				            	<tr class="success">
 									<td><strong><fmt:formatDate value="${frequencia.data}" pattern="dd/MM/yyyy" /></strong></td>
 									<td><a href="#" class="observacaoFrequencia" title="Realizar observação" data-pk="${frequencia.id}">${frequencia.observacao}</a></td>

@@ -16,8 +16,6 @@
 
 	<bean id="applicationContextProvder" class="ufc.quixada.npi.gp.model.PessoaEntityListener"/>
 
-	<bean id="applicationContextProvderServidor" class="ufc.quixada.npi.gp.model.ServidorEntityListener"/>
-
 	<bean id="emf" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
 		<property name="persistenceUnitName" value="dev" />
 		<property name="dataSource" ref="gestao_pessoas" />

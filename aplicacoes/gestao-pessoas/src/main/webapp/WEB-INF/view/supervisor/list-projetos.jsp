@@ -29,7 +29,7 @@
 			<c:if test="${empty projetos}"><div class="alert alert-warning" role="alert">Não há Projetos cadastrados.</div></c:if>
 			
 			<c:if test="${not empty projetos}">
-				<table id="projetos" class="table table-striped table-hover">
+				<table id="table-projetos" class="table table-striped table-hover">
 					<thead>
 						<tr class="">
 							<th>Nome</th>
@@ -65,6 +65,19 @@
 		$(document).ready(function(){
 			$(".menu #projetos").addClass("active");
 		});
+		
+		$('#table-projetos').DataTable({
+			 "pageLength": 10,
+			"language": ptBR,
+			 "order": [0, 'asc'],
+			 "columnDefs": [
+				{ "orderable": false, "targets": 1 },
+				{ "orderable": false, "targets": 2 },
+			],
+		});
+
+		$('.dataTables_length label').addClass('text-view-info');
+		$('.dataTables_filter label').addClass('text-view-info');
 	</script>	
 
 </body>

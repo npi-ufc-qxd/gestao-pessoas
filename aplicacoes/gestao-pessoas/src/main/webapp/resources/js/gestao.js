@@ -1,4 +1,30 @@
+var ptBR = {
+    "sEmptyTable": "Nenhum registro encontrado",
+    "sInfo": "Mostrando de _START_ até _END_ de _TOTAL_ registros",
+    "sInfoEmpty": "Mostrando 0 até 0 de 0 registros",
+    "sInfoFiltered": "(Filtrados de _MAX_ registros)",
+    "sInfoPostFix": "",
+    "sInfoThousands": ".",
+    "sLengthMenu": "Resultados por página _MENU_",
+    "sLoadingRecords": "Carregando...",
+    "sProcessing": "Processando...",
+    "sZeroRecords": "Nenhum registro encontrado",
+    "sSearch": "Pesquisar",
+    "oPaginate": {
+        "sNext": "Próximo",
+        "sPrevious": "Anterior",
+        "sFirst": "Primeiro",
+        "sLast": "Último"
+    },
+    "oAria": {
+        "sSortAscending": ": Ordenar colunas de forma ascendente",
+        "sSortDescending": ": Ordenar colunas de forma descendente"
+    }
+}
+
 $(document).ready(function() {
+	$('[data-toggle="tooltip"]').tooltip();
+	$('[data-toggle="popover"]').popover()
 	
 	$("#semestre").keyup(function() {
 		if(!$.isNumeric(this))
@@ -7,8 +33,6 @@ $(document).ready(function() {
 	
 	ativarEditable();
 	
-	$('[data-toggle="tooltip"]').tooltip();
-	$('[data-toggle="popover"]').popover()
 	$(".ano").mask("9999");	
 	$(".hora").mask("99:99");
 	$(".cpf").mask("999.999.999-99");
@@ -17,7 +41,7 @@ $(document).ready(function() {
 	$(".matricula").mask("9999999");
 	$(".telefone").mask("(99) - 9999-9999");
 
-	$('#adicionarProjetoForm').validate({
+	$('#form-projeto').validate({
         rules: {
             
         },
@@ -75,7 +99,7 @@ $(document).ready(function() {
         }
     });
 
-	$('#adicionarFolgaForm').validate({
+	$('#form-folga').validate({
         rules: {
             
         },
@@ -100,7 +124,7 @@ $(document).ready(function() {
         }
     });	
 
-	$( "#DadosPessoaisEstagiarioForm" ).validate({
+	$( "#form-estagiario" ).validate({
         rules: {
 		 semestre: {
 			 required: true,
@@ -157,75 +181,16 @@ $(document).ready(function() {
 		}
 	});	
 
-	$( "#meusDadosForm" ).validate({
-        rules: {
-            
-        },
-        highlight: function(element) {
-            $(element).closest('.form-item').addClass('has-error');
-        },
-        unhighlight: function(element) {
-            $(element).closest('.form-item').removeClass('has-error');
-        },
-        errorElement: 'span',
-        errorClass: 'help-block',
-        errorPlacement: function(error, element) {
-            error.insertAfter(element.parent().children().last());
-        },
-        messages:{
-			endereco : {
-				required : "Campo obrigatório",
-			},
-		}
-	});	
-
-	$( "#adicionarContasTurmaEstagiarioForm" ).validate({
-        rules: {
-            
-        },
-        highlight: function(element) {
-            $(element).closest('.form-item').addClass('has-error');
-        },
-        unhighlight: function(element) {
-            $(element).closest('.form-item').removeClass('has-error');
-        },
-        errorElement: 'span',
-        errorClass: 'help-block',
-        errorPlacement: function(error, element) {
-        	
-        	error.insertAfter(element.parent().children().last());
-        	
-        	if (element.hasClass('customError')) {
-                error.appendTo($('#minha-turma'));
-        	}
-        	
-        },
-        messages:{
-        	contaRedmine : {
-        		required : "Campo obrigatório",
-        	},
-        	contaGithub : {
-        		required : "Campo obrigatório",
-        	},
-        	contaHangout : {
-        		required : "Campo obrigatório",
-        	},
-        	"turma.id" : {
-        		required : "Campo obrigatório",
-        	},
-		}
-	});	
-	
-
 	$(".data").datepicker({
 		language: 'pt-BR',
 		autoclose: true,
 		format: "dd/mm/yyyy",
 		orientation: "top auto",
 	});
+	
 });
 
-function ativarEditable(){
+function ativarEditable() {
     $('.observacaoFrequencia').editable({
     	url : '/gestao-pessoas/supervisor/frequencia/realizar-observacao',
     	title : 'Observaçao',

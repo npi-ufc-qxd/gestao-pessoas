@@ -7,6 +7,7 @@
 <html>
 	<head>
 		<jsp:include page="../modulos/header-estrutura1.jsp" />
+
 		<title>Minhas Turmas</title>
 	</head>
 <body>
@@ -32,7 +33,7 @@
 			</c:if>
 			
 			<c:if test="${not empty turmas}">
-				<table id="minhas-turmas" class="table table-striped table-hover">
+				<table id="table-turmas" class="table table-striped table-hover">
 					<thead>
 						<tr class="">
 							<th>Periodo</th>
@@ -84,60 +85,28 @@
 		
 </div>
 
-
 	<jsp:include page="../modulos/footer1.jsp" />
+
 	<script type="text/javascript">
-	
-	$('.menu #turmas').addClass('active');
-	
-	$('#minhas-turmas').DataTable({
-		 "pageLength": 10,
-		 "order": [[ 1, 'asc' ], [ 2, 'asc' ]],
-		 "columnDefs": [
-		               { "orderable": false, "targets": 0 },
-		               { "order": [[ 1, 'asc' ], [ 2, 'asc' ]],    "targets": [0, 'asc'] },
-		               { "orderable": false, "targets": 2 },
-		               { "orderable": false, "targets": 3 },
-		               { "orderable": false, "targets": 4 },
-		               { "orderable": false, "targets": 5 },
-		               { "orderable": false, "targets": 6 },
-		],
-		
-		"language": {
-		    "sEmptyTable": "Nenhum registro encontrado",
-		    "sInfo": "Mostrando de _START_ até _END_ de _TOTAL_ registros",
-		    "sInfoEmpty": "Mostrando 0 até 0 de 0 registros",
-		    "sInfoFiltered": "(Filtrados de _MAX_ registros)",
-		    "sInfoPostFix": "",
-		    "sInfoThousands": ".",
-		    "sLengthMenu": "_MENU_",
-		    "sLoadingRecords": "Carregando...",
-		    "sProcessing": "Processando...",
-		    "sZeroRecords": "Nenhum registro encontrado",
-		    "sSearch": "",
-		    "oPaginate": {
-		        "sNext": "Próximo",
-		        "sPrevious": "Anterior",
-		        "sFirst": "Primeiro",
-		        "sLast": "Último"
-		    },
-		    "oAria": {
-		        "sSortAscending": ": Ordenar colunas de forma ascendente",
-		        "sSortDescending": ": Ordenar colunas de forma descendente"
-		    }
-		}
-	});
-	
-	
-	$('select').selectpicker({
-		width: '100%',
-		title: 'Resultados por página', 
-	});
-	$('input').attr('placeholder', 'Pesquisar...');
-	$('input').addClass('form-control col-sm-2');
-	$('select').addClass('form-control col-sm-4');
-	
-	
+		$('.menu #turmas').addClass('active');
+
+		$('#table-turmas').DataTable({
+			 "pageLength": 10,
+			 "order": [[ 1, 'asc' ], [ 2, 'asc' ]],
+			 "columnDefs": [
+				{ "order": [[ 1, 'asc' ], [ 2, 'asc' ]],    "targets": [0, 'asc'] },
+				{ "orderable": false, "targets": 2 },
+				{ "orderable": false, "targets": 3 },
+				{ "orderable": false, "targets": 4 },
+				{ "orderable": false, "targets": 5 },
+				{ "orderable": false, "targets": 6 },
+				{ "orderable": false, "targets": 7 },
+			],
+			"language": ptBR,
+		});
+
+		$('.dataTables_length label').addClass('text-view-info');
+		$('.dataTables_filter label').addClass('text-view-info');
 	</script>
 </body>
 </html>

@@ -69,7 +69,7 @@
 							<th></th>
 			           </tr>
 			       </thead>
-			       <tbody>
+			       <tbody class="text-view-info">
 						<c:forEach var="estagiario" items="${turma.estagiarios}">
 							<tr>
 								<td>${estagiario.matricula}</td>

@@ -44,7 +44,6 @@
 								<td>${projeto.nome}</td>
 								<td>${projeto.descricao}</td>
 								<td align="right">
-									<a href="<c:url value="/supervisor/projeto/${projeto.id}/vincular" />" title="Vincular Membros" class="btn btn-success"><span class="glyphicon glyphicon-link"></span>&nbsp;</a>
 									<a href="<c:url value="/supervisor/projeto/${projeto.id}/informacoes" />" title="Informações" class="btn btn-info"><span class="glyphicon glyphicon-eye-open"></span>&nbsp;</a>
 									<a href="<c:url value="/supervisor/projeto/${projeto.id}/editar" />" title="Editar" class="btn btn-primary"><span class="glyphicon glyphicon-pencil"></span>&nbsp;</a>
 								</td>
@@ -62,23 +61,19 @@
 	<jsp:include page="../modulos/footer1.jsp" />
 	
     <script type="text/javascript">
-		$(document).ready(function(){
-			$(".menu #projetos").addClass("active");
-		});
-		
+		$(".menu #menu-projetos").addClass("active");
+
 		$('#table-projetos').DataTable({
 			 "pageLength": 10,
 			"language": ptBR,
 			 "order": [0, 'asc'],
 			 "columnDefs": [
 				{ "orderable": false, "targets": 1 },
-				{ "orderable": false, "targets": 2 },
 			],
 		});
 
 		$('.dataTables_length label').addClass('text-view-info');
 		$('.dataTables_filter label').addClass('text-view-info');
 	</script>	
-
 </body>
 </html>

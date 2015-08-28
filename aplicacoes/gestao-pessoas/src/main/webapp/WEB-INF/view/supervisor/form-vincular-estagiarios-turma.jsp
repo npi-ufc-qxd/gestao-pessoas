@@ -32,7 +32,31 @@
 		<form:form id="vincularEstagiarioTurma" role="form" modelAttribute="turma" servletRelativeAction="/supervisor/turma/${turma.id}/vincular" method="POST">
 			<div class="panel-body">
 				<form:hidden path="id"/>
-				<table class="table table-striped table-hover">
+				<table id="table-estagiarios" class="table table-striped table-hover">
+					<thead>
+						<tr>
+							<th>Estagiários da turma</th>
+						</tr>
+					</thead>
+					<tbody>
+						<c:forEach var="estagiario" items="${estagiarios}" varStatus="contador">
+							<c:set var="estagiarioDaTurma" value="${estagiario.turma.id eq turma.id ? true : false}"></c:set>
+							<c:if test="${estagiarioDaTurma }">
+							<tr>
+								<td>
+									<form:checkbox id="estagiario${contador.index}" path="estagiarios[${contador.index}].id" value="${estagiario.id}" checked="checked"/>
+									<label for="estagiario${contador.index}" class="text-view-info">${estagiario.nomeCompleto}</label>
+								</td>
+							</tr>
+							</c:if>
+						</c:forEach>
+					</tbody>
+				</table>
+			</div>
+
+			<div class="panel-body">
+				<form:hidden path="id"/>
+				<table id="table-vincular-estagiarios" class="table table-striped table-hover">
 					<thead>
 						<tr>
 							<th>Selecione os estagiários</th>
@@ -40,12 +64,15 @@
 					</thead>
 					<tbody>
 						<c:forEach var="estagiario" items="${estagiarios}" varStatus="contador">
+							<c:set var="estagiarioDaTurma" value="${estagiario.turma.id eq turma.id ? true : false}"></c:set>
+							<c:if test="${not estagiarioDaTurma }">
 							<tr>
 								<td>
-									<form:checkbox id="estagiario${contador.index}" path="estagiarios[${contador.index}].id" value="${estagiario.id}" checked="${estagiario.turma.id eq turma.id ? 'checked' : ''}"/>
+									<form:checkbox id="estagiario${contador.index}" path="estagiarios[${contador.index}].id" value="${estagiario.id}"/>
 									<label for="estagiario${contador.index}" class="text-view-info">${estagiario.nomeCompleto}</label>
 								</td>
 							</tr>
+							</c:if>
 						</c:forEach>
 					</tbody>
 				</table>
@@ -69,6 +96,18 @@
 		$(document).ready(function(){
 			$(".menu #turmas").addClass("active");
 		});
+
+		$('#table-vincular-estagiarios').DataTable({
+			 "pageLength": 10,
+			"language": ptBR,
+			 "order": [0, 'asc'],
+			 "columnDefs": [
+				{ "orderable": false, "targets": 0 },
+			],
+		});
+
+		$('.dataTables_length label').addClass('text-view-info');
+		$('.dataTables_filter label').addClass('text-view-info');
 	</script>	
 	
 </body>

@@ -23,8 +23,6 @@ var ptBR = {
 }
 
 $(document).ready(function() {
-	$('[data-toggle="tooltip"]').tooltip();
-	$('[data-toggle="popover"]').popover()
 	
 	$("#semestre").keyup(function() {
 		if(!$.isNumeric(this))

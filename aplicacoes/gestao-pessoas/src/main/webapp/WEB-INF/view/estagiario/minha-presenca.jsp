@@ -79,7 +79,7 @@
 			
 			<c:if test="${not empty message}"><div class="alert alert-info msg"><i class="fa fa-info-circle"> </i> ${message}</div></c:if>
 
-			<table id="periodos" class="table table-striped table-hover">
+			<table id="table-minha-frequencia" class="table table-striped table-hover">
 				<thead>
 					<tr>
 						<th>Data</th>
@@ -101,6 +101,7 @@
 					            <tr class="warning">
 									<td><strong><fmt:formatDate value="${frequencia.data}" pattern="dd/MM/yyyy" /></strong></td>
 									<td colspan="2">Aguardando data para lançamento da frequência.</td>
+									<td style="display: none;"></td>
 								</tr>
 				            </c:otherwise>
 				        </c:choose>
@@ -116,6 +117,22 @@
 </div><br><br>
 
 	<jsp:include page="../modulos/footer1.jsp" />
-	<script src="<c:url value="/resources/js/frequencia.js" />"></script>
+	
+    <script type="text/javascript">
+		$(".menu #menu-projetos").addClass("active");
+
+		$('#table-minha-frequencia').DataTable({
+			 "pageLength": 10,
+			"language": ptBR,
+			 "order": [0, 'asc'],
+			 "columnDefs": [
+				{ "orderable": false, "targets": 1 },
+				{ "orderable": false, "targets": 2 },
+			],
+		});
+
+		$('.dataTables_length label').addClass('text-view-info');
+		$('.dataTables_filter label').addClass('text-view-info');
+	</script>	
 
 </body>

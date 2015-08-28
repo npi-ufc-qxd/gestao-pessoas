@@ -29,7 +29,7 @@
 				<ul class="nav navbar-nav menu">
 					<li id="turmas"><a href="<c:url value="/supervisor/turmas" />"><span class="fa fa-th-list"></span> Minhas Turmas</a></li>
 
-					<li id="projetos"><a href="<c:url value="/supervisor/projetos" />"><span class="fa fa-briefcase"></span> Projetos</a></li>
+					<li id="menu-projetos"><a href="<c:url value="/supervisor/projetos" />"><span class="fa fa-briefcase"></span> Projetos</a></li>
 
 					<li id="menu-frequencias"><a href="<c:url value="/supervisor/frequencias" />"><span class="fa fa-calendar-check-o"></span> Frequência</a></li>
 				</ul>

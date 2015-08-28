@@ -273,34 +273,20 @@ public class SupervisorController {
 	
 	@RequestMapping(value = "/projeto/{idProjeto}/vincular", method = RequestMethod.GET)
 	public String paginaVincularMembrosProjeto(Model model, @PathVariable("idProjeto") Long idProjeto, HttpSession session) {
-		Pessoa pessoa = getUsuarioLogado(session);
-
-		model.addAttribute("turmas", turmaService.getTurmasSupervisorByStatus(StatusTurma.ABERTA, pessoa.getId()));
 		model.addAttribute("projeto", projetoService.find(Projeto.class, idProjeto));
+		model.addAttribute("estagiarios", estagiarioService.find(Estagiario.class));
 		
 		return "supervisor/form-vincular-membros-projeto";
 	}
-	
-	@RequestMapping(value = "/projeto/{idProjeto}/vincular/turma/{idTurma}", method = RequestMethod.GET)
-	public String vincularEstagiariosProjeto(Model model, HttpSession session, @PathVariable("idTurma") Long idTurma, @PathVariable("idProjeto") Long idProjeto) {
-		Pessoa pessoa = getUsuarioLogado(session);
 
-		model.addAttribute("turmas", turmaService.getTurmasSupervisorByStatus(StatusTurma.ABERTA, pessoa.getId()));
-		model.addAttribute("turma", turmaService.find(Turma.class, idTurma));
-		model.addAttribute("projeto", projetoService.find(Projeto.class, idProjeto));
-		model.addAttribute("estagiarios", turmaService.find(Turma.class, idTurma).getEstagiarios());
-
-		return "supervisor/form-vincular-membros-projeto";
-	}
-
-	@RequestMapping(value = "/projeto/{idProjeto}/vincular/turma/{idTurma}", method = RequestMethod.POST)
+	@RequestMapping(value = "/projeto/{idProjeto}/vincular", method = RequestMethod.POST)
 	public String vincularMembrosProjeto(Model model, @ModelAttribute("projeto") Projeto projeto) {
 		
 		projeto = atualizarProjeto(projeto);
 		
 		projetoService.update(projeto);
 
-		return "redirect:/supervisor/projetos";
+		return "redirect:/supervisor/" + projeto.getId() + "/informacoes";
 	}
 
 	@RequestMapping(value = "/frequencias", method = RequestMethod.GET)

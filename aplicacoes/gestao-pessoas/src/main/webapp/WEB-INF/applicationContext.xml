@@ -64,8 +64,7 @@
 	<context:annotation-config />
 
 	<context:component-scan base-package="br.ufc.quixada.npi.service.impl.GenericServiceImpl" />
-	<context:component-scan base-package="br.ufc.quixada.npi.repository" />
-	<context:component-scan base-package="br.ufc.quixada.npi.repository.jpa" />
+	<context:component-scan base-package="br.ufc.quixada.npi.repository.*" />
 	<context:component-scan base-package="br.ufc.quixada.npi.enumeration" />
 	<context:component-scan base-package="br.ufc.quixada.npi.ldap.*" />
 

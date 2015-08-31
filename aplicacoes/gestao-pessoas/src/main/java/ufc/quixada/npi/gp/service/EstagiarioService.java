@@ -9,12 +9,10 @@ public interface EstagiarioService extends GenericService<Estagiario>{
 
 	Estagiario getEstagiarioByPessoaId(Long id);
 
-	Estagiario getEstagiarioByCpf(String cpf);
+	Estagiario getEstagiarioByPessoaCpf(String cpf);
 	
-	Estagiario getEstagiarioPesssoa(String cpf, String senha);
+	List<Estagiario> getEstagiarioByTurmaId(Long id);
 	
-	List<Estagiario> getEstagiarioTurma(Long id);
-	
-	boolean possuiTurma(String cpf);
-	
+	boolean possuiTurmaAtiva(String cpf);
+
 }

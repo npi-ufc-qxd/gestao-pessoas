@@ -70,7 +70,7 @@ public class EstagiarioController {
 	public String paginaInicial(Model model, HttpSession session) {
 		Pessoa pessoa = getUsuarioLogado(session);
 		
-		if(!estagiarioService.possuiTurma(pessoa.getCpf())){
+		if(!estagiarioService.possuiTurmaAtiva(pessoa.getCpf())){
 			model.addAttribute("possuiTurma", false);
 		}
 
@@ -81,7 +81,7 @@ public class EstagiarioController {
 	public String paginaPerfilEstagiario(Model model) {
 		String cpf = SecurityContextHolder.getContext().getAuthentication().getName();
 
-		Estagiario estagiario = estagiarioService.getEstagiarioByCpf(cpf);
+		Estagiario estagiario = estagiarioService.getEstagiarioByPessoaCpf(cpf);
 		
 		if (estagiario == null) {
 			return "redirect:/home/meu-cadastro";
@@ -96,7 +96,7 @@ public class EstagiarioController {
 	@RequestMapping(value = "/editar-perfil", method = RequestMethod.GET)
 	public String paginaEditarPerfil(Model model) {
 		String cpf = SecurityContextHolder.getContext().getAuthentication().getName();
-		model.addAttribute("estagiario", estagiarioService.getEstagiarioByCpf(cpf));
+		model.addAttribute("estagiario", estagiarioService.getEstagiarioByPessoaCpf(cpf));
 		model.addAttribute("action", "editar");
 
 		return PAGINA_FORM_ESTAGIARIO;
@@ -134,14 +134,14 @@ public class EstagiarioController {
 		
 		if(possuiTurma) {
 			
-			boolean frequenciaNaoRealizada = frequenciaService.getFrequenciaDeHojeByEstagiario(estagiario.getId()) == null ? true : false;
+			boolean frequenciaNaoRealizada = frequenciaService.getFrequenciaDeHojeByEstagiarioId(estagiario.getId()) == null ? true : false;
 
 			
 			if(frequenciaService.liberarPreseca(estagiario.getTurma()) && frequenciaNaoRealizada){
 				liberarPresenca = true;
 			}
 
-			List<Frequencia> frequencias = frequenciaService.getFrequenciaByEstagiario(estagiario.getId());
+			List<Frequencia> frequencias = frequenciaService.getFrequenciasByEstagiarioId(estagiario.getId());
 
 			LocalDate inicioPeriodoTemporario;
 			if(!frequenciaNaoRealizada){
@@ -183,7 +183,7 @@ public class EstagiarioController {
 			presencaLiberada = frequenciaService.liberarPreseca(estagiario.getTurma());
 		}
 
-		boolean frequenciaNaoRealizada = frequenciaService.getFrequenciaDeHojeByEstagiario(estagiario.getId()) == null ? true : false;
+		boolean frequenciaNaoRealizada = frequenciaService.getFrequenciaDeHojeByEstagiarioId(estagiario.getId()) == null ? true : false;
 
 		if(estagiarioValido && presencaLiberada && frequenciaNaoRealizada){
 			Frequencia frequencia = new Frequencia();
@@ -203,8 +203,7 @@ public class EstagiarioController {
 	
 	@RequestMapping(value = "/meu-projeto", method = RequestMethod.GET)
 	public String meuProjeto(HttpSession session, Model model) {
-		Estagiario estagiario = estagiarioService
-				.getEstagiarioByPessoaId(getUsuarioLogado(session).getId());
+		Estagiario estagiario = estagiarioService.getEstagiarioByPessoaId(getUsuarioLogado(session).getId());
 
 		if (estagiario.getProjeto() != null) {
 			model.addAttribute("projeto", estagiario.getProjeto());

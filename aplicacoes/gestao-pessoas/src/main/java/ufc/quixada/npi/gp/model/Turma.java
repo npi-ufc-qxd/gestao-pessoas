@@ -12,6 +12,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
@@ -80,8 +81,11 @@ public class Turma {
 	@JoinColumn(name= "turma_id")
 	private List<Frequencia> frequencias;
 
-	//fetch = FetchType.LAZY,
-	@OneToMany(cascade = {CascadeType.REFRESH, CascadeType.MERGE, CascadeType.PERSIST})	@JoinColumn(name= "turma_id")
+//	fetch = FetchType.LAZY,
+//	@OneToMany(cascade = {CascadeType.REFRESH, CascadeType.MERGE, CascadeType.PERSIST})	@JoinColumn(name= "turma_id")
+//	private List<Estagiario> estagiarios;
+	
+	@ManyToMany(mappedBy = "turmas")
 	private List<Estagiario> estagiarios;
 
 	public Long getId() {

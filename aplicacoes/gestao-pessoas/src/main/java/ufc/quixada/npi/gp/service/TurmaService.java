@@ -9,16 +9,16 @@ import br.ufc.quixada.npi.service.GenericService;
 
 public interface TurmaService extends GenericService<Turma> {
 
-	List<Turma> getTurmaPeriodo(String ano, String semestre, Long idSupervisor);
+//	List<Turma> getTurmaPeriodo(String ano, String semestre, Long idSupervisor);
+//
+//	List<Turma> getMinhasTurmaPeriodo(String ano, String semestre, Long idSupervisor);
 
-	List<Turma> getMinhasTurmaPeriodo(String ano, String semestre, Long idSupervisor);
+	List<Turma> getTurmasBySupervisorId(Long idSupervisor);
 
-	List<Turma> getMinhasTurma(Long idSupervisor);
+//	List<Turma> getTurmasAno(String ano, StatusPeriodo statusPeriodo);
 
-	List<Turma> getTurmasAno(String ano, StatusPeriodo statusPeriodo);
+	List<Turma> getTurmasBySupervisorIdAndStatus(StatusTurma statusTurma, Long idSupervisor);
 
-	List<Turma> getTurmasSupervisorByStatus(StatusTurma statusTurma, Long idSupervisor);
-
-	Turma getTurmaSupervisorById(Long idTurma, Long idSupervisor);
+	Turma getTurmaByIdAndSupervisorById(Long idTurma, Long idSupervisor);
 
 }

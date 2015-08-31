@@ -117,7 +117,7 @@ public class SupervisorController {
 	
 	@RequestMapping(value = "/turma/{idTurma}/tce", method = RequestMethod.GET)
 	public String gerarTermoDeCompromisso(@PathVariable("idTurma") Long idTurma, Model model) throws JRException {
-		jrDatasource = new JRBeanCollectionDataSource(estagiarioService.getEstagiarioTurma(idTurma));
+		jrDatasource = new JRBeanCollectionDataSource(estagiarioService.getEstagiarioByTurmaId(idTurma));
 		
 		model.addAttribute("datasource", jrDatasource);
 		model.addAttribute("format", "pdf");
@@ -126,7 +126,7 @@ public class SupervisorController {
 
 	@RequestMapping(value = "/turma/{idTurma}/declaracoes", method = RequestMethod.GET)
 	public String gerarDeclaracaoEstagio( Model model, @PathVariable("idTurma") Long idTurma) throws JRException {
-		jrDatasource = new JRBeanCollectionDataSource(estagiarioService.getEstagiarioTurma(idTurma));
+		jrDatasource = new JRBeanCollectionDataSource(estagiarioService.getEstagiarioByTurmaId(idTurma));
 		
 		model.addAttribute("datasource", jrDatasource);
 		model.addAttribute("format", "pdf");
@@ -136,7 +136,7 @@ public class SupervisorController {
 	@RequestMapping(value = "/turmas", method = RequestMethod.GET)
 	public String listarTurmas(Model model, HttpSession session) {
 		Pessoa pessoa = getUsuarioLogado(session);
-		model.addAttribute("turmas", turmaService.getMinhasTurma(pessoa.getId()));
+		model.addAttribute("turmas", turmaService.getTurmasBySupervisorId(pessoa.getId()));
 
 		return "supervisor/list-turmas";
 	}
@@ -171,15 +171,20 @@ public class SupervisorController {
 	}
 	
 	@RequestMapping(value = "/turma/{idTurma}", method = RequestMethod.GET)
-	public String detalhesTurma(@PathVariable("idTurma") Long idTurma, Model model) {
-		model.addAttribute("turma", turmaService.find(Turma.class, idTurma));
+	public String detalhesTurma(@PathVariable("idTurma") Long idTurma, Model model, HttpSession session) {
+		Pessoa pessoa = getUsuarioLogado(session);
+
+		model.addAttribute("turma", turmaService.getTurmaByIdAndSupervisorById(idTurma, pessoa.getId()));
+		turmaService.getTurmaByIdAndSupervisorById(idTurma, pessoa.getId());
+
 		return "supervisor/info-turma";
 	}
 	
 	@RequestMapping(value = "/turma/{id}/vincular", method = RequestMethod.GET)
 	public String paginaVincularEstagiarioTurma(Model model, HttpSession session, @PathVariable("id") Long idTurma)  {
+		Pessoa pessoa = getUsuarioLogado(session);
 
-		model.addAttribute("turma", turmaService.find(Turma.class, idTurma));
+		model.addAttribute("turma", turmaService.getTurmaByIdAndSupervisorById(idTurma, pessoa.getId()));
 		model.addAttribute("estagiarios", estagiarioService.find(Estagiario.class));
 
 		return "supervisor/form-vincular-estagiarios-turma";
@@ -187,8 +192,9 @@ public class SupervisorController {
 
 	@RequestMapping(value = "/turma/{id}/vincular", method = RequestMethod.POST)
 	public String atualizarVinculoEstagiarioTurma(Model model, HttpSession session, @ModelAttribute("turma") Turma turma)  {
+		Pessoa pessoa = getUsuarioLogado(session);
 		
-		Turma turmaDoBanco = turmaService.find(Turma.class, turma.getId());
+		Turma turmaDoBanco = turmaService.getTurmaByIdAndSupervisorById(turma.getId(), pessoa.getId());
 		
 		turmaDoBanco.setEstagiarios(atualizarListaEstagiarios(turma));
 		
@@ -293,7 +299,7 @@ public class SupervisorController {
 	public String paginaListarFrequenciaTurma(Model model, HttpSession session) {
 		Pessoa pessoa = getUsuarioLogado(session);
 
-		model.addAttribute("turmas", turmaService.getTurmasSupervisorByStatus(StatusTurma.ABERTA, pessoa.getId()));
+		model.addAttribute("turmas", turmaService.getTurmasBySupervisorIdAndStatus(StatusTurma.ABERTA, pessoa.getId()));
 
 		return "supervisor/list-frequencias";
 	}
@@ -302,10 +308,10 @@ public class SupervisorController {
 	public String listarFrequenciaTurma(@PathVariable("idTurma") Long idTurma, Model model, HttpSession session) {
 		Pessoa pessoa = getUsuarioLogado(session);
 		Date dataAtual = new Date();
-		List<Frequencia> frequencias = frequenciaService.getFrequencias(dataAtual, idTurma);
+		List<Frequencia> frequencias = frequenciaService.getFrequenciasByTurmaIdAndData(dataAtual, idTurma);
 
-		model.addAttribute("turma", turmaService.getTurmaSupervisorById(idTurma, pessoa.getId()));
-		model.addAttribute("turmas", turmaService.getTurmasSupervisorByStatus(StatusTurma.ABERTA, pessoa.getId()));
+		model.addAttribute("turma", turmaService.getTurmaByIdAndSupervisorById(idTurma, pessoa.getId()));
+		model.addAttribute("turmas", turmaService.getTurmasBySupervisorIdAndStatus(StatusTurma.ABERTA, pessoa.getId()));
 		model.addAttribute("frequencias", frequencias);
 		model.addAttribute("dataSelecionada", dataAtual);
 
@@ -316,10 +322,10 @@ public class SupervisorController {
 	public String listarFrequenciaTurmaData(@PathVariable("idTurma") Long idTurma, @RequestParam("data") Date data, Model model, HttpSession session) {
 		Pessoa pessoa = getUsuarioLogado(session);
 
-		List<Frequencia> frequencias = frequenciaService.getFrequencias(data, idTurma);
+		List<Frequencia> frequencias = frequenciaService.getFrequenciasByTurmaIdAndData(data, idTurma);
 
-		model.addAttribute("turma", turmaService.getTurmaSupervisorById(idTurma, pessoa.getId()));
-		model.addAttribute("turmas", turmaService.getTurmasSupervisorByStatus(StatusTurma.ABERTA, pessoa.getId()));
+		model.addAttribute("turma", turmaService.getTurmaByIdAndSupervisorById(idTurma, pessoa.getId()));
+		model.addAttribute("turmas", turmaService.getTurmasBySupervisorIdAndStatus(StatusTurma.ABERTA, pessoa.getId()));
 		model.addAttribute("frequencias", frequencias);
 		model.addAttribute("dataSelecionada", data);
 
@@ -331,9 +337,9 @@ public class SupervisorController {
 
 		Estagiario estagiario = estagiarioService.find(Estagiario.class, idEstagiario);
 		
-		boolean frequenciaNaoRealizada = frequenciaService.getFrequenciaDeHojeByEstagiario(estagiario.getId()) == null ? true : false;
+		boolean frequenciaNaoRealizada = frequenciaService.getFrequenciaDeHojeByEstagiarioId(estagiario.getId()) == null ? true : false;
 		
-		List<Frequencia> frequencias = frequenciaService.getFrequenciaByEstagiario(estagiario.getId());
+		List<Frequencia> frequencias = frequenciaService.getFrequenciasByEstagiarioId(estagiario.getId());
 
 		LocalDate inicioPeriodoTemporario;
 		if(!frequenciaNaoRealizada){

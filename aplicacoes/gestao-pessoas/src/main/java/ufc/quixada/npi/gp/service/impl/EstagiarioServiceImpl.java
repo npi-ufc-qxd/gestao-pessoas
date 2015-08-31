@@ -4,22 +4,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.inject.Inject;
 import javax.inject.Named;
 
 import ufc.quixada.npi.gp.model.Estagiario;
 import ufc.quixada.npi.gp.model.Turma;
 import ufc.quixada.npi.gp.service.EstagiarioService;
 import br.ufc.quixada.npi.enumeration.QueryType;
-import br.ufc.quixada.npi.repository.GenericRepository;
 import br.ufc.quixada.npi.service.impl.GenericServiceImpl;
 
 @Named
-public class EstagiarioServiceImpl extends GenericServiceImpl<Estagiario> implements EstagiarioService{
+public class EstagiarioServiceImpl extends GenericServiceImpl<Estagiario> implements EstagiarioService {
 	
-	@Inject
-	private GenericRepository<Turma> turmaRepository;
-
 	@Override
 	public Estagiario getEstagiarioByPessoaId(Long id) {
 		Map<String, Object> params = new HashMap<String, Object>();
@@ -32,7 +27,7 @@ public class EstagiarioServiceImpl extends GenericServiceImpl<Estagiario> implem
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Estagiario> getEstagiarioTurma(Long id) {
+	public List<Estagiario> getEstagiarioByTurmaId(Long id) {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("id", id);
 		
@@ -42,18 +37,7 @@ public class EstagiarioServiceImpl extends GenericServiceImpl<Estagiario> implem
 	}
 
 	@Override
-	public Estagiario getEstagiarioPesssoa(String cpf, String senha) {
-		Map<String, Object> params = new HashMap<String, Object>();
-		params.put("cpf", cpf);
-		params.put("senha", senha);
-
-		Estagiario estagiario = (Estagiario) findFirst(QueryType.JPQL, "select e from Estagiario e join e.pessoa p where p.cpf = :cpf and p.password = :senha", params);
-		
-		return estagiario;
-	}
-
-	@Override
-	public Estagiario getEstagiarioByCpf(String cpf) {
+	public Estagiario getEstagiarioByPessoaCpf(String cpf) {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("cpf", cpf);
 
@@ -63,11 +47,11 @@ public class EstagiarioServiceImpl extends GenericServiceImpl<Estagiario> implem
 	}
 
 	@Override
-	public boolean possuiTurma(String cpf) {
+	public boolean possuiTurmaAtiva(String cpf) {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("cpf", cpf);
 
-		Turma turma = (Turma) findFirst(QueryType.JPQL, "select e.turma from Estagiario e where e.pessoa.cpf = :cpf", params);
+		Turma turma = (Turma) findFirst(QueryType.JPQL, "select t from Estagiario e join e.turmas t where e.pessoa.cpf = :cpf and t IS NOT NULL", params);
 
 		if (turma != null) {
 			return true;

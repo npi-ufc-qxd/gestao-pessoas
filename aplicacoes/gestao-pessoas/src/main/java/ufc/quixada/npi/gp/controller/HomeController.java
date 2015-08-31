@@ -50,7 +50,7 @@ public class HomeController {
 
 		Usuario usuario = usuarioService.getByCpf(SecurityContextHolder.getContext().getAuthentication().getName());
 		
-		if (estagiarioService.getEstagiarioByCpf(usuario.getCpf()) != null) {
+		if (estagiarioService.getEstagiarioByPessoaCpf(usuario.getCpf()) != null) {
 			return "redirect:/estagiario/meus-dados";
 		}
 		

@@ -7,21 +7,13 @@ import static ufc.quixada.npi.gp.utils.Constants.PAGINA_MEU_PROJETO;
 import static ufc.quixada.npi.gp.utils.Constants.PAGINA_MINHA_PRESENCA;
 import static ufc.quixada.npi.gp.utils.Constants.REDIRECT_PAGINA_INICIAL_ESTAGIARIO;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
-import net.objectlab.kit.datecalc.common.DefaultHolidayCalendar;
-import net.objectlab.kit.datecalc.common.HolidayCalendar;
-import net.objectlab.kit.datecalc.joda.LocalDateKitCalculatorsFactory;
-
-import org.joda.time.LocalDate;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -33,18 +25,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import ufc.quixada.npi.gp.model.Estagiario;
-import ufc.quixada.npi.gp.model.Folga;
 import ufc.quixada.npi.gp.model.Frequencia;
 import ufc.quixada.npi.gp.model.Pessoa;
+import ufc.quixada.npi.gp.model.Turma;
 import ufc.quixada.npi.gp.model.enums.StatusFrequencia;
-import ufc.quixada.npi.gp.model.enums.TipoFrequencia;
 import ufc.quixada.npi.gp.service.DadoConsolidado;
 import ufc.quixada.npi.gp.service.EstagiarioService;
-import ufc.quixada.npi.gp.service.FolgaService;
 import ufc.quixada.npi.gp.service.FrequenciaService;
 import ufc.quixada.npi.gp.service.PessoaService;
+import ufc.quixada.npi.gp.service.TurmaService;
 import ufc.quixada.npi.gp.utils.Constants;
-import ufc.quixada.npi.gp.utils.UtilGestao;
 import br.ufc.quixada.npi.ldap.service.UsuarioService;
 
 @Controller
@@ -58,13 +48,13 @@ public class EstagiarioController {
 	private EstagiarioService estagiarioService;
 
 	@Inject
+	private TurmaService turmaService;
+
+	@Inject
 	private FrequenciaService frequenciaService;
 	
 	@Inject
 	private UsuarioService usuarioService;
-	
-	@Inject
-	private FolgaService folgaService;
 
 	@RequestMapping(value = {"/",""}, method = RequestMethod.GET)
 	public String paginaInicial(Model model, HttpSession session) {
@@ -127,33 +117,26 @@ public class EstagiarioController {
 		Pessoa pessoa = getUsuarioLogado(session);
 		
 		Estagiario estagiario = estagiarioService.getEstagiarioByPessoaId(pessoa.getId());
+		
+		Turma turma = turmaService.getTurmaEmAndamentoByEstagiarioId(estagiario.getId());
 
 		boolean liberarPresenca = false;
 
-		boolean possuiTurma  = estagiario.getTurma() != null ? true : false;
+		boolean possuiTurma  = turma != null ? true : false;
 		
 		if(possuiTurma) {
 			
 			boolean frequenciaNaoRealizada = frequenciaService.getFrequenciaDeHojeByEstagiarioId(estagiario.getId()) == null ? true : false;
 
 			
-			if(frequenciaService.liberarPreseca(estagiario.getTurma()) && frequenciaNaoRealizada){
+			if(frequenciaService.liberarPreseca(turma) && frequenciaNaoRealizada){
 				liberarPresenca = true;
 			}
 
 			List<Frequencia> frequencias = frequenciaService.getFrequenciasByEstagiarioId(estagiario.getId());
 
-			LocalDate inicioPeriodoTemporario;
-			if(!frequenciaNaoRealizada){
-				inicioPeriodoTemporario = new LocalDate(new Date()).plusDays(1);
-			}else{
-				inicioPeriodoTemporario = new LocalDate(new Date());
-			}
+			List<Frequencia> frequenciasEmAguardo = frequenciaService.gerarFrequencia(turma, estagiario.getId());
 
-			LocalDate fimPeriodo = new LocalDate(estagiario.getTurma().getTermino());
-			
-			List<Frequencia> frequenciasEmAguardo = gerarFrequencia(estagiario, inicioPeriodoTemporario, fimPeriodo); 
-			
 			frequencias.addAll(frequenciasEmAguardo);
 
 			DadoConsolidado dadosConsolidados = frequenciaService.calcularDadosConsolidados(frequencias);
@@ -177,10 +160,12 @@ public class EstagiarioController {
 		Estagiario estagiario = estagiarioService.getEstagiarioByPessoaId(pessoa.getId());
 		
 		boolean estagiarioValido = usuarioService.autentica(pessoa.getCpf(), senha);
+
+		Turma turma = turmaService.getTurmaEmAndamentoByEstagiarioId(estagiario.getId());
 		
 		boolean presencaLiberada = false;
-		if(estagiario.getTurma() != null) {
-			presencaLiberada = frequenciaService.liberarPreseca(estagiario.getTurma());
+		if(turma != null) {
+			presencaLiberada = frequenciaService.liberarPreseca(turma);
 		}
 
 		boolean frequenciaNaoRealizada = frequenciaService.getFrequenciaDeHojeByEstagiarioId(estagiario.getId()) == null ? true : false;
@@ -189,7 +174,7 @@ public class EstagiarioController {
 			Frequencia frequencia = new Frequencia();
 
 			frequencia.setEstagiario(estagiario);
-			frequencia.setTurma(estagiario.getTurma());
+			frequencia.setTurma(turma);
 
 			frequencia.setData(new Date());
 			frequencia.setStatusFrequencia(StatusFrequencia.PRESENTE);
@@ -227,38 +212,4 @@ public class EstagiarioController {
 
 		return pessoa;
 	}
-
-	private List<Frequencia> gerarFrequencia(Estagiario estagiario, LocalDate inicioPeriodoTemporario, LocalDate fimPeriodo) {
-
-		List<Folga> folgas = folgaService.find(Folga.class);
-		
-		Set<LocalDate> dataDosFeriados = new HashSet<LocalDate>();
-
-		if (folgas != null) {
-			for (Folga folga : folgas) {
-				dataDosFeriados.add(new LocalDate(folga.getData()));
-			}
-		}
-
-		HolidayCalendar<LocalDate> calendarioDeFeriados = new DefaultHolidayCalendar<LocalDate>(dataDosFeriados);
-		LocalDateKitCalculatorsFactory.getDefaultInstance().registerHolidays("NPI", calendarioDeFeriados);
-
-		List<Frequencia> frequencias = new ArrayList<Frequencia>();
-		
-		while (!inicioPeriodoTemporario.isAfter(fimPeriodo)) {
-
-			if (UtilGestao.isDiaDeTrabahoDaTurma(estagiario.getTurma().getHorarios(), inicioPeriodoTemporario)) {
-				Frequencia frequencia = new Frequencia();
-				frequencia.setTipoFrequencia(TipoFrequencia.NORMAL);
-				frequencia.setData(inicioPeriodoTemporario.toDate());
-				frequencia.setStatusFrequencia(StatusFrequencia.AGUARDO);
-
-				frequencias.add(frequencia);
-			}
-			inicioPeriodoTemporario = inicioPeriodoTemporario.plusDays(1);
-		}
-
-		return frequencias;
-	}
-
 }

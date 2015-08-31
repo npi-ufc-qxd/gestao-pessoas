@@ -31,7 +31,7 @@ public class EstagiarioServiceImpl extends GenericServiceImpl<Estagiario> implem
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("id", id);
 		
-		List<Estagiario> estagiarios = find(QueryType.JPQL, "select e from Estagiario e where e.turma.id = :id", params);
+		List<Estagiario> estagiarios = find(QueryType.JPQL, "select e from Estagiario e join e.turmas t where t.id = :id", params);
 
 		return estagiarios;
 	}
@@ -59,5 +59,4 @@ public class EstagiarioServiceImpl extends GenericServiceImpl<Estagiario> implem
 
 		return false;
 	}
-
 }

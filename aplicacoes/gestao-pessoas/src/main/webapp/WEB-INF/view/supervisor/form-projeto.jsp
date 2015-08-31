@@ -84,9 +84,7 @@
 	<jsp:include page="../modulos/footer1.jsp" />
 	
     <script type="text/javascript">
-		$(document).ready(function(){
-			$(".menu #projetos").addClass("active");
-		});
+		$(".menu #projetos").addClass("active");
 	</script>		
 </body>
 </html>

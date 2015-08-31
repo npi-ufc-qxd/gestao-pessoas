@@ -119,7 +119,6 @@
 	<jsp:include page="../modulos/footer1.jsp" />
 	
     <script type="text/javascript">
-		$(".menu #menu-projetos").addClass("active");
 
 		$('#table-minha-frequencia').DataTable({
 			 "pageLength": 10,

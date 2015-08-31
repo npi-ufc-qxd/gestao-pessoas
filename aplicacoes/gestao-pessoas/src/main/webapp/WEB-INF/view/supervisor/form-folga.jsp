@@ -76,9 +76,7 @@
 	<jsp:include page="../modulos/footer1.jsp" />
 	
     <script type="text/javascript">
-		$(document).ready(function(){
-			$(".menu #periodos").addClass("active");
-		});
+		$(".menu #periodos").addClass("active");
 	</script>	
 
 </body>

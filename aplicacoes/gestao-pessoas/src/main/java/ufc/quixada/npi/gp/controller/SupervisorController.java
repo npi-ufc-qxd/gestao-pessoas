@@ -5,22 +5,16 @@ import static ufc.quixada.npi.gp.utils.Constants.PAGINA_TCE;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
-import net.objectlab.kit.datecalc.common.DefaultHolidayCalendar;
-import net.objectlab.kit.datecalc.common.HolidayCalendar;
-import net.objectlab.kit.datecalc.joda.LocalDateKitCalculatorsFactory;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 
-import org.joda.time.LocalDate;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
@@ -34,7 +28,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import ufc.quixada.npi.gp.model.Estagiario;
-import ufc.quixada.npi.gp.model.Folga;
 import ufc.quixada.npi.gp.model.Frequencia;
 import ufc.quixada.npi.gp.model.Papel;
 import ufc.quixada.npi.gp.model.Pessoa;
@@ -44,10 +37,8 @@ import ufc.quixada.npi.gp.model.Turma;
 import ufc.quixada.npi.gp.model.enums.Dia;
 import ufc.quixada.npi.gp.model.enums.StatusFrequencia;
 import ufc.quixada.npi.gp.model.enums.StatusTurma;
-import ufc.quixada.npi.gp.model.enums.TipoFrequencia;
 import ufc.quixada.npi.gp.service.DadoConsolidado;
 import ufc.quixada.npi.gp.service.EstagiarioService;
-import ufc.quixada.npi.gp.service.FolgaService;
 import ufc.quixada.npi.gp.service.FrequenciaService;
 import ufc.quixada.npi.gp.service.PapelService;
 import ufc.quixada.npi.gp.service.PessoaService;
@@ -55,7 +46,6 @@ import ufc.quixada.npi.gp.service.ProjetoService;
 import ufc.quixada.npi.gp.service.ServidorService;
 import ufc.quixada.npi.gp.service.TurmaService;
 import ufc.quixada.npi.gp.utils.Constants;
-import ufc.quixada.npi.gp.utils.UtilGestao;
 import br.ufc.quixada.npi.ldap.service.UsuarioService;
 
 
@@ -75,9 +65,6 @@ public class SupervisorController {
 	
 	@Inject
 	private PapelService papelService;
-	
-	@Inject
-	private FolgaService folgaService;
 	
 	@Inject
 	private EstagiarioService estagiarioService;
@@ -185,7 +172,8 @@ public class SupervisorController {
 		Pessoa pessoa = getUsuarioLogado(session);
 
 		model.addAttribute("turma", turmaService.getTurmaByIdAndSupervisorById(idTurma, pessoa.getId()));
-		model.addAttribute("estagiarios", estagiarioService.find(Estagiario.class));
+		model.addAttribute("estagiariosDaTurma", estagiarioService.getEstagiarioByTurmaId(idTurma));
+		model.addAttribute("outrosEstagiarios", estagiarioService.getEstagiarioByTurmaId(idTurma));
 
 		return "supervisor/form-vincular-estagiarios-turma";
 	}
@@ -337,19 +325,12 @@ public class SupervisorController {
 
 		Estagiario estagiario = estagiarioService.find(Estagiario.class, idEstagiario);
 		
-		boolean frequenciaNaoRealizada = frequenciaService.getFrequenciaDeHojeByEstagiarioId(estagiario.getId()) == null ? true : false;
+		Turma turma = turmaService.getTurmaEmAndamentoByEstagiarioId(idEstagiario);
+		
 		
 		List<Frequencia> frequencias = frequenciaService.getFrequenciasByEstagiarioId(estagiario.getId());
-
-		LocalDate inicioPeriodoTemporario;
-		if(!frequenciaNaoRealizada){
-			inicioPeriodoTemporario = new LocalDate(new Date()).plusDays(1);
-		}else{
-			inicioPeriodoTemporario = new LocalDate(new Date());
-		}
 		
-		LocalDate fimPeriodo = new LocalDate(estagiario.getTurma().getTermino());
-		frequencias.addAll(gerarFrequencia(estagiario, inicioPeriodoTemporario, fimPeriodo));
+		frequencias.addAll(frequenciaService.gerarFrequencia(turma, idEstagiario));
 
 		DadoConsolidado dadosConsolidados = frequenciaService.calcularDadosConsolidados(frequencias);
 
@@ -419,39 +400,5 @@ public class SupervisorController {
 		projeto.setMembros(membros);
 		return projeto;
 	}
-	
-	private List<Frequencia> gerarFrequencia(Estagiario estagiario, LocalDate inicioPeriodoTemporario, LocalDate fimPeriodo) {
-
-		Set<LocalDate> dataDosFeriados = new HashSet<LocalDate>();
-		
-		List<Folga> folgas = folgaService.find(Folga.class);
-
-		if (folgas != null) {
-			for (Folga folga : folgas) {
-				dataDosFeriados.add(new LocalDate(folga.getData()));
-			}
-		}
-
-		HolidayCalendar<LocalDate> calendarioDeFeriados = new DefaultHolidayCalendar<LocalDate>(dataDosFeriados);
-		LocalDateKitCalculatorsFactory.getDefaultInstance().registerHolidays("NPI", calendarioDeFeriados);
-
-		List<Frequencia> frequencias = new ArrayList<Frequencia>();
-		
-		while (!inicioPeriodoTemporario.isAfter(fimPeriodo)) {
-
-			if (UtilGestao.isDiaDeTrabahoDaTurma(estagiario.getTurma().getHorarios(), inicioPeriodoTemporario)) {
-				Frequencia frequencia = new Frequencia();
-				frequencia.setTipoFrequencia(TipoFrequencia.NORMAL);
-				frequencia.setData(inicioPeriodoTemporario.toDate());
-				frequencia.setStatusFrequencia(StatusFrequencia.AGUARDO);
-
-				frequencias.add(frequencia);
-			}
-			inicioPeriodoTemporario = inicioPeriodoTemporario.plusDays(1);
-		}
-
-		return frequencias;
-	}
-	
 		
 }

@@ -22,13 +22,6 @@
 			<h2 id="titulo-cadastro-npi"><a class="header-anchor" href="#"><span class="glyphicon glyphicon-link"></span></a> Atualizar Vínculos: ${turma.nome}</h2>
 		</div>
 		
-		<c:if test="${empty estagiarios }">
-			<div class="panel-body">
-				<div class="alert alert-warning" role="alert">Não há estagiários.</div>
-			</div>
-		</c:if>
-		
-		<c:if test="${not empty estagiarios }">
 		<form:form id="vincularEstagiarioTurma" role="form" modelAttribute="turma" servletRelativeAction="/supervisor/turma/${turma.id}/vincular" method="POST">
 			<div class="panel-body">
 				<form:hidden path="id"/>
@@ -39,16 +32,13 @@
 						</tr>
 					</thead>
 					<tbody>
-						<c:forEach var="estagiario" items="${estagiarios}" varStatus="contador">
-							<c:set var="estagiarioDaTurma" value="${estagiario.turma.id eq turma.id ? true : false}"></c:set>
-							<c:if test="${estagiarioDaTurma }">
+						<c:forEach var="estagiario" items="${estagiariosDaTurma}" varStatus="contador">
 							<tr>
 								<td>
-									<form:checkbox id="estagiario${contador.index}" path="estagiarios[${contador.index}].id" value="${estagiario.id}" checked="checked"/>
-									<label for="estagiario${contador.index}" class="text-view-info">${estagiario.nomeCompleto}</label>
+									<form:checkbox id="estagiarioDaTurma${contador.index}" path="estagiarios[${contador.index}].id" value="${estagiario.id}" checked="checked"/>
+									<label for="estagiarioDaTurma${contador.index}" class="text-view-info">${estagiario.nomeCompleto}</label>
 								</td>
 							</tr>
-							</c:if>
 						</c:forEach>
 					</tbody>
 				</table>
@@ -63,16 +53,13 @@
 						</tr>
 					</thead>
 					<tbody>
-						<c:forEach var="estagiario" items="${estagiarios}" varStatus="contador">
-							<c:set var="estagiarioDaTurma" value="${estagiario.turma.id eq turma.id ? true : false}"></c:set>
-							<c:if test="${not estagiarioDaTurma }">
+						<c:forEach var="estagiario" items="${outrosEstagiarios}" varStatus="contador">
 							<tr>
 								<td>
-									<form:checkbox id="estagiario${contador.index}" path="estagiarios[${contador.index}].id" value="${estagiario.id}"/>
-									<label for="estagiario${contador.index}" class="text-view-info">${estagiario.nomeCompleto}</label>
+									<form:checkbox id="outroEstagiario${contador.index}" path="estagiarios[${contador.index}].id" value="${estagiario.id}"/>
+									<label for="outroEstagiario${contador.index}" class="text-view-info">${estagiario.nomeCompleto}</label>
 								</td>
 							</tr>
-							</c:if>
 						</c:forEach>
 					</tbody>
 				</table>
@@ -85,7 +72,6 @@
 			</div>
 
 		</form:form>
-		</c:if>
     </div>
 	</div>
 </div>

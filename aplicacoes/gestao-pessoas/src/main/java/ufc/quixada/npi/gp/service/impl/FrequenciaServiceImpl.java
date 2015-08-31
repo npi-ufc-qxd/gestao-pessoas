@@ -1,5 +1,6 @@
 package ufc.quixada.npi.gp.service.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -23,6 +24,7 @@ import ufc.quixada.npi.gp.model.Folga;
 import ufc.quixada.npi.gp.model.Frequencia;
 import ufc.quixada.npi.gp.model.Turma;
 import ufc.quixada.npi.gp.model.enums.StatusFrequencia;
+import ufc.quixada.npi.gp.model.enums.TipoFrequencia;
 import ufc.quixada.npi.gp.repository.FrequenciaRepository;
 import ufc.quixada.npi.gp.service.DadoConsolidado;
 import ufc.quixada.npi.gp.service.FolgaService;
@@ -275,4 +277,51 @@ public class FrequenciaServiceImpl extends GenericServiceImpl<Frequencia> implem
 
 		return false;
 	}
+
+	@Override
+	public List<Frequencia> gerarFrequencia(Turma turma, Long idEstagiario) {
+
+		boolean frequenciaNaoRealizada = getFrequenciaDeHojeByEstagiarioId(idEstagiario) == null ? true : false;
+
+		LocalDate inicioPeriodoTemporario;
+		LocalDate fimPeriodo = new LocalDate(turma.getTermino());
+
+
+		if(!frequenciaNaoRealizada){
+			inicioPeriodoTemporario = new LocalDate(new Date()).plusDays(1);
+		}else{
+			inicioPeriodoTemporario = new LocalDate(new Date());
+		}
+
+		List<Folga> folgas = folgaService.find(Folga.class);
+		Set<LocalDate> dataDosFeriados = new HashSet<LocalDate>();
+
+		if (folgas != null) {
+			for (Folga folga : folgas) {
+				dataDosFeriados.add(new LocalDate(folga.getData()));
+			}
+		}
+
+		HolidayCalendar<LocalDate> calendarioDeFeriados = new DefaultHolidayCalendar<LocalDate>(dataDosFeriados);
+		LocalDateKitCalculatorsFactory.getDefaultInstance().registerHolidays("NPI", calendarioDeFeriados);
+
+		List<Frequencia> frequencias = new ArrayList<Frequencia>();
+		
+		while (!inicioPeriodoTemporario.isAfter(fimPeriodo)) {
+
+			if (UtilGestao.isDiaDeTrabahoDaTurma(turma.getHorarios(), inicioPeriodoTemporario)) {
+				Frequencia frequencia = new Frequencia();
+				frequencia.setTipoFrequencia(TipoFrequencia.NORMAL);
+				frequencia.setData(inicioPeriodoTemporario.toDate());
+				frequencia.setStatusFrequencia(StatusFrequencia.AGUARDO);
+
+				frequencias.add(frequencia);
+			}
+			inicioPeriodoTemporario = inicioPeriodoTemporario.plusDays(1);
+		}
+
+		return frequencias;
+	}
+
+	
 }

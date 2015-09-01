@@ -81,11 +81,7 @@ public class Turma {
 	@JoinColumn(name= "turma_id")
 	private List<Frequencia> frequencias;
 
-//	fetch = FetchType.LAZY,
-//	@OneToMany(cascade = {CascadeType.REFRESH, CascadeType.MERGE, CascadeType.PERSIST})	@JoinColumn(name= "turma_id")
-//	private List<Estagiario> estagiarios;
-	
-	@ManyToMany(mappedBy = "turmas")
+	@ManyToMany(mappedBy = "turmas",  cascade = CascadeType.ALL)
 	private List<Estagiario> estagiarios;
 
 	public Long getId() {

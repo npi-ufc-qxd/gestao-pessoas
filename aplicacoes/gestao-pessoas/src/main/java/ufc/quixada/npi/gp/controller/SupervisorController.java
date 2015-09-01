@@ -173,7 +173,7 @@ public class SupervisorController {
 
 		model.addAttribute("turma", turmaService.getTurmaByIdAndSupervisorById(idTurma, pessoa.getId()));
 		model.addAttribute("estagiariosDaTurma", estagiarioService.getEstagiarioByTurmaId(idTurma));
-		model.addAttribute("outrosEstagiarios", estagiarioService.getEstagiarioByTurmaId(idTurma));
+		model.addAttribute("outrosEstagiarios", estagiarioService.getEstagiarioByNotTurmaIdOrSemTurma(idTurma));
 
 		return "supervisor/form-vincular-estagiarios-turma";
 	}
@@ -184,8 +184,15 @@ public class SupervisorController {
 		
 		Turma turmaDoBanco = turmaService.getTurmaByIdAndSupervisorById(turma.getId(), pessoa.getId());
 		
-		turmaDoBanco.setEstagiarios(atualizarListaEstagiarios(turma));
+		List<Estagiario> estagiariosSelecionados = new ArrayList<Estagiario>();
 		
+		if(turma.getEstagiarios() != null) {
+			estagiariosSelecionados = getEstagiariosSelecionados(turma.getEstagiarios());
+			estagiariosSelecionados = atualizarTurmaEstagiarios(estagiariosSelecionados, turmaDoBanco);
+		}
+
+		turmaDoBanco.setEstagiarios(estagiariosSelecionados);
+
 		turmaService.update(turmaDoBanco);
 
 		model.addAttribute("turma", turmaDoBanco);
@@ -373,17 +380,33 @@ public class SupervisorController {
 		}
 		return (Pessoa) session.getAttribute(Constants.USUARIO_LOGADO);
 	}
-	
-	private List<Estagiario> atualizarListaEstagiarios(Turma turma) {
-		List<Estagiario> estagiarios = new ArrayList<Estagiario>();
-		if (turma.getEstagiarios() != null) {
-			for (Estagiario estagiario : turma.getEstagiarios()) {
-				if(estagiario.getId() != null){
-					estagiario = estagiarioService.find(Estagiario.class, estagiario.getId());
-					estagiarios.add(estagiario);
-				}
+
+	private List<Estagiario> getEstagiariosSelecionados(List<Estagiario> estagiarios) {
+		List<Estagiario> estagiariosSelecionados = new ArrayList<Estagiario>();
+
+		for (Estagiario estagiario : estagiarios) {
+			if(estagiario.getId() != null){
+				estagiario = estagiarioService.find(Estagiario.class, estagiario.getId());
+
+				estagiariosSelecionados.add(estagiario);
 			}
 		}
+
+		return estagiariosSelecionados;
+	}
+
+	private List<Estagiario> atualizarTurmaEstagiarios(List<Estagiario> estagiarios, Turma turma) {
+		for (Estagiario estagiario : estagiarios) {
+			if(estagiario.getTurmas() != null) {
+				if(!estagiario.getTurmas().contains(turma)){
+					estagiario.getTurmas().add(turma);
+				}
+			} else {
+				estagiario.setTurmas(new ArrayList<Turma>());
+				estagiario.getTurmas().add(turma);
+			}
+		}
+
 		return estagiarios;
 	}
 
@@ -400,5 +423,4 @@ public class SupervisorController {
 		projeto.setMembros(membros);
 		return projeto;
 	}
-		
 }

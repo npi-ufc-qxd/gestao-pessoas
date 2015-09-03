@@ -18,7 +18,7 @@
 
 	<div class="panel panel-primary">
 		<div class="panel-heading">
-			<h2 class="titulo-panels"><a class="header-anchor" href="#"><span class="glyphicon glyphicon-user"></span></a> Turma ${turma.nome}</h2>
+			<h2 class="titulo-panels"><a class="header-anchor" href="#"><span class="fa fa-folder-open"></span></a> Turma ${turma.nome}</h2>
 		</div>
 
 		<div class="panel-body">
@@ -82,18 +82,22 @@
 				<table id="estagiarios-turma" class="table table-striped table-hover">
 					<thead>
 						<tr>
-							<th>Matrícula</th>
-							<th>Nome</th>
-							<th></th>
+							<th class="col-md-4">Nome</th>
+							<th class="col-md-1">Matrícula</th>
+							<th class="col-md-3">Curso</th>
+							<th class="col-md-3">Local Estágio</th>
+							<th class="col-md-1"></th>
 			           </tr>
 			       </thead>
 			       <tbody class="text-view-info">
 						<c:forEach var="estagiario" items="${turma.estagiarios}">
 							<tr>
-								<td>${estagiario.matricula}</td>
 								<td>${estagiario.nomeCompleto}</td>
+								<td>${estagiario.matricula}</td>
+								<td>${estagiario.curso.labelCurso}</td>
+								<td>${estagiario.localEstagio.labelLocal}</td>
 								<td align="right">
-									<a href="<c:url value="/supervisor/estagiario/${estagiario.id}/frequencia" />" title="Frequências" class="btn btn-info btn-sm"><span class="fa fa-list"></span> Frequências</a>
+									<a href="<c:url value="/supervisor/turma/${idTurma }/estagiario/${estagiario.id}/frequencia" />" title="Frequências" class="btn btn-info btn-sm"><span class="fa fa-calendar"></span> Frequências</a>
 								</td>
 							</tr>
 						</c:forEach>

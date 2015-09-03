@@ -16,7 +16,7 @@
 
 	<div class="panel panel-primary">
 		<div class="panel-heading">
-			<h2 class="titulo-panels"><a class="header-anchor" href="#"><span class="glyphicon glyphicon-user"></span></a> Projeto</h2>
+			<h2 class="titulo-panels"><a class="header-anchor" href="#"><span class="fa fa-briefcase"></span></a> Projeto</h2>
 		</div>
 
 		<div class="panel-body">
@@ -50,15 +50,19 @@
 					<table id="membros-projeto" class="table table-striped table-hover">
 						<thead>
 							<tr class="">
-								<th class="col-sm-1">Matrícula</th>
-								<th class="col-sm-5">Nome</th>
+								<th class="col-md-1">Matrícula</th>
+								<th class="col-md-5">Nome</th>
+								<th class="col-md-3">Curso</th>
+								<th class="col-md-3">Local do Estágio</th>
 				           </tr>
 				       </thead>
 				       <tbody class="text-view-info">
 							<c:forEach var="estagiario" items="${projeto.membros}">
 								<tr class="linha">
 									<td>${estagiario.matricula}</td>
-									<td>${estagiario.pessoa.nome}</td>
+									<td>${estagiario.nomeCompleto}</td>
+									<td>${estagiario.curso.labelCurso}</td>
+									<td>${estagiario.localEstagio.labelLocal}</td>
 								</tr>
 							</c:forEach>
 				       </tbody>
@@ -73,7 +77,7 @@
 	<jsp:include page="../modulos/footer1.jsp" />
 	
     <script type="text/javascript">
-		$(".menu #projetos").addClass("active");
+		$(".menu #menu-projetos").addClass("active");
 	</script>	
 </body>
 </html>

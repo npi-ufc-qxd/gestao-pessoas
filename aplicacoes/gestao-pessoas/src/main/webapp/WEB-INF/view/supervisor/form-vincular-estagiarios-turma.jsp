@@ -19,7 +19,7 @@
 	<div class="panel panel-primary">
 	
 		<div class="panel-heading">
-			<h2 id="titulo-cadastro-npi"><a class="header-anchor" href="#"><span class="glyphicon glyphicon-link"></span></a> Atualizar Vínculos: ${turma.nome}</h2>
+			<h2 id="titulo-cadastro-npi"><a class="header-anchor" href="#"><span class="fa fa-folder-open"></span></a> Atualizar Vínculos: ${turma.nome}</h2>
 		</div>
 		
 		<form:form id="form-vincular-estagiario" role="form" modelAttribute="turma" servletRelativeAction="/supervisor/turma/${turma.id}/vincular" method="POST">

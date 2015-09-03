@@ -27,7 +27,7 @@
 
 			<sec:authorize access="hasAnyRole('ROLE_SUPERVISOR', 'DOCENTE')">
 				<ul class="nav navbar-nav menu">
-					<li id="turmas"><a href="<c:url value="/supervisor/turmas" />"><span class="fa fa-th-list"></span> Minhas Turmas</a></li>
+					<li id="turmas"><a href="<c:url value="/supervisor/turmas" />"><span class="fa fa-folder-open"></span> Minhas Turmas</a></li>
 
 					<li id="menu-projetos"><a href="<c:url value="/supervisor/projetos" />"><span class="fa fa-briefcase"></span> Projetos</a></li>
 
@@ -37,7 +37,7 @@
 
 			<sec:authorize access="hasRole('ROLE_ESTAGIARIO_NPI')">
 				<ul class="nav navbar-nav menu">
-					<li id="minha-presenca"><a href="<c:url value="/estagiario/minha-presenca" />"><span class="fa fa-calendar-check-o"></span> Minha Presença</a></li>
+					<li id="minha-presenca"><a href="<c:url value="/estagiario/minha-frequencia" />"><span class="fa fa-calendar-check-o"></span> Minha Frequência</a></li>
 
 					<li id="meu-projeto"><a href="<c:url value="/estagiario/meu-projeto" />"><span class="fa fa-briefcase"></span> Meu Projeto</a></li>
 				</ul>

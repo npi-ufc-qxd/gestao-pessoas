@@ -10,7 +10,7 @@
 <html>
 	<head>
 		<jsp:include page="../modulos/header-estrutura1.jsp" />
-		<title>Minha Presença</title>
+		<title>Minha Frequência</title>
 	</head>
 <body>
 	<jsp:include page="../modulos/header1.jsp" />
@@ -18,6 +18,30 @@
 <div class="container">
 	<div class="row">
 
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h2 class="titulo-panels"><a class="header-anchor" href="#"><span class="fa fa-calendar-check-o"></span></a> Frêquencia: </h2>
+
+		    <div class="btn-group">
+				 <c:if test="${empty turma}">
+				 	<button type="button" data-toggle="dropdown" class="btn btn-default dropdown-toggle col-sm-12">Selecione a Turma&nbsp;&nbsp;<span class="caret"></span></button>
+				 </c:if>
+				 <c:if test="${not empty turma}">
+				 	<button type="button" data-toggle="dropdown" class="btn btn-default dropdown-toggle col-sm-12">${turma.ano}.${turma.semestre} - ${turma.nome}&nbsp;&nbsp;<span class="caret"></span></button>
+				 </c:if>
+		         
+		         <ul class="dropdown-menu">
+	                <li><a href="<c:url value="/estagiario/minha-frequencia" />">Selecione a Turma&nbsp;&nbsp;</a></li>
+		         	<c:forEach var="turma" items="${turmas}">
+		              <li><a href="<c:url value="/estagiario/minha-frequencia/turma/${turma.id}" />">${turma.ano}.${turma.semestre} - ${turma.nome}</a></li>
+					</c:forEach>
+		         </ul>
+		     </div>
+		</div>
+
+
+		<div class="panel-body">
+		
 	<c:if test="${not possuiTurma}">
 	
 	<div class="alert alert-dismissible alert-warning">
@@ -39,7 +63,7 @@
 	<c:if test="${liberarPresenca}">
 	<div class="panel panel-info">
 		<div class="panel-heading">
-			<form class="form-inline form-minha-presenca" action="<c:url value="/estagiario/minha-presenca"></c:url>" method="POST" align="center">
+			<form class="form-inline form-minha-presenca" action="<c:url value="/estagiario/minha-frequencia/turma/${turma.id }"></c:url>" method="POST" align="center">
 				<c:if test="${not empty error}">
 					<div class="form-group" align="center">
 						<label class="control-label col-xs-2"></label>
@@ -62,13 +86,10 @@
 		  </div>
 		</div>
 	</c:if>
-
-	<div class="panel panel-primary">
-		<div class="panel-heading">
-			<h2 id="titulo-cadastro-npi"><a class="header-anchor" href="#"><span class="glyphicon glyphicon-user"></span></a> Frequência</h2>
-		</div>
-
-		<div class="panel-body">
+		
+		
+		
+		
 			<div>
 				<label>Data: ${frequenciaHoje.data}</label> 
 				<label>Hora: ${frequenciaHoje.tempo}</label> 

@@ -12,6 +12,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -61,6 +62,14 @@ public class Turma {
 	@Enumerated(EnumType.STRING)
 	private StatusTurma statusTurma;
 
+	@OneToMany(cascade = {CascadeType.REFRESH, CascadeType.MERGE, CascadeType.PERSIST})//, fetch = FetchType.LAZY)
+	@JoinColumn(name= "turma_id")
+	private List<Frequencia> frequencias;
+
+	@ManyToMany(cascade = CascadeType.ALL)
+	@JoinTable(name = "turmas_estagiarios")
+	private List<Estagiario> estagiarios;
+
 	public StatusTurma getStatusTurma() {
 		return statusTurma;
 	}
@@ -76,13 +85,6 @@ public class Turma {
 	public void setHorarios(List<Horario> horarios) {
 		this.horarios = horarios;
 	}
-
-	@OneToMany(cascade = {CascadeType.REFRESH, CascadeType.MERGE, CascadeType.PERSIST})//, fetch = FetchType.LAZY)
-	@JoinColumn(name= "turma_id")
-	private List<Frequencia> frequencias;
-
-	@ManyToMany(mappedBy = "turmas",  cascade = CascadeType.ALL)
-	private List<Estagiario> estagiarios;
 
 	public Long getId() {
 		return id;

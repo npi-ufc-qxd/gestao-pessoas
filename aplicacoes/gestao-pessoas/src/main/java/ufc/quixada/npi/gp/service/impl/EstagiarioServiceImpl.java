@@ -42,8 +42,7 @@ public class EstagiarioServiceImpl extends GenericServiceImpl<Estagiario> implem
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("id", id);
 		
-		List<Estagiario> estagiarios = find(QueryType.JPQL, "select e from Estagiario e join e.turmas t where t.id != :id", params);
-		estagiarios.addAll(find(QueryType.JPQL, "select e from Estagiario e where e.turmas IS EMPTY", null));
+		List<Estagiario> estagiarios = find(QueryType.JPQL, "select e from Estagiario e where :id not member of e.turmas or e.turmas IS EMPTY", params);
 
 		return estagiarios;
 	}

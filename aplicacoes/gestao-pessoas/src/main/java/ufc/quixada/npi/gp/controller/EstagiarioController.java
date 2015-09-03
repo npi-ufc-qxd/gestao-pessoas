@@ -29,6 +29,7 @@ import ufc.quixada.npi.gp.model.Frequencia;
 import ufc.quixada.npi.gp.model.Pessoa;
 import ufc.quixada.npi.gp.model.Turma;
 import ufc.quixada.npi.gp.model.enums.StatusFrequencia;
+import ufc.quixada.npi.gp.model.enums.StatusTurma;
 import ufc.quixada.npi.gp.service.DadoConsolidado;
 import ufc.quixada.npi.gp.service.EstagiarioService;
 import ufc.quixada.npi.gp.service.FrequenciaService;
@@ -112,13 +113,28 @@ public class EstagiarioController {
 		return REDIRECT_PAGINA_INICIAL_ESTAGIARIO;
 	}
 
-	@RequestMapping(value = "/minha-presenca", method = RequestMethod.GET)
-	public String minhaPresenca(HttpSession session, Model model) {
+	@RequestMapping(value = "/minha-frequencia", method = RequestMethod.GET)
+	public String minhaFrequecia(HttpSession session, Model model) {
+		Pessoa pessoa = getUsuarioLogado(session);
+		
+		Estagiario estagiario = estagiarioService.getEstagiarioByPessoaId(pessoa.getId());
+
+		List<Turma> turmas = turmaService.getTurmasByEstagiarioIdAndStatus(StatusTurma.ABERTA, estagiario.getId());
+
+		model.addAttribute("turmas", turmas);
+
+		return PAGINA_MINHA_PRESENCA;
+	}
+
+	@RequestMapping(value = "/minha-frequencia/turma/{idTurma}", method = RequestMethod.GET)
+	public String getFrequeciaByTurma(HttpSession session, Model model, @ModelAttribute("idTurma") Long idTurma) {
 		Pessoa pessoa = getUsuarioLogado(session);
 		
 		Estagiario estagiario = estagiarioService.getEstagiarioByPessoaId(pessoa.getId());
 		
-		Turma turma = turmaService.getTurmaEmAndamentoByEstagiarioId(estagiario.getId());
+		List<Turma> turmas = turmaService.getTurmasByEstagiarioIdAndStatus(StatusTurma.ABERTA, estagiario.getId());
+		
+		Turma turma = turmaService.getTurmaByIdAndEstagiarioId(idTurma, estagiario.getId());
 
 		boolean liberarPresenca = false;
 
@@ -129,7 +145,7 @@ public class EstagiarioController {
 			boolean frequenciaNaoRealizada = frequenciaService.getFrequenciaDeHojeByEstagiarioId(estagiario.getId()) == null ? true : false;
 
 			
-			if(frequenciaService.liberarPreseca(turma) && frequenciaNaoRealizada){
+			if(frequenciaService.liberarPreseca(turma) && frequenciaNaoRealizada) {
 				liberarPresenca = true;
 			}
 
@@ -147,6 +163,8 @@ public class EstagiarioController {
 			model.addAttribute("estagiario", estagiario);
 			model.addAttribute("liberarPresenca", liberarPresenca);
 			model.addAttribute("frequenciaNaoRealizada", frequenciaNaoRealizada);
+			model.addAttribute("turma", turma);
+			model.addAttribute("turmas", turmas);
 		}
 
 		model.addAttribute("possuiTurma", possuiTurma);
@@ -154,14 +172,14 @@ public class EstagiarioController {
 		return PAGINA_MINHA_PRESENCA;
 	}
 
-	@RequestMapping(value = "/minha-presenca", method = RequestMethod.POST)
-	public String cadastrarFrequencia(HttpSession session, @RequestParam("senha") String senha, RedirectAttributes redirectAttributes) {
+	@RequestMapping(value = "/minha-frequencia/turma/{idTurma}", method = RequestMethod.POST)
+	public String cadastrarFrequencia(HttpSession session, @RequestParam("senha") String senha, @ModelAttribute("idTurma") Long idTurma, RedirectAttributes redirectAttributes) {
 		Pessoa pessoa = getUsuarioLogado(session);
 		Estagiario estagiario = estagiarioService.getEstagiarioByPessoaId(pessoa.getId());
 		
 		boolean estagiarioValido = usuarioService.autentica(pessoa.getCpf(), senha);
-
-		Turma turma = turmaService.getTurmaEmAndamentoByEstagiarioId(estagiario.getId());
+		
+		Turma turma = turmaService.getTurmaByIdAndEstagiarioId(idTurma, estagiario.getId());
 		
 		boolean presencaLiberada = false;
 		if(turma != null) {
@@ -183,7 +201,7 @@ public class EstagiarioController {
 			frequenciaService.save(frequencia);
 		}
 
-		return "redirect:/estagiario/minha-presenca";
+		return "redirect:/estagiario/minha-frequencia";
 	}
 	
 	@RequestMapping(value = "/meu-projeto", method = RequestMethod.GET)

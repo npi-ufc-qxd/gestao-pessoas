@@ -6,6 +6,7 @@ import java.util.Map;
 
 import javax.inject.Named;
 
+import ufc.quixada.npi.gp.model.Estagiario;
 import ufc.quixada.npi.gp.model.Turma;
 import ufc.quixada.npi.gp.model.enums.StatusTurma;
 import ufc.quixada.npi.gp.service.TurmaService;
@@ -83,12 +84,24 @@ public class TurmaServiceImpl extends GenericServiceImpl<Turma> implements Turma
 	}
 
 	@Override
-	public Turma getTurmaEmAndamentoByEstagiarioId(Long idEstagiario) {
+	public List<Turma> getTurmasByEstagiarioIdAndStatus(StatusTurma statusTurma, Long idEstagiario) {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("idEstagiario", idEstagiario);
-		params.put("statusTurma", StatusTurma.ABERTA);
+		params.put("statusTurma", statusTurma);
+		List<Turma> turmas =  find(QueryType.JPQL, "select t from Turma t where :idEstagiario member of t.estagiarios and t.statusTurma = :statusTurma", params);
 
-		Turma turma = (Turma) findFirst(QueryType.JPQL, "select t from Turma t join t.estagiarios e where e.id = :idEstagiario and t.statusTurma = :statusTurma ", params);
+
+		return turmas;
+	}
+
+	@Override
+	public Turma getTurmaByIdAndEstagiarioId(Long idTurma, Long idEstagiario) {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("idEstagiario", idEstagiario);
+		params.put("idTurma", idTurma);
+		
+		Turma turma =  (Turma) findFirst(QueryType.JPQL, "select t from Turma t where t.id = :idTurma and :idEstagiario member of t.estagiarios", params);
+
 
 		return turma;
 	}

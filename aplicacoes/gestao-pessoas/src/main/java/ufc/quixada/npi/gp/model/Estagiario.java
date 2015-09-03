@@ -92,12 +92,7 @@ public class Estagiario {
 	@ManyToOne
 	private Projeto projeto;
 
-//	@Basic(fetch = FetchType.LAZY)
-//	@ManyToOne
-//	private Turma turma;
-	
-	@ManyToMany
-	@JoinTable(name = "estagiarios_turmas")
+	@ManyToMany(mappedBy = "estagiarios",  cascade = CascadeType.ALL)
 	private List<Turma> turmas;
 
 	@OneToOne(cascade = CascadeType.REFRESH)
@@ -115,14 +110,6 @@ public class Estagiario {
 	public void setFrequencias(List<Frequencia> frequencias) {
 		this.frequencias = frequencias;
 	}
-
-//	public Turma getTurma() {
-//		return turma;
-//	}
-//
-//	public void setTurma(Turma turma) {
-//		this.turma = turma;
-//	}
 
 	public List<Turma> getTurmas() {
 		return turmas;
@@ -304,15 +291,4 @@ public class Estagiario {
 		this.localEstagio = localEstagio;
 	}
 
-	// @Override
-	// public String toString() {
-	// return "Estagiario [id=" + id + ", nomeCompleto=" + nomeCompleto
-	// + ", dataNascimento=" + dataNascimento + ", nomeMae=" + nomeMae
-	// + ", endereco=" + endereco + ", cep=" + cep + ", cidade="
-	// + cidade + ", uf=" + uf + ", telefone=" + telefone + ", curso="
-	// + curso + ", semestre=" + semestre + ", matricula=" + matricula
-	// + ", contaRedmine=" + contaRedmine + ", contaGithub="
-	// + contaGithub + ", contaHangout=" + contaHangout + ", pessoa="
-	// + pessoa + "]";
-	// }
 }

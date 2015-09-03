@@ -18,7 +18,7 @@
 
 	<div class="panel panel-primary">
 		<div class="panel-heading">
-			<h2 class="titulo-panels"><a class="header-anchor" href="#"><span class="glyphicon glyphicon-user"></span></a> Turmas</h2>
+			<h2 class="titulo-panels"><a class="header-anchor" href="#"><span class="fa fa-folder-open"></span></a> Turmas</h2>
 
 			<div class="pull-right"> 
 				<a href="<c:url value="/supervisor/turma" ></c:url>" title="Novo Turma"><button class="btn btn-success"><span class="fa fa-plus-square"></span> Turma</button></a>
@@ -46,7 +46,6 @@
 							<th></th>
 			           </tr>
 			       </thead>
-
 			       <tbody class="text-view-info">
 							<c:forEach var="turma" items="${turmas}">
 								<tr>

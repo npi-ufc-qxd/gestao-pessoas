@@ -18,7 +18,7 @@
 
 	<div class="panel panel-primary">
 		<div class="panel-heading">
-			<h2 class="titulo-panels"><a class="header-anchor" href="#"><span class="glyphicon glyphicon-user"></span></a> Projetos</h2>
+			<h2 class="titulo-panels"><a class="header-anchor" href="#"><span class="fa fa-briefcase"></span></a> Projetos</h2>
 
 			<div class="pull-right">
 				<a href="<c:url value="/supervisor/projeto" ></c:url>" title="Novo Projeto"><button class="btn btn-success"><span class="fa fa-plus-square"></span> Projeto</button></a>
@@ -37,8 +37,7 @@
 							<th></th>
 			           </tr>
 			       </thead>
-
-			       <tbody class="panel">
+			       <tbody class="text-view-info">
 						<c:forEach var="projeto" items="${projetos}">
 							<tr class="linha">
 								<td>${projeto.nome}</td>

@@ -287,7 +287,7 @@ public class SupervisorController {
 		
 		projetoService.update(projeto);
 
-		return "redirect:/supervisor/" + projeto.getId() + "/informacoes";
+		return "redirect:/supervisor/projeto/" + projeto.getId() + "/informacoes";
 	}
 
 	@RequestMapping(value = "/frequencias", method = RequestMethod.GET)
@@ -327,14 +327,13 @@ public class SupervisorController {
 		return "supervisor/list-frequencias";
 	}
 	
-	@RequestMapping(value = "/estagiario/{idEstagiario}/frequencia", method = RequestMethod.GET)
-	public String minhaPresenca(HttpSession session, Model model, @PathVariable("idEstagiario") Long idEstagiario) {
+	@RequestMapping(value = "/turma/{idTurma}/estagiario/{idEstagiario}/frequencia", method = RequestMethod.GET)
+	public String minhaPresenca(HttpSession session, Model model, @PathVariable("idTurma") Long idTurma, @PathVariable("idEstagiario") Long idEstagiario) {
 
 		Estagiario estagiario = estagiarioService.find(Estagiario.class, idEstagiario);
 		
-		Turma turma = turmaService.getTurmaEmAndamentoByEstagiarioId(idEstagiario);
-		
-		
+		Turma turma = turmaService.find(Turma.class, idTurma);
+
 		List<Frequencia> frequencias = frequenciaService.getFrequenciasByEstagiarioId(estagiario.getId());
 		
 		frequencias.addAll(frequenciaService.gerarFrequencia(turma, idEstagiario));

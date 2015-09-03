@@ -17,7 +17,7 @@
 	<div class="row">
 	<div class="panel panel-primary">
 		<div class="panel-heading">
-			<h3 id="titulo-cadastro-npi"><a class="header-anchor" href="#"><span class="glyphicon glyphicon-user"></span></a> Atualizar Membros</h3>
+			<h3 id="titulo-cadastro-npi"><a class="header-anchor" href="#"><span class="fa fa-briefcase"></span></a> Atualizar Membros</h3>
 		</div>
 
 		<c:if test="${empty estagiarios }">
@@ -36,10 +36,10 @@
 					<table id="table-membros" class="table table-striped table-hover">
 						<thead>
 							<tr>
-								<th>Membros</th>
-								<th>Matrícula</th>
-								<th>Turma</th>
-								<th>Status Turma</th>
+								<th class="col-md-5">Membros</th>
+								<th class="col-md-1">Matrícula</th>
+								<th class="col-md-3">Curso</th>
+								<th class="col-md-3">Local Estágio</th>
 				           </tr>
 				       </thead>
 				       <tbody>
@@ -52,8 +52,8 @@
 											<label for="membro${cont.index}">${estagiario.nomeCompleto}</label>
 										</td>
 										<td>${estagiario.matricula}</td>
-										<td>${estagiario.turma.ano}.${estagiario.turma.semestre} - ${estagiario.turma.nome}</td>
-										<td>${estagiario.turma.statusTurma}</td>
+										<td>${estagiario.curso.labelCurso}</td>
+										<td>${estagiario.localEstagio.labelLocal}</td>
 									</tr>
 								</c:if>
 							</c:forEach>
@@ -66,10 +66,10 @@
 					<table id="table-vincular-membros" class="table table-striped table-hover">
 						<thead>
 							<tr>
-								<th>Selecionar Membros</th>
-								<th>Matrícula</th>
-								<th>Turma</th>
-								<th>Status Turma</th>
+								<th class="col-md-5">Selecionar Membros</th>
+								<th class="col-md-1">Matrícula</th>
+								<th class="col-md-3">Curso</th>
+								<th class="col-md-3">Local Estágio</th>
 				           </tr>
 				       </thead>
 				       <tbody>
@@ -82,8 +82,8 @@
 											<label for="membro${cont.index}">${estagiario.nomeCompleto}</label>
 										</td>
 										<td>${estagiario.matricula}</td>
-										<td>${estagiario.turma.ano}.${estagiario.turma.semestre} - ${estagiario.turma.nome}</td>
-										<td>${estagiario.turma.statusTurma}</td>
+										<td>${estagiario.curso.labelCurso}</td>
+										<td>${estagiario.localEstagio.labelLocal}</td>
 									</tr>
 								</c:if>
 							</c:forEach>
@@ -104,7 +104,7 @@
 	<jsp:include page="../modulos/footer1.jsp" />
 
     <script type="text/javascript">
-		$(".menu #projetos").addClass("active");
+		$(".menu #menu-projetos").addClass("active");
 		
 		$('#table-vincular-membros').DataTable({
 			 "pageLength": 10,

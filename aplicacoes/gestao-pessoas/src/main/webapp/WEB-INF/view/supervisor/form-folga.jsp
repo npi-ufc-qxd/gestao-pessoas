@@ -33,7 +33,7 @@
 			<h2 id="titulo-cadastro-npi"><a class="header-anchor" href="#"><span class="glyphicon glyphicon-user"></span></a> ${titulo}</h2>
 		</div>
 
-		<form:form id="adicionarFolgaForm" role="form" commandName="folga" servletRelativeAction="${url}" method="POST" cssClass="form-horizontal">
+		<form:form id="form-folga" role="form" commandName="folga" servletRelativeAction="${url}" method="POST" cssClass="form-horizontal">
 			<div class="panel-body">
 				<form:hidden path="id"/>
 
@@ -76,9 +76,7 @@
 	<jsp:include page="../modulos/footer1.jsp" />
 	
     <script type="text/javascript">
-		$(document).ready(function(){
-			$(".menu #periodos").addClass("active");
-		});
+		$(".menu #periodos").addClass("active");
 	</script>	
 
 </body>

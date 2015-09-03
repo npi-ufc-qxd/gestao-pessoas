@@ -1,7 +1,7 @@
 package ufc.quixada.npi.gp.model.enums;
 
 public enum StatusTurma {
-	ABERTA("Aberta"), FECHADA("Fechada");
+	ABERTA("Aberta"), FECHADA("Fechada"), CONCLUIDA("Concluída");
 	
 	private String label;
 

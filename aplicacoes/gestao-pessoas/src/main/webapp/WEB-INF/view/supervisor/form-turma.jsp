@@ -119,68 +119,62 @@
 	<jsp:include page="../modulos/footer1.jsp" />
 	
     <script type="text/javascript">
+		$('.menu #turmas').addClass('active');
+
 		$(document).ready(function(){
-
-			$(".menu #periodos").addClass("active");
-
-			var limiteHorario = 5
 			var indice = 0;
 
-			$(".add-more").click(function(e){
-				if(limiteHorario > 0){
-					var diaDaSemana = $('#diaDaSemana').val();
-					var inicioExpediente = $('input[name=inicioDoExpediente]').val();
-					var finalExpediente = $('input[name=finalDoExpediente]').val();
+			$(".add-more").click(function(e) {
+				var diaDaSemana = $('#diaDaSemana').val();
+				var inicioExpediente = $('input[name=inicioDoExpediente]').val();
+				var finalExpediente = $('input[name=finalDoExpediente]').val();
 
-					if(inicioExpediente == '') {
-						$("#inicioDoExpediente").addClass('has-error');
-					}
-
-					if(finalExpediente == '') {
-						$("#finalDoExpediente").addClass('has-error');
-					}
-
-					if(inicioExpediente == '' || finalExpediente == '') {
-						return;
-					}
-
-					var idHorario = "horario" + indice;
-					
-					var horario = 				
-						'<div id="'+ idHorario +'" class="form-group">' +
-							'<div class="form-item col-sm-3">' +
-							'<input class="form-control" type="text" name="horarios['+ indice +'].dia" value="'+ diaDaSemana +'" readonly/>' +
-						'</div>' +
-						
-						'<div class="form-item col-sm-3">' +
-							'<div class="input-group">' +
-								'<span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>' +						
-								'<input class="form-control" type="text" name="horarios['+ indice +'].inicioExpediente" value="'+ inicioExpediente +'" readonly/>' +
-							'</div>' +
-						'</div>' +
-						
-						'<div class="form-item col-sm-3">' +
-							'<div class="input-group">' +
-								'<span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>' +						
-								'<input class="form-control" type="text" name="horarios['+ indice +'].finalExpediente" value="'+ finalExpediente +'" readonly/>' +
-							'</div>' +
-						'</div>' +
-		
-						'<div class="form-item col-sm-3">' +
-							'<button value="#'+ idHorario +'" type="button" class="form-control btn btn-danger remove-me">Excluir</button>' +
-						'</div>' +
-					'</div>';
-
-					$('#listaHorario').append(horario);
-					limiteHorario--;
-					indice++;
+				if(inicioExpediente == '') {
+					$("#inicioDoExpediente").addClass('has-error');
 				}
+
+				if(finalExpediente == '') {
+					$("#finalDoExpediente").addClass('has-error');
+				}
+
+				if(inicioExpediente == '' || finalExpediente == '') {
+					return;
+				}
+
+				var idHorario = "horario" + indice;
+				
+				var horario = 				
+					'<div id="'+ idHorario +'" class="form-group">' +
+						'<div class="form-item col-sm-3">' +
+						'<input class="form-control" type="text" name="horarios['+ indice +'].dia" value="'+ diaDaSemana +'" readonly/>' +
+					'</div>' +
+					
+					'<div class="form-item col-sm-3">' +
+						'<div class="input-group">' +
+							'<span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>' +						
+							'<input class="form-control" type="text" name="horarios['+ indice +'].inicioExpediente" value="'+ inicioExpediente +'" readonly/>' +
+						'</div>' +
+					'</div>' +
+					
+					'<div class="form-item col-sm-3">' +
+						'<div class="input-group">' +
+							'<span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>' +						
+							'<input class="form-control" type="text" name="horarios['+ indice +'].finalExpediente" value="'+ finalExpediente +'" readonly/>' +
+						'</div>' +
+					'</div>' +
+	
+					'<div class="form-item col-sm-3">' +
+						'<button value="#'+ idHorario +'" type="button" class="form-control btn btn-danger remove-me">Excluir</button>' +
+					'</div>' +
+				'</div>';
+
+				$('#listaHorario').append(horario);
+				indice++;
 			});
-			
+
 			$("#listaHorario").on("click", ".remove-me", function(e){
 				var horarioID = this.value;
 				$(horarioID).remove();
-				limiteHorario++;
 				atualizarIndice();
 				e.preventDefault();
 			});

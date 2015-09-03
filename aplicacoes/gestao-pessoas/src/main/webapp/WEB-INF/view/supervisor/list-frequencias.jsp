@@ -79,7 +79,6 @@
 </div>
 
 	<jsp:include page="../modulos/footer1.jsp" />
-	<script src="<c:url value="/resources/js/frequencia.js" />"></script>
 	
 	<script type="text/javascript">
 		$('.menu #menu-frequencias').addClass('active');

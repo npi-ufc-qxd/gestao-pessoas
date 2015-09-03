@@ -5,22 +5,16 @@ import static ufc.quixada.npi.gp.utils.Constants.PAGINA_TCE;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
-import net.objectlab.kit.datecalc.common.DefaultHolidayCalendar;
-import net.objectlab.kit.datecalc.common.HolidayCalendar;
-import net.objectlab.kit.datecalc.joda.LocalDateKitCalculatorsFactory;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 
-import org.joda.time.LocalDate;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
@@ -34,7 +28,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import ufc.quixada.npi.gp.model.Estagiario;
-import ufc.quixada.npi.gp.model.Folga;
 import ufc.quixada.npi.gp.model.Frequencia;
 import ufc.quixada.npi.gp.model.Papel;
 import ufc.quixada.npi.gp.model.Pessoa;
@@ -44,10 +37,8 @@ import ufc.quixada.npi.gp.model.Turma;
 import ufc.quixada.npi.gp.model.enums.Dia;
 import ufc.quixada.npi.gp.model.enums.StatusFrequencia;
 import ufc.quixada.npi.gp.model.enums.StatusTurma;
-import ufc.quixada.npi.gp.model.enums.TipoFrequencia;
 import ufc.quixada.npi.gp.service.DadoConsolidado;
 import ufc.quixada.npi.gp.service.EstagiarioService;
-import ufc.quixada.npi.gp.service.FolgaService;
 import ufc.quixada.npi.gp.service.FrequenciaService;
 import ufc.quixada.npi.gp.service.PapelService;
 import ufc.quixada.npi.gp.service.PessoaService;
@@ -55,7 +46,6 @@ import ufc.quixada.npi.gp.service.ProjetoService;
 import ufc.quixada.npi.gp.service.ServidorService;
 import ufc.quixada.npi.gp.service.TurmaService;
 import ufc.quixada.npi.gp.utils.Constants;
-import ufc.quixada.npi.gp.utils.UtilGestao;
 import br.ufc.quixada.npi.ldap.service.UsuarioService;
 
 
@@ -75,9 +65,6 @@ public class SupervisorController {
 	
 	@Inject
 	private PapelService papelService;
-	
-	@Inject
-	private FolgaService folgaService;
 	
 	@Inject
 	private EstagiarioService estagiarioService;
@@ -117,7 +104,7 @@ public class SupervisorController {
 	
 	@RequestMapping(value = "/turma/{idTurma}/tce", method = RequestMethod.GET)
 	public String gerarTermoDeCompromisso(@PathVariable("idTurma") Long idTurma, Model model) throws JRException {
-		jrDatasource = new JRBeanCollectionDataSource(estagiarioService.getEstagiarioTurma(idTurma));
+		jrDatasource = new JRBeanCollectionDataSource(estagiarioService.getEstagiarioByTurmaId(idTurma));
 		
 		model.addAttribute("datasource", jrDatasource);
 		model.addAttribute("format", "pdf");
@@ -126,7 +113,7 @@ public class SupervisorController {
 
 	@RequestMapping(value = "/turma/{idTurma}/declaracoes", method = RequestMethod.GET)
 	public String gerarDeclaracaoEstagio( Model model, @PathVariable("idTurma") Long idTurma) throws JRException {
-		jrDatasource = new JRBeanCollectionDataSource(estagiarioService.getEstagiarioTurma(idTurma));
+		jrDatasource = new JRBeanCollectionDataSource(estagiarioService.getEstagiarioByTurmaId(idTurma));
 		
 		model.addAttribute("datasource", jrDatasource);
 		model.addAttribute("format", "pdf");
@@ -136,7 +123,7 @@ public class SupervisorController {
 	@RequestMapping(value = "/turmas", method = RequestMethod.GET)
 	public String listarTurmas(Model model, HttpSession session) {
 		Pessoa pessoa = getUsuarioLogado(session);
-		model.addAttribute("turmas", turmaService.getMinhasTurma(pessoa.getId()));
+		model.addAttribute("turmas", turmaService.getTurmasBySupervisorId(pessoa.getId()));
 
 		return "supervisor/list-turmas";
 	}
@@ -171,27 +158,41 @@ public class SupervisorController {
 	}
 	
 	@RequestMapping(value = "/turma/{idTurma}", method = RequestMethod.GET)
-	public String detalhesTurma(@PathVariable("idTurma") Long idTurma, Model model) {
-		model.addAttribute("turma", turmaService.find(Turma.class, idTurma));
+	public String detalhesTurma(@PathVariable("idTurma") Long idTurma, Model model, HttpSession session) {
+		Pessoa pessoa = getUsuarioLogado(session);
+
+		model.addAttribute("turma", turmaService.getTurmaByIdAndSupervisorById(idTurma, pessoa.getId()));
+		turmaService.getTurmaByIdAndSupervisorById(idTurma, pessoa.getId());
+
 		return "supervisor/info-turma";
 	}
 	
 	@RequestMapping(value = "/turma/{id}/vincular", method = RequestMethod.GET)
 	public String paginaVincularEstagiarioTurma(Model model, HttpSession session, @PathVariable("id") Long idTurma)  {
+		Pessoa pessoa = getUsuarioLogado(session);
 
-		model.addAttribute("turma", turmaService.find(Turma.class, idTurma));
-		model.addAttribute("estagiarios", estagiarioService.find(Estagiario.class));
+		model.addAttribute("turma", turmaService.getTurmaByIdAndSupervisorById(idTurma, pessoa.getId()));
+		model.addAttribute("estagiariosDaTurma", estagiarioService.getEstagiarioByTurmaId(idTurma));
+		model.addAttribute("outrosEstagiarios", estagiarioService.getEstagiarioByNotTurmaIdOrSemTurma(idTurma));
 
 		return "supervisor/form-vincular-estagiarios-turma";
 	}
 
 	@RequestMapping(value = "/turma/{id}/vincular", method = RequestMethod.POST)
 	public String atualizarVinculoEstagiarioTurma(Model model, HttpSession session, @ModelAttribute("turma") Turma turma)  {
+		Pessoa pessoa = getUsuarioLogado(session);
 		
-		Turma turmaDoBanco = turmaService.find(Turma.class, turma.getId());
+		Turma turmaDoBanco = turmaService.getTurmaByIdAndSupervisorById(turma.getId(), pessoa.getId());
 		
-		turmaDoBanco.setEstagiarios(atualizarListaEstagiarios(turma));
+		List<Estagiario> estagiariosSelecionados = new ArrayList<Estagiario>();
 		
+		if(turma.getEstagiarios() != null) {
+			estagiariosSelecionados = getEstagiariosSelecionados(turma.getEstagiarios());
+			estagiariosSelecionados = atualizarTurmaEstagiarios(estagiariosSelecionados, turmaDoBanco);
+		}
+
+		turmaDoBanco.setEstagiarios(estagiariosSelecionados);
+
 		turmaService.update(turmaDoBanco);
 
 		model.addAttribute("turma", turmaDoBanco);
@@ -273,41 +274,27 @@ public class SupervisorController {
 	
 	@RequestMapping(value = "/projeto/{idProjeto}/vincular", method = RequestMethod.GET)
 	public String paginaVincularMembrosProjeto(Model model, @PathVariable("idProjeto") Long idProjeto, HttpSession session) {
-		Pessoa pessoa = getUsuarioLogado(session);
-
-		model.addAttribute("turmas", turmaService.getTurmasSupervisorByStatus(StatusTurma.ABERTA, pessoa.getId()));
 		model.addAttribute("projeto", projetoService.find(Projeto.class, idProjeto));
+		model.addAttribute("estagiarios", estagiarioService.find(Estagiario.class));
 		
 		return "supervisor/form-vincular-membros-projeto";
 	}
-	
-	@RequestMapping(value = "/projeto/{idProjeto}/vincular/turma/{idTurma}", method = RequestMethod.GET)
-	public String vincularEstagiariosProjeto(Model model, HttpSession session, @PathVariable("idTurma") Long idTurma, @PathVariable("idProjeto") Long idProjeto) {
-		Pessoa pessoa = getUsuarioLogado(session);
 
-		model.addAttribute("turmas", turmaService.getTurmasSupervisorByStatus(StatusTurma.ABERTA, pessoa.getId()));
-		model.addAttribute("turma", turmaService.find(Turma.class, idTurma));
-		model.addAttribute("projeto", projetoService.find(Projeto.class, idProjeto));
-		model.addAttribute("estagiarios", turmaService.find(Turma.class, idTurma).getEstagiarios());
-
-		return "supervisor/form-vincular-membros-projeto";
-	}
-
-	@RequestMapping(value = "/projeto/{idProjeto}/vincular/turma/{idTurma}", method = RequestMethod.POST)
+	@RequestMapping(value = "/projeto/{idProjeto}/vincular", method = RequestMethod.POST)
 	public String vincularMembrosProjeto(Model model, @ModelAttribute("projeto") Projeto projeto) {
 		
 		projeto = atualizarProjeto(projeto);
 		
 		projetoService.update(projeto);
 
-		return "redirect:/supervisor/projetos";
+		return "redirect:/supervisor/projeto/" + projeto.getId() + "/informacoes";
 	}
 
 	@RequestMapping(value = "/frequencias", method = RequestMethod.GET)
 	public String paginaListarFrequenciaTurma(Model model, HttpSession session) {
 		Pessoa pessoa = getUsuarioLogado(session);
 
-		model.addAttribute("turmas", turmaService.getTurmasSupervisorByStatus(StatusTurma.ABERTA, pessoa.getId()));
+		model.addAttribute("turmas", turmaService.getTurmasBySupervisorIdAndStatus(StatusTurma.ABERTA, pessoa.getId()));
 
 		return "supervisor/list-frequencias";
 	}
@@ -316,10 +303,10 @@ public class SupervisorController {
 	public String listarFrequenciaTurma(@PathVariable("idTurma") Long idTurma, Model model, HttpSession session) {
 		Pessoa pessoa = getUsuarioLogado(session);
 		Date dataAtual = new Date();
-		List<Frequencia> frequencias = frequenciaService.getFrequencias(dataAtual, idTurma);
+		List<Frequencia> frequencias = frequenciaService.getFrequenciasByTurmaIdAndData(dataAtual, idTurma);
 
-		model.addAttribute("turma", turmaService.getTurmaSupervisorById(idTurma, pessoa.getId()));
-		model.addAttribute("turmas", turmaService.getTurmasSupervisorByStatus(StatusTurma.ABERTA, pessoa.getId()));
+		model.addAttribute("turma", turmaService.getTurmaByIdAndSupervisorById(idTurma, pessoa.getId()));
+		model.addAttribute("turmas", turmaService.getTurmasBySupervisorIdAndStatus(StatusTurma.ABERTA, pessoa.getId()));
 		model.addAttribute("frequencias", frequencias);
 		model.addAttribute("dataSelecionada", dataAtual);
 
@@ -330,34 +317,26 @@ public class SupervisorController {
 	public String listarFrequenciaTurmaData(@PathVariable("idTurma") Long idTurma, @RequestParam("data") Date data, Model model, HttpSession session) {
 		Pessoa pessoa = getUsuarioLogado(session);
 
-		List<Frequencia> frequencias = frequenciaService.getFrequencias(data, idTurma);
+		List<Frequencia> frequencias = frequenciaService.getFrequenciasByTurmaIdAndData(data, idTurma);
 
-		model.addAttribute("turma", turmaService.getTurmaSupervisorById(idTurma, pessoa.getId()));
-		model.addAttribute("turmas", turmaService.getTurmasSupervisorByStatus(StatusTurma.ABERTA, pessoa.getId()));
+		model.addAttribute("turma", turmaService.getTurmaByIdAndSupervisorById(idTurma, pessoa.getId()));
+		model.addAttribute("turmas", turmaService.getTurmasBySupervisorIdAndStatus(StatusTurma.ABERTA, pessoa.getId()));
 		model.addAttribute("frequencias", frequencias);
 		model.addAttribute("dataSelecionada", data);
 
 		return "supervisor/list-frequencias";
 	}
 	
-	@RequestMapping(value = "/estagiario/{idEstagiario}/frequencia", method = RequestMethod.GET)
-	public String minhaPresenca(HttpSession session, Model model, @PathVariable("idEstagiario") Long idEstagiario) {
+	@RequestMapping(value = "/turma/{idTurma}/estagiario/{idEstagiario}/frequencia", method = RequestMethod.GET)
+	public String minhaPresenca(HttpSession session, Model model, @PathVariable("idTurma") Long idTurma, @PathVariable("idEstagiario") Long idEstagiario) {
 
 		Estagiario estagiario = estagiarioService.find(Estagiario.class, idEstagiario);
 		
-		boolean frequenciaNaoRealizada = frequenciaService.getFrequenciaDeHojeByEstagiario(estagiario.getId()) == null ? true : false;
-		
-		List<Frequencia> frequencias = frequenciaService.getFrequenciaByEstagiario(estagiario.getId());
+		Turma turma = turmaService.find(Turma.class, idTurma);
 
-		LocalDate inicioPeriodoTemporario;
-		if(!frequenciaNaoRealizada){
-			inicioPeriodoTemporario = new LocalDate(new Date()).plusDays(1);
-		}else{
-			inicioPeriodoTemporario = new LocalDate(new Date());
-		}
+		List<Frequencia> frequencias = frequenciaService.getFrequenciasByEstagiarioId(estagiario.getId());
 		
-		LocalDate fimPeriodo = new LocalDate(estagiario.getTurma().getTermino());
-		frequencias.addAll(gerarFrequencia(estagiario, inicioPeriodoTemporario, fimPeriodo));
+		frequencias.addAll(frequenciaService.gerarFrequencia(turma, idEstagiario));
 
 		DadoConsolidado dadosConsolidados = frequenciaService.calcularDadosConsolidados(frequencias);
 
@@ -400,17 +379,33 @@ public class SupervisorController {
 		}
 		return (Pessoa) session.getAttribute(Constants.USUARIO_LOGADO);
 	}
-	
-	private List<Estagiario> atualizarListaEstagiarios(Turma turma) {
-		List<Estagiario> estagiarios = new ArrayList<Estagiario>();
-		if (turma.getEstagiarios() != null) {
-			for (Estagiario estagiario : turma.getEstagiarios()) {
-				if(estagiario.getId() != null){
-					estagiario = estagiarioService.find(Estagiario.class, estagiario.getId());
-					estagiarios.add(estagiario);
-				}
+
+	private List<Estagiario> getEstagiariosSelecionados(List<Estagiario> estagiarios) {
+		List<Estagiario> estagiariosSelecionados = new ArrayList<Estagiario>();
+
+		for (Estagiario estagiario : estagiarios) {
+			if(estagiario.getId() != null){
+				estagiario = estagiarioService.find(Estagiario.class, estagiario.getId());
+
+				estagiariosSelecionados.add(estagiario);
 			}
 		}
+
+		return estagiariosSelecionados;
+	}
+
+	private List<Estagiario> atualizarTurmaEstagiarios(List<Estagiario> estagiarios, Turma turma) {
+		for (Estagiario estagiario : estagiarios) {
+			if(estagiario.getTurmas() != null) {
+				if(!estagiario.getTurmas().contains(turma)){
+					estagiario.getTurmas().add(turma);
+				}
+			} else {
+				estagiario.setTurmas(new ArrayList<Turma>());
+				estagiario.getTurmas().add(turma);
+			}
+		}
+
 		return estagiarios;
 	}
 
@@ -427,39 +422,4 @@ public class SupervisorController {
 		projeto.setMembros(membros);
 		return projeto;
 	}
-	
-	private List<Frequencia> gerarFrequencia(Estagiario estagiario, LocalDate inicioPeriodoTemporario, LocalDate fimPeriodo) {
-
-		Set<LocalDate> dataDosFeriados = new HashSet<LocalDate>();
-		
-		List<Folga> folgas = folgaService.find(Folga.class);
-
-		if (folgas != null) {
-			for (Folga folga : folgas) {
-				dataDosFeriados.add(new LocalDate(folga.getData()));
-			}
-		}
-
-		HolidayCalendar<LocalDate> calendarioDeFeriados = new DefaultHolidayCalendar<LocalDate>(dataDosFeriados);
-		LocalDateKitCalculatorsFactory.getDefaultInstance().registerHolidays("NPI", calendarioDeFeriados);
-
-		List<Frequencia> frequencias = new ArrayList<Frequencia>();
-		
-		while (!inicioPeriodoTemporario.isAfter(fimPeriodo)) {
-
-			if (UtilGestao.isDiaDeTrabahoDaTurma(estagiario.getTurma().getHorarios(), inicioPeriodoTemporario)) {
-				Frequencia frequencia = new Frequencia();
-				frequencia.setTipoFrequencia(TipoFrequencia.NORMAL);
-				frequencia.setData(inicioPeriodoTemporario.toDate());
-				frequencia.setStatusFrequencia(StatusFrequencia.AGUARDO);
-
-				frequencias.add(frequencia);
-			}
-			inicioPeriodoTemporario = inicioPeriodoTemporario.plusDays(1);
-		}
-
-		return frequencias;
-	}
-	
-		
 }

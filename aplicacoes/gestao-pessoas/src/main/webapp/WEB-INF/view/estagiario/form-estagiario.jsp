@@ -29,7 +29,7 @@
 			<h2 id="titulo-cadastro-npi"><a class="header-anchor" href="#"><span class="glyphicon glyphicon-user"></span></a> ${titulo}</h2>
 		</div>
 
-		<form:form id="DadosPessoaisEstagiarioForm" role="form" commandName="estagiario" modelAttribute="estagiario" servletRelativeAction="${url}" method="POST" cssClass="form-horizontal">
+		<form:form id="form-estagiario" role="form" commandName="estagiario" modelAttribute="estagiario" servletRelativeAction="${url}" method="POST" cssClass="form-horizontal">
 			<div class="panel-body">
 
 				<form:hidden path="id"/>
@@ -74,7 +74,7 @@
 				<div class="form-group">
 					<div class="form-item col-sm-12">
 						<label for="telefone" class=" control-label">*Telefone:</label>
-						<form:input id="telefone" path="telefone" cssClass="form-control telefone" placeholder="Telefone" required="required" />
+						<form:input id="telefone" path="telefone" cssClass="form-control telefone" placeholder="Telefone" required="required" value="${empty estagiario.telefone? usuario.telefone : estagiario.telefone}"/>
 						<div class="error-validation">
 							<form:errors path="telefone"></form:errors>
 						</div>

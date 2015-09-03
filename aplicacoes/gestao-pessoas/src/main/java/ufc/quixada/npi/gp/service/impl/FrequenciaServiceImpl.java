@@ -1,5 +1,6 @@
 package ufc.quixada.npi.gp.service.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -23,6 +24,7 @@ import ufc.quixada.npi.gp.model.Folga;
 import ufc.quixada.npi.gp.model.Frequencia;
 import ufc.quixada.npi.gp.model.Turma;
 import ufc.quixada.npi.gp.model.enums.StatusFrequencia;
+import ufc.quixada.npi.gp.model.enums.TipoFrequencia;
 import ufc.quixada.npi.gp.repository.FrequenciaRepository;
 import ufc.quixada.npi.gp.service.DadoConsolidado;
 import ufc.quixada.npi.gp.service.FolgaService;
@@ -38,18 +40,18 @@ public class FrequenciaServiceImpl extends GenericServiceImpl<Frequencia> implem
 	FrequenciaRepository frequenciaRepository;
 	
 	@Inject
-	FolgaService folgaService;
+	private FolgaService folgaService;
+
+//	@Transactional
+//	public Frequencia getFrequencia() {
+//		@SuppressWarnings("unchecked")
+//		List<Frequencia> frequencia = find(QueryType.JPQL, "select f from Frequencia f where f.data = CURRENT_DATE", null);
+//
+//		return frequencia.get(0);
+//	}
 
 	@Transactional
-	public Frequencia getFrequencia() {
-		@SuppressWarnings("unchecked")
-		List<Frequencia> frequencia = find(QueryType.JPQL, "select f from Frequencia f where f.data = CURRENT_DATE", null);
-
-		return frequencia.get(0);
-	}
-
-	@Transactional
-	public List<Frequencia> getFrequencias(Date data, Long idTurma) {
+	public List<Frequencia> getFrequenciasByTurmaIdAndData(Date data, Long idTurma) {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("data", data);
 		params.put("turma", idTurma);
@@ -108,7 +110,7 @@ public class FrequenciaServiceImpl extends GenericServiceImpl<Frequencia> implem
 	}
 
 	@Override
-	public Frequencia getFrequenciaDeHojeByEstagiario(Long id) {
+	public Frequencia getFrequenciaDeHojeByEstagiarioId(Long id) {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("id", id);
 		
@@ -117,89 +119,89 @@ public class FrequenciaServiceImpl extends GenericServiceImpl<Frequencia> implem
 		return frequencia;
 	}
 
+//	@Override
+//	public List<Object> getFrequenciaRepor() {
+//		Map<String, Object> params = new HashMap<String, Object>();
+//
+//		@SuppressWarnings("unchecked")
+//		List<Object> estagiarios = find(QueryType.NATIVE, 
+//				"select e.matricula, e.nomeCompleto ,count(f.statusfrequencia) "
+//				+ "from estagiario e join frequencia f "
+//				+ "on e.turma_id = f.turma_id and e.id = f.estagiario_id "
+//				+ "WHERE e.turma_id = 1 and f.statusfrequencia = 'ATRASADO' "
+//				+ "group by f.estagiario_id, e.nomeCompleto, e.matricula "
+//				+ "having count(statusfrequencia) > 1", params);
+//
+//		return estagiarios;
+//	}
+//
+//	@Override
+//	public List<Object> getReposicaoAtraso(Long idTurma) {
+//		Map<String, Object> params = new HashMap<String, Object>();
+//		params.put("turma", idTurma);
+//
+//		@SuppressWarnings("unchecked")
+//		List<Object> estagiarios = find(QueryType.NATIVE,
+//						"SELECT e.matricula, e.nomeCompleto, COUNT(f.statusfrequencia), e.id "
+//						+ "FROM estagiario e JOIN frequencia f "
+//						+ "ON e.turma_id = f.turma_id AND e.id = f.estagiario_id "
+//						+ "WHERE e.turma_id = :turma AND f.statusfrequencia = 'ATRASADO' "
+//						+ "GROUP BY  f.estagiario_id, e.nomeCompleto, e.matricula, e.id "
+//						+ "HAVING COUNT(statusfrequencia) > 1 "
+//						+ "ORDER BY f.estagiario_id", params);
+//
+//		return estagiarios;
+//	}
+
+//	@Override
+//	public List<Object> getReposicaoFalta(Long idTurma) {
+//		Map<String, Object> params = new HashMap<String, Object>();
+//		params.put("turma", idTurma);
+//
+//		@SuppressWarnings("unchecked")
+//		List<Object> estagiarios =  find(QueryType.NATIVE,
+//						"SELECT e.matricula, e.nomeCompleto, COUNT(f.statusfrequencia), e.id "
+//						+ "FROM estagiario e JOIN frequencia f "
+//						+ "ON e.turma_id = f.turma_id AND e.id = f.estagiario_id "
+//						+ "WHERE e.turma_id = :turma AND f.statusfrequencia = 'FALTA' "
+//						+ "GROUP BY  f.estagiario_id, e.nomeCompleto, e.matricula, e.id "
+//						+ "ORDER BY f.estagiario_id", params);
+//
+//		return estagiarios;
+//	}
+//
+//	@Override
+//	public List<Frequencia> getFrequenciaStatus(Long estagiario, StatusFrequencia statusFrequencia, int limite) {
+//		Map<String, Object> params = new HashMap<String, Object>();
+//		params.put("estagiario", estagiario);
+//		params.put("status", statusFrequencia);
+//
+//		@SuppressWarnings("unchecked")
+//		List<Frequencia> frequencias = find(QueryType.JPQL, "select f from Frequencia f where f.estagiario.id = :estagiario and f.statusFrequencia = :status ORDER BY data ASC", params, 0, limite);
+//
+//		return frequencias;
+//	}
+//
+//	@Override
+//	public List<Object> getFrequenciass(Date data, Turma turma) {
+//		Map<String, Object> params = new HashMap<String, Object>();
+//		params.put("data", data);
+//		params.put("turma", turma.getId());
+//
+//		@SuppressWarnings("unchecked")
+//		List<Object> frequencias = find(QueryType.NATIVE,
+//						"select f.id, e.nomeCompleto, f.observacao, f.statusFrequencia, f.tipoFrequencia  "
+//						+ "from estagiario e left join frequencia f "
+//						+ "on e.turma_id = f.turma_id and e.id = f.estagiario_id and f.data = :data "
+//						+ "WHERE e.turma_id = :turma "
+//						+ "group by f.id, e.nomeCompleto, f.observacao, f.statusFrequencia "
+//						+ "order by e.nomeCompleto asc " + "", params);
+//
+//		return frequencias;
+//	}
+
 	@Override
-	public List<Object> getFrequenciaRepor() {
-		Map<String, Object> params = new HashMap<String, Object>();
-
-		@SuppressWarnings("unchecked")
-		List<Object> estagiarios = find(QueryType.NATIVE, 
-				"select e.matricula, e.nomeCompleto ,count(f.statusfrequencia) "
-				+ "from estagiario e join frequencia f "
-				+ "on e.turma_id = f.turma_id and e.id = f.estagiario_id "
-				+ "WHERE e.turma_id = 1 and f.statusfrequencia = 'ATRASADO' "
-				+ "group by f.estagiario_id, e.nomeCompleto, e.matricula "
-				+ "having count(statusfrequencia) > 1", params);
-
-		return estagiarios;
-	}
-
-	@Override
-	public List<Object> getReposicaoAtraso(Long idTurma) {
-		Map<String, Object> params = new HashMap<String, Object>();
-		params.put("turma", idTurma);
-
-		@SuppressWarnings("unchecked")
-		List<Object> estagiarios = find(QueryType.NATIVE,
-						"SELECT e.matricula, e.nomeCompleto, COUNT(f.statusfrequencia), e.id "
-						+ "FROM estagiario e JOIN frequencia f "
-						+ "ON e.turma_id = f.turma_id AND e.id = f.estagiario_id "
-						+ "WHERE e.turma_id = :turma AND f.statusfrequencia = 'ATRASADO' "
-						+ "GROUP BY  f.estagiario_id, e.nomeCompleto, e.matricula, e.id "
-						+ "HAVING COUNT(statusfrequencia) > 1 "
-						+ "ORDER BY f.estagiario_id", params);
-
-		return estagiarios;
-	}
-
-	@Override
-	public List<Object> getReposicaoFalta(Long idTurma) {
-		Map<String, Object> params = new HashMap<String, Object>();
-		params.put("turma", idTurma);
-
-		@SuppressWarnings("unchecked")
-		List<Object> estagiarios =  find(QueryType.NATIVE,
-						"SELECT e.matricula, e.nomeCompleto, COUNT(f.statusfrequencia), e.id "
-						+ "FROM estagiario e JOIN frequencia f "
-						+ "ON e.turma_id = f.turma_id AND e.id = f.estagiario_id "
-						+ "WHERE e.turma_id = :turma AND f.statusfrequencia = 'FALTA' "
-						+ "GROUP BY  f.estagiario_id, e.nomeCompleto, e.matricula, e.id "
-						+ "ORDER BY f.estagiario_id", params);
-
-		return estagiarios;
-	}
-
-	@Override
-	public List<Frequencia> getFrequenciaStatus(Long estagiario, StatusFrequencia statusFrequencia, int limite) {
-		Map<String, Object> params = new HashMap<String, Object>();
-		params.put("estagiario", estagiario);
-		params.put("status", statusFrequencia);
-
-		@SuppressWarnings("unchecked")
-		List<Frequencia> frequencias = find(QueryType.JPQL, "select f from Frequencia f where f.estagiario.id = :estagiario and f.statusFrequencia = :status ORDER BY data ASC", params, 0, limite);
-
-		return frequencias;
-	}
-
-	@Override
-	public List<Object> getFrequenciass(Date data, Turma turma) {
-		Map<String, Object> params = new HashMap<String, Object>();
-		params.put("data", data);
-		params.put("turma", turma.getId());
-
-		@SuppressWarnings("unchecked")
-		List<Object> frequencias = find(QueryType.NATIVE,
-						"select f.id, e.nomeCompleto, f.observacao, f.statusFrequencia, f.tipoFrequencia  "
-						+ "from estagiario e left join frequencia f "
-						+ "on e.turma_id = f.turma_id and e.id = f.estagiario_id and f.data = :data "
-						+ "WHERE e.turma_id = :turma "
-						+ "group by f.id, e.nomeCompleto, f.observacao, f.statusFrequencia "
-						+ "order by e.nomeCompleto asc " + "", params);
-
-		return frequencias;
-	}
-
-	@Override
-	public List<Frequencia> getFrequenciaByEstagiario(Long id) {
+	public List<Frequencia> getFrequenciasByEstagiarioId(Long id) {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("id", id);
 		
@@ -275,4 +277,51 @@ public class FrequenciaServiceImpl extends GenericServiceImpl<Frequencia> implem
 
 		return false;
 	}
+
+	@Override
+	public List<Frequencia> gerarFrequencia(Turma turma, Long idEstagiario) {
+
+		boolean frequenciaNaoRealizada = getFrequenciaDeHojeByEstagiarioId(idEstagiario) == null ? true : false;
+
+		LocalDate inicioPeriodoTemporario;
+		LocalDate fimPeriodo = new LocalDate(turma.getTermino());
+
+
+		if(!frequenciaNaoRealizada){
+			inicioPeriodoTemporario = new LocalDate(new Date()).plusDays(1);
+		}else{
+			inicioPeriodoTemporario = new LocalDate(new Date());
+		}
+
+		List<Folga> folgas = folgaService.find(Folga.class);
+		Set<LocalDate> dataDosFeriados = new HashSet<LocalDate>();
+
+		if (folgas != null) {
+			for (Folga folga : folgas) {
+				dataDosFeriados.add(new LocalDate(folga.getData()));
+			}
+		}
+
+		HolidayCalendar<LocalDate> calendarioDeFeriados = new DefaultHolidayCalendar<LocalDate>(dataDosFeriados);
+		LocalDateKitCalculatorsFactory.getDefaultInstance().registerHolidays("NPI", calendarioDeFeriados);
+
+		List<Frequencia> frequencias = new ArrayList<Frequencia>();
+		
+		while (!inicioPeriodoTemporario.isAfter(fimPeriodo)) {
+
+			if (UtilGestao.isDiaDeTrabahoDaTurma(turma.getHorarios(), inicioPeriodoTemporario)) {
+				Frequencia frequencia = new Frequencia();
+				frequencia.setTipoFrequencia(TipoFrequencia.NORMAL);
+				frequencia.setData(inicioPeriodoTemporario.toDate());
+				frequencia.setStatusFrequencia(StatusFrequencia.AGUARDO);
+
+				frequencias.add(frequencia);
+			}
+			inicioPeriodoTemporario = inicioPeriodoTemporario.plusDays(1);
+		}
+
+		return frequencias;
+	}
+
+	
 }

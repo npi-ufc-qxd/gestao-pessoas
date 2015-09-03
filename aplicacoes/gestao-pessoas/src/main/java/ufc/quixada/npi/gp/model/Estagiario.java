@@ -12,6 +12,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -90,9 +92,8 @@ public class Estagiario {
 	@ManyToOne
 	private Projeto projeto;
 
-	@Basic(fetch = FetchType.LAZY)
-	@ManyToOne
-	private Turma turma;
+	@ManyToMany(mappedBy = "estagiarios",  cascade = CascadeType.ALL)
+	private List<Turma> turmas;
 
 	@OneToOne(cascade = CascadeType.REFRESH)
 	private Pessoa pessoa;
@@ -110,12 +111,12 @@ public class Estagiario {
 		this.frequencias = frequencias;
 	}
 
-	public Turma getTurma() {
-		return turma;
+	public List<Turma> getTurmas() {
+		return turmas;
 	}
 
-	public void setTurma(Turma turma) {
-		this.turma = turma;
+	public void setTurmas(List<Turma> turmas) {
+		this.turmas = turmas;
 	}
 
 	public Estagiario() {
@@ -290,15 +291,4 @@ public class Estagiario {
 		this.localEstagio = localEstagio;
 	}
 
-	// @Override
-	// public String toString() {
-	// return "Estagiario [id=" + id + ", nomeCompleto=" + nomeCompleto
-	// + ", dataNascimento=" + dataNascimento + ", nomeMae=" + nomeMae
-	// + ", endereco=" + endereco + ", cep=" + cep + ", cidade="
-	// + cidade + ", uf=" + uf + ", telefone=" + telefone + ", curso="
-	// + curso + ", semestre=" + semestre + ", matricula=" + matricula
-	// + ", contaRedmine=" + contaRedmine + ", contaGithub="
-	// + contaGithub + ", contaHangout=" + contaHangout + ", pessoa="
-	// + pessoa + "]";
-	// }
 }

@@ -68,6 +68,48 @@
 	
 	<div class="panel panel-primary">
 		<div class="panel-heading">
+			<h2 class="titulo-panels"><a class="header-anchor" href="#"><span class="fa fa-folder-open"></span></a> Expediente</h2>
+
+			<div class="pull-right">
+				<a href="<c:url value="/supervisor/turma/${turma.id}/horarios" />" title="Vincular Estagiários" class="btn btn-info"><span class="fa fa-plus-o"></span>Horario</a>
+			</div>
+		</div>
+
+		<div class="panel-body">
+			<c:if test="${empty turma.horarios}"><div class="alert alert-warning" role="alert">Expedoente não definido.</div></c:if>
+
+			<c:if test="${not empty turma.horarios}">
+				<div class="form-group">
+					<label class="col-sm-12 text-view-info"><strong>Horários</strong></label>
+				
+					<table id="horarios-turma" class="table table-striped table-hover">
+						<thead>
+							<tr>
+								<th>Horário</th>
+								<th>Dia da Semana</th>
+								<th>Início do Expediente</th>
+								<th>Término do Expediente</th>
+				           </tr>
+				       </thead>
+				       <tbody class="text-view-info">
+							<c:forEach var="horario" items="${turma.horarios}" varStatus="indice">
+								<tr align="justify">
+									<td>${indice.count}ª</td>
+									<td>${horario.dia.labelDia}</td>
+									<td>${horario.inicioExpediente}</td>
+									<td>${horario.finalExpediente}</td>
+								</tr>
+							</c:forEach>
+				       </tbody>
+			       </table>
+					
+				</div>
+			</c:if>
+		</div>
+	</div>
+	
+	<div class="panel panel-primary">
+		<div class="panel-heading">
 			<h2 class="titulo-panels"><a class="header-anchor" href="#"><span class="glyphicon glyphicon-user"></span></a> Estagiários</h2>
 
 			<div class="pull-right">
@@ -117,7 +159,7 @@
 	
 	</div>
 </div>
-
+<br><br>
 	<jsp:include page="../modulos/footer1.jsp" />
 
     <script type="text/javascript">

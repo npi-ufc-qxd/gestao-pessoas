@@ -76,33 +76,6 @@
 						<div class="error-validation"><form:errors path="termino"></form:errors></div>
 					</div>
 				</div>
-
-				<h5>Defina o Expediente</h5>
-				<div class="form-group">
-					<div class="form-item col-sm-3">
-						<label for="diaDaSemana" class="control-label">*Selecione o Dia da Semana:</label>
-						<select id="diaDaSemana" class="form-control selectpicker" required="required">
-							<c:forEach items="${dias}" var="diaDaSemana" varStatus="contador">
-								<option value="${diaDaSemana }">${diaDaSemana.labelDia }</option>
-							</c:forEach>
-						</select>
-					</div>
-
-					<div id="inicioDoExpediente" class="form-item col-sm-3">
-						<label class="control-label">*Início do Expediente:</label>
-						<div class="bfh-timepicker" data-name="inicioDoExpediente" data-placeholder="Inicio do Expediente" data-time=""></div>
-					</div>
-					<div id="finalDoExpediente" class="form-item col-sm-3">
-						<label class="control-label">*Final do Expediente:</label>
-						<div class="bfh-timepicker" data-name="finalDoExpediente" data-placeholder="Final do Expediente" data-time=""></div>
-					</div>
-					<div class="form-item col-sm-3">
-						<label class="control-label">&nbsp;&nbsp;&nbsp;</label>
-						<button type="button" class="form-control btn btn-primary add-more">Adicionar</button>
-					</div>
-				</div>
-				
-				<div id="listaHorario"></div>
 			</div>
 			
 			<div class="panel-footer" align="center">
@@ -120,82 +93,6 @@
 	
     <script type="text/javascript">
 		$('.menu #turmas').addClass('active');
-
-		$(document).ready(function(){
-			var indice = 0;
-
-			$(".add-more").click(function(e) {
-				var diaDaSemana = $('#diaDaSemana').val();
-				var inicioExpediente = $('input[name=inicioDoExpediente]').val();
-				var finalExpediente = $('input[name=finalDoExpediente]').val();
-
-				if(inicioExpediente == '') {
-					$("#inicioDoExpediente").addClass('has-error');
-				}
-
-				if(finalExpediente == '') {
-					$("#finalDoExpediente").addClass('has-error');
-				}
-
-				if(inicioExpediente == '' || finalExpediente == '') {
-					return;
-				}
-
-				var idHorario = "horario" + indice;
-				
-				var horario = 				
-					'<div id="'+ idHorario +'" class="form-group">' +
-						'<div class="form-item col-sm-3">' +
-						'<input class="form-control" type="text" name="horarios['+ indice +'].dia" value="'+ diaDaSemana +'" readonly/>' +
-					'</div>' +
-					
-					'<div class="form-item col-sm-3">' +
-						'<div class="input-group">' +
-							'<span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>' +						
-							'<input class="form-control" type="text" name="horarios['+ indice +'].inicioExpediente" value="'+ inicioExpediente +'" readonly/>' +
-						'</div>' +
-					'</div>' +
-					
-					'<div class="form-item col-sm-3">' +
-						'<div class="input-group">' +
-							'<span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>' +						
-							'<input class="form-control" type="text" name="horarios['+ indice +'].finalExpediente" value="'+ finalExpediente +'" readonly/>' +
-						'</div>' +
-					'</div>' +
-	
-					'<div class="form-item col-sm-3">' +
-						'<button value="#'+ idHorario +'" type="button" class="form-control btn btn-danger remove-me">Excluir</button>' +
-					'</div>' +
-				'</div>';
-
-				$('#listaHorario').append(horario);
-				indice++;
-			});
-
-			$("#listaHorario").on("click", ".remove-me", function(e){
-				var horarioID = this.value;
-				$(horarioID).remove();
-				atualizarIndice();
-				e.preventDefault();
-			});
-
-			function atualizarIndice(){
-				$( "#listaHorario" ).children().each(function( index ) {
-					indice = index;
-					var idHorario =  '#' + $(this).attr('id');
-					var dia = "horarios[" + indice + "].dia"
- 					var inicioExpediente = "horarios[" + indice + "].inicioExpediente";
- 					var finalExpediente = "horarios[" + indice + "].finalExpediente";
- 					var value = "#horario" + indice
- 					$(idHorario).find("input[name$='.dia']").attr("name", dia);
- 					$(idHorario).find("input[name$='.inicioExpediente']").attr("name", inicioExpediente);
- 					$(idHorario).find("input[name$='.finalExpediente']").attr("name", finalExpediente);
- 					$(idHorario).find(".remove-me").attr("value", idHorario);
- 					$(idHorario).attr("id", "horario"+indice);
-				});
-			}
-			
-		});
 	</script>		
 	
 	

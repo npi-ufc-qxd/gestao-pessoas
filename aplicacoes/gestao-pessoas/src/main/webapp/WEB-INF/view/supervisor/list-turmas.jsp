@@ -21,7 +21,7 @@
 			<h2 class="titulo-panels"><a class="header-anchor" href="#"><span class="fa fa-folder-open"></span></a> Turmas</h2>
 
 			<div class="pull-right"> 
-				<a href="<c:url value="/supervisor/turma" ></c:url>" title="Novo Turma"><button class="btn btn-success"><span class="fa fa-plus-square"></span> Turma</button></a>
+				<a href="<c:url value="/supervisor/turma/adicionar" ></c:url>" title="Novo Turma"><button class="btn btn-success"><span class="fa fa-plus-square"></span> Turma</button></a>
 			</div><br>
 			
 		</div>

@@ -36,32 +36,6 @@
 
 					<label class="col-sm-1 text-view-info"><strong>Status: </strong></label><label class="col-sm-3 text-view-info">${turma.statusTurma}</label>
 				</div>
-
-				<div class="form-group">
-					<label class="col-sm-12 text-view-info"><strong>Horários</strong></label>
-				
-					<table id="horarios-turma" class="table table-striped table-hover">
-						<thead>
-							<tr>
-								<th>Horário</th>
-								<th>Dia da Semana</th>
-								<th>Início do Expediente</th>
-								<th>Término do Expediente</th>
-				           </tr>
-				       </thead>
-				       <tbody class="text-view-info">
-							<c:forEach var="horario" items="${turma.horarios}" varStatus="indice">
-								<tr align="justify">
-									<td>${indice.count}ª</td>
-									<td>${horario.dia.labelDia}</td>
-									<td>${horario.inicioExpediente}</td>
-									<td>${horario.finalExpediente}</td>
-								</tr>
-							</c:forEach>
-				       </tbody>
-			       </table>
-					
-				</div>
 			</c:if>
 		</div>
 	</div>

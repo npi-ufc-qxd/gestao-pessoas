@@ -4,7 +4,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <c:if test="${action eq 'cadastrar' }">
-	<c:set var="url" value="/supervisor/turma"></c:set>
+	<c:set var="url" value="/supervisor/turma/adicionar"></c:set>
 	<c:set var="titulo" value="Nova Turma"></c:set>
 </c:if>
 <c:if test="${action eq 'editar' }">

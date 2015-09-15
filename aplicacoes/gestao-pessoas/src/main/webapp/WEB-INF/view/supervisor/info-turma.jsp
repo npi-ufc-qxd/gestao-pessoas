@@ -36,7 +36,23 @@
 
 					<label class="col-sm-1 text-view-info"><strong>Status: </strong></label><label class="col-sm-3 text-view-info">${turma.statusTurma}</label>
 				</div>
+			</c:if>
+		</div>
+	</div>
+	
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h2 class="titulo-panels"><a class="header-anchor" href="#"><span class="fa fa-folder-open"></span></a> Expediente</h2>
 
+			<div class="pull-right">
+				<a href="<c:url value="/supervisor/turma/${turma.id}/horarios" />" title="Vincular Estagiários" class="btn btn-info"><span class="fa fa-plus-o"></span>Horario</a>
+			</div>
+		</div>
+
+		<div class="panel-body">
+			<c:if test="${empty turma.horarios}"><div class="alert alert-warning" role="alert">Expedoente não definido.</div></c:if>
+
+			<c:if test="${not empty turma.horarios}">
 				<div class="form-group">
 					<label class="col-sm-12 text-view-info"><strong>Horários</strong></label>
 				
@@ -117,7 +133,7 @@
 	
 	</div>
 </div>
-
+<br><br>
 	<jsp:include page="../modulos/footer1.jsp" />
 
     <script type="text/javascript">

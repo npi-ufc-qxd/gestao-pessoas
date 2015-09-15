@@ -1,19 +1,11 @@
 package ufc.quixada.npi.gp.controller;
 
-import static ufc.quixada.npi.gp.utils.Constants.PAGINA_DECLARACAO_ESTAGIO;
-import static ufc.quixada.npi.gp.utils.Constants.PAGINA_TCE;
-
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-
-import net.sf.jasperreports.engine.JRDataSource;
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
@@ -34,10 +26,8 @@ import ufc.quixada.npi.gp.model.Pessoa;
 import ufc.quixada.npi.gp.model.Projeto;
 import ufc.quixada.npi.gp.model.Servidor;
 import ufc.quixada.npi.gp.model.Turma;
-import ufc.quixada.npi.gp.model.enums.Dia;
 import ufc.quixada.npi.gp.model.enums.StatusFrequencia;
 import ufc.quixada.npi.gp.model.enums.StatusTurma;
-import ufc.quixada.npi.gp.service.DadoConsolidado;
 import ufc.quixada.npi.gp.service.EstagiarioService;
 import ufc.quixada.npi.gp.service.FrequenciaService;
 import ufc.quixada.npi.gp.service.PapelService;
@@ -47,7 +37,6 @@ import ufc.quixada.npi.gp.service.ServidorService;
 import ufc.quixada.npi.gp.service.TurmaService;
 import ufc.quixada.npi.gp.utils.Constants;
 import br.ufc.quixada.npi.ldap.service.UsuarioService;
-
 
 @Component
 @Controller
@@ -77,8 +66,6 @@ public class SupervisorController {
 	
 	@Inject
 	private FrequenciaService frequenciaService; 
-	
-	private JRDataSource jrDatasource;
 
 	@RequestMapping(value = {"","/"}, method = RequestMethod.GET)
 	public String paginaInicial(Model Model, HttpSession session)  {
@@ -102,103 +89,12 @@ public class SupervisorController {
 		return "redirect:/supervisor/turmas";
 	}
 	
-	@RequestMapping(value = "/turma/{idTurma}/tce", method = RequestMethod.GET)
-	public String gerarTermoDeCompromisso(@PathVariable("idTurma") Long idTurma, Model model) throws JRException {
-		jrDatasource = new JRBeanCollectionDataSource(estagiarioService.getEstagiarioByTurmaId(idTurma));
-		
-		model.addAttribute("datasource", jrDatasource);
-		model.addAttribute("format", "pdf");
-		return PAGINA_TCE;
-	}
-
-	@RequestMapping(value = "/turma/{idTurma}/declaracoes", method = RequestMethod.GET)
-	public String gerarDeclaracaoEstagio( Model model, @PathVariable("idTurma") Long idTurma) throws JRException {
-		jrDatasource = new JRBeanCollectionDataSource(estagiarioService.getEstagiarioByTurmaId(idTurma));
-		
-		model.addAttribute("datasource", jrDatasource);
-		model.addAttribute("format", "pdf");
-		return PAGINA_DECLARACAO_ESTAGIO;
-	}
-
 	@RequestMapping(value = "/turmas", method = RequestMethod.GET)
 	public String listarTurmas(Model model, HttpSession session) {
 		Pessoa pessoa = getUsuarioLogado(session);
 		model.addAttribute("turmas", turmaService.getTurmasBySupervisorId(pessoa.getId()));
 
 		return "supervisor/list-turmas";
-	}
-
-	@RequestMapping(value = "/turma", method = RequestMethod.GET)
-	public String novaTurma(Model model) {
-		model.addAttribute("action", "cadastrar");
-
-		Turma turma = new Turma();
-
-		model.addAttribute("turma", turma);
-		model.addAttribute("dias", Dia.values());
-		
-		return "supervisor/form-turma";
-	}
-
-	@RequestMapping(value = "/turma", method = RequestMethod.POST)
-	public String adicionarTurma(Model model, @Valid @ModelAttribute("turma") Turma turma,  BindingResult result, HttpSession session) {
-		model.addAttribute("action", "cadastrar");
-
-		if (result.hasErrors()) {
-			model.addAttribute("dias", Dia.values());
-			return "supervisor/form-turma";
-		}
-
-		Pessoa pessoa = getUsuarioLogado(session);
-		
-		turma.setSupervisor(pessoa);
-		turmaService.save(turma);
-
-		return "redirect:/supervisor/turmas";
-	}
-	
-	@RequestMapping(value = "/turma/{idTurma}", method = RequestMethod.GET)
-	public String detalhesTurma(@PathVariable("idTurma") Long idTurma, Model model, HttpSession session) {
-		Pessoa pessoa = getUsuarioLogado(session);
-
-		model.addAttribute("turma", turmaService.getTurmaByIdAndSupervisorById(idTurma, pessoa.getId()));
-		turmaService.getTurmaByIdAndSupervisorById(idTurma, pessoa.getId());
-
-		return "supervisor/info-turma";
-	}
-	
-	@RequestMapping(value = "/turma/{id}/vincular", method = RequestMethod.GET)
-	public String paginaVincularEstagiarioTurma(Model model, HttpSession session, @PathVariable("id") Long idTurma)  {
-		Pessoa pessoa = getUsuarioLogado(session);
-
-		model.addAttribute("turma", turmaService.getTurmaByIdAndSupervisorById(idTurma, pessoa.getId()));
-		model.addAttribute("estagiariosDaTurma", estagiarioService.getEstagiarioByTurmaId(idTurma));
-		model.addAttribute("outrosEstagiarios", estagiarioService.getEstagiarioByNotTurmaIdOrSemTurma(idTurma));
-
-		return "supervisor/form-vincular-estagiarios-turma";
-	}
-
-	@RequestMapping(value = "/turma/{id}/vincular", method = RequestMethod.POST)
-	public String atualizarVinculoEstagiarioTurma(Model model, HttpSession session, @ModelAttribute("turma") Turma turma)  {
-		Pessoa pessoa = getUsuarioLogado(session);
-		
-		Turma turmaDoBanco = turmaService.getTurmaByIdAndSupervisorById(turma.getId(), pessoa.getId());
-		
-		List<Estagiario> estagiariosSelecionados = new ArrayList<Estagiario>();
-		
-		if(turma.getEstagiarios() != null) {
-			estagiariosSelecionados = getEstagiariosSelecionados(turma.getEstagiarios());
-			estagiariosSelecionados = atualizarTurmaEstagiarios(estagiariosSelecionados, turmaDoBanco);
-		}
-
-		turmaDoBanco.setEstagiarios(estagiariosSelecionados);
-
-		turmaService.update(turmaDoBanco);
-
-		model.addAttribute("turma", turmaDoBanco);
-		model.addAttribute("estagiarios", estagiarioService.find(Estagiario.class));
-
-		return "redirect:/supervisor/turma/" + turmaDoBanco.getId();
 	}
 
 	@RequestMapping(value = "/projetos", method = RequestMethod.GET)
@@ -299,53 +195,6 @@ public class SupervisorController {
 		return "supervisor/list-frequencias";
 	}
 
-	@RequestMapping(value = "/turma/{idTurma}/frequencias", method = RequestMethod.GET)
-	public String listarFrequenciaTurma(@PathVariable("idTurma") Long idTurma, Model model, HttpSession session) {
-		Pessoa pessoa = getUsuarioLogado(session);
-		Date dataAtual = new Date();
-		List<Frequencia> frequencias = frequenciaService.getFrequenciasByTurmaIdAndData(dataAtual, idTurma);
-
-		model.addAttribute("turma", turmaService.getTurmaByIdAndSupervisorById(idTurma, pessoa.getId()));
-		model.addAttribute("turmas", turmaService.getTurmasBySupervisorIdAndStatus(StatusTurma.ABERTA, pessoa.getId()));
-		model.addAttribute("frequencias", frequencias);
-		model.addAttribute("dataSelecionada", dataAtual);
-
-		return "supervisor/list-frequencias";
-	}
-
-	@RequestMapping(value = "/turma/{idTurma}/frequencias", method = RequestMethod.POST)
-	public String listarFrequenciaTurmaData(@PathVariable("idTurma") Long idTurma, @RequestParam("data") Date data, Model model, HttpSession session) {
-		Pessoa pessoa = getUsuarioLogado(session);
-
-		List<Frequencia> frequencias = frequenciaService.getFrequenciasByTurmaIdAndData(data, idTurma);
-
-		model.addAttribute("turma", turmaService.getTurmaByIdAndSupervisorById(idTurma, pessoa.getId()));
-		model.addAttribute("turmas", turmaService.getTurmasBySupervisorIdAndStatus(StatusTurma.ABERTA, pessoa.getId()));
-		model.addAttribute("frequencias", frequencias);
-		model.addAttribute("dataSelecionada", data);
-
-		return "supervisor/list-frequencias";
-	}
-	
-	@RequestMapping(value = "/turma/{idTurma}/estagiario/{idEstagiario}/frequencia", method = RequestMethod.GET)
-	public String minhaPresenca(HttpSession session, Model model, @PathVariable("idTurma") Long idTurma, @PathVariable("idEstagiario") Long idEstagiario) {
-
-		Estagiario estagiario = estagiarioService.find(Estagiario.class, idEstagiario);
-		
-		Turma turma = turmaService.find(Turma.class, idTurma);
-
-		List<Frequencia> frequencias = frequenciaService.getFrequenciasByEstagiarioId(estagiario.getId());
-		
-		frequencias.addAll(frequenciaService.gerarFrequencia(turma, idEstagiario));
-
-		DadoConsolidado dadosConsolidados = frequenciaService.calcularDadosConsolidados(frequencias);
-
-		model.addAttribute("estagiario", estagiario);
-		model.addAttribute("frequencias", frequencias);
-		model.addAttribute("dadosConsolidados", dadosConsolidados);		
-		
-		return "supervisor/list-frequencia-estagiario";
-	}
 	@RequestMapping(value = "/frequencia/realizar-observacao", method = RequestMethod.POST)
 	public String frequenciaObservar(@RequestParam("pk") Long idFrequencia, @RequestParam("value") String observacao, Model model) {
 		Frequencia frequencia = frequenciaService.find(Frequencia.class, idFrequencia);

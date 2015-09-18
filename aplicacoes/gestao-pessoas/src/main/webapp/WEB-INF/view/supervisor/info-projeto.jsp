@@ -15,10 +15,15 @@
 	<div class="row">
 
 	<div class="panel panel-primary">
-		<div class="panel-heading">
-			<h2 class="titulo-panels"><a class="header-anchor" href="#"><span class="fa fa-briefcase"></span></a> Projeto</h2>
-		</div>
 
+		<div class="panel-heading">
+			<h2 class="titulo-panels"><span class="fa fa-briefcase"></span> Projeto</h2>
+			
+			<div class="pull-right">
+				<a title="Voltar" class="btn btn-primary back"><span class="fa fa-arrow-circle-o-left"></span> Voltar</a>
+			</div>
+		</div>
+		
 		<div class="panel-body">
 			<c:if test="${empty projeto}"><div class="alert alert-warning" role="alert">Não há Projetos cadastrados.</div></c:if>
 
@@ -34,12 +39,13 @@
 		</div>
 	</div>
 	
-	<div class="panel panel-primary">
+	<div class="panel panel-success">
 		<div class="panel-heading">
-			<h2 class="titulo-panels"><a class="header-anchor" href="#"><span class="glyphicon glyphicon-user"></span></a> Membros</h2>
+			<h2 class="titulo-panels"><span class="fa fa-group"></span> Membros</h2>
+			
 
 			<div class="pull-right">
-				<a href="<c:url value="/supervisor/projeto/${projeto.id}/vincular" />" title="Vincular Membros" class="btn btn-success"><span class="glyphicon glyphicon-link"></span>&nbsp;</a>
+				<a href="<c:url value="/supervisor/projeto/${projeto.id}/vincular" />" title="Atualizar Vínculos" class="btn btn-success"><span class="glyphicon glyphicon-link"></span> Vínculos</a>
 			</div>
 		</div>
 
@@ -77,7 +83,7 @@
 	<jsp:include page="../modulos/footer1.jsp" />
 	
     <script type="text/javascript">
-		$(".menu #menu-projetos").addClass("active");
+		$("#menu-projetos").addClass("active");
 	</script>	
 </body>
 </html>

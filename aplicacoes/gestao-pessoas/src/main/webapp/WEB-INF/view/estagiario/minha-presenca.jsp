@@ -20,7 +20,7 @@
 
 	<div class="panel panel-primary">
 		<div class="panel-heading">
-			<h2 class="titulo-panels"><a class="header-anchor" href="#"><span class="fa fa-calendar-check-o"></span></a> Frêquencia: </h2>
+			<h2 class="titulo-panels"><span class="fa fa-calendar-check-o"></span> Frêquencia: </h2>
 
 		    <div class="btn-group">
 				 <c:if test="${empty turma}">
@@ -39,67 +39,63 @@
 		     </div>
 		</div>
 
-
-		<div class="panel-body">
-		
-	<c:if test="${not possuiTurma}">
-	
-	<div class="alert alert-dismissible alert-warning">
-		<button type="button" class="close" data-dismiss="alert">×</button>
-		<strong>Atençao! ${nomeFormatado}</strong>
-		<span>Aguarde, você sera vinculada a uma turma, desde já sinta-se parte deste grupo, NPI.</span>
-	</div>
-	</c:if>
-
-	<c:if test="${possuiTurma}">
-	
-	<c:if test="${not frequenciaNaoRealizada}">
-	<div class="alert alert-dismissible alert-success">
-		<button type="button" class="close" data-dismiss="alert">×</button>
-		<h5><strong>Parabéns! ${nomeFormatado},</strong> você esta presente no NPI. Tenha um Ótimo dia de trabalho <i class="fa fa-smile-o fa-2x"></i></h5>
-	</div>
-	</c:if>
-
-	<c:if test="${liberarPresenca}">
-	<div class="panel panel-info">
-		<div class="panel-heading">
-			<form class="form-inline form-minha-presenca" action="<c:url value="/estagiario/minha-frequencia/turma/${turma.id }"></c:url>" method="POST" align="center">
-				<c:if test="${not empty error}">
-					<div class="form-group" align="center">
-						<label class="control-label col-xs-2"></label>
-						<div class="col-xs-10"><div class="form-control label label-danger"><i class="fa fa-times-circle-o"></i> ${error}</div></div>
-					</div>
-				</c:if>
-				<fieldset class="form-group">
-					<label class="panel-title"><strong>Minha Presença</strong></label>
-				</fieldset>
-				<div class="form-group">
-					<label for="cpf" class="sr-only">CPF</label>
-					<input type="text" class="form-control" id="cpf" name="cpf" placeholder="CPF" value="${estagiario.pessoa.cpf}" readonly="readonly">
+		<c:if test="${empty turmas}">
+			<div class="panel-body">
+				<div class="alert alert-dismissible alert-warning">
+					<button type="button" class="close" data-dismiss="alert">×</button>
+					<strong>Atençao! ${nomeFormatado}</strong>
+					<span>Aguarde, você sera vinculada a uma turma, desde já sinta-se parte deste grupo, NPI.</span>
 				</div>
-				<div class="form-group">
-					<label for="senha" class="sr-only">Senha</label>
-					<input type="password" class="form-control" id="senha" name="senha" placeholder="Senha" autofocus="autofocus">
-				</div>
-				<button type="submit" class="btn btn-success">Estou Presente !!!</button>
-			</form>
-		  </div>
-		</div>
-	</c:if>
-		
-		
-		
-		
-			<div>
-				<label>Data: ${frequenciaHoje.data}</label> 
-				<label>Hora: ${frequenciaHoje.tempo}</label> 
-				<label>Faltas: ${dadosConsolidados.faltas}</label> 
-				<label>Dias Trabalhados: ${dadosConsolidados.diasTrabalhados}</label> 
-				<label>Frequência (%): ${dadosConsolidados.porcentagemFrequencia}</label>
 			</div>
-			
+		</c:if>
+	
+		<c:if test="${possuiTurma}">
+			<div class="panel-body">
+		
+			<c:if test="${not frequenciaNaoRealizada}">
+				<div class="alert alert-dismissible alert-success">
+					<button type="button" class="close" data-dismiss="alert">×</button>
+					<h5><strong>Parabéns! ${nomeFormatado},</strong> você esta presente no NPI. Tenha um Ótimo dia de trabalho <i class="fa fa-smile-o fa-2x"></i></h5>
+				</div>
+			</c:if>
+	
+			<c:if test="${liberarPresenca}">
+			<div class="panel panel-info">
+				<div class="panel-heading">
+					<form class="form-inline form-minha-presenca" action="<c:url value="/estagiario/minha-frequencia/turma/${turma.id }"></c:url>" method="POST" align="center">
+						<c:if test="${not empty error}">
+							<div class="form-group" align="center">
+								<label class="control-label col-xs-2"></label>
+								<div class="col-xs-10"><div class="form-control label label-danger"><i class="fa fa-times-circle-o"></i> ${error}</div></div>
+							</div>
+						</c:if>
+						<fieldset class="form-group">
+							<label class="panel-title"><strong>Minha Presença</strong></label>
+						</fieldset>
+						<div class="form-group">
+							<label for="cpf" class="sr-only">CPF</label>
+							<input type="text" class="form-control" id="cpf" name="cpf" placeholder="CPF" value="${estagiario.pessoa.cpf}" readonly="readonly">
+						</div>
+						<div class="form-group">
+							<label for="senha" class="sr-only">Senha</label>
+							<input type="password" class="form-control" id="senha" name="senha" placeholder="Senha" autofocus="autofocus">
+						</div>
+						<button type="submit" class="btn btn-success">Estou Presente !!!</button>
+					</form>
+				  </div>
+				</div>
+			</c:if>
+	
+			<div class="form-group">
+				<label class="col-sm-2 text-view-info"><strong>Dias Trabalhados: </strong></label><label class="col-sm-10 text-view-info">${dadosConsolidados.diasTrabalhados}</label>
+		
+				<label class="col-sm-2 text-view-info"><strong>Frequência (%): </strong></label><label class="col-sm-10 text-view-info">${dadosConsolidados.porcentagemFrequencia}</label>
+		
+				<label class="col-sm-2 text-view-info"><strong>Faltas: </strong></label><label class="col-sm-10 text-view-info">${dadosConsolidados.faltas}</label>
+			</div>
+	
 			<c:if test="${not empty message}"><div class="alert alert-info msg"><i class="fa fa-info-circle"> </i> ${message}</div></c:if>
-
+	
 			<table id="table-minha-frequencia" class="table table-striped table-hover">
 				<thead>
 					<tr>
@@ -130,17 +126,16 @@
 		       </tbody>
 			</table>
 		</div>
-	</div>
-	
 	</c:if>
-	
-	</div>
+</div>
+</div>
 </div><br><br>
 
 	<jsp:include page="../modulos/footer1.jsp" />
 	
     <script type="text/javascript">
-
+		$("#minha-presenca").addClass("active");
+	
 		$('#table-minha-frequencia').DataTable({
 			 "pageLength": 10,
 			"language": ptBR,

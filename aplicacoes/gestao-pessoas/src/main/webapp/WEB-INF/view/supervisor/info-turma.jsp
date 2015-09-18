@@ -18,7 +18,11 @@
 
 	<div class="panel panel-primary">
 		<div class="panel-heading">
-			<h2 class="titulo-panels"><a class="header-anchor" href="#"><span class="fa fa-folder-open"></span></a> Turma ${turma.nome}</h2>
+			<h2 class="titulo-panels"><span class="fa fa-folder-open"></span> Turma ${turma.nome}</h2>
+			
+			<div class="pull-right">
+				<a title="Voltar" class="btn btn-primary back"><span class="fa fa-arrow-circle-o-left"></span> Voltar</a>
+			</div>
 		</div>
 
 		<div class="panel-body">
@@ -40,17 +44,17 @@
 		</div>
 	</div>
 	
-	<div class="panel panel-primary">
+	<div class="panel panel-info">
 		<div class="panel-heading">
-			<h2 class="titulo-panels"><a class="header-anchor" href="#"><span class="fa fa-folder-open"></span></a> Expediente</h2>
+			<h2 class="titulo-panels"><span class="fa fa-clock-o"></span> Expediente</h2>
 
 			<div class="pull-right">
-				<a href="<c:url value="/supervisor/turma/${turma.id}/horarios" />" title="Vincular Estagiários" class="btn btn-info"><span class="fa fa-plus-o"></span>Horario</a>
+				<a href="<c:url value="/supervisor/turma/${turma.id}/horarios" />" title="Atualizar Horários" class="btn btn-info"><span class="fa fa-refresh"></span> Horário</a>
 			</div>
 		</div>
 
 		<div class="panel-body">
-			<c:if test="${empty turma.horarios}"><div class="alert alert-warning" role="alert">Expedoente não definido.</div></c:if>
+			<c:if test="${empty turma.horarios}"><div class="alert alert-warning" role="alert">Expediente não definido.</div></c:if>
 
 			<c:if test="${not empty turma.horarios}">
 				<div class="form-group">
@@ -82,12 +86,17 @@
 		</div>
 	</div>
 	
-	<div class="panel panel-primary">
+	<div class="panel panel-success">
 		<div class="panel-heading">
-			<h2 class="titulo-panels"><a class="header-anchor" href="#"><span class="glyphicon glyphicon-user"></span></a> Estagiários</h2>
+			<h2 class="titulo-panels"><span class="fa fa-group"></span> Estagiários</h2>
 
 			<div class="pull-right">
-				<a href="<c:url value="/supervisor/turma/${turma.id}/vincular" />" title="Vincular Estagiários" class="btn btn-success"><span class="glyphicon glyphicon-link"></span>&nbsp;</a>
+				<c:if test="${not empty turma.estagiarios}">
+					<a class="btn btn-success" href="<c:url value="/supervisor/turma/${idTurma }/tce" ></c:url>" title="Termo de Compromisso"><span class="fa fa-file-pdf-o"></span> Termo de Compromisso</a>
+					<a class="btn btn-success" href="<c:url value="/supervisor/turma/${idTurma }/declaracoes" ></c:url>" title="Declaração de Estágio"><span class="fa fa-file-pdf-o"></span> Declaração de Estágio</a>
+				</c:if>
+
+				<a href="<c:url value="/supervisor/turma/${turma.id}/vincular" />" title="Atualizar Vínculos" class="btn btn-success"><span class="glyphicon glyphicon-link"></span> Vinculos</a>
 			</div>
 		</div>
 
@@ -121,14 +130,6 @@
 				</table>
 			</c:if>
 		</div>
-		<c:if test="${not empty turma.estagiarios}">
-			<div class="panel-footer" align="center">
-				<div class="controls">
-					<a class="btn btn-default" href="<c:url value="/supervisor/turma/${idTurma }/tce" ></c:url>" title="Termo de Compromisso"><i class="fa fa-file-pdf-o"></i> Termo de Compromisso</a>
-					<a class="btn btn-primary" href="<c:url value="/supervisor/turma/${idTurma }/declaracoes" ></c:url>" title="Declaração de Estágio"><i class="fa fa-file-pdf-o"></i> Declaração de Estágio</a>
-				</div>
-			</div>
-		</c:if>
 	</div>
 	
 	</div>

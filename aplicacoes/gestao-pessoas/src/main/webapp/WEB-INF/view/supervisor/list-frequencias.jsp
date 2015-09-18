@@ -22,7 +22,7 @@
 	<input id="idTurma" type="hidden" value="${turma.id}">
 	<div class="panel panel-primary">
 		<div class="panel-heading">
-			<h2 class="titulo-panels"><a class="header-anchor" href="#"><span class="fa fa-calendar-check-o"></span></a> Frêquencia: </h2>
+			<h2 class="titulo-panels"><a href="#"><span class="fa fa-calendar-check-o"></span></a> Frêquencia: </h2>
 		    
 		    <div class="btn-group">
 				 <c:if test="${empty turma}">
@@ -39,7 +39,10 @@
 					</c:forEach>
 		         </ul>
 		     </div>
-		
+		     
+			<div class="pull-right">
+				<a title="Voltar" class="btn btn-primary back"><span class="fa fa-arrow-circle-o-left"></span> Voltar</a>
+			</div>		     
 		</div>
 
 		<c:if test="${not empty turma}">
@@ -72,7 +75,6 @@
 				</table>
 			</div>
 		</div>
-		<div class="panel-footer"></div>
 		</c:if>
 	</div>
 	</div>

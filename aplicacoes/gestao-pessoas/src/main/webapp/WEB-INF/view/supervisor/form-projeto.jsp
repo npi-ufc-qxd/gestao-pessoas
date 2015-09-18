@@ -42,7 +42,11 @@
 	<div class="panel panel-primary">
 	
 		<div class="panel-heading">
-			<h2 id="titulo-cadastro-npi"><a class="header-anchor" href="#"><span class="glyphicon glyphicon-user"></span></a> ${titulo}</h2>
+			<h2 class="titulo-panels"><span class="fa fa-briefcase"></span> ${titulo }</h2>
+			
+			<div class="pull-right">
+				<a title="Voltar" class="btn btn-primary back"><span class="fa fa-arrow-circle-o-left"></span> Voltar</a>
+			</div>
 		</div>
 
 		<form:form id="adicionarProjetoForm" role="form" modelAttribute="projeto" servletRelativeAction="${url}" method="POST" cssClass="form-horizontal">
@@ -72,8 +76,8 @@
 
 			<div class="panel-footer" align="center">
 				<div class="controls">
-					<c:if test="${action eq 'cadastrar' }"><button type="submit" class="btn btn-primary">Cadastrar</button></c:if>
-					<c:if test="${action eq 'editar' }"><button type="submit" class="btn btn-success">Salvar alterações</button></c:if>
+					<c:if test="${action eq 'cadastrar' }"><button type="submit" class="btn btn-primary" title="Cadastrar"><span class="fa fa-floppy-o"></span> Cadastrar</button></c:if>
+					<c:if test="${action eq 'editar' }"><button type="submit" class="btn btn-primary" title="Salvar alterações"><span class="fa fa-floppy-o"></span> Salvar alterações</button></c:if>
 				</div>
 			</div>
 		</form:form>
@@ -84,7 +88,7 @@
 	<jsp:include page="../modulos/footer1.jsp" />
 	
     <script type="text/javascript">
-		$(".menu #projetos").addClass("active");
+		$("#menu-projetos").addClass("active");
 	</script>		
 </body>
 </html>

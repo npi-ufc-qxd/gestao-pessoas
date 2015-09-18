@@ -23,10 +23,13 @@
 
 <div class="container">
 	<div class="row">
-	<div class="panel ${action eq 'cadastrar' ? 'panel-success' : 'panel-primary' }">
-
+	<div class="panel panel-primary">
 		<div class="panel-heading">
-			<h2 id="titulo-cadastro-npi"><a class="header-anchor" href="#"><span class="glyphicon glyphicon-user"></span></a> ${titulo}</h2>
+			<h2 class="titulo-panels"><span class="fa fa-folder-open"></span> ${titulo}</h2>
+			
+			<div class="pull-right">
+				<a title="Voltar" class="btn btn-primary back"><span class="fa fa-arrow-circle-o-left"></span> Voltar</a>
+			</div>
 		</div>
 
 		<form:form id="form-estagiario" role="form" commandName="estagiario" modelAttribute="estagiario" servletRelativeAction="${url}" method="POST" cssClass="form-horizontal">
@@ -175,8 +178,8 @@
 			
 			<div class="panel-footer" align="center">
 				<div class="controls">
-					<c:if test="${action eq 'cadastrar' }"><button type="submit" class="btn btn-success">Confirmar</button></c:if>
-					<c:if test="${action eq 'editar' }"><button type="submit" class="btn btn-success">Salvar alterações</button></c:if>
+					<c:if test="${action eq 'cadastrar' }"><button type="submit" class="btn btn-primary"><span class="fa fa-thumbs-o-up"></span> Confirmar</button></c:if>
+					<c:if test="${action eq 'editar' }"><button type="submit" class="btn btn-primary"><span class="fa fa-floppy-o"></span> Salvar alterações</button></c:if>
 				</div>
 			</div>
 		</form:form>

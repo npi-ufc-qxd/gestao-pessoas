@@ -28,10 +28,14 @@
 		</div>
 	</c:if>
 
-	<div class="panel panel-primary">
+	<div class="panel panel-info">
 	
 		<div class="panel-heading">
-			<h2 id="titulo-cadastro-npi"><a class="header-anchor" href="#"><span class="glyphicon glyphicon-user"></span></a> Atualizar Expediente</h2>
+			<h2 class="titulo-panels"><span class="fa fa-clock-o"></span> Atualizar Expediente</h2>
+			
+			<div class="pull-right">
+				<a title="Voltar" class="btn btn-info back"><span class="fa fa-arrow-circle-o-left"></span> Voltar</a>
+			</div>
 		</div>
 
 		<form:form id="form-turma" role="form" commandName="horario" servletRelativeAction="/supervisor/turma/${turma.id}/horario"  method="POST" cssClass="form-horizontal">
@@ -57,7 +61,7 @@
 					</div>
 					<div class="form-item col-sm-3">
 						<label class="control-label">&nbsp;&nbsp;&nbsp;</label>
-						<button type="submit" class="form-control btn btn-primary">Adicionar</button>
+						<button type="submit" class="form-control btn btn-primary" title="Adicionar Horário"><span class="fa fa-plus"></span> Adicionar</button>
 					</div>
 				</div>
 			</div>
@@ -79,7 +83,7 @@
 								<td>${horario.dia.labelDia}</td>
 								<td>${horario.inicioExpediente}</td>
 								<td>${horario.finalExpediente}</td>
-								<td align="right"><a href="<c:url value="/supervisor/turma/${turma.id}/horario/${horario.id}/excluir" />" title="Editar" class="btn btn-danger"><span class="fa fa-remove"></span></a></td>
+								<td align="right"><a href="<c:url value="/supervisor/turma/${turma.id}/horario/${horario.id}/excluir" />" title="Excluir" class="btn btn-danger"><span class="fa fa-remove"></span></a></td>
 							</tr>
 						</c:forEach>
 			       </tbody>

@@ -24,6 +24,11 @@ var ptBR = {
 
 $(document).ready(function() {
 	
+	$('a.back').click(function(){
+		parent.history.back();
+		return false;
+	});
+	
 	$("#semestre").keyup(function() {
 		if(!$.isNumeric(this))
 			$(this).text("");

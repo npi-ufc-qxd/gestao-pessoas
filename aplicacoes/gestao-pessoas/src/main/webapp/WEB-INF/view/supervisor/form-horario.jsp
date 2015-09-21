@@ -22,8 +22,9 @@
 			<h2 class="titulo-panels"><span class="fa fa-clock-o"></span> Atualizar Expediente</h2>
 			
 			<div class="pull-right">
-				<a title="Voltar" class="btn btn-info back"><span class="fa fa-arrow-circle-o-left"></span> Voltar</a>
+				<a title="Voltar" class="btn btn-info" href="<c:url value="/supervisor/turma/${turma.id}"/>"><span class="fa fa-arrow-circle-o-left"></span> Voltar</a>
 			</div>
+			
 		</div>
 
 		<form:form id="form-horario" role="form" commandName="horario" servletRelativeAction="/supervisor/turma/${turma.id}/horario"  method="POST" cssClass="form-horizontal">
@@ -34,11 +35,6 @@
 					</div>
 				</c:if>
 
-				<c:if test="${not empty delete }">
-					<div class="alert alert-dismissible alert-danger">
-						<button type="button" class="close" data-dismiss="alert">×</button>${delete }
-					</div>
-				</c:if>
 				<h5>Defina o Expediente</h5>
 				<div class="form-group">
 					<div class="form-item col-sm-3">

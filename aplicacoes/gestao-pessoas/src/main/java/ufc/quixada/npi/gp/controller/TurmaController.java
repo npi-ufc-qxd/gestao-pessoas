@@ -197,7 +197,7 @@ public class TurmaController {
 
 		horarioService.delete(horarioService.find(Horario.class, idHorario));
 		
-		redirect.addFlashAttribute("delete", "Horário excluído com sucesso.");
+		redirect.addFlashAttribute("success", "Horário excluído com sucesso.");
 
 		return "redirect:/supervisor/turma/"+ idTurma +"/horarios";
 	}

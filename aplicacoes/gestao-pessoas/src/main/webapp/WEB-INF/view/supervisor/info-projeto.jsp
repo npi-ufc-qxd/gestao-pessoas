@@ -5,11 +5,11 @@
 
 <html>
 	<head>
-		<jsp:include page="../modulos/header-estrutura1.jsp" />
+		<jsp:include page="../modulos/header-estrutura.jsp" />
 		<title>Informações do Projeto</title>
 	</head>
 <body>
-	<jsp:include page="../modulos/header1.jsp" />
+	<jsp:include page="../modulos/header.jsp" />
 
 <div class="container">
 	<div class="row">
@@ -59,7 +59,7 @@
 								<th class="col-md-1">Matrícula</th>
 								<th class="col-md-5">Nome</th>
 								<th class="col-md-3">Curso</th>
-								<th class="col-md-3">Local do Estágio</th>
+								<th class="col-md-3">Frequência</th>
 				           </tr>
 				       </thead>
 				       <tbody class="text-view-info">
@@ -68,7 +68,7 @@
 									<td>${estagiario.matricula}</td>
 									<td>${estagiario.nomeCompleto}</td>
 									<td>${estagiario.curso.labelCurso}</td>
-									<td>${estagiario.localEstagio.labelLocal}</td>
+									<td>xx%</td>
 								</tr>
 							</c:forEach>
 				       </tbody>
@@ -80,7 +80,7 @@
 	</div>
 </div>
 
-	<jsp:include page="../modulos/footer1.jsp" />
+	<jsp:include page="../modulos/footer.jsp" />
 	
     <script type="text/javascript">
 		$("#menu-projetos").addClass("active");

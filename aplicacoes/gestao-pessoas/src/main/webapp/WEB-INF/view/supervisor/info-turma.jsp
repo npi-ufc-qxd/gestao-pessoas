@@ -7,18 +7,18 @@
 
 <html>
 	<head>
-		<jsp:include page="../modulos/header-estrutura1.jsp" />
+		<jsp:include page="../modulos/header-estrutura.jsp" />
 		<title>Informações da Turma</title>
 	</head>
 <body>
-	<jsp:include page="../modulos/header1.jsp" />
+	<jsp:include page="../modulos/header.jsp" />
 
 <div class="container">
 	<div class="row">
 
 	<div class="panel panel-primary">
 		<div class="panel-heading">
-			<h2 class="titulo-panels"><span class="fa fa-folder-open"></span> Turma ${turma.nome}</h2>
+			<h2 class="titulo-panels"><span class="fa fa-folder-open"></span> Turma <strong>${turma.nome}</strong></h2>
 			
 			<div class="pull-right">
 				<a title="Voltar" class="btn btn-primary back"><span class="fa fa-arrow-circle-o-left"></span> Voltar</a>
@@ -26,6 +26,7 @@
 		</div>
 
 		<div class="panel-body">
+		
 			<c:if test="${empty turma}"><div class="alert alert-warning" role="alert">Turma inexistente.</div></c:if>
 
 			<c:if test="${not empty turma}">
@@ -92,6 +93,7 @@
 
 			<div class="pull-right">
 				<c:if test="${not empty turma.estagiarios}">
+					<a class="btn btn-success" href="<c:url value="/supervisor/turma/${idTurma }/mapa-frequencia" ></c:url>" title="Mapa de Frequência"><span class="fa fa-calendar-check-o"></span> Mapa de Frequência</a>
 					<a class="btn btn-success" href="<c:url value="/supervisor/turma/${idTurma }/tce" ></c:url>" title="Termo de Compromisso"><span class="fa fa-file-pdf-o"></span> Termo de Compromisso</a>
 					<a class="btn btn-success" href="<c:url value="/supervisor/turma/${idTurma }/declaracoes" ></c:url>" title="Declaração de Estágio"><span class="fa fa-file-pdf-o"></span> Declaração de Estágio</a>
 				</c:if>
@@ -110,7 +112,7 @@
 							<th class="col-md-4">Nome</th>
 							<th class="col-md-1">Matrícula</th>
 							<th class="col-md-3">Curso</th>
-							<th class="col-md-3">Local Estágio</th>
+							<th class="col-md-3">Frequência</th>
 							<th class="col-md-1"></th>
 			           </tr>
 			       </thead>
@@ -120,7 +122,7 @@
 								<td>${estagiario.nomeCompleto}</td>
 								<td>${estagiario.matricula}</td>
 								<td>${estagiario.curso.labelCurso}</td>
-								<td>${estagiario.localEstagio.labelLocal}</td>
+								<td>xx%</td>
 								<td align="right">
 									<a href="<c:url value="/supervisor/turma/${idTurma }/estagiario/${estagiario.id}/frequencia" />" title="Frequências" class="btn btn-info btn-sm"><span class="fa fa-calendar"></span> Frequências</a>
 								</td>
@@ -135,7 +137,7 @@
 	</div>
 </div>
 <br><br>
-	<jsp:include page="../modulos/footer1.jsp" />
+	<jsp:include page="../modulos/footer.jsp" />
 
     <script type="text/javascript">
 		$(".menu #turmas").addClass("active");

@@ -42,9 +42,6 @@ public class Estagiario {
 	@NotEmpty(message = "Campo obrigatório.")
 	private String nomeMae;
 
-	@Enumerated(EnumType.STRING)
-	private LocalEstagio localEstagio;
-
 	@NotNull(message = "Campo obrigatório.")
 	@NotEmpty(message = "Campo obrigatório.")
 	private String nomeCompleto;
@@ -281,14 +278,6 @@ public class Estagiario {
 
 	public void setProjeto(Projeto projeto) {
 		this.projeto = projeto;
-	}
-
-	public LocalEstagio getLocalEstagio() {
-		return localEstagio;
-	}
-
-	public void setLocalEstagio(LocalEstagio localEstagio) {
-		this.localEstagio = localEstagio;
 	}
 
 }

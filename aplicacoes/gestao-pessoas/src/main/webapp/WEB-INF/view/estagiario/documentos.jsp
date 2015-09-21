@@ -5,7 +5,7 @@
 
 <html>
 <head>
-<jsp:include page="../modulos/header-estrutura1.jsp" />
+<jsp:include page="../modulos/header-estrutura.jsp" />
 <title>Documentos</title>
 </head>
 
@@ -13,7 +13,7 @@
 </style>
 
 <body>
-	<jsp:include page="../modulos/header1.jsp" />
+	<jsp:include page="../modulos/header.jsp" />
 
 	<div class="container">
 		<h1 align="left" style="border-bottom: 1px solid #333;">Documentos</h1>
@@ -43,7 +43,7 @@
 		
 	</div>
 	
-	<jsp:include page="../modulos/footer1.jsp" />
+	<jsp:include page="../modulos/footer.jsp" />
 	
 
 </body>

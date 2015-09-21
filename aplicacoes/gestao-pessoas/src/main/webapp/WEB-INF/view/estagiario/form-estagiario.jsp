@@ -16,10 +16,10 @@
 <html>
 	<head>
 		<title>Meus Dados</title>
-		<jsp:include page="../modulos/header-estrutura1.jsp" />
+		<jsp:include page="../modulos/header-estrutura.jsp" />
 	</head>
 <body>
-	<jsp:include page="../modulos/header1.jsp" />
+	<jsp:include page="../modulos/header.jsp" />
 
 <div class="container">
 	<div class="row">
@@ -36,18 +36,6 @@
 			<div class="panel-body">
 
 				<form:hidden path="id"/>
-
-				<h4 class="secao-form-h4">Informações do Estágio</h4>
-		
-				<div class="form-group">
-					<div class="form-item col-sm-4">
-						<label for="localEstagio" class="control-label">*Local do Estagio:</label>
-						<form:select id="localEstagio" path="localEstagio" cssClass="form-control selectpicker" required="required">
-							<form:options itemLabel="labelLocal" />
-						</form:select>
-						<div class="error-validation"><form:errors path="localEstagio"></form:errors></div>
-					</div>
-				</div>
 
 				<h4 class="secao-form-h4">Dados Pessoais</h4>
 				
@@ -187,6 +175,6 @@
 	</div>
 </div><br><br>
 
-	<jsp:include page="../modulos/footer1.jsp" />
+	<jsp:include page="../modulos/footer.jsp" />
 </body>
 </html>

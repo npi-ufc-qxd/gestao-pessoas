@@ -7,12 +7,12 @@
 
 <html>
 <head>
-<jsp:include page="../modulos/header-estrutura1.jsp" />
+<jsp:include page="../modulos/header-estrutura.jsp" />
 
 <title>Vincular estagiários a turma</title>
 </head>
 <body>
-	<jsp:include page="../modulos/header1.jsp" />
+	<jsp:include page="../modulos/header.jsp" />
 	
 	<div class="container">
 	<div class="row">
@@ -81,7 +81,7 @@
 	</div>
 </div>
 
-	<jsp:include page="../modulos/footer1.jsp" />
+	<jsp:include page="../modulos/footer.jsp" />
 	
     <script type="text/javascript">
 		$(".menu #turmas").addClass("active");

@@ -9,11 +9,11 @@
 
 <html>
 	<head>
-		<jsp:include page="../modulos/header-estrutura1.jsp" />
+		<jsp:include page="../modulos/header-estrutura.jsp" />
 		<title>Minha Frequência</title>
 	</head>
 <body>
-	<jsp:include page="../modulos/header1.jsp" />
+	<jsp:include page="../modulos/header.jsp" />
 
 <div class="container">
 	<div class="row">
@@ -109,14 +109,15 @@
 				        <c:choose>
 				            <c:when test="${frequencia.statusFrequencia != 'AGUARDO'}">
 				            	<tr class="success">
-									<td><fmt:formatDate value="${frequencia.data}" pattern="dd/MM/yyyy" /></td>
+				            		
+									<td data-order="<fmt:formatDate value="${frequencia.data}" pattern="yyyy-MM-dd" />" ><fmt:formatDate value="${frequencia.data}" pattern="dd/MM/yyyy" /></td>
 									<td>${frequencia.observacao}</td>
 									<td>${frequencia.statusFrequencia}</td>
 								</tr>
 				            </c:when>
 				            <c:otherwise>
 					            <tr class="warning">
-									<td><strong><fmt:formatDate value="${frequencia.data}" pattern="dd/MM/yyyy" /></strong></td>
+									<td data-order="<fmt:formatDate value="${frequencia.data}" pattern="yyyy-MM-dd" />" ><strong><fmt:formatDate value="${frequencia.data}" pattern="dd/MM/yyyy" /></strong></td>
 									<td colspan="2">Aguardando data para lançamento da frequência.</td>
 									<td style="display: none;"></td>
 								</tr>
@@ -131,16 +132,17 @@
 </div>
 </div><br><br>
 
-	<jsp:include page="../modulos/footer1.jsp" />
+	<jsp:include page="../modulos/footer.jsp" />
 	
     <script type="text/javascript">
 		$("#minha-presenca").addClass("active");
-	
 		$('#table-minha-frequencia').DataTable({
-			 "pageLength": 10,
+			"paging": false,
+			"bFilter": false, 
+			"bInfo": false,
 			"language": ptBR,
-			 "order": [0, 'asc'],
-			 "columnDefs": [
+			"order": [0, 'asc'],
+			"columnDefs": [
 				{ "orderable": false, "targets": 1 },
 				{ "orderable": false, "targets": 2 },
 			],

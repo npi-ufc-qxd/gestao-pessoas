@@ -8,25 +8,13 @@
 <html>
 	<head>
 		<title>Atualizar Expediente</title>
-		<jsp:include page="../modulos/header-estrutura1.jsp" />
+		<jsp:include page="../modulos/header-estrutura.jsp" />
 	</head>
 <body>
-	<jsp:include page="../modulos/header1.jsp" />
+	<jsp:include page="../modulos/header.jsp" />
 
 <div class="container">
 	<div class="row">
-	
-	<c:if test="${not empty save }">
-		<div class="alert alert-dismissible alert-success">
-			<button type="button" class="close" data-dismiss="alert">×</button>${save }
-		</div>
-	</c:if>
-
-	<c:if test="${not empty delete }">
-		<div class="alert alert-dismissible alert-danger">
-			<button type="button" class="close" data-dismiss="alert">×</button>${delete }
-		</div>
-	</c:if>
 
 	<div class="panel panel-info">
 	
@@ -38,8 +26,19 @@
 			</div>
 		</div>
 
-		<form:form id="form-turma" role="form" commandName="horario" servletRelativeAction="/supervisor/turma/${turma.id}/horario"  method="POST" cssClass="form-horizontal">
+		<form:form id="form-horario" role="form" commandName="horario" servletRelativeAction="/supervisor/turma/${turma.id}/horario"  method="POST" cssClass="form-horizontal">
 			<div class="panel-body">
+				<c:if test="${not empty success }">
+					<div class="alert alert-dismissible alert-success">
+						<button type="button" class="close" data-dismiss="alert">×</button>${success }
+					</div>
+				</c:if>
+
+				<c:if test="${not empty delete }">
+					<div class="alert alert-dismissible alert-danger">
+						<button type="button" class="close" data-dismiss="alert">×</button>${delete }
+					</div>
+				</c:if>
 				<h5>Defina o Expediente</h5>
 				<div class="form-group">
 					<div class="form-item col-sm-3">
@@ -53,11 +52,11 @@
 
 					<div id="inicioDoExpediente" class="form-item col-sm-3">
 						<label class="control-label">*Início do Expediente:</label>
-						<div class="bfh-timepicker" data-name="inicioExpediente" data-placeholder="Inicio do Expediente" data-time=""></div>
+						<div class="bfh-timepicker" data-name="inicioExpediente" data-placeholder="Inicio do Expediente" data-time="08:00"></div>
 					</div>
 					<div id="finalDoExpediente" class="form-item col-sm-3">
 						<label class="control-label">*Final do Expediente:</label>
-						<div class="bfh-timepicker" data-name="finalExpediente" data-placeholder="Final do Expediente" data-time=""></div>
+						<div class="bfh-timepicker" data-name="finalExpediente" data-placeholder="Final do Expediente" data-time="08:00"></div>
 					</div>
 					<div class="form-item col-sm-3">
 						<label class="control-label">&nbsp;&nbsp;&nbsp;</label>
@@ -93,7 +92,7 @@
 	</div>
 </div>
 
-	<jsp:include page="../modulos/footer1.jsp" />
+	<jsp:include page="../modulos/footer.jsp" />
 	
     <script type="text/javascript">
 		$('.menu #turmas').addClass('active');

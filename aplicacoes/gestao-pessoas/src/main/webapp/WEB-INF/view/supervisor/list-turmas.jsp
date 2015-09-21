@@ -6,12 +6,12 @@
 
 <html>
 	<head>
-		<jsp:include page="../modulos/header-estrutura1.jsp" />
+		<jsp:include page="../modulos/header-estrutura.jsp" />
 
 		<title>Minhas Turmas</title>
 	</head>
 <body>
-	<jsp:include page="../modulos/header1.jsp" />
+	<jsp:include page="../modulos/header.jsp" />
 	
 <div class="container">
 	<div class="row">
@@ -27,7 +27,9 @@
 		</div>
 
 		<div class="panel-body">
-		
+
+		<c:if test="${not empty success }"><div class="alert alert-dismissible alert-success"><button type="button" class="close" data-dismiss="alert">×</button>${success}</div></c:if>
+
 		<c:if test="${empty turmas}">
 				<div class="alert alert-warning" role="alert">Não há Turmas cadastrados.</div>
 			</c:if>
@@ -84,7 +86,7 @@
 		
 </div>
 
-	<jsp:include page="../modulos/footer1.jsp" />
+	<jsp:include page="../modulos/footer.jsp" />
 
 	<script type="text/javascript">
 		$('.menu #turmas').addClass('active');

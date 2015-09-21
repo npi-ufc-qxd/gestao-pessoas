@@ -67,7 +67,7 @@
 	<jsp:include page="../modulos/footer.jsp" />
 	
 	<script type="text/javascript">
-		$('.menu #menu-frequencias').addClass('active');
+		$('.menu #turmas').addClass('active');
 	
 		$('#dataFiltroFrequencia').datepicker({
 			language: 'pt-BR',

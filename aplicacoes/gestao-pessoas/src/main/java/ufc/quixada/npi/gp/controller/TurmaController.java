@@ -96,7 +96,7 @@ public class TurmaController {
 	}
 
 	@RequestMapping(value = "/adicionar", method = RequestMethod.POST)
-	public String adicionarTurma(Model model, @Valid @ModelAttribute("turma") Turma turma,  BindingResult result, HttpSession session) {
+	public String adicionarTurma(Model model, @Valid @ModelAttribute("turma") Turma turma,  BindingResult result, HttpSession session, RedirectAttributes redirect) {
 		model.addAttribute("action", "cadastrar");
 		
 		turma.setHorarios(atualizarHorarios(turma));
@@ -110,6 +110,8 @@ public class TurmaController {
 		
 		turma.setSupervisor(pessoa);
 		turmaService.save(turma);
+		
+		redirect.addFlashAttribute("success", "Turma cadastrada com sucesso.");
 
 		return "redirect:/supervisor/turmas";
 	}
@@ -185,7 +187,7 @@ public class TurmaController {
 
 		horarioService.save(horario);
 		
-		redirect.addFlashAttribute("save", "Horário cadastrado com sucesso.");
+		redirect.addFlashAttribute("success", "Horário cadastrado com sucesso.");
 
 		return "redirect:/supervisor/turma/"+ idTurma +"/horarios";
 	}
@@ -195,7 +197,7 @@ public class TurmaController {
 
 		horarioService.delete(horarioService.find(Horario.class, idHorario));
 		
-		redirect.addFlashAttribute("delete", "Horário excluído com sucesso.");
+		redirect.addFlashAttribute("success", "Horário excluído com sucesso.");
 
 		return "redirect:/supervisor/turma/"+ idTurma +"/horarios";
 	}
@@ -234,14 +236,13 @@ public class TurmaController {
 		return "redirect:/supervisor/turma/" + turmaDoBanco.getId();
 	}
 
-	@RequestMapping(value = "/{idTurma}/frequencias", method = RequestMethod.GET)
+	@RequestMapping(value = "/{idTurma}/mapa-frequencia", method = RequestMethod.GET)
 	public String listarFrequenciaTurma(@PathVariable("idTurma") Long idTurma, Model model, HttpSession session) {
 		Pessoa pessoa = getUsuarioLogado(session);
 		Date dataAtual = new Date();
 		List<Frequencia> frequencias = frequenciaService.getFrequenciasByTurmaIdAndData(dataAtual, idTurma);
 
 		model.addAttribute("turma", turmaService.getTurmaByIdAndSupervisorById(idTurma, pessoa.getId()));
-		model.addAttribute("turmas", turmaService.getTurmasBySupervisorIdAndStatus(StatusTurma.ABERTA, pessoa.getId()));
 		model.addAttribute("frequencias", frequencias);
 		model.addAttribute("dataSelecionada", dataAtual);
 

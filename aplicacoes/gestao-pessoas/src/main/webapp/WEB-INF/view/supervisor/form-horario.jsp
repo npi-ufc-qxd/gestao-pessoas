@@ -8,34 +8,33 @@
 <html>
 	<head>
 		<title>Atualizar Expediente</title>
-		<jsp:include page="../modulos/header-estrutura1.jsp" />
+		<jsp:include page="../modulos/header-estrutura.jsp" />
 	</head>
 <body>
-	<jsp:include page="../modulos/header1.jsp" />
+	<jsp:include page="../modulos/header.jsp" />
 
 <div class="container">
 	<div class="row">
-	
-	<c:if test="${not empty save }">
-		<div class="alert alert-dismissible alert-success">
-			<button type="button" class="close" data-dismiss="alert">×</button>${save }
-		</div>
-	</c:if>
 
-	<c:if test="${not empty delete }">
-		<div class="alert alert-dismissible alert-danger">
-			<button type="button" class="close" data-dismiss="alert">×</button>${delete }
-		</div>
-	</c:if>
-
-	<div class="panel panel-primary">
+	<div class="panel panel-info">
 	
 		<div class="panel-heading">
-			<h2 id="titulo-cadastro-npi"><a class="header-anchor" href="#"><span class="glyphicon glyphicon-user"></span></a> Atualizar Expediente</h2>
+			<h2 class="titulo-panels"><span class="fa fa-clock-o"></span> Atualizar Expediente</h2>
+			
+			<div class="pull-right">
+				<a title="Voltar" class="btn btn-info" href="<c:url value="/supervisor/turma/${turma.id}"/>"><span class="fa fa-arrow-circle-o-left"></span> Voltar</a>
+			</div>
+			
 		</div>
 
-		<form:form id="form-turma" role="form" commandName="horario" servletRelativeAction="/supervisor/turma/${turma.id}/horario"  method="POST" cssClass="form-horizontal">
+		<form:form id="form-horario" role="form" commandName="horario" servletRelativeAction="/supervisor/turma/${turma.id}/horario"  method="POST" cssClass="form-horizontal">
 			<div class="panel-body">
+				<c:if test="${not empty success }">
+					<div class="alert alert-dismissible alert-success">
+						<button type="button" class="close" data-dismiss="alert">×</button>${success }
+					</div>
+				</c:if>
+
 				<h5>Defina o Expediente</h5>
 				<div class="form-group">
 					<div class="form-item col-sm-3">
@@ -49,15 +48,15 @@
 
 					<div id="inicioDoExpediente" class="form-item col-sm-3">
 						<label class="control-label">*Início do Expediente:</label>
-						<div class="bfh-timepicker" data-name="inicioExpediente" data-placeholder="Inicio do Expediente" data-time=""></div>
+						<div class="bfh-timepicker" data-name="inicioExpediente" data-placeholder="Inicio do Expediente" data-time="08:00"></div>
 					</div>
 					<div id="finalDoExpediente" class="form-item col-sm-3">
 						<label class="control-label">*Final do Expediente:</label>
-						<div class="bfh-timepicker" data-name="finalExpediente" data-placeholder="Final do Expediente" data-time=""></div>
+						<div class="bfh-timepicker" data-name="finalExpediente" data-placeholder="Final do Expediente" data-time="08:00"></div>
 					</div>
 					<div class="form-item col-sm-3">
 						<label class="control-label">&nbsp;&nbsp;&nbsp;</label>
-						<button type="submit" class="form-control btn btn-primary">Adicionar</button>
+						<button type="submit" class="form-control btn btn-primary" title="Adicionar Horário"><span class="fa fa-plus"></span> Adicionar</button>
 					</div>
 				</div>
 			</div>
@@ -79,7 +78,7 @@
 								<td>${horario.dia.labelDia}</td>
 								<td>${horario.inicioExpediente}</td>
 								<td>${horario.finalExpediente}</td>
-								<td align="right"><a href="<c:url value="/supervisor/turma/${turma.id}/horario/${horario.id}/excluir" />" title="Editar" class="btn btn-danger"><span class="fa fa-remove"></span></a></td>
+								<td align="right"><a href="<c:url value="/supervisor/turma/${turma.id}/horario/${horario.id}/excluir" />" title="Excluir" class="btn btn-danger"><span class="fa fa-remove"></span></a></td>
 							</tr>
 						</c:forEach>
 			       </tbody>
@@ -89,7 +88,7 @@
 	</div>
 </div>
 
-	<jsp:include page="../modulos/footer1.jsp" />
+	<jsp:include page="../modulos/footer.jsp" />
 	
     <script type="text/javascript">
 		$('.menu #turmas').addClass('active');

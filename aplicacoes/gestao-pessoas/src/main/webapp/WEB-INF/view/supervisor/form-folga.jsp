@@ -19,18 +19,22 @@
 
 <html>
 	<head>
-		<jsp:include page="../modulos/header-estrutura1.jsp" />
+		<jsp:include page="../modulos/header-estrutura.jsp" />
 		<title>${titulo }</title>
 	</head>
 <body>
-	<jsp:include page="../modulos/header1.jsp" />
+	<jsp:include page="../modulos/header.jsp" />
 
 <div class="container">
 	<div class="row">
 	<div class="panel panel-primary">
 	
 		<div class="panel-heading">
-			<h2 id="titulo-cadastro-npi"><a class="header-anchor" href="#"><span class="glyphicon glyphicon-user"></span></a> ${titulo}</h2>
+			<h2 id="titulo-panels"><a class="header-anchor" href="#"><span class="glyphicon glyphicon-user"></span></a> ${titulo}</h2>
+			
+			<div class="pull-right">
+				<a title="Voltar" class="btn btn-primary back"><span class="fa fa-arrow-circle-o-left"></span> Voltar</a>
+			</div>
 		</div>
 
 		<form:form id="form-folga" role="form" commandName="folga" servletRelativeAction="${url}" method="POST" cssClass="form-horizontal">
@@ -64,8 +68,8 @@
 			
 			<div class="panel-footer" align="center">
 				<div class="controls">
-					<c:if test="${action eq 'cadastrar' }"><button type="submit" class="btn btn-primary">Cadastrar</button></c:if>
-					<c:if test="${action eq 'editar' }"><button type="submit" class="btn btn-success">Salvar alterações</button></c:if>
+					<c:if test="${action eq 'cadastrar' }"><button type="submit" class="btn btn-primary"><span class="fa fa-floppy-o"></span> Cadastrar</button></c:if>
+					<c:if test="${action eq 'editar' }"><button type="submit" class="btn btn-primary"><span class="fa fa-floppy-o"></span> Salvar alterações</button></c:if>
 				</div>
 			</div>
 		</form:form>
@@ -73,7 +77,7 @@
 	</div>
 </div>
 
-	<jsp:include page="../modulos/footer1.jsp" />
+	<jsp:include page="../modulos/footer.jsp" />
 	
     <script type="text/javascript">
 		$(".menu #periodos").addClass("active");

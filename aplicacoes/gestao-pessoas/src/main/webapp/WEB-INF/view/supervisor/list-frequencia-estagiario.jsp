@@ -9,29 +9,40 @@
 
 <html>
 	<head>
-		<jsp:include page="../modulos/header-estrutura1.jsp" />
+		<jsp:include page="../modulos/header-estrutura.jsp" />
 		<title>Frequencia Estagiario</title>
 	</head>
 <body>
-	<jsp:include page="../modulos/header1.jsp" />
+	<jsp:include page="../modulos/header.jsp" />
 
 <div class="container">
 	<div class="row">
 
 	<div class="panel panel-primary">
+	
+	
 		<div class="panel-heading">
-			<h2 id="titulo-cadastro-npi"><a class="header-anchor" href="#"><span class="glyphicon glyphicon-user"></span></a> Frequência</h2>
-		</div>
-
-		<div class="panel-body">
-			<div>
-				<label>Data: ${frequenciaHoje.data}</label> 
-				<label>Hora: ${frequenciaHoje.tempo}</label> 
-				<label>Faltas: ${dadosConsolidados.faltas}</label> 
-				<label>Dias Trabalhados: ${dadosConsolidados.diasTrabalhados}</label> 
-				<label>Frequência (%): ${dadosConsolidados.porcentagemFrequencia}</label>
-			</div>
+			<h2 class="titulo-panels"><span class="fa fa-calendar"></span> Frequência: ${frequencias[0].estagiario.nomeCompleto}</h2>
 			
+			<div class="pull-right">
+				<a title="Voltar" class="btn btn-primary back"><span class="fa fa-arrow-circle-o-left"></span> Voltar</a>
+			</div>
+		</div>
+	
+		<div class="panel-body">
+	
+			<div class="form-group">
+				<label class="col-sm-1 text-view-info"><strong>Turma: </strong></label><label class="col-sm-11 text-view-info">${frequencias[0].turma.nome}</label>
+			</div>
+	
+			<div class="form-group">
+				<label class="col-sm-2 text-view-info"><strong>Dias Trabalhados: </strong></label><label class="col-sm-2 text-view-info">${dadosConsolidados.diasTrabalhados}</label>
+		
+				<label class="col-sm-2 text-view-info"><strong>Frequência (%): </strong></label><label class="col-sm-2 text-view-info">${dadosConsolidados.porcentagemFrequencia}</label>
+		
+				<label class="col-sm-2 text-view-info"><strong>Faltas: </strong></label><label class="col-sm-2 text-view-info">${dadosConsolidados.faltas}</label>
+			</div><br><br><br><br>
+	
 			<c:if test="${not empty message}"><div class="alert alert-info msg"><i class="fa fa-info-circle"> </i> ${message}</div></c:if>
 
 			<table id="table-frequencias" class="table table-striped table-hover">
@@ -67,7 +78,7 @@
 	</div>
 </div><br><br>
 
-	<jsp:include page="../modulos/footer1.jsp" />
+	<jsp:include page="../modulos/footer.jsp" />
 
 	<script type="text/javascript">
 		$(".menu #turmas").addClass("active");

@@ -7,17 +7,22 @@
 
 <html>
 	<head>
-		<jsp:include page="../modulos/header-estrutura1.jsp" />
+		<jsp:include page="../modulos/header-estrutura.jsp" />
 		<title>Atualizar Membros do Projeto</title>
 	</head>
 <body>
-	<jsp:include page="../modulos/header1.jsp" />
+	<jsp:include page="../modulos/header.jsp" />
 	
 <div class="container">
 	<div class="row">
-	<div class="panel panel-primary">
+	<div class="panel panel-success">
+
 		<div class="panel-heading">
-			<h3 id="titulo-cadastro-npi"><a class="header-anchor" href="#"><span class="fa fa-briefcase"></span></a> Atualizar Membros</h3>
+			<h2 class="titulo-panels"><span class="fa fa-briefcase"></span> Atualizar Membros</h2>
+			
+			<div class="pull-right">
+				<a title="Voltar" class="btn btn-success back"><span class="fa fa-arrow-circle-o-left"></span> Voltar</a>
+			</div>
 		</div>
 
 		<c:if test="${empty estagiarios }">
@@ -92,7 +97,7 @@
 				</div>
 				<div class="panel-footer" align="center">
 					<div class="controls">
-						<button type="submit" class="btn btn-success">Atualizar vínculos <span class="glyphicon glyphicon-refresh"></span></button>
+						<button type="submit" class="btn btn-success" title="Atualizar vínculos"><span class="fa fa-refresh"></span> Atualizar vínculos</button>
 					</div>
 				</div>
 	       </form:form>
@@ -101,7 +106,7 @@
 	</div>
 </div>
 
-	<jsp:include page="../modulos/footer1.jsp" />
+	<jsp:include page="../modulos/footer.jsp" />
 
     <script type="text/javascript">
 		$(".menu #menu-projetos").addClass("active");

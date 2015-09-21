@@ -9,11 +9,11 @@
 <html>
 <head>
 	<meta charset="UTF-8"/>
-	<jsp:include page="../modulos/header-estrutura1.jsp" />
+	<jsp:include page="../modulos/header-estrutura.jsp" />
 	<title>Frequência</title>
 </head>
 <body>
-	<jsp:include page="../modulos/header1.jsp" />
+	<jsp:include page="../modulos/header.jsp" />
 
 <div class="container">
 	<div class="row">
@@ -22,24 +22,11 @@
 	<input id="idTurma" type="hidden" value="${turma.id}">
 	<div class="panel panel-primary">
 		<div class="panel-heading">
-			<h2 class="titulo-panels"><a class="header-anchor" href="#"><span class="fa fa-calendar-check-o"></span></a> Frêquencia: </h2>
-		    
-		    <div class="btn-group">
-				 <c:if test="${empty turma}">
-				 	<button type="button" data-toggle="dropdown" class="btn btn-default dropdown-toggle col-sm-12">Selecione a Turma&nbsp;&nbsp;<span class="caret"></span></button>
-				 </c:if>
-				 <c:if test="${not empty turma}">
-				 	<button type="button" data-toggle="dropdown" class="btn btn-default dropdown-toggle col-sm-12">${turma.ano}.${turma.semestre} - ${turma.nome}&nbsp;&nbsp;<span class="caret"></span></button>
-				 </c:if>
-		         
-		         <ul class="dropdown-menu">
-	                <li><a href="<c:url value="/supervisor/frequencias" />">Selecione a Turma&nbsp;&nbsp;</a></li>
-		         	<c:forEach var="turma" items="${turmas}">
-		              <li><a href="<c:url value="/supervisor/turma/${turma.id}/frequencias" />">${turma.ano}.${turma.semestre} - ${turma.nome}</a></li>
-					</c:forEach>
-		         </ul>
-		     </div>
-		
+			<h2 class="titulo-panels"><a href="#"><span class="fa fa-calendar-check-o"></span></a> Frêquencia: <strong>${turma.nome }</strong></h2>
+
+			<div class="pull-right">
+				<a title="Voltar" class="btn btn-primary back"><span class="fa fa-arrow-circle-o-left"></span> Voltar</a>
+			</div>		     
 		</div>
 
 		<c:if test="${not empty turma}">
@@ -72,16 +59,15 @@
 				</table>
 			</div>
 		</div>
-		<div class="panel-footer"></div>
 		</c:if>
 	</div>
 	</div>
 </div>
 
-	<jsp:include page="../modulos/footer1.jsp" />
+	<jsp:include page="../modulos/footer.jsp" />
 	
 	<script type="text/javascript">
-		$('.menu #menu-frequencias').addClass('active');
+		$('.menu #turmas').addClass('active');
 	
 		$('#dataFiltroFrequencia').datepicker({
 			language: 'pt-BR',

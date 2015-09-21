@@ -186,15 +186,6 @@ public class SupervisorController {
 		return "redirect:/supervisor/projeto/" + projeto.getId() + "/informacoes";
 	}
 
-	@RequestMapping(value = "/frequencias", method = RequestMethod.GET)
-	public String paginaListarFrequenciaTurma(Model model, HttpSession session) {
-		Pessoa pessoa = getUsuarioLogado(session);
-
-		model.addAttribute("turmas", turmaService.getTurmasBySupervisorIdAndStatus(StatusTurma.ABERTA, pessoa.getId()));
-
-		return "supervisor/list-frequencias";
-	}
-
 	@RequestMapping(value = "/frequencia/realizar-observacao", method = RequestMethod.POST)
 	public String frequenciaObservar(@RequestParam("pk") Long idFrequencia, @RequestParam("value") String observacao, Model model) {
 		Frequencia frequencia = frequenciaService.find(Frequencia.class, idFrequencia);

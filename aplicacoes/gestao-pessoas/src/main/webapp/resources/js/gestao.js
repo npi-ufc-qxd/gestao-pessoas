@@ -24,6 +24,11 @@ var ptBR = {
 
 $(document).ready(function() {
 	
+	$('a.back').click(function(){
+		parent.history.back();
+		return false;
+	});
+	
 	$("#semestre").keyup(function() {
 		if(!$.isNumeric(this))
 			$(this).text("");
@@ -179,6 +184,35 @@ $(document).ready(function() {
 		}
 	});	
 
+	$('#form-horario').validate({
+        rules: {
+        	inicioExpediente:{
+                required: true,
+            },
+            finalExpediente:{
+                required: true,
+            },
+            
+        },
+        highlight: function(element) {
+            $(element).closest('.form-item').addClass('has-error');
+        },
+        unhighlight: function(element) {
+            $(element).closest('.form-item').removeClass('has-error');
+        },
+        errorElement: 'span',
+        errorClass: 'help-block',
+        errorPlacement: function(error, element) {
+        },
+        messages:{
+        	inicioExpediente:{
+                required:"Campo obrigatório",
+            },
+            finalExpediente:{
+                required:"Campo obrigatório",
+            },
+        }
+    });
 	$(".data").datepicker({
 		language: 'pt-BR',
 		autoclose: true,

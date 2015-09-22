@@ -15,6 +15,7 @@ import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 
+import org.joda.time.LocalDate;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
@@ -270,14 +271,23 @@ public class TurmaController {
 		
 		Turma turma = turmaService.find(Turma.class, idTurma);
 
-		List<Frequencia> frequencias = frequenciaService.getFrequenciasByEstagiarioId(estagiario.getId());
-		
-		frequencias.addAll(frequenciaService.gerarFrequencia(turma, idEstagiario));
+		List<Frequencia> frequencias = frequenciaService.getFrequenciasByEstagiarioId(estagiario.getId(), turma.getId());
+
+		List<Frequencia> frequenciaCompleta = new ArrayList<Frequencia>();
+		if (!frequencias.isEmpty()) {
+			frequenciaCompleta = frequenciaService.gerarFrequencia(turma.getInicio(), new LocalDate(frequencias.get(0).getData()).plusDays(-1).toDate(), turma.getHorarios());
+			frequenciaCompleta.addAll(frequencias);
+			frequenciaCompleta.addAll(frequenciaService.gerarFrequencia(new Date(), turma.getTermino(), turma.getHorarios()));
+		}
+		else {
+			frequenciaCompleta = frequenciaService.gerarFrequencia(turma.getInicio(), turma.getTermino(), turma.getHorarios());
+		}
 
 		DadoConsolidado dadosConsolidados = frequenciaService.calcularDadosConsolidados(frequencias);
 
 		model.addAttribute("estagiario", estagiario);
-		model.addAttribute("frequencias", frequencias);
+		model.addAttribute("turma", turma);
+		model.addAttribute("frequencias", frequenciaCompleta);
 		model.addAttribute("dadosConsolidados", dadosConsolidados);		
 		
 		return "supervisor/list-frequencia-estagiario";

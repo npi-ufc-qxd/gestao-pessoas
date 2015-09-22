@@ -1,6 +1,7 @@
 package ufc.quixada.npi.gp.service.impl;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -22,6 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import ufc.quixada.npi.gp.model.Folga;
 import ufc.quixada.npi.gp.model.Frequencia;
+import ufc.quixada.npi.gp.model.Horario;
 import ufc.quixada.npi.gp.model.Turma;
 import ufc.quixada.npi.gp.model.enums.StatusFrequencia;
 import ufc.quixada.npi.gp.model.enums.TipoFrequencia;
@@ -201,12 +203,13 @@ public class FrequenciaServiceImpl extends GenericServiceImpl<Frequencia> implem
 //	}
 
 	@Override
-	public List<Frequencia> getFrequenciasByEstagiarioId(Long id) {
+	public List<Frequencia> getFrequenciasByEstagiarioId(Long idEstagiario, Long idTurma) {
 		Map<String, Object> params = new HashMap<String, Object>();
-		params.put("id", id);
+		params.put("idEstagiario", idEstagiario);
+		params.put("idTurma", idTurma);
 		
 		@SuppressWarnings("unchecked")
-		List<Frequencia> frequencias = find(QueryType.JPQL, "select f from Frequencia f where f.estagiario.id = :id ORDER BY data ASC", params);
+		List<Frequencia> frequencias = find(QueryType.JPQL, "select f from Frequencia f where f.estagiario.id = :idEstagiario and f.turma.id = :idTurma ORDER BY data ASC", params);
 
 		return frequencias;
 	}
@@ -277,23 +280,13 @@ public class FrequenciaServiceImpl extends GenericServiceImpl<Frequencia> implem
 
 		return false;
 	}
-
 	@Override
-	public List<Frequencia> gerarFrequencia(Turma turma, Long idEstagiario) {
+	public List<Frequencia> gerarFrequencia(Date inicio, Date termino, List<Horario> horarios) {
 
-		boolean frequenciaNaoRealizada = getFrequenciaDeHojeByEstagiarioId(idEstagiario) == null ? true : false;
+		LocalDate inicioPeriodoTemporario = new LocalDate(inicio);
+		LocalDate fimPeriodo = new LocalDate(termino);
 
-		LocalDate inicioPeriodoTemporario;
-		LocalDate fimPeriodo = new LocalDate(turma.getTermino());
-
-
-		if(!frequenciaNaoRealizada){
-			inicioPeriodoTemporario = new LocalDate(new Date()).plusDays(1);
-		}else{
-			inicioPeriodoTemporario = new LocalDate(new Date());
-		}
-
-		List<Folga> folgas = folgaService.find(Folga.class);
+		List<Folga> folgas = folgaService.getFolgasByAno(Calendar.getInstance().get(Calendar.YEAR));
 		Set<LocalDate> dataDosFeriados = new HashSet<LocalDate>();
 
 		if (folgas != null) {
@@ -309,7 +302,7 @@ public class FrequenciaServiceImpl extends GenericServiceImpl<Frequencia> implem
 		
 		while (!inicioPeriodoTemporario.isAfter(fimPeriodo)) {
 
-			if (UtilGestao.isDiaDeTrabahoDaTurma(turma.getHorarios(), inicioPeriodoTemporario)) {
+			if (UtilGestao.isDiaDeTrabahoDaTurma(horarios, inicioPeriodoTemporario)) {
 				Frequencia frequencia = new Frequencia();
 				frequencia.setTipoFrequencia(TipoFrequencia.NORMAL);
 				frequencia.setData(inicioPeriodoTemporario.toDate());

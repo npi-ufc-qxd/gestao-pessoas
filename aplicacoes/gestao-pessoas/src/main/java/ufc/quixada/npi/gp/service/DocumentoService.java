@@ -3,7 +3,6 @@ package ufc.quixada.npi.gp.service;
 import java.util.List;
 
 import ufc.quixada.npi.gp.model.Documento;
-import ufc.quixada.npi.gp.model.Projeto;
 
 
 public interface DocumentoService {
@@ -15,7 +14,5 @@ public interface DocumentoService {
 	Documento getDocumentoById(Long id);
 	
 	void remover(Documento documento);
-	
-	List<Documento> getDocumentoByProjeto(Projeto projeto);
 	
 }

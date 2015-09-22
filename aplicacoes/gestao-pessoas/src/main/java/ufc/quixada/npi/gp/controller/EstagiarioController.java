@@ -3,7 +3,6 @@ package ufc.quixada.npi.gp.controller;
 import static ufc.quixada.npi.gp.utils.Constants.PAGINA_AVALIACAO;
 import static ufc.quixada.npi.gp.utils.Constants.PAGINA_FORM_ESTAGIARIO;
 import static ufc.quixada.npi.gp.utils.Constants.PAGINA_INICIAL_ESTAGIARIO;
-import static ufc.quixada.npi.gp.utils.Constants.PAGINA_MEU_PROJETO;
 import static ufc.quixada.npi.gp.utils.Constants.PAGINA_MINHA_PRESENCA;
 import static ufc.quixada.npi.gp.utils.Constants.REDIRECT_PAGINA_INICIAL_ESTAGIARIO;
 
@@ -144,7 +143,6 @@ public class EstagiarioController {
 			
 			boolean frequenciaNaoRealizada = frequenciaService.getFrequenciaDeHojeByEstagiarioId(estagiario.getId()) == null ? true : false;
 
-			
 			if(frequenciaService.liberarPreseca(turma) && frequenciaNaoRealizada) {
 				liberarPresenca = true;
 			}
@@ -202,17 +200,6 @@ public class EstagiarioController {
 		}
 
 		return "redirect:/estagiario/minha-frequencia";
-	}
-	
-	@RequestMapping(value = "/meu-projeto", method = RequestMethod.GET)
-	public String meuProjeto(HttpSession session, Model model) {
-		Estagiario estagiario = estagiarioService.getEstagiarioByPessoaId(getUsuarioLogado(session).getId());
-
-		if (estagiario.getProjeto() != null) {
-			model.addAttribute("projeto", estagiario.getProjeto());
-		}
-
-		return PAGINA_MEU_PROJETO;
 	}
 
 	@RequestMapping(value = "/minha-avaliacao", method = RequestMethod.GET)

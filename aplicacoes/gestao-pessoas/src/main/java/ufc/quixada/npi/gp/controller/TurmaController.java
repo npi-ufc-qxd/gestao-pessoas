@@ -58,7 +58,7 @@ public class TurmaController {
 	private TurmaService turmaService;
 
 	@Inject
-	private FrequenciaService frequenciaService; 
+	private FrequenciaService frequenciaService;
 	
 	@Inject
 	private HorarioService horarioService; 

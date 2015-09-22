@@ -12,9 +12,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
@@ -29,7 +27,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import ufc.quixada.npi.gp.model.enums.Curso;
 import ufc.quixada.npi.gp.model.enums.Estado;
-import ufc.quixada.npi.gp.model.enums.LocalEstagio;
 
 @Entity
 public class Estagiario {
@@ -84,10 +81,6 @@ public class Estagiario {
 
 	@Enumerated(EnumType.STRING)
 	private Estado uf;
-
-	@Basic(fetch = FetchType.LAZY)
-	@ManyToOne
-	private Projeto projeto;
 
 	@ManyToMany(mappedBy = "estagiarios",  cascade = CascadeType.ALL)
 	private List<Turma> turmas;
@@ -270,14 +263,6 @@ public class Estagiario {
 
 	public void setContaHangout(String contaHangout) {
 		this.contaHangout = contaHangout;
-	}
-
-	public Projeto getProjeto() {
-		return projeto;
-	}
-
-	public void setProjeto(Projeto projeto) {
-		this.projeto = projeto;
 	}
 
 }

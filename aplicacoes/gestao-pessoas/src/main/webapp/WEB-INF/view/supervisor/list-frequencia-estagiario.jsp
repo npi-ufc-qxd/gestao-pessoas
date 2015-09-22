@@ -22,7 +22,7 @@
 	
 	
 		<div class="panel-heading">
-			<h2 class="titulo-panels"><span class="fa fa-calendar"></span> Frequência: ${frequencias[0].estagiario.nomeCompleto}</h2>
+			<h2 class="titulo-panels"><span class="fa fa-calendar"></span> Frequência: ${estagiario.nomeCompleto}</h2>
 			
 			<div class="pull-right">
 				<a title="Voltar" class="btn btn-primary back"><span class="fa fa-arrow-circle-o-left"></span> Voltar</a>
@@ -32,8 +32,12 @@
 		<div class="panel-body">
 	
 			<div class="form-group">
-				<label class="col-sm-1 text-view-info"><strong>Turma: </strong></label><label class="col-sm-11 text-view-info">${frequencias[0].turma.nome}</label>
-			</div>
+				<label class="col-sm-2 text-view-info"><strong>Turma: </strong></label><label class="col-sm-2 text-view-info">${turma.nome}</label>
+
+				<label class="col-sm-2 text-view-info"><strong>Periodo: </strong></label><label class="col-sm-3 text-view-info">de <fmt:formatDate value="${turma.inicio}" pattern="dd/MM/yyyy" /> a <fmt:formatDate value="${turma.termino}" pattern="dd/MM/yyyy" /></label>
+
+				<label class="col-sm-3"></label>
+			</div><br>
 	
 			<div class="form-group">
 				<label class="col-sm-2 text-view-info"><strong>Dias Trabalhados: </strong></label><label class="col-sm-2 text-view-info">${dadosConsolidados.diasTrabalhados}</label>
@@ -41,7 +45,7 @@
 				<label class="col-sm-2 text-view-info"><strong>Frequência (%): </strong></label><label class="col-sm-2 text-view-info">${dadosConsolidados.porcentagemFrequencia}</label>
 		
 				<label class="col-sm-2 text-view-info"><strong>Faltas: </strong></label><label class="col-sm-2 text-view-info">${dadosConsolidados.faltas}</label>
-			</div><br><br><br><br>
+			</div><br><br>
 	
 			<c:if test="${not empty message}"><div class="alert alert-info msg"><i class="fa fa-info-circle"> </i> ${message}</div></c:if>
 
@@ -58,14 +62,14 @@
 				        <c:choose>
 				            <c:when test="${frequencia.statusFrequencia != 'AGUARDO'}">
 				            	<tr class="success">
-									<td><strong><fmt:formatDate value="${frequencia.data}" pattern="dd/MM/yyyy" /></strong></td>
+									<td><strong><fmt:formatDate value="${frequencia.data}" pattern="E" />, <fmt:formatDate value="${frequencia.data}" pattern="dd/MM/yyyy" /></strong></td>
 									<td><a href="#" class="observacaoFrequencia" title="Realizar observação" data-pk="${frequencia.id}">${frequencia.observacao}</a></td>
 									<td><a href="#" class="statusFrequencia" title="Atualizar status" data-pk="${frequencia.id}">${frequencia.statusFrequencia}</a></td>
 								</tr>
 				            </c:when>
 				            <c:otherwise>
 					            <tr class="warning">
-									<td><strong><fmt:formatDate value="${frequencia.data}" pattern="dd/MM/yyyy" /></strong></td>
+									<td><strong><fmt:formatDate value="${frequencia.data}" pattern="E" />, <fmt:formatDate value="${frequencia.data}" pattern="dd/MM/yyyy" /></strong></td>
 									<td colspan="2">Aguardando data para lançamento da frequência.</td>
 								</tr>
 				            </c:otherwise>

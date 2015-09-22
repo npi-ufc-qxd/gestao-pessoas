@@ -6,6 +6,7 @@ import static ufc.quixada.npi.gp.utils.Constants.PAGINA_INICIAL_ESTAGIARIO;
 import static ufc.quixada.npi.gp.utils.Constants.PAGINA_MINHA_PRESENCA;
 import static ufc.quixada.npi.gp.utils.Constants.REDIRECT_PAGINA_INICIAL_ESTAGIARIO;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -13,6 +14,7 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
+import org.joda.time.LocalDate;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -147,15 +149,22 @@ public class EstagiarioController {
 				liberarPresenca = true;
 			}
 
-			List<Frequencia> frequencias = frequenciaService.getFrequenciasByEstagiarioId(estagiario.getId());
+			
+			List<Frequencia> frequencias = frequenciaService.getFrequenciasByEstagiarioId(estagiario.getId(), turma.getId());
 
-			List<Frequencia> frequenciasEmAguardo = frequenciaService.gerarFrequencia(turma, estagiario.getId());
+			List<Frequencia> frequenciaCompleta = new ArrayList<Frequencia>();
+			if (!frequencias.isEmpty()) {
+				frequenciaCompleta = frequenciaService.gerarFrequencia(turma.getInicio(), new LocalDate(frequencias.get(0).getData()).plusDays(-1).toDate(), turma.getHorarios());
+				frequenciaCompleta.addAll(frequencias);
+				frequenciaCompleta.addAll(frequenciaService.gerarFrequencia(new Date(), turma.getTermino(), turma.getHorarios()));
+			}
+			else {
+				frequenciaCompleta = frequenciaService.gerarFrequencia(turma.getInicio(), turma.getTermino(), turma.getHorarios());
+			}			
 
-			frequencias.addAll(frequenciasEmAguardo);
+			DadoConsolidado dadosConsolidados = frequenciaService.calcularDadosConsolidados(frequenciaCompleta);
 
-			DadoConsolidado dadosConsolidados = frequenciaService.calcularDadosConsolidados(frequencias);
-
-			model.addAttribute("frequencias", frequencias);
+			model.addAttribute("frequencias", frequenciaCompleta);
 			model.addAttribute("dadosConsolidados", dadosConsolidados);		
 			model.addAttribute("dadosConsolidados", dadosConsolidados);		
 			model.addAttribute("estagiario", estagiario);

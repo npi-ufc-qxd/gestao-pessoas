@@ -39,6 +39,7 @@
 				<table id="table-frequencias" class="table table-striped table-hover">
 					<thead>
 						<tr>
+							<th>Horário</th>
 							<th>Nome</th>
 							<th>Observação</th>
 							<th>Status</th>
@@ -46,10 +47,11 @@
 			       </thead>
 			       <tbody class="text-view-info">
 						<c:if test="${empty frequencias}">
-							<tr class="warning" align="left"><td colspan="3">Não há frequências registradas para <strong><fmt:formatDate value="${dataSelecionada}" pattern="dd/MM/yyyy" /></strong></td></tr>
+							<tr class="warning" align="left"><td colspan="4">Não há frequências registradas para <strong><fmt:formatDate value="${dataSelecionada}" pattern="dd/MM/yyyy" /></strong></td></tr>
 						</c:if>
 						<c:forEach var="frequencia" items="${frequencias}">
 							<tr>
+								<td>${frequencia[5]}</td>
 								<td>${frequencia[1]}</td>
 								<td><a href="#" class="observacaoFrequencia" title="Realizar observação" data-pk="${frequencia[0]}">${frequencia[2]}</a></td>
 								<td><a href="#" class="statusFrequencia" title="Atualizar status" data-pk="${frequencia[0]}">${frequencia[3]}</a></td>

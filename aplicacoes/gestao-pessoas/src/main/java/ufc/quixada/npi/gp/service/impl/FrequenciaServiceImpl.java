@@ -59,7 +59,7 @@ public class FrequenciaServiceImpl extends GenericServiceImpl<Frequencia> implem
 		params.put("turma", idTurma);
 		
 		@SuppressWarnings("unchecked")
-		List<Frequencia> frequencias = find(QueryType.JPQL, "select f.id, f.estagiario.nomeCompleto, f.observacao, f.statusFrequencia, f.tipoFrequencia from Frequencia f join f.turma t where t.id = :turma and f.data = :data", params);
+		List<Frequencia> frequencias = find(QueryType.JPQL, "select f.id, f.estagiario.nomeCompleto, f.observacao, f.statusFrequencia, f.tipoFrequencia, f.horario from Frequencia f join f.turma t where t.id = :turma and f.data = :data", params);
 		// SELECT e, p.name FROM Country c LEFT OUTER JOIN c.capital p
 
 //		@SuppressWarnings("unused")

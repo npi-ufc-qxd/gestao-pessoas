@@ -52,7 +52,7 @@
 			<table id="table-frequencias" class="table table-striped table-hover">
 				<thead>
 					<tr>
-						<th>Data</th>
+						<th>Data/Horário</th>
 						<th>Observação</th>
 						<th>Status</th>
 					</tr>
@@ -62,7 +62,7 @@
 				        <c:choose>
 				            <c:when test="${frequencia.statusFrequencia != 'AGUARDO'}">
 				            	<tr class="success">
-									<td><strong><fmt:formatDate value="${frequencia.data}" pattern="E" />, <fmt:formatDate value="${frequencia.data}" pattern="dd/MM/yyyy" /></strong></td>
+									<td><strong><fmt:formatDate value="${frequencia.data}" pattern="E" />, <fmt:formatDate value="${frequencia.data}" pattern="dd/MM/yyyy" />, ${frequencia.horario}</strong></td>
 									<td><a href="#" class="observacaoFrequencia" title="Realizar observação" data-pk="${frequencia.id}">${frequencia.observacao}</a></td>
 									<td><a href="#" class="statusFrequencia" title="Atualizar status" data-pk="${frequencia.id}">${frequencia.statusFrequencia}</a></td>
 								</tr>
@@ -70,7 +70,7 @@
 				            <c:otherwise>
 					            <tr class="warning">
 									<td><strong><fmt:formatDate value="${frequencia.data}" pattern="E" />, <fmt:formatDate value="${frequencia.data}" pattern="dd/MM/yyyy" /></strong></td>
-									<td colspan="2">Aguardando data para lançamento da frequência.</td>
+									<td colspan="3">Aguardando data para lançamento da frequência.</td>
 								</tr>
 				            </c:otherwise>
 				        </c:choose>

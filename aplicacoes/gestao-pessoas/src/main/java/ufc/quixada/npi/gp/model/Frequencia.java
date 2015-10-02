@@ -78,11 +78,11 @@ public class Frequencia {
 		return data;
 	}
 	
-	public Date getTempo() {
+	public Date getHorario() {
 		return horario;
 	}
 
-	public void setTempo(Date tempo) {
+	public void setHorario(Date tempo) {
 		this.horario = tempo;
 	}
 	

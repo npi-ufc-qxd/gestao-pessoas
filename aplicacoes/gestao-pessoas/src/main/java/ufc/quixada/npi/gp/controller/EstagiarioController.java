@@ -203,7 +203,6 @@ public class EstagiarioController {
 
 			frequencia.setData(new Date());
 			frequencia.setStatusFrequencia(StatusFrequencia.PRESENTE);
-			frequencia.setTempo(new Date());
 			
 			frequenciaService.save(frequencia);
 		}

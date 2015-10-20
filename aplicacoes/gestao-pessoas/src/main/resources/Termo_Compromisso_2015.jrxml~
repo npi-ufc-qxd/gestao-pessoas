@@ -36,7 +36,7 @@
 			<staticText>
 				<reportElement x="5" y="81" width="260" height="50"/>
 				<textElement>
-					<font fontName="Ubuntu" size="8"/>
+					<font fontName="Arial" size="8"/>
 				</textElement>
 				<text><![CDATA[Razão Social: Universidade Federal do Ceará
 Endereço: Av. José de Freitas Queiroz, 5003 – Bairro: Cedro
@@ -54,14 +54,14 @@ Definição da área de estágio: Ciência da Computação
 					<rightPen lineWidth="1.0" lineStyle="Solid"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Ubuntu" size="8" isBold="true"/>
+					<font fontName="Arial" size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[INSTITUIÇÃO DE ENSINO]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="5" y="152" width="260" height="43"/>
 				<textElement>
-					<font fontName="Ubuntu" size="8"/>
+					<font fontName="Arial" size="8"/>
 				</textElement>
 				<text><![CDATA[Nome: Universidade Federal do Ceará
 Endereço: Av. da Universidade, 2853 – Bairro: Benfica
@@ -77,91 +77,91 @@ Coordenador da Agência de Estágio: Rogério Teixeira Masih
 					<rightPen lineWidth="1.0"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Ubuntu" size="8" isBold="true"/>
+					<font fontName="Arial" size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[ESTAGIÁRIO (A) ]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="5" y="216" width="24" height="11"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Ubuntu" size="8"/>
+					<font fontName="Arial" size="8"/>
 				</textElement>
 				<text><![CDATA[Nome:]]></text>
 			</staticText>
 			<textField>
 				<reportElement x="30" y="216" width="245" height="10"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Ubuntu" size="8"/>
+					<font fontName="Arial" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{nomeCompleto}.toUpperCase()]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="5" y="228" width="53" height="10"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Ubuntu" size="8"/>
+					<font fontName="Arial" size="8"/>
 				</textElement>
 				<text><![CDATA[Nome da Mãe:]]></text>
 			</staticText>
 			<textField>
 				<reportElement x="59" y="228" width="216" height="10"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Ubuntu" size="8"/>
+					<font fontName="Arial" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{nomeMae}.toUpperCase()]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="5" y="263" width="22" height="10"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Ubuntu" size="8"/>
+					<font fontName="Arial" size="8"/>
 				</textElement>
 				<text><![CDATA[Fone:]]></text>
 			</staticText>
 			<textField>
 				<reportElement x="27" y="263" width="173" height="10"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Ubuntu" size="8"/>
+					<font fontName="Arial" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{telefone}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="5" y="275" width="20" height="10"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Ubuntu" size="8"/>
+					<font fontName="Arial" size="8"/>
 				</textElement>
 				<text><![CDATA[CPF:]]></text>
 			</staticText>
 			<textField>
 				<reportElement x="25" y="275" width="175" height="10"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Ubuntu" size="8"/>
+					<font fontName="Arial" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{pessoa.cpf}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="5" y="287" width="25" height="10"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Ubuntu" size="8"/>
+					<font fontName="Arial" size="8"/>
 				</textElement>
 				<text><![CDATA[Curso:]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="5" y="298" width="40" height="10"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Ubuntu" size="8"/>
+					<font fontName="Arial" size="8"/>
 				</textElement>
 				<text><![CDATA[Semestre:]]></text>
 			</staticText>
 			<textField>
 				<reportElement x="45" y="298" width="155" height="10"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Ubuntu" size="8"/>
+					<font fontName="Arial" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{semestre}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="285" y="215" width="67" height="10"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Ubuntu" size="8"/>
+					<font fontName="Arial" size="8"/>
 				</textElement>
 				<text><![CDATA[Data Nascimento:]]></text>
 			</staticText>
@@ -175,35 +175,35 @@ Coordenador da Agência de Estágio: Rogério Teixeira Masih
 			<staticText>
 				<reportElement x="285" y="239" width="24" height="10"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Ubuntu" size="8"/>
+					<font fontName="Arial" size="8"/>
 				</textElement>
 				<text><![CDATA[Email:]]></text>
 			</staticText>
 			<textField>
 				<reportElement x="310" y="238" width="181" height="11"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Ubuntu" size="8"/>
+					<font fontName="Arial" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{pessoa.email}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="346" y="287" width="148" height="11"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Ubuntu" size="8"/>
+					<font fontName="Arial" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{matricula}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="30" y="287" width="170" height="10"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Ubuntu" size="8"/>
+					<font fontName="Arial" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{curso.labelCurso}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="0" y="54" width="555" height="12"/>
 				<textElement textAlignment="Center">
-					<font fontName="Ubuntu" size="10" isBold="true"/>
+					<font fontName="Arial" size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[TERMO DE COMPROMISSO DE ESTÁGIO OBRIGATÓRIO]]></text>
 			</staticText>
@@ -213,7 +213,7 @@ Coordenador da Agência de Estágio: Rogério Teixeira Masih
 			<staticText>
 				<reportElement x="56" y="5" width="499" height="48"/>
 				<textElement>
-					<font fontName="Ubuntu" size="11" isBold="true"/>
+					<font fontName="Arial" size="11" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Universidade Federal do Ceará
 Pró-Reitoria de Extensão
@@ -229,14 +229,14 @@ Coordenadoria da Agência de Estágios]]></text>
 			<staticText>
 				<reportElement x="5" y="251" width="20" height="10"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Ubuntu" size="8"/>
+					<font fontName="Arial" size="8"/>
 				</textElement>
 				<text><![CDATA[CEP:]]></text>
 			</staticText>
 			<textField>
 				<reportElement x="26" y="251" width="174" height="10"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Ubuntu" size="8"/>
+					<font fontName="Arial" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{cep}]]></textFieldExpression>
 			</textField>
@@ -250,35 +250,35 @@ Coordenadoria da Agência de Estágios]]></text>
 					<rightPen lineWidth="1.0"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Ubuntu" size="8" isBold="true"/>
+					<font fontName="Arial" size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[UNIDADE CONCEDENTE]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="285" y="227" width="41" height="10"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Ubuntu" size="8"/>
+					<font fontName="Arial" size="8"/>
 				</textElement>
 				<text><![CDATA[Cidade/UF:]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="285" y="287" width="58" height="10"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Ubuntu" size="8"/>
+					<font fontName="Arial" size="8"/>
 				</textElement>
 				<text><![CDATA[N° de Matricula:]]></text>
 			</staticText>
 			<textField>
 				<reportElement x="327" y="227" width="223" height="10"/>
 				<textElement>
-					<font fontName="Ubuntu" size="8"/>
+					<font fontName="Arial" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{cidade}.toUpperCase() + "/" + $F{uf.estado}.toUpperCase()]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="285" y="81" width="265" height="43"/>
 				<textElement>
-					<font fontName="Ubuntu" size="8"/>
+					<font fontName="Arial" size="8"/>
 				</textElement>
 				<text><![CDATA[CNPJ: 07.272.636/0001-31
 Cidade/UF: Quixadá-Ceará
@@ -289,7 +289,7 @@ Fone/Fax: (88) 3412-0919
 			<staticText>
 				<reportElement x="285" y="152" width="265" height="43"/>
 				<textElement>
-					<font fontName="Ubuntu" size="8"/>
+					<font fontName="Arial" size="8"/>
 				</textElement>
 				<text><![CDATA[CNPJ: 07.272.636/0001- 31
 Cidade/UF: Fortaleza-Ceará
@@ -304,7 +304,7 @@ Fone: (85)3366-7413 – FAX: (85)3366-7881]]></text>
 					<rightPen lineWidth="1.0"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Ubuntu" size="8" isBold="true"/>
+					<font fontName="Arial" size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[PROFESSOR ORIENTADOR]]></text>
 			</staticText>
@@ -314,28 +314,28 @@ Fone: (85)3366-7413 – FAX: (85)3366-7881]]></text>
 			<staticText>
 				<reportElement x="5" y="328" width="24" height="11"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Ubuntu" size="8"/>
+					<font fontName="Arial" size="8"/>
 				</textElement>
 				<text><![CDATA[Nome:]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="5" y="341" width="30" height="11"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Ubuntu" size="8"/>
+					<font fontName="Arial" size="8"/>
 				</textElement>
 				<text><![CDATA[SIAPE:]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="285" y="328" width="35" height="11"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Ubuntu" size="8"/>
+					<font fontName="Arial" size="8"/>
 				</textElement>
 				<text><![CDATA[Lotação:]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="285" y="341" width="35" height="11"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Ubuntu" size="8"/>
+					<font fontName="Arial" size="8"/>
 				</textElement>
 				<text><![CDATA[Telefone:]]></text>
 			</staticText>
@@ -375,21 +375,21 @@ Quixadá, ............. de ....................... de ........
 			<staticText>
 				<reportElement x="285" y="250" width="206" height="10"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Ubuntu" size="8"/>
+					<font fontName="Arial" size="8"/>
 				</textElement>
 				<text><![CDATA[Número da Carteira de Trabalho:]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="285" y="263" width="206" height="10"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Ubuntu" size="8"/>
+					<font fontName="Arial" size="8"/>
 				</textElement>
 				<text><![CDATA[Série da Carteira de Trabalho:]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="285" y="275" width="206" height="10"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Ubuntu" size="8"/>
+					<font fontName="Arial" size="8"/>
 				</textElement>
 				<text><![CDATA[Data de expedição da Carteira de Trabalho:]]></text>
 			</staticText>
@@ -397,42 +397,42 @@ Quixadá, ............. de ....................... de ........
 			<staticText>
 				<reportElement x="320" y="328" width="163" height="11"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Ubuntu" size="8"/>
+					<font fontName="Arial" size="8"/>
 				</textElement>
 				<text><![CDATA[UFC Campus Quixadá / DIRETORIA]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="35" y="341" width="41" height="11"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Ubuntu" size="8"/>
+					<font fontName="Arial" size="8"/>
 				</textElement>
 				<text><![CDATA[1561335]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="30" y="328" width="121" height="11"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Ubuntu" size="8"/>
+					<font fontName="Arial" size="8"/>
 				</textElement>
 				<text><![CDATA[Regis Pires Magalhães]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="321" y="341" width="163" height="11"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Ubuntu" size="8"/>
+					<font fontName="Arial" size="8"/>
 				</textElement>
 				<text><![CDATA[(88) 3412-0919]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="5" y="239" width="40" height="10"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Ubuntu" size="8"/>
+					<font fontName="Arial" size="8"/>
 				</textElement>
 				<text><![CDATA[Endereco:]]></text>
 			</staticText>
 			<textField>
 				<reportElement x="45" y="239" width="230" height="10"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Ubuntu" size="8"/>
+					<font fontName="Arial" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{endereco}]]></textFieldExpression>
 			</textField>

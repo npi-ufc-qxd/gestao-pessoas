@@ -349,7 +349,7 @@ Fone: (85)3366-7413 – FAX: (85)3366-7881]]></text>
 					<rightPen lineWidth="1.0"/>
 				</box>
 				<textElement textAlignment="Justified">
-					<font fontName="Times New Roman" size="8"/>
+					<font fontName="Ubuntu" size="8"/>
 				</textElement>
 				<text><![CDATA[Celebram entre si este TERMO DE COMPROMISSO DE ESTÁGIO, de acordo com o estabelecido na Lei N.º 11.788, de 25 de setembro de 2008 e com a Resolução No 32, de 30/10/2009, do CEPE/UFC, obedecendo, também,  as seguintes cláusulas e condições:
 CLÁUSULA PRIMEIRA - A CONCEDENTE se compromete a conceder, a estudantes previamente selecionados, matriculados e com freqüência efetiva no curso ao qual está vinculado, estágio em suas dependências, visando a complementar e consolidar, na prática, os conhecimentos ministrados na INSTITUIÇÃO DE ENSINO.
@@ -442,7 +442,7 @@ Quixadá, ............. de ....................... de ........
 					<topPen lineWidth="1.0"/>
 				</box>
 				<textElement textAlignment="Center">
-					<font fontName="Times New Roman" size="8"/>
+					<font fontName="Ubuntu" size="8"/>
 				</textElement>
 				<text><![CDATA[Representante da Unidade Concedente]]></text>
 			</staticText>
@@ -452,7 +452,7 @@ Quixadá, ............. de ....................... de ........
 					<topPen lineWidth="1.0"/>
 				</box>
 				<textElement textAlignment="Center">
-					<font fontName="Times New Roman" size="8"/>
+					<font fontName="Ubuntu" size="8"/>
 				</textElement>
 				<text><![CDATA[Estágiario]]></text>
 			</staticText>
@@ -462,7 +462,7 @@ Quixadá, ............. de ....................... de ........
 					<topPen lineWidth="1.0"/>
 				</box>
 				<textElement textAlignment="Center">
-					<font fontName="Times New Roman" size="8"/>
+					<font fontName="Ubuntu" size="8"/>
 				</textElement>
 				<text><![CDATA[Representante da UFC / Coordenador da Agência de Estágio]]></text>
 			</staticText>

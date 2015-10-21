@@ -9,7 +9,7 @@
 	<link href="<c:url value="/resources/img/gp-icon.png" />" rel="shortcut icon">
 	
 	<link href="<c:url value="/webjars/bootstrap/3.3.2/css/bootstrap.min.css" />" rel="stylesheet" />
-	<link href="<c:url value="/webjars/font-awesome/4.3.0/css/font-awesome.css" />" rel="stylesheet" />
+	<link href="<c:url value="/webjars/font-awesome/4.4.0/css/font-awesome.css" />" rel="stylesheet" />
 	<link href="<c:url value="/resources/css/login-gestao.css" />" rel="stylesheet" />
 
 	<script src="<c:url value="/webjars/jquery/2.1.3/jquery.js" />"></script>

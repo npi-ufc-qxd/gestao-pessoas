@@ -217,7 +217,7 @@ public class EstagiarioController {
 			frequenciaService.save(frequencia);
 		}
 
-		return "redirect:/estagiario/minha-frequencia";
+		return "redirect:/estagiario/minha-frequencia/turma/" + idTurma;
 	}
 	
 	@RequestMapping(value = "/turma/{idTurma}/documentacao", method = RequestMethod.GET)

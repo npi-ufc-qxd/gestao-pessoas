@@ -6,6 +6,7 @@ import static ufc.quixada.npi.gp.utils.Constants.PAGINA_INICIAL_ESTAGIARIO;
 import static ufc.quixada.npi.gp.utils.Constants.PAGINA_MINHA_PRESENCA;
 import static ufc.quixada.npi.gp.utils.Constants.REDIRECT_PAGINA_INICIAL_ESTAGIARIO;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -15,14 +16,17 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.joda.time.LocalDate;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import ufc.quixada.npi.gp.model.Estagiario;
@@ -32,11 +36,13 @@ import ufc.quixada.npi.gp.model.Turma;
 import ufc.quixada.npi.gp.model.enums.StatusFrequencia;
 import ufc.quixada.npi.gp.model.enums.StatusTurma;
 import ufc.quixada.npi.gp.service.DadoConsolidado;
+import ufc.quixada.npi.gp.service.DocumentoService;
 import ufc.quixada.npi.gp.service.EstagiarioService;
 import ufc.quixada.npi.gp.service.FrequenciaService;
 import ufc.quixada.npi.gp.service.PessoaService;
 import ufc.quixada.npi.gp.service.TurmaService;
 import ufc.quixada.npi.gp.utils.Constants;
+import ufc.quixada.npi.gp.model.Documento;
 import br.ufc.quixada.npi.ldap.service.UsuarioService;
 
 @Controller
@@ -57,6 +63,9 @@ public class EstagiarioController {
 	
 	@Inject
 	private UsuarioService usuarioService;
+	
+	@Inject
+	private DocumentoService documentoService;
 
 	@RequestMapping(value = {"/",""}, method = RequestMethod.GET)
 	public String paginaInicial(Model model, HttpSession session) {
@@ -209,6 +218,33 @@ public class EstagiarioController {
 		}
 
 		return "redirect:/estagiario/minha-frequencia";
+	}
+	
+	@RequestMapping(value = "/turma/{idTurma}/documentacao", method = RequestMethod.GET)
+	public String minhaDocumentacao(HttpSession session, Model model, @PathVariable("idTurma") Long idTurma) {
+		model.addAttribute("idTurma", idTurma);
+		
+		return "estagiario/form-documento";
+	}
+	
+	@RequestMapping(value = "/turma/{idTurma}/documentacao", method = RequestMethod.POST)
+	public String minhaDocumentacao(@Valid @RequestParam("anexo") MultipartFile anexo, Model model){
+
+		Documento documento = new Documento();
+		
+		try {
+			if (anexo.getBytes() != null && anexo.getBytes().length != 0) {
+				
+				documento.setArquivo(anexo.getBytes());
+				documento.setNome(anexo.getOriginalFilename());
+			}
+		} catch (IOException e) {
+			return "estagiario/form-documento";
+		}
+		
+		documentoService.salvar(documento);
+		
+		return "redirect:/estagiario/";
 	}
 
 	@RequestMapping(value = "/minha-avaliacao", method = RequestMethod.GET)

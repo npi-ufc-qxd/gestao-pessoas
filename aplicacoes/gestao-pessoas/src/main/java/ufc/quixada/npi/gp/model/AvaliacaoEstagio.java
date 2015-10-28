@@ -17,6 +17,16 @@ public class AvaliacaoEstagio {
 	private double nota;
 	
 	private double notaSeminario;
+	
+	private String comentarioSeminario;
+
+	private String fatorAssiduidadeDisciplina;
+	
+	private String fatorIniciativaProdutividade;
+	
+	private String fatorResponsabilidade;
+	
+	private String fatorRelacionamento;
 
 	private Documento documento;
 
@@ -47,7 +57,47 @@ public class AvaliacaoEstagio {
 	public void setNotaSeminario(double notaSeminario) {
 		this.notaSeminario = notaSeminario;
 	}
+	
+	public String getComentarioSeminario() {
+		return comentarioSeminario;
+	}
 
+	public void setComentarioSeminario(String comentarioSeminario) {
+		this.comentarioSeminario = comentarioSeminario;
+	}
+	
+	public String getFatorAssiduidadeDisciplina() {
+		return fatorAssiduidadeDisciplina;
+	}
+
+	public void setFatorAssiduidadeDisciplina(String fatorAssiduidadeDisciplina) {
+		this.fatorAssiduidadeDisciplina = fatorAssiduidadeDisciplina;
+	}
+
+	public String getFatorIniciativaProdutividade() {
+		return fatorIniciativaProdutividade;
+	}
+
+	public void setFatorIniciativaProdutividade(String fatorIniciativaProdutividade) {
+		this.fatorIniciativaProdutividade = fatorIniciativaProdutividade;
+	}
+
+	public String getFatorResponsabilidade() {
+		return fatorResponsabilidade;
+	}
+
+	public void setFatorResponsabilidade(String fatorResponsabilidade) {
+		this.fatorResponsabilidade = fatorResponsabilidade;
+	}
+
+	public String getFatorRelacionamento() {
+		return fatorRelacionamento;
+	}
+
+	public void setFatorRelacionamento(String fatorRelacionamento) {
+		this.fatorRelacionamento = fatorRelacionamento;
+	}
+	
 	public Documento getDocumento() {
 		return documento;
 	}

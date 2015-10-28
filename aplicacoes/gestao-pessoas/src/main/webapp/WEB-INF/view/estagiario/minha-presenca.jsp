@@ -86,13 +86,13 @@
 				</div>
 			</c:if>
 	
-			<div class="form-group">
-				<label class="col-sm-2 text-view-info"><strong>Dias Trabalhados: </strong></label><label class="col-sm-10 text-view-info">${dadosConsolidados.diasTrabalhados}</label>
+<!-- 			<div class="form-group"> -->
+<%-- 				<label class="col-sm-2 text-view-info"><strong>Dias Trabalhados: </strong></label><label class="col-sm-10 text-view-info">${dadosConsolidados.diasTrabalhados}</label> --%>
 		
-				<label class="col-sm-2 text-view-info"><strong>Frequência (%): </strong></label><label class="col-sm-10 text-view-info">${dadosConsolidados.porcentagemFrequencia}</label>
+<%-- 				<label class="col-sm-2 text-view-info"><strong>Frequência (%): </strong></label><label class="col-sm-10 text-view-info">${dadosConsolidados.porcentagemFrequencia}</label> --%>
 		
-				<label class="col-sm-2 text-view-info"><strong>Faltas: </strong></label><label class="col-sm-10 text-view-info">${dadosConsolidados.faltas}</label>
-			</div>
+<%-- 				<label class="col-sm-2 text-view-info"><strong>Faltas: </strong></label><label class="col-sm-10 text-view-info">${dadosConsolidados.faltas}</label> --%>
+<!-- 			</div> -->
 	
 			<c:if test="${not empty message}"><div class="alert alert-info msg"><i class="fa fa-info-circle"> </i> ${message}</div></c:if>
 	
@@ -110,14 +110,17 @@
 				            <c:when test="${frequencia.statusFrequencia != 'AGUARDO'}">
 				            	<tr class="success">
 				            		
-									<td data-order="<fmt:formatDate value="${frequencia.data}" pattern="yyyy-MM-dd" />" ><fmt:formatDate value="${frequencia.data}" pattern="dd/MM/yyyy" /></td>
-									<td>${frequencia.observacao}</td>
+									<td data-order="<fmt:formatDate value="${frequencia.data}" pattern="yyyy-MM-dd" />" ><fmt:formatDate value="${frequencia.data}" pattern="E" />, <fmt:formatDate value="${frequencia.data}" pattern="dd/MM/yyyy" /></td>
+									<td>
+										<c:if test="${empty frequencia.observacao}">Não há observações</c:if>
+										<c:if test="${not empty frequencia.observacao}">${frequencia.observacao}</c:if>
+									</td>
 									<td>${frequencia.statusFrequencia}</td>
 								</tr>
 				            </c:when>
 				            <c:otherwise>
 					            <tr class="warning">
-									<td data-order="<fmt:formatDate value="${frequencia.data}" pattern="yyyy-MM-dd" />" ><strong><fmt:formatDate value="${frequencia.data}" pattern="dd/MM/yyyy" /></strong></td>
+									<td data-order="<fmt:formatDate value="${frequencia.data}" pattern="yyyy-MM-dd" />" ><strong><fmt:formatDate value="${frequencia.data}" pattern="E" />, <fmt:formatDate value="${frequencia.data}" pattern="dd/MM/yyyy" /></strong></td>
 									<td colspan="2">Aguardando data para lançamento da frequência.</td>
 									<td style="display: none;"></td>
 								</tr>

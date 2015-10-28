@@ -6,7 +6,6 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
-import org.apache.xmlbeans.impl.regex.REUtil;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
@@ -83,7 +82,7 @@ public class HomeController {
 		
 		getUsuarioLogado(session);
 
-		redirect.addFlashAttribute("success", "Seu cadastro foi realizado com sucesso! Agora, voçê faz parte do NPI!");
+		redirect.addFlashAttribute("success", "Seu cadastro foi realizado com sucesso! Agora, você faz parte do NPI!");
 		redirect.addFlashAttribute("warning", "Aguarde, você sera vinculada a uma turma, desde já sinta-se parte deste grupo, NPI.");
 
 		return Constants.REDIRECT_PAGINA_INICIAL_ESTAGIARIO;

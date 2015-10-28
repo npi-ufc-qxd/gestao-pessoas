@@ -45,7 +45,7 @@
 		<c:if test="${not possuiTurma}">
 			<div class="alert alert-dismissible alert-warning">
 				<button type="button" class="close" data-dismiss="alert">×</button>
-				<p><strong>Atençao! ${nomeFormatado},</strong> aguarde, você sera vinculada a uma turma, desde já sinta-se parte deste grupo, NPI.</p> 
+				<p><strong>Atenção! ${nomeFormatado},</strong> aguarde, você será vinculado(a) à uma turma, desde já sinta-se parte deste grupo, NPI.</p> 
 			</div>
 		</c:if>
 

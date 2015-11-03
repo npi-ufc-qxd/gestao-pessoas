@@ -80,6 +80,13 @@ public class SupervisorController {
 		return "supervisor/list-turmas";
 	}
 
+	@RequestMapping(value = "/acompanhamento-avaliacao", method = RequestMethod.GET)
+	public String listarAcompanhamento(Model model, HttpSession session) {
+		Pessoa pessoa = getUsuarioLogado(session);
+		model.addAttribute("turmas", turmaService.getTurmasBySupervisorId(pessoa.getId()));
+
+		return "supervisor/acompanhamentoAvaliacao";
+	}
 	@RequestMapping(value = "/frequencia/realizar-observacao", method = RequestMethod.POST)
 	public String frequenciaObservar(@RequestParam("pk") Long idFrequencia, @RequestParam("value") String observacao, Model model) {
 		Frequencia frequencia = frequenciaService.find(Frequencia.class, idFrequencia);

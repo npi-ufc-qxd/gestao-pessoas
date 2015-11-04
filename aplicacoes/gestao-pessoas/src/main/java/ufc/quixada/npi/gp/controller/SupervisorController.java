@@ -19,6 +19,7 @@ import ufc.quixada.npi.gp.model.Papel;
 import ufc.quixada.npi.gp.model.Pessoa;
 import ufc.quixada.npi.gp.model.Servidor;
 import ufc.quixada.npi.gp.model.enums.StatusFrequencia;
+import ufc.quixada.npi.gp.service.AvaliacaoService;
 import ufc.quixada.npi.gp.service.FrequenciaService;
 import ufc.quixada.npi.gp.service.PapelService;
 import ufc.quixada.npi.gp.service.PessoaService;
@@ -46,6 +47,9 @@ public class SupervisorController {
 	
 	@Inject
 	private TurmaService turmaService;
+	
+	@Inject
+	private AvaliacaoService avaliacaoService;
 
 	@Inject
 	private FrequenciaService frequenciaService; 
@@ -83,7 +87,7 @@ public class SupervisorController {
 	@RequestMapping(value = "/acompanhamento-avaliacao", method = RequestMethod.GET)
 	public String listarAcompanhamento(Model model, HttpSession session) {
 		Pessoa pessoa = getUsuarioLogado(session);
-		model.addAttribute("turmas", turmaService.getTurmasBySupervisorId(pessoa.getId()));
+		model.addAttribute("avaliacao", avaliacaoService.getAvaliacaoId(pessoa.getId()));
 
 		return "supervisor/acompanhamentoAvaliacao";
 	}

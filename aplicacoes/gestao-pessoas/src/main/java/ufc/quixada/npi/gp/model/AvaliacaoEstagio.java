@@ -28,6 +28,8 @@ public class AvaliacaoEstagio {
 	
 	private String fatorRelacionamento;
 
+	@ManyToOne
+	@JoinColumn(name = "documento_id")
 	private Documento documento;
 
 	@ManyToOne

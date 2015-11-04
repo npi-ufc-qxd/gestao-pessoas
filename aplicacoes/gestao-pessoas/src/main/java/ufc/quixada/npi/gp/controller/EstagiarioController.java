@@ -135,6 +135,65 @@ public class EstagiarioController {
 
 		return PAGINA_MINHA_PRESENCA;
 	}
+	
+	@RequestMapping(value = "/minha-documentacao", method = RequestMethod.GET)
+	public String minhaDocumentacao(HttpSession session, Model model) {
+		Pessoa pessoa = getUsuarioLogado(session);
+		
+		Estagiario estagiario = estagiarioService.getEstagiarioByPessoaId(pessoa.getId());
+		
+		List<Turma> turmas = turmaService.getTurmasByEstagiarioIdAndStatus(StatusTurma.ABERTA, estagiario.getId());
+
+		model.addAttribute("turmas", turmas);
+
+		return "estagiario/minha-documentacao";
+	}
+	
+	@RequestMapping(value = "/minha-documentacao/turma/{idTurma}", method = RequestMethod.GET)
+	public String getDocumentacaoByEstagiario(HttpSession session, Model model, @ModelAttribute("idTurma") Long idTurma) {
+		Pessoa pessoa = getUsuarioLogado(session);
+		
+		Estagiario estagiario = estagiarioService.getEstagiarioByPessoaId(pessoa.getId());
+		
+		List<Turma> turmas = turmaService.getTurmasByEstagiarioIdAndStatus(StatusTurma.ABERTA, estagiario.getId());
+		
+		Turma turma = turmaService.getTurmaByIdAndEstagiarioId(idTurma, estagiario.getId());
+
+		boolean possuiVoltar = false;
+		
+		model.addAttribute("estagiario", estagiario);
+		model.addAttribute("turmas", turmas);
+		model.addAttribute("possuiVoltar", possuiVoltar);
+
+		return "redirect:/estagiario/minha-documentacao/turma/" + idTurma;
+	}
+	
+	/*@RequestMapping(value = "/turma/{idTurma}/documentacao", method = RequestMethod.GET)
+	public String minhaDocumentacao(HttpSession session, Model model, @PathVariable("idTurma") Long idTurma) {
+		model.addAttribute("idTurma", idTurma);
+		
+		return "estagiario/form-documento";
+	}
+	
+	@RequestMapping(value = "/turma/{idTurma}/documentacao", method = RequestMethod.POST)
+	public String minhaDocumentacao(@Valid @RequestParam("anexo") MultipartFile anexo, Model model){
+
+		Documento documento = new Documento();
+		
+		try {
+			if (anexo.getBytes() != null && anexo.getBytes().length != 0) {
+				
+				documento.setArquivo(anexo.getBytes());
+				documento.setNome(anexo.getOriginalFilename());
+			}
+		} catch (IOException e) {
+			return "estagiario/form-documento";
+		}
+		
+		documentoService.salvar(documento);
+		
+		return "redirect:/estagiario/";
+	}*/
 
 	@RequestMapping(value = "/minha-frequencia/turma/{idTurma}", method = RequestMethod.GET)
 	public String getFrequeciaByTurma(HttpSession session, Model model, @ModelAttribute("idTurma") Long idTurma) {
@@ -218,33 +277,6 @@ public class EstagiarioController {
 		}
 
 		return "redirect:/estagiario/minha-frequencia/turma/" + idTurma;
-	}
-	
-	@RequestMapping(value = "/turma/{idTurma}/documentacao", method = RequestMethod.GET)
-	public String minhaDocumentacao(HttpSession session, Model model, @PathVariable("idTurma") Long idTurma) {
-		model.addAttribute("idTurma", idTurma);
-		
-		return "estagiario/form-documento";
-	}
-	
-	@RequestMapping(value = "/turma/{idTurma}/documentacao", method = RequestMethod.POST)
-	public String minhaDocumentacao(@Valid @RequestParam("anexo") MultipartFile anexo, Model model){
-
-		Documento documento = new Documento();
-		
-		try {
-			if (anexo.getBytes() != null && anexo.getBytes().length != 0) {
-				
-				documento.setArquivo(anexo.getBytes());
-				documento.setNome(anexo.getOriginalFilename());
-			}
-		} catch (IOException e) {
-			return "estagiario/form-documento";
-		}
-		
-		documentoService.salvar(documento);
-		
-		return "redirect:/estagiario/";
 	}
 
 	@RequestMapping(value = "/minha-avaliacao", method = RequestMethod.GET)

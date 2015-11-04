@@ -51,7 +51,7 @@ public class Documento {
 	private Pessoa pessoa;
 
 	@ManyToOne
-	@JoinColumn(name = "pessoa_id")
+	@JoinColumn(name = "turma_id")
 	private Turma turma;
 	
 	public Long getId() {

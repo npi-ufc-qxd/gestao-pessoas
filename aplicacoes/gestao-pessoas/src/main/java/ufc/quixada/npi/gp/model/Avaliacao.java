@@ -15,7 +15,9 @@ public class Avaliacao {
 	private Long id;
 	
 	private double nota;
-
+	
+	@ManyToOne
+	@JoinColumn(name = "documento_id")
 	private Documento documento;
 
 	@ManyToOne

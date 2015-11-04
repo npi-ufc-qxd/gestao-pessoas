@@ -20,6 +20,18 @@ public class AvaliacaoEstagio {
 	
 	private String comentarioSeminario;
 	
+	private String fatorAssiduidadeDisciplina;
+	
+	private String fatorIniciativaProdutividade;
+	
+	private String fatorResponsabilidade;
+	
+	private String fatorRelacionamento;
+
+	@ManyToOne
+	@JoinColumn(name = "documento_id")
+	private Documento documento;
+	
 	@ManyToOne
 	@JoinColumn(name = "pessoa_id")
 	private Pessoa pessoa;
@@ -54,6 +66,38 @@ public class AvaliacaoEstagio {
 
 	public void setComentarioSeminario(String comentarioSeminario) {
 		this.comentarioSeminario = comentarioSeminario;
+	}
+
+	public String getFatorAssiduidadeDisciplina() {
+		return fatorAssiduidadeDisciplina;
+	}
+
+	public void setFatorAssiduidadeDisciplina(String fatorAssiduidadeDisciplina) {
+		this.fatorAssiduidadeDisciplina = fatorAssiduidadeDisciplina;
+	}
+
+	public String getFatorIniciativaProdutividade() {
+		return fatorIniciativaProdutividade;
+	}
+
+	public void setFatorIniciativaProdutividade(String fatorIniciativaProdutividade) {
+		this.fatorIniciativaProdutividade = fatorIniciativaProdutividade;
+	}
+
+	public String getFatorResponsabilidade() {
+		return fatorResponsabilidade;
+	}
+
+	public void setFatorResponsabilidade(String fatorResponsabilidade) {
+		this.fatorResponsabilidade = fatorResponsabilidade;
+	}
+
+	public String getFatorRelacionamento() {
+		return fatorRelacionamento;
+	}
+
+	public void setFatorRelacionamento(String fatorRelacionamento) {
+		this.fatorRelacionamento = fatorRelacionamento;
 	}
 
 	public Pessoa getPessoa() {

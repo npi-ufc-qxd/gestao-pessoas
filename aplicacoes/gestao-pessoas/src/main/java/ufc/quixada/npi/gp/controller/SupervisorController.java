@@ -9,11 +9,13 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import ufc.quixada.npi.gp.model.Estagiario;
 import ufc.quixada.npi.gp.model.Frequencia;
 import ufc.quixada.npi.gp.model.Papel;
 import ufc.quixada.npi.gp.model.Pessoa;
@@ -83,14 +85,17 @@ public class SupervisorController {
 
 		return "supervisor/list-turmas";
 	}
-
-	@RequestMapping(value = "/acompanhamento-avaliacao", method = RequestMethod.GET)
-	public String listarAcompanhamento(Model model, HttpSession session) {
+	
+	@RequestMapping(value = "/acompanhamento-avaliacao/{idEstagiario}", method = RequestMethod.GET)
+	public String listarAcompanhamento(Model model, HttpSession session, @PathVariable("idEstagiario") Long idEstagiario) {
 		Pessoa pessoa = getUsuarioLogado(session);
-		model.addAttribute("avaliacao", avaliacaoService.getAvaliacaoId(pessoa.getId()));
+		Estagiario estagiario = estagiarioService.find(Estagiario.class, idEstagiario);
+		//Vá ao turma controller, na parte de frequencia
+		model.addAttribute("avaliacao", avaliacaoService.getAvaliacaoById(pessoa.getId()));
 
 		return "supervisor/acompanhamentoAvaliacao";
 	}
+	
 	@RequestMapping(value = "/frequencia/realizar-observacao", method = RequestMethod.POST)
 	public String frequenciaObservar(@RequestParam("pk") Long idFrequencia, @RequestParam("value") String observacao, Model model) {
 		Frequencia frequencia = frequenciaService.find(Frequencia.class, idFrequencia);

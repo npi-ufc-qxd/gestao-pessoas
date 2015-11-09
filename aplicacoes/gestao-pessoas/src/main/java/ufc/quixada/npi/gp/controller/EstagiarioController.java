@@ -144,28 +144,12 @@ public class EstagiarioController {
 		
 		List<Turma> turmas = turmaService.getTurmasByEstagiarioIdAndStatus(StatusTurma.ABERTA, estagiario.getId());
 
+		boolean liberarSubmissao
+		
 		model.addAttribute("turmas", turmas);
+		model.addAttribute("liberarSubmissao", liberarSubmissao);
 
 		return "estagiario/minha-documentacao";
-	}
-	
-	@RequestMapping(value = "/minha-documentacao/turma/{idTurma}", method = RequestMethod.GET)
-	public String getDocumentacaoByEstagiario(HttpSession session, Model model, @ModelAttribute("idTurma") Long idTurma) {
-		Pessoa pessoa = getUsuarioLogado(session);
-		
-		Estagiario estagiario = estagiarioService.getEstagiarioByPessoaId(pessoa.getId());
-		
-		List<Turma> turmas = turmaService.getTurmasByEstagiarioIdAndStatus(StatusTurma.ABERTA, estagiario.getId());
-		
-		Turma turma = turmaService.getTurmaByIdAndEstagiarioId(idTurma, estagiario.getId());
-
-		boolean possuiVoltar = false;
-		
-		model.addAttribute("estagiario", estagiario);
-		model.addAttribute("turmas", turmas);
-		model.addAttribute("possuiVoltar", possuiVoltar);
-
-		return "redirect:/estagiario/minha-documentacao/turma/" + idTurma;
 	}
 	
 	/*@RequestMapping(value = "/turma/{idTurma}/documentacao", method = RequestMethod.GET)

@@ -23,97 +23,68 @@
 		<div class="row">
 
 			<div class="panel panel-primary">
-
-				<c:forEach var="turma" items="${turmas}" varStatus="counter">
-				${counter.current}
+				<c:if test="${empty turmas}">
 					<div class="panel-heading">
 						<h2 class="titulo-panels">
-							<span class="fa fa-calendar-check-o"></span> Documentação:
+							<span class="fa fa-file-text-o"></span> Documentação
 						</h2>
-						
-						<c:if test="${counter.current} == 0">
+
+						<c:if test="${counter.index == 0}">
 							<div class="pull-right">
 								<a title="Voltar" class="btn btn-primary back"><span
 									class="fa fa-arrow-circle-o-left"></span> Voltar</a>
 							</div>
 						</c:if>
-
-						<h2 class="titulo-panels">${turma.nome}-
-							${turma.ano}.${turma.semestre}</h2>
 					</div>
 
 					<div class="panel-body">
-
-						<c:if test="${not empty turma}">
-							<div class="form-group">Calendário e templates</div>
-						</c:if>
-					</div>
-
-					<c:if test="${empty turmas}">
-						<div class="panel-body">
-							<div class="alert alert-dismissible alert-warning">
-								<button type="button" class="close" data-dismiss="alert">×</button>
-								<strong>Atençao! ${nomeFormatado}</strong> <span>Aguarde,
-									você sera vinculada a uma turma, desde já sinta-se parte deste
-									grupo, NPI.</span>
-							</div>
+						<div class="alert alert-dismissible alert-warning">
+							<button type="button" class="close" data-dismiss="alert">×</button>
+							<strong>Atençao! ${nomeFormatado}</strong> <span>Aguarde,
+								você sera vinculada a uma turma, desde já sinta-se parte deste
+								grupo, NPI.</span>
 						</div>
-					</c:if>
+					</div>
+				</c:if>
 
-					<c:if test="${possuiTurma}">
+				<c:if test="${not empty turmas}">
+
+					<c:forEach var="turma" items="${turmas}" varStatus="counter">
+						<div class="panel-heading">
+							<h2 class="titulo-panels">
+								<span class="fa fa-file-text-o"></span> Documentação:
+							</h2>
+
+							<c:if test="${counter.index == 0}">
+								<div class="pull-right">
+									<a title="Voltar" class="btn btn-primary back"><span
+										class="fa fa-arrow-circle-o-left"></span> Voltar</a>
+								</div>
+							</c:if>
+
+							<h2 class="titulo-panels">${turma.nome}-
+								${turma.ano}.${turma.semestre}</h2>
+						</div>
+
 						<div class="panel-body">
+							<div class="form-group">Calendário e templates</div>
+						</div>
 
+						<div class="panel-body">
 							<div class="panel panel-info">
 								<div class="panel-heading">
 									<h2 class="titulo-panels">
-										<span class="fa fa-clock-o"></span> Plano de Estágio
+										<span class="fa fa-file-text-o"></span> Plano de Estágio
 									</h2>
-
-									<div class="pull-right">
-										<a
-											href="<c:url value="/supervisor/turma/${turma.id}/horarios" />"
-											title="Atualizar Horários" class="btn btn-info"><span
-											class="fa fa-refresh"></span> Horário</a>
-									</div>
-								</div>
-
-								<div class="panel-body">
-									<c:if test="${empty turma.horarios}">
-										<div class="alert alert-warning" role="alert">Expediente
-											não definido.</div>
-									</c:if>
-
-									<c:if test="${not empty turma.horarios}">
-										<div class="form-group">
-											<label class="col-sm-12 text-view-info"><strong>Horários</strong></label>
-
-											<table id="horarios-turma"
-												class="table table-striped table-hover">
-												<thead>
-													<tr>
-														<th>Horário</th>
-														<th>Dia da Semana</th>
-														<th>Início do Expediente</th>
-														<th>Término do Expediente</th>
-													</tr>
-												</thead>
-												<tbody class="text-view-info">
-													<c:forEach var="horario" items="${turma.horarios}"
-														varStatus="indice">
-														<tr align="justify">
-															<td>${indice.count}ª</td>
-															<td>${horario.dia.labelDia}</td>
-															<td>${horario.inicioExpediente}</td>
-															<td>${horario.finalExpediente}</td>
-														</tr>
-													</c:forEach>
-												</tbody>
-											</table>
-
-										</div>
-									</c:if>
 								</div>
 							</div>
+
+							<c:if test="${not liberarSubmissao}">
+								<div class="alert alert-dismissible alert-warning">
+									<button type="button" class="close" data-dismiss="alert">×</button>
+									<strong>Atençao! ${nomeFormatado}</strong> <span>Aguarde o prazo para submissão.</span>
+								</div>
+							</c:if>
 
 							<c:if test="${liberarSubmissao}">
 								<div class="panel panel-info">
@@ -145,90 +116,15 @@
 												<input name="salvar" type="submit" class="btn btn-primary"
 													value="Salvar" />
 											</div>
-
-											<fieldset class="form-group">
-												<label class="panel-title"><strong>Submissão</strong></label>
-											</fieldset>
-											<div class="form-group">
-												<label for="cpf" class="sr-only">CPF</label> <input
-													type="text" class="form-control" id="cpf" name="cpf"
-													placeholder="CPF" value="${estagiario.pessoa.cpf}"
-													readonly="readonly">
-											</div>
-											<div class="form-group">
-												<label for="senha" class="sr-only">Senha</label> <input
-													type="password" class="form-control" id="senha"
-													name="senha" placeholder="Senha" autofocus="autofocus">
-											</div>
-											<button type="submit" class="btn btn-success">Estou
-												Presente !!!</button>
 										</form>
 									</div>
 								</div>
 							</c:if>
-
-							<!-- 			<div class="form-group"> -->
-							<%-- 				<label class="col-sm-2 text-view-info"><strong>Dias Trabalhados: </strong></label><label class="col-sm-10 text-view-info">${dadosConsolidados.diasTrabalhados}</label> --%>
-
-							<%-- 				<label class="col-sm-2 text-view-info"><strong>Frequência (%): </strong></label><label class="col-sm-10 text-view-info">${dadosConsolidados.porcentagemFrequencia}</label> --%>
-
-							<%-- 				<label class="col-sm-2 text-view-info"><strong>Faltas: </strong></label><label class="col-sm-10 text-view-info">${dadosConsolidados.faltas}</label> --%>
-							<!-- 			</div> -->
-
-							<c:if test="${not empty message}">
-								<div class="alert alert-info msg">
-									<i class="fa fa-info-circle"> </i> ${message}
-								</div>
-							</c:if>
-
-							<table id="table-minha-frequencia"
-								class="table table-striped table-hover">
-								<thead>
-									<tr>
-										<th>Data</th>
-										<th>Observação</th>
-										<th>Status</th>
-									</tr>
-								</thead>
-								<tbody class="text-view-info">
-									<c:forEach var="frequencia" items="${frequencias}">
-										<c:choose>
-											<c:when test="${frequencia.statusFrequencia != 'AGUARDO'}">
-												<tr class="success">
-
-													<td
-														data-order="<fmt:formatDate value="${frequencia.data}" pattern="yyyy-MM-dd" />"><fmt:formatDate
-															value="${frequencia.data}" pattern="E" />, <fmt:formatDate
-															value="${frequencia.data}" pattern="dd/MM/yyyy" /></td>
-													<td><c:if test="${empty frequencia.observacao}">Não há observações</c:if>
-														<c:if test="${not empty frequencia.observacao}">${frequencia.observacao}</c:if>
-													</td>
-													<td>${frequencia.statusFrequencia}</td>
-												</tr>
-											</c:when>
-											<c:otherwise>
-												<tr class="warning">
-													<td
-														data-order="<fmt:formatDate value="${frequencia.data}" pattern="yyyy-MM-dd" />"><strong><fmt:formatDate
-																value="${frequencia.data}" pattern="E" />, <fmt:formatDate
-																value="${frequencia.data}" pattern="dd/MM/yyyy" /></strong></td>
-													<td colspan="2">Aguardando data para lançamento da
-														frequência.</td>
-													<td style="display: none;"></td>
-												</tr>
-											</c:otherwise>
-										</c:choose>
-									</c:forEach>
-								</tbody>
-							</table>
 						</div>
-					</c:if>
-				</c:forEach>
+					</c:forEach>
+				</c:if>
 			</div>
-			<c:forEach var="turma" items="${turmas}" begin="1">
-			</c:forEach>
 		</div>
-	</div>
 	</div>
 	<br>
 	<br>

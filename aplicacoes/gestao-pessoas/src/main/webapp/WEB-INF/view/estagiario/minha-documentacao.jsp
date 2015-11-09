@@ -29,12 +29,10 @@
 							<span class="fa fa-file-text-o"></span> Documentação
 						</h2>
 
-						<c:if test="${counter.index == 0}">
-							<div class="pull-right">
-								<a title="Voltar" class="btn btn-primary back"><span
-									class="fa fa-arrow-circle-o-left"></span> Voltar</a>
-							</div>
-						</c:if>
+						<div class="pull-right">
+							<a title="Voltar" class="btn btn-primary back"><span
+								class="fa fa-arrow-circle-o-left"></span> Voltar</a>
+						</div>
 					</div>
 
 					<div class="panel-body">
@@ -68,58 +66,34 @@
 
 						<div class="panel-body">
 							<div class="form-group">Calendário e templates</div>
-						</div>
 
-						<div class="panel-body">
-							<div class="panel panel-info">
-								<div class="panel-heading">
-									<h2 class="titulo-panels">
-										<span class="fa fa-file-text-o"></span> Plano de Estágio
-									</h2>
+
+							<form class="form-inline"
+								action="<c:url value="/estagiario/minha-documentacao/turma/${turma.id }"></c:url>"
+								method="POST" enctype="multipart/form-data" align="center">
+								<div class="form-group">
+									<label for="plano">Plano de Estágio</label> <input name="anexo"
+										type="file" class="form-control file-loading"
+										multiple="multiple" id="plano"> <input id="tipo"
+										type="hidden" name="tipo" value=PLANO_ESTAGIO>
 								</div>
-							</div>
+								<button type="submit" class="btn btn-primary" value="Salvar">Submeter</button>
 
-							<c:if test="${not liberarSubmissao}">
-								<div class="alert alert-dismissible alert-warning">
-									<button type="button" class="close" data-dismiss="alert">×</button>
-									<strong>Atençao! ${nomeFormatado}</strong> <span>Aguarde o prazo para submissão.</span>
+							</form>
+							<br>
+
+							<form class="form-inline"
+								action="<c:url value="/estagiario/minha-documentacao/turma/${turma.id }"></c:url>"
+								method="POST" enctype="multipart/form-data" align="center">
+								<div class="form-group">
+									<label for="relatorio">Relatório Final de Estágio</label> <input
+										name="anexo" type="file" class="form-control file-loading"
+										multiple="multiple" id="relatorio"> <input id="tipo"
+										type="hidden" name="tipo" value=RELATORIO_FINAL_ESTAGIO>
 								</div>
-							</c:if>
+								<button type="submit" class="btn btn-primary" value="Salvar">Submeter</button>
 
-							<c:if test="${liberarSubmissao}">
-								<div class="panel panel-info">
-									<div class="panel-heading">
-
-
-										<form class="form-inline form-minha-documentacao"
-											action="<c:url value="/estagiario/minha-documentacao/turma/${turma.id }"></c:url>"
-											method="POST" align="center">
-											<c:if test="${not empty error}">
-												<div class="form-group" align="center">
-													<label class="control-label col-xs-2"></label>
-													<div class="col-xs-10">
-														<div class="form-control label label-danger">
-															<i class="fa fa-times-circle-o"></i> ${error}
-														</div>
-													</div>
-												</div>
-											</c:if>
-											<div class="form-group form-item">
-												<label for="anexo" class="col-sm-2 control-label">Anexos:</label>
-												<div class="col-sm-10">
-													<input id="anexo" type="file" name="anexo"
-														class="anexo file-loading" multiple="multiple"></input>
-												</div>
-											</div>
-
-											<div class="controls">
-												<input name="salvar" type="submit" class="btn btn-primary"
-													value="Salvar" />
-											</div>
-										</form>
-									</div>
-								</div>
-							</c:if>
+							</form>
 						</div>
 					</c:forEach>
 				</c:if>

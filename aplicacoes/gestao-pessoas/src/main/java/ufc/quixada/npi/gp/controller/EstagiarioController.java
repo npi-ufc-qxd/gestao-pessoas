@@ -33,8 +33,10 @@ import ufc.quixada.npi.gp.model.Estagiario;
 import ufc.quixada.npi.gp.model.Frequencia;
 import ufc.quixada.npi.gp.model.Pessoa;
 import ufc.quixada.npi.gp.model.Turma;
+import ufc.quixada.npi.gp.model.enums.StatusEntrega;
 import ufc.quixada.npi.gp.model.enums.StatusFrequencia;
 import ufc.quixada.npi.gp.model.enums.StatusTurma;
+import ufc.quixada.npi.gp.model.enums.Tipo;
 import ufc.quixada.npi.gp.service.DadoConsolidado;
 import ufc.quixada.npi.gp.service.DocumentoService;
 import ufc.quixada.npi.gp.service.EstagiarioService;
@@ -143,41 +145,40 @@ public class EstagiarioController {
 		Estagiario estagiario = estagiarioService.getEstagiarioByPessoaId(pessoa.getId());
 		
 		List<Turma> turmas = turmaService.getTurmasByEstagiarioIdAndStatus(StatusTurma.ABERTA, estagiario.getId());
-
-		boolean liberarSubmissao
 		
 		model.addAttribute("turmas", turmas);
-		model.addAttribute("liberarSubmissao", liberarSubmissao);
 
 		return "estagiario/minha-documentacao";
 	}
 	
-	/*@RequestMapping(value = "/turma/{idTurma}/documentacao", method = RequestMethod.GET)
-	public String minhaDocumentacao(HttpSession session, Model model, @PathVariable("idTurma") Long idTurma) {
-		model.addAttribute("idTurma", idTurma);
-		
-		return "estagiario/form-documento";
-	}
-	
-	@RequestMapping(value = "/turma/{idTurma}/documentacao", method = RequestMethod.POST)
-	public String minhaDocumentacao(@Valid @RequestParam("anexo") MultipartFile anexo, Model model){
+	@RequestMapping(value = "/minha-documentacao/turma/{idTurma}", method = RequestMethod.POST)
+	public String minhaDocumentacao(@Valid @RequestParam("anexo") MultipartFile anexo, Model model, @RequestParam("tipo") Tipo tipo ){
 
 		Documento documento = new Documento();
+		boolean submissaoRealizada = false;
 		
 		try {
 			if (anexo.getBytes() != null && anexo.getBytes().length != 0) {
 				
 				documento.setArquivo(anexo.getBytes());
 				documento.setNome(anexo.getOriginalFilename());
+				documento.setNomeOriginal(anexo.getOriginalFilename());
+				documento.setData(new Date());
+				documento.setHorario(new Date());
+				documento.setStatusEntrega(StatusEntrega.ENVIADO);
+				documento.setTipo(tipo);
 			}
 		} catch (IOException e) {
-			return "estagiario/form-documento";
+			return "estagiario/minha-documentacao";
 		}
 		
 		documentoService.salvar(documento);
+		submissaoRealizada = true;
 		
-		return "redirect:/estagiario/";
-	}*/
+		model.addAttribute("submissaoRealizada", submissaoRealizada);
+		
+		return "redirect:/estagiario/minha-documentacao";
+	}
 
 	@RequestMapping(value = "/minha-frequencia/turma/{idTurma}", method = RequestMethod.GET)
 	public String getFrequeciaByTurma(HttpSession session, Model model, @ModelAttribute("idTurma") Long idTurma) {

@@ -161,7 +161,7 @@
 										<td>${estagiario.curso.labelCurso}</td>
 										<td>xx%</td>
 										<td align="right"><a
-											href="<c:url value="/supervisor/acompanhamento-avaliacao/estagiario/${estagiario.id}" />"
+											href="<c:url value="/supervisor/turma/${idTurma }/acompanhamento-avaliacao/${estagiario.id}" />"
 											title="Acompanhamento de Avaliação"
 											class="btn btn-info btn-sm"><span
 												class="fa fa-check"></span>Acompanhamento de Avaliação</a></td>

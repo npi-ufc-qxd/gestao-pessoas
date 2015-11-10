@@ -29,9 +29,7 @@
 		<property name="entityManagerFactory" ref="emf" />
 	</bean>
 
-	<bean id="multipartResolver"
-		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
-	</bean>
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"> </bean>
 
 	<bean class="org.springframework.web.servlet.view.XmlViewResolver">
 		<property name="location" value="WEB-INF/jasper-views.xml" />

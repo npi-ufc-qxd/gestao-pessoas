@@ -14,9 +14,9 @@ public class Constants {
 
 	public static final String PAGINA_AVALIACAO = "estagiario/avaliacao";
 
-	public static final String PAGINA_TCE = "multiViewReport";
+	public static final String PAGINA_TCE = "TERMO_COMPROMISSO";
 
-	public static final String PAGINA_DECLARACAO_ESTAGIO = "declaracaoEstagioIndividual";
+	public static final String PAGINA_DECLARACAO_ESTAGIO = "DECLARACAO_ESTAGIO";
 
 	public static final String PAGINA_MEUS_DADOS = "estagiario/meus-dados";
 	

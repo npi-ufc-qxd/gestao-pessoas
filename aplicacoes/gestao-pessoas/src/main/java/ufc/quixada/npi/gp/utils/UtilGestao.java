@@ -1,5 +1,6 @@
 package ufc.quixada.npi.gp.utils;
 
+import java.util.Calendar;
 import java.util.List;
 
 import org.joda.time.LocalDate;
@@ -45,6 +46,19 @@ public class UtilGestao {
 		}
 		return false;
 	}	
-	
+
+	public static String getTurnoExpediente(Horario horario) {
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(horario.getInicioExpediente());
+
+		if (calendar.HOUR >= 6 && calendar.HOUR < 12) {
+			return "MANHA";
+		}
+		else if (calendar.HOUR > 12 && calendar.HOUR < 18) {
+			return "TARDE";
+		}
+		
+		return "";
+	}
 
 }

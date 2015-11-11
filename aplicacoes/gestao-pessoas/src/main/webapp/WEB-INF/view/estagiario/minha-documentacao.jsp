@@ -67,6 +67,59 @@
 						<div class="panel-body">
 							<div class="form-group">Calendário e templates</div>
 
+							<c:if test="${not empty documentos}">
+								<table class="table table-striped table-hover">
+									<thead>
+										<tr>
+											<th>Nome</th>
+											<th>Data</th>
+											<th>Hora</th>
+											<th>Tipo</th>
+											<th>Status</th>
+										</tr>
+									</thead>
+									<tbody class="text-view-info">
+										<c:forEach var="documento" items="${documentos}">
+											<c:if test="${documento.turma.id == turma.id}">
+												<c:choose>
+													<c:when test="${documento.statusEntrega.label == 'Aceito'}">
+														<tr class="success">
+															<td>${documento.nome}</td>
+															<td><fmt:formatDate value="${documento.data}"
+																	pattern="dd/MM/yyyy" /></td>
+															<td>${documento.horario}</td>
+															<td>${documento.tipo.labelTipo}</td>
+															<td>${documento.statusEntrega.label}</td>
+														</tr>
+													</c:when>
+													<c:when
+														test="${documento.statusEntrega.label == 'Rejeitado'}">
+														<tr class="danger">
+															<td>${documento.nome}</td>
+															<td><fmt:formatDate value="${documento.data}"
+																	pattern="dd/MM/yyyy" /></td>
+															<td>${documento.horario}</td>
+															<td>${documento.tipo.labelTipo}</td>
+															<td>${documento.statusEntrega.label}</td>
+														</tr>
+													</c:when>
+													<c:otherwise>
+														<tr class="warning">
+															<td>${documento.nome}</td>
+															<td><fmt:formatDate value="${documento.data}"
+																	pattern="dd/MM/yyyy" /></td>
+															<td>${documento.horario}</td>
+															<td>${documento.tipo.labelTipo}</td>
+															<td>${documento.statusEntrega.label}</td>
+														</tr>
+													</c:otherwise>
+												</c:choose>
+											</c:if>
+										</c:forEach>
+									</tbody>
+								</table>
+							</c:if>
+							<br>
 
 							<form class="form-inline"
 								action="<c:url value="/estagiario/minha-documentacao/turma/${turma.id }"></c:url>"
@@ -80,8 +133,8 @@
 								<button type="submit" class="btn btn-primary" value="Salvar">Submeter</button>
 
 							</form>
-							<br>
 
+							<br>
 							<form class="form-inline"
 								action="<c:url value="/estagiario/minha-documentacao/turma/${turma.id }"></c:url>"
 								method="POST" enctype="multipart/form-data" align="center">
@@ -107,23 +160,6 @@
 
 	<script type="text/javascript">
 		$("#minha-documentacao").addClass("active");
-		$('#table-minha-frequencia').DataTable({
-			"paging" : false,
-			"bFilter" : false,
-			"bInfo" : false,
-			"language" : ptBR,
-			"order" : [ 0, 'asc' ],
-			"columnDefs" : [ {
-				"orderable" : false,
-				"targets" : 1
-			}, {
-				"orderable" : false,
-				"targets" : 2
-			}, ],
-		});
-
-		$('.dataTables_length label').addClass('text-view-info');
-		$('.dataTables_filter label').addClass('text-view-info');
 	</script>
 
 </body>

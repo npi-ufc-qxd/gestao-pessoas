@@ -145,37 +145,52 @@ public class EstagiarioController {
 		Estagiario estagiario = estagiarioService.getEstagiarioByPessoaId(pessoa.getId());
 		
 		List<Turma> turmas = turmaService.getTurmasByEstagiarioIdAndStatus(StatusTurma.ABERTA, estagiario.getId());
-		
+		List<Documento> documentos = documentoService.getDocumentosByPessoaId(pessoa.getId());
+
 		model.addAttribute("turmas", turmas);
+		model.addAttribute("documentos", documentos);
 
 		return "estagiario/minha-documentacao";
 	}
 	
 	@RequestMapping(value = "/minha-documentacao/turma/{idTurma}", method = RequestMethod.POST)
-	public String minhaDocumentacao(@Valid @RequestParam("anexo") MultipartFile anexo, Model model, @RequestParam("tipo") Tipo tipo ){
-
-		Documento documento = new Documento();
-		boolean submissaoRealizada = false;
+	public String minhaDocumentacao(@Valid @RequestParam("anexo") MultipartFile anexo, HttpSession session, Model model, @RequestParam("tipo") Tipo tipo, @ModelAttribute("idTurma") Long idTurma ){
+		Pessoa pessoa = getUsuarioLogado(session);
+		Estagiario estagiario = estagiarioService.getEstagiarioByPessoaId(pessoa.getId());
+		Documento newDocumento = new Documento();
+		Turma turma = turmaService.getTurmaByIdAndEstagiarioId(idTurma, estagiario.getId());
+		
+		Documento documento = documentoService.getDocumentoByPessoaIdAndIdTurmaAndTipo(pessoa.getId(), idTurma, tipo);
 		
 		try {
-			if (anexo.getBytes() != null && anexo.getBytes().length != 0) {
-				
-				documento.setArquivo(anexo.getBytes());
-				documento.setNome(anexo.getOriginalFilename());
-				documento.setNomeOriginal(anexo.getOriginalFilename());
-				documento.setData(new Date());
-				documento.setHorario(new Date());
-				documento.setStatusEntrega(StatusEntrega.ENVIADO);
-				documento.setTipo(tipo);
-			}
+			if(documento == null && anexo.getBytes() != null && anexo.getBytes().length != 0){
+					newDocumento.setArquivo(anexo.getBytes());
+					newDocumento.setNome(anexo.getOriginalFilename());
+					newDocumento.setNomeOriginal(anexo.getOriginalFilename());
+					newDocumento.setExtensao(anexo.getContentType());
+					newDocumento.setData(new Date());
+					newDocumento.setHorario(new Date());
+					newDocumento.setStatusEntrega(StatusEntrega.ENVIADO);
+					newDocumento.setTipo(tipo);
+					newDocumento.setPessoa(pessoa);
+					newDocumento.setTurma(turma);
+					documentoService.salvar(newDocumento);
+				} else if(documento.getStatusEntrega().equals(StatusEntrega.ENVIADO) && anexo.getBytes() != null && anexo.getBytes().length != 0){
+					documento.setArquivo(anexo.getBytes());
+					documento.setNome(anexo.getOriginalFilename());
+					documento.setNomeOriginal(anexo.getOriginalFilename());
+					documento.setExtensao(anexo.getContentType());
+					documento.setData(new Date());
+					documento.setHorario(new Date());
+					documento.setStatusEntrega(StatusEntrega.ENVIADO);
+					documento.setTipo(tipo);
+					documento.setPessoa(pessoa);
+					documento.setTurma(turma);
+					documentoService.update(documento);
+				}
 		} catch (IOException e) {
-			return "estagiario/minha-documentacao";
+			return "redirect:/500";
 		}
-		
-		documentoService.salvar(documento);
-		submissaoRealizada = true;
-		
-		model.addAttribute("submissaoRealizada", submissaoRealizada);
 		
 		return "redirect:/estagiario/minha-documentacao";
 	}

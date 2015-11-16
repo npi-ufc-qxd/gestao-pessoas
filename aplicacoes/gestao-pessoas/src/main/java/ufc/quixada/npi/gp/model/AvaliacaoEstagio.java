@@ -30,7 +30,7 @@ public class AvaliacaoEstagio {
 
 	@ManyToOne
 	@JoinColumn(name = "documento_id")
-	private Documento documento;
+	private Submissao documento;
 	
 	@ManyToOne
 	@JoinColumn(name = "pessoa_id")

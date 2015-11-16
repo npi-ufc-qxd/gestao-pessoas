@@ -18,7 +18,7 @@ public class Avaliacao {
 	
 	@ManyToOne
 	@JoinColumn(name = "documento_id")
-	private Documento documento;
+	private Submissao documento;
 
 	@ManyToOne
 	@JoinColumn(name = "pessoa_id")
@@ -40,11 +40,11 @@ public class Avaliacao {
 		this.nota = nota;
 	}
 
-	public Documento getDocumento() {
+	public Submissao getDocumento() {
 		return documento;
 	}
 	
-	public void setDocumento(Documento documento) {
+	public void setDocumento(Submissao documento) {
 		this.documento = documento;
 	}
 

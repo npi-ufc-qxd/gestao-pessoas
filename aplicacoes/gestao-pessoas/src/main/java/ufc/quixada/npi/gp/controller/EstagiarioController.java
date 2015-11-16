@@ -38,13 +38,13 @@ import ufc.quixada.npi.gp.model.enums.StatusFrequencia;
 import ufc.quixada.npi.gp.model.enums.StatusTurma;
 import ufc.quixada.npi.gp.model.enums.Tipo;
 import ufc.quixada.npi.gp.service.DadoConsolidado;
-import ufc.quixada.npi.gp.service.DocumentoService;
+import ufc.quixada.npi.gp.service.SubmissaoService;
 import ufc.quixada.npi.gp.service.EstagiarioService;
 import ufc.quixada.npi.gp.service.FrequenciaService;
 import ufc.quixada.npi.gp.service.PessoaService;
 import ufc.quixada.npi.gp.service.TurmaService;
 import ufc.quixada.npi.gp.utils.Constants;
-import ufc.quixada.npi.gp.model.Documento;
+import ufc.quixada.npi.gp.model.Submissao;
 import br.ufc.quixada.npi.ldap.service.UsuarioService;
 
 @Controller
@@ -67,7 +67,7 @@ public class EstagiarioController {
 	private UsuarioService usuarioService;
 	
 	@Inject
-	private DocumentoService documentoService;
+	private SubmissaoService documentoService;
 
 	@RequestMapping(value = {"/",""}, method = RequestMethod.GET)
 	public String paginaInicial(Model model, HttpSession session) {
@@ -124,43 +124,70 @@ public class EstagiarioController {
 
 		return REDIRECT_PAGINA_INICIAL_ESTAGIARIO;
 	}
-
+	
 	@RequestMapping(value = "/minha-frequencia", method = RequestMethod.GET)
 	public String minhaFrequecia(HttpSession session, Model model) {
 		Pessoa pessoa = getUsuarioLogado(session);
 		
 		Estagiario estagiario = estagiarioService.getEstagiarioByPessoaId(pessoa.getId());
 
-		List<Turma> turmas = turmaService.getTurmasByEstagiarioIdAndStatus(StatusTurma.ABERTA, estagiario.getId());
+		List<Turma> turmas = turmaService.getTurmasByEstagiarioId(estagiario.getId());
 
 		model.addAttribute("turmas", turmas);
 
 		return PAGINA_MINHA_PRESENCA;
 	}
 	
-	@RequestMapping(value = "/minha-documentacao", method = RequestMethod.GET)
+	@RequestMapping(value = "/turmas", method = RequestMethod.GET)
+	public String listarTurmas(Model model, HttpSession session) {
+		Pessoa pessoa = getUsuarioLogado(session);
+		
+		Estagiario estagiario = estagiarioService.getEstagiarioByPessoaId(pessoa.getId());
+
+		List<Turma> turmas = turmaService.getTurmasByEstagiarioId(estagiario.getId());
+		
+		model.addAttribute("turmas", turmas);
+
+		return "estagiario/list-turmas";
+	}
+	
+	@RequestMapping(value = "/turma/{idTurma}", method = RequestMethod.GET)
+	public String detalhesTurma(@PathVariable("idTurma") Long idTurma, Model model, HttpSession session) {
+		Pessoa pessoa = getUsuarioLogado(session);
+		
+		Estagiario estagiario = estagiarioService.getEstagiarioByPessoaId(pessoa.getId());
+		
+		List<Submissao> submissoes = documentoService.getSubmissoesByPessoaIdAndIdTurma(pessoa.getId(), idTurma);
+
+		model.addAttribute("submissoes", submissoes);
+		model.addAttribute("turma", turmaService.getTurmaByIdAndEstagiarioId(idTurma, estagiario.getId()));
+		
+		return "estagiario/info-turma";
+	}
+	
+	/*@RequestMapping(value = "/minha-documentacao", method = RequestMethod.GET)
 	public String minhaDocumentacao(HttpSession session, Model model) {
 		Pessoa pessoa = getUsuarioLogado(session);
 		
 		Estagiario estagiario = estagiarioService.getEstagiarioByPessoaId(pessoa.getId());
 		
 		List<Turma> turmas = turmaService.getTurmasByEstagiarioIdAndStatus(StatusTurma.ABERTA, estagiario.getId());
-		List<Documento> documentos = documentoService.getDocumentosByPessoaId(pessoa.getId());
+		List<Submissao> documentos = documentoService.getDocumentosByPessoaId(pessoa.getId());
 
 		model.addAttribute("turmas", turmas);
 		model.addAttribute("documentos", documentos);
 
 		return "estagiario/minha-documentacao";
-	}
+	}*/
 	
 	@RequestMapping(value = "/minha-documentacao/turma/{idTurma}", method = RequestMethod.POST)
 	public String minhaDocumentacao(@Valid @RequestParam("anexo") MultipartFile anexo, HttpSession session, Model model, @RequestParam("tipo") Tipo tipo, @ModelAttribute("idTurma") Long idTurma ){
 		Pessoa pessoa = getUsuarioLogado(session);
 		Estagiario estagiario = estagiarioService.getEstagiarioByPessoaId(pessoa.getId());
-		Documento newDocumento = new Documento();
+		Submissao newDocumento = new Submissao();
 		Turma turma = turmaService.getTurmaByIdAndEstagiarioId(idTurma, estagiario.getId());
 		
-		Documento documento = documentoService.getDocumentoByPessoaIdAndIdTurmaAndTipo(pessoa.getId(), idTurma, tipo);
+		Submissao documento = documentoService.getSubmissaoByPessoaIdAndIdTurmaAndTipo(pessoa.getId(), idTurma, tipo);
 		
 		try {
 			if(documento == null && anexo.getBytes() != null && anexo.getBytes().length != 0){

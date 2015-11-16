@@ -19,7 +19,7 @@ import ufc.quixada.npi.gp.model.enums.StatusEntrega;
 import ufc.quixada.npi.gp.model.enums.Tipo;
 
 @Entity
-public class Documento {
+public class Submissao {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -144,8 +144,8 @@ public class Documento {
 	
 	@Override
 	public boolean equals(Object obj) {
-		if(obj instanceof Documento) {
-			Documento other = (Documento) obj;
+		if(obj instanceof Submissao) {
+			Submissao other = (Submissao) obj;
 			if (other != null && other.getId() != null && this.id != null && other.getId().equals(this.id)) {
 				return true;
 			}

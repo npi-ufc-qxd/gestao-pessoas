@@ -29,8 +29,8 @@ public class AvaliacaoEstagio {
 	private String fatorRelacionamento;
 
 	@ManyToOne
-	@JoinColumn(name = "documento_id")
-	private Documento documento;
+	@JoinColumn(name = "submissao_id")
+	private Submissao submissao;
 
 	@ManyToOne
 	@JoinColumn(name = "pessoa_id")
@@ -100,12 +100,12 @@ public class AvaliacaoEstagio {
 		this.fatorRelacionamento = fatorRelacionamento;
 	}
 	
-	public Documento getDocumento() {
-		return documento;
+	public Submissao getSubmissao() {
+		return submissao;
 	}
 
-	public void setDocumento(Documento documento) {
-		this.documento = documento;
+	public void setSubmissao(Submissao submissao) {
+		this.submissao = submissao;
 	}
 	
 	public Pessoa getPessoa() {

@@ -58,4 +58,16 @@ public class LoginController {
 		return "403";
 	}	
 
+	@RequestMapping(value = "/404", method = RequestMethod.GET)
+	public String paginaInexistente(ModelMap model, Principal user) {
+		model.addAttribute("message", "Oops, página não encontrada.");
+		return "404";
+	}
+	
+	@RequestMapping(value = "/500", method = RequestMethod.GET)
+	public String erroServidor(ModelMap model, Principal user) {
+		model.addAttribute("message", "Ops, o site teve um erro técnico.");
+		return "500";
+	}
+
 }

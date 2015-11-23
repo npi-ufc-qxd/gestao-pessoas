@@ -3,6 +3,7 @@ package ufc.quixada.npi.gp.controller;
 import static ufc.quixada.npi.gp.utils.Constants.PAGINA_DECLARACAO_ESTAGIO;
 import static ufc.quixada.npi.gp.utils.Constants.PAGINA_TCE;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -10,10 +11,6 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-
-import net.sf.jasperreports.engine.JRDataSource;
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 
 import org.joda.time.LocalDate;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -28,6 +25,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import br.ufc.quixada.npi.ldap.model.Usuario;
+import br.ufc.quixada.npi.ldap.service.UsuarioService;
+import net.sf.jasperreports.engine.JRDataSource;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import ufc.quixada.npi.gp.model.Estagiario;
 import ufc.quixada.npi.gp.model.Frequencia;
 import ufc.quixada.npi.gp.model.Horario;
@@ -42,6 +44,7 @@ import ufc.quixada.npi.gp.service.HorarioService;
 import ufc.quixada.npi.gp.service.PessoaService;
 import ufc.quixada.npi.gp.service.TurmaService;
 import ufc.quixada.npi.gp.utils.Constants;
+import ufc.quixada.npi.gp.utils.UtilGestao;
 
 
 @Component
@@ -64,14 +67,36 @@ public class TurmaController {
 	@Inject
 	private HorarioService horarioService; 
 	
+	@Inject
+	private UsuarioService usuarioService; 
+	
 	private JRDataSource jrDatasource;
 
 	@RequestMapping(value = "/{idTurma}/tce", method = RequestMethod.GET)
 	public String gerarTermoDeCompromisso(@PathVariable("idTurma") Long idTurma, Model model) throws JRException {
-		jrDatasource = new JRBeanCollectionDataSource(estagiarioService.getEstagiarioByTurmaId(idTurma));
+
+		Turma turma = turmaService.find(Turma.class, idTurma);
 		
+		Usuario usuario = usuarioService.getByCpf(turma.getSupervisor().getCpf());
+		
+		jrDatasource = new JRBeanCollectionDataSource(turma.getEstagiarios());
+		
+		SimpleDateFormat dataFormatada = new SimpleDateFormat("dd/MM/yyyy");
+
+		model.addAttribute("NOME", usuario.getNome());
+		model.addAttribute("SIAPE", usuario.getSiape());
+		model.addAttribute("TELEFONE", usuario.getTelefone());
+		model.addAttribute("TELEFONE", usuario.getTelefone());
+		model.addAttribute("TURNO", UtilGestao.getTurnoExpediente(turma.getHorarios().get(0)));
+		model.addAttribute("INICIO_ESTAGIO", dataFormatada.format(turma.getInicio()));
+		model.addAttribute("FINAL_ESTAGIO", dataFormatada.format(turma.getTermino()));
 		model.addAttribute("datasource", jrDatasource);
 		model.addAttribute("format", "pdf");
+		
+		if (turma.getHorarios() != null) {
+			model = configurarExpediente(turma.getHorarios(), model);
+		}
+
 		return PAGINA_TCE;
 	}
 
@@ -275,6 +300,9 @@ public class TurmaController {
 
 		List<Frequencia> frequenciaCompleta = new ArrayList<Frequencia>();
 		if (!frequencias.isEmpty()) {
+			
+			
+			
 			frequenciaCompleta = frequenciaService.gerarFrequencia(turma.getInicio(), new LocalDate(frequencias.get(0).getData()).plusDays(-1).toDate(), turma.getHorarios());
 			frequenciaCompleta.addAll(frequencias);
 			frequenciaCompleta.addAll(frequenciaService.gerarFrequencia(new Date(), turma.getTermino(), turma.getHorarios()));
@@ -344,4 +372,26 @@ public class TurmaController {
 		}
 		return horariosAtualizados;
 	}
+	
+	private Model configurarExpediente(List<Horario> horarios, Model model) {
+		SimpleDateFormat horaFormatada = new SimpleDateFormat("HH:ss");
+
+		for (Horario horario : horarios) {
+
+			String expediente = horaFormatada.format(horario.getInicioExpediente()) + " as " + horaFormatada.format(horario.getFinalExpediente());
+
+			if (horario.getDia().equals(Dia.SEGUNDA)) {
+				model.addAttribute("EXPEDIENTE_SEGUNDA", expediente);
+			}
+			if (horario.getDia().equals(Dia.TERCA)) {
+				model.addAttribute("EXPEDIENTE_TERCA", expediente);
+			}
+			if (horario.getDia().equals(Dia.QUARTA)) {
+				model.addAttribute("EXPEDIENTE_QUARTA", expediente);
+			}
+		}
+		return model;
+		
+	}
+	
 }

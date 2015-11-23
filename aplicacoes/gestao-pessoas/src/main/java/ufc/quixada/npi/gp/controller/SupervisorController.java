@@ -9,16 +9,19 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import ufc.quixada.npi.gp.model.Estagiario;
 import ufc.quixada.npi.gp.model.Frequencia;
 import ufc.quixada.npi.gp.model.Papel;
 import ufc.quixada.npi.gp.model.Pessoa;
 import ufc.quixada.npi.gp.model.Servidor;
 import ufc.quixada.npi.gp.model.enums.StatusFrequencia;
+import ufc.quixada.npi.gp.service.EstagiarioService;
 import ufc.quixada.npi.gp.service.FrequenciaService;
 import ufc.quixada.npi.gp.service.PapelService;
 import ufc.quixada.npi.gp.service.PessoaService;
@@ -48,7 +51,10 @@ public class SupervisorController {
 	private TurmaService turmaService;
 
 	@Inject
-	private FrequenciaService frequenciaService; 
+	private FrequenciaService frequenciaService;
+	
+	@Inject
+	private EstagiarioService estagiarioService;
 
 	@RequestMapping(value = {"","/"}, method = RequestMethod.GET)
 	public String paginaInicial(Model Model, HttpSession session)  {
@@ -112,6 +118,12 @@ public class SupervisorController {
 			session.setAttribute(Constants.USUARIO_LOGADO, pessoa);
 		}
 		return (Pessoa) session.getAttribute(Constants.USUARIO_LOGADO);
+	}
+	
+	@RequestMapping(value = "/estagiario/{id}", method = RequestMethod.GET)
+	public String infoEstagiario(@PathVariable("id") Long id, Model model) {
+		model.addAttribute("estagiario", estagiarioService.find(Estagiario.class, id));
+		return "supervisor/info-estagiario";
 	}
 
 }

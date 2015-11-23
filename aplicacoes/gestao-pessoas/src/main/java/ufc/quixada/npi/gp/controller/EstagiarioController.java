@@ -7,14 +7,18 @@ import static ufc.quixada.npi.gp.utils.Constants.PAGINA_MINHA_PRESENCA;
 import static ufc.quixada.npi.gp.utils.Constants.REDIRECT_PAGINA_INICIAL_ESTAGIARIO;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
+import javax.sound.midi.Patch;
 import javax.validation.Valid;
 
+import org.apache.commons.io.FilenameUtils;
 import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -67,7 +71,7 @@ public class EstagiarioController {
 	private UsuarioService usuarioService;
 	
 	@Inject
-	private SubmissaoService documentoService;
+	private SubmissaoService submissaoService;
 
 	@RequestMapping(value = {"/",""}, method = RequestMethod.GET)
 	public String paginaInicial(Model model, HttpSession session) {
@@ -157,42 +161,28 @@ public class EstagiarioController {
 		
 		Estagiario estagiario = estagiarioService.getEstagiarioByPessoaId(pessoa.getId());
 		
-		List<Submissao> submissoes = documentoService.getSubmissoesByPessoaIdAndIdTurma(pessoa.getId(), idTurma);
+		List<Submissao> submissoes = submissaoService.getSubmissoesByPessoaIdAndIdTurma(pessoa.getId(), idTurma);
 
 		model.addAttribute("submissoes", submissoes);
+		model.addAttribute("estagiarioNome", estagiario.getNomeCompleto());
 		model.addAttribute("turma", turmaService.getTurmaByIdAndEstagiarioId(idTurma, estagiario.getId()));
 		
 		return "estagiario/info-turma";
 	}
 	
-	/*@RequestMapping(value = "/minha-documentacao", method = RequestMethod.GET)
-	public String minhaDocumentacao(HttpSession session, Model model) {
-		Pessoa pessoa = getUsuarioLogado(session);
-		
-		Estagiario estagiario = estagiarioService.getEstagiarioByPessoaId(pessoa.getId());
-		
-		List<Turma> turmas = turmaService.getTurmasByEstagiarioIdAndStatus(StatusTurma.ABERTA, estagiario.getId());
-		List<Submissao> documentos = documentoService.getDocumentosByPessoaId(pessoa.getId());
-
-		model.addAttribute("turmas", turmas);
-		model.addAttribute("documentos", documentos);
-
-		return "estagiario/minha-documentacao";
-	}*/
-	
 	@RequestMapping(value = "/minha-documentacao/turma/{idTurma}", method = RequestMethod.POST)
 	public String minhaDocumentacao(@Valid @RequestParam("anexo") MultipartFile anexo, HttpSession session, Model model, @RequestParam("tipo") Tipo tipo, @ModelAttribute("idTurma") Long idTurma ){
 		Pessoa pessoa = getUsuarioLogado(session);
 		Estagiario estagiario = estagiarioService.getEstagiarioByPessoaId(pessoa.getId());
-		Submissao newDocumento = new Submissao();
 		Turma turma = turmaService.getTurmaByIdAndEstagiarioId(idTurma, estagiario.getId());
 		
-		Submissao documento = documentoService.getSubmissaoByPessoaIdAndIdTurmaAndTipo(pessoa.getId(), idTurma, tipo);
+		Submissao submissao = submissaoService.getSubmissaoByPessoaIdAndIdTurmaAndTipo(pessoa.getId(), idTurma, tipo);
 		
 		try {
-			if(documento == null && anexo.getBytes() != null && anexo.getBytes().length != 0){
+			if(submissao == null && anexo.getBytes() != null && anexo.getBytes().length != 0 && anexo.getContentType().equals("application/pdf")){
+					Submissao newDocumento = new Submissao();
 					newDocumento.setArquivo(anexo.getBytes());
-					newDocumento.setNome(anexo.getOriginalFilename());
+					newDocumento.setNome(tipo+"_"+estagiario.getNomeCompleto().toUpperCase());
 					newDocumento.setNomeOriginal(anexo.getOriginalFilename());
 					newDocumento.setExtensao(anexo.getContentType());
 					newDocumento.setData(new Date());
@@ -201,25 +191,25 @@ public class EstagiarioController {
 					newDocumento.setTipo(tipo);
 					newDocumento.setPessoa(pessoa);
 					newDocumento.setTurma(turma);
-					documentoService.salvar(newDocumento);
-				} else if(documento.getStatusEntrega().equals(StatusEntrega.ENVIADO) && anexo.getBytes() != null && anexo.getBytes().length != 0){
-					documento.setArquivo(anexo.getBytes());
-					documento.setNome(anexo.getOriginalFilename());
-					documento.setNomeOriginal(anexo.getOriginalFilename());
-					documento.setExtensao(anexo.getContentType());
-					documento.setData(new Date());
-					documento.setHorario(new Date());
-					documento.setStatusEntrega(StatusEntrega.ENVIADO);
-					documento.setTipo(tipo);
-					documento.setPessoa(pessoa);
-					documento.setTurma(turma);
-					documentoService.update(documento);
+					submissaoService.salvar(newDocumento);
+				} else if(submissao.getStatusEntrega().equals(StatusEntrega.ENVIADO) && anexo.getBytes() != null && anexo.getBytes().length != 0 && anexo.getContentType().equals("application/pdf")){
+					submissao.setArquivo(anexo.getBytes());
+					submissao.setNome(tipo+"_"+estagiario.getNomeCompleto().toUpperCase());
+					submissao.setNomeOriginal(anexo.getOriginalFilename());
+					submissao.setExtensao(anexo.getContentType());
+					submissao.setData(new Date());
+					submissao.setHorario(new Date());
+					submissao.setStatusEntrega(StatusEntrega.ENVIADO);
+					submissao.setTipo(tipo);
+					submissao.setPessoa(pessoa);
+					submissao.setTurma(turma);
+					submissaoService.update(submissao);
 				}
 		} catch (IOException e) {
 			return "redirect:/500";
 		}
 		
-		return "redirect:/estagiario/minha-documentacao";
+		return "redirect:/estagiario/turma/" + idTurma;
 	}
 
 	@RequestMapping(value = "/minha-frequencia/turma/{idTurma}", method = RequestMethod.GET)

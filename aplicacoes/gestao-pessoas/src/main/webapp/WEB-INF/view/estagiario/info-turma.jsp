@@ -11,6 +11,9 @@
 <head>
 <jsp:include page="../modulos/header-estrutura.jsp" />
 
+<link href="<c:url value="/resources/css/jquery-filestyle.min.css" />"
+	rel="stylesheet" />
+
 <title>Informações da Turma</title>
 </head>
 <body>
@@ -18,7 +21,8 @@
 
 	<div class="container">
 		<div class="row">
-
+			<c:set var="showPlano" value="true"></c:set>
+			<c:set var="showRelatorio" value="true"></c:set>
 			<div class="panel panel-primary">
 				<div class="panel-heading">
 					<h2 class="titulo-panels">
@@ -88,138 +92,183 @@
 						</div>
 					</c:if>
 				</div>
+			</div>
 
-				<div class="panel panel-primary">
-					<div class="panel-heading">
-						<h2 class="titulo-panels">
-							<span class="fa fa-calendar"></span> Calendário
-						</h2>
-					</div>
+			<div class="panel panel-warning">
+				<div class="panel-heading">
+					<h2 class="titulo-panels">
+						<span class="fa fa-calendar"></span> Calendário
+					</h2>
+				</div>
 
-					<div class="panel-body">
+				<div class="panel-body">
 
-						<div class="form-group">
-							<table id="eventos-turma" class="table table-striped table-hover">
-								<thead>
-									<tr>
-										<th>Descrição</th>
-										<th>Início</th>
-										<th>Final</th>
-									</tr>
-								</thead>
-								<tbody class="text-view-info">
-									<tr align="justify">
-										<td>Evento Exemplo</td>
-										<td>dd/mm/dddd</td>
-										<td>dd/mm/dddd</td>
-									</tr>
-								</tbody>
-							</table>
+					<div class="form-group">
+						<table id="eventos-turma" class="table table-striped table-hover">
+							<thead>
+								<tr>
+									<th>Período</th>
+									<th>Descrição</th>
+								</tr>
+							</thead>
+							<tbody class="text-view-info">
+								<tr align="justify">
+									<td>De dd/mm/dddd à dd/mm/aaaa</td>
+									<td>Lorem ipsum dolor sit amet, rhoncus sociis dignissim,
+										sed bibendum commodo hac morbi sit non.</td>
+								</tr>
+							</tbody>
+						</table>
 
-						</div>
-					</div>
-
-					<div class="panel panel-success">
-						<div class="panel-heading">
-							<h2 class="titulo-panels">
-								<span class="fa fa-file-text-o"></span> Documentação
-							</h2>
-						</div>
-
-						<div class="panel-body">
-							<c:if test="${empty submissoes}">
-								<div class="alert alert-warning" role="alert">Nenhum
-									documento submetido.</div>
-							</c:if>
-
-							<c:if test="${not empty submissoes}">
-								<table class="table table-striped table-hover">
-									<thead>
-										<tr>
-											<th>Nome</th>
-											<th>Data</th>
-											<th>Hora</th>
-											<th>Tipo</th>
-											<th>Status</th>
-										</tr>
-									</thead>
-									<tbody class="text-view-info">
-										<c:forEach var="submissao" items="${submissoes}">
-											<c:choose>
-												<c:when test="${submissao.statusEntrega.label == 'Aceito'}">
-													<tr class="success">
-														<td>${submissao.nome}</td>
-														<td><fmt:formatDate value="${documento.data}"
-																pattern="dd/MM/yyyy" /></td>
-														<td>${submissao.horario}</td>
-														<td>${submissao.tipo.labelTipo}</td>
-														<td>${submissao.statusEntrega.label}</td>
-													</tr>
-												</c:when>
-												<c:when
-													test="${submissao.statusEntrega.label == 'Rejeitado'}">
-													<tr class="danger">
-														<td>${submissao.nome}</td>
-														<td><fmt:formatDate value="${submissao.data}"
-																pattern="dd/MM/yyyy" /></td>
-														<td>${submissao.horario}</td>
-														<td>${submissao.tipo.labelTipo}</td>
-														<td>${submissao.statusEntrega.label}</td>
-													</tr>
-												</c:when>
-												<c:otherwise>
-													<tr class="warning">
-														<td>${submissao.nome}</td>
-														<td><fmt:formatDate value="${submissao.data}"
-																pattern="dd/MM/yyyy" /></td>
-														<td>${submissao.horario}</td>
-														<td>${submissao.tipo.labelTipo}</td>
-														<td>${submissao.statusEntrega.label}</td>
-													</tr>
-												</c:otherwise>
-											</c:choose>
-										</c:forEach>
-									</tbody>
-								</table>
-							</c:if>
-						</div>
-
-						<form class="form-inline"
-							action="<c:url value="/estagiario/minha-documentacao/turma/${turma.id }"></c:url>"
-							method="POST" enctype="multipart/form-data">
-							<div class="panel-body">
-								<div class="form-group col-sm-8">
-									<label for="plano">Plano de Estágio:</label> <input type="file"
-										multiple="multiple" class="form-control filestyle" id="plano"
-										data-buttonName="btn-primary" data-size="sm"> <input
-										id="tipo" type="hidden" name="tipo"
-										value=RELATORIO_FINAL_ESTAGIO>
-
-									<button type="submit" class="btn btn-primary" value="Salvar">Submeter</button>
-								</div>
-								<div class="form-group col-sm-4">
-									<button type="button" class="btn btn-link">Template
-										Plano de Estágio</button>
-								</div>
-
-							</div>
-						</form>
-
-						<br>
 					</div>
 				</div>
+			</div>
+
+			<div class="panel panel-success">
+				<div class="panel-heading">
+					<h2 class="titulo-panels">
+						<span class="fa fa-file-text-o"></span> Documentação
+					</h2>
+				</div>
+
+				<div class="panel-body">
+					<c:if test="${empty submissoes}">
+						<div class="alert alert-warning" role="alert">Nenhum
+							documento submetido.</div>
+					</c:if>
+
+					<c:if test="${not empty submissoes}">
+						<table id="table-submissao"
+							class="table table-striped table-hover">
+							<thead>
+								<tr>
+									<th>Nome</th>
+									<th>Data</th>
+									<th>Hora</th>
+									<th>Tipo</th>
+									<th>Status</th>
+								</tr>
+							</thead>
+							<tbody class="text-view-info">
+								<c:forEach var="submissao" items="${submissoes}">
+									<c:if
+										test="${submissao.tipo.labelTipo == 'Plano de Estágio' && submissao.statusEntrega.label != 'Enviado'}">
+										<c:set var="showPlano" value="false"></c:set>
+									</c:if>
+									<c:if
+										test="${submissao.tipo.labelTipo == 'Relatório Final de Estágio' && submissao.statusEntrega.label != 'Enviado'}">
+										<c:set var="showRelatorio" value="false"></c:set>
+									</c:if>
+									<c:if test="${submissao.turma.id == turma.id}">
+										<c:choose>
+											<c:when test="${submissao.statusEntrega.label == 'Aceito'}">
+												<tr class="success">
+													<td>${submissao.nome}</td>
+													<td><fmt:formatDate value="${submissao.data}"
+															pattern="dd/MM/yyyy" /></td>
+													<td>${submissao.horario}</td>
+													<td>${submissao.tipo.labelTipo}</td>
+													<td>${submissao.statusEntrega.label}</td>
+												</tr>
+											</c:when>
+											<c:when
+												test="${submissao.statusEntrega.label == 'Rejeitado'}">
+												<tr class="danger">
+													<td>${submissao.nome}</td>
+													<td><fmt:formatDate value="${submissao.data}"
+															pattern="dd/MM/yyyy" /></td>
+													<td>${submissao.horario}</td>
+													<td>${submissao.tipo.labelTipo}</td>
+													<td>${submissao.statusEntrega.label}</td>
+												</tr>
+											</c:when>
+											<c:otherwise>
+												<tr class="warning">
+													<td>${submissao.nome}</td>
+													<td><fmt:formatDate value="${submissao.data}"
+															pattern="dd/MM/yyyy" /></td>
+													<td>${submissao.horario}</td>
+													<td>${submissao.tipo.labelTipo}</td>
+													<td>${submissao.statusEntrega.label}</td>
+												</tr>
+											</c:otherwise>
+										</c:choose>
+									</c:if>
+								</c:forEach>
+							</tbody>
+						</table>
+					</c:if>
+				</div>
+
+				<c:if test="${showPlano}">
+					<form class="form-inline"
+						action="<c:url value="/estagiario/minha-documentacao/turma/${turma.id }"></c:url>"
+						method="POST" enctype="multipart/form-data">
+						<div class="panel-body">
+							<div class="form-group col-sm-8">
+								<label class="col-sm-3" for="plano">Plano de Estágio:</label> <input
+									name="anexo" type="file" multiple="multiple"
+									class="form-control filestyle"
+									data-buttonText=" Escolher arquivo" data-size="sm"
+									data-buttonName="btn-primary" id="plano"
+									accept="application/pdf"> <input id="tipo"
+									type="hidden" name="tipo" value=PLANO_ESTAGIO>
+
+								<button type="submit" class="btn btn-primary btn-sm"
+									value="Salvar">Submeter</button>
+							</div>
+							<div class="form-group col-sm-4">
+								<button type="button" class="btn btn-link btn-sm">Template
+									Plano de Estágio</button>
+							</div>
+						</div>
+					</form>
+				</c:if>
+				<c:if test="${showRelatorio}">
+					<form class="form-inline"
+						action="<c:url value="/estagiario/minha-documentacao/turma/${turma.id }"></c:url>"
+						method="POST" enctype="multipart/form-data">
+						<div class="panel-body">
+							<div class="form-group col-sm-8">
+								<label class="col-sm-3" for="relatorio">Relatório Final
+									de Estágio:</label> <input name=anexo type="file" multiple="multiple"
+									class="form-control filestyle"
+									data-buttonText=" Escolher arquivo" data-size="sm"
+									data-buttonName="btn-primary" id="relatorio"> <input
+									id="tipo" type="hidden" name="tipo"
+									value=RELATORIO_FINAL_ESTAGIO>
+
+								<button type="submit" class="btn btn-primary btn-sm"
+									value="Salvar">Submeter</button>
+							</div>
+							<div class="form-group col-sm-4">
+								<button type="button" class="btn btn-link btn-sm">Template
+									Relatório Final de Estágio</button>
+							</div>
+						</div>
+					</form>
+				</c:if>
+
+				<br>
 			</div>
 		</div>
 	</div>
 	<br>
 	<br>
+	<br>
 	<jsp:include page="../modulos/footer.jsp" />
-
 
 	<script
 		src="<c:url value="/webjars/bootstrap-filestyle/1.1.2/bootstrap-filestyle.js" />"></script>
+
 	<script type="text/javascript">
-		$(".menu #turmas").addClass("active");
+		$('#table-submissao').DataTable({
+			"paging" : false,
+			"info" : false,
+			"language" : ptBR,
+			"bInfo" : false,
+			"bFilter" : false,
+		});
 	</script>
 </body>
 </html>

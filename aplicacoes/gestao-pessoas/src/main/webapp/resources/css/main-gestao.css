@@ -25,6 +25,7 @@ a {
 }
 .footer-height {
 	height: 50px;
+	z-index: 999;
 }
 
 .secao-form-h4 {
@@ -114,6 +115,12 @@ h1, .h1, h2, .h2, h3, .h3 {
     color: #43ac6a;
     background-color: #EDEDED;
     border-bottom: 4px solid #43ac6a;
+}
+
+.panel-warning>.panel-heading {
+    color: #f0ad4e;
+    background-color: #EDEDED;
+    border-bottom: 4px solid #f0ad4e;
 }
 
 .panel-info>.panel-heading {

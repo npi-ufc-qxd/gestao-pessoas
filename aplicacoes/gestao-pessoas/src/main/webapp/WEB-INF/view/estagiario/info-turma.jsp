@@ -102,25 +102,8 @@
 				</div>
 
 				<div class="panel-body">
-
-					<div class="form-group">
-						<table id="eventos-turma" class="table table-striped table-hover">
-							<thead>
-								<tr>
-									<th>Período</th>
-									<th>Descrição</th>
-								</tr>
-							</thead>
-							<tbody class="text-view-info">
-								<tr align="justify">
-									<td>De dd/mm/dddd à dd/mm/aaaa</td>
-									<td>Lorem ipsum dolor sit amet, rhoncus sociis dignissim,
-										sed bibendum commodo hac morbi sit non.</td>
-								</tr>
-							</tbody>
-						</table>
-
-					</div>
+					<div class="alert alert-warning" role="alert">Nenhum evento
+						cadastrado.</div>
 				</div>
 			</div>
 

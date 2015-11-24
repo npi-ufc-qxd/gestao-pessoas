@@ -51,11 +51,16 @@ public class UtilGestao {
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(horario.getInicioExpediente());
 
-		if (calendar.HOUR >= 6 && calendar.HOUR < 12) {
+		int hora = calendar.get(Calendar.HOUR_OF_DAY); 
+
+		if (hora >= 6 && hora < 12) {
 			return "MANHA";
 		}
-		else if (calendar.HOUR > 12 && calendar.HOUR < 18) {
+		else if (hora >= 12 && hora < 18) {
 			return "TARDE";
+		}
+		else if (hora >= 18 && hora < 24) {
+			return "NOITE";
 		}
 		
 		return "";

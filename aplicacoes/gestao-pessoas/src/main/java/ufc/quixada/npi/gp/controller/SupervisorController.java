@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import br.ufc.quixada.npi.ldap.service.UsuarioService;
 import ufc.quixada.npi.gp.model.Frequencia;
 import ufc.quixada.npi.gp.model.Papel;
 import ufc.quixada.npi.gp.model.Pessoa;
@@ -25,7 +26,6 @@ import ufc.quixada.npi.gp.service.PessoaService;
 import ufc.quixada.npi.gp.service.ServidorService;
 import ufc.quixada.npi.gp.service.TurmaService;
 import ufc.quixada.npi.gp.utils.Constants;
-import br.ufc.quixada.npi.ldap.service.UsuarioService;
 
 @Component
 @Controller
@@ -49,7 +49,7 @@ public class SupervisorController {
 
 	@Inject
 	private FrequenciaService frequenciaService; 
-
+	
 	@RequestMapping(value = {"","/"}, method = RequestMethod.GET)
 	public String paginaInicial(Model Model, HttpSession session)  {
 
@@ -79,6 +79,8 @@ public class SupervisorController {
 
 		return "supervisor/list-turmas";
 	}
+	
+	//@RequestMapping(value = "/")
 
 	@RequestMapping(value = "/frequencia/realizar-observacao", method = RequestMethod.POST)
 	public String frequenciaObservar(@RequestParam("pk") Long idFrequencia, @RequestParam("value") String observacao, Model model) {
@@ -105,6 +107,8 @@ public class SupervisorController {
 
 		return "";
 	}
+	
+	
 
 	private Pessoa getUsuarioLogado(HttpSession session) {
 		if (session.getAttribute(Constants.USUARIO_LOGADO) == null) {
@@ -114,4 +118,6 @@ public class SupervisorController {
 		return (Pessoa) session.getAttribute(Constants.USUARIO_LOGADO);
 	}
 
+	
+	
 }

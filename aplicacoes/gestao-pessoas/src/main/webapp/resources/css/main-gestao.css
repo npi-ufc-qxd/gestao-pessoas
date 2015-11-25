@@ -116,6 +116,12 @@ h1, .h1, h2, .h2, h3, .h3 {
     border-bottom: 4px solid #43ac6a;
 }
 
+.panel-warning>.panel-heading {
+    color: #f0ad4e;
+    background-color: #EDEDED;
+    border-bottom: 4px solid #eea236;
+}
+
 .panel-info>.panel-heading {
     color: #5bc0de;
     background-color: #EDEDED;

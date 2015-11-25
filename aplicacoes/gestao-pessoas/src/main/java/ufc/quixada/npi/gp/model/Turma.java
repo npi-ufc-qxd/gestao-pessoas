@@ -69,6 +69,17 @@ public class Turma {
 	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(name = "turmas_estagiarios")
 	private List<Estagiario> estagiarios;
+	
+	@OneToMany(mappedBy = "turma")
+	private List<Evento> eventos;
+
+	public List<Evento> getEventos() {
+		return eventos;
+	}
+
+	public void setEventos(List<Evento> eventos) {
+		this.eventos = eventos;
+	}
 
 	public StatusTurma getStatusTurma() {
 		return statusTurma;

@@ -57,11 +57,13 @@
         <constructor-arg ref="ldapOu" />
     </bean>
 
+	<bean id="genericServiceImpl" class="br.ufc.quixada.npi.service.impl.GenericServiceImpl"></bean>
+
 	<tx:annotation-driven transaction-manager="txManager" proxy-target-class="true" />
 
 	<context:annotation-config />
 
-	<context:component-scan base-package="br.ufc.quixada.npi.service.impl.GenericServiceImpl" />
+	<context:component-scan base-package="br.ufc.quixada.npi.service.genericservice" />
 	<context:component-scan base-package="br.ufc.quixada.npi.repository.*" />
 	<context:component-scan base-package="br.ufc.quixada.npi.enumeration" />
 	<context:component-scan base-package="br.ufc.quixada.npi.ldap.*" />

@@ -44,7 +44,7 @@
 			</c:if>
 		</div>
 	</div>
-	
+
 	<div class="panel panel-info">
 		<div class="panel-heading">
 			<h2 class="titulo-panels"><span class="fa fa-clock-o"></span> Expediente</h2>
@@ -86,7 +86,44 @@
 			</c:if>
 		</div>
 	</div>
-	
+		<!-- Início Eventos -->
+	<div class="panel panel-warning">
+		<div class="panel-heading">
+			<h2 class="titulo-panels"><span class="fa fa-calendar"></span> Eventos</h2>
+			
+			<div class="pull-right">
+				<a href="<c:url value="/supervisor/turma/${turma.id}/evento" />" title="Atualizar Evento" class="btn btn-warning"><span class="fa fa-refresh"></span> calendário</a>
+			</div>
+		</div>
+		
+		<div class="panel-body">
+			<!-- lembrar de fazer os testes -->
+			<div class="form-group">
+					<label class="col-sm-12 text-view-info"><strong>Calendário de Eventos</strong></label>
+				
+					<table id="eventos-turma" class="table table-striped table-hover">
+						<thead>
+							<tr>
+								<th>Período</th>
+								<th>Descrição</th>								
+				           </tr>
+				       </thead>
+				       <tbody class="text-view-info">
+							<c:forEach var="horario" items="${turma.horarios}" varStatus="indice">
+								<tr align="justify">
+									<td>De 00/00/0000 a 00/00/0000 </td>
+									<td>Teste descrição! Teste descrição! Teste descrição!</td>
+								</tr>
+							</c:forEach>
+				       </tbody>
+			       </table>
+					
+				</div>
+			
+		</div>
+		
+	</div>
+	<!-- Término Evento -->
 	<div class="panel panel-success">
 		<div class="panel-heading">
 			<h2 class="titulo-panels"><span class="fa fa-group"></span> Estagiários</h2>

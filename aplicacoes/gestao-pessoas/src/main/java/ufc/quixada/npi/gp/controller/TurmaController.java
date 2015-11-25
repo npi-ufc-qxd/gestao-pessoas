@@ -27,10 +27,12 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import br.ufc.quixada.npi.ldap.model.Usuario;
 import br.ufc.quixada.npi.ldap.service.UsuarioService;
+import br.ufc.quixada.npi.service.GenericService;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import ufc.quixada.npi.gp.model.Estagiario;
+import ufc.quixada.npi.gp.model.Evento;
 import ufc.quixada.npi.gp.model.Frequencia;
 import ufc.quixada.npi.gp.model.Horario;
 import ufc.quixada.npi.gp.model.Pessoa;
@@ -46,41 +48,43 @@ import ufc.quixada.npi.gp.service.TurmaService;
 import ufc.quixada.npi.gp.utils.Constants;
 import ufc.quixada.npi.gp.utils.UtilGestao;
 
-
 @Component
 @Controller
 @RequestMapping("supervisor/turma")
 public class TurmaController {
-	
+
 	@Inject
 	private PessoaService pessoaService;
-	
+
 	@Inject
 	private EstagiarioService estagiarioService;
-	
+
 	@Inject
 	private TurmaService turmaService;
 
 	@Inject
 	private FrequenciaService frequenciaService;
+
+	@Inject
+	private HorarioService horarioService;
+
+	@Inject
+	private UsuarioService usuarioService;
 	
 	@Inject
-	private HorarioService horarioService; 
-	
-	@Inject
-	private UsuarioService usuarioService; 
-	
+	private GenericService<Evento> eventoService;
+
 	private JRDataSource jrDatasource;
 
 	@RequestMapping(value = "/{idTurma}/tce", method = RequestMethod.GET)
 	public String gerarTermoDeCompromisso(@PathVariable("idTurma") Long idTurma, Model model) throws JRException {
 
 		Turma turma = turmaService.find(Turma.class, idTurma);
-		
+
 		Usuario usuario = usuarioService.getByCpf(turma.getSupervisor().getCpf());
-		
+
 		jrDatasource = new JRBeanCollectionDataSource(turma.getEstagiarios());
-		
+
 		SimpleDateFormat dataFormatada = new SimpleDateFormat("dd/MM/yyyy");
 
 		model.addAttribute("NOME", usuario.getNome());
@@ -92,7 +96,7 @@ public class TurmaController {
 		model.addAttribute("FINAL_ESTAGIO", dataFormatada.format(turma.getTermino()));
 		model.addAttribute("datasource", jrDatasource);
 		model.addAttribute("format", "pdf");
-		
+
 		if (turma.getHorarios() != null) {
 			model = configurarExpediente(turma.getHorarios(), model);
 		}
@@ -101,9 +105,9 @@ public class TurmaController {
 	}
 
 	@RequestMapping(value = "/{idTurma}/declaracoes", method = RequestMethod.GET)
-	public String gerarDeclaracaoEstagio( Model model, @PathVariable("idTurma") Long idTurma) throws JRException {
+	public String gerarDeclaracaoEstagio(Model model, @PathVariable("idTurma") Long idTurma) throws JRException {
 		jrDatasource = new JRBeanCollectionDataSource(estagiarioService.getEstagiarioByTurmaId(idTurma));
-		
+
 		model.addAttribute("datasource", jrDatasource);
 		model.addAttribute("format", "pdf");
 		return PAGINA_DECLARACAO_ESTAGIO;
@@ -117,14 +121,15 @@ public class TurmaController {
 
 		model.addAttribute("turma", turma);
 		model.addAttribute("dias", Dia.values());
-		
+
 		return "supervisor/form-turma";
 	}
 
 	@RequestMapping(value = "/adicionar", method = RequestMethod.POST)
-	public String adicionarTurma(Model model, @Valid @ModelAttribute("turma") Turma turma,  BindingResult result, HttpSession session, RedirectAttributes redirect) {
+	public String adicionarTurma(Model model, @Valid @ModelAttribute("turma") Turma turma, BindingResult result,
+			HttpSession session, RedirectAttributes redirect) {
 		model.addAttribute("action", "cadastrar");
-		
+
 		turma.setHorarios(atualizarHorarios(turma));
 
 		if (result.hasErrors()) {
@@ -133,15 +138,15 @@ public class TurmaController {
 		}
 
 		Pessoa pessoa = getUsuarioLogado(session);
-		
+
 		turma.setSupervisor(pessoa);
 		turmaService.save(turma);
-		
+
 		redirect.addFlashAttribute("success", "Turma cadastrada com sucesso.");
 
 		return "redirect:/supervisor/turmas";
 	}
-	
+
 	@RequestMapping(value = "/{idTurma}/editar", method = RequestMethod.GET)
 	public String paginaEditarTurma(@PathVariable("idTurma") Long idTurma, Model model, HttpSession session) {
 		model.addAttribute("action", "editar");
@@ -155,7 +160,8 @@ public class TurmaController {
 	}
 
 	@RequestMapping(value = "/{idTurma}/editar", method = RequestMethod.POST)
-	public String editarTurma(Model model, @Valid @ModelAttribute("turma") Turma turma,  BindingResult result, HttpSession session) {
+	public String editarTurma(Model model, @Valid @ModelAttribute("turma") Turma turma, BindingResult result,
+			HttpSession session) {
 
 		model.addAttribute("action", "editar");
 
@@ -163,10 +169,10 @@ public class TurmaController {
 			model.addAttribute("dias", Dia.values());
 			return "supervisor/form-turma";
 		}
-		
+
 		Pessoa pessoa = getUsuarioLogado(session);
 		Turma turmaDoBanco = turmaService.getTurmaByIdAndSupervisorById(turma.getId(), pessoa.getId());
-		
+
 		turmaDoBanco.setNome(turma.getNome());
 		turmaDoBanco.setStatusTurma(turma.getStatusTurma());
 		turmaDoBanco.setAno(turma.getAno());
@@ -188,48 +194,79 @@ public class TurmaController {
 
 		return "supervisor/info-turma";
 	}
-	
+
 	@RequestMapping(value = "/{idTurma}/horarios", method = RequestMethod.GET)
 	public String paginaExpedienteTurma(Model model, @ModelAttribute("idTurma") Long idTurma) {
 
 		model.addAttribute("dias", Dia.values());
 		model.addAttribute("horario", new Horario());
 		model.addAttribute("turma", turmaService.find(Turma.class, idTurma));
-		
+
 		return "supervisor/form-horario";
 	}
 	
 	@RequestMapping(value = "/{idTurma}/horario", method = RequestMethod.POST)
-	public String paginaExpediente(Model model, @Valid @ModelAttribute("horario") Horario horario, @ModelAttribute("idTurma") Long idTurma, BindingResult result, HttpSession session, RedirectAttributes redirect) {
+	public String paginaExpediente(Model model, @Valid @ModelAttribute("horario") Horario horario,
+			@ModelAttribute("idTurma") Long idTurma, BindingResult result, HttpSession session,
+			RedirectAttributes redirect) {
 
 		if (result.hasErrors()) {
 			model.addAttribute("dias", Dia.values());
 			return "supervisor/form-horario";
 		}
-		
+
 		Pessoa supervisor = getUsuarioLogado(session);
 		Turma turma = turmaService.getTurmaByIdAndSupervisorById(idTurma, supervisor.getId());
 		horario.setTurma(turma);
 
 		horarioService.save(horario);
-		
+
 		redirect.addFlashAttribute("success", "Horário cadastrado com sucesso.");
 
-		return "redirect:/supervisor/turma/"+ idTurma +"/horarios";
+		return "redirect:/supervisor/turma/" + idTurma + "/horarios";
 	}
 
 	@RequestMapping(value = "/{idTurma}/horario/{idHorario}/excluir", method = RequestMethod.GET)
-	public String excluirExpediente(Model model, @ModelAttribute("idHorario") Long idHorario, @ModelAttribute("idTurma") Long idTurma, BindingResult result, HttpSession session, RedirectAttributes redirect) {
+	public String excluirExpediente(Model model, @ModelAttribute("idHorario") Long idHorario,
+			@ModelAttribute("idTurma") Long idTurma, BindingResult result, HttpSession session,
+			RedirectAttributes redirect) {
 
 		horarioService.delete(horarioService.find(Horario.class, idHorario));
-		
+
 		redirect.addFlashAttribute("success", "Horário excluído com sucesso.");
 
-		return "redirect:/supervisor/turma/"+ idTurma +"/horarios";
+		return "redirect:/supervisor/turma/" + idTurma + "/horarios";
 	}
 	
+	@RequestMapping(value = "/{idTurma}/evento", method = RequestMethod.GET)
+	public String paginaEventosTurma(Model model, @ModelAttribute("idTurma") Long idTurma) {
+
+		model.addAttribute("dias", Dia.values());
+		model.addAttribute("horario", new Horario());
+		model.addAttribute("turma", turmaService.find(Turma.class, idTurma));
+
+		return "supervisor/form-evento";
+	}
+	
+	@RequestMapping(value = "/{idTurma}/evento", method = RequestMethod.POST)
+	public String adicionarEventosTurma(Model model, @Valid @ModelAttribute("eventos") Evento evento,
+			@ModelAttribute ("idTurma") Long idTurma, BindingResult result, HttpSession session,
+			RedirectAttributes redirect){
+		Pessoa supervisor = getUsuarioLogado(session);
+		Turma turma = turmaService.getTurmaByIdAndSupervisorById(idTurma, supervisor.getId());
+		evento.setTurma(turma);
+		
+		eventoService.save(evento);
+		
+		redirect.addFlashAttribute("sucess", "Evento cadastrado com sucesso.");
+		
+		return "redirect:/supervisor/turmas";
+	}
+	
+	//ADICIONAR AQUI
+
 	@RequestMapping(value = "/{id}/vincular", method = RequestMethod.GET)
-	public String paginaVincularEstagiarioTurma(Model model, HttpSession session, @PathVariable("id") Long idTurma)  {
+	public String paginaVincularEstagiarioTurma(Model model, HttpSession session, @PathVariable("id") Long idTurma) {
 		Pessoa pessoa = getUsuarioLogado(session);
 
 		model.addAttribute("turma", turmaService.getTurmaByIdAndSupervisorById(idTurma, pessoa.getId()));
@@ -240,14 +277,15 @@ public class TurmaController {
 	}
 
 	@RequestMapping(value = "/{id}/vincular", method = RequestMethod.POST)
-	public String atualizarVinculoEstagiarioTurma(Model model, HttpSession session, @ModelAttribute("turma") Turma turma)  {
+	public String atualizarVinculoEstagiarioTurma(Model model, HttpSession session,
+			@ModelAttribute("turma") Turma turma) {
 		Pessoa pessoa = getUsuarioLogado(session);
-		
+
 		Turma turmaDoBanco = turmaService.getTurmaByIdAndSupervisorById(turma.getId(), pessoa.getId());
-		
+
 		List<Estagiario> estagiariosSelecionados = new ArrayList<Estagiario>();
-		
-		if(turma.getEstagiarios() != null) {
+
+		if (turma.getEstagiarios() != null) {
 			estagiariosSelecionados = getEstagiariosSelecionados(turma.getEstagiarios());
 			estagiariosSelecionados = atualizarTurmaEstagiarios(estagiariosSelecionados, turmaDoBanco);
 		}
@@ -276,7 +314,8 @@ public class TurmaController {
 	}
 
 	@RequestMapping(value = "/{idTurma}/frequencias", method = RequestMethod.POST)
-	public String listarFrequenciaTurmaData(@PathVariable("idTurma") Long idTurma, @RequestParam("data") Date data, Model model, HttpSession session) {
+	public String listarFrequenciaTurmaData(@PathVariable("idTurma") Long idTurma, @RequestParam("data") Date data,
+			Model model, HttpSession session) {
 		Pessoa pessoa = getUsuarioLogado(session);
 
 		List<Frequencia> frequencias = frequenciaService.getFrequenciasByTurmaIdAndData(data, idTurma);
@@ -288,27 +327,29 @@ public class TurmaController {
 
 		return "supervisor/list-frequencias";
 	}
-	
+
 	@RequestMapping(value = "/{idTurma}/estagiario/{idEstagiario}/frequencia", method = RequestMethod.GET)
-	public String minhaPresenca(HttpSession session, Model model, @PathVariable("idTurma") Long idTurma, @PathVariable("idEstagiario") Long idEstagiario) {
+	public String minhaPresenca(HttpSession session, Model model, @PathVariable("idTurma") Long idTurma,
+			@PathVariable("idEstagiario") Long idEstagiario) {
 
 		Estagiario estagiario = estagiarioService.find(Estagiario.class, idEstagiario);
-		
+
 		Turma turma = turmaService.find(Turma.class, idTurma);
 
-		List<Frequencia> frequencias = frequenciaService.getFrequenciasByEstagiarioId(estagiario.getId(), turma.getId());
+		List<Frequencia> frequencias = frequenciaService.getFrequenciasByEstagiarioId(estagiario.getId(),
+				turma.getId());
 
 		List<Frequencia> frequenciaCompleta = new ArrayList<Frequencia>();
 		if (!frequencias.isEmpty()) {
-			
-			
-			
-			frequenciaCompleta = frequenciaService.gerarFrequencia(turma.getInicio(), new LocalDate(frequencias.get(0).getData()).plusDays(-1).toDate(), turma.getHorarios());
+
+			frequenciaCompleta = frequenciaService.gerarFrequencia(turma.getInicio(),
+					new LocalDate(frequencias.get(0).getData()).plusDays(-1).toDate(), turma.getHorarios());
 			frequenciaCompleta.addAll(frequencias);
-			frequenciaCompleta.addAll(frequenciaService.gerarFrequencia(new Date(), turma.getTermino(), turma.getHorarios()));
-		}
-		else {
-			frequenciaCompleta = frequenciaService.gerarFrequencia(turma.getInicio(), turma.getTermino(), turma.getHorarios());
+			frequenciaCompleta
+					.addAll(frequenciaService.gerarFrequencia(new Date(), turma.getTermino(), turma.getHorarios()));
+		} else {
+			frequenciaCompleta = frequenciaService.gerarFrequencia(turma.getInicio(), turma.getTermino(),
+					turma.getHorarios());
 		}
 
 		DadoConsolidado dadosConsolidados = frequenciaService.calcularDadosConsolidados(frequencias);
@@ -316,14 +357,15 @@ public class TurmaController {
 		model.addAttribute("estagiario", estagiario);
 		model.addAttribute("turma", turma);
 		model.addAttribute("frequencias", frequenciaCompleta);
-		model.addAttribute("dadosConsolidados", dadosConsolidados);		
-		
+		model.addAttribute("dadosConsolidados", dadosConsolidados);
+
 		return "supervisor/list-frequencia-estagiario";
 	}
 
 	private Pessoa getUsuarioLogado(HttpSession session) {
 		if (session.getAttribute(Constants.USUARIO_LOGADO) == null) {
-			Pessoa pessoa = pessoaService.getPessoaByCpf(SecurityContextHolder.getContext().getAuthentication().getName());
+			Pessoa pessoa = pessoaService
+					.getPessoaByCpf(SecurityContextHolder.getContext().getAuthentication().getName());
 			session.setAttribute(Constants.USUARIO_LOGADO, pessoa);
 		}
 		return (Pessoa) session.getAttribute(Constants.USUARIO_LOGADO);
@@ -333,7 +375,7 @@ public class TurmaController {
 		List<Estagiario> estagiariosSelecionados = new ArrayList<Estagiario>();
 
 		for (Estagiario estagiario : estagiarios) {
-			if(estagiario.getId() != null){
+			if (estagiario.getId() != null) {
 				estagiario = estagiarioService.find(Estagiario.class, estagiario.getId());
 
 				estagiariosSelecionados.add(estagiario);
@@ -345,8 +387,8 @@ public class TurmaController {
 
 	private List<Estagiario> atualizarTurmaEstagiarios(List<Estagiario> estagiarios, Turma turma) {
 		for (Estagiario estagiario : estagiarios) {
-			if(estagiario.getTurmas() != null) {
-				if(!estagiario.getTurmas().contains(turma)){
+			if (estagiario.getTurmas() != null) {
+				if (!estagiario.getTurmas().contains(turma)) {
 					estagiario.getTurmas().add(turma);
 				}
 			} else {
@@ -360,25 +402,26 @@ public class TurmaController {
 
 	private List<Horario> atualizarHorarios(Turma turma) {
 		List<Horario> horariosAtualizados = new ArrayList<Horario>();
-		
-		if(turma.getHorarios() == null){
+
+		if (turma.getHorarios() == null) {
 			return null;
 		}
 
 		for (Horario horario : turma.getHorarios()) {
-			if(horario.getDia() != null) {
+			if (horario.getDia() != null) {
 				horariosAtualizados.add(horario);
 			}
 		}
 		return horariosAtualizados;
 	}
-	
+
 	private Model configurarExpediente(List<Horario> horarios, Model model) {
 		SimpleDateFormat horaFormatada = new SimpleDateFormat("HH:ss");
 
 		for (Horario horario : horarios) {
 
-			String expediente = horaFormatada.format(horario.getInicioExpediente()) + " as " + horaFormatada.format(horario.getFinalExpediente());
+			String expediente = horaFormatada.format(horario.getInicioExpediente()) + " as "
+					+ horaFormatada.format(horario.getFinalExpediente());
 
 			if (horario.getDia().equals(Dia.SEGUNDA)) {
 				model.addAttribute("EXPEDIENTE_SEGUNDA", expediente);
@@ -391,7 +434,7 @@ public class TurmaController {
 			}
 		}
 		return model;
-		
+
 	}
-	
+
 }

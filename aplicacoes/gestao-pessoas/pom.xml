@@ -48,7 +48,7 @@
 		<dandelion.datatables.version>0.9.3</dandelion.datatables.version>
 		
 		<!-- NPI -->
-		<npi.core.version>0.1.0</npi.core.version>
+		<npi.core.version>0.1.1</npi.core.version>
 		<npi.ldap.version>0.1</npi.ldap.version>
 
 	</properties>

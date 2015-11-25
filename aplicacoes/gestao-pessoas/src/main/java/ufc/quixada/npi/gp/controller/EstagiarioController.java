@@ -150,16 +150,6 @@ public class EstagiarioController {
 			
 			List<Frequencia> frequencias = frequenciaService.getFrequenciasByEstagiarioId(estagiario.getId(), turma.getId());
 
-//			List<Frequencia> frequenciaCompleta = new ArrayList<Frequencia>();
-//			if (!frequencias.isEmpty()) {
-//				frequenciaCompleta = frequenciaService.gerarFrequencia(turma.getInicio(), new LocalDate(frequencias.get(0).getData()).plusDays(-1).toDate(), turma.getHorarios());
-//				frequenciaCompleta.addAll(frequencias);
-//				frequenciaCompleta.addAll(frequenciaService.gerarFrequencia(new Date(), turma.getTermino(), turma.getHorarios()));
-//			}
-//			else {
-//				frequenciaCompleta = frequenciaService.gerarFrequencia(turma.getInicio(), turma.getTermino(), turma.getHorarios());
-//			}			
-
 			DadoConsolidado dadosConsolidados = frequenciaService.calcularDadosConsolidados(frequencias);
 
 			model.addAttribute("frequencias", frequencias);

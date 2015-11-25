@@ -105,7 +105,6 @@ public class FrequenciaServiceImpl extends GenericServiceImpl<Frequencia> implem
 	@Transactional
 	public void atualizarStatus() {
 		Map<String, Object> params = new HashMap<String, Object>();
-//		params.put("status", StatusFrequencia.AGUARDO);
 		params.put("statusAtualizado", StatusFrequencia.FALTA);
 		
 		frequenciaRepository.updateStatus("update Frequencia f set statusFrequencia ='FALTA' where f.data = CURRENT_DATE and f.statusFrequencia = 'AGUARDO' ", params);

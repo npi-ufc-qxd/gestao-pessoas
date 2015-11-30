@@ -58,8 +58,8 @@
 							<tr class="danger">
 								<td><fmt:formatDate type="time" pattern="HH:mm:ss" value="${dataAtual}" /></td>
 								<td>${estagiario.nomeCompleto}</td>
-<!-- 								<td><a href="#" class="observacaoFrequencia" title="Realizar observação" data-pk=""></a></td> -->
-<!-- 								<td><a href="#" class="statusFrequencia" title="Atualizar status" data-pk=""></a></td> -->
+								<td></td>
+								<td></td>
 							</tr>
 						</c:forEach>
 			       </tbody>

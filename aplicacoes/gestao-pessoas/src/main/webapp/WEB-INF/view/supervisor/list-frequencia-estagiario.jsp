@@ -28,8 +28,13 @@
 				<a title="Voltar" class="btn btn-primary back"><span class="fa fa-arrow-circle-o-left"></span> Voltar</a>
 			</div>
 		</div>
-	
+
 		<div class="panel-body">
+			<c:if test="${not empty sucesso}"><div class="alert alert-success msg"><i class="fa fa-info-circle"> </i> ${sucesso}</div></c:if>
+	
+			<c:if test="${not empty error}"><div class="alert alert-warning msg"><i class="fa fa-info-circle"> </i> ${error}</div></c:if>
+			
+			<br>
 	
 			<div class="form-group">
 				<label class="col-sm-2 text-view-info"><strong>Turma: </strong></label><label class="col-sm-2 text-view-info">${turma.nome}</label>
@@ -46,9 +51,59 @@
 		
 				<label class="col-sm-2 text-view-info"><strong>Faltas: </strong></label><label class="col-sm-2 text-view-info">${dadosConsolidados.faltas}</label>
 			</div><br><br>
-	
-			<c:if test="${not empty message}"><div class="alert alert-info msg"><i class="fa fa-info-circle"> </i> ${message}</div></c:if>
+			
+			<div class="col-sm-12">
+				<c:forEach var="frequencia" items="${frequencias}">
+				<fmt:formatDate var="dataFrequencia" pattern="yyyy-MM-dd" value="${frequencia.data}" />
+				<fmt:formatDate var="today" value="${dataAtual}" pattern="yyyy-MM-dd" />
+				<c:if test="${frequencia.statusFrequencia == null and dataFrequencia < today}">
+					<form action="<c:url value="/supervisor/estagiario/${estagiario.id}/turma/${turma.id}/frequencia/pendente"></c:url>" method="POST" class="form-inline">
+				    <h5 class=""><strong>&nbsp;<span class="label label-warning">Pendente</span>&nbsp;&nbsp;<fmt:formatDate value="${frequencia.data}" pattern="E" />, <fmt:formatDate value="${frequencia.data}" pattern="dd/MM/yyyy" /></strong></h5>
+					 <div class="form-group">
+					    <input type="hidden" name="data" class="form-control" value="<fmt:formatDate value="${frequencia.data}" pattern="MM/dd/yyyy" />">
+					  </div>
+					  <div class="form-group">
+					    <label class="sr-only">Observação</label>
+					    <textarea class="form-control" rows="1" cols="106" name="observacao" placeholder="Observação"></textarea>
+					  </div>
+					  <div class="form-group">
+					    <label class="sr-only" >Status</label>
+						<select class="form-control" name="statusFrequencia">
+							<c:forEach var="status" items="${statusFrequencias}">
+								<option value="${status}">${status}</option>
+							</c:forEach>
+						</select>
+					  </div>
+					  <button type="submit" class="btn btn-warning">Lançar</button>
+					</form>
+				</c:if>
 
+				<c:if test="${frequencia.statusFrequencia == null and dataFrequencia == today}">
+					<form action="<c:url value="/supervisor/estagiario/${estagiario.id}/turma/${turma.id}/frequencia/pendente"></c:url>" method="POST" class="form-inline">
+				    <h5 class=""><strong>&nbsp;<span class="label label-primary">Presença de Hoje</span>&nbsp;&nbsp;<fmt:formatDate value="${frequencia.data}" pattern="EEEE" />, <fmt:formatDate value="${frequencia.data}" pattern="dd/MM/yyyy" /></strong></h5>
+					 <div class="form-group">
+					    <input type="hidden" name="data" class="form-control" value="<fmt:formatDate value="${frequencia.data}" pattern="MM/dd/yyyy" />">
+					  </div>
+					  <div class="form-group">
+					    <label class="sr-only">Observação</label>
+					    <textarea class="form-control" rows="1" cols="106" name="observacao" placeholder="Observação"></textarea>
+					  </div>
+					  <div class="form-group">
+					    <label class="sr-only" >Status</label>
+						<select class="form-control" name="statusFrequencia">
+							<c:forEach var="status" items="${statusFrequencias}">
+								<option value="${status}">${status}</option>
+							</c:forEach>
+						</select>
+					  </div>
+					  <button type="submit" class="btn btn-primary">Lançar</button>
+					</form>
+				</c:if>
+			</c:forEach>	
+		</div>
+
+		<div class="col-sm-12">
+			<h3>Frequências</h3>
 			<table id="table-frequencias" class="table table-striped table-hover">
 				<thead>
 					<tr>
@@ -58,29 +113,32 @@
 					</tr>
 		       </thead>
 		       <tbody class="text-view-info">
-					<c:forEach var="frequencia" items="${frequencias}">
-				        <c:choose>
-				            <c:when test="${frequencia.statusFrequencia != 'AGUARDO'}">
+		       		 <fmt:formatDate var="dataAtual" pattern="yyyy-MM-dd" value="${dataAtual}" />
+      				 <c:forEach var="frequencia" items="${frequencias}">
+							<c:if test="${frequencia.statusFrequencia == 'PRESENTE' }">
 				            	<tr class="success">
-									<td><strong><fmt:formatDate value="${frequencia.data}" pattern="E" />, <fmt:formatDate value="${frequencia.data}" pattern="dd/MM/yyyy" />, ${frequencia.horario}</strong></td>
+									<td><strong><fmt:formatDate value="${frequencia.data}" pattern="EEEE" />, <fmt:formatDate value="${frequencia.data}" pattern="dd/MM/yyyy" /> <fmt:formatDate type="time" timeStyle="short" value="${frequencia.horario}" /></strong></td>
 									<td><a href="#" class="observacaoFrequencia" title="Realizar observação" data-pk="${frequencia.id}">${frequencia.observacao}</a></td>
 									<td><a href="#" class="statusFrequencia" title="Atualizar status" data-pk="${frequencia.id}">${frequencia.statusFrequencia}</a></td>
 								</tr>
-				            </c:when>
-				            <c:otherwise>
-					            <tr class="warning">
-									<td><strong><fmt:formatDate value="${frequencia.data}" pattern="E" />, <fmt:formatDate value="${frequencia.data}" pattern="dd/MM/yyyy" /></strong></td>
-									<td colspan="3">Aguardando data para lançamento da frequência.</td>
+							</c:if>
+
+							<c:if test="${frequencia.statusFrequencia != null and frequencia.statusFrequencia != 'PRESENTE'}">
+				            	<tr class="warning">
+									<td><strong><fmt:formatDate value="${frequencia.data}" pattern="EEEE" />, <fmt:formatDate value="${frequencia.data}" pattern="dd/MM/yyyy" /> <fmt:formatDate type="time" timeStyle="short" value="${frequencia.horario}" /></strong></td>
+									<td><a href="#" class="observacaoFrequencia" title="Realizar observação" data-pk="${frequencia.id}">${frequencia.observacao}</a></td>
+									<td><a href="#" class="statusFrequencia" title="Atualizar status" data-pk="${frequencia.id}">${frequencia.statusFrequencia}</a></td>
 								</tr>
-				            </c:otherwise>
-				        </c:choose>
+							</c:if>
 					</c:forEach>
 		       </tbody>
 			</table>
 		</div>
 	</div>
 	</div>
-</div><br><br>
+	</div>
+</div>
+<br><br>
 
 	<jsp:include page="../modulos/footer.jsp" />
 

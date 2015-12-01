@@ -94,19 +94,6 @@
 				</div>
 			</div>
 
-			<div class="panel panel-warning">
-				<div class="panel-heading">
-					<h2 class="titulo-panels">
-						<span class="fa fa-calendar"></span> Calendário
-					</h2>
-				</div>
-
-				<div class="panel-body">
-					<div class="alert alert-warning" role="alert">Nenhum evento
-						cadastrado.</div>
-				</div>
-			</div>
-
 			<div class="panel panel-success">
 				<div class="panel-heading">
 					<h2 class="titulo-panels">
@@ -146,7 +133,7 @@
 										<c:choose>
 											<c:when test="${submissao.statusEntrega.label == 'Aceito'}">
 												<tr class="success">
-													<td>${submissao.nome}</td>
+													<td><a href="<c:url value="/documento/ ${submissao.id }" />">${submissao.nome}</a></td>
 													<td><fmt:formatDate value="${submissao.data}"
 															pattern="dd/MM/yyyy" /></td>
 													<td>${submissao.horario}</td>
@@ -157,7 +144,7 @@
 											<c:when
 												test="${submissao.statusEntrega.label == 'Rejeitado'}">
 												<tr class="danger">
-													<td>${submissao.nome}</td>
+													<td><a href="<c:url value="/documento/ ${submissao.id }" />">${submissao.nome}</a></td>
 													<td><fmt:formatDate value="${submissao.data}"
 															pattern="dd/MM/yyyy" /></td>
 													<td>${submissao.horario}</td>
@@ -167,7 +154,7 @@
 											</c:when>
 											<c:otherwise>
 												<tr class="warning">
-													<td>${submissao.nome}</td>
+													<td><a href="<c:url value="/documento/ ${submissao.id }" />">${submissao.nome}</a></td>
 													<td><fmt:formatDate value="${submissao.data}"
 															pattern="dd/MM/yyyy" /></td>
 													<td>${submissao.horario}</td>
@@ -183,69 +170,88 @@
 					</c:if>
 				</div>
 
+				<div class="panel-body">
+					<c:if test="${not empty error}">
+						<div class="alert alert-dismissible alert-danger" role="alert">
+							<button type="button" class="close" data-dismiss="alert">×</button>
+							<p>
+								<strong>Atenção!</strong> ${error }
+							</p>
+						</div>
+					</c:if>
+				</div>
+
 				<c:if test="${showPlano}">
 					<form class="form-inline"
 						action="<c:url value="/estagiario/minha-documentacao/turma/${turma.id }"></c:url>"
 						method="POST" enctype="multipart/form-data">
 						<div class="panel-body">
-							<div class="form-group col-sm-8">
-								<label class="col-sm-3" for="plano">Plano de Estágio:</label> <input
-									name="anexo" type="file" multiple="multiple"
-									class="form-control filestyle"
-									data-buttonText=" Escolher arquivo" data-size="sm"
-									data-buttonName="btn-primary" id="plano"
-									accept="application/pdf"> <input id="tipo"
-									type="hidden" name="tipo" value=PLANO_ESTAGIO>
-
-								<button type="submit" class="btn btn-primary btn-sm"
-									value="Salvar">Submeter</button>
-							</div>
-							<div class="form-group col-sm-4">
-								<button type="button" class="btn btn-link btn-sm">Template
-									Plano de Estágio</button>
+							<div class="col-sm-12">
+								<div class="form-group col-sm-9">
+									<a href="<c:url value="resources/documents/UFC-Quixada-Plano_Estagio-modelo.doc" />"class="btn btn-info btn-sm modelo">
+										<span class="fa fa-arrow-circle-down"></span> Modelo de Plano de Estágio
+									</a>
+									<input name="anexo" type="file" multiple="multiple"
+										class="form-control filestyle jfilestyle"
+										data-buttonText=" Escolher arquivo" data-size="sm"
+										data-buttonName="btn-primary" id="plano"
+										data-placeholder="Plano de Estágio" data-inputSize="423px"
+										accept="application/pdf"> <input id="tipo"
+										type="hidden" name="tipo" value=PLANO_ESTAGIO>
+								</div>
+								<div class="form-group col-sm-3">
+									<button class="btn btn-primary btn-sm download" type="submit">
+										<span class="fa fa-arrow-circle-up"> Submeter Plano de
+											Estágio</span>
+									</button>
+								</div>
 							</div>
 						</div>
 					</form>
 				</c:if>
+
 				<c:if test="${showRelatorio}">
-					<form class="form-inline"
+					<form id="fileForm" class="form-inline"
 						action="<c:url value="/estagiario/minha-documentacao/turma/${turma.id }"></c:url>"
 						method="POST" enctype="multipart/form-data">
 						<div class="panel-body">
-							<div class="form-group col-sm-8">
-								<label class="col-sm-3" for="relatorio">Relatório Final
-									de Estágio:</label> <input name=anexo type="file" multiple="multiple"
-									class="form-control filestyle"
-									data-buttonText=" Escolher arquivo" data-size="sm"
-									data-buttonName="btn-primary" id="relatorio"> <input
-									id="tipo" type="hidden" name="tipo"
-									value=RELATORIO_FINAL_ESTAGIO>
+							<div class="col-sm-12">
+								<div class="form-group col-sm-9">
+									<button class="btn btn-info btn-sm modelo">
+										<span class="fa fa-arrow-circle-down"></span> Modelo de
+										Relatório Final de Estágio
+									</button>
+									<input name="anexo" type="file" multiple="multiple"
+										class="form-control filestyle jfilestyle"
+										data-buttonText=" Escolher arquivo" data-size="sm"
+										data-buttonName="btn-primary" id="relatorio"
+										data-placeholder="Relatório Final de Estágio"
+										data-inputSize="423px" accept="application/pdf"> <input
+										id="tipo" type="hidden" name="tipo"
+										value=RELATORIO_FINAL_ESTAGIO>
 
-								<button type="submit" class="btn btn-primary btn-sm"
-									value="Salvar">Submeter</button>
-							</div>
-							<div class="form-group col-sm-4">
-								<button type="button" class="btn btn-link btn-sm">Template
-									Relatório Final de Estágio</button>
+								</div>
+								<div class="form-group col-sm-3">
+									<button class="btn btn-primary btn-sm download" type="submit">
+										<span class="fa fa-arrow-circle-up"> Submeter Relatório
+											Final de Estágio</span>
+									</button>
+								</div>
 							</div>
 						</div>
 					</form>
 				</c:if>
-
 				<br>
 			</div>
 		</div>
 	</div>
-	<br>
-	<br>
-	<br>
 	<jsp:include page="../modulos/footer.jsp" />
 
-	<script
-		src="<c:url value="/webjars/bootstrap-filestyle/1.1.2/bootstrap-filestyle.js" />"></script>
+	<script src="<c:url value="/resources/js/jquery-filestyle.min.js" />"></script>
 
 	<script type="text/javascript">
 		$('#table-submissao').DataTable({
+			"ordering" : false,
 			"paging" : false,
 			"info" : false,
 			"language" : ptBR,

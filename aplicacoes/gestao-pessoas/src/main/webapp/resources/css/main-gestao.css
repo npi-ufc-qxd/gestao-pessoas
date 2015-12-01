@@ -150,3 +150,15 @@ h1, .h1, h2, .h2, h3, .h3 {
 	min-width: 38.8594px; 
 	min-height: 33px;
 }
+
+.modelo {
+	height: inherit;
+	width: 242px;
+	display: inline;
+}
+
+.download {
+	height: inherit;
+	width: 252px;
+	display: inline;
+}

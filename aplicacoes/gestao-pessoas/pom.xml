@@ -307,14 +307,6 @@
 			<version>${npi.ldap.version}</version>
 		</dependency>
 
-		<!-- Dependência Bootstrap FileStyle -->
-
-		<dependency>
-			<groupId>org.webjars</groupId>
-			<artifactId>bootstrap-filestyle</artifactId>
-			<version>1.1.2</version>
-		</dependency>
-
 
 	</dependencies>
 	<build>

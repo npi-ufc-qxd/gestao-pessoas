@@ -7,20 +7,15 @@ import static ufc.quixada.npi.gp.utils.Constants.PAGINA_MINHA_PRESENCA;
 import static ufc.quixada.npi.gp.utils.Constants.REDIRECT_PAGINA_INICIAL_ESTAGIARIO;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
-import javax.sound.midi.Patch;
 import javax.validation.Valid;
 
-import org.apache.commons.io.FilenameUtils;
 import org.joda.time.LocalDate;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -171,7 +166,7 @@ public class EstagiarioController {
 	}
 	
 	@RequestMapping(value = "/minha-documentacao/turma/{idTurma}", method = RequestMethod.POST)
-	public String minhaDocumentacao(@Valid @RequestParam("anexo") MultipartFile anexo, HttpSession session, Model model, @RequestParam("tipo") Tipo tipo, @ModelAttribute("idTurma") Long idTurma ){
+	public String minhaDocumentacao(@Valid @RequestParam("anexo") MultipartFile anexo, HttpSession session, Model model, @RequestParam("tipo") Tipo tipo, @ModelAttribute("idTurma") Long idTurma, RedirectAttributes redirectAttributes ){
 		Pessoa pessoa = getUsuarioLogado(session);
 		Estagiario estagiario = estagiarioService.getEstagiarioByPessoaId(pessoa.getId());
 		Turma turma = turmaService.getTurmaByIdAndEstagiarioId(idTurma, estagiario.getId());
@@ -179,6 +174,10 @@ public class EstagiarioController {
 		Submissao submissao = submissaoService.getSubmissaoByPessoaIdAndIdTurmaAndTipo(pessoa.getId(), idTurma, tipo);
 		
 		try {
+			if(!anexo.getContentType().equals("application/pdf")){
+				redirectAttributes.addFlashAttribute("error", "Escolha um arquivo pdf.");
+				return "redirect:/estagiario/turma/" + idTurma;
+			}
 			if(submissao == null && anexo.getBytes() != null && anexo.getBytes().length != 0 && anexo.getContentType().equals("application/pdf")){
 					Submissao newDocumento = new Submissao();
 					newDocumento.setArquivo(anexo.getBytes());

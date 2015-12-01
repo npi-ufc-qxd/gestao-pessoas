@@ -88,13 +88,12 @@ public class SupervisorController {
 	}
 
 	@RequestMapping(value = "/turma/{idTurma}/acompanhamento-avaliacao/estagiario/{idEstagiario}", method = RequestMethod.GET)
-	public String listarAcompanhamento(Model model, HttpSession session,
-			@PathVariable("idEstagiario") Long idEstagiario, @PathVariable("idTurma") Long idTurma) {
+	public String listarAcompanhamento(Model model, HttpSession session, @PathVariable("idEstagiario") Long idEstagiario, @PathVariable("idTurma") Long idTurma) {
 		Pessoa pessoa = getUsuarioLogado(session);
-		Turma turma = turmaService.find(Turma.class, idTurma);
 
 		// Vá ao turma controller, na parte de frequencia
 //		model.addAttribute("avaliacao", avaliacaoService.getAvaliacaoByEstagiarioId(estagiario.getId(), turma.getId()));
+		model.addAttribute("turma", turmaService.find(Turma.class, idTurma));
 		model.addAttribute("estagiario", estagiarioService.find(Estagiario.class, idEstagiario));
 		return "supervisor/acompanhamentoAvaliacao";
 	}

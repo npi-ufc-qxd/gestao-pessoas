@@ -15,17 +15,17 @@ public class AvaliacaoEstagio {
 	private Long id;
 
 	private double nota;
-	
+
 	private double notaSeminario;
-	
+
 	private String comentarioSeminario;
 
 	private String fatorAssiduidadeDisciplina;
-	
+
 	private String fatorIniciativaProdutividade;
-	
+
 	private String fatorResponsabilidade;
-	
+
 	private String fatorRelacionamento;
 
 	@ManyToOne
@@ -33,8 +33,16 @@ public class AvaliacaoEstagio {
 	private Submissao submissao;
 
 	@ManyToOne
-	@JoinColumn(name = "pessoa_id")
-	private Pessoa pessoa;
+	@JoinColumn(name = "turma_id")
+	private Turma turma;
+
+	@ManyToOne
+	@JoinColumn(name = "supervisor_id")
+	private Pessoa supervisor;
+
+	@ManyToOne
+	@JoinColumn(name = "estagiario_id")
+	private Estagiario estagiario;
 
 	public Long getId() {
 		return id;
@@ -51,7 +59,7 @@ public class AvaliacaoEstagio {
 	public void setNota(double nota) {
 		this.nota = nota;
 	}
-	
+
 	public double getNotaSeminario() {
 		return notaSeminario;
 	}
@@ -59,7 +67,7 @@ public class AvaliacaoEstagio {
 	public void setNotaSeminario(double notaSeminario) {
 		this.notaSeminario = notaSeminario;
 	}
-	
+
 	public String getComentarioSeminario() {
 		return comentarioSeminario;
 	}
@@ -67,7 +75,7 @@ public class AvaliacaoEstagio {
 	public void setComentarioSeminario(String comentarioSeminario) {
 		this.comentarioSeminario = comentarioSeminario;
 	}
-	
+
 	public String getFatorAssiduidadeDisciplina() {
 		return fatorAssiduidadeDisciplina;
 	}
@@ -99,7 +107,7 @@ public class AvaliacaoEstagio {
 	public void setFatorRelacionamento(String fatorRelacionamento) {
 		this.fatorRelacionamento = fatorRelacionamento;
 	}
-	
+
 	public Submissao getSubmissao() {
 		return submissao;
 	}
@@ -107,13 +115,29 @@ public class AvaliacaoEstagio {
 	public void setSubmissao(Submissao submissao) {
 		this.submissao = submissao;
 	}
-	
-	public Pessoa getPessoa() {
-		return pessoa;
+
+	public Turma getTurma() {
+		return turma;
 	}
 
-	public void setPessoa(Pessoa pessoa) {
-		this.pessoa = pessoa;
+	public void setTurma(Turma turma) {
+		this.turma = turma;
+	}
+
+	public Pessoa getSupervisor() {
+		return supervisor;
+	}
+
+	public void setSupervisor(Pessoa supervisor) {
+		this.supervisor = supervisor;
+	}
+
+	public Estagiario getEstagiario() {
+		return estagiario;
+	}
+
+	public void setEstagiario(Estagiario estagiario) {
+		this.estagiario = estagiario;
 	}
 
 	@Override

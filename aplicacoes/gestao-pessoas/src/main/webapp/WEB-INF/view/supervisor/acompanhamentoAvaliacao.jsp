@@ -42,7 +42,7 @@
 						<div class="form-group">
 							<label class="col-sm-2 text-view-info"><strong>Nome
 									do estagiário: </strong></label><label class="col-sm-3 text-view-info">${estagiario.nomeCompleto}</label>
-						
+
 							<label class="col-sm-1 text-view-info"><strong>Semestre:
 							</strong></label><label class="col-sm-2 text-view-info">${estagiario.semestre}</label>
 							<label class="col-sm-1 text-view-info"><strong>Curso:
@@ -101,44 +101,15 @@
 					<h2 class="titulo-panels">
 						<span class="fa fa-pencil"></span> Avaliação de estágio
 					</h2>
+					<div class="pull-right">
+						<a href="<c:url value="/supervisor/turma/${turma.id}/acompanhamento-avaliacao/estagiario/${estagiario.id}/adicionar/" ></c:url>"
+							title="Novo Avaliacao"><button class="btn btn-primary">
+								<span class="fa fa-plus"></span> Avaliação
+							</button></a>
+					</div>
+					<br>
 				</div>
 
-				<div class="panel-body">
-					<c:if test="${empty turma.horarios}">
-						<div class="alert alert-warning" role="alert">Expediente não
-							definido.</div>
-					</c:if>
-
-					<c:if test="${not empty turma.horarios}">
-						<div class="form-group">
-							<label class="col-sm-12 text-view-info"><strong>Horários</strong></label>
-
-							<table id="horarios-turma"
-								class="table table-striped table-hover">
-								<thead>
-									<tr>
-										<th>Horário</th>
-										<th>Dia da Semana</th>
-										<th>Início do Expediente</th>
-										<th>Término do Expediente</th>
-									</tr>
-								</thead>
-								<tbody class="text-view-info">
-									<c:forEach var="horario" items="${turma.horarios}"
-										varStatus="indice">
-										<tr align="justify">
-											<td>${indice.count}ª</td>
-											<td>${horario.dia.labelDia}</td>
-											<td>${horario.inicioExpediente}</td>
-											<td>${horario.finalExpediente}</td>
-										</tr>
-									</c:forEach>
-								</tbody>
-							</table>
-
-						</div>
-					</c:if>
-				</div>
 			</div>
 
 		</div>

@@ -28,6 +28,8 @@
 		</div>
 
 		<form:form id="form-evento" role="form" commandName="evento" servletRelativeAction="/supervisor/turma/${turma.id}/evento"  method="POST" cssClass="form-horizontal">
+			<form:hidden path="id"/>
+
 			<div class="panel-body">
 				<c:if test="${not empty success }">
 					<div class="alert alert-dismissible alert-success">
@@ -37,17 +39,17 @@
 
 				<h5>Defina o Evento</h5>
 				<div class="form-group">
-					<div id="descricaoDoEvento" class="form-item col-sm-3">
+					<div id="descricao" class="form-item col-sm-3">
 						<label class="control-label">*Descrição do evento:</label>
-						<textarea class="form-control" rows="3" placeholder="Descrição do Evento"></textarea>
+						<form:textarea path="descricao" cssClass="form-control" placeholder="Descrição do Evento" rows="3"/>
 					</div>
-					<div id="inicioDoEvento" class="form-item col-sm-3">
+					<div id="inicio" class="form-item col-sm-3">
 						<label class="control-label">*Início do Evento:</label>
-						<div class="bfh-datepicker" data-name="inicio" data-placeholder="Inicio do Evento"></div>
+						<form:input id="inicio" path="inicio" cssClass="form-control data" placeholder="Inicio do Evento" />
 					</div>
-					<div id="finalDoEvento" class="form-item col-sm-3">
+					<div id="termino" class="form-item col-sm-3">
 						<label class="control-label">*Final do Evento:</label>
-						<div class="bfh-datepicker" data-name="termino" data-placeholder="Final do Evento"></div>
+						<form:input id="termino" path="termino" cssClass="form-control data" placeholder="Termino do periodo" />
 					</div>
 					<div class="form-item col-sm-3">
 						<label class="control-label">&nbsp;&nbsp;&nbsp;</label>

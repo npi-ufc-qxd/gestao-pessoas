@@ -11,6 +11,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -25,16 +26,14 @@ public class Evento {
 	@Column(nullable = false)
 	@NotEmpty(message = "Informe a descrição.")
 	private String descricao;
-
+	
 	@Temporal(TemporalType.DATE)
-	@Column(nullable = false)
-	@NotEmpty(message = "Informe a data incial.")
+	@NotNull(message = "Informe a data incial.")
 	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	private Date inicio;
 
 	@Temporal(TemporalType.DATE)
-	@Column(nullable = false)
-	@NotEmpty(message = "Informe a data final.")
+	@NotNull(message = "Informe a data final.")
 	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	private Date termino;
 

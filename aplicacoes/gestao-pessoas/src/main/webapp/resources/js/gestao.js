@@ -219,6 +219,11 @@ $(document).ready(function() {
 		format: "dd/mm/yyyy",
 		orientation: "top auto",
 	});
+
+	$('.data').datepicker()
+    .on('changeDate', function(e) {
+        console.log('sadesdfg');
+    });	
 	
 });
 

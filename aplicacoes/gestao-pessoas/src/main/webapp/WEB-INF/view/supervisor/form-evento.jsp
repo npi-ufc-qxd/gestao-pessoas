@@ -7,7 +7,7 @@
 
 <html>
 	<head>
-		<title>Atualizar Expediente</title>
+		<title>Atualizar Evento</title>
 		<jsp:include page="../modulos/header-estrutura.jsp" />
 	</head>
 <body>
@@ -26,38 +26,69 @@
 			</div>
 			
 		</div>
+		
 
-		<form:form id="form-evento" role="form" commandName="evento" servletRelativeAction="/supervisor/turma/${turma.id}/evento"  method="POST" cssClass="form-horizontal">
-			<form:hidden path="id"/>
-
-			<div class="panel-body">
-				<c:if test="${not empty success }">
-					<div class="alert alert-dismissible alert-success">
-						<button type="button" class="close" data-dismiss="alert">×</button>${success }
-					</div>
-				</c:if>
-
-				<h5>Defina o Evento</h5>
-				<div class="form-group">
-					<div id="descricao" class="form-item col-sm-3">
-						<label class="control-label">*Descrição do evento:</label>
-						<form:textarea path="descricao" cssClass="form-control" placeholder="Descrição do Evento" rows="3"/>
-					</div>
-					<div id="inicio" class="form-item col-sm-3">
-						<label class="control-label">*Início do Evento:</label>
-						<form:input id="inicio" path="inicio" cssClass="form-control data" placeholder="Inicio do Evento" />
-					</div>
-					<div id="termino" class="form-item col-sm-3">
-						<label class="control-label">*Final do Evento:</label>
-						<form:input id="termino" path="termino" cssClass="form-control data" placeholder="Termino do periodo" />
-					</div>
-					<div class="form-item col-sm-3">
-						<label class="control-label">&nbsp;&nbsp;&nbsp;</label>
-						<button type="submit" class="form-control btn btn-primary" title="Adicionar Horário"><span class="fa fa-plus"></span> Adicionar</button>
-					</div>
+		
+		<div class="panel-body">
+			<c:if test="${not empty success }">
+				<div class="alert alert-dismissible alert-success">
+					<button type="button" class="close" data-dismiss="alert">×</button>${success }
 				</div>
+			</c:if>			
+			<div class="col-sm-6">
+				<form:form id="form-evento" role="form" commandName="evento" servletRelativeAction="/supervisor/turma/${turma.id}/evento"  method="POST" cssClass="form-horizontal">
+					<form:hidden path="id"/>
+						<h5>Defina o Evento</h5>
+						<div class="form-group">
+							<div id="inicio" class="form-item col-sm-12">
+								<label class="control-label">*Início do Evento:</label>
+								<form:input id="inicio" path="inicio" cssClass="form-control data" placeholder="Inicio do Evento" />
+
+
+								<label class="control-label">*Final do Evento:</label>
+								<form:input id="termino" path="termino" cssClass="form-control data" placeholder="Termino do periodo" />
+							</div>
+							<div id="descricao" class="form-item col-sm-12">
+								<label class="control-label">*Descrição do evento:</label>
+								<form:textarea path="descricao" cssClass="form-control" placeholder="Descrição do Evento" rows="1"/>
+							</div>
+							<div class="form-item col-sm-3">
+								<label class="control-label">&nbsp;&nbsp;&nbsp;</label>
+								<button type="submit" class="form-control btn btn-primary" title="Adicionar Horário"><span class="fa fa-plus"></span> Adicionar</button>
+							</div>
+						</div>
+				</form:form>
 			</div>
-		</form:form>
+			<div class="col-sm-6">
+				<h5>Eventos</h5>
+				<table class="table table-striped table-hover">
+				  <thead>
+				    <tr>
+				      <th>Evento</th>
+				      <th>Período</th>
+				      <th></th>
+				    </tr>
+				  </thead>
+				  <tbody class="text-view-info">
+				  <c:forEach var="evento" items="${eventos}">
+				    <tr align="justify">
+				      <td>${evento.descricao }</td>
+				      <td>${evento.inicio } a ${evento.termino}</td>
+				      <td align="right">
+				      	<a href="<c:url value ="/supervisor/turma/${turma.id}/evento/${evento.id}/excluir">
+				      	</c:url>" title="Excluir" class="btn btn-danger" >
+				      	<span class="fa fa-remove"></span>
+				      	</a>
+				      </td>
+				    </tr>										
+				   </c:forEach>
+				  </tbody>
+				</table> 				
+				
+			</div>
+		</div>
+
+
 		</div>
 	</div>
 </div>

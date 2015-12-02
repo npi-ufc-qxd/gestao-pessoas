@@ -41,6 +41,7 @@ import ufc.quixada.npi.gp.model.enums.StatusFrequencia;
 import ufc.quixada.npi.gp.model.enums.StatusTurma;
 import ufc.quixada.npi.gp.service.DadoConsolidado;
 import ufc.quixada.npi.gp.service.EstagiarioService;
+import ufc.quixada.npi.gp.service.EventoService;
 import ufc.quixada.npi.gp.service.FrequenciaService;
 import ufc.quixada.npi.gp.service.HorarioService;
 import ufc.quixada.npi.gp.service.PessoaService;
@@ -72,7 +73,7 @@ public class TurmaController {
 	private UsuarioService usuarioService;
 
 	@Inject
-	private GenericService<Evento> eventoService;
+	private EventoService eventoService;
 
 	private JRDataSource jrDatasource;
 
@@ -157,6 +158,12 @@ public class TurmaController {
 		return "supervisor/form-turma";
 	}
 
+	@RequestMapping(value = "/{idTurma}/evento/{idEvento}/editar")
+	public String editarEvento(@PathVariable("idTurma") Long idTurma, @PathVariable("idEvento") Model model, HttpSession session){
+		model.addAttribute("action", "editar");
+		return "";
+	}
+
 	@RequestMapping(value = "/{idTurma}/editar", method = RequestMethod.POST)
 	public String editarTurma(Model model, @Valid @ModelAttribute("turma") Turma turma, BindingResult result,
 			HttpSession session) {
@@ -236,10 +243,13 @@ public class TurmaController {
 		return "redirect:/supervisor/turma/" + idTurma + "/horarios";
 	}
 
-	//Evento
+	// EventoInicio
 	@RequestMapping(value = "/{idTurma}/evento", method = RequestMethod.GET)
 	public String paginaEventosTurma(Model model, @PathVariable("idTurma") Long idTurma) {
 
+		List<Evento> eventos = eventoService.getEventosByTurma(idTurma);
+
+		model.addAttribute("eventos", eventos);
 		model.addAttribute("evento", new Evento());
 		model.addAttribute("turma", turmaService.find(Turma.class, idTurma));
 
@@ -247,20 +257,20 @@ public class TurmaController {
 	}
 
 	@RequestMapping(value = "/{idTurma}/evento", method = RequestMethod.POST)
-	public String adicionarEventosTurma(@ModelAttribute("evento") Evento evento,
-			@PathVariable("idTurma") Long idTurma, HttpSession session, RedirectAttributes redirect) {
-		
+	public String adicionarEventosTurma(@ModelAttribute("evento") Evento evento, @PathVariable("idTurma") Long idTurma,
+			HttpSession session, RedirectAttributes redirect) {
+
 		Pessoa supervisor = getUsuarioLogado(session);
 		Turma turma = turmaService.getTurmaByIdAndSupervisorById(idTurma, supervisor.getId());
-		
+
 		evento.setTurma(turma);
-		eventoService.save(evento);		
-		
+		eventoService.save(evento);
+
 		redirect.addFlashAttribute("sucess", "Evento cadastrado com sucesso.");
 
 		return "redirect:/supervisor/turmas";
 	}
-
+	// Evento Termino
 
 	@RequestMapping(value = "/{id}/vincular", method = RequestMethod.GET)
 	public String paginaVincularEstagiarioTurma(Model model, HttpSession session, @PathVariable("id") Long idTurma) {

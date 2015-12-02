@@ -11,5 +11,4 @@
 <link href="<c:url value="/resources/css/bootstrap-yeti.min.css" />" rel="stylesheet" />
 <link href="<c:url value="/resources/css/main-gestao.css" />" rel="stylesheet" />
 
-
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">

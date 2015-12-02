@@ -35,6 +35,9 @@
 				<ul class="nav navbar-nav menu">
 					<li id="minha-presenca"><a href="<c:url value="/estagiario/minha-frequencia" />"><span class="fa fa-calendar-check-o"></span> Minha Frequência</a></li>
 				</ul>
+				<ul class="nav navbar-nav menu">
+					<li id="turmas"><a href="<c:url value="/estagiario/turmas" />"><span class="fa fa-folder-open"></span> Minhas Turmas</a></li>
+				</ul>
 			</sec:authorize>
 
 			<ul class="nav navbar-right navbar-nav">

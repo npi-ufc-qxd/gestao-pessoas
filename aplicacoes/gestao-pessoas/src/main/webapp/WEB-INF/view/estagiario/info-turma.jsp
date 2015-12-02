@@ -188,9 +188,8 @@
 						<div class="panel-body">
 							<div class="col-sm-12">
 								<div class="form-group col-sm-9">
-									<a href="<c:url value="resources/documents/UFC-Quixada-Plano_Estagio-modelo.doc" />"class="btn btn-info btn-sm modelo">
-										<span class="fa fa-arrow-circle-down"></span> Modelo de Plano de Estágio
-									</a>
+									<a href="UFC-Quixada-Plano_Estagio-modelo.doc" class="template"><button class="btn btn-default btn-sm modelo" type="button"><span class="fa fa-arrow-circle-down"></span> Modelo de Plano de Estágio</button></a>
+
 									<input name="anexo" type="file" multiple="multiple"
 										class="form-control filestyle jfilestyle"
 										data-buttonText=" Escolher arquivo" data-size="sm"
@@ -200,7 +199,7 @@
 										type="hidden" name="tipo" value=PLANO_ESTAGIO>
 								</div>
 								<div class="form-group col-sm-3">
-									<button class="btn btn-primary btn-sm download" type="submit">
+									<button class="btn btn-primary btn-sm submeter" type="submit">
 										<span class="fa fa-arrow-circle-up"> Submeter Plano de
 											Estágio</span>
 									</button>
@@ -217,10 +216,8 @@
 						<div class="panel-body">
 							<div class="col-sm-12">
 								<div class="form-group col-sm-9">
-									<button class="btn btn-info btn-sm modelo">
-										<span class="fa fa-arrow-circle-down"></span> Modelo de
-										Relatório Final de Estágio
-									</button>
+									<a href="/resources/documents/UFC-Quixada-Relatorio_Final_Estagio-modelo.doc" class="template"><button class="btn btn-default btn-sm modelo" type="button"><span class="fa fa-arrow-circle-down"></span> Modelo de Relatório Final de Estágio</button></a>									
+
 									<input name="anexo" type="file" multiple="multiple"
 										class="form-control filestyle jfilestyle"
 										data-buttonText=" Escolher arquivo" data-size="sm"
@@ -232,7 +229,7 @@
 
 								</div>
 								<div class="form-group col-sm-3">
-									<button class="btn btn-primary btn-sm download" type="submit">
+									<button class="btn btn-primary btn-sm submeter" type="submit">
 										<span class="fa fa-arrow-circle-up"> Submeter Relatório
 											Final de Estágio</span>
 									</button>

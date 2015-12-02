@@ -109,7 +109,48 @@
 					</div>
 					<br>
 				</div>
+				<div class="panel-body">
 
+		<c:if test="${not empty success }"><div class="alert alert-dismissible alert-success"><button type="button" class="close" data-dismiss="alert">×</button>${success}</div></c:if>
+
+		<c:if test="${empty avaliacaoEstagio}">
+				<div class="alert alert-warning" role="alert">Não há Avaliação cadastrada.</div>
+			</c:if>
+			
+			<c:if test="${not empty avaliacaoEstagio}">
+				<table id="table-avaliacaoEstagio" class="table table-striped table-hover">
+					<thead>
+						<tr class="">
+							<th>Nota do Estágio</th>
+							<th>Assiduidade e Disciplina</th>
+							<th>Iniciativa e Produtividade</th>
+							<th>Responsabilidade</th>
+							<th>Relacionamento</th>
+							<th></th>
+			           </tr>
+			       </thead>
+			       <tbody class="text-view-info">
+							<c:forEach var="avaliacaoEstagio" items="${avaliacaoEstagio}">
+								<tr>
+									<td>${avaliacaoEstagio.nota}</td>
+									<td>${avaliacaoEstagio.fatorAssiduidadeDisciplina}</td>
+									<td>${avaliacaoEstagio.fatorIniciativaProdutividade}</td>
+									<td>${avaliacaoEstagio.fatorResponsabilidade}</td>
+									<td>${avaliacaoEstagio.fatorRelacionamento}</td>
+									
+									<td align="right">
+										<a href="<c:url value="/supervisor/turma/${avaliacaoEstagio.id}" />" title="Informações" class="btn btn-info informacao"><span class="fa fa-info"></span></a>
+										<a href="<c:url value="/supervisor/turma/${avaliacaoEstagio.id}/editar" />" title="Editar" class="btn btn-success"><span class="fa fa-pencil"></span></a>
+									</td>
+							</tr>
+						</c:forEach>
+			       </tbody>
+				</table>
+				
+				
+			</c:if>
+		
+		</div>
 			</div>
 
 		</div>

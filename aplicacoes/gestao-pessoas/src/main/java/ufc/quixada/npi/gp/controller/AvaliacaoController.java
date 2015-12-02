@@ -19,6 +19,7 @@ import ufc.quixada.npi.gp.model.AvaliacaoEstagio;
 import ufc.quixada.npi.gp.model.Estagiario;
 import ufc.quixada.npi.gp.model.Pessoa;
 import ufc.quixada.npi.gp.model.Turma;
+import ufc.quixada.npi.gp.model.enums.Dia;
 import ufc.quixada.npi.gp.service.AvaliacaoService;
 import ufc.quixada.npi.gp.service.EstagiarioService;
 import ufc.quixada.npi.gp.service.PessoaService;
@@ -68,6 +69,39 @@ public class AvaliacaoController {
 		redirect.addFlashAttribute("success", "Avaliação cadastrada com sucesso.");
 
 		return "redirect:/supervisor/turma/{idTurma}/acompanhamento-avaliacao/estagiario/{idEstagiario}";
+	}
+	
+	@RequestMapping(value = "/{idAvalicaoEstagio}/editar", method = RequestMethod.GET)
+	public String paginaEditarTurma(@PathVariable("idAvaliacaoEstagio") Long idAvaliacaoEstagio, Model model, HttpSession session) {
+		model.addAttribute("action", "editar");
+		model.addAttribute("avaliacaoEstagio", avaliacaoService.find(AvaliacaoEstagio.class, idAvaliacaoEstagio));
+
+		return "supervisor/form-avaliacao-estagio";
+	}
+
+	@RequestMapping(value = "/{idAvalia}/editar", method = RequestMethod.POST)
+	public String editarTurma(Model model, @Valid @ModelAttribute("turma") Turma turma,  BindingResult result, HttpSession session) {
+
+		model.addAttribute("action", "editar");
+
+		if (result.hasErrors()) {
+			model.addAttribute("dias", Dia.values());
+			return "supervisor/form-turma";
+		}
+		
+		Pessoa pessoa = getUsuarioLogado(session);
+		Turma turmaDoBanco = turmaService.getTurmaByIdAndSupervisorById(turma.getId(), pessoa.getId());
+		
+		turmaDoBanco.setNome(turma.getNome());
+		turmaDoBanco.setStatusTurma(turma.getStatusTurma());
+		turmaDoBanco.setAno(turma.getAno());
+		turmaDoBanco.setSemestre(turma.getSemestre());
+		turmaDoBanco.setInicio(turma.getInicio());
+		turmaDoBanco.setTermino(turma.getTermino());
+
+		turmaService.update(turmaDoBanco);
+
+		return "redirect:/supervisor/turmas";
 	}
 
 	private Pessoa getUsuarioLogado(HttpSession session) {

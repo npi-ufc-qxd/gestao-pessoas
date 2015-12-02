@@ -10,7 +10,7 @@
 </c:if>
 <c:if test="${action eq 'editar' }">
 	<c:set var="url"
-		value="/supervisor/acompanhamento-avaliacao/editar"></c:set>
+		value="/supervisor/acompanhamento-avaliacao/${avaliacaoEstagio.id}/editar"></c:set>
 	<c:set var="titulo" value="Editar Avaliação"></c:set>
 </c:if>
 
@@ -93,18 +93,7 @@
 						</div>
 						<div class="form-item col-sm-3">
 						<label for="nota" class="control-label">*Nota:</label>
-						<form:select id="nota" path="nota" cssClass="selectpicker" data-width="100%" required="required">
-							<form:option value="1"></form:option>
-							<form:option value="2"></form:option>
-							<form:option value="3"></form:option>
-							<form:option value="4"></form:option>
-							<form:option value="5"></form:option>
-							<form:option value="6"></form:option>
-							<form:option value="7"></form:option>
-							<form:option value="8"></form:option>
-							<form:option value="9"></form:option>
-							<form:option value="10"></form:option>
-						</form:select>
+						<form:input path="nota" cssClass="form-control"></form:input>
 						<div class="error-validation"><form:errors path="nota"></form:errors></div>
 					</div>
 

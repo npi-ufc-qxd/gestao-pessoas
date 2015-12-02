@@ -22,6 +22,7 @@ import ufc.quixada.npi.gp.model.Pessoa;
 import ufc.quixada.npi.gp.model.Servidor;
 import ufc.quixada.npi.gp.model.Turma;
 import ufc.quixada.npi.gp.model.enums.StatusFrequencia;
+import ufc.quixada.npi.gp.service.AvaliacaoService;
 import ufc.quixada.npi.gp.service.EstagiarioService;
 import ufc.quixada.npi.gp.service.FrequenciaService;
 import ufc.quixada.npi.gp.service.PapelService;
@@ -38,6 +39,9 @@ public class SupervisorController {
 
 	@Inject
 	private PessoaService pessoaService;
+
+	@Inject
+	private AvaliacaoService avaliacaoService;
 
 	@Inject
 	private ServidorService servidorService;
@@ -89,10 +93,7 @@ public class SupervisorController {
 
 	@RequestMapping(value = "/turma/{idTurma}/acompanhamento-avaliacao/estagiario/{idEstagiario}", method = RequestMethod.GET)
 	public String listarAcompanhamento(Model model, HttpSession session, @PathVariable("idEstagiario") Long idEstagiario, @PathVariable("idTurma") Long idTurma) {
-		Pessoa pessoa = getUsuarioLogado(session);
-
-		// Vá ao turma controller, na parte de frequencia
-//		model.addAttribute("avaliacao", avaliacaoService.getAvaliacaoByEstagiarioId(estagiario.getId(), turma.getId()));
+		model.addAttribute("avaliacaoEstagio", avaliacaoService.getAvaliacoesEstagioByEstagiarioIdAndTurmaById(idEstagiario, idTurma));
 		model.addAttribute("turma", turmaService.find(Turma.class, idTurma));
 		model.addAttribute("estagiario", estagiarioService.find(Estagiario.class, idEstagiario));
 		return "supervisor/acompanhamentoAvaliacao";

@@ -13,6 +13,6 @@ public interface AvaliacaoService extends GenericService<AvaliacaoEstagio>{
 
 	AvaliacaoEstagio getAvaliacaoEstagioById(Long idAvaliacao);
 
-	AvaliacaoEstagio getAvaliacaoByIdAndSupervisorById(Long idAvaliacao, Long idSupervisor);
+	List<AvaliacaoEstagio> getAvaliacoesEstagioByEstagiarioIdAndTurmaById(Long idEstagiario, Long idTurma);
 
 }

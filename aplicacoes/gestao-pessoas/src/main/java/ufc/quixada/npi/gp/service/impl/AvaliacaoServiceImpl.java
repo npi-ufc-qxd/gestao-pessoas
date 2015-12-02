@@ -45,9 +45,14 @@ public class AvaliacaoServiceImpl extends GenericServiceImpl<AvaliacaoEstagio>im
 	}
 
 	@Override
-	public AvaliacaoEstagio getAvaliacaoByIdAndSupervisorById(Long idAvaliacao, Long idSupervisor) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<AvaliacaoEstagio> getAvaliacoesEstagioByEstagiarioIdAndTurmaById(Long idEstagiario, Long idTurma) {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("idEstagiario", idEstagiario);
+		params.put("idTurma", idTurma);
+		@SuppressWarnings("unchecked")
+		List<AvaliacaoEstagio> avaliacoes = find(QueryType.JPQL,"select ae from AvaliacaoEstagio ae where ae.estagiario.id = :idEstagiario and ae.turma.id = :idTurma", params);
+
+		return avaliacoes;
 	}
 
 }

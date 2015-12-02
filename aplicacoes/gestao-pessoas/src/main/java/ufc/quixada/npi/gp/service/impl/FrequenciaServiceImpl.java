@@ -316,7 +316,20 @@ public class FrequenciaServiceImpl extends GenericServiceImpl<Frequencia> implem
 
 		return frequencias;
 	}
+	
+	public List<Estagiario> getEstagiariosSemFrequencia(Date data, Long idTurma){
+		
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("data", data);
+		params.put("idTurma", idTurma);
+		
+		@SuppressWarnings("unchecked")
+		List<Estagiario> frequencias = find(QueryType.JPQL, "select e from Estagiario as e "
+				+ "where e.id not in (select f.estagiario.id from Frequencia as f where f.turma.id = :idTurma and f.data = :data)", params);
 
+		return frequencias;
+	}
+	
 	@Override
 	public Frequencia getFrequenciaByDataByTurmaByEstagiario(Date data, Long turma, Long estagiario) {
 		return frequenciaRepository.findFrequenciaByDataByTurmaByEstagiario(data, turma, estagiario);

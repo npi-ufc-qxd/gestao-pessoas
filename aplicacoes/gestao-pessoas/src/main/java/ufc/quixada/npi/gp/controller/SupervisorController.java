@@ -54,8 +54,8 @@ public class SupervisorController {
 	private TurmaService turmaService;
 
 	@Inject
-	private FrequenciaService frequenciaService; 
-
+	private FrequenciaService frequenciaService;
+	
 	@Inject
 	private EstagiarioService estagiarioService;
 
@@ -148,6 +148,12 @@ public class SupervisorController {
 			session.setAttribute(Constants.USUARIO_LOGADO, pessoa);
 		}
 		return (Pessoa) session.getAttribute(Constants.USUARIO_LOGADO);
+	}
+	
+	@RequestMapping(value = "/estagiario/{id}", method = RequestMethod.GET)
+	public String infoEstagiario(@PathVariable("id") Long id, Model model) {
+		model.addAttribute("estagiario", estagiarioService.find(Estagiario.class, id));
+		return "supervisor/info-estagiario";
 	}
 
 }

@@ -46,15 +46,20 @@
 						</tr>
 			       </thead>
 			       <tbody class="text-view-info">
-						<c:if test="${empty frequencias}">
-							<tr class="warning" align="left"><td colspan="4">Não há frequências registradas para <strong><fmt:formatDate value="${dataSelecionada}" pattern="dd/MM/yyyy" /></strong></td></tr>
-						</c:if>
 						<c:forEach var="frequencia" items="${frequencias}">
 							<tr>
 								<td>${frequencia[5]}</td>
 								<td>${frequencia[1]}</td>
 								<td><a href="#" class="observacaoFrequencia" title="Realizar observação" data-pk="${frequencia[0]}">${frequencia[2]}</a></td>
 								<td><a href="#" class="statusFrequencia" title="Atualizar status" data-pk="${frequencia[0]}">${frequencia[3]}</a></td>
+							</tr>
+						</c:forEach>
+						<c:forEach var="estagiario" items="${estagiarios}">
+							<tr class="danger">
+								<td><fmt:formatDate type="time" pattern="HH:mm:ss" value="${dataAtual}" /></td>
+								<td>${estagiario.nomeCompleto}</td>
+								<td></td>
+								<td></td>
 							</tr>
 						</c:forEach>
 			       </tbody>
@@ -102,6 +107,5 @@
 			ativarEditable();
 		}
 	</script>
-
 </body>
 </html>

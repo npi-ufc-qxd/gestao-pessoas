@@ -6,7 +6,6 @@ import static ufc.quixada.npi.gp.utils.Constants.PAGINA_INICIAL_ESTAGIARIO;
 import static ufc.quixada.npi.gp.utils.Constants.PAGINA_MINHA_PRESENCA;
 import static ufc.quixada.npi.gp.utils.Constants.REDIRECT_PAGINA_INICIAL_ESTAGIARIO;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -14,7 +13,6 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
-import org.joda.time.LocalDate;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import br.ufc.quixada.npi.ldap.service.UsuarioService;
 import ufc.quixada.npi.gp.model.Estagiario;
 import ufc.quixada.npi.gp.model.Frequencia;
 import ufc.quixada.npi.gp.model.Pessoa;
@@ -37,7 +36,6 @@ import ufc.quixada.npi.gp.service.FrequenciaService;
 import ufc.quixada.npi.gp.service.PessoaService;
 import ufc.quixada.npi.gp.service.TurmaService;
 import ufc.quixada.npi.gp.utils.Constants;
-import br.ufc.quixada.npi.ldap.service.UsuarioService;
 
 @Controller
 @RequestMapping("estagiario")
@@ -152,19 +150,9 @@ public class EstagiarioController {
 			
 			List<Frequencia> frequencias = frequenciaService.getFrequenciasByEstagiarioId(estagiario.getId(), turma.getId());
 
-			List<Frequencia> frequenciaCompleta = new ArrayList<Frequencia>();
-			if (!frequencias.isEmpty()) {
-				frequenciaCompleta = frequenciaService.gerarFrequencia(turma.getInicio(), new LocalDate(frequencias.get(0).getData()).plusDays(-1).toDate(), turma.getHorarios());
-				frequenciaCompleta.addAll(frequencias);
-				frequenciaCompleta.addAll(frequenciaService.gerarFrequencia(new Date(), turma.getTermino(), turma.getHorarios()));
-			}
-			else {
-				frequenciaCompleta = frequenciaService.gerarFrequencia(turma.getInicio(), turma.getTermino(), turma.getHorarios());
-			}			
+			DadoConsolidado dadosConsolidados = frequenciaService.calcularDadosConsolidados(frequencias);
 
-			DadoConsolidado dadosConsolidados = frequenciaService.calcularDadosConsolidados(frequenciaCompleta);
-
-			model.addAttribute("frequencias", frequenciaCompleta);
+			model.addAttribute("frequencias", frequencias);
 			model.addAttribute("dadosConsolidados", dadosConsolidados);		
 			model.addAttribute("dadosConsolidados", dadosConsolidados);		
 			model.addAttribute("estagiario", estagiario);

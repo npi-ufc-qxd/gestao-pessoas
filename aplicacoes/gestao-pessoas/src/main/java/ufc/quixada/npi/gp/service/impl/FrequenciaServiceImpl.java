@@ -1,6 +1,5 @@
 package ufc.quixada.npi.gp.service.impl;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;

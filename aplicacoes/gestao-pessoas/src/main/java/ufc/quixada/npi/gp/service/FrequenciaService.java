@@ -26,8 +26,9 @@ public interface FrequenciaService extends GenericService<Frequencia>{
 	List<Frequencia> getFrequenciasByTurmaIdAndData(Date data, Long idTurma);
 
 	DadoConsolidado calcularDadosConsolidados(List<Frequencia> frequencia);
+
+	List<Frequencia> gerarFrequencia(Turma turma, Estagiario estagiario);
 	
 	List<Estagiario> getEstagiariosSemFrequencia(Date data, Long idTurma);
 	
-	List<Frequencia> gerarFrequencia(Turma turma, Estagiario estagiario);
 }

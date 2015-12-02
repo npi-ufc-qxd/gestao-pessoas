@@ -103,6 +103,20 @@
 		});
 		
 		function loadFrequencias(result) {	
+			$('#table-frequencias').DataTable({
+				 "order": [ 0, 'asc' ],
+				 "paging" : false,
+				 "bInfo": false,
+				 "bFilter" : false,
+				 "order": [ 1, 'asc' ],
+				 "columnDefs": [
+					{ "order": [[ 0, 'asc' ][1,'asc']], "targets": [1, 'asc'] },
+					{ "orderable": false, "targets": 2 },
+					{ "orderable": false, "targets": 3 },
+				],
+				"language": ptBR,
+			});
+			
 			$("#table-frequencias").html($(result).find("#table-frequencias"));
 			ativarEditable();
 		}

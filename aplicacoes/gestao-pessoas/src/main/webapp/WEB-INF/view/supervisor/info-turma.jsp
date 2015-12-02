@@ -89,7 +89,7 @@
 	
 	<div class="panel panel-success">
 		<div class="panel-heading">
-			<h2 class="titulo-panels"><span class="fa fa-group"></span> Estagiários</h2>
+			<h2 class="titulo-panels"><span class="fa fa-group"></span> Estagiários <span class="label label-success"><span class="badge">10</span></span></h2>
 
 			<div class="pull-right">
 				<c:if test="${not empty turma.estagiarios}">
@@ -141,7 +141,21 @@
 
     <script type="text/javascript">
 		$(".menu #turmas").addClass("active");
-	</script>	
+		
+		$('#estagiarios-turma').DataTable({
+			 "paging": false,
+			 "bInfo": false,
+			 "order": [ 0, 'asc' ],
+			 "bFilter": false,
+			 "columnDefs": [
+				{ "order": [ 0, 'asc' ], "targets": [0, 'asc'] },
+				{ "orderable": false, "targets": 1 },
+				{ "orderable": false, "targets": 2 },
+				{ "orderable": false, "targets": 3 },
+				{ "orderable": false, "targets": 4 }
+			],
+		});
+	</script>
 
 </body>
 </html>

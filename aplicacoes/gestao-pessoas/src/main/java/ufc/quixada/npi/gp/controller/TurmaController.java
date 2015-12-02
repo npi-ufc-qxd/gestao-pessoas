@@ -12,7 +12,6 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
-import org.joda.time.LocalDate;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
@@ -36,6 +35,7 @@ import ufc.quixada.npi.gp.model.Horario;
 import ufc.quixada.npi.gp.model.Pessoa;
 import ufc.quixada.npi.gp.model.Turma;
 import ufc.quixada.npi.gp.model.enums.Dia;
+import ufc.quixada.npi.gp.model.enums.StatusFrequencia;
 import ufc.quixada.npi.gp.model.enums.StatusTurma;
 import ufc.quixada.npi.gp.service.DadoConsolidado;
 import ufc.quixada.npi.gp.service.EstagiarioService;
@@ -280,12 +280,14 @@ public class TurmaController {
 		Pessoa pessoa = getUsuarioLogado(session);
 
 		List<Frequencia> frequencias = frequenciaService.getFrequenciasByTurmaIdAndData(data, idTurma);
-
+		
+		List<Estagiario> estagiarios = frequenciaService.getEstagiariosSemFrequencia(data, idTurma);
+		
 		model.addAttribute("turma", turmaService.getTurmaByIdAndSupervisorById(idTurma, pessoa.getId()));
 		model.addAttribute("turmas", turmaService.getTurmasBySupervisorIdAndStatus(StatusTurma.ABERTA, pessoa.getId()));
 		model.addAttribute("frequencias", frequencias);
-		model.addAttribute("dataSelecionada", data);
-
+		model.addAttribute("estagiarios", estagiarios);
+		model.addAttribute("dataAtual", new Date());
 		return "supervisor/list-frequencias";
 	}
 	
@@ -293,30 +295,18 @@ public class TurmaController {
 	public String minhaPresenca(HttpSession session, Model model, @PathVariable("idTurma") Long idTurma, @PathVariable("idEstagiario") Long idEstagiario) {
 
 		Estagiario estagiario = estagiarioService.find(Estagiario.class, idEstagiario);
-		
 		Turma turma = turmaService.find(Turma.class, idTurma);
 
-		List<Frequencia> frequencias = frequenciaService.getFrequenciasByEstagiarioId(estagiario.getId(), turma.getId());
-
 		List<Frequencia> frequenciaCompleta = new ArrayList<Frequencia>();
-		if (!frequencias.isEmpty()) {
-			
-			
-			
-			frequenciaCompleta = frequenciaService.gerarFrequencia(turma.getInicio(), new LocalDate(frequencias.get(0).getData()).plusDays(-1).toDate(), turma.getHorarios());
-			frequenciaCompleta.addAll(frequencias);
-			frequenciaCompleta.addAll(frequenciaService.gerarFrequencia(new Date(), turma.getTermino(), turma.getHorarios()));
-		}
-		else {
-			frequenciaCompleta = frequenciaService.gerarFrequencia(turma.getInicio(), turma.getTermino(), turma.getHorarios());
-		}
-
-		DadoConsolidado dadosConsolidados = frequenciaService.calcularDadosConsolidados(frequencias);
+		frequenciaCompleta = frequenciaService.gerarFrequencia(turma, estagiario);
+		DadoConsolidado dadosConsolidados = frequenciaService.calcularDadosConsolidados(frequenciaCompleta);
 
 		model.addAttribute("estagiario", estagiario);
 		model.addAttribute("turma", turma);
 		model.addAttribute("frequencias", frequenciaCompleta);
 		model.addAttribute("dadosConsolidados", dadosConsolidados);		
+		model.addAttribute("statusFrequencias", StatusFrequencia.values());
+		model.addAttribute("dataAtual", new Date());
 		
 		return "supervisor/list-frequencia-estagiario";
 	}

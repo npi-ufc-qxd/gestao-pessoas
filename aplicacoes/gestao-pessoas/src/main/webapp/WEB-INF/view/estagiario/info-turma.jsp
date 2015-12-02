@@ -188,7 +188,7 @@
 						<div class="panel-body">
 							<div class="col-sm-12">
 								<div class="form-group col-sm-9">
-									<a href="UFC-Quixada-Plano_Estagio-modelo.doc" class="template"><button class="btn btn-default btn-sm modelo" type="button"><span class="fa fa-arrow-circle-down"></span> Modelo de Plano de Estágio</button></a>
+									<a href="<c:url value="/resources/documents/UFC-Quixada-Plano_Estagio-modelo.doc"/>" class="template"><button class="btn btn-default btn-sm modelo" type="button"><span class="fa fa-arrow-circle-down"></span> Modelo de Plano de Estágio</button></a>
 
 									<input name="anexo" type="file" multiple="multiple"
 										class="form-control filestyle jfilestyle"
@@ -216,7 +216,7 @@
 						<div class="panel-body">
 							<div class="col-sm-12">
 								<div class="form-group col-sm-9">
-									<a href="/resources/documents/UFC-Quixada-Relatorio_Final_Estagio-modelo.doc" class="template"><button class="btn btn-default btn-sm modelo" type="button"><span class="fa fa-arrow-circle-down"></span> Modelo de Relatório Final de Estágio</button></a>									
+									<a href="<c:url value="/resources/documents/UFC-Quixada-Relatorio_Final_Estagio-modelo.doc" />" class="template"><button class="btn btn-default btn-sm modelo" type="button"><span class="fa fa-arrow-circle-down"></span> Modelo de Relatório Final de Estágio</button></a>									
 
 									<input name="anexo" type="file" multiple="multiple"
 										class="form-control filestyle jfilestyle"

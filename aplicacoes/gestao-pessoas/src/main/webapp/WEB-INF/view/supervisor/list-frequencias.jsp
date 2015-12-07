@@ -56,7 +56,7 @@
 						</c:forEach>
 						<c:forEach var="estagiario" items="${estagiarios}">
 							<tr class="danger">
-								<td><fmt:formatDate type="time" pattern="HH:mm:ss" value="${dataAtual}" /></td>
+								<td><fmt:formatDate type="time" pattern="HH:mm" value="${dataAtual}" /></td>
 								<td>${estagiario.nomeCompleto}</td>
 								<td></td>
 								<td></td>

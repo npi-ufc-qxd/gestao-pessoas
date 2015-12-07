@@ -10,7 +10,7 @@
 </c:if>
 <c:if test="${action eq 'editar' }">
 	<c:set var="url"
-		value="/supervisor/acompanhamento-avaliacao/${avaliacaoEstagio.id}/editar"></c:set>
+		value="/supervisor/turma/${turma.id}/avaliacao/${avaliacaoEstagio.id}/estagiario/${estagiario.id}/editar"></c:set>
 	<c:set var="titulo" value="Editar Avaliação"></c:set>
 </c:if>
 

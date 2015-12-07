@@ -29,10 +29,6 @@ public class AvaliacaoEstagio {
 	private String fatorRelacionamento;
 
 	@ManyToOne
-	@JoinColumn(name = "submissao_id")
-	private Submissao submissao;
-
-	@ManyToOne
 	@JoinColumn(name = "turma_id")
 	private Turma turma;
 
@@ -106,14 +102,6 @@ public class AvaliacaoEstagio {
 
 	public void setFatorRelacionamento(String fatorRelacionamento) {
 		this.fatorRelacionamento = fatorRelacionamento;
-	}
-
-	public Submissao getSubmissao() {
-		return submissao;
-	}
-
-	public void setSubmissao(Submissao submissao) {
-		this.submissao = submissao;
 	}
 
 	public Turma getTurma() {

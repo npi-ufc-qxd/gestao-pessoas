@@ -188,7 +188,6 @@ public class TurmaController {
 	public String detalhesTurma(@PathVariable("idTurma") Long idTurma, Model model, HttpSession session) {
 		Pessoa pessoa = getUsuarioLogado(session);
 		
-		
 		model.addAttribute("turma", turmaService.getTurmaByIdAndSupervisorById(idTurma, pessoa.getId()));
 		turmaService.getTurmaByIdAndSupervisorById(idTurma, pessoa.getId());
 
@@ -403,7 +402,7 @@ public class TurmaController {
 	public String paginaEventosTurma(Model model, @PathVariable("idTurma") Long idTurma) {
 
 		List<Evento> eventos = eventoService.getEventosByTurma(idTurma);
-
+		model.addAttribute("action", "cadastrar");
 		model.addAttribute("eventos", eventos);
 		model.addAttribute("evento", new Evento());
 		model.addAttribute("turma", turmaService.find(Turma.class, idTurma));
@@ -411,10 +410,10 @@ public class TurmaController {
 		return "supervisor/form-evento";
 	}
 
-	@RequestMapping(value = "/{idTurma}/evento", method = RequestMethod.POST)
+	@RequestMapping(value = "/{idTurma}/evento/cadastrar", method = RequestMethod.POST)
 	public String adicionarEventosTurma(@ModelAttribute("evento") Evento evento, @PathVariable("idTurma") Long idTurma,
-			HttpSession session, RedirectAttributes redirect) {
-
+			HttpSession session, RedirectAttributes redirect, Model model) {
+		model.addAttribute("action", "cadastrar");
 		Pessoa supervisor = getUsuarioLogado(session);
 		Turma turma = turmaService.getTurmaByIdAndSupervisorById(idTurma, supervisor.getId());
 
@@ -444,7 +443,7 @@ public class TurmaController {
 		Evento evento = eventoService.find(Evento.class, idEvento);
 		model.addAttribute("evento", evento);
 		
-		return "supervisor/form-editar-evento";
+		return "supervisor/form-evento";
 	}
 	
 	@RequestMapping(value="/{turma.id}/evento/{id}/editar", method = RequestMethod.POST)

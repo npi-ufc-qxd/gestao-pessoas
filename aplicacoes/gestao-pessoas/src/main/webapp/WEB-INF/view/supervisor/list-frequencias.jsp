@@ -107,12 +107,7 @@
 				{ "title": "Status", "orderable": false, "targets": 3 },
 			],
 			"destroy": true,
-		}); 
-		
-/* 		function loadFrequencias(result) {
-		    $("#table-frequencias").html($(result).find("#table-frequencias"));
-			ativarEditable();
-		} */
+		});
 		
 		 function loadFrequencias(result) {
 			

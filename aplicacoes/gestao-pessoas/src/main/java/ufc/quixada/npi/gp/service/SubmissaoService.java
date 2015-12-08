@@ -9,13 +9,13 @@ import ufc.quixada.npi.gp.model.enums.Tipo;
 
 public interface SubmissaoService extends GenericService<Submissao>  {
 	
-	void salvar(Submissao documento);
+	void salvar(Submissao submissao);
 	
-	void salvar(List<Submissao> documentos);
+	void salvar(List<Submissao> submissoes);
 	
 	Submissao getSubmissaoById(Long id);
 	
-	void remover(Submissao documento);
+	void remover(Submissao submissao);
 	
 	Submissao getSubmissaoByPessoaIdAndIdTurmaAndTipo(Long idPessoa, Long idTurma, Tipo tipo);
 	

@@ -76,7 +76,7 @@
 				    </tr>
 				  </thead>
 				  <tbody class="text-view-info ">
-				  <c:forEach var="evento" items="${eventos}">
+				  <c:forEach var="evento" items="${turma.eventos}">
 				    <tr align="justify">
 				      <td>${evento.descricao }</td>
 				      <td>${evento.inicio } a ${evento.termino}</td>

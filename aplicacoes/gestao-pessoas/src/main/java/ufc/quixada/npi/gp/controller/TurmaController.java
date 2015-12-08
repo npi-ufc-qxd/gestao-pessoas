@@ -26,7 +26,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import br.ufc.quixada.npi.ldap.model.Usuario;
 import br.ufc.quixada.npi.ldap.service.UsuarioService;
-import br.ufc.quixada.npi.service.GenericService;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
@@ -401,9 +400,8 @@ public class TurmaController {
 	@RequestMapping(value = "/{idTurma}/evento", method = RequestMethod.GET)
 	public String paginaEventosTurma(Model model, @PathVariable("idTurma") Long idTurma) {
 
-		List<Evento> eventos = eventoService.getEventosByTurma(idTurma);
+		
 		model.addAttribute("action", "cadastrar");
-		model.addAttribute("eventos", eventos);
 		model.addAttribute("evento", new Evento());
 		model.addAttribute("turma", turmaService.find(Turma.class, idTurma));
 
@@ -437,12 +435,23 @@ public class TurmaController {
 	}
 
 	@RequestMapping(value = "/{idTurma}/evento/{idEvento}/editar", method = RequestMethod.GET)
-	public String editarEvento(@PathVariable("idEvento") Long idEvento, Model model){
-		model.addAttribute("action", "editar");
+	public String editarEvento(@PathVariable("idEvento") Long idEvento, Model model, 
+			@PathVariable("idTurma") Long idTurma, HttpSession session, RedirectAttributes attributes){
 		
 		Evento evento = eventoService.find(Evento.class, idEvento);
-		model.addAttribute("evento", evento);
-		
+		Turma turma = turmaService.find(Turma.class, idTurma);
+		Pessoa pessoa = getUsuarioLogado(session);
+		if(turma.getSupervisor().equals(pessoa)){
+			attributes.addFlashAttribute("erro", "Permissão negada.");
+			return "redirect:/";
+		}
+		if(!turma.getEventos().contains(evento)){
+			attributes.addFlashAttribute("erro", "Erro ao tentar editar turma.");
+			return "redirect:/turma/"+turma.getId();
+		}
+		model.addAttribute("evento", evento);	
+		model.addAttribute("turma", turma);
+		model.addAttribute("action", "editar");
 		return "supervisor/form-evento";
 	}
 	

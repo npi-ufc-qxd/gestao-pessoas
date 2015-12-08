@@ -64,13 +64,26 @@
 					<h2 class="titulo-panels">
 						<span class="fa fa-pencil"></span> Avaliação de estágio
 					</h2>
-					<div class="pull-right">
-						<a
-							href="<c:url value="/supervisor/turma/${turma.id}/acompanhamento-avaliacao/estagiario/${estagiario.id}/adicionar/" ></c:url>"
-							title="Nova Avaliacao"><button class="btn btn-primary">
-								<span class="fa fa-plus"></span> Avaliação
-							</button></a>
-					</div>
+					<c:if test="${empty avaliacaoEstagio}">
+						<div class="pull-right">
+							<a
+								href="<c:url value="/supervisor/turma/${turma.id}/acompanhamento-avaliacao/estagiario/${estagiario.id}/adicionar/" ></c:url>"
+								title="Nova Avaliacao"><button class="btn btn-primary">
+									<span class="fa fa-plus"></span> Avaliação
+								</button></a>
+						</div>
+					</c:if>
+					<c:if test="${not empty avaliacaoEstagio}"> 
+ 						<c:forEach var="avaliacaoEstagio" items="${avaliacaoEstagio}"> 
+							<div class="pull-right"> 
+ 								<a 
+ 									href="<c:url value="/supervisor/turma/${turma.id}/avaliacao/${avaliacaoEstagio.id}/estagiario/${estagiario.id}/editar" ></c:url>" 
+ 									title="Editar"><button class="btn btn-success"> 
+										<span class="fa fa-pencil"></span> Editar avaliação 
+									</button></a> 
+ 							</div> 
+ 						</c:forEach> 
+					</c:if> -
 					<br>
 				</div>
 				<div class="panel-body">
@@ -86,15 +99,23 @@
 					</c:if>
 
 					<c:if test="${not empty avaliacaoEstagio}">
- 							<div class="form-group"> 
-							<label class="col-sm-12 text-view-info"><strong>Nota geral: </strong></label> 
-							<label class="col-sm-12 text-view-info">${avaliacaoEstagio.nota}</label> 
+						<c:forEach var="avaliacaoEstagio" items="${avaliacaoEstagio}">
+							<div class="form-group">
+								<label class="col-sm-3 text-view-info"><strong>Nota
+										geral do estágio: </strong></label><label class="col-sm-3 text-view-info">${avaliacaoEstagio.nota}</label>
 
-							<label class="col-sm-1 text-view-info"><strong>Semestre:
-							</strong></label><label class="col-sm-2 text-view-info">${estagiario.semestre}</label>
-							<label class="col-sm-1 text-view-info"><strong>Curso:
-							</strong></label><label class="col-sm-3 text-view-info">${estagiario.curso}</label>
-						</div>
+								<label class="col-sm-12 text-view-info"><strong>Assiduidade
+										e Disciplina </strong></label><label class="col-sm-12 text-view-info">${avaliacaoEstagio.fatorAssiduidadeDisciplina}</label>
+								<label class="col-sm-12 text-view-info"><strong>Iniciativa
+										e Produtividade </strong></label><label class="col-sm-12 text-view-info">${avaliacaoEstagio.fatorIniciativaProdutividade}</label>
+								<label class="col-sm-12 text-view-info"><strong>Responsabilidade
+								</strong></label><label class="col-sm-12 text-view-info">${avaliacaoEstagio.fatorResponsabilidade}</label>
+								<label class="col-sm-12 text-view-info"><strong>Relacionamento
+								</strong></label><label class="col-sm-12 text-view-info">${avaliacaoEstagio.fatorRelacionamento}</label>
+
+
+							</div>
+						</c:forEach>
 					</c:if>
 
 				</div>

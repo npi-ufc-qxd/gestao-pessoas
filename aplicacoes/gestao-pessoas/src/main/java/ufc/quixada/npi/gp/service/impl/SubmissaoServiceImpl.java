@@ -8,12 +8,12 @@ import javax.inject.Named;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import ufc.quixada.npi.gp.model.Submissao;
-import ufc.quixada.npi.gp.model.enums.Tipo;
-import ufc.quixada.npi.gp.service.SubmissaoService;
 import br.ufc.quixada.npi.enumeration.QueryType;
 import br.ufc.quixada.npi.repository.GenericRepository;
 import br.ufc.quixada.npi.service.impl.GenericServiceImpl;
+import ufc.quixada.npi.gp.model.Submissao;
+import ufc.quixada.npi.gp.model.enums.Tipo;
+import ufc.quixada.npi.gp.service.SubmissaoService;
 
 @Named
 public class SubmissaoServiceImpl extends GenericServiceImpl<Submissao> implements SubmissaoService {
@@ -22,14 +22,14 @@ public class SubmissaoServiceImpl extends GenericServiceImpl<Submissao> implemen
 	private GenericRepository<Submissao> submissaoRepository;
 
 	@Override
-	public void salvar(Submissao documento) {
-		submissaoRepository.save(documento);
+	public void salvar(Submissao submissao) {
+		submissaoRepository.save(submissao);
 	}
 	
 	@Override
-	public void salvar(List<Submissao> documentos) {
-		for(Submissao documento : documentos) {
-			submissaoRepository.save(documento);
+	public void salvar(List<Submissao> submissaos) {
+		for(Submissao submissao : submissaos) {
+			submissaoRepository.save(submissao);
 		}
 	}
 
@@ -39,8 +39,8 @@ public class SubmissaoServiceImpl extends GenericServiceImpl<Submissao> implemen
 	}
 
 	@Override
-	public void remover(Submissao documento) {
-		submissaoRepository.delete(documento);
+	public void remover(Submissao submissao) {
+		submissaoRepository.delete(submissao);
 	}
 	
 	@Override

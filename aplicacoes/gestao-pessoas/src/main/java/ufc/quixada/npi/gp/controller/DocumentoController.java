@@ -15,25 +15,26 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import ufc.quixada.npi.gp.model.Documento;
 import ufc.quixada.npi.gp.model.Submissao;
 import ufc.quixada.npi.gp.service.SubmissaoService;
 
 
 @Controller
 @RequestMapping("documento")
-public class SubmissaoController {
+public class DocumentoController {
 	
 	@Inject
-	private SubmissaoService documentoService;
+	private SubmissaoService submissaoService;
 	
 	@RequestMapping(value = "/{idSubmissao}", method = RequestMethod.GET)
 	public void getArquivo(@PathVariable("idSubmissao") Long idSubmissao, HttpServletResponse response, HttpSession session) {
 		try {
-			Submissao submissao = documentoService.getSubmissaoById(idSubmissao);
+			Submissao submissao = submissaoService.getSubmissaoById(idSubmissao);
 			if(submissao != null) {
-				InputStream is = new ByteArrayInputStream(submissao.getArquivo());
+				InputStream is = new ByteArrayInputStream(submissao.getDocumento().getArquivo());
 				response.setContentType(submissao.toString());
-				response.setHeader("Content-Disposition", "attachment; filename=" + submissao.getNome());
+				response.setHeader("Content-Disposition", "attachment; filename=" + submissao.getDocumento().getNome());
 				IOUtils.copy(is, response.getOutputStream());
 				response.flushBuffer();
 			}
@@ -44,14 +45,14 @@ public class SubmissaoController {
 	@RequestMapping(value = "/remover/{id}", method = RequestMethod.POST)
 	@ResponseBody public  ModelMap excluirDocumento(@PathVariable("id") Long id, HttpSession session) {
 		ModelMap model = new ModelMap();
-		Submissao documento = documentoService.getSubmissaoById(id);
+		Submissao documento = submissaoService.getSubmissaoById(id);
 
 		if(documento == null) {
 			model.addAttribute("mensagem", "Documento inexistente.");
 			return model;
 		}
 
-		documentoService.remover(documento);
+		submissaoService.remover(documento);
 		model.addAttribute("result", "ok");
 		return model;
 	}

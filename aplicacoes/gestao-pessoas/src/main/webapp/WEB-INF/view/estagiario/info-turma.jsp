@@ -133,7 +133,7 @@
 										<c:choose>
 											<c:when test="${submissao.statusEntrega.label == 'Aceito'}">
 												<tr class="success">
-													<td><a href="<c:url value="/documento/ ${submissao.id }" />">${submissao.nome}</a></td>
+													<td><a href="<c:url value="/documento/ ${submissao.id }" />">${submissao.documento.nome}</a></td>
 													<td><fmt:formatDate value="${submissao.data}"
 															pattern="dd/MM/yyyy" /></td>
 													<td>${submissao.horario}</td>
@@ -144,7 +144,7 @@
 											<c:when
 												test="${submissao.statusEntrega.label == 'Rejeitado'}">
 												<tr class="danger">
-													<td><a href="<c:url value="/documento/ ${submissao.id }" />">${submissao.nome}</a></td>
+													<td><a href="<c:url value="/documento/ ${submissao.id }" />">${submissao.documento.nome}</a></td>
 													<td><fmt:formatDate value="${submissao.data}"
 															pattern="dd/MM/yyyy" /></td>
 													<td>${submissao.horario}</td>
@@ -154,7 +154,7 @@
 											</c:when>
 											<c:otherwise>
 												<tr class="warning">
-													<td><a href="<c:url value="/documento/ ${submissao.id }" />">${submissao.nome}</a></td>
+													<td><a href="<c:url value="/documento/ ${submissao.id }" />">${submissao.documento.nome}</a></td>
 													<td><fmt:formatDate value="${submissao.data}"
 															pattern="dd/MM/yyyy" /></td>
 													<td>${submissao.horario}</td>
@@ -188,7 +188,7 @@
 						<div class="panel-body">
 							<div class="col-sm-12">
 								<div class="form-group col-sm-9">
-									<a href="<c:url value="/resources/documents/UFC-Quixada-Plano_Estagio-modelo.doc"/>" class="template"><button class="btn btn-default btn-sm modelo" type="button"><span class="fa fa-arrow-circle-down"></span> Modelo de Plano de Estágio</button></a>
+									<a href="<c:url value="/resources/documents/UFC-Quixada-Plano_Estagio-modelo.doc"/>" class="template"><button class="btn btn-primary btn-sm modelo" type="button"><span class="fa fa-arrow-circle-down"></span> Modelo de Plano de Estágio</button></a>
 
 									<input name="anexo" type="file" multiple="multiple"
 										class="form-control filestyle jfilestyle"
@@ -216,7 +216,7 @@
 						<div class="panel-body">
 							<div class="col-sm-12">
 								<div class="form-group col-sm-9">
-									<a href="<c:url value="/resources/documents/UFC-Quixada-Relatorio_Final_Estagio-modelo.doc" />" class="template"><button class="btn btn-default btn-sm modelo" type="button"><span class="fa fa-arrow-circle-down"></span> Modelo de Relatório Final de Estágio</button></a>									
+									<a href="<c:url value="/resources/documents/UFC-Quixada-Relatorio_Final_Estagio-modelo.doc" />" class="template"><button class="btn btn-primary btn-sm modelo" type="button"><span class="fa fa-arrow-circle-down"></span> Modelo de Relatório Final de Estágio</button></a>									
 
 									<input name="anexo" type="file" multiple="multiple"
 										class="form-control filestyle jfilestyle"

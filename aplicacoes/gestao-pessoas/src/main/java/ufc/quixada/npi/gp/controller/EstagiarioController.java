@@ -6,7 +6,7 @@ import static ufc.quixada.npi.gp.utils.Constants.PAGINA_INICIAL_ESTAGIARIO;
 import static ufc.quixada.npi.gp.utils.Constants.PAGINA_MINHA_PRESENCA;
 import static ufc.quixada.npi.gp.utils.Constants.REDIRECT_PAGINA_INICIAL_ESTAGIARIO;
 
-import java.util.ArrayList;
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
@@ -14,30 +14,35 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
-import org.joda.time.LocalDate;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import br.ufc.quixada.npi.ldap.service.UsuarioService;
 import ufc.quixada.npi.gp.model.Estagiario;
 import ufc.quixada.npi.gp.model.Frequencia;
 import ufc.quixada.npi.gp.model.Pessoa;
+import ufc.quixada.npi.gp.model.Submissao;
 import ufc.quixada.npi.gp.model.Turma;
+import ufc.quixada.npi.gp.model.enums.StatusEntrega;
 import ufc.quixada.npi.gp.model.enums.StatusFrequencia;
 import ufc.quixada.npi.gp.model.enums.StatusTurma;
+import ufc.quixada.npi.gp.model.enums.Tipo;
 import ufc.quixada.npi.gp.service.DadoConsolidado;
 import ufc.quixada.npi.gp.service.EstagiarioService;
 import ufc.quixada.npi.gp.service.FrequenciaService;
 import ufc.quixada.npi.gp.service.PessoaService;
+import ufc.quixada.npi.gp.service.SubmissaoService;
 import ufc.quixada.npi.gp.service.TurmaService;
 import ufc.quixada.npi.gp.utils.Constants;
-import br.ufc.quixada.npi.ldap.service.UsuarioService;
 
 @Controller
 @RequestMapping("estagiario")
@@ -57,6 +62,9 @@ public class EstagiarioController {
 	
 	@Inject
 	private UsuarioService usuarioService;
+	
+	@Inject
+	private SubmissaoService submissaoService;
 
 	@RequestMapping(value = {"/",""}, method = RequestMethod.GET)
 	public String paginaInicial(Model model, HttpSession session) {
@@ -113,18 +121,92 @@ public class EstagiarioController {
 
 		return REDIRECT_PAGINA_INICIAL_ESTAGIARIO;
 	}
-
+	
 	@RequestMapping(value = "/minha-frequencia", method = RequestMethod.GET)
 	public String minhaFrequecia(HttpSession session, Model model) {
 		Pessoa pessoa = getUsuarioLogado(session);
 		
 		Estagiario estagiario = estagiarioService.getEstagiarioByPessoaId(pessoa.getId());
 
-		List<Turma> turmas = turmaService.getTurmasByEstagiarioIdAndStatus(StatusTurma.ABERTA, estagiario.getId());
+		List<Turma> turmas = turmaService.getTurmasByEstagiarioId(estagiario.getId());
 
 		model.addAttribute("turmas", turmas);
 
 		return PAGINA_MINHA_PRESENCA;
+	}
+	
+	@RequestMapping(value = "/turmas", method = RequestMethod.GET)
+	public String listarTurmas(Model model, HttpSession session) {
+		Pessoa pessoa = getUsuarioLogado(session);
+		
+		Estagiario estagiario = estagiarioService.getEstagiarioByPessoaId(pessoa.getId());
+
+		List<Turma> turmas = turmaService.getTurmasByEstagiarioId(estagiario.getId());
+		
+		model.addAttribute("turmas", turmas);
+
+		return "estagiario/list-turmas";
+	}
+	
+	@RequestMapping(value = "/turma/{idTurma}", method = RequestMethod.GET)
+	public String detalhesTurma(@PathVariable("idTurma") Long idTurma, Model model, HttpSession session) {
+		Pessoa pessoa = getUsuarioLogado(session);
+		
+		Estagiario estagiario = estagiarioService.getEstagiarioByPessoaId(pessoa.getId());
+		
+		List<Submissao> submissoes = submissaoService.getSubmissoesByPessoaIdAndIdTurma(pessoa.getId(), idTurma);
+
+		model.addAttribute("submissoes", submissoes);
+		model.addAttribute("estagiarioNome", estagiario.getNomeCompleto());
+		model.addAttribute("turma", turmaService.getTurmaByIdAndEstagiarioId(idTurma, estagiario.getId()));
+		
+		return "estagiario/info-turma";
+	}
+	
+	@RequestMapping(value = "/minha-documentacao/turma/{idTurma}", method = RequestMethod.POST)
+	public String minhaDocumentacao(@Valid @RequestParam("anexo") MultipartFile anexo, HttpSession session, Model model, @RequestParam("tipo") Tipo tipo, @ModelAttribute("idTurma") Long idTurma, RedirectAttributes redirectAttributes ){
+		Pessoa pessoa = getUsuarioLogado(session);
+		Estagiario estagiario = estagiarioService.getEstagiarioByPessoaId(pessoa.getId());
+		Turma turma = turmaService.getTurmaByIdAndEstagiarioId(idTurma, estagiario.getId());
+		
+		Submissao submissao = submissaoService.getSubmissaoByPessoaIdAndIdTurmaAndTipo(pessoa.getId(), idTurma, tipo);
+		
+		try {
+			if(!anexo.getContentType().equals("application/pdf")){
+				redirectAttributes.addFlashAttribute("error", "Escolha um arquivo pdf.");
+				return "redirect:/estagiario/turma/" + idTurma;
+			}
+			if(submissao == null && anexo.getBytes() != null && anexo.getBytes().length != 0 && anexo.getContentType().equals("application/pdf")){
+					Submissao newDocumento = new Submissao();
+					newDocumento.setArquivo(anexo.getBytes());
+					newDocumento.setNome(tipo+"_"+estagiario.getNomeCompleto().toUpperCase());
+					newDocumento.setNomeOriginal(anexo.getOriginalFilename());
+					newDocumento.setExtensao(anexo.getContentType());
+					newDocumento.setData(new Date());
+					newDocumento.setHorario(new Date());
+					newDocumento.setStatusEntrega(StatusEntrega.ENVIADO);
+					newDocumento.setTipo(tipo);
+					newDocumento.setPessoa(pessoa);
+					newDocumento.setTurma(turma);
+					submissaoService.salvar(newDocumento);
+				} else if(submissao.getStatusEntrega().equals(StatusEntrega.ENVIADO) && anexo.getBytes() != null && anexo.getBytes().length != 0 && anexo.getContentType().equals("application/pdf")){
+					submissao.setArquivo(anexo.getBytes());
+					submissao.setNome(tipo+"_"+estagiario.getNomeCompleto().toUpperCase());
+					submissao.setNomeOriginal(anexo.getOriginalFilename());
+					submissao.setExtensao(anexo.getContentType());
+					submissao.setData(new Date());
+					submissao.setHorario(new Date());
+					submissao.setStatusEntrega(StatusEntrega.ENVIADO);
+					submissao.setTipo(tipo);
+					submissao.setPessoa(pessoa);
+					submissao.setTurma(turma);
+					submissaoService.update(submissao);
+				}
+		} catch (IOException e) {
+			return "redirect:/500";
+		}
+		
+		return "redirect:/estagiario/turma/" + idTurma;
 	}
 
 	@RequestMapping(value = "/minha-frequencia/turma/{idTurma}", method = RequestMethod.GET)
@@ -152,19 +234,9 @@ public class EstagiarioController {
 			
 			List<Frequencia> frequencias = frequenciaService.getFrequenciasByEstagiarioId(estagiario.getId(), turma.getId());
 
-			List<Frequencia> frequenciaCompleta = new ArrayList<Frequencia>();
-			if (!frequencias.isEmpty()) {
-				frequenciaCompleta = frequenciaService.gerarFrequencia(turma.getInicio(), new LocalDate(frequencias.get(0).getData()).plusDays(-1).toDate(), turma.getHorarios());
-				frequenciaCompleta.addAll(frequencias);
-				frequenciaCompleta.addAll(frequenciaService.gerarFrequencia(new Date(), turma.getTermino(), turma.getHorarios()));
-			}
-			else {
-				frequenciaCompleta = frequenciaService.gerarFrequencia(turma.getInicio(), turma.getTermino(), turma.getHorarios());
-			}			
+			DadoConsolidado dadosConsolidados = frequenciaService.calcularDadosConsolidados(frequencias);
 
-			DadoConsolidado dadosConsolidados = frequenciaService.calcularDadosConsolidados(frequenciaCompleta);
-
-			model.addAttribute("frequencias", frequenciaCompleta);
+			model.addAttribute("frequencias", frequencias);
 			model.addAttribute("dadosConsolidados", dadosConsolidados);		
 			model.addAttribute("dadosConsolidados", dadosConsolidados);		
 			model.addAttribute("estagiario", estagiario);

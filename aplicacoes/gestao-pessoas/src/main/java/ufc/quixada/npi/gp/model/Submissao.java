@@ -27,23 +27,43 @@ public class Submissao {
 
 	private double nota;
 
+	private String extensao;
+	
 	@Temporal(TemporalType.DATE)
 	private Date data;
-
+	
 	@Temporal(TemporalType.TIME)
 	private Date horario;
 
-	private String extensao;
+	private String nomeOriginal;
+	
+	public String getNomeOriginal() {
+	return nomeOriginal;
+}
 
+public void setNomeOriginal(String nomeOriginal) {
+	this.nomeOriginal = nomeOriginal;
+}
+
+public String getNome() {
+	return nome;
+}
+
+public void setNome(String nome) {
+	this.nome = nome;
+}
+
+	private String nome;
+	
 	@Enumerated(EnumType.STRING)
 	private Tipo tipo;
-
+	
 	@Enumerated(EnumType.STRING)
 	private StatusEntrega statusEntrega;
-
-	@Type(type = "org.hibernate.type.BinaryType")
+	
+	@Type(type="org.hibernate.type.BinaryType") 
 	private byte[] arquivo;
-
+	
 	@ManyToOne
 	@JoinColumn(name = "pessoa_id")
 	private Pessoa pessoa;
@@ -51,7 +71,7 @@ public class Submissao {
 	@ManyToOne
 	@JoinColumn(name = "turma_id")
 	private Turma turma;
-
+	
 	public Long getId() {
 		return id;
 	}
@@ -67,7 +87,7 @@ public class Submissao {
 	public void setNota(double nota) {
 		this.nota = nota;
 	}
-
+	
 	public String getExtensao() {
 		return extensao;
 	}
@@ -75,11 +95,11 @@ public class Submissao {
 	public void setExtensao(String extensao) {
 		this.extensao = extensao;
 	}
-
+	
 	public Date getData() {
 		return data;
 	}
-
+	
 	public Date getHorario() {
 		return horario;
 	}
@@ -87,11 +107,11 @@ public class Submissao {
 	public void setHorario(Date tempo) {
 		this.horario = tempo;
 	}
-
+	
 	public void setData(Date data) {
 		this.data = data;
 	}
-
+	
 	public StatusEntrega getStatusEntrega() {
 		return statusEntrega;
 	}
@@ -106,6 +126,14 @@ public class Submissao {
 
 	public void setPessoa(Pessoa pessoa) {
 		this.pessoa = pessoa;
+	}
+	
+	public Turma getTurma() {
+		return turma;
+	}
+
+	public void setTurma(Turma turma) {
+		this.turma = turma;
 	}
 
 	public Tipo getTipo() {
@@ -123,10 +151,10 @@ public class Submissao {
 	public void setArquivo(byte[] arquivo) {
 		this.arquivo = arquivo;
 	}
-
+	
 	@Override
 	public boolean equals(Object obj) {
-		if (obj instanceof Submissao) {
+		if(obj instanceof Submissao) {
 			Submissao other = (Submissao) obj;
 			if (other != null && other.getId() != null && this.id != null && other.getId().equals(this.id)) {
 				return true;
@@ -134,5 +162,5 @@ public class Submissao {
 		}
 		return false;
 	}
-
+	
 }

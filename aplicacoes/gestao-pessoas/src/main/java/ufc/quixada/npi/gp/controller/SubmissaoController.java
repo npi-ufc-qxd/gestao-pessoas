@@ -16,30 +16,24 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import ufc.quixada.npi.gp.model.Submissao;
-import ufc.quixada.npi.gp.model.Pessoa;
 import ufc.quixada.npi.gp.service.SubmissaoService;
-import ufc.quixada.npi.gp.service.PessoaService;
 
 
 @Controller
-@RequestMapping("submissao")
+@RequestMapping("documento")
 public class SubmissaoController {
 	
 	@Inject
-	private SubmissaoService submissaoService;
+	private SubmissaoService documentoService;
 	
-	@Inject
-	private PessoaService pessoaService;
-	
-	@RequestMapping(value = "/{idPessoa}/{idArquivo}", method = RequestMethod.GET)
-	public void getArquivo(@PathVariable("idPessoa") Long idPessoa, @PathVariable("idArquivo") Long idArquivo, HttpServletResponse response, HttpSession session) {
+	@RequestMapping(value = "/{idSubmissao}", method = RequestMethod.GET)
+	public void getArquivo(@PathVariable("idSubmissao") Long idSubmissao, HttpServletResponse response, HttpSession session) {
 		try {
-			Pessoa pessoa = pessoaService.find(Pessoa.class, idPessoa);
-			Submissao submissao = submissaoService.getSubmissaoById(idArquivo);
+			Submissao submissao = documentoService.getSubmissaoById(idSubmissao);
 			if(submissao != null) {
 				InputStream is = new ByteArrayInputStream(submissao.getArquivo());
 				response.setContentType(submissao.toString());
-			//	response.setHeader("Content-Disposition", "attachment; filename=" + submissao.getNome());
+				response.setHeader("Content-Disposition", "attachment; filename=" + submissao.getNome());
 				IOUtils.copy(is, response.getOutputStream());
 				response.flushBuffer();
 			}
@@ -48,16 +42,16 @@ public class SubmissaoController {
 	}
 	
 	@RequestMapping(value = "/remover/{id}", method = RequestMethod.POST)
-	@ResponseBody public  ModelMap excluirSubmissao(@PathVariable("id") Long id, HttpSession session) {
+	@ResponseBody public  ModelMap excluirDocumento(@PathVariable("id") Long id, HttpSession session) {
 		ModelMap model = new ModelMap();
-		Submissao submissao = submissaoService.getSubmissaoById(id);
+		Submissao documento = documentoService.getSubmissaoById(id);
 
-		if(submissao == null) {
-			model.addAttribute("mensagem", "Submissão inexistente.");
+		if(documento == null) {
+			model.addAttribute("mensagem", "Documento inexistente.");
 			return model;
 		}
 
-		submissaoService.remover(submissao);
+		documentoService.remover(documento);
 		model.addAttribute("result", "ok");
 		return model;
 	}

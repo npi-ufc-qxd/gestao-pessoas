@@ -1,12 +1,12 @@
 package ufc.quixada.npi.gp.model.enums;
 
 public enum StatusEntrega {
-	ACEITA("Aceita"), REJEITADA("Rejeitada"), ENVIADA("Enviada");
+	ACEITO("Aceito"), REJEITADO("Rejeitado"), ENVIADO("Enviado");
 	
 	private String label;
 
 	private StatusEntrega(String label) {
-		this.label= label;
+		this.label = label;
 	}
 
 	public String getLabel() {

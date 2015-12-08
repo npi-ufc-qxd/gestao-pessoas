@@ -4,6 +4,7 @@
 <%@ taglib prefix="sec"
 	uri="http://www.springframework.org/security/tags"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
 <!DOCTYPE html>
 
@@ -110,7 +111,8 @@
 			<div class="panel panel-success">
 				<div class="panel-heading">
 					<h2 class="titulo-panels">
-						<span class="fa fa-group"></span> Estagiários
+						<span class="fa fa-group"></span> Estagiários <span
+							class="badge bVinculos">${fn:length(turma.estagiarios)}</span>
 					</h2>
 
 					<div class="pull-right">
@@ -151,6 +153,7 @@
 									<th class="col-md-3">Curso</th>
 									<th class="col-md-3">Frequência</th>
 									<th class="col-md-1"></th>
+									<th class="col-md-1"></th>
 								</tr>
 							</thead>
 							<tbody class="text-view-info">
@@ -163,8 +166,8 @@
 										<td align="right"><a
 											href="<c:url value="/supervisor/turma/${idTurma }/acompanhamento-avaliacao/estagiario/${estagiario.id}" />"
 											title="Acompanhamento de Avaliação"
-											class="btn btn-info btn-sm"><span
-												class="fa fa-check"></span>Acompanhamento de Avaliação</a></td>
+											class="btn btn-info btn-sm"><span class="fa fa-check"></span>Acompanhamento
+												de Avaliação</a></td>
 										<td align="right"><a
 											href="<c:url value="/supervisor/turma/${idTurma }/estagiario/${estagiario.id}/frequencia" />"
 											title="Frequências" class="btn btn-info btn-sm"><span
@@ -176,16 +179,28 @@
 					</c:if>
 				</div>
 			</div>
-
 		</div>
-	</div>
-	<br>
-	<br>
-	<jsp:include page="../modulos/footer.jsp" />
 
-	<script type="text/javascript">
-		$(".menu #turmas").addClass("active");
-	</script>
+		<br> <br>
+		<jsp:include page="../modulos/footer.jsp" />
 
+		<script type="text/javascript">
+			$(".menu #turmas").addClass("active");
+			
+			$('#estagiarios-turma').DataTable({
+				"paging" : false,
+				"bInfo" : false,
+				"order" : [ 0, 'asc' ],
+				"bFilter" : false,
+				"columnDefs" : [ 
+					{"order" : [ 0, 'asc' ], "targets" : [ 0, 'asc' ]}, 
+					{"orderable" : false, "targets" : 1}, 
+					{"orderable" : false, "targets" : 2},
+					{"orderable" : false, "targets" : 3},
+					{"orderable" : false, "targets" : 4},
+					{"orderable" : false, "targets" : 5}
+				],
+			});
+		</script>
 </body>
 </html>

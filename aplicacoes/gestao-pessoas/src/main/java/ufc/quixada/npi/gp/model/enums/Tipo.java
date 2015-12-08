@@ -15,7 +15,7 @@ public enum Tipo {
 		return labelTipo;
 	}
 
-	public void setLabelTipo(String labelTipo) {
+	public void setLabelTipo (String labelTipo) {
 		this.labelTipo = labelTipo;
 	}
 

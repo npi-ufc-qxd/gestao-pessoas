@@ -12,18 +12,19 @@ import java.util.Set;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.joda.time.LocalDate;
+import org.springframework.transaction.annotation.Transactional;
+
+import br.ufc.quixada.npi.enumeration.QueryType;
+import br.ufc.quixada.npi.service.impl.GenericServiceImpl;
 import net.objectlab.kit.datecalc.common.DateCalculator;
 import net.objectlab.kit.datecalc.common.DefaultHolidayCalendar;
 import net.objectlab.kit.datecalc.common.HolidayCalendar;
 import net.objectlab.kit.datecalc.common.HolidayHandlerType;
 import net.objectlab.kit.datecalc.joda.LocalDateKitCalculatorsFactory;
-
-import org.joda.time.LocalDate;
-import org.springframework.transaction.annotation.Transactional;
-
+import ufc.quixada.npi.gp.model.Estagiario;
 import ufc.quixada.npi.gp.model.Folga;
 import ufc.quixada.npi.gp.model.Frequencia;
-import ufc.quixada.npi.gp.model.Horario;
 import ufc.quixada.npi.gp.model.Turma;
 import ufc.quixada.npi.gp.model.enums.StatusFrequencia;
 import ufc.quixada.npi.gp.model.enums.TipoFrequencia;
@@ -32,8 +33,6 @@ import ufc.quixada.npi.gp.service.DadoConsolidado;
 import ufc.quixada.npi.gp.service.FolgaService;
 import ufc.quixada.npi.gp.service.FrequenciaService;
 import ufc.quixada.npi.gp.utils.UtilGestao;
-import br.ufc.quixada.npi.enumeration.QueryType;
-import br.ufc.quixada.npi.service.impl.GenericServiceImpl;
 
 @Named
 public class FrequenciaServiceImpl extends GenericServiceImpl<Frequencia> implements FrequenciaService {
@@ -105,7 +104,6 @@ public class FrequenciaServiceImpl extends GenericServiceImpl<Frequencia> implem
 	@Transactional
 	public void atualizarStatus() {
 		Map<String, Object> params = new HashMap<String, Object>();
-		params.put("status", StatusFrequencia.AGUARDO);
 		params.put("statusAtualizado", StatusFrequencia.FALTA);
 		
 		frequenciaRepository.updateStatus("update Frequencia f set statusFrequencia ='FALTA' where f.data = CURRENT_DATE and f.statusFrequencia = 'AGUARDO' ", params);
@@ -226,11 +224,10 @@ public class FrequenciaServiceImpl extends GenericServiceImpl<Frequencia> implem
 		int faltas = 0;
 
 		for (Frequencia frequenciaFaltas : frequencia) {
-			if (frequenciaFaltas.getStatusFrequencia().equals(StatusFrequencia.FALTA)) {
+			if (frequenciaFaltas.getStatusFrequencia() != null && frequenciaFaltas.getStatusFrequencia().equals(StatusFrequencia.FALTA)) {
 				faltas++;
 			}
 		}
-
 		return faltas;
 	}
 
@@ -238,7 +235,7 @@ public class FrequenciaServiceImpl extends GenericServiceImpl<Frequencia> implem
 		int diasTrabalhados = 0;
 
 		for (Frequencia frequenciaFaltas : frequencia) {
-			if (frequenciaFaltas.getStatusFrequencia().equals(StatusFrequencia.PRESENTE)) {
+			if (frequenciaFaltas.getStatusFrequencia() != null &&  frequenciaFaltas.getStatusFrequencia().equals(StatusFrequencia.PRESENTE)) {
 				diasTrabalhados++;
 			}
 		}
@@ -281,10 +278,10 @@ public class FrequenciaServiceImpl extends GenericServiceImpl<Frequencia> implem
 		return false;
 	}
 	@Override
-	public List<Frequencia> gerarFrequencia(Date inicio, Date termino, List<Horario> horarios) {
+	public List<Frequencia> gerarFrequencia(Turma turma, Estagiario estagiario) {
 
-		LocalDate inicioPeriodoTemporario = new LocalDate(inicio);
-		LocalDate fimPeriodo = new LocalDate(termino);
+		LocalDate inicioPeriodoTemporario = new LocalDate(turma.getInicio());
+		LocalDate fimPeriodo = new LocalDate(new Date());
 
 		List<Folga> folgas = folgaService.getFolgasByAno(Calendar.getInstance().get(Calendar.YEAR));
 		Set<LocalDate> dataDosFeriados = new HashSet<LocalDate>();
@@ -302,11 +299,14 @@ public class FrequenciaServiceImpl extends GenericServiceImpl<Frequencia> implem
 		
 		while (!inicioPeriodoTemporario.isAfter(fimPeriodo)) {
 
-			if (UtilGestao.isDiaDeTrabahoDaTurma(horarios, inicioPeriodoTemporario)) {
-				Frequencia frequencia = new Frequencia();
-				frequencia.setTipoFrequencia(TipoFrequencia.NORMAL);
-				frequencia.setData(inicioPeriodoTemporario.toDate());
-				frequencia.setStatusFrequencia(StatusFrequencia.AGUARDO);
+			if (UtilGestao.isDiaDeTrabahoDaTurma(turma.getHorarios(), inicioPeriodoTemporario)) {
+				Frequencia frequencia = getFrequenciaByDataByTurmaByEstagiario(inicioPeriodoTemporario.toDate(), turma.getId(), estagiario.getId());
+
+				if(frequencia == null){
+					frequencia = new Frequencia();
+					frequencia.setTipoFrequencia(TipoFrequencia.NORMAL);
+					frequencia.setData(inicioPeriodoTemporario.toDate());
+				}
 
 				frequencias.add(frequencia);
 			}
@@ -315,6 +315,23 @@ public class FrequenciaServiceImpl extends GenericServiceImpl<Frequencia> implem
 
 		return frequencias;
 	}
-
 	
+	public List<Estagiario> getEstagiariosSemFrequencia(Date data, Long idTurma){
+		
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("data", data);
+		params.put("idTurma", idTurma);
+		
+		@SuppressWarnings("unchecked")
+		List<Estagiario> frequencias = find(QueryType.JPQL, "select e from Estagiario as e "
+				+ "where e.id not in (select f.estagiario.id from Frequencia as f where f.turma.id = :idTurma and f.data = :data)", params);
+
+		return frequencias;
+	}
+	
+	@Override
+	public Frequencia getFrequenciaByDataByTurmaByEstagiario(Date data, Long turma, Long estagiario) {
+		return frequenciaRepository.findFrequenciaByDataByTurmaByEstagiario(data, turma, estagiario);
+	}
+
 }

@@ -21,6 +21,10 @@
 	<div class="panel panel-primary">
 		<div class="panel-heading">
 			<h2 class="titulo-panels"><span class="fa fa-calendar-check-o"></span> Frêquencia: </h2>
+			
+			<div class="pull-right">
+				<a title="Voltar" class="btn btn-primary back"><span class="fa fa-arrow-circle-o-left"></span> Voltar</a>
+			</div>
 
 		    <div class="btn-group">
 				 <c:if test="${empty turma}">
@@ -107,7 +111,7 @@
 		       <tbody class="text-view-info">
 					<c:forEach var="frequencia" items="${frequencias}">
 				        <c:choose>
-				            <c:when test="${frequencia.statusFrequencia != 'AGUARDO'}">
+				            <c:when test="${frequencia.statusFrequencia == 'PRESENTE'}">
 				            	<tr class="success">
 				            		
 									<td data-order="<fmt:formatDate value="${frequencia.data}" pattern="yyyy-MM-dd" />" ><fmt:formatDate value="${frequencia.data}" pattern="E" />, <fmt:formatDate value="${frequencia.data}" pattern="dd/MM/yyyy" /></td>
@@ -120,9 +124,12 @@
 				            </c:when>
 				            <c:otherwise>
 					            <tr class="warning">
-									<td data-order="<fmt:formatDate value="${frequencia.data}" pattern="yyyy-MM-dd" />" ><strong><fmt:formatDate value="${frequencia.data}" pattern="E" />, <fmt:formatDate value="${frequencia.data}" pattern="dd/MM/yyyy" /></strong></td>
-									<td colspan="2">Aguardando data para lançamento da frequência.</td>
-									<td style="display: none;"></td>
+									<td data-order="<fmt:formatDate value="${frequencia.data}" pattern="yyyy-MM-dd" />" ><fmt:formatDate value="${frequencia.data}" pattern="E" timeStyle="LONG"/>, <fmt:formatDate value="${frequencia.data}" pattern="dd/MM/yyyy" /></td>
+									<td>
+										<c:if test="${empty frequencia.observacao}">Não há observações</c:if>
+										<c:if test="${not empty frequencia.observacao}">${frequencia.observacao}</c:if>
+									</td>
+									<td>${frequencia.statusFrequencia}</td>
 								</tr>
 				            </c:otherwise>
 				        </c:choose>

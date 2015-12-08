@@ -6,7 +6,7 @@ import ufc.quixada.npi.gp.model.Estagiario;
 import ufc.quixada.npi.gp.model.Pessoa;
 import br.ufc.quixada.npi.service.GenericService;
 
-public interface EstagiarioService extends GenericService<Estagiario>{
+public interface EstagiarioService extends GenericService<Estagiario> {
 
 	Estagiario getEstagiarioByPessoaId(Long id);
 	

@@ -2,20 +2,23 @@ package ufc.quixada.npi.gp.service;
 
 import java.util.List;
 
+import br.ufc.quixada.npi.service.GenericService;
 import ufc.quixada.npi.gp.model.Submissao;
-import ufc.quixada.npi.gp.model.Frequencia;
+import ufc.quixada.npi.gp.model.enums.Tipo;
 
 
-public interface SubmissaoService {
+public interface SubmissaoService extends GenericService<Submissao>  {
 	
-	void salvar(Submissao submissao);
+	void salvar(Submissao documento);
 	
-	void salvar(List<Submissao> submissoes);
+	void salvar(List<Submissao> documentos);
 	
 	Submissao getSubmissaoById(Long id);
 	
-	List<Submissao> getSubmissoesByEstagiarioId(Long idEstagiario, Long idTurma);
+	void remover(Submissao documento);
 	
-	void remover(Submissao submissao);
+	Submissao getSubmissaoByPessoaIdAndIdTurmaAndTipo(Long idPessoa, Long idTurma, Tipo tipo);
+	
+	List<Submissao> getSubmissoesByPessoaIdAndIdTurma(Long idPessoa, Long idTurma);
 	
 }

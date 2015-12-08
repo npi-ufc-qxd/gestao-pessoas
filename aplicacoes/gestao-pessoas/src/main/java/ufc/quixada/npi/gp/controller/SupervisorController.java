@@ -146,6 +146,8 @@ public class SupervisorController {
 	}
 	
 	
+	
+	
 
 	private Pessoa getUsuarioLogado(HttpSession session) {
 		if (session.getAttribute(Constants.USUARIO_LOGADO) == null) {

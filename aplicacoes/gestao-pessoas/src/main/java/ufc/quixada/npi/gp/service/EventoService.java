@@ -8,5 +8,4 @@ import ufc.quixada.npi.gp.model.Evento;
 public interface EventoService extends GenericService<Evento> {
 
 	List<Evento> getEventosByTurma(Long idTurma);
-	
 }

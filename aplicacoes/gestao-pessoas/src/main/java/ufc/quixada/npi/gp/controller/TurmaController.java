@@ -158,12 +158,6 @@ public class TurmaController {
 		return "supervisor/form-turma";
 	}
 
-	@RequestMapping(value = "/{idTurma}/evento/{idEvento}/editar")
-	public String editarEvento(@PathVariable("idTurma") Long idTurma, @PathVariable("idEvento") Model model, HttpSession session){
-		model.addAttribute("action", "editar");
-		return "";
-	}
-
 	@RequestMapping(value = "/{idTurma}/editar", method = RequestMethod.POST)
 	public String editarTurma(Model model, @Valid @ModelAttribute("turma") Turma turma, BindingResult result,
 			HttpSession session) {
@@ -193,7 +187,8 @@ public class TurmaController {
 	@RequestMapping(value = "/{idTurma}", method = RequestMethod.GET)
 	public String detalhesTurma(@PathVariable("idTurma") Long idTurma, Model model, HttpSession session) {
 		Pessoa pessoa = getUsuarioLogado(session);
-
+		
+		
 		model.addAttribute("turma", turmaService.getTurmaByIdAndSupervisorById(idTurma, pessoa.getId()));
 		turmaService.getTurmaByIdAndSupervisorById(idTurma, pessoa.getId());
 
@@ -242,35 +237,6 @@ public class TurmaController {
 
 		return "redirect:/supervisor/turma/" + idTurma + "/horarios";
 	}
-
-	// EventoInicio
-	@RequestMapping(value = "/{idTurma}/evento", method = RequestMethod.GET)
-	public String paginaEventosTurma(Model model, @PathVariable("idTurma") Long idTurma) {
-
-		List<Evento> eventos = eventoService.getEventosByTurma(idTurma);
-
-		model.addAttribute("eventos", eventos);
-		model.addAttribute("evento", new Evento());
-		model.addAttribute("turma", turmaService.find(Turma.class, idTurma));
-
-		return "supervisor/form-evento";
-	}
-
-	@RequestMapping(value = "/{idTurma}/evento", method = RequestMethod.POST)
-	public String adicionarEventosTurma(@ModelAttribute("evento") Evento evento, @PathVariable("idTurma") Long idTurma,
-			HttpSession session, RedirectAttributes redirect) {
-
-		Pessoa supervisor = getUsuarioLogado(session);
-		Turma turma = turmaService.getTurmaByIdAndSupervisorById(idTurma, supervisor.getId());
-
-		evento.setTurma(turma);
-		eventoService.save(evento);
-
-		redirect.addFlashAttribute("sucess", "Evento cadastrado com sucesso.");
-
-		return "redirect:/supervisor/turmas";
-	}
-	// Evento Termino
 
 	@RequestMapping(value = "/{id}/vincular", method = RequestMethod.GET)
 	public String paginaVincularEstagiarioTurma(Model model, HttpSession session, @PathVariable("id") Long idTurma) {
@@ -431,5 +397,62 @@ public class TurmaController {
 		return model;
 
 	}
+	
+// EventoInicio
+	@RequestMapping(value = "/{idTurma}/evento", method = RequestMethod.GET)
+	public String paginaEventosTurma(Model model, @PathVariable("idTurma") Long idTurma) {
+
+		List<Evento> eventos = eventoService.getEventosByTurma(idTurma);
+
+		model.addAttribute("eventos", eventos);
+		model.addAttribute("evento", new Evento());
+		model.addAttribute("turma", turmaService.find(Turma.class, idTurma));
+
+		return "supervisor/form-evento";
+	}
+
+	@RequestMapping(value = "/{idTurma}/evento", method = RequestMethod.POST)
+	public String adicionarEventosTurma(@ModelAttribute("evento") Evento evento, @PathVariable("idTurma") Long idTurma,
+			HttpSession session, RedirectAttributes redirect) {
+
+		Pessoa supervisor = getUsuarioLogado(session);
+		Turma turma = turmaService.getTurmaByIdAndSupervisorById(idTurma, supervisor.getId());
+
+		evento.setTurma(turma);
+		eventoService.save(evento);
+
+		redirect.addFlashAttribute("sucess", "Evento cadastrado com sucesso.");
+
+		return "redirect:/supervisor/turma/" + idTurma + "/evento";
+	}
+			
+	@RequestMapping(value="/{idTurma}/evento/{idEvento}/excluir", method = RequestMethod.GET)
+	public String excluirEvento(@PathVariable("idEvento") Long idEvento, 
+			@PathVariable("idTurma") Long idTurma,HttpSession session,
+			RedirectAttributes redirect){
+		eventoService.delete(eventoService.find(Evento.class, idEvento));
+		
+		redirect.addFlashAttribute("sucess", "Evento excluído com sucesoo");
+		
+		return "redirect:/supervisor/turma/" + idTurma + "/evento";
+	}
+
+	@RequestMapping(value = "/{idTurma}/evento/{idEvento}/editar", method = RequestMethod.GET)
+	public String editarEvento(@PathVariable("idEvento") Long idEvento, Model model){
+		model.addAttribute("action", "editar");
+		
+		Evento evento = eventoService.find(Evento.class, idEvento);
+		model.addAttribute("evento", evento);
+		
+		return "supervisor/form-editar-evento";
+	}
+	
+	@RequestMapping(value="/{turma.id}/evento/{id}/editar", method = RequestMethod.POST)
+	public String editarEventoTurma(@ModelAttribute("evento") Evento evento, RedirectAttributes redirect){
+		eventoService.update(evento);
+		redirect.addFlashAttribute("sucess", "Evento cadastrado com sucesso.");
+		return "redirect:/supervisor/turma/" + evento.getTurma().getId() + "/evento";
+	}
+	// Evento Termino
 
 }

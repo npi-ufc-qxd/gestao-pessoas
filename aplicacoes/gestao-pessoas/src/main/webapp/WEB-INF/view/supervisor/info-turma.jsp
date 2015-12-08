@@ -92,12 +92,13 @@
 			<h2 class="titulo-panels"><span class="fa fa-calendar"></span> Eventos</h2>
 			
 			<div class="pull-right">
-				<a href="<c:url value="/supervisor/turma/${turma.id}/evento" />" title="Atualizar Evento" class="btn btn-warning"><span class="fa fa-refresh"></span> calendário</a>
+				<a href="<c:url value="/supervisor/turma/${turma.id}/evento" />" title="Atualizar Evento" class="btn btn-warning"><span class="fa fa-refresh"></span> Eventos</a>
 			</div>
 		</div>
 		
 		<div class="panel-body">
-			<!-- lembrar de fazer os testes -->
+		<c:if test="${empty turma.eventos}"><div class="alert alert-warning" role="alert">Sem eventos cadastrados.</div></c:if>
+		<c:if test="${not empty turma.eventos}">
 			<div class="form-group">
 					<label class="col-sm-12 text-view-info"><strong>Calendário de Eventos</strong></label>
 				
@@ -109,19 +110,18 @@
 				           </tr>
 				       </thead>
 				       <tbody class="text-view-info">
-							<c:forEach var="horario" items="${turma.horarios}" varStatus="indice">
+							<c:forEach var="evento" items="${turma.eventos}" varStatus="indice">
 								<tr align="justify">
-									<td>De 00/00/0000 a 00/00/0000 </td>
-									<td>Teste descrição! Teste descrição! Teste descrição!</td>
+									<td >${evento.inicio } a ${evento.termino }</td>
+									<td>${evento.descricao }</td>
 								</tr>
 							</c:forEach>
 				       </tbody>
 			       </table>
 					
 				</div>
-			
+			</c:if>
 		</div>
-		
 	</div>
 	<!-- Término Evento -->
 	<div class="panel panel-success">

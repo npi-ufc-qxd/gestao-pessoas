@@ -20,8 +20,19 @@ public class EventoServiceImpl extends GenericServiceImpl<Evento> implements Eve
 		params.put("idTurma", idTurma);
 		
 		@SuppressWarnings("unchecked")
-		List<Evento> eventos = find(QueryType.JPQL, "select e from Evento e where e.turma.id = :idTurma", params);
+		List<Evento> eventos = find(QueryType.JPQL, "select e from Evento e where e.turma.id = :idTurma ORDER BY e.id DESC", params);
 
 		return eventos;
 	}
+	/*
+	@Override
+	public Evento getEventosById(Long idEvento) {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("idEvento", idEvento);
+		
+		Evento evento = (Evento) find(QueryType.JPQL, "select e from Evento e where e.id = idEvento", params);
+		
+		return evento;
+	}
+	*/
 }

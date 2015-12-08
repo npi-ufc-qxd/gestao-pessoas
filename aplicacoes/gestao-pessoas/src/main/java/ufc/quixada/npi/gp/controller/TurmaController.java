@@ -267,10 +267,12 @@ public class TurmaController {
 		Pessoa pessoa = getUsuarioLogado(session);
 		Date dataAtual = new Date();
 		List<Frequencia> frequencias = frequenciaService.getFrequenciasByTurmaIdAndData(dataAtual, idTurma);
+		List<Estagiario> estagiarios = frequenciaService.getEstagiariosSemFrequencia(dataAtual, idTurma);
 
 		model.addAttribute("turma", turmaService.getTurmaByIdAndSupervisorById(idTurma, pessoa.getId()));
 		model.addAttribute("frequencias", frequencias);
-		model.addAttribute("dataSelecionada", dataAtual);
+		model.addAttribute("estagiarios", estagiarios);
+		model.addAttribute("dataAtual", dataAtual);
 
 		return "supervisor/list-frequencias";
 	}

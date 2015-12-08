@@ -40,7 +40,7 @@
 			       <tbody class="text-view-info">
 						<c:forEach var="frequencia" items="${frequencias}">
 							<tr>
-								<td>${frequencia[5]}</td>
+								<td><fmt:formatDate type="time" pattern="HH:mm" value="${frequencia[5]}" /></td>
 								<td>${frequencia[1]}</td>
 								<td><a href="#" class="observacaoFrequencia" title="Realizar observação" data-pk="${frequencia[0]}">${frequencia[2]}</a></td>
 								<td><a href="#" class="statusFrequencia" title="Atualizar status" data-pk="${frequencia[0]}">${frequencia[3]}</a></td>
@@ -48,7 +48,7 @@
 						</c:forEach>
 						<c:forEach var="estagiario" items="${estagiarios}">
 							<tr class="danger">
-								<td><fmt:formatDate type="time" pattern="HH:mm:ss" value="${dataAtual}" /></td>
+								<td><fmt:formatDate type="time" pattern="HH:mm" value="${dataAtual}" /></td>
 								<td>${estagiario.nomeCompleto}</td>
 								<td></td>
 								<td></td>
@@ -123,7 +123,7 @@
 			$("#table-frequencias").DataTable({
 				 "paging": false,
 				 "bInfo": false,
-				 "order": [ [0, 'asc'],[1, 'asc'] ],
+				 "order": [ [1, 'asc'], [0, 'asc'] ],
 				 "bFilter": false,
 				 "columnDefs": [
 					{ "title": "Horário", "targets": 0 },

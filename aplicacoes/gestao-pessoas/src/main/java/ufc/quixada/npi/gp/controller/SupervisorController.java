@@ -1,19 +1,23 @@
 package ufc.quixada.npi.gp.controller;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import br.ufc.quixada.npi.ldap.service.UsuarioService;
@@ -22,8 +26,11 @@ import ufc.quixada.npi.gp.model.Frequencia;
 import ufc.quixada.npi.gp.model.Papel;
 import ufc.quixada.npi.gp.model.Pessoa;
 import ufc.quixada.npi.gp.model.Servidor;
+import ufc.quixada.npi.gp.model.Submissao;
 import ufc.quixada.npi.gp.model.Turma;
+import ufc.quixada.npi.gp.model.enums.StatusEntrega;
 import ufc.quixada.npi.gp.model.enums.StatusFrequencia;
+import ufc.quixada.npi.gp.model.enums.Tipo;
 import ufc.quixada.npi.gp.model.enums.TipoFrequencia;
 import ufc.quixada.npi.gp.service.EstagiarioService;
 import ufc.quixada.npi.gp.service.FrequenciaService;
@@ -141,6 +148,52 @@ public class SupervisorController {
 
 		return "";
 	}
+	
+//	@RequestMapping(value = "/minha-documentacao/turma/{idTurma}", method = RequestMethod.POST)
+//	public String minhaDocumentacao(@Valid @RequestParam("anexo") MultipartFile anexo, HttpSession session, Model model, @RequestParam("tipo") Tipo tipo, @ModelAttribute("idTurma") Long idTurma, RedirectAttributes redirectAttributes ){
+//		Pessoa pessoa = getUsuarioLogado(session);
+//		Estagiario estagiario = estagiarioService.getEstagiarioByPessoaId(pessoa.getId());
+//		Turma turma = turmaService.getTurmaByIdAndEstagiarioId(idTurma, estagiario.getId());
+//		
+//		Submissao submissao = submissaoService.getSubmissaoByPessoaIdAndIdTurmaAndTipo(pessoa.getId(), idTurma, tipo);
+//		
+//		try {
+//			if(!anexo.getContentType().equals("application/pdf")){
+//				redirectAttributes.addFlashAttribute("error", "Escolha um arquivo pdf.");
+//				return "redirect:/estagiario/turma/" + idTurma;
+//			}
+//			if(submissao == null && anexo.getBytes() != null && anexo.getBytes().length != 0 && anexo.getContentType().equals("application/pdf")){
+//					Submissao newDocumento = new Submissao();
+//					newDocumento.setArquivo(anexo.getBytes());
+//					newDocumento.setNome(tipo+"_"+estagiario.getNomeCompleto().toUpperCase());
+//					newDocumento.setNomeOriginal(anexo.getOriginalFilename());
+//					newDocumento.setExtensao(anexo.getContentType());
+//					newDocumento.setData(new Date());
+//					newDocumento.setHorario(new Date());
+//					newDocumento.setStatusEntrega(StatusEntrega.ENVIADO);
+//					newDocumento.setTipo(tipo);
+//					newDocumento.setPessoa(pessoa);
+//					newDocumento.setTurma(turma);
+//					submissaoService.salvar(newDocumento);
+//				} else if(submissao.getStatusEntrega().equals(StatusEntrega.ENVIADO) && anexo.getBytes() != null && anexo.getBytes().length != 0 && anexo.getContentType().equals("application/pdf")){
+//					submissao.setArquivo(anexo.getBytes());
+//					submissao.setNome(tipo+"_"+estagiario.getNomeCompleto().toUpperCase());
+//					submissao.setNomeOriginal(anexo.getOriginalFilename());
+//					submissao.setExtensao(anexo.getContentType());
+//					submissao.setData(new Date());
+//					submissao.setHorario(new Date());
+//					submissao.setStatusEntrega(StatusEntrega.ENVIADO);
+//					submissao.setTipo(tipo);
+//					submissao.setPessoa(pessoa);
+//					submissao.setTurma(turma);
+//					submissaoService.update(submissao);
+//				}
+//		} catch (IOException e) {
+//			return "redirect:/500";
+//		}
+//		
+//		return "redirect:/estagiario/turma/" + idTurma;
+//	}
 
 	private Pessoa getUsuarioLogado(HttpSession session) {
 		if (session.getAttribute(Constants.USUARIO_LOGADO) == null) {

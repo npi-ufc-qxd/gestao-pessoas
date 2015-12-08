@@ -35,16 +35,8 @@
 				<div id="dataFiltroFrequencia" class="col-sm-2"></div>
 			</div>
 			
-			<div class="col-sm-9">
+			<div id="container-table" class="col-sm-9">
 				<table id="table-frequencias" class="table table-striped table-hover">
-					<thead>
-						<tr>
-							<th>Horário</th>
-							<th>Nome</th>
-							<th>Observação</th>
-							<th>Status</th>
-						</tr>
-			       </thead>
 			       <tbody class="text-view-info">
 						<c:forEach var="frequencia" items="${frequencias}">
 							<tr>
@@ -102,10 +94,42 @@
 			});			
 		});
 		
-		function loadFrequencias(result) {	
-			$("#table-frequencias").html($(result).find("#table-frequencias"));
-			ativarEditable();
-		}
+		
+		$("#table-frequencias").DataTable({
+			 "paging": false,
+			 "bInfo": false,
+			 "order": [ [0, 'asc'],[1, 'asc'] ],
+			 "bFilter": false,
+			 "columnDefs": [
+				{ "title": "Horário", "targets": 0 },
+				{ "title": "Nome", "targets": 1 },
+				{ "title": "obsevação", "orderable": false, "targets": 2 },
+				{ "title": "Status", "orderable": false, "targets": 3 },
+			],
+			"destroy": true,
+		});
+		
+		 function loadFrequencias(result) {
+			
+			$("#container-table #table-frequencias").remove();
+ 			$("#container-table").html($(result).find("#table-frequencias"));
+ 			ativarEditable();
+ 			
+			$("#table-frequencias").DataTable({
+				 "paging": false,
+				 "bInfo": false,
+				 "order": [ [1, 'asc'], [0, 'asc'] ],
+				 "bFilter": false,
+				 "columnDefs": [
+					{ "title": "Horário", "targets": 0 },
+					{ "title": "Nome", "targets": 1 },
+					{ "title": "obsevação", "orderable": false, "targets": 2 },
+					{ "title": "Status", "orderable": false, "targets": 3 },
+				],
+				"destroy": true,
+			}); 
+ 			
+ 		}
 	</script>
 </body>
 </html>

@@ -418,7 +418,7 @@ public class TurmaController {
 		evento.setTurma(turma);
 		eventoService.save(evento);
 
-		redirect.addFlashAttribute("sucess", "Evento cadastrado com sucesso.");
+		redirect.addFlashAttribute("success", "Evento cadastrado com sucesso.");
 
 		return "redirect:/supervisor/turma/" + idTurma + "/evento";
 	}
@@ -429,7 +429,7 @@ public class TurmaController {
 			RedirectAttributes redirect){
 		eventoService.delete(eventoService.find(Evento.class, idEvento));
 		
-		redirect.addFlashAttribute("sucess", "Evento excluído com sucesoo");
+		redirect.addFlashAttribute("success", "Evento excluído com sucesso!");
 		
 		return "redirect:/supervisor/turma/" + idTurma + "/evento";
 	}
@@ -458,8 +458,8 @@ public class TurmaController {
 	@RequestMapping(value="/{turma.id}/evento/{id}/editar", method = RequestMethod.POST)
 	public String editarEventoTurma(@ModelAttribute("evento") Evento evento, RedirectAttributes redirect){
 		eventoService.update(evento);
-		redirect.addFlashAttribute("sucess", "Evento cadastrado com sucesso.");
-		return "redirect:/supervisor/turma/" + evento.getTurma().getId() + "/evento";
+		redirect.addFlashAttribute("success", "Alterações realizadas com sucesso!");
+		return "redirect:/supervisor/turma/" + evento.getTurma().getId() + "/evento";	
 	}
 	// Evento Termino
 

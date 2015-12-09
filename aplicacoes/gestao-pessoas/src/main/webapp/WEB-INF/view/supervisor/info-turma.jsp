@@ -112,7 +112,7 @@
 				       <tbody class="text-view-info">
 							<c:forEach var="evento" items="${turma.eventos}" varStatus="indice">
 								<tr align="justify">
-									<td >${evento.inicio } a ${evento.termino }</td>
+									<td ><fmt:formatDate value="${evento.inicio}" pattern="dd/MM/yyyy"/> a <fmt:formatDate value="${evento.termino}" pattern="dd/MM/yyyy"/></td>
 									<td>${evento.descricao }</td>
 								</tr>
 							</c:forEach>

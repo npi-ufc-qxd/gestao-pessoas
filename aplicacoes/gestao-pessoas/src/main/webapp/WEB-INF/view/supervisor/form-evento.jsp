@@ -6,7 +6,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <c:if test="${action eq 'cadastrar' }">
 	<c:set var="url" value="/supervisor/turma/${turma.id}/evento/cadastrar"></c:set>
-	<c:set var="titulo" value="Cadastrar Evento"></c:set>
+	<c:set var="titulo" value="Novo Evento"></c:set>
 </c:if>
 <c:if test="${action eq 'editar' }">
 	<c:set var="url" value="/supervisor/turma/${evento.turma.id}/evento/${idEvento}/editar"></c:set>
@@ -27,7 +27,7 @@
 	<div class="panel panel-warning">
 	
 		<div class="panel-heading">
-			<h2 class="titulo-panels"><span class="fa fa-calendar"></span> ${titulo }</h2>
+			<h2 class="titulo-panels"><span class="fa fa-calendar"></span> Eventos</h2>
 			
 			<div class="pull-right">
 				<a title="Voltar" class="btn btn-primary back"><span class="fa fa-arrow-circle-o-left"></span> Voltar</a>
@@ -35,18 +35,23 @@
 		</div>
 		
 		<div class="panel-body">
+			<c:if test="${not empty success }">
+					<div class="alert alert-dismissible alert-success">
+						<button type="button" class="close" data-dismiss="alert">×</button>${success }
+					</div>
+			</c:if>
 			<div class="col-sm-4">
 				<form:form id="form-evento" role="form" commandName="evento" servletRelativeAction="${url}"  method="POST" cssClass="form-horizontal">
 					<form:hidden path="id"/>
-						<h5>Evento</h5>
+						<h5>${titulo }</h5>
 						<div class="form-group">
 							<div id="inicio" class="form-item col-sm-12">
 								<label class="control-label">*Início do Evento:</label>
-								<form:input id="inicio" path="inicio" cssClass="form-control data" placeholder="Inicio do Evento" required="required"/>
+								<form:input id="inicio" path="inicio" cssClass="form-control data" placeholder="Inicio do Evento" required="required" type="date"/>
 								<div class="error-validation"><form:errors path="inicio"></form:errors></div>
 
 								<label class="control-label">*Final do Evento:</label>
-								<form:input id="termino" path="termino" cssClass="form-control data" placeholder="Termino do periodo" required="required"/>
+								<form:input id="termino" path="termino" cssClass="form-control data" placeholder="Termino do periodo" required="required" type="date"/>
 								<div class="error-validation"><form:errors path="termino"></form:errors></div>
 							</div>
 							<div id="descricao" class="form-item col-sm-12">
@@ -79,7 +84,7 @@
 				  <c:forEach var="evento" items="${turma.eventos}">
 				    <tr align="justify">
 				      <td>${evento.descricao }</td>
-				      <td>${evento.inicio } a ${evento.termino}</td>
+				      <td><fmt:formatDate value="${evento.inicio}" pattern="dd/MM/yyyy"/> a <fmt:formatDate value="${evento.termino}" pattern="dd/MM/yyyy"/></td>
 				      <td align="right">
 				      	<a href="<c:url value="/supervisor/turma/${turma.id}/evento/${evento.id}/editar">
 					      	</c:url>" title="Editar" class="btn btn-success">
@@ -104,6 +109,7 @@
 	
     <script type="text/javascript">
 		$('.menu #turmas').addClass('active');
+		
 	</script>		
 	
 	

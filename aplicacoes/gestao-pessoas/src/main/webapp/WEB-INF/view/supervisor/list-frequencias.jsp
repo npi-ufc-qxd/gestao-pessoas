@@ -44,14 +44,27 @@
 								<td>${frequencia[1]}</td>
 								<td><a href="#" class="observacaoFrequencia" title="Realizar observação" data-pk="${frequencia[0]}">${frequencia[2]}</a></td>
 								<td><a href="#" class="statusFrequencia" title="Atualizar status" data-pk="${frequencia[0]}">${frequencia[3]}</a></td>
+								<td></td>
 							</tr>
 						</c:forEach>
 						<c:forEach var="estagiario" items="${estagiarios}">
 							<tr class="danger">
 								<td><fmt:formatDate type="time" pattern="HH:mm" value="${dataAtual}" /></td>
 								<td>${estagiario.nomeCompleto}</td>
-								<td></td>
-								<td></td>
+								<form:form id="lancar-frequencia" servletRelativeAction="/supervisor/turma/${turma.id}/estagiario/${estagiario.id}/frequencia/lancar" method="POST">
+									<input class="dataSelecionada" type="hidden" name="data" value="">
+									<td><textarea class="form-control" rows="1" cols="10" name="observacao"></textarea> </td>
+									<td>
+									<select class="form-control" name="statusFrequencia">
+										<option value="PRESENTE">PRESENTE</option>
+										<option value="FALTA">FALTA</option>
+										<option value="ATRASADO">ATRASADO</option>
+										<option value="FERIADO">FERIADO</option>
+										<option value="ABONADO">ABONADO</option>
+									</select>
+									</td>
+									<td><button type="submit" class="btn btn-primary">Lançar</button></td>
+								</form:form>
 							</tr>
 						</c:forEach>
 			       </tbody>
@@ -66,6 +79,10 @@
 	<jsp:include page="../modulos/footer.jsp" />
 	
 	<script type="text/javascript">
+	$ ( document ). ready ( function ()  { 
+		$ ( '.data' ). datepicker (); 
+		$ ( '.data' ). datepicker ( {defaultDate: new Date()} );
+	});
 		$('.menu #turmas').addClass('active');
 	
 		$('#dataFiltroFrequencia').datepicker({
@@ -77,7 +94,7 @@
 		$("#dataFiltroFrequencia").on("changeDate", function(event) {
 			var data = $("#dataFiltroFrequencia").datepicker('getFormattedDate');
 			var idTurma = $("#idTurma").val();
-			
+
 			$.ajax({
 				url: '/gestao-pessoas/supervisor/turma/' + idTurma + '/frequencias',
 				type: "POST",
@@ -105,6 +122,7 @@
 				{ "title": "Nome", "targets": 1 },
 				{ "title": "obsevação", "orderable": false, "targets": 2 },
 				{ "title": "Status", "orderable": false, "targets": 3 },
+				{ "title": "", "orderable": false, "targets": 4 },
 			],
 			"destroy": true,
 		});
@@ -113,8 +131,9 @@
 			
 			$("#container-table #table-frequencias").remove();
  			$("#container-table").html($(result).find("#table-frequencias"));
+ 			$('.dataSelecionada').val($("#dataFiltroFrequencia").datepicker('getFormattedDate'));
  			ativarEditable();
- 			
+
 			$("#table-frequencias").DataTable({
 				 "paging": false,
 				 "bInfo": false,
@@ -125,11 +144,12 @@
 					{ "title": "Nome", "targets": 1 },
 					{ "title": "obsevação", "orderable": false, "targets": 2 },
 					{ "title": "Status", "orderable": false, "targets": 3 },
+					{ "title": "", "orderable": false, "targets": 4 },
 				],
 				"destroy": true,
 			}); 
- 			
  		}
+
 	</script>
 </body>
 </html>

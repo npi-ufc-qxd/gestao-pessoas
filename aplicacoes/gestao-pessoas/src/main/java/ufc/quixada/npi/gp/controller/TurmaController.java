@@ -37,6 +37,7 @@ import ufc.quixada.npi.gp.model.Turma;
 import ufc.quixada.npi.gp.model.enums.Dia;
 import ufc.quixada.npi.gp.model.enums.StatusFrequencia;
 import ufc.quixada.npi.gp.model.enums.StatusTurma;
+import ufc.quixada.npi.gp.model.enums.TipoFrequencia;
 import ufc.quixada.npi.gp.service.DadoConsolidado;
 import ufc.quixada.npi.gp.service.EstagiarioService;
 import ufc.quixada.npi.gp.service.FrequenciaService;
@@ -272,6 +273,7 @@ public class TurmaController {
 		model.addAttribute("turma", turmaService.getTurmaByIdAndSupervisorById(idTurma, pessoa.getId()));
 		model.addAttribute("frequencias", frequencias);
 		model.addAttribute("estagiarios", estagiarios);
+		model.addAttribute("statusFrequencias", StatusFrequencia.values());
 		model.addAttribute("dataAtual", dataAtual);
 
 		return "supervisor/list-frequencias";
@@ -313,6 +315,32 @@ public class TurmaController {
 		return "supervisor/list-frequencia-estagiario";
 	}
 
+	@RequestMapping(value = "/{idTurma}/estagiario/{idEstagiario}/frequencia/lancar", method = RequestMethod.POST)
+	public String estagiarioObservarStatus(@PathVariable("idEstagiario") Long idEstagiario, @PathVariable("idTurma") Long idTurma, @RequestParam("data") Date data, @RequestParam("statusFrequencia") StatusFrequencia statusFrequencia, @RequestParam("observacao") String observacao, Model model, RedirectAttributes redirectAttributes){
+		
+		Turma turma =turmaService.find(Turma.class, idTurma);
+		Estagiario estagiario = estagiarioService.find(Estagiario.class, idEstagiario);
+		Frequencia frequencia = frequenciaService.getFrequenciaByDataByTurmaByEstagiario(data, idTurma, idEstagiario);
+		
+		if (frequencia == null) {
+			frequencia = new Frequencia();
+			frequencia.setTurma(turma);
+			frequencia.setEstagiario(estagiario);
+			frequencia.setData(data);
+			frequencia.setHorario(new Date());
+			frequencia.setTipoFrequencia(TipoFrequencia.NORMAL);
+			frequencia.setStatusFrequencia(statusFrequencia);
+			frequencia.setObservacao(observacao);
+
+			frequenciaService.save(frequencia);
+			redirectAttributes.addFlashAttribute("sucesso", "Frequência lançada com sucesso");
+		} else{
+			redirectAttributes.addFlashAttribute("error", "Não é possivel lançar a Frequência para esta data");
+		}
+		
+		return "redirect:/supervisor/turma/"+ idTurma +"/mapa-frequencia";
+	}
+	
 	private Pessoa getUsuarioLogado(HttpSession session) {
 		if (session.getAttribute(Constants.USUARIO_LOGADO) == null) {
 			Pessoa pessoa = pessoaService.getPessoaByCpf(SecurityContextHolder.getContext().getAuthentication().getName());

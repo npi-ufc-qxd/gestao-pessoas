@@ -123,7 +123,7 @@
 				 "columnDefs": [
 					{ "title": "Horário", "targets": 0 },
 					{ "title": "Nome", "targets": 1 },
-					{ "title": "obsevação", "orderable": false, "targets": 2 },
+					{ "title": "Observação", "orderable": false, "targets": 2 },
 					{ "title": "Status", "orderable": false, "targets": 3 },
 				],
 				"destroy": true,

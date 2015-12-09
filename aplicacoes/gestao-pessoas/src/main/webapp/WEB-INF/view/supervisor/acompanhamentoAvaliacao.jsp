@@ -55,7 +55,7 @@
 			<div class="panel panel-info">
 				<div class="panel-heading">
 					<h2 class="titulo-panels">
-						<span class="fa fa-television"></span> Seminário
+						<span class="fa fa-file-pdf-o"></span> Documentos
 					</h2>
 				</div>
 			</div>

@@ -178,20 +178,20 @@ public class EstagiarioController {
 				return "redirect:/estagiario/turma/" + idTurma;
 			}
 			if(submissao == null && anexo.getBytes() != null && anexo.getBytes().length != 0 && anexo.getContentType().equals("application/pdf")){
-					Documento newDocumento = new Documento();
-					newDocumento.setNome(tipo+"_"+estagiario.getNomeCompleto().toUpperCase());
-					newDocumento.setExtensao(anexo.getContentType());
-					newDocumento.setArquivo(anexo.getBytes());
+					Documento documento = new Documento();
+					documento.setNome(tipo+"_"+estagiario.getNomeCompleto().toUpperCase());
+					documento.setExtensao(anexo.getContentType());
+					documento.setArquivo(anexo.getBytes());
 					
-					Submissao newSubmissao = new Submissao();
-					newSubmissao.setData(new Date());
-					newSubmissao.setHorario(new Date());
-					newSubmissao.setStatusEntrega(StatusEntrega.ENVIADO);
-					newSubmissao.setTipo(tipo);
-					newSubmissao.setPessoa(pessoa);
-					newSubmissao.setTurma(turma);
-					newSubmissao.setDocumento(newDocumento);
-					submissaoService.salvar(newSubmissao);
+					submissao = new Submissao();
+					submissao.setData(new Date());
+					submissao.setHorario(new Date());
+					submissao.setStatusEntrega(StatusEntrega.ENVIADO);
+					submissao.setTipo(tipo);
+					submissao.setPessoa(pessoa);
+					submissao.setTurma(turma);
+					submissao.setDocumento(documento);
+					submissaoService.salvar(submissao);
 				} else if(submissao.getStatusEntrega().equals(StatusEntrega.ENVIADO) && anexo.getBytes() != null && anexo.getBytes().length != 0 && anexo.getContentType().equals("application/pdf")){
 					submissao.getDocumento().setNome(tipo+"_"+estagiario.getNomeCompleto().toUpperCase());
 					submissao.getDocumento().setArquivo(anexo.getBytes());

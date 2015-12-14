@@ -27,6 +27,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import br.ufc.quixada.npi.ldap.service.UsuarioService;
+import ufc.quixada.npi.gp.model.Documento;
 import ufc.quixada.npi.gp.model.Estagiario;
 import ufc.quixada.npi.gp.model.Frequencia;
 import ufc.quixada.npi.gp.model.Pessoa;
@@ -177,23 +178,24 @@ public class EstagiarioController {
 				return "redirect:/estagiario/turma/" + idTurma;
 			}
 			if(submissao == null && anexo.getBytes() != null && anexo.getBytes().length != 0 && anexo.getContentType().equals("application/pdf")){
-					Submissao newDocumento = new Submissao();
-					newDocumento.setArquivo(anexo.getBytes());
-					newDocumento.setNome(tipo+"_"+estagiario.getNomeCompleto().toUpperCase());
-					newDocumento.setNomeOriginal(anexo.getOriginalFilename());
-					newDocumento.setExtensao(anexo.getContentType());
-					newDocumento.setData(new Date());
-					newDocumento.setHorario(new Date());
-					newDocumento.setStatusEntrega(StatusEntrega.ENVIADO);
-					newDocumento.setTipo(tipo);
-					newDocumento.setPessoa(pessoa);
-					newDocumento.setTurma(turma);
-					submissaoService.salvar(newDocumento);
+					Documento documento = new Documento();
+					documento.setNome(tipo+"_"+estagiario.getNomeCompleto().toUpperCase());
+					documento.setExtensao(anexo.getContentType());
+					documento.setArquivo(anexo.getBytes());
+					
+					submissao = new Submissao();
+					submissao.setData(new Date());
+					submissao.setHorario(new Date());
+					submissao.setStatusEntrega(StatusEntrega.ENVIADO);
+					submissao.setTipo(tipo);
+					submissao.setPessoa(pessoa);
+					submissao.setTurma(turma);
+					submissao.setDocumento(documento);
+					submissaoService.salvar(submissao);
 				} else if(submissao.getStatusEntrega().equals(StatusEntrega.ENVIADO) && anexo.getBytes() != null && anexo.getBytes().length != 0 && anexo.getContentType().equals("application/pdf")){
-					submissao.setArquivo(anexo.getBytes());
-					submissao.setNome(tipo+"_"+estagiario.getNomeCompleto().toUpperCase());
-					submissao.setNomeOriginal(anexo.getOriginalFilename());
-					submissao.setExtensao(anexo.getContentType());
+					submissao.getDocumento().setNome(tipo+"_"+estagiario.getNomeCompleto().toUpperCase());
+					submissao.getDocumento().setArquivo(anexo.getBytes());
+					submissao.getDocumento().setExtensao(anexo.getContentType());
 					submissao.setData(new Date());
 					submissao.setHorario(new Date());
 					submissao.setStatusEntrega(StatusEntrega.ENVIADO);

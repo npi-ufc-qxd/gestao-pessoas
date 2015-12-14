@@ -2,6 +2,7 @@ package ufc.quixada.npi.gp.model;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -10,10 +11,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-
-import org.hibernate.annotations.Type;
 
 import ufc.quixada.npi.gp.model.enums.StatusEntrega;
 import ufc.quixada.npi.gp.model.enums.Tipo;
@@ -24,27 +24,22 @@ public class Submissao {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+
+	private double nota;
 	
-	private String nomeOriginal;
-	
-	private String nome;
-	
-	private String extensao;
-	
+	private String comentario;
+
 	@Temporal(TemporalType.DATE)
 	private Date data;
 	
 	@Temporal(TemporalType.TIME)
 	private Date horario;
-	
+
 	@Enumerated(EnumType.STRING)
 	private Tipo tipo;
 	
 	@Enumerated(EnumType.STRING)
 	private StatusEntrega statusEntrega;
-	
-	@Type(type="org.hibernate.type.BinaryType") 
-	private byte[] arquivo;
 	
 	@ManyToOne
 	@JoinColumn(name = "pessoa_id")
@@ -54,6 +49,10 @@ public class Submissao {
 	@JoinColumn(name = "turma_id")
 	private Turma turma;
 	
+	@OneToOne(cascade = CascadeType.ALL)	
+	@JoinColumn(name = "documento_id")
+	private Documento documento;
+	
 	public Long getId() {
 		return id;
 	}
@@ -62,28 +61,12 @@ public class Submissao {
 		this.id = id;
 	}
 
-	public String getNomeOriginal() {
-		return nomeOriginal;
+	public double getNota() {
+		return nota;
 	}
 
-	public void setNomeOriginal(String nomeOriginal) {
-		this.nomeOriginal = nomeOriginal;
-	}
-
-	public String getNome() {
-		return nome;
-	}
-
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
-	
-	public String getExtensao() {
-		return extensao;
-	}
-
-	public void setExtensao(String extensao) {
-		this.extensao = extensao;
+	public void setNota(double nota) {
+		this.nota = nota;
 	}
 	
 	public Date getData() {
@@ -133,13 +116,21 @@ public class Submissao {
 	public void setTipo(Tipo tipo) {
 		this.tipo = tipo;
 	}
-
-	public byte[] getArquivo() {
-		return arquivo;
+	
+	public Documento getDocumento() {
+		return documento;
 	}
 
-	public void setArquivo(byte[] arquivo) {
-		this.arquivo = arquivo;
+	public void setDocumento(Documento documento) {
+		this.documento = documento;
+	}
+
+	public String getComentario() {
+		return comentario;
+	}
+
+	public void setComentario(String comentario) {
+		this.comentario = comentario;
 	}
 	
 	@Override
@@ -154,4 +145,3 @@ public class Submissao {
 	}
 	
 }
-

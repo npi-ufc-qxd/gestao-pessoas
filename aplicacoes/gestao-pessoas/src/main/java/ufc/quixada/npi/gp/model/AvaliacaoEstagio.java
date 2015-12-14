@@ -13,29 +13,33 @@ public class AvaliacaoEstagio {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	private double nota;
-	
+
 	private double notaSeminario;
-	
+
 	private String comentarioSeminario;
-	
+
 	private String fatorAssiduidadeDisciplina;
-	
+
 	private String fatorIniciativaProdutividade;
-	
+
 	private String fatorResponsabilidade;
-	
+
 	private String fatorRelacionamento;
 
 	@ManyToOne
-	@JoinColumn(name = "documento_id")
-	private Submissao documento;
-	
+	@JoinColumn(name = "turma_id")
+	private Turma turma;
+
 	@ManyToOne
-	@JoinColumn(name = "pessoa_id")
-	private Pessoa pessoa;
-	
+	@JoinColumn(name = "supervisor_id")
+	private Pessoa supervisor;
+
+	@ManyToOne
+	@JoinColumn(name = "estagiario_id")
+	private Estagiario estagiario;
+
 	public Long getId() {
 		return id;
 	}
@@ -59,7 +63,7 @@ public class AvaliacaoEstagio {
 	public void setNotaSeminario(double notaSeminario) {
 		this.notaSeminario = notaSeminario;
 	}
-	
+
 	public String getComentarioSeminario() {
 		return comentarioSeminario;
 	}
@@ -100,17 +104,33 @@ public class AvaliacaoEstagio {
 		this.fatorRelacionamento = fatorRelacionamento;
 	}
 
-	public Pessoa getPessoa() {
-		return pessoa;
+	public Turma getTurma() {
+		return turma;
 	}
 
-	public void setPessoa(Pessoa pessoa) {
-		this.pessoa = pessoa;
+	public void setTurma(Turma turma) {
+		this.turma = turma;
 	}
-	
+
+	public Pessoa getSupervisor() {
+		return supervisor;
+	}
+
+	public void setSupervisor(Pessoa supervisor) {
+		this.supervisor = supervisor;
+	}
+
+	public Estagiario getEstagiario() {
+		return estagiario;
+	}
+
+	public void setEstagiario(Estagiario estagiario) {
+		this.estagiario = estagiario;
+	}
+
 	@Override
 	public boolean equals(Object obj) {
-		if(obj instanceof AvaliacaoEstagio) {
+		if (obj instanceof AvaliacaoEstagio) {
 			AvaliacaoEstagio other = (AvaliacaoEstagio) obj;
 			if (other != null && other.getId() != null && this.id != null && other.getId().equals(this.id)) {
 				return true;
@@ -118,6 +138,6 @@ public class AvaliacaoEstagio {
 		}
 		return false;
 	}
-	
+
 }
 

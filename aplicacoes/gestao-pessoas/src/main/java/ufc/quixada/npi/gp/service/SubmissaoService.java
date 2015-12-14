@@ -21,4 +21,6 @@ public interface SubmissaoService extends GenericService<Submissao>  {
 	
 	List<Submissao> getSubmissoesByPessoaIdAndIdTurma(Long idPessoa, Long idTurma);
 	
+	Submissao getSubmissaoByPessoaIdAndIdTurma(Long idPessoa, Long idTurma);
+	
 }

@@ -49,8 +49,17 @@ public class SubmissaoServiceImpl extends GenericServiceImpl<Submissao> implemen
 		params.put("idPessoa", idPessoa);
 		params.put("idTurma", idTurma);
 		params.put("tipo", tipo);
-		@SuppressWarnings("unchecked")
 		Submissao submissao = (Submissao) findFirst(QueryType.JPQL,"select s from Submissao s where s.pessoa.id = :idPessoa and s.turma.id = :idTurma and s.tipo = :tipo", params);
+
+		return submissao;
+	}
+	
+	@Override
+	public Submissao getSubmissaoByPessoaIdAndIdTurma(Long idPessoa, Long idTurma) {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("idPessoa", idPessoa);
+		params.put("idTurma", idTurma);
+		Submissao submissao = (Submissao) findFirst(QueryType.JPQL,"select s from Submissao s where s.pessoa.id = :idPessoa and s.turma.id = :idTurma", params);
 
 		return submissao;
 	}

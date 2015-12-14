@@ -166,7 +166,7 @@
 										<td align="right"><a
 											href="<c:url value="/supervisor/turma/${idTurma }/acompanhamento-avaliacao/estagiario/${estagiario.id}" />"
 											title="Acompanhamento de Avaliação"
-											class="btn btn-info btn-sm"><span class="fa fa-check"></span>Acompanhamento
+											class="btn btn-info btn-sm"><span class="fa fa-check"></span> Acompanhamento
 												de Avaliação</a></td>
 										<td align="right"><a
 											href="<c:url value="/supervisor/turma/${idTurma }/estagiario/${estagiario.id}/frequencia" />"

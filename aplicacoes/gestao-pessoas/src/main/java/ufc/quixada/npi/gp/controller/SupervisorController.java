@@ -3,6 +3,7 @@ package ufc.quixada.npi.gp.controller;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
@@ -21,15 +22,19 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import br.ufc.quixada.npi.ldap.service.UsuarioService;
+import br.ufc.quixada.npi.service.GenericService;
+import ufc.quixada.npi.gp.model.Documento;
 import ufc.quixada.npi.gp.model.Estagiario;
 import ufc.quixada.npi.gp.model.Frequencia;
 import ufc.quixada.npi.gp.model.Papel;
 import ufc.quixada.npi.gp.model.Pessoa;
 import ufc.quixada.npi.gp.model.Servidor;
 import ufc.quixada.npi.gp.model.Submissao;
+import ufc.quixada.npi.gp.model.SubmissaoAvaliacaoRendimento;
 import ufc.quixada.npi.gp.model.Turma;
 import ufc.quixada.npi.gp.model.enums.StatusEntrega;
 import ufc.quixada.npi.gp.model.enums.StatusFrequencia;
+import ufc.quixada.npi.gp.model.enums.Tipo;
 import ufc.quixada.npi.gp.service.AvaliacaoService;
 import ufc.quixada.npi.gp.model.enums.TipoFrequencia;
 import ufc.quixada.npi.gp.service.EstagiarioService;
@@ -37,6 +42,7 @@ import ufc.quixada.npi.gp.service.FrequenciaService;
 import ufc.quixada.npi.gp.service.PapelService;
 import ufc.quixada.npi.gp.service.PessoaService;
 import ufc.quixada.npi.gp.service.ServidorService;
+import ufc.quixada.npi.gp.service.SubmissaoService;
 import ufc.quixada.npi.gp.service.TurmaService;
 import ufc.quixada.npi.gp.utils.Constants;
 
@@ -68,7 +74,13 @@ public class SupervisorController {
 
 	@Inject
 	private FrequenciaService frequenciaService;
+	
+	@Inject
+	private SubmissaoService submissaoService;
 
+	@Inject
+	private GenericService<SubmissaoAvaliacaoRendimento> avaliacaoRendimentoService;
+	
 	@RequestMapping(value = { "", "/" }, method = RequestMethod.GET)
 	public String paginaInicial(Model Model, HttpSession session) {
 
@@ -128,10 +140,57 @@ public class SupervisorController {
 
 	@RequestMapping(value = "/turma/{idTurma}/acompanhamento-avaliacao/estagiario/{idEstagiario}", method = RequestMethod.GET)
 	public String listarAcompanhamento(Model model, HttpSession session, @PathVariable("idEstagiario") Long idEstagiario, @PathVariable("idTurma") Long idTurma) {
+		Pessoa pessoa = getUsuarioLogado(session);
+		
 		model.addAttribute("avaliacaoEstagio", avaliacaoService.getAvaliacoesEstagioByEstagiarioIdAndTurmaById(idEstagiario, idTurma));
 		model.addAttribute("turma", turmaService.find(Turma.class, idTurma));
 		model.addAttribute("estagiario", estagiarioService.find(Estagiario.class, idEstagiario));
+		model.addAttribute("submissoes", submissaoService.getSubmissoesByPessoaIdAndIdTurma(pessoa.getId(), idTurma));
+		
 		return "supervisor/acompanhamentoAvaliacao";
+	}
+	
+	@RequestMapping(value = "/minha-documentacao/turma/{idTurma}/estagiario/{idEstagiario}", method = RequestMethod.POST)
+	public String minhaDocumentacao(@Valid @RequestParam("anexo") MultipartFile anexo, @Valid @RequestParam("nota") Long nota, @Valid @RequestParam("comentario") String comentario, HttpSession session, Model model, @ModelAttribute("idEstagiario") Long idEstagiario, @ModelAttribute("idTurma") Long idTurma, RedirectAttributes redirectAttributes ){
+		Pessoa pessoa = getUsuarioLogado(session);
+		Estagiario estagiario = estagiarioService.find(Estagiario.class, idEstagiario);
+		
+		List<SubmissaoAvaliacaoRendimento> submissoes = avaliacaoRendimentoService.find(SubmissaoAvaliacaoRendimento.class);
+		SubmissaoAvaliacaoRendimento submissao = submissoes.get(0);
+		
+		try {
+			if(!anexo.getContentType().equals("application/pdf")){
+				redirectAttributes.addFlashAttribute("error", "Escolha um arquivo pdf.");
+				return "redirect:/estagiario/turma/" + idTurma;
+			}
+			if(submissao == null && anexo.getBytes() != null && anexo.getBytes().length != 0 && anexo.getContentType().equals("application/pdf")){
+					Documento documento = new Documento();
+					documento.setNome("AVALIAÇÃO_"+estagiario.getNomeCompleto().toUpperCase());
+					documento.setExtensao(anexo.getContentType());
+					documento.setArquivo(anexo.getBytes());
+					
+					submissao = new SubmissaoAvaliacaoRendimento();
+					submissao.setNota(nota);
+					submissao.setComentario(comentario);
+					submissao.setDocumento(documento);
+					submissao.setEstagiario(estagiario);
+					submissao.setPessoa(pessoa);
+					avaliacaoRendimentoService.save(submissao);
+				} else if(anexo.getBytes() != null && anexo.getBytes().length != 0 && anexo.getContentType().equals("application/pdf")){
+					submissao.getDocumento().setNome("AVALIAÇÃO_"+estagiario.getNomeCompleto().toUpperCase());
+					submissao.getDocumento().setArquivo(anexo.getBytes());
+					submissao.getDocumento().setExtensao(anexo.getContentType());
+					submissao.setNota(nota);
+					submissao.setComentario(comentario);
+					submissao.setEstagiario(estagiario);
+					submissao.setPessoa(pessoa);
+					avaliacaoRendimentoService.update(submissao);
+				}
+		} catch (IOException e) {
+			return "redirect:/500";
+		}
+		
+		return "redirect:/supervisor/acompanhamentoAvaliacao";
 	}
 
 	@RequestMapping(value = "/frequencia/realizar-observacao", method = RequestMethod.POST)
@@ -161,52 +220,6 @@ public class SupervisorController {
 
 		return "";
 	}
-	
-//	@RequestMapping(value = "/minha-documentacao/turma/{idTurma}", method = RequestMethod.POST)
-//	public String minhaDocumentacao(@Valid @RequestParam("anexo") MultipartFile anexo, HttpSession session, Model model, @RequestParam("tipo") Tipo tipo, @ModelAttribute("idTurma") Long idTurma, RedirectAttributes redirectAttributes ){
-//		Pessoa pessoa = getUsuarioLogado(session);
-//		Estagiario estagiario = estagiarioService.getEstagiarioByPessoaId(pessoa.getId());
-//		Turma turma = turmaService.getTurmaByIdAndEstagiarioId(idTurma, estagiario.getId());
-//		
-//		Submissao submissao = submissaoService.getSubmissaoByPessoaIdAndIdTurmaAndTipo(pessoa.getId(), idTurma, tipo);
-//		
-//		try {
-//			if(!anexo.getContentType().equals("application/pdf")){
-//				redirectAttributes.addFlashAttribute("error", "Escolha um arquivo pdf.");
-//				return "redirect:/estagiario/turma/" + idTurma;
-//			}
-//			if(submissao == null && anexo.getBytes() != null && anexo.getBytes().length != 0 && anexo.getContentType().equals("application/pdf")){
-//					Submissao newDocumento = new Submissao();
-//					newDocumento.setArquivo(anexo.getBytes());
-//					newDocumento.setNome(tipo+"_"+estagiario.getNomeCompleto().toUpperCase());
-//					newDocumento.setNomeOriginal(anexo.getOriginalFilename());
-//					newDocumento.setExtensao(anexo.getContentType());
-//					newDocumento.setData(new Date());
-//					newDocumento.setHorario(new Date());
-//					newDocumento.setStatusEntrega(StatusEntrega.ENVIADO);
-//					newDocumento.setTipo(tipo);
-//					newDocumento.setPessoa(pessoa);
-//					newDocumento.setTurma(turma);
-//					submissaoService.salvar(newDocumento);
-//				} else if(submissao.getStatusEntrega().equals(StatusEntrega.ENVIADO) && anexo.getBytes() != null && anexo.getBytes().length != 0 && anexo.getContentType().equals("application/pdf")){
-//					submissao.setArquivo(anexo.getBytes());
-//					submissao.setNome(tipo+"_"+estagiario.getNomeCompleto().toUpperCase());
-//					submissao.setNomeOriginal(anexo.getOriginalFilename());
-//					submissao.setExtensao(anexo.getContentType());
-//					submissao.setData(new Date());
-//					submissao.setHorario(new Date());
-//					submissao.setStatusEntrega(StatusEntrega.ENVIADO);
-//					submissao.setTipo(tipo);
-//					submissao.setPessoa(pessoa);
-//					submissao.setTurma(turma);
-//					submissaoService.update(submissao);
-//				}
-//		} catch (IOException e) {
-//			return "redirect:/500";
-//		}
-//		
-//		return "redirect:/estagiario/turma/" + idTurma;
-//	}
 
 	private Pessoa getUsuarioLogado(HttpSession session) {
 		if (session.getAttribute(Constants.USUARIO_LOGADO) == null) {

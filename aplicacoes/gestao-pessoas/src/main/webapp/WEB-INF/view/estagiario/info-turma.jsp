@@ -97,7 +97,7 @@
 			<div class="panel panel-success">
 				<div class="panel-heading">
 					<h2 class="titulo-panels">
-						<span class="fa fa-file-text-o"></span> Documentação
+						<span class="fa fa-file-pdf-o"></span> Documentação
 					</h2>
 				</div>
 

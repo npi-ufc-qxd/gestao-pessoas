@@ -1,13 +1,13 @@
 package ufc.quixada.npi.gp.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-
-import org.hibernate.annotations.Type;
+import javax.persistence.OneToOne;
 
 @Entity
 public class SubmissaoAvaliacaoRendimento {
@@ -20,20 +20,21 @@ public class SubmissaoAvaliacaoRendimento {
 
 	private double nota;
 
-	@Type(type = "org.hibernate.type.BinaryType")
-	private byte[] arquivo;
-
 	@ManyToOne
 	@JoinColumn(name = "pessoa_id")
 	private Pessoa pessoa;
 
 	@ManyToOne
 	@JoinColumn(name = "estagiario_id")
-	private Pessoa estagiario;
+	private Estagiario estagiario;
 
 	@ManyToOne
 	@JoinColumn(name = "turma_id")
 	private Turma turma;
+	
+	@OneToOne(cascade = CascadeType.ALL)	
+	@JoinColumn(name = "documento_id")
+	private Documento documento;
 
 	public Long getId() {
 		return id;
@@ -67,20 +68,20 @@ public class SubmissaoAvaliacaoRendimento {
 		this.pessoa = pessoa;
 	}
 
-	public Pessoa getEstagiario() {
+	public Estagiario getEstagiario() {
 		return estagiario;
 	}
 
-	public void setEstagiario(Pessoa estagiario) {
+	public void setEstagiario(Estagiario estagiario) {
 		this.estagiario = estagiario;
 	}
 
-	public byte[] getArquivo() {
-		return arquivo;
+	public Documento getDocumento() {
+		return documento;
 	}
 
-	public void setArquivo(byte[] arquivo) {
-		this.arquivo = arquivo;
+	public void setDocumento(Documento documento) {
+		this.documento = documento;
 	}
 
 	@Override

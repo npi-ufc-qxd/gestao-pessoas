@@ -47,11 +47,11 @@
 						<div class="form-group">
 							<div id="inicio" class="form-item col-sm-12">
 								<label class="control-label">*Início do Evento:</label>
-								<form:input id="inicio" path="inicio" cssClass="form-control data" placeholder="Inicio do Evento" required="required" type="date"/>
+								<form:input id="inicio" path="inicio" cssClass="form-control data" placeholder="Inicio do Evento" required="required"/>
 								<div class="error-validation"><form:errors path="inicio"></form:errors></div>
 
 								<label class="control-label">*Final do Evento:</label>
-								<form:input id="termino" path="termino" cssClass="form-control data" placeholder="Termino do periodo" required="required" type="date"/>
+								<form:input id="termino" path="termino" cssClass="form-control data" placeholder="Termino do periodo" required="required"/>
 								<div class="error-validation"><form:errors path="termino"></form:errors></div>
 							</div>
 							<div id="descricao" class="form-item col-sm-12">

@@ -68,9 +68,46 @@ $(document).ready(function() {
         }
     });
 	
+	
+
+	jQuery.validator.addMethod("maiorQue", 
+		function(dataFinal, element, params) {
+			$(params).val($("#inicio input").datepicker('getFormattedDate'));
+			return moment(dataFinal, "DD/MM/YYYY").isAfter(moment($(params).val(), "DD/MM/YYYY"));
+		},'Termino do evento deve ser posterior ao início!'
+	);
+
+	jQuery.validator.addMethod("menorQue", 
+		function(dataIncial, element, params) {
+			$(params).val($("#termino").datepicker('getFormattedDate'));
+			return moment(dataIncial, "DD/MM/YYYY").isBefore(moment($(params).val(), "DD/MM/YYYY"));
+		},'Inicio do evento deve ser anterior ao termino!'
+	);
+
+	$('#form-evento').validate({
+		rules:{
+			inicio:{
+				menorQue : "#termino",
+        	},
+
+        	termino:{
+        		maiorQue: "#inicio",
+        	}
+			
+		},		
+		messages:{
+			inicio:{
+				required: "",
+			},
+			termino:{
+			}
+
+		
+		}
+	});
+	
 	$('#form-turma').validate({
         rules: {
-            
         },
         highlight: function(element) {
             $(element).closest('.form-item').addClass('has-error');
@@ -95,6 +132,7 @@ $(document).ready(function() {
             },
         	inicio:{
                 required:"Campo obrigatório",
+                min:"A data de início deve ser anterior à data de término",
             },
         	termino:{
                 required:"Campo obrigatório",
@@ -219,11 +257,6 @@ $(document).ready(function() {
 		format: "dd/mm/yyyy",
 		orientation: "top auto",
 	});
-
-	$('.data').datepicker()
-    .on('changeDate', function(e) {
-        console.log('sadesdfg');
-    });	
 	
 });
 

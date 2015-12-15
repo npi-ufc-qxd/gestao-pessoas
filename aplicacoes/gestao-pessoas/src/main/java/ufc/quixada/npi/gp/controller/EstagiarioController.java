@@ -155,7 +155,7 @@ public class EstagiarioController {
 		
 		Estagiario estagiario = estagiarioService.getEstagiarioByPessoaId(pessoa.getId());
 		
-		List<Submissao> submissoes = submissaoService.getSubmissoesByPessoaIdAndIdTurma(pessoa.getId(), idTurma);
+		List<Submissao> submissoes = submissaoService.getSubmissoesByEstagiarioIdAndIdTurma(estagiario.getId(), idTurma);
 
 		model.addAttribute("submissoes", submissoes);
 		model.addAttribute("estagiarioNome", estagiario.getNomeCompleto());
@@ -170,7 +170,7 @@ public class EstagiarioController {
 		Estagiario estagiario = estagiarioService.getEstagiarioByPessoaId(pessoa.getId());
 		Turma turma = turmaService.getTurmaByIdAndEstagiarioId(idTurma, estagiario.getId());
 		
-		Submissao submissao = submissaoService.getSubmissaoByPessoaIdAndIdTurmaAndTipo(pessoa.getId(), idTurma, tipo);
+		Submissao submissao = submissaoService.getSubmissaoByEstagiarioIdAndIdTurmaAndTipo(estagiario.getId(), idTurma, tipo);
 		
 		try {
 			if(!anexo.getContentType().equals("application/pdf")){
@@ -188,7 +188,7 @@ public class EstagiarioController {
 					submissao.setHorario(new Date());
 					submissao.setStatusEntrega(StatusEntrega.ENVIADO);
 					submissao.setTipo(tipo);
-					submissao.setPessoa(pessoa);
+					submissao.setEstagiario(estagiario);
 					submissao.setTurma(turma);
 					submissao.setDocumento(documento);
 					submissaoService.salvar(submissao);
@@ -200,7 +200,7 @@ public class EstagiarioController {
 					submissao.setHorario(new Date());
 					submissao.setStatusEntrega(StatusEntrega.ENVIADO);
 					submissao.setTipo(tipo);
-					submissao.setPessoa(pessoa);
+					submissao.setEstagiario(estagiario);
 					submissao.setTurma(turma);
 					submissaoService.update(submissao);
 				}

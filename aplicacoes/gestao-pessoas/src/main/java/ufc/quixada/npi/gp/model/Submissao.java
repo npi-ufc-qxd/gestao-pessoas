@@ -41,9 +41,17 @@ public class Submissao {
 	@Enumerated(EnumType.STRING)
 	private StatusEntrega statusEntrega;
 	
+	public Estagiario getEstagiario() {
+		return estagiario;
+	}
+
+	public void setEstagiario(Estagiario estagiario) {
+		this.estagiario = estagiario;
+	}
+
 	@ManyToOne
-	@JoinColumn(name = "pessoa_id")
-	private Pessoa pessoa;
+	@JoinColumn(name = "estagiario_id")
+	private Estagiario estagiario;
 
 	@ManyToOne
 	@JoinColumn(name = "turma_id")
@@ -91,14 +99,6 @@ public class Submissao {
 
 	public void setStatusEntrega(StatusEntrega statusEntrega) {
 		this.statusEntrega = statusEntrega;
-	}
-
-	public Pessoa getPessoa() {
-		return pessoa;
-	}
-
-	public void setPessoa(Pessoa pessoa) {
-		this.pessoa = pessoa;
 	}
 	
 	public Turma getTurma() {

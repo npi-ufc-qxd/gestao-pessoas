@@ -2,6 +2,7 @@ package ufc.quixada.npi.gp.controller;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
@@ -22,6 +23,7 @@ import ufc.quixada.npi.gp.model.Frequencia;
 import ufc.quixada.npi.gp.model.Papel;
 import ufc.quixada.npi.gp.model.Pessoa;
 import ufc.quixada.npi.gp.model.Servidor;
+import ufc.quixada.npi.gp.model.Submissao;
 import ufc.quixada.npi.gp.model.Turma;
 import ufc.quixada.npi.gp.model.enums.StatusFrequencia;
 import ufc.quixada.npi.gp.service.AvaliacaoService;
@@ -31,6 +33,7 @@ import ufc.quixada.npi.gp.service.FrequenciaService;
 import ufc.quixada.npi.gp.service.PapelService;
 import ufc.quixada.npi.gp.service.PessoaService;
 import ufc.quixada.npi.gp.service.ServidorService;
+import ufc.quixada.npi.gp.service.SubmissaoService;
 import ufc.quixada.npi.gp.service.TurmaService;
 import ufc.quixada.npi.gp.utils.Constants;
 
@@ -63,6 +66,9 @@ public class SupervisorController {
 	@Inject
 	private FrequenciaService frequenciaService;
 
+	@Inject
+	private SubmissaoService submissaoService;
+	
 	@RequestMapping(value = { "", "/" }, method = RequestMethod.GET)
 	public String paginaInicial(Model Model, HttpSession session) {
 
@@ -125,6 +131,8 @@ public class SupervisorController {
 		model.addAttribute("avaliacaoEstagio", avaliacaoService.getAvaliacoesEstagioByEstagiarioIdAndTurmaById(idEstagiario, idTurma));
 		model.addAttribute("turma", turmaService.find(Turma.class, idTurma));
 		model.addAttribute("estagiario", estagiarioService.find(Estagiario.class, idEstagiario));
+		model.addAttribute("submissoes", submissaoService.getSubmissoesByEstagiarioIdAndIdTurma(idEstagiario, idTurma));
+
 		return "supervisor/acompanhamentoAvaliacao";
 	}
 

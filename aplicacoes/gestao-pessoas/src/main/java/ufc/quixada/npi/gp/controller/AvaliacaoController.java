@@ -8,7 +8,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,11 +17,12 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ufc.quixada.npi.gp.model.AvaliacaoEstagio;
 import ufc.quixada.npi.gp.model.Estagiario;
 import ufc.quixada.npi.gp.model.Pessoa;
+import ufc.quixada.npi.gp.model.Submissao;
 import ufc.quixada.npi.gp.model.Turma;
-import ufc.quixada.npi.gp.model.enums.Dia;
 import ufc.quixada.npi.gp.service.AvaliacaoService;
 import ufc.quixada.npi.gp.service.EstagiarioService;
 import ufc.quixada.npi.gp.service.PessoaService;
+import ufc.quixada.npi.gp.service.SubmissaoService;
 import ufc.quixada.npi.gp.service.TurmaService;
 import ufc.quixada.npi.gp.utils.Constants;
 
@@ -33,6 +33,9 @@ public class AvaliacaoController {
 
 	@Inject
 	private AvaliacaoService avaliacaoService;
+	
+	@Inject
+	private SubmissaoService submissaoService;
 
 	@Inject
 	private PessoaService pessoaService;
@@ -102,6 +105,29 @@ public class AvaliacaoController {
 		avaliacaoDoBanco.setFatorResponsabilidade(avaliacaoEstagio.getFatorResponsabilidade());
 		
 		avaliacaoService.update(avaliacaoDoBanco);
+
+		return "redirect:/supervisor/turma/{idTurma}/acompanhamento-avaliacao/estagiario/{idEstagiario}";
+	}
+	
+	@RequestMapping(value = "{idTurma}/acompanhamento-avaliacao/estagiario/{idEstagiario}/avaliar-submissao", method = RequestMethod.POST)
+	public String avaliarSubmissao(Model model,
+			@Valid @ModelAttribute("submissoes") Submissao submissao, HttpSession session,
+			RedirectAttributes redirect, @PathVariable("idEstagiario") Long idEstagiario,
+			@PathVariable("idTurma") Long idTurma) {
+
+		model.addAttribute("action", "editar");
+		Submissao submissaoDoBanco = submissaoService.find(Submissao.class, submissao.getId());
+		Pessoa pessoa = getUsuarioLogado(session);
+		Estagiario estagiario = estagiarioService.find(Estagiario.class, idEstagiario);
+		Turma turma = turmaService.getTurmaByIdAndEstagiarioId(idTurma, idEstagiario);
+		
+		submissaoDoBanco.setEstagiario(estagiario);
+		submissaoDoBanco.setTurma(turma);
+		submissaoDoBanco.setNota(submissao.getNota());
+		submissaoDoBanco.setStatusEntrega(submissao.getStatusEntrega());
+		submissaoDoBanco.setComentario(submissao.getComentario());
+		
+		submissaoService.update(submissaoDoBanco);
 
 		return "redirect:/supervisor/turma/{idTurma}/acompanhamento-avaliacao/estagiario/{idEstagiario}";
 	}

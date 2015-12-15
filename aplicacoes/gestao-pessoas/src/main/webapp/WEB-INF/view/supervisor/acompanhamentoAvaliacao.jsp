@@ -58,6 +58,41 @@
 						<span class="fa fa-file-pdf-o"></span> Documentos
 					</h2>
 				</div>
+				<div class="panel-body">
+
+					<h4>Plano</h4>
+					<c:if test="${empty submissoes}">
+						<div class="alert alert-warning" role="alert">Estagiário
+							inexistente.</div>
+					</c:if>
+					<c:forEach var="submissoes" items="${submissoes}">
+						<form class="form-inline" role="form">
+							<div class="form-group">
+								<label for="nota" class="control-label">Nota:</label> <input
+									type="number" class="form-control" id="nota">
+							</div>
+							<div class="form-group">
+								<label for="status">Status:</label> <select class="form-control"
+									id="status">
+									<option>ENVIADO</option>
+									<option>ACEITO</option>
+									<option>REJEITADO</option>
+								</select>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-3 text-view-info"><strong>Tipo:
+								</strong></label> <label class="col-sm-3 text-view-info">${submissoes.tipo}</label>
+
+							</div>
+							<a
+								href="<c:url value="/supervisor/turma/${turma.id}/submissao/${submissao.id}/estagiario/${estagiario.id}/avaliar-submissao" ></c:url>"
+								title="Editar"><button class="btn btn-primary">
+									<span class="fa fa-pencil"></span> Avaliar
+								</button></a>
+						</form>
+						<br>
+					</c:forEach>
+				</div>
 			</div>
 			<div class="panel panel-info">
 				<div class="panel-heading">
@@ -73,18 +108,18 @@
 								</button></a>
 						</div>
 					</c:if>
-					<c:if test="${not empty avaliacaoEstagio}"> 
- 						<c:forEach var="avaliacaoEstagio" items="${avaliacaoEstagio}"> 
-							<div class="pull-right"> 
- 								<a 
- 									href="<c:url value="/supervisor/turma/${turma.id}/avaliacao/${avaliacaoEstagio.id}/estagiario/${estagiario.id}/editar" ></c:url>" 
- 									title="Editar"><button class="btn btn-success"> 
-										<span class="fa fa-pencil"></span> Editar avaliação 
-									</button></a> 
- 							</div> 
- 						</c:forEach> 
-					</c:if> -
-					<br>
+					<c:if test="${not empty avaliacaoEstagio}">
+						<c:forEach var="avaliacaoEstagio" items="${avaliacaoEstagio}">
+							<div class="pull-right">
+								<a
+									href="<c:url value="/supervisor/turma/${turma.id}/avaliacao/${avaliacaoEstagio.id}/estagiario/${estagiario.id}/editar" ></c:url>"
+									title="Editar"><button class="btn btn-success">
+										<span class="fa fa-pencil"></span> Editar avaliação
+									</button></a>
+							</div>
+						</c:forEach>
+					</c:if>
+					- <br>
 				</div>
 				<div class="panel-body">
 

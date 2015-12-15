@@ -44,24 +44,24 @@ public class SubmissaoServiceImpl extends GenericServiceImpl<Submissao> implemen
 	}
 	
 	@Override
-	public Submissao getSubmissaoByPessoaIdAndIdTurmaAndTipo(Long idPessoa, Long idTurma, Tipo tipo) {
+	public Submissao getSubmissaoByEstagiarioIdAndIdTurmaAndTipo(Long idEstagiario, Long idTurma, Tipo tipo) {
 		Map<String, Object> params = new HashMap<String, Object>();
-		params.put("idPessoa", idPessoa);
+		params.put("idEstagiario", idEstagiario);
 		params.put("idTurma", idTurma);
 		params.put("tipo", tipo);
 		@SuppressWarnings("unchecked")
-		Submissao submissao = (Submissao) findFirst(QueryType.JPQL,"select s from Submissao s where s.pessoa.id = :idPessoa and s.turma.id = :idTurma and s.tipo = :tipo", params);
+		Submissao submissao = (Submissao) findFirst(QueryType.JPQL,"select s from Submissao s where s.estagiario.id = :idEstagiario and s.turma.id = :idTurma and s.tipo = :tipo", params);
 
 		return submissao;
 	}
 	
 	@Override
-	public List<Submissao> getSubmissoesByPessoaIdAndIdTurma(Long idPessoa, Long idTurma) {
+	public List<Submissao> getSubmissoesByEstagiarioIdAndIdTurma(Long idEstagiario, Long idTurma) {
 		Map<String, Object> params = new HashMap<String, Object>();
-		params.put("idPessoa", idPessoa);
+		params.put("idEstagiario", idEstagiario);
 		params.put("idTurma", idTurma);
 		@SuppressWarnings("unchecked")
-		List <Submissao> submissoes = find(QueryType.JPQL,"select s from Submissao s where s.pessoa.id = :idPessoa and s.turma.id = :idTurma", params);
+		List <Submissao> submissoes = find(QueryType.JPQL,"select s from Submissao s where s.estagiario.id = :idEstagiario and s.turma.id = :idTurma", params);
 
 		return submissoes;
 	}

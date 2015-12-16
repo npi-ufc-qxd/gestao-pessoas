@@ -80,10 +80,7 @@
 								<c:forEach var="submissao" items="${submissoes}">
 									<c:if test="${submissao.turma.id == turma.id}">
 										<tr class="success">
-											<td><a href="<c:url value="/documento/ ${submissao.id }" />">${submissao.documento.nome}</a></td>
-											<td><fmt:formatDate value="${submissao.data}"
-													pattern="dd/MM/yyyy" /></td>
-											<td>${submissao.horario}</td>
+											
 										</tr>
 									</c:if>
 								</c:forEach>
@@ -104,13 +101,13 @@
 				</div>
 				
 				<div class="panel-body">
-					<form class="form-inline" method="POST" enctype="multipart/form-data" action="<c:url value="/estagiario/minha-documentacao/turma/${turma.id }/estagiario/${estagiario.id }"></c:url>" >
+					<form class="form-inline" method="POST" enctype="multipart/form-data" action="<c:url value="/supervisor/turma/${turma.id }/minha-documentacao/estagiario/${estagiario.id }"></c:url>" >
 					  <div class="form-group col-sm-12">
 						  <div class="form-group">
-						   <input type="text" class="form-control" id="nota" placeholder="Nota">
+						   <input type="text" class="form-control" name="nota" placeholder="Nota">
 						  </div>
 						  <div class="form-group">
-						    <input type="text" class="form-control" id="comentario" placeholder="Comentario">
+						    <input type="text" class="form-control" name="comentario" placeholder="Comentario">
 						  </div>
 						  <div class="form-group">
 						  	<input name="anexo" type="file" multiple="multiple" id="avaliacao" class="form-control">

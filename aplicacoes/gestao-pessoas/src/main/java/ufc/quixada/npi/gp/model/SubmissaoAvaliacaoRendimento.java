@@ -18,7 +18,7 @@ public class SubmissaoAvaliacaoRendimento {
 
 	private String comentario;
 
-	private double nota;
+	private Double nota;
 
 	@ManyToOne
 	@JoinColumn(name = "pessoa_id")
@@ -31,7 +31,7 @@ public class SubmissaoAvaliacaoRendimento {
 	@ManyToOne
 	@JoinColumn(name = "turma_id")
 	private Turma turma;
-	
+
 	@OneToOne(cascade = CascadeType.ALL)	
 	@JoinColumn(name = "documento_id")
 	private Documento documento;
@@ -52,11 +52,11 @@ public class SubmissaoAvaliacaoRendimento {
 		this.comentario = comentario;
 	}
 
-	public double getNota() {
+	public Double getNota() {
 		return nota;
 	}
 
-	public void setNota(double nota) {
+	public void setNota(Double nota) {
 		this.nota = nota;
 	}
 
@@ -82,6 +82,14 @@ public class SubmissaoAvaliacaoRendimento {
 
 	public void setDocumento(Documento documento) {
 		this.documento = documento;
+	}
+	
+	public Turma getTurma() {
+		return turma;
+	}
+
+	public void setTurma(Turma turma) {
+		this.turma = turma;
 	}
 
 	@Override

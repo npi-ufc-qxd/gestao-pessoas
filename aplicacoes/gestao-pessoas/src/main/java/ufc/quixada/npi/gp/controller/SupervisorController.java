@@ -9,6 +9,7 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
@@ -22,6 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import br.ufc.quixada.npi.ldap.service.UsuarioService;
+import br.ufc.quixada.npi.repository.GenericRepository;
 import br.ufc.quixada.npi.service.GenericService;
 import ufc.quixada.npi.gp.model.Documento;
 import ufc.quixada.npi.gp.model.Estagiario;
@@ -35,6 +37,7 @@ import ufc.quixada.npi.gp.model.Turma;
 import ufc.quixada.npi.gp.model.enums.StatusEntrega;
 import ufc.quixada.npi.gp.model.enums.StatusFrequencia;
 import ufc.quixada.npi.gp.model.enums.Tipo;
+import ufc.quixada.npi.gp.service.AvaliacaoRendimentoService;
 import ufc.quixada.npi.gp.service.AvaliacaoService;
 import ufc.quixada.npi.gp.model.enums.TipoFrequencia;
 import ufc.quixada.npi.gp.service.EstagiarioService;
@@ -79,7 +82,7 @@ public class SupervisorController {
 	private SubmissaoService submissaoService;
 
 	@Inject
-	private GenericService<SubmissaoAvaliacaoRendimento> avaliacaoRendimentoService;
+	private AvaliacaoRendimentoService avaliacaoRendimentoService;
 	
 	@RequestMapping(value = { "", "/" }, method = RequestMethod.GET)
 	public String paginaInicial(Model Model, HttpSession session) {
@@ -146,22 +149,22 @@ public class SupervisorController {
 		model.addAttribute("turma", turmaService.find(Turma.class, idTurma));
 		model.addAttribute("estagiario", estagiarioService.find(Estagiario.class, idEstagiario));
 		model.addAttribute("submissoes", submissaoService.getSubmissoesByPessoaIdAndIdTurma(pessoa.getId(), idTurma));
+		model.addAttribute("avaliacoes", avaliacaoRendimentoService.getAvaliacoesRendimentoByTurmaIdAndEstagiarioId(idEstagiario, idTurma));
 		
 		return "supervisor/acompanhamentoAvaliacao";
 	}
 	
-	@RequestMapping(value = "/minha-documentacao/turma/{idTurma}/estagiario/{idEstagiario}", method = RequestMethod.POST)
-	public String minhaDocumentacao(@Valid @RequestParam("anexo") MultipartFile anexo, @Valid @RequestParam("nota") Long nota, @Valid @RequestParam("comentario") String comentario, HttpSession session, Model model, @ModelAttribute("idEstagiario") Long idEstagiario, @ModelAttribute("idTurma") Long idTurma, RedirectAttributes redirectAttributes ){
+	@RequestMapping(value = "/turma/{idTurma}/minha-documentacao/estagiario/{idEstagiario}", method = RequestMethod.POST)
+	public String minhaDocumentacao(@Valid @RequestParam("anexo") MultipartFile anexo, @RequestParam("nota") Double nota, @RequestParam("comentario") String comentario, HttpSession session, Model model, @PathVariable("idEstagiario") Long idEstagiario, @PathVariable("idTurma") Long idTurma, RedirectAttributes redirectAttributes ){
 		Pessoa pessoa = getUsuarioLogado(session);
 		Estagiario estagiario = estagiarioService.find(Estagiario.class, idEstagiario);
-		
-		List<SubmissaoAvaliacaoRendimento> submissoes = avaliacaoRendimentoService.find(SubmissaoAvaliacaoRendimento.class);
-		SubmissaoAvaliacaoRendimento submissao = submissoes.get(0);
+		Turma turma = turmaService.find(Turma.class, idTurma);
+		SubmissaoAvaliacaoRendimento submissao = avaliacaoRendimentoService.getAvaliacaoRendimentoByTurmaIdAndEstagiarioId(idTurma, idEstagiario);
 		
 		try {
 			if(!anexo.getContentType().equals("application/pdf")){
 				redirectAttributes.addFlashAttribute("error", "Escolha um arquivo pdf.");
-				return "redirect:/estagiario/turma/" + idTurma;
+				return "redirect:/turma/" + idTurma + "/acompanhamento-avaliacao/estagiario/" + idEstagiario;
 			}
 			if(submissao == null && anexo.getBytes() != null && anexo.getBytes().length != 0 && anexo.getContentType().equals("application/pdf")){
 					Documento documento = new Documento();
@@ -174,6 +177,7 @@ public class SupervisorController {
 					submissao.setComentario(comentario);
 					submissao.setDocumento(documento);
 					submissao.setEstagiario(estagiario);
+					submissao.setTurma(turma);
 					submissao.setPessoa(pessoa);
 					avaliacaoRendimentoService.save(submissao);
 				} else if(anexo.getBytes() != null && anexo.getBytes().length != 0 && anexo.getContentType().equals("application/pdf")){
@@ -181,6 +185,7 @@ public class SupervisorController {
 					submissao.getDocumento().setArquivo(anexo.getBytes());
 					submissao.getDocumento().setExtensao(anexo.getContentType());
 					submissao.setNota(nota);
+					submissao.setTurma(turma);
 					submissao.setComentario(comentario);
 					submissao.setEstagiario(estagiario);
 					submissao.setPessoa(pessoa);
@@ -190,7 +195,7 @@ public class SupervisorController {
 			return "redirect:/500";
 		}
 		
-		return "redirect:/supervisor/acompanhamentoAvaliacao";
+		return "redirect:/supervisor/turma/" + idTurma + "/acompanhamento-avaliacao/estagiario/" + idEstagiario;
 	}
 
 	@RequestMapping(value = "/frequencia/realizar-observacao", method = RequestMethod.POST)

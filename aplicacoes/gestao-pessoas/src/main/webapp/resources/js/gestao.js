@@ -97,9 +97,13 @@ $(document).ready(function() {
 		},		
 		messages:{
 			inicio:{
-				required: "",
+				required: "Campo obrigatório",
 			},
 			termino:{
+				required: "Campo obrigatório",
+			},
+			descricao:{
+				required: "Campo obrigatório",
 			}
 
 		

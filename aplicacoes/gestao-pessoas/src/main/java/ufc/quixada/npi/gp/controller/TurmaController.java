@@ -462,5 +462,4 @@ public class TurmaController {
 		return "redirect:/supervisor/turma/" + evento.getTurma().getId() + "/evento";	
 	}
 	// Evento Termino
-
 }

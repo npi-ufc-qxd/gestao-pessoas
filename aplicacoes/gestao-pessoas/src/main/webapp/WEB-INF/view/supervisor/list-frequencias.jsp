@@ -52,8 +52,8 @@
 								<td><fmt:formatDate type="time" pattern="HH:mm" value="${dataAtual}" /></td>
 								<td>${estagiario.nomeCompleto}</td>
 								<form:form id="lancar-frequencia" servletRelativeAction="/supervisor/turma/${turma.id}/estagiario/${estagiario.id}/frequencia/lancar" method="POST">
-									<input class="dataSelecionada" type="hidden" name="data" value="">
-									<td><textarea class="form-control" rows="1" cols="10" name="observacao"></textarea> </td>
+								<input class="dataSelecionada" type="hidden" name="data" value="">
+									<td><textarea class="form-control" rows="1" cols="10" name="observacao"></textarea></td>
 									<td>
 									<select class="form-control" name="statusFrequencia">
 										<option value="PRESENTE">PRESENTE</option>
@@ -63,7 +63,7 @@
 										<option value="ABONADO">ABONADO</option>
 									</select>
 									</td>
-									<td><button type="submit" class="btn btn-primary">Lançar</button></td>
+									<td><input type="submit" class="btn btn-primary" value="Lançar"/></td>
 								</form:form>
 							</tr>
 						</c:forEach>
@@ -79,22 +79,28 @@
 	<jsp:include page="../modulos/footer.jsp" />
 	
 	<script type="text/javascript">
-	$ ( document ). ready ( function ()  { 
-		$ ( '.data' ). datepicker (); 
-		$ ( '.data' ). datepicker ( {defaultDate: new Date()} );
-	});
-		$('.menu #turmas').addClass('active');
 	
+		$('.menu #turmas').addClass('active');
+		
 		$('#dataFiltroFrequencia').datepicker({
 			language: 'pt-BR',
 			format: "mm/dd/yyyy",
 			todayHighlight: true,
 		});
 		
+// 		$(function(){
+			
+// 			$('#lancar-frequencia').submit(function(){
+// 			$("input[type='submit']", this)
+// 		    	.alert("Please Wait...");
+// 			});
+// 		});
+		
+		
 		$("#dataFiltroFrequencia").on("changeDate", function(event) {
 			var data = $("#dataFiltroFrequencia").datepicker('getFormattedDate');
 			var idTurma = $("#idTurma").val();
-
+			
 			$.ajax({
 				url: '/gestao-pessoas/supervisor/turma/' + idTurma + '/frequencias',
 				type: "POST",

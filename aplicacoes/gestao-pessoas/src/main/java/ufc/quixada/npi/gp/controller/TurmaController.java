@@ -318,7 +318,7 @@ public class TurmaController {
 	@RequestMapping(value = "/{idTurma}/estagiario/{idEstagiario}/frequencia/lancar", method = RequestMethod.POST)
 	public String estagiarioObservarStatus(@PathVariable("idEstagiario") Long idEstagiario, @PathVariable("idTurma") Long idTurma, @RequestParam("data") Date data, @RequestParam("statusFrequencia") StatusFrequencia statusFrequencia, @RequestParam("observacao") String observacao, Model model, RedirectAttributes redirectAttributes){
 		
-		Turma turma =turmaService.find(Turma.class, idTurma);
+		Turma turma = turmaService.find(Turma.class, idTurma);
 		Estagiario estagiario = estagiarioService.find(Estagiario.class, idEstagiario);
 		Frequencia frequencia = frequenciaService.getFrequenciaByDataByTurmaByEstagiario(data, idTurma, idEstagiario);
 		

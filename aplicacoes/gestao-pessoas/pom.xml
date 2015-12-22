@@ -49,7 +49,7 @@
 
 		<!-- NPI -->
 		<npi.core.version>0.1.1</npi.core.version>
-		<npi.ldap.version>0.1</npi.ldap.version>
+		<npi.ldap.version>0.1.2</npi.ldap.version>
 
 	</properties>
 

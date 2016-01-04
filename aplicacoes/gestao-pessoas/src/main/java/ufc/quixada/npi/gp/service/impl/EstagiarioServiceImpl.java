@@ -7,6 +7,7 @@ import java.util.Map;
 import javax.inject.Named;
 
 import ufc.quixada.npi.gp.model.Estagiario;
+import ufc.quixada.npi.gp.model.Pessoa;
 import ufc.quixada.npi.gp.model.Turma;
 import ufc.quixada.npi.gp.service.EstagiarioService;
 import br.ufc.quixada.npi.enumeration.QueryType;
@@ -21,6 +22,15 @@ public class EstagiarioServiceImpl extends GenericServiceImpl<Estagiario> implem
 		params.put("id", id);
 		
 		Estagiario estagiario = (Estagiario) findFirst(QueryType.JPQL, "select e from Estagiario e where e.pessoa.id = :id", params);
+		
+		return estagiario;
+	}
+	@Override
+	public Pessoa getPessoaByEstagiarioId(Long id) {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("id", id);
+		
+		Pessoa estagiario = (Pessoa) findFirst(QueryType.JPQL, "select p from Pessoa p where p.id = :id", params);
 		
 		return estagiario;
 	}

@@ -5,10 +5,10 @@ import java.util.List;
 
 import org.springframework.transaction.annotation.Transactional;
 
-import br.ufc.quixada.npi.service.GenericService;
 import ufc.quixada.npi.gp.model.Estagiario;
 import ufc.quixada.npi.gp.model.Frequencia;
 import ufc.quixada.npi.gp.model.Turma;
+import br.ufc.quixada.npi.service.GenericService;
 
 public interface FrequenciaService extends GenericService<Frequencia>{
 	
@@ -28,4 +28,7 @@ public interface FrequenciaService extends GenericService<Frequencia>{
 	DadoConsolidado calcularDadosConsolidados(List<Frequencia> frequencia);
 
 	List<Frequencia> gerarFrequencia(Turma turma, Estagiario estagiario);
+	
+	List<Estagiario> getEstagiariosSemFrequencia(Date data, Long idTurma);
+	
 }

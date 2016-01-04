@@ -4,8 +4,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 
 import org.hibernate.annotations.Type;
 
@@ -15,34 +13,20 @@ public class Documento {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
-	private String nomeOriginal;
-	
+
 	private String nome;
 	
-	private String tipo;
-	
-	@Type(type="org.hibernate.type.BinaryType") 
+	private String extensao;
+
+	@Type(type = "org.hibernate.type.BinaryType")
 	private byte[] arquivo;
 
-	@ManyToOne
-	@JoinColumn(name = "pessoa_id")
-	private Pessoa pessoa;
-	
 	public Long getId() {
 		return id;
 	}
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	public String getNomeOriginal() {
-		return nomeOriginal;
-	}
-
-	public void setNomeOriginal(String nomeOriginal) {
-		this.nomeOriginal = nomeOriginal;
 	}
 
 	public String getNome() {
@@ -52,21 +36,13 @@ public class Documento {
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-
-	public Pessoa getPessoa() {
-		return pessoa;
+	
+	public String getExtensao() {
+		return extensao;
 	}
 
-	public void setPessoa(Pessoa pessoa) {
-		this.pessoa = pessoa;
-	}
-
-	public String getTipo() {
-		return tipo;
-	}
-
-	public void setTipo(String tipo) {
-		this.tipo = tipo;
+	public void setExtensao(String extensao) {
+		this.extensao = extensao;
 	}
 
 	public byte[] getArquivo() {
@@ -76,10 +52,10 @@ public class Documento {
 	public void setArquivo(byte[] arquivo) {
 		this.arquivo = arquivo;
 	}
-	
+
 	@Override
 	public boolean equals(Object obj) {
-		if(obj instanceof Documento) {
+		if (obj instanceof Documento) {
 			Documento other = (Documento) obj;
 			if (other != null && other.getId() != null && this.id != null && other.getId().equals(this.id)) {
 				return true;
@@ -87,6 +63,5 @@ public class Documento {
 		}
 		return false;
 	}
-	
-}
 
+}

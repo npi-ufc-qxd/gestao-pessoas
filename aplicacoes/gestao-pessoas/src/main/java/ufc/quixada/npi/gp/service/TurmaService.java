@@ -18,4 +18,6 @@ public interface TurmaService extends GenericService<Turma> {
 
 	Turma getTurmaByIdAndSupervisorById(Long idTurma, Long idSupervisor);
 
+	List<Turma> getTurmasByEstagiarioId(Long idEstagiario);
+
 }

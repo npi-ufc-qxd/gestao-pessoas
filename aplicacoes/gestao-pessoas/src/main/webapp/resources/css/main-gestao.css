@@ -25,6 +25,7 @@ a {
 }
 .footer-height {
 	height: 50px;
+	z-index: 999;
 }
 
 .secao-form-h4 {
@@ -149,3 +150,29 @@ h1, .h1, h2, .h2, h3, .h3 {
 	min-width: 38.8594px; 
 	min-height: 33px;
 }
+.modelo {
+	height: inherit;
+	width: 242px;
+	display: inline;
+	text-align: left;
+	
+}
+
+a.template:hover{
+	text-decoration: none;
+}
+
+a.template:focus{
+	text-decoration: none;
+}
+
+.submeter {
+	height: inherit;
+	width: 252px;
+	display: inline;
+}
+
+.bVinculos {
+	font-weight: bold;
+}
+

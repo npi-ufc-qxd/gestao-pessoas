@@ -16,9 +16,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import ufc.quixada.npi.gp.model.Documento;
-import ufc.quixada.npi.gp.model.Pessoa;
-import ufc.quixada.npi.gp.service.DocumentoService;
-import ufc.quixada.npi.gp.service.PessoaService;
+import ufc.quixada.npi.gp.model.Submissao;
+import ufc.quixada.npi.gp.service.SubmissaoService;
 
 
 @Controller
@@ -26,20 +25,16 @@ import ufc.quixada.npi.gp.service.PessoaService;
 public class DocumentoController {
 	
 	@Inject
-	private DocumentoService documentoService;
+	private SubmissaoService submissaoService;
 	
-	@Inject
-	private PessoaService pessoaService;
-	
-	@RequestMapping(value = "/{idPessoa}/{idArquivo}", method = RequestMethod.GET)
-	public void getArquivo(@PathVariable("idPessoa") Long idPessoa, @PathVariable("idArquivo") Long idArquivo, HttpServletResponse response, HttpSession session) {
+	@RequestMapping(value = "/{idSubmissao}", method = RequestMethod.GET)
+	public void getArquivo(@PathVariable("idSubmissao") Long idSubmissao, HttpServletResponse response, HttpSession session) {
 		try {
-			Pessoa pessoa = pessoaService.find(Pessoa.class, idPessoa);
-			Documento documento = documentoService.getDocumentoById(idArquivo);
-			if(documento != null) {
-				InputStream is = new ByteArrayInputStream(documento.getArquivo());
-				response.setContentType(documento.toString());
-				response.setHeader("Content-Disposition", "attachment; filename=" + documento.getNome());
+			Submissao submissao = submissaoService.getSubmissaoById(idSubmissao);
+			if(submissao != null) {
+				InputStream is = new ByteArrayInputStream(submissao.getDocumento().getArquivo());
+				response.setContentType(submissao.toString());
+				response.setHeader("Content-Disposition", "attachment; filename=" + submissao.getDocumento().getNome());
 				IOUtils.copy(is, response.getOutputStream());
 				response.flushBuffer();
 			}
@@ -50,14 +45,14 @@ public class DocumentoController {
 	@RequestMapping(value = "/remover/{id}", method = RequestMethod.POST)
 	@ResponseBody public  ModelMap excluirDocumento(@PathVariable("id") Long id, HttpSession session) {
 		ModelMap model = new ModelMap();
-		Documento documento = documentoService.getDocumentoById(id);
+		Submissao documento = submissaoService.getSubmissaoById(id);
 
 		if(documento == null) {
 			model.addAttribute("mensagem", "Documento inexistente.");
 			return model;
 		}
 
-		documentoService.remover(documento);
+		submissaoService.remover(documento);
 		model.addAttribute("result", "ok");
 		return model;
 	}

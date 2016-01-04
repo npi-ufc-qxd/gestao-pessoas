@@ -93,6 +93,15 @@ public class TurmaServiceImpl extends GenericServiceImpl<Turma> implements Turma
 
 		return turmas;
 	}
+	
+	@Override
+	public List<Turma> getTurmasByEstagiarioId(Long idEstagiario) {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("idEstagiario", idEstagiario);
+		List<Turma> turmas =  find(QueryType.JPQL, "select t from Turma t where :idEstagiario member of t.estagiarios", params);
+
+		return turmas;
+	}
 
 	@Override
 	public Turma getTurmaByIdAndEstagiarioId(Long idTurma, Long idEstagiario) {

@@ -46,19 +46,19 @@
 		<jquery.validation.version>1.12.0</jquery.validation.version>
 		<font-awesome.version>4.4.0</font-awesome.version>
 		<dandelion.datatables.version>0.9.3</dandelion.datatables.version>
-		
+
 		<!-- NPI -->
 		<npi.core.version>0.1.1</npi.core.version>
-		<npi.ldap.version>0.1</npi.ldap.version>
+		<npi.ldap.version>0.1.2</npi.ldap.version>
 
 	</properties>
-	
+
 	<repositories>
 		<repository>
 			<id>npi-mvn-repo</id>
 			<url>http://npi-ufc-qxd.github.io/npi-mvn-repo/</url>
 		</repository>
-	</repositories>	
+	</repositories>
 
 	<dependencies>
 
@@ -137,7 +137,7 @@
 			<artifactId>spring-orm</artifactId>
 			<version>${spring.version}</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-taglibs</artifactId>
@@ -170,14 +170,14 @@
 			<artifactId>spring-tx</artifactId>
 			<version>${spring.version}</version>
 		</dependency>
-				
+
 		<!-- Quartz framework -->
 		<dependency>
 			<groupId>org.quartz-scheduler</groupId>
 			<artifactId>quartz</artifactId>
 			<version>2.2.1</version>
 		</dependency>
-		
+
 		<!-- HIBERNATE -->
 		<dependency>
 			<groupId>org.hibernate</groupId>
@@ -198,15 +198,15 @@
 			<artifactId>slf4j-log4j12</artifactId>
 			<version>${slf4j-log4j12.version}</version>
 		</dependency>
-		
+
 		<!-- Webjars (static dependencies distributed as JAR files) -->
 
 		<!-- bootstrap -->
-<!-- 		<dependency> -->
-<!-- 			<groupId>org.webjars</groupId> -->
-<!-- 			<artifactId>x-editable-bootstrap</artifactId> -->
-<!-- 			<version>${bootstrap.editable.version}</version> -->
-<!-- 		</dependency> -->
+		<!-- <dependency> -->
+		<!-- <groupId>org.webjars</groupId> -->
+		<!-- <artifactId>x-editable-bootstrap</artifactId> -->
+		<!-- <version>${bootstrap.editable.version}</version> -->
+		<!-- </dependency> -->
 
 		<dependency>
 			<groupId>org.webjars</groupId>
@@ -238,7 +238,7 @@
 			<artifactId>jquery-validation</artifactId>
 			<version>${jquery.validation.version}</version>
 		</dependency>
-		
+
 		<!-- font-awesome -->
 		<dependency>
 			<groupId>org.webjars</groupId>
@@ -280,10 +280,10 @@
 			<artifactId>datecalc-common</artifactId>
 			<version>1.4.0</version>
 		</dependency>
-			<dependency>
-				<groupId>net.objectlab.kit</groupId>
-				<artifactId>datecalc-joda</artifactId>
-				<version>1.4.0</version>
+		<dependency>
+			<groupId>net.objectlab.kit</groupId>
+			<artifactId>datecalc-joda</artifactId>
+			<version>1.4.0</version>
 		</dependency>
 
 		<!-- Dependência Jollyday -->
@@ -293,19 +293,20 @@
 			<version>0.4.7</version>
 		</dependency>
 
-		
+
 		<!-- NPI Core -->
 		<dependency>
 			<groupId>br.ufc.quixada.npi</groupId>
 			<artifactId>npi-core-api</artifactId>
 			<version>${npi.core.version}</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>br.ufc.quixada.npi</groupId>
 			<artifactId>npi-ldap</artifactId>
 			<version>${npi.ldap.version}</version>
 		</dependency>
+
 
 	</dependencies>
 	<build>

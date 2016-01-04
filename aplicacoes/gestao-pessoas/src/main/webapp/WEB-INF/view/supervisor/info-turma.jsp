@@ -58,21 +58,19 @@
 		</div>
 	</div>
 
-	<div class="panel panel-info">
-		<div class="panel-heading">
-			<h2 class="titulo-panels"><span class="fa fa-clock-o"></span> Expediente</h2>
+<!-- 	<div class="panel panel-info"> -->
+<!-- 		<div class="panel-heading"> -->
+<!-- 			<h2 class="titulo-panels"><span class="fa fa-clock-o"></span> Expediente</h2> -->
 
-			<div class="pull-right">
-				<a href="<c:url value="/supervisor/turma/${turma.id}/horarios" />" title="Atualizar Horários" class="btn btn-info"><span class="fa fa-refresh"></span> Horário</a>
-			</div>
+<!-- 			<div class="pull-right"> -->
+<%-- 				<a href="<c:url value="/supervisor/turma/${turma.id}/horarios" />" title="Atualizar Horários" class="btn btn-info"><span class="fa fa-refresh"></span> Horário</a> --%>
+<!-- 			</div> -->
 
 			<div class="panel panel-info">
 				<div class="panel-heading">
 					<h2 class="titulo-panels">
-						<span class="fa fa-clock-o"></span> Expediente
-					</h2>
-
-					<div class="pull-right">
+						<span class="fa fa-clock-o"></span> Expediente</h2>
+						<div class="pull-right">
 						<a href="<c:url value="/supervisor/turma/${turma.id}/horarios" />"
 							title="Atualizar Horários" class="btn btn-info"><span
 							class="fa fa-refresh"></span> Horário</a>
@@ -188,7 +186,7 @@
 					</c:if>
 				</div>
 			</div>
-	</div>
+	
 		<!-- Início Eventos -->
 	<div class="panel panel-warning">
 		<div class="panel-heading">
@@ -241,6 +239,8 @@
 				<a href="<c:url value="/supervisor/turma/${turma.id}/vincular" />" title="Atualizar Vínculos" class="btn btn-success"><span class="glyphicon glyphicon-link"></span> Vinculos</a>
 			</div>
 		</div>
+	</div>
+	</div>
 
 		<br> <br>
 		<jsp:include page="../modulos/footer.jsp" />

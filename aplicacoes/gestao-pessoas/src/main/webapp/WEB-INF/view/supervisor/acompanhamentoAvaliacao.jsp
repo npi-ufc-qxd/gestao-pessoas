@@ -163,21 +163,20 @@
 						<h4 class="modal-title" id="lancarNotasLabel">Lançar Notas</h4>
 					</div>
 					<div class="modal-body">
-						<form class="form-horizontal" role="form">
-							<div class="form-group">
-								<label class="col-sm-2 control-label" for="inputEmail3">Nota</label>
-								<div class="col-sm-10">
-									<input type="email" class="form-control" id="inputEmail3"
-										placeholder="Email" />
-								</div>
-							</div>
-							<div class="form-group">
-								<label class="col-sm-2 control-label" for="inputPassword3">Status</label>
-								<div class="col-sm-10">
-									<input type="password" class="form-control" id="inputPassword3"
-										placeholder="Password" />
-								</div>
-							</div>
+						<form class="form-inline">
+						  <div class="form-group">
+						    <label for="nota">Nota</label>
+						    <input type="number" class="form-control" id="nota">
+						  </div>
+						  <div class="form-group">
+						    <label for="statusEntrega">Status</label>
+<!-- 						    <input type="email"id="statusEntrega"> -->
+						    <select class="form-control">
+							  <option>ENVIADO</option>
+							  <option>ACEITO</option>
+							  <option>REJEITADO</option>
+							</select>
+						  </div>
 						</form>
 					</div>
 					<div class="modal-footer">

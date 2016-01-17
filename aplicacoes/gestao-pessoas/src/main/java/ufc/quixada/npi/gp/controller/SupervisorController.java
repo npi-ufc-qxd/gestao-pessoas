@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import br.ufc.quixada.npi.ldap.service.UsuarioService;
+
 import ufc.quixada.npi.gp.model.Estagiario;
 import ufc.quixada.npi.gp.model.Frequencia;
 import ufc.quixada.npi.gp.model.Papel;
@@ -98,6 +99,8 @@ public class SupervisorController {
 
 		return "supervisor/list-turmas";
 	}
+	
+	//@RequestMapping(value = "/")
 
 	@RequestMapping(value = "/estagiario/{idEstagiario}/turma/{idTurma}/frequencia/pendente", method = RequestMethod.POST)
 	public String lancarFrequencia(@PathVariable("idEstagiario") Long idEstagiario, @PathVariable("idTurma") Long idTurma, @RequestParam("data") Date data, @RequestParam("statusFrequencia") StatusFrequencia statusFrequencia, @RequestParam("observacao") String observacao, Model model, RedirectAttributes redirectAttributes) {
@@ -163,6 +166,10 @@ public class SupervisorController {
 
 		return "";
 	}
+	
+	
+	
+	
 
 	private Pessoa getUsuarioLogado(HttpSession session) {
 		if (session.getAttribute(Constants.USUARIO_LOGADO) == null) {
@@ -179,4 +186,6 @@ public class SupervisorController {
 		return "supervisor/info-estagiario";
 	}
 
+	
+	
 }

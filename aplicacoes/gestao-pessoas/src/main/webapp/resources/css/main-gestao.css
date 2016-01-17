@@ -120,7 +120,7 @@ h1, .h1, h2, .h2, h3, .h3 {
 .panel-warning>.panel-heading {
     color: #f0ad4e;
     background-color: #EDEDED;
-    border-bottom: 4px solid #f0ad4e;
+    border-bottom: 4px solid #eea236;
 }
 
 .panel-info>.panel-heading {
@@ -150,7 +150,6 @@ h1, .h1, h2, .h2, h3, .h3 {
 	min-width: 38.8594px; 
 	min-height: 33px;
 }
-
 .modelo {
 	height: inherit;
 	width: 242px;
@@ -176,3 +175,4 @@ a.template:focus{
 .bVinculos {
 	font-weight: bold;
 }
+

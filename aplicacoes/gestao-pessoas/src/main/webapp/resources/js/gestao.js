@@ -136,7 +136,6 @@ $(document).ready(function() {
             },
         	inicio:{
                 required:"Campo obrigatório",
-                min:"A data de início deve ser anterior à data de término",
             },
         	termino:{
                 required:"Campo obrigatório",

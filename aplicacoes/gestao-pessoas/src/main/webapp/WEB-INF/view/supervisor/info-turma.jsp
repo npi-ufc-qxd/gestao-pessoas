@@ -189,7 +189,7 @@
 				</div>
 			</div>
 	
-		<!-- Início Eventos -->
+	<!-- Início Eventos -->
 	<div class="panel panel-warning">
 		<div class="panel-heading">
 			<h2 class="titulo-panels"><span class="fa fa-calendar"></span> Eventos</h2>
@@ -227,21 +227,6 @@
 		</div>
 	</div>
 	<!-- Término Evento -->
-	<div class="panel panel-success">
-		<div class="panel-heading">
-			<h2 class="titulo-panels"><span class="fa fa-group"></span> Estagiários</h2>
-
-			<div class="pull-right">
-				<c:if test="${not empty turma.estagiarios}">
-					<a class="btn btn-success" href="<c:url value="/supervisor/turma/${idTurma }/mapa-frequencia" ></c:url>" title="Mapa de Frequência"><span class="fa fa-calendar-check-o"></span> Mapa de Frequência</a>
-					<a class="btn btn-success" href="<c:url value="/supervisor/turma/${idTurma }/tce" ></c:url>" title="Termo de Compromisso"><span class="fa fa-file-pdf-o"></span> Termo de Compromisso</a>
-					<a class="btn btn-success" href="<c:url value="/supervisor/turma/${idTurma }/declaracoes" ></c:url>" title="Declaração de Estágio"><span class="fa fa-file-pdf-o"></span> Declaração de Estágio</a>
-				</c:if>
-
-				<a href="<c:url value="/supervisor/turma/${turma.id}/vincular" />" title="Atualizar Vínculos" class="btn btn-success"><span class="glyphicon glyphicon-link"></span> Vinculos</a>
-			</div>
-		</div>
-	</div>
 	</div>
 
 		<br> <br>

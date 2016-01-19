@@ -12,6 +12,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
 
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -27,6 +28,7 @@ public class Evento {
 	@NotEmpty(message = "Informe a descrição.")
 	private String descricao;
 	
+	//@Past(message="Data futura não é permitida") é usado para verificar a data nno model.
 	@Temporal(TemporalType.DATE)
 	@NotNull(message = "Informe a data incial.")
 	@DateTimeFormat(pattern = "dd/MM/yyyy")

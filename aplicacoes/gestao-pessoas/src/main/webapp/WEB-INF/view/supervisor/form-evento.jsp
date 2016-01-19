@@ -45,14 +45,17 @@
 					<form:hidden path="id"/>
 						<h5>${titulo }</h5>
 						<div class="form-group">
-							<div id="inicio" class="form-item col-sm-12">
-								<label class="control-label">*Início do Evento:</label>
-								<form:input id="inicio" path="inicio" cssClass="form-control data" placeholder="Inicio do Evento" required="required"/>
-								<div class="error-validation"><form:errors path="inicio"></form:errors></div>
-
+							<div id="selecionar_datas" class="form-item col-sm-14">
+								<div class="form-item col-sm-6">
+									<label class="control-label">*Início do Evento:</label>
+									<form:input id="inicio" path="inicio" cssClass="form-control data" placeholder="Inicio do Evento" required="required"/>
+									<div class="error-validation"><form:errors path="inicio"></form:errors></div>
+								</div>
+								<div class="form-item col-sm-6">
 								<label class="control-label">*Final do Evento:</label>
-								<form:input id="termino" path="termino" cssClass="form-control data" placeholder="Termino do periodo" required="required"/>
+								<form:input id="termino" path="termino" cssClass="form-control data" placeholder="Termino do Evento" required="required"/>
 								<div class="error-validation"><form:errors path="termino"></form:errors></div>
+								</div>
 							</div>
 							<div id="descricao" class="form-item col-sm-12">
 								<label class="control-label">*Descrição do evento:</label>

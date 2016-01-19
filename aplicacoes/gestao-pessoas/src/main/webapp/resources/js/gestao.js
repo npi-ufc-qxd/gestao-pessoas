@@ -69,10 +69,10 @@ $(document).ready(function() {
     });
 	
 	
-
+	//validador de datas. Para início e para término.
 	jQuery.validator.addMethod("maiorQue", 
 		function(dataFinal, element, params) {
-			$(params).val($("#inicio input").datepicker('getFormattedDate'));
+			$(params).val($("#inicio").datepicker('getFormattedDate'));
 			return moment(dataFinal, "DD/MM/YYYY").isAfter(moment($(params).val(), "DD/MM/YYYY"));
 		},'Termino do evento deve ser posterior ao início!'
 	);
@@ -87,14 +87,25 @@ $(document).ready(function() {
 	$('#form-evento').validate({
 		rules:{
 			inicio:{
-				menorQue : "#termino",
+				menorQue: "#termino",
         	},
 
         	termino:{
         		maiorQue: "#inicio",
         	}
 			
-		},		
+		},
+		highlight: function(element) {
+            $(element).closest('.form-item').addClass('has-error');
+        },
+        unhighlight: function(element) {
+            $(element).closest('.form-item').removeClass('has-error');
+        },
+        errorElement: 'span',
+        errorClass: 'help-block',
+        errorPlacement: function(error, element) {
+            error.insertAfter(element.parent().children().last());
+        },
 		messages:{
 			inicio:{
 				required: "Campo obrigatório",
@@ -104,14 +115,19 @@ $(document).ready(function() {
 			},
 			descricao:{
 				required: "Campo obrigatório",
-			}
-
-		
+			}		
 		}
 	});
 	
 	$('#form-turma').validate({
         rules: {
+        	inicio:{
+				menorQue : "#termino",
+        	},
+
+        	termino:{
+        		maiorQue: "#inicio",
+        	}
         },
         highlight: function(element) {
             $(element).closest('.form-item').addClass('has-error');

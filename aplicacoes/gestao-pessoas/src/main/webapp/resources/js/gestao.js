@@ -277,6 +277,24 @@ $(document).ready(function() {
 		orientation: "top auto",
 	});
 	
+	$("#ano").keypress(function(event){
+		var valorTeclado = (window.event) ? event.keyCode : event.which;
+		if((valorTeclado > 47 && valorTeclado < 58))
+		{
+			return true;
+		}
+		else
+		{
+			if( valorTeclado != 8 )
+			{ 
+				return false;
+			}
+			else{
+				return true;
+			} 
+		}
+	});
+	
 });
 
 function ativarEditable() {

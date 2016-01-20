@@ -62,6 +62,9 @@
 									<c:if test="${turma.statusTurma eq 'ABERTA'}">
 										<td><span class="label label-info">${turma.statusTurma}</span></td>
 									</c:if>
+									<c:if test="${turma.statusTurma eq 'CONCLUIDA'}">
+										<td><span class="label label-default">${turma.statusTurma}</span></td>
+									</c:if>
 
 									<td><fmt:formatDate value="${turma.inicio}" pattern="dd/MM/yyyy" /></td>
 

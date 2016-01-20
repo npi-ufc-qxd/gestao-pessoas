@@ -56,37 +56,35 @@
 					</c:if>
 				</div>
 			</div>
-
-			<div class="panel panel-info">
-				<div class="panel-heading">
-					<h2 class="titulo-panels">
-						<span class="fa fa-file-pdf-o"></span> Documentos
-					</h2>
-				</div>
-				<div class="panel-body">
-					<c:if test="${empty submissoes}">
-						<div class="alert alert-warning" role="alert">Submissão
-							inexistente.</div>
-					</c:if>
-					<c:if test="${not empty submissoes}">
-						<c:forEach var="submissoes" items="${submissoes}">
+			<c:forEach var="submissoes" items="${submissoes}">
+				<div class="panel panel-info">
+					<div class="panel-heading">
+						<h2 class="titulo-panels">
+							<span class="fa fa-file-pdf-o"></span>${submissoes.tipo}
+						</h2>
+					</div>
+					<div class="panel-body">
+						<c:if test="${empty submissoes}">
+							<div class="alert alert-warning" role="alert">Submissão
+								inexistente.</div>
+						</c:if>
+						<c:if test="${not empty submissoes}">
 							<div class="pull-right">
 								<button class="btn btn-primary" data-toggle="modal"
 									data-target="#lancarNotas">Lançar Notas</button>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-1 text-view-info"><strong>Tipo
-								</strong></label> <label class="col-sm-3 text-view-info">${submissoes.tipo}</label>
 								<label class="col-sm-1 text-view-info"><strong>Nota
 								</strong></label> <label class="col-sm-1 text-view-info">${submissoes.nota}</label>
 								<label class="col-sm-1 text-view-info"><strong>Status
 								</strong></label> <label class="col-sm-2 text-view-info">${submissoes.statusEntrega}</label>
 								<br> <br>
 							</div>
-						</c:forEach>
-					</c:if>
+
+						</c:if>
+					</div>
 				</div>
-			</div>
+			</c:forEach>
 			<div class="panel panel-info">
 				<div class="panel-heading">
 					<h2 class="titulo-panels">
@@ -164,19 +162,19 @@
 					</div>
 					<div class="modal-body">
 						<form class="form-inline">
-						  <div class="form-group">
-						    <label for="nota">Nota</label>
-						    <input type="number" class="form-control" id="nota">
-						  </div>
-						  <div class="form-group">
-						    <label for="statusEntrega">Status</label>
-<!-- 						    <input type="email"id="statusEntrega"> -->
-						    <select class="form-control">
-							  <option>ENVIADO</option>
-							  <option>ACEITO</option>
-							  <option>REJEITADO</option>
-							</select>
-						  </div>
+							<div class="form-group">
+								<label for="nota">Nota</label> <input type="number"
+									class="form-control" id="nota">
+							</div>
+							<div class="form-group">
+								<label for="statusEntrega">Status</label>
+								<!-- 						    <input type="email"id="statusEntrega"> -->
+								<select class="form-control">
+									<option>ENVIADO</option>
+									<option>ACEITO</option>
+									<option>REJEITADO</option>
+								</select>
+							</div>
 						</form>
 					</div>
 					<div class="modal-footer">

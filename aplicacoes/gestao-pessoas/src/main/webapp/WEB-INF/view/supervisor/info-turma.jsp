@@ -55,15 +55,22 @@
 						</div>
 					</c:if>
 				</div>
-			</div>
+		</div>
+	</div>
+
+<!-- 	<div class="panel panel-info"> -->
+<!-- 		<div class="panel-heading"> -->
+<!-- 			<h2 class="titulo-panels"><span class="fa fa-clock-o"></span> Expediente</h2> -->
+
+<!-- 			<div class="pull-right"> -->
+<%-- 				<a href="<c:url value="/supervisor/turma/${turma.id}/horarios" />" title="Atualizar Horários" class="btn btn-info"><span class="fa fa-refresh"></span> Horário</a> --%>
+<!-- 			</div> -->
 
 			<div class="panel panel-info">
 				<div class="panel-heading">
 					<h2 class="titulo-panels">
-						<span class="fa fa-clock-o"></span> Expediente
-					</h2>
-
-					<div class="pull-right">
+						<span class="fa fa-clock-o"></span> Expediente</h2>
+						<div class="pull-right">
 						<a href="<c:url value="/supervisor/turma/${turma.id}/horarios" />"
 							title="Atualizar Horários" class="btn btn-info"><span
 							class="fa fa-refresh"></span> Horário</a>
@@ -179,7 +186,61 @@
 					</c:if>
 				</div>
 			</div>
+	
+		<!-- Início Eventos -->
+	<div class="panel panel-warning">
+		<div class="panel-heading">
+			<h2 class="titulo-panels"><span class="fa fa-calendar"></span> Eventos</h2>
+			
+			<div class="pull-right">
+				<a href="<c:url value="/supervisor/turma/${turma.id}/evento" />" title="Atualizar Evento" class="btn btn-warning"><span class="fa fa-refresh"></span> Eventos</a>
+			</div>
 		</div>
+		
+		<div class="panel-body">
+		<c:if test="${empty turma.eventos}"><div class="alert alert-warning" role="alert">Sem eventos cadastrados.</div></c:if>
+		<c:if test="${not empty turma.eventos}">
+			<div class="form-group">
+					<label class="col-sm-12 text-view-info"><strong>Calendário de Eventos</strong></label>
+				
+					<table id="eventos-turma" class="table table-striped table-hover">
+						<thead>
+							<tr>
+								<th>Período</th>
+								<th>Descrição</th>								
+				           </tr>
+				       </thead>
+				       <tbody class="text-view-info">
+							<c:forEach var="evento" items="${turma.eventos}" varStatus="indice">
+								<tr align="justify">
+									<td ><fmt:formatDate value="${evento.inicio}" pattern="dd/MM/yyyy"/> a <fmt:formatDate value="${evento.termino}" pattern="dd/MM/yyyy"/></td>
+									<td>${evento.descricao }</td>
+								</tr>
+							</c:forEach>
+				       </tbody>
+			       </table>
+					
+				</div>
+			</c:if>
+		</div>
+	</div>
+	<!-- Término Evento -->
+	<div class="panel panel-success">
+		<div class="panel-heading">
+			<h2 class="titulo-panels"><span class="fa fa-group"></span> Estagiários</h2>
+
+			<div class="pull-right">
+				<c:if test="${not empty turma.estagiarios}">
+					<a class="btn btn-success" href="<c:url value="/supervisor/turma/${idTurma }/mapa-frequencia" ></c:url>" title="Mapa de Frequência"><span class="fa fa-calendar-check-o"></span> Mapa de Frequência</a>
+					<a class="btn btn-success" href="<c:url value="/supervisor/turma/${idTurma }/tce" ></c:url>" title="Termo de Compromisso"><span class="fa fa-file-pdf-o"></span> Termo de Compromisso</a>
+					<a class="btn btn-success" href="<c:url value="/supervisor/turma/${idTurma }/declaracoes" ></c:url>" title="Declaração de Estágio"><span class="fa fa-file-pdf-o"></span> Declaração de Estágio</a>
+				</c:if>
+
+				<a href="<c:url value="/supervisor/turma/${turma.id}/vincular" />" title="Atualizar Vínculos" class="btn btn-success"><span class="glyphicon glyphicon-link"></span> Vinculos</a>
+			</div>
+		</div>
+	</div>
+	</div>
 
 		<br> <br>
 		<jsp:include page="../modulos/footer.jsp" />

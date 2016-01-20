@@ -54,7 +54,7 @@
 
 				<div class="form-group">
 					<div class="form-item col-sm-3">
-						<label for="ano" class="control-label">Ano:</label>
+						<label for="ano" class="control-label">*Ano:</label>
 						<form:input id="ano" path="ano" cssClass="form-control" placeholder="Ano" required="required"/>
 						<div class="error-validation"><form:errors path="ano"></form:errors></div>
 					</div>
@@ -69,13 +69,13 @@
 					</div>
 
 					<div class="form-item col-sm-3">
-						<label for="inicio" class="control-label">Início: </label>
+						<label for="inicio" class="control-label">*Início: </label>
 						<form:input id="inicio" path="inicio" cssClass="form-control data" placeholder="Inicio do periodo" required="required"/>
 						<div class="error-validation"><form:errors path="inicio"></form:errors></div>
 					</div>
 	
 					<div class="form-item col-sm-3">
-						<label for="termino" class="control-label">Término: </label>
+						<label for="termino" class="control-label">*Término: </label>
 						<form:input id="termino" path="termino" cssClass="form-control data" placeholder="Término do periodo" required="required"/>
 						<div class="error-validation"><form:errors path="termino"></form:errors></div>
 					</div>

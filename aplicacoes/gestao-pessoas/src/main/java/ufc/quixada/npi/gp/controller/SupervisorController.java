@@ -150,6 +150,7 @@ public class SupervisorController {
 		model.addAttribute("estagiario", estagiarioService.find(Estagiario.class, idEstagiario));
 		model.addAttribute("submissoes", submissaoService.getSubmissoesByPessoaIdAndIdTurma(pessoa.getId(), idTurma));
 		model.addAttribute("avaliacoes", avaliacaoRendimentoService.getAvaliacoesRendimentoByTurmaIdAndEstagiarioId(idEstagiario, idTurma));
+		model.addAttribute("submissao", new SubmissaoAvaliacaoRendimento());
 		
 		return "supervisor/acompanhamentoAvaliacao";
 	}
@@ -160,6 +161,12 @@ public class SupervisorController {
 		Estagiario estagiario = estagiarioService.find(Estagiario.class, idEstagiario);
 		Turma turma = turmaService.find(Turma.class, idTurma);
 		SubmissaoAvaliacaoRendimento submissao = avaliacaoRendimentoService.getAvaliacaoRendimentoByTurmaIdAndEstagiarioId(idTurma, idEstagiario);
+		
+		submissao.setNota(nota);
+		submissao.setComentario(comentario);
+		submissao.setTurma(turma);
+		submissao.setEstagiario(estagiario);
+		submissao.setPessoa(pessoa);
 		
 		try {
 			if(!anexo.getContentType().equals("application/pdf")){
@@ -173,22 +180,12 @@ public class SupervisorController {
 					documento.setArquivo(anexo.getBytes());
 					
 					submissao = new SubmissaoAvaliacaoRendimento();
-					submissao.setNota(nota);
-					submissao.setComentario(comentario);
 					submissao.setDocumento(documento);
-					submissao.setEstagiario(estagiario);
-					submissao.setTurma(turma);
-					submissao.setPessoa(pessoa);
 					avaliacaoRendimentoService.save(submissao);
 				} else if(anexo.getBytes() != null && anexo.getBytes().length != 0 && anexo.getContentType().equals("application/pdf")){
 					submissao.getDocumento().setNome("AVALIAÇÃO_"+estagiario.getNomeCompleto().toUpperCase());
 					submissao.getDocumento().setArquivo(anexo.getBytes());
 					submissao.getDocumento().setExtensao(anexo.getContentType());
-					submissao.setNota(nota);
-					submissao.setTurma(turma);
-					submissao.setComentario(comentario);
-					submissao.setEstagiario(estagiario);
-					submissao.setPessoa(pessoa);
 					avaliacaoRendimentoService.update(submissao);
 				}
 		} catch (IOException e) {

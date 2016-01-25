@@ -277,40 +277,15 @@ $(document).ready(function() {
 		orientation: "top auto",
 	});
 	
-	$("#ano").keypress(function(event){
-		var valorTeclado = (window.event) ? event.keyCode : event.which;
-		if((valorTeclado > 47 && valorTeclado < 58))
-		{
-			return true;
-		}
-		else
-		{
-			if( valorTeclado != 8 )
-			{ 
-				return false;
-			}
-			else{
-				return true;
-			} 
-		}
-	});
+	$("#ano").keyup(function() {
+       var valor = $(this).val().replace(/[^0-9]+/g,'');
+       $(this).val(valor);
+    });
+
 	
-	$(".inputNome").keypress(function(event){
-			var texto = (window.event) ? event.keyCode : event.which;
-
-		/* Verificando se o texto recebido é iniciado por um ou mais algarismos (^[\w]+);
-		seguidos de arroba (@);
-		Seguido de um ou mais algarismos ([\w]+);
-		Seguido(s) de um ponto (\.);
-		Seguido (e finalizado) por um ou mais algarismos ou pontos ([\w|\.]+$);
-		*/
-		var RegExp = /^[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ ]+$/;
-
-		if (RegExp.test(texto) == true) {
-				alert("Formato válido!");
-		} else {
-				alert("Formato inválido!");
-		}
+	$(".inputNome").keyup(function() {
+        var valor = $(this).val().replace(/[^a-z]+/gi,'');
+	    $(this).val(valor);
 	});
 	
 });

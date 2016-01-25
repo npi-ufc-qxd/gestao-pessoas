@@ -295,6 +295,24 @@ $(document).ready(function() {
 		}
 	});
 	
+	$(".inputNome").keypress(function(event){
+			var texto = (window.event) ? event.keyCode : event.which;
+
+		/* Verificando se o texto recebido é iniciado por um ou mais algarismos (^[\w]+);
+		seguidos de arroba (@);
+		Seguido de um ou mais algarismos ([\w]+);
+		Seguido(s) de um ponto (\.);
+		Seguido (e finalizado) por um ou mais algarismos ou pontos ([\w|\.]+$);
+		*/
+		var RegExp = /^[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ ]+$/;
+
+		if (RegExp.test(texto) == true) {
+				alert("Formato válido!");
+		} else {
+				alert("Formato inválido!");
+		}
+	});
+	
 });
 
 function ativarEditable() {

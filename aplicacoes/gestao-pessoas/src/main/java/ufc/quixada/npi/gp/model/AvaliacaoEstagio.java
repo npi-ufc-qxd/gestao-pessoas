@@ -5,6 +5,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 
 @Entity
@@ -20,12 +21,16 @@ public class AvaliacaoEstagio {
 
 	private String comentarioSeminario;
 
+	@Lob
 	private String fatorAssiduidadeDisciplina;
 
+	@Lob
 	private String fatorIniciativaProdutividade;
 
+	@Lob
 	private String fatorResponsabilidade;
 
+	@Lob
 	private String fatorRelacionamento;
 
 	@ManyToOne

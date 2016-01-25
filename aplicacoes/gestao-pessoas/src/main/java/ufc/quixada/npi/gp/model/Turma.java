@@ -43,15 +43,15 @@ public class Turma {
 	private String semestre;
 
 	@Temporal(TemporalType.DATE)
+	@NotNull(message = "Informe a data incial.")
 	@DateTimeFormat(pattern = "dd/MM/yyyy")
-	@NotNull(message = "Informe a data de inicio.")
 	private Date inicio;
-	
-	@Temporal(TemporalType.DATE)
-	@DateTimeFormat(pattern = "dd/MM/yyyy")
-	@NotNull(message = "Informe a data de termino.")
-	private Date termino;
 
+	@Temporal(TemporalType.DATE)
+	@NotNull(message = "Informe a data final.")
+	@DateTimeFormat(pattern = "dd/MM/yyyy")
+	private Date termino;
+	
 	@OneToMany(cascade = {CascadeType.REFRESH, CascadeType.MERGE, CascadeType.PERSIST})
 	@JoinColumn(name= "turma_id")
 	List<Horario> horarios;

@@ -49,21 +49,30 @@
 							</strong></label><label class="col-sm-3 text-view-info">${turma.ano}.${turma.semestre}</label>
 
 							<label class="col-sm-1 text-view-info"><strong>Periodo:
-							</strong></label><label class="col-sm-3 text-view-info">de ${turma.inicio}
-								a ${turma.termino}</label> <label class="col-sm-1 text-view-info"><strong>Status:
+							</strong></label>
+							<label class="col-sm-3 text-view-info" >
+							<fmt:formatDate value="${turma.inicio}" pattern="dd/MM/yyyy"/> a <fmt:formatDate value="${turma.termino}" pattern="dd/MM/yyyy"/>
+							</label> <label class="col-sm-1 text-view-info"><strong>Status:
 							</strong></label><label class="col-sm-3 text-view-info">${turma.statusTurma}</label>
 						</div>
 					</c:if>
 				</div>
-			</div>
+		</div>
+	</div>
+
+<!-- 	<div class="panel panel-info"> -->
+<!-- 		<div class="panel-heading"> -->
+<!-- 			<h2 class="titulo-panels"><span class="fa fa-clock-o"></span> Expediente</h2> -->
+
+<!-- 			<div class="pull-right"> -->
+<%-- 				<a href="<c:url value="/supervisor/turma/${turma.id}/horarios" />" title="Atualizar Horários" class="btn btn-info"><span class="fa fa-refresh"></span> Horário</a> --%>
+<!-- 			</div> -->
 
 			<div class="panel panel-info">
 				<div class="panel-heading">
 					<h2 class="titulo-panels">
-						<span class="fa fa-clock-o"></span> Expediente
-					</h2>
-
-					<div class="pull-right">
+						<span class="fa fa-clock-o"></span> Expediente</h2>
+						<div class="pull-right">
 						<a href="<c:url value="/supervisor/turma/${turma.id}/horarios" />"
 							title="Atualizar Horários" class="btn btn-info"><span
 							class="fa fa-refresh"></span> Horário</a>
@@ -179,7 +188,46 @@
 					</c:if>
 				</div>
 			</div>
+	
+	<!-- Início Eventos -->
+	<div class="panel panel-warning">
+		<div class="panel-heading">
+			<h2 class="titulo-panels"><span class="fa fa-calendar"></span> Eventos</h2>
+			
+			<div class="pull-right">
+				<a href="<c:url value="/supervisor/turma/${turma.id}/evento" />" title="Atualizar Evento" class="btn btn-warning"><span class="fa fa-refresh"></span> Eventos</a>
+			</div>
 		</div>
+		
+		<div class="panel-body">
+		<c:if test="${empty turma.eventos}"><div class="alert alert-warning" role="alert">Sem eventos cadastrados.</div></c:if>
+		<c:if test="${not empty turma.eventos}">
+			<div class="form-group">
+					<label class="col-sm-12 text-view-info"><strong>Calendário de Eventos</strong></label>
+				
+					<table id="eventos-turma" class="table table-striped table-hover">
+						<thead>
+							<tr>
+								<th>Período</th>
+								<th>Descrição</th>								
+				           </tr>
+				       </thead>
+				       <tbody class="text-view-info">
+							<c:forEach var="evento" items="${turma.eventos}" varStatus="indice">
+								<tr align="justify">
+									<td ><fmt:formatDate value="${evento.inicio}" pattern="dd/MM/yyyy"/> a <fmt:formatDate value="${evento.termino}" pattern="dd/MM/yyyy"/></td>
+									<td>${evento.descricao }</td>
+								</tr>
+							</c:forEach>
+				       </tbody>
+			       </table>
+					
+				</div>
+			</c:if>
+		</div>
+	</div>
+	<!-- Término Evento -->
+	</div>
 
 		<br> <br>
 		<jsp:include page="../modulos/footer.jsp" />

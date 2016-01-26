@@ -68,9 +68,66 @@ $(document).ready(function() {
         }
     });
 	
+	
+	//validador de datas. Para início e para término.
+	jQuery.validator.addMethod("maiorQue", 
+		function(dataFinal, element, params) {
+			$(params).val($("#inicio").datepicker('getFormattedDate'));
+			return moment(dataFinal, "DD/MM/YYYY").isAfter(moment($(params).val(), "DD/MM/YYYY"));
+		},'Termino do evento deve ser posterior ao início!'
+	);
+
+	jQuery.validator.addMethod("menorQue", 
+		function(dataIncial, element, params) {
+			$(params).val($("#termino").datepicker('getFormattedDate'));
+			return moment(dataIncial, "DD/MM/YYYY").isBefore(moment($(params).val(), "DD/MM/YYYY"));
+		},'Inicio do evento deve ser anterior ao termino!'
+	);
+
+	$('#form-evento').validate({
+		rules:{
+			inicio:{
+				menorQue: "#termino",
+        	},
+
+        	termino:{
+        		maiorQue: "#inicio",
+        	}
+			
+		},
+		highlight: function(element) {
+            $(element).closest('.form-item').addClass('has-error');
+        },
+        unhighlight: function(element) {
+            $(element).closest('.form-item').removeClass('has-error');
+        },
+        errorElement: 'span',
+        errorClass: 'help-block',
+        errorPlacement: function(error, element) {
+            error.insertAfter(element.parent().children().last());
+        },
+		messages:{
+			inicio:{
+				required: "Campo obrigatório",
+			},
+			termino:{
+				required: "Campo obrigatório",
+			},
+			descricao:{
+				required: "Campo obrigatório",
+			}		
+		}
+	});
+	
 	$('#form-turma').validate({
         rules: {
-            
+        	inicio:{
+				menorQue : "#termino",
+        	},
+
+        	termino:{
+        		maiorQue: "#inicio",
+        	}
         },
         highlight: function(element) {
             $(element).closest('.form-item').addClass('has-error');

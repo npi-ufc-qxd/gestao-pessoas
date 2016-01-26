@@ -39,7 +39,7 @@
 				<div class="form-group">
 					<div class="form-item col-sm-9">
 						<label for="nomeDaTurma" class="control-label">*Nome da Turma:</label>
-						<form:input id="nomeDaTurma" path="nome" cssClass="form-control inputNome" placeholder="Nome da Turma" required="required" />
+						<form:input id="nomeDaTurma" path="nome" cssClass="form-control inputNomeTurma" placeholder="Nome da Turma" required="required" />
 						<div class="error-validation"><form:errors path="nome"></form:errors></div>
 					</div>
 

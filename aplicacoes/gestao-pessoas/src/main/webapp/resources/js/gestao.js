@@ -278,14 +278,24 @@ $(document).ready(function() {
 	});
 	
 	$("#ano").keyup(function() {
-       var valor = $(this).val().replace(/[^0-9]+/g,'');
+       var valor = $(this).val().replace(/([^0-9]*\d{5,})+/g,'');
        $(this).val(valor);
     });
 
 	
-	$(".inputNome").keyup(function() {
-        var valor = $(this).val().replace(/[^a-z]+/gi,'');
+	$(".inputNomeTurma").keyup(function() {
+        var valor = $(this).val().replace(/(([a-zA-Z]*\d{3,})|[!"#$%&'()*+ºª,-./:;<=>?@[\]_{|}])/,'');
 	    $(this).val(valor);
+	});
+	
+	$("#inicio").keyup(function() {
+	       var valor = $(this).val().replace(/[^0-9]+/g,'');
+	       $(this).val(valor);
+	});
+	
+	$("#termino").keyup(function() {
+	       var valor = $(this).val().replace(/[^0-9]+/g,'');
+	       $(this).val(valor);
 	});
 	
 });

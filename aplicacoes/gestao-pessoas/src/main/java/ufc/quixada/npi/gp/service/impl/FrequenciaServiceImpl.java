@@ -3,6 +3,7 @@ package ufc.quixada.npi.gp.service.impl;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -322,14 +323,22 @@ public class FrequenciaServiceImpl extends GenericServiceImpl<Frequencia> implem
 		params.put("data", data);
 		params.put("idTurma", idTurma);
 		
-		@SuppressWarnings("unchecked")
-		List<Estagiario> frequencias = find(QueryType.JPQL, "select e from Estagiario as e "
-				+ "where  e.id in (select e.id from Estagiario as e, Frequencia as f  "
-				+ "where f.turma.id = :idTurma and e.id = f.estagiario.id group by e.id) "
-				+ "and e.id not in (select f.estagiario.id from Frequencia as f "
-				+ "where f.turma.id = :idTurma and f.data = :data)", params);
-
-		return frequencias;
+		Calendar calendar = new GregorianCalendar();
+		calendar.setTime(data);
+		int dia = calendar.get(calendar.DAY_OF_WEEK);
+		
+		if((dia > 1) && (dia <= 4)){
+		
+			@SuppressWarnings("unchecked")
+			List<Estagiario> frequencias = find(QueryType.JPQL, "select e from Estagiario as e "
+					+ "where  e.id in (select e.id from Estagiario as e, Frequencia as f  "
+					+ "where f.turma.id = :idTurma and e.id = f.estagiario.id group by e.id) "
+					+ "and e.id not in (select f.estagiario.id from Frequencia as f "
+					+ "where f.turma.id = :idTurma and f.data = :data)", params);
+		
+			return frequencias;
+		}
+		return null;
 	}
 	
 	@Override

@@ -53,9 +53,14 @@
 							</strong></label><label class="col-sm-3 text-view-info">${turma.ano}.${turma.semestre}</label>
 
 							<label class="col-sm-1 text-view-info"><strong>Periodo:
-							</strong></label><label class="col-sm-3 text-view-info">de ${turma.inicio}
-								a ${turma.termino}</label> <label class="col-sm-1 text-view-info"><strong>Status:
-							</strong></label><label class="col-sm-3 text-view-info">${turma.statusTurma}</label>
+							</strong></label>
+								<label class="col-sm-3 text-view-info">
+									<fmt:formatDate value="${turma.inicio}" pattern="dd/MM/yyyy"/> a <fmt:formatDate value="${turma.termino}" pattern="dd/MM/yyy"/>
+								</label>
+								<label class="col-sm-1 text-view-info">
+									<strong>Status:	</strong>
+								</label>
+								<label class="col-sm-3 text-view-info">${turma.statusTurma}</label>
 						</div>
 					</c:if>
 

@@ -278,7 +278,7 @@ $(document).ready(function() {
 	});
 	
 	$("#ano").keyup(function() {
-       var valor = $(this).val().replace(/([^0-9]*\d{5,})+/g,'');
+       var valor = $(this).val().replace(/[^0-9]+/g,'');
        $(this).val(valor);
     });
 

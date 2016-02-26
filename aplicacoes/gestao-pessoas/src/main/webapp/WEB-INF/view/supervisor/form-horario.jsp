@@ -16,18 +16,18 @@
 <div class="container">
 	<div class="row">
 
-	<div class="panel panel-info">
+	<div class="panel panel-primary">
 	
 		<div class="panel-heading">
 			<h2 class="titulo-panels"><span class="fa fa-clock-o"></span> Atualizar Expediente</h2>
 			
 			<div class="pull-right">
-				<a title="Voltar" class="btn btn-info" href="<c:url value="/supervisor/turma/${turma.id}"/>"><span class="fa fa-arrow-circle-o-left"></span> Voltar</a>
+				<a title="Voltar" class="btn btn-default" href="<c:url value="/supervisor/turma/${turma.id}"/>"><span class="fa fa-arrow-left"></span> Voltar</a>
 			</div>
 			
 		</div>
 
-		<form:form id="form-horario" role="form" commandName="horario" servletRelativeAction="/supervisor/turma/${turma.id}/horario"  method="POST" cssClass="form-horizontal">
+		<form:form id="form-horario" role="form" commandName="horario" servletRelativeAction="/supervisor/turma/${turma.id}/expediente"  method="POST" cssClass="form-horizontal">
 			<div class="panel-body">
 				<c:if test="${not empty success }">
 					<div class="alert alert-dismissible alert-success">
@@ -78,7 +78,7 @@
 								<td>${horario.dia.labelDia}</td>
 								<td>${horario.inicioExpediente}</td>
 								<td>${horario.finalExpediente}</td>
-								<td align="right"><a href="<c:url value="/supervisor/turma/${turma.id}/horario/${horario.id}/excluir" />" title="Excluir" class="btn btn-danger"><span class="fa fa-remove"></span></a></td>
+								<td align="right"><a href="<c:url value="/supervisor/turma/${turma.id}/expediente/${horario.id}/excluir" />" title="Excluir" class="btn btn-danger"><span class="fa fa-remove"></span></a></td>
 							</tr>
 						</c:forEach>
 			       </tbody>

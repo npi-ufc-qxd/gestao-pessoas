@@ -24,13 +24,13 @@
 <div class="container">
 	<div class="row">
 
-	<div class="panel panel-warning">
+	<div class="panel panel-info">
 	
 		<div class="panel-heading">
 			<h2 class="titulo-panels"><span class="fa fa-calendar"></span> Eventos</h2>
 			
 			<div class="pull-right">
-				<a title="Voltar" class="btn btn-primary back"><span class="fa fa-arrow-circle-o-left"></span> Voltar</a>
+				<a title="Voltar" class="btn btn-default back"><span class="fa fa-arrow-left"></span> Voltar</a>
 			</div>
 		</div>
 		
@@ -63,12 +63,12 @@
 								<div class="error-validation"><form:errors path="descricao"></form:errors></div>
 							</div>
 						</div>
-						<div class="" align="left">
+						<div class="" align="center">
 							<c:if test="${action eq 'cadastrar' }">
-								<button type="submit" class="btn btn-primary"title="Cadastrar"><span class="fa fa-plus"></span> Adiconar Evento</button>
+								<button type="submit" class="btn btn-info"title="Cadastrar"><span class="fa fa-plus"></span> Adiconar Evento</button>
 							</c:if>
 							<c:if test="${action eq 'editar' }">
-								<button type="submit" class="btn btn-primary" title="Salvar alterações"><span class="fa fa-floppy-o"></span> Salvar alterações</button>
+								<button type="submit" class="btn btn-info" title="Salvar alterações"><span class="fa fa-floppy-o"></span> Salvar alterações</button>
 							</c:if>
 						</div>
 				</form:form>

@@ -69,6 +69,7 @@
 
 									<td align="right">
 										<a href="<c:url value="/supervisor/turma/${turma.id}" />" title="Informações" class="btn btn-info informacao"><span class="fa fa-info"></span></a>
+										<a href="<c:url value="/supervisor/turma/${turma.id}/expediente" />" title="Atualizar Expediente" class="btn btn-primary"><span class="fa fa-clock-o"></span></a>
 										<a href="<c:url value="/supervisor/turma/${turma.id}/editar" />" title="Editar" class="btn btn-success"><span class="fa fa-pencil"></span></a>
 									</td>
 							</tr>

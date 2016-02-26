@@ -26,8 +26,14 @@
 					</h2>
 
 					<div class="pull-right">
-						<a title="Voltar" class="btn btn-primary back"><span
-							class="fa fa-arrow-circle-o-left"></span> Voltar</a>
+						<a title="Voltar" class="btn btn-default back"><span
+							class="fa fa-arrow-left"></span> Voltar</a>
+						<a href="<c:url value="/supervisor/turma/${turma.id}/expediente" />"
+							title="Atualizar Expediente" class="btn btn-primary"><span
+							class="fa fa-refresh"></span> Expediente</a>
+						<a href="<c:url value="/supervisor/turma/${turma.id}/vincular" />"
+							title="Atualizar Vínculos" class="btn btn-primary"><span
+							class="glyphicon glyphicon-link"></span> Vinculos</a>
 					</div>
 				</div>
 
@@ -55,35 +61,8 @@
 							</label> <label class="col-sm-1 text-view-info"><strong>Status:
 							</strong></label><label class="col-sm-3 text-view-info">${turma.statusTurma}</label>
 						</div>
-					</c:if>
-				</div>
-		</div>
-	</div>
+					</c:if> <br>
 
-<!-- 	<div class="panel panel-info"> -->
-<!-- 		<div class="panel-heading"> -->
-<!-- 			<h2 class="titulo-panels"><span class="fa fa-clock-o"></span> Expediente</h2> -->
-
-<!-- 			<div class="pull-right"> -->
-<%-- 				<a href="<c:url value="/supervisor/turma/${turma.id}/horarios" />" title="Atualizar Horários" class="btn btn-info"><span class="fa fa-refresh"></span> Horário</a> --%>
-<!-- 			</div> -->
-
-			<div class="panel panel-info">
-				<div class="panel-heading">
-					<h2 class="titulo-panels">
-						<span class="fa fa-clock-o"></span> Expediente</h2>
-						<div class="pull-right">
-						<a href="<c:url value="/supervisor/turma/${turma.id}/horarios" />"
-							title="Atualizar Horários" class="btn btn-info"><span
-							class="fa fa-refresh"></span> Horário</a>
-					</div>
-				</div>
-
-				<div class="panel-body">
-					<c:if test="${empty turma.horarios}">
-						<div class="alert alert-warning" role="alert">Expediente não
-							definido.</div>
-					</c:if>
 
 					<c:if test="${not empty turma.horarios}">
 						<div class="form-group">
@@ -114,14 +93,14 @@
 
 						</div>
 					</c:if>
+					
 				</div>
-			</div>
+		</div>
 
 			<div class="panel panel-success">
 				<div class="panel-heading">
 					<h2 class="titulo-panels">
-						<span class="fa fa-group"></span> Estagiários <span
-							class="badge bVinculos">${fn:length(turma.estagiarios)}</span>
+						<span class="fa fa-group"></span> Estagiários <span class="badge bVinculos">${fn:length(turma.estagiarios)}</span>
 					</h2>
 
 					<div class="pull-right">
@@ -140,9 +119,6 @@
 								Declaração de Estágio</a>
 						</c:if>
 
-						<a href="<c:url value="/supervisor/turma/${turma.id}/vincular" />"
-							title="Atualizar Vínculos" class="btn btn-success"><span
-							class="glyphicon glyphicon-link"></span> Vinculos</a>
 					</div>
 				</div>
 
@@ -160,7 +136,7 @@
 									<th class="col-md-4">Nome</th>
 									<th class="col-md-1">Matrícula</th>
 									<th class="col-md-3">Curso</th>
-									<th class="col-md-3">Frequência</th>
+<!-- 									<th class="col-md-3">Frequência</th> -->
 									<th class="col-md-1"></th>
 									<th class="col-md-1"></th>
 								</tr>
@@ -171,15 +147,15 @@
 										<td>${estagiario.nomeCompleto}</td>
 										<td>${estagiario.matricula}</td>
 										<td>${estagiario.curso.labelCurso}</td>
-										<td>xx%</td>
+<!-- 										<td>Frequecias%</td> -->
 										<td align="right"><a
 											href="<c:url value="/supervisor/turma/${idTurma }/acompanhamento-avaliacao/estagiario/${estagiario.id}" />"
 											title="Acompanhamento de Avaliação"
-											class="btn btn-info btn-sm"><span class="fa fa-check"></span>Acompanhamento
+											class="btn btn-success btn-sm"><span class="fa fa-check"></span>Acompanhamento
 												de Avaliação</a></td>
 										<td align="right"><a
 											href="<c:url value="/supervisor/turma/${idTurma }/estagiario/${estagiario.id}/frequencia" />"
-											title="Frequências" class="btn btn-info btn-sm"><span
+											title="Frequências" class="btn btn-success btn-sm"><span
 												class="fa fa-calendar"></span> Frequências</a></td>
 									</tr>
 								</c:forEach>
@@ -190,12 +166,12 @@
 			</div>
 	
 	<!-- Início Eventos -->
-	<div class="panel panel-warning">
+	<div class="panel panel-info">
 		<div class="panel-heading">
-			<h2 class="titulo-panels"><span class="fa fa-calendar"></span> Eventos</h2>
+			<h2 class="titulo-panels"><span class="fa fa-calendar"></span> Eventos <span class="badge bVinculos">${fn:length(turma.eventos)}</span></h2>
 			
 			<div class="pull-right">
-				<a href="<c:url value="/supervisor/turma/${turma.id}/evento" />" title="Atualizar Evento" class="btn btn-warning"><span class="fa fa-refresh"></span> Eventos</a>
+				<a href="<c:url value="/supervisor/turma/${turma.id}/evento" />" title="Atualizar Evento" class="btn btn-info"><span class="fa fa-refresh"></span> Eventos</a>
 			</div>
 		</div>
 		
@@ -228,6 +204,7 @@
 	</div>
 	<!-- Término Evento -->
 	</div>
+	</div>
 
 		<br> <br>
 		<jsp:include page="../modulos/footer.jsp" />
@@ -246,7 +223,7 @@
 					{"orderable" : false, "targets" : 2},
 					{"orderable" : false, "targets" : 3},
 					{"orderable" : false, "targets" : 4},
-					{"orderable" : false, "targets" : 5}
+// 					{"orderable" : false, "targets" : 5}
 				],
 			});
 		</script>

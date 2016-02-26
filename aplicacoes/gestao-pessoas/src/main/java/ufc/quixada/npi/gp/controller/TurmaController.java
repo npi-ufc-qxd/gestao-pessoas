@@ -193,7 +193,7 @@ public class TurmaController {
 		return "supervisor/info-turma";
 	}
 
-	@RequestMapping(value = "/{idTurma}/horarios", method = RequestMethod.GET)
+	@RequestMapping(value = "/{idTurma}/expediente", method = RequestMethod.GET)
 	public String paginaExpedienteTurma(Model model, @ModelAttribute("idTurma") Long idTurma) {
 
 		model.addAttribute("dias", Dia.values());
@@ -203,7 +203,7 @@ public class TurmaController {
 		return "supervisor/form-horario";
 	}
 
-	@RequestMapping(value = "/{idTurma}/horario", method = RequestMethod.POST)
+	@RequestMapping(value = "/{idTurma}/expediente", method = RequestMethod.POST)
 	public String paginaExpediente(Model model, @Valid @ModelAttribute("horario") Horario horario,
 			@ModelAttribute("idTurma") Long idTurma, BindingResult result, HttpSession session,
 			RedirectAttributes redirect) {
@@ -221,10 +221,10 @@ public class TurmaController {
 
 		redirect.addFlashAttribute("success", "Horário cadastrado com sucesso.");
 
-		return "redirect:/supervisor/turma/" + idTurma + "/horarios";
+		return "redirect:/supervisor/turma/" + idTurma + "/expediente";
 	}
 
-	@RequestMapping(value = "/{idTurma}/horario/{idHorario}/excluir", method = RequestMethod.GET)
+	@RequestMapping(value = "/{idTurma}/expediente/{idHorario}/excluir", method = RequestMethod.GET)
 	public String excluirExpediente(Model model, @ModelAttribute("idHorario") Long idHorario,
 			@ModelAttribute("idTurma") Long idTurma, BindingResult result, HttpSession session,
 			RedirectAttributes redirect) {
@@ -233,7 +233,7 @@ public class TurmaController {
 
 		redirect.addFlashAttribute("success", "Horário excluído com sucesso.");
 
-		return "redirect:/supervisor/turma/" + idTurma + "/horarios";
+		return "redirect:/supervisor/turma/" + idTurma + "/expediente";
 	}
 
 	@RequestMapping(value = "/{id}/vincular", method = RequestMethod.GET)

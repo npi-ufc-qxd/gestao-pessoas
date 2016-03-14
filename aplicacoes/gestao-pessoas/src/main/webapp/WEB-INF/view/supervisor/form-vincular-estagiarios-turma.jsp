@@ -60,7 +60,8 @@
 						<c:forEach var="estagiario" items="${outrosEstagiarios}" varStatus="contadorOutroEstagiario">
 							<tr>
 								<td>
-									<c:set var="indice" value="${indice + contadorOutroEstagiario.count}" ></c:set>
+<%-- 									<c:set var="indice" value="${indice + contadorOutroEstagiario.count}" ></c:set> --%>
+									<c:set var="indice" value="${contadorOutroEstagiario.count}" ></c:set>
 									<input type="checkbox" id="outroEstagiario${indice}" name="estagiarios[${indice}].id" value="${estagiario.id}"/>
 									<label for="outroEstagiario${indice}" class="text-view-info">${estagiario.nomeCompleto}</label>
 								</td>

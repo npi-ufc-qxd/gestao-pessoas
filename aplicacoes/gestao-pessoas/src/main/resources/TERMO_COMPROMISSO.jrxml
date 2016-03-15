@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="TERMO_COMPROMISSO" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
-	<property name="ireport.zoom" value="1.5000000000000024"/>
+	<property name="ireport.zoom" value="1.8150000000000033"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="318"/>
+	<property name="ireport.y" value="1922"/>
 	<style name="table">
 		<box>
 			<pen lineWidth="1.0" lineColor="#000000"/>
@@ -148,7 +148,7 @@ Represent. Legal: Reitor Henry de Holanda Campos
 				<textElement>
 					<font fontName="Arial" size="10"/>
 				</textElement>
-				<text><![CDATA[Nome: Universidade Federal do Ceará – UFC
+				<text><![CDATA[Razão Social: Universidade Federal do Ceará – UFC
 Endereço: Av. José de Freitas Queiroz, 5003 – Cedro – Quixadá – CE
 Represent. Legal: Reitor Henry de Holanda Campos
 ]]></text>
@@ -177,28 +177,28 @@ Represent. Legal: Reitor Henry de Holanda Campos
 				<textFieldExpression><![CDATA["Curso: " + $F{curso.labelCurso}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="332" y="253" width="223" height="13"/>
+				<reportElement x="280" y="269" width="274" height="13"/>
 				<textElement verticalAlignment="Top">
 					<font fontName="Arial" size="9"/>
 				</textElement>
 				<text><![CDATA[Lotação: CAMPUS DA UFC EM QUIXADÁ/DIRETORIA]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="148" y="253" width="79" height="13"/>
+				<reportElement x="280" y="253" width="275" height="13"/>
 				<textElement>
 					<font fontName="Arial" size="10"/>
 				</textElement>
-				<textFieldExpression><![CDATA["Siape: " + $P{SIAPE} + " Fone: " + $P{TELEFONE}]]></textFieldExpression>
+				<textFieldExpression><![CDATA["Siape: " + $P{SIAPE}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="227" y="253" width="105" height="13"/>
+				<reportElement x="1" y="269" width="270" height="13"/>
 				<textElement>
 					<font fontName="Arial" size="10"/>
 				</textElement>
 				<textFieldExpression><![CDATA["Fone: " + $P{TELEFONE}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="0" y="253" width="148" height="13"/>
+				<reportElement x="0" y="253" width="271" height="13"/>
 				<textElement>
 					<font fontName="Arial" size="10"/>
 				</textElement>
@@ -233,7 +233,7 @@ Represent. Legal: Reitor Henry de Holanda Campos
 				<textFieldExpression><![CDATA["CPF: " + $F{pessoa.cpf}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="1" y="281" width="554" height="121"/>
+				<reportElement x="0" y="286" width="554" height="121"/>
 				<textElement textAlignment="Justified">
 					<font fontName="Arial" size="10"/>
 				</textElement>
@@ -242,7 +242,7 @@ CLÁUSULA PRIMEIRA: Através deste Termo, a UNIDADE CONCEDENTE se compromete a c
 CLÁUSULA SEGUNDA: O estágio tem como objetivo proporcionar ao estudante integração entre teoria e prática, a partir de situações reais e adequadas de trabalho, visando ao seu aprimoramento profissional e pessoal, e obedecerá ao seguinte Plano de Atividades, devendo tais atividades ser compatíveis com o currículo e com os horários escolares do ESTAGIÁRIO, conforme estabelecem o art. 7o, parágrafo único, o art. 3o, III, e o art. 10 da Lei nº 11.788 de 25/09/2008:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="1" y="402" width="554" height="16"/>
+				<reportElement x="1" y="408" width="554" height="30"/>
 				<box leftPadding="3">
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
@@ -255,7 +255,7 @@ CLÁUSULA SEGUNDA: O estágio tem como objetivo proporcionar ao estudante integr
 				<text><![CDATA[Atividades Previstas: Análise, implementação e testes de sistemas Web]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="8" y="601" width="360" height="15"/>
+				<reportElement x="8" y="623" width="360" height="15"/>
 				<box>
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
@@ -269,17 +269,17 @@ CLÁUSULA SEGUNDA: O estágio tem como objetivo proporcionar ao estudante integr
 ]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="1" y="651" width="554" height="92"/>
+				<reportElement x="1" y="673" width="554" height="73"/>
 				<textElement textAlignment="Justified">
 					<font fontName="Arial"/>
 				</textElement>
 				<text><![CDATA[f) O estágio somente poderá ter início após a assinatura deste Termo pelas partes envolvidas, conforme estabelece o Art. 9º, inciso I da Lei nº 11.788 de 25/09/2008, e o Art. 7o, “g”, da Resolução no 23/CEPE de 30/10/2009.
 CLÁUSULA QUARTA: Compete ao ESTAGIÁRIO:
-a) Cumprir as normas internas da UNIDADE CONCEDENTE, especialmente as de orientação do plano de atividades constante neste Termo, devendo apresentar à UFC, em prazo não superior a 6 (seis) meses, o relatório das atividades desenvolvidas
-b) Seguir a orientação articulada entre os Supervisores de Estágio designados pela UNIDADE CONCEDENTE e pela UFC;]]></text>
+a) Cumprir as normas internas da UNIDADE CONCEDENTE, especialmente as de orientação do plano de atividades
+]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="188" y="616" width="180" height="30"/>
+				<reportElement x="188" y="638" width="180" height="30"/>
 				<box leftPadding="3" rightPadding="1">
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.5"/>
@@ -292,7 +292,7 @@ b) Seguir a orientação articulada entre os Supervisores de Estágio designados
 				<text><![CDATA[Morte Acidental: R$ 20.000,00]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="368" y="601" width="180" height="15"/>
+				<reportElement x="368" y="623" width="180" height="15"/>
 				<box>
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="0.5"/>
@@ -305,7 +305,7 @@ b) Seguir a orientação articulada entre os Supervisores de Estágio designados
 				<text><![CDATA[ Apólice: 071.00982.00820-13]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="8" y="616" width="180" height="30"/>
+				<reportElement x="8" y="638" width="180" height="30"/>
 				<box leftPadding="3" rightPadding="1">
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="1.0"/>
@@ -318,7 +318,7 @@ b) Seguir a orientação articulada entre os Supervisores de Estágio designados
 				<text><![CDATA[Vigência: de 28/07/2015 até 28/07/2016]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="368" y="616" width="180" height="30"/>
+				<reportElement x="368" y="638" width="180" height="30"/>
 				<box leftPadding="3" rightPadding="1">
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.5"/>
@@ -332,7 +332,7 @@ b) Seguir a orientação articulada entre os Supervisores de Estágio designados
  ]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="550" width="555" height="49"/>
+				<reportElement x="0" y="572" width="555" height="49"/>
 				<textElement textAlignment="Justified">
 					<font fontName="Arial"/>
 				</textElement>
@@ -340,7 +340,7 @@ b) Seguir a orientação articulada entre os Supervisores de Estágio designados
 e) A UFC oferece seguro contra acidentes pessoais a todos os seus estudantes devidamente matriculados, também contemplando o ESTAGIÁRIO, parte deste Termo, durante a vigência do presente. Seguem as informações do seguro:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="8" y="485" width="77" height="15"/>
+				<reportElement x="8" y="507" width="77" height="15"/>
 				<box>
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
@@ -353,7 +353,7 @@ e) A UFC oferece seguro contra acidentes pessoais a todos os seus estudantes dev
 				<text><![CDATA[Turnos]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="85" y="485" width="77" height="15"/>
+				<reportElement x="85" y="507" width="77" height="15"/>
 				<box>
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="0.5"/>
@@ -366,7 +366,7 @@ e) A UFC oferece seguro contra acidentes pessoais a todos os seus estudantes dev
 				<text><![CDATA[Segunda]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="162" y="485" width="77" height="15"/>
+				<reportElement x="162" y="507" width="77" height="15"/>
 				<box>
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="0.5"/>
@@ -379,7 +379,7 @@ e) A UFC oferece seguro contra acidentes pessoais a todos os seus estudantes dev
 				<text><![CDATA[Terça]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="239" y="485" width="77" height="15"/>
+				<reportElement x="239" y="507" width="77" height="15"/>
 				<box>
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="0.5"/>
@@ -392,7 +392,7 @@ e) A UFC oferece seguro contra acidentes pessoais a todos os seus estudantes dev
 				<text><![CDATA[Quarta]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="470" y="485" width="77" height="15"/>
+				<reportElement x="470" y="507" width="77" height="15"/>
 				<box>
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="0.5"/>
@@ -405,7 +405,7 @@ e) A UFC oferece seguro contra acidentes pessoais a todos os seus estudantes dev
 				<text><![CDATA[Sábado]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="393" y="485" width="77" height="15"/>
+				<reportElement x="393" y="507" width="77" height="15"/>
 				<box>
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="0.5"/>
@@ -418,7 +418,7 @@ e) A UFC oferece seguro contra acidentes pessoais a todos os seus estudantes dev
 				<text><![CDATA[Sexta]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="316" y="485" width="77" height="15"/>
+				<reportElement x="316" y="507" width="77" height="15"/>
 				<box>
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="0.5"/>
@@ -431,7 +431,7 @@ e) A UFC oferece seguro contra acidentes pessoais a todos os seus estudantes dev
 				<text><![CDATA[Quinta]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="8" y="500" width="77" height="15"/>
+				<reportElement x="8" y="522" width="77" height="15"/>
 				<box>
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="1.0"/>
@@ -444,7 +444,7 @@ e) A UFC oferece seguro contra acidentes pessoais a todos os seus estudantes dev
 				<text><![CDATA[Manhã]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="8" y="530" width="77" height="15"/>
+				<reportElement x="8" y="552" width="77" height="15"/>
 				<box>
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="1.0"/>
@@ -457,7 +457,7 @@ e) A UFC oferece seguro contra acidentes pessoais a todos os seus estudantes dev
 				<text><![CDATA[Noite]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="8" y="515" width="77" height="15"/>
+				<reportElement x="8" y="537" width="77" height="15"/>
 				<box>
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="1.0"/>
@@ -470,7 +470,7 @@ e) A UFC oferece seguro contra acidentes pessoais a todos os seus estudantes dev
 				<text><![CDATA[Tarde]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="470" y="530" width="77" height="15"/>
+				<reportElement x="470" y="552" width="77" height="15"/>
 				<box>
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.5"/>
@@ -483,7 +483,7 @@ e) A UFC oferece seguro contra acidentes pessoais a todos os seus estudantes dev
 				<text><![CDATA[-]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="470" y="500" width="77" height="15"/>
+				<reportElement x="470" y="522" width="77" height="15"/>
 				<box>
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.5"/>
@@ -496,7 +496,7 @@ e) A UFC oferece seguro contra acidentes pessoais a todos os seus estudantes dev
 				<text><![CDATA[-]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="470" y="515" width="77" height="15"/>
+				<reportElement x="470" y="537" width="77" height="15"/>
 				<box>
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.5"/>
@@ -509,7 +509,7 @@ e) A UFC oferece seguro contra acidentes pessoais a todos os seus estudantes dev
 				<text><![CDATA[-]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="85" y="530" width="77" height="15"/>
+				<reportElement x="85" y="552" width="77" height="15"/>
 				<box>
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.5"/>
@@ -522,7 +522,7 @@ e) A UFC oferece seguro contra acidentes pessoais a todos os seus estudantes dev
 				<text><![CDATA[-]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="316" y="500" width="77" height="15"/>
+				<reportElement x="316" y="522" width="77" height="15"/>
 				<box>
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.5"/>
@@ -535,7 +535,7 @@ e) A UFC oferece seguro contra acidentes pessoais a todos os seus estudantes dev
 				<text><![CDATA[-]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="393" y="500" width="77" height="15"/>
+				<reportElement x="393" y="522" width="77" height="15"/>
 				<box>
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.5"/>
@@ -548,7 +548,7 @@ e) A UFC oferece seguro contra acidentes pessoais a todos os seus estudantes dev
 				<text><![CDATA[-]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="393" y="515" width="77" height="15"/>
+				<reportElement x="393" y="537" width="77" height="15"/>
 				<box>
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.5"/>
@@ -561,7 +561,7 @@ e) A UFC oferece seguro contra acidentes pessoais a todos os seus estudantes dev
 				<text><![CDATA[-]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="316" y="515" width="77" height="15"/>
+				<reportElement x="316" y="537" width="77" height="15"/>
 				<box>
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.5"/>
@@ -574,7 +574,7 @@ e) A UFC oferece seguro contra acidentes pessoais a todos os seus estudantes dev
 				<text><![CDATA[-]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="162" y="530" width="77" height="15"/>
+				<reportElement x="162" y="552" width="77" height="15"/>
 				<box>
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.5"/>
@@ -587,7 +587,7 @@ e) A UFC oferece seguro contra acidentes pessoais a todos os seus estudantes dev
 				<text><![CDATA[-]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="239" y="530" width="77" height="15"/>
+				<reportElement x="239" y="552" width="77" height="15"/>
 				<box>
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.5"/>
@@ -600,7 +600,7 @@ e) A UFC oferece seguro contra acidentes pessoais a todos os seus estudantes dev
 				<text><![CDATA[-]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="316" y="530" width="77" height="15"/>
+				<reportElement x="316" y="552" width="77" height="15"/>
 				<box>
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.5"/>
@@ -613,7 +613,7 @@ e) A UFC oferece seguro contra acidentes pessoais a todos os seus estudantes dev
 				<text><![CDATA[-]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="393" y="530" width="77" height="15"/>
+				<reportElement x="393" y="552" width="77" height="15"/>
 				<box>
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.5"/>
@@ -626,7 +626,7 @@ e) A UFC oferece seguro contra acidentes pessoais a todos os seus estudantes dev
 				<text><![CDATA[-]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="85" y="500" width="77" height="15"/>
+				<reportElement x="85" y="522" width="77" height="15"/>
 				<box>
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.5"/>
@@ -639,7 +639,7 @@ e) A UFC oferece seguro contra acidentes pessoais a todos os seus estudantes dev
 				<textFieldExpression><![CDATA[( $P{TURNO} == "MANHA" ? $P{EXPEDIENTE_SEGUNDA} : "-" )]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="162" y="500" width="77" height="15"/>
+				<reportElement x="162" y="522" width="77" height="15"/>
 				<box>
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.5"/>
@@ -652,7 +652,7 @@ e) A UFC oferece seguro contra acidentes pessoais a todos os seus estudantes dev
 				<textFieldExpression><![CDATA[( $P{TURNO} == "MANHA" ? $P{EXPEDIENTE_TERCA} : "-" )]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="239" y="500" width="77" height="15"/>
+				<reportElement x="239" y="522" width="77" height="15"/>
 				<box>
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.5"/>
@@ -665,7 +665,7 @@ e) A UFC oferece seguro contra acidentes pessoais a todos os seus estudantes dev
 				<textFieldExpression><![CDATA[( $P{TURNO} == "MANHA" ? $P{EXPEDIENTE_QUARTA} : "-" )]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="239" y="515" width="77" height="15"/>
+				<reportElement x="239" y="537" width="77" height="15"/>
 				<box>
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.5"/>
@@ -678,7 +678,7 @@ e) A UFC oferece seguro contra acidentes pessoais a todos os seus estudantes dev
 				<textFieldExpression><![CDATA[( $P{TURNO} == "TARDE" ? $P{EXPEDIENTE_QUARTA} : "-" )]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="85" y="515" width="77" height="15"/>
+				<reportElement x="85" y="537" width="77" height="15"/>
 				<box>
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.5"/>
@@ -691,7 +691,7 @@ e) A UFC oferece seguro contra acidentes pessoais a todos os seus estudantes dev
 				<textFieldExpression><![CDATA[( $P{TURNO} == "TARDE" ? $P{EXPEDIENTE_SEGUNDA} : "-" )]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="162" y="515" width="77" height="15"/>
+				<reportElement x="162" y="537" width="77" height="15"/>
 				<box>
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.5"/>
@@ -704,7 +704,7 @@ e) A UFC oferece seguro contra acidentes pessoais a todos os seus estudantes dev
 				<textFieldExpression><![CDATA[( $P{TURNO} == "TARDE" ? $P{EXPEDIENTE_TERCA} : "-" )]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="0" y="422" width="555" height="59"/>
+				<reportElement x="0" y="444" width="555" height="59"/>
 				<textElement textAlignment="Justified">
 					<font fontName="Arial"/>
 				</textElement>
@@ -718,7 +718,7 @@ e) A UFC oferece seguro contra acidentes pessoais a todos os seus estudantes dev
 				<textElement>
 					<font fontName="Arial" size="10"/>
 				</textElement>
-				<textFieldExpression><![CDATA["CIdade/UF: " + $F{cidade} + "/" + $F{uf.estado}]]></textFieldExpression>
+				<textFieldExpression><![CDATA["Cidade/UF: " + $F{cidade} + "/" + $F{uf.estado}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement x="442" y="206" width="112" height="13"/>
@@ -737,11 +737,13 @@ e) A UFC oferece seguro contra acidentes pessoais a todos os seus estudantes dev
 		</band>
 		<band height="670">
 			<staticText>
-				<reportElement x="1" y="16" width="554" height="259"/>
+				<reportElement x="1" y="7" width="554" height="291"/>
 				<textElement textAlignment="Justified">
 					<font fontName="Arial"/>
 				</textElement>
-				<text><![CDATA[c) Diante da impossibilidade de cumprir o estabelecido neste Termo, comunicar a circunstância à UNIDADE CONCEDENTE, ficando esclarecido, desde logo, que suas obrigações escolares e a pertinência das atividades à sua qualificação profissional serão consideradas motivos justos;
+				<text><![CDATA[constante neste Termo, devendo apresentar à UFC, em prazo não superior a 6 (seis) meses, o relatório das atividades desenvolvidas
+b) Seguir a orientação articulada entre os Supervisores de Estágio designados pela UNIDADE CONCEDENTE e pela UFC;
+c) Diante da impossibilidade de cumprir o estabelecido neste Termo, comunicar a circunstância à UNIDADE CONCEDENTE, ficando esclarecido, desde logo, que suas obrigações escolares e a pertinência das atividades à sua qualificação profissional serão consideradas motivos justos;
 d) Em caso de desistência do Estágio, comunicar à Empresa com antecedência mínima de 05 (cinco) dias e entregar termo de rescisão contratual à UFC, no setor competente.
 CLÁUSULA QUINTA: São motivos para a rescisão imediata deste Termo de Compromisso de Estágio a ocorrência das seguintes hipóteses:
 a) Conclusão, trancamento ou abandono do Curso;
@@ -754,14 +756,14 @@ CLÁUSULA OITAVA: Qualquer alteração do estabelecido neste Termo será feita m
 E, por estarem devidamente cientes das condições aqui estipuladas, bem como das disposições legais vigentes sobre o assunto, firmam a UNIDADE CONCEDENTE e o ESTAGIÁRIO, com interveniência da UFC, o presente TERMO, em 03 (três) vias de igual teor e forma, para que este produza seus devidos efeitos legais.]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="285" width="293" height="20"/>
+				<reportElement x="0" y="392" width="293" height="20"/>
 				<textElement>
 					<font fontName="Arial"/>
 				</textElement>
 				<text><![CDATA[Quixadá - CE, ____ de ____________ de ______.]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="363" width="220" height="20"/>
+				<reportElement x="0" y="470" width="220" height="20"/>
 				<box>
 					<topPen lineWidth="1.0"/>
 				</box>
@@ -771,7 +773,7 @@ E, por estarem devidamente cientes das condições aqui estipuladas, bem como da
 				<text><![CDATA[Estagiário]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="335" y="363" width="220" height="20"/>
+				<reportElement x="335" y="470" width="220" height="20"/>
 				<box>
 					<topPen lineWidth="1.0"/>
 				</box>
@@ -781,7 +783,7 @@ E, por estarem devidamente cientes das condições aqui estipuladas, bem como da
 				<text><![CDATA[Unidade Concedente]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="335" y="406" width="220" height="20"/>
+				<reportElement x="335" y="532" width="220" height="20"/>
 				<box>
 					<topPen lineWidth="1.0"/>
 				</box>
@@ -791,7 +793,7 @@ E, por estarem devidamente cientes das condições aqui estipuladas, bem como da
 				<text><![CDATA[Agência de Estágios UFC]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="406" width="220" height="20"/>
+				<reportElement x="0" y="532" width="220" height="20"/>
 				<box>
 					<topPen lineWidth="1.0"/>
 				</box>
@@ -799,6 +801,20 @@ E, por estarem devidamente cientes das condições aqui estipuladas, bem como da
 					<font fontName="Arial"/>
 				</textElement>
 				<text><![CDATA[ Professor Orientador UFC]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="310" width="554" height="30"/>
+				<box leftPadding="0">
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement verticalAlignment="Top">
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[DECLARO, serem exatas e verdadeiras as informações aqui prestadas, sob pena de responsabilidade administrativa, cível e penal.
+]]></text>
 			</staticText>
 		</band>
 	</detail>

@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="TERMO_COMPROMISSO" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
 	<property name="ireport.zoom" value="1.8150000000000033"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="1922"/>
+	<property name="ireport.y" value="2115"/>
 	<style name="table">
 		<box>
 			<pen lineWidth="1.0" lineColor="#000000"/>
@@ -763,7 +763,7 @@ E, por estarem devidamente cientes das condições aqui estipuladas, bem como da
 				<text><![CDATA[Quixadá - CE, ____ de ____________ de ______.]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="470" width="220" height="20"/>
+				<reportElement x="101" y="464" width="355" height="56"/>
 				<box>
 					<topPen lineWidth="1.0"/>
 				</box>
@@ -773,17 +773,7 @@ E, por estarem devidamente cientes das condições aqui estipuladas, bem como da
 				<text><![CDATA[Estagiário]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="335" y="470" width="220" height="20"/>
-				<box>
-					<topPen lineWidth="1.0"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Top">
-					<font fontName="Arial"/>
-				</textElement>
-				<text><![CDATA[Unidade Concedente]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="335" y="532" width="220" height="20"/>
+				<reportElement x="101" y="577" width="355" height="20"/>
 				<box>
 					<topPen lineWidth="1.0"/>
 				</box>
@@ -793,14 +783,14 @@ E, por estarem devidamente cientes das condições aqui estipuladas, bem como da
 				<text><![CDATA[Agência de Estágios UFC]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="532" width="220" height="20"/>
+				<reportElement x="101" y="520" width="355" height="56"/>
 				<box>
 					<topPen lineWidth="1.0"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Top">
 					<font fontName="Arial"/>
 				</textElement>
-				<text><![CDATA[ Professor Orientador UFC]]></text>
+				<text><![CDATA[Unidade Concedente / Professor Orientador UFC]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="0" y="310" width="554" height="30"/>

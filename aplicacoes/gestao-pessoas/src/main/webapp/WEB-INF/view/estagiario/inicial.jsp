@@ -42,43 +42,43 @@
 			</div>
 		</c:if>
 
-		<c:if test="${not possuiTurma}">
-			<div class="alert alert-dismissible alert-warning">
-				<button type="button" class="close" data-dismiss="alert">×</button>
-				<p><strong>Atenção! ${nomeFormatado},</strong> aguarde, você será vinculado(a) à uma turma, desde já sinta-se parte deste grupo, NPI.</p> 
-			</div>
-		</c:if>
+<%-- 		<c:if test="${not possuiTurma}"> --%>
+<!-- 			<div class="alert alert-dismissible alert-warning"> -->
+<!-- 				<button type="button" class="close" data-dismiss="alert">×</button> -->
+<%-- 				<p><strong>Atenção! ${nomeFormatado},</strong> aguarde, você será vinculado(a) à uma turma, desde já sinta-se parte deste grupo, NPI.</p>  --%>
+<!-- 			</div> -->
+<%-- 		</c:if> --%>
 
-		<div class="panel panel-primary">
-			<div class="panel-heading">
-				<h3 class="panel-title">Veja o que você consegue fazer!</h3>
-			</div>
-			<div class="panel-body">
-				<div class="list-group">
-					<a href="#" class="list-group-item label-success funcionalidades">
-						<span class="list-group-item-text"><i class="fa fa-check"></i> Atualizar as informações do seu perfil.</span>
-					</a>
+<!-- 		<div class="panel panel-primary"> -->
+<!-- 			<div class="panel-heading"> -->
+<!-- 				<h3 class="panel-title">Veja o que você consegue fazer!</h3> -->
+<!-- 			</div> -->
+<!-- 			<div class="panel-body"> -->
+<!-- 				<div class="list-group"> -->
+<!-- 					<a href="#" class="list-group-item label-success funcionalidades"> -->
+<!-- 						<span class="list-group-item-text"><i class="fa fa-check"></i> Atualizar as informações do seu perfil.</span> -->
+<!-- 					</a> -->
 					
-					<c:if test="${possuiTurma}">
-						<a href="#" class="list-group-item label-info funcionalidades">
-							<span class="list-group-item-text"><i class="fa fa-check"></i> Realizar sua frequencia diaria, além de visualizar mais informações da sua frequencia.</span>
-						</a>
-						<a href="#" class="list-group-item label-warning funcionalidades">
-							<span class="list-group-item-text"><i class="fa fa-check"></i> Visualizar as informações e os membros do projeto que esta participando.</span>
-						</a>
-						<a href="#" class="list-group-item label-success funcionalidades">
-							<span class="list-group-item-text"><i class="fa fa-check"></i> Enviar a documentação do estagio.</span>
-						</a>
-						<a href="#" class="list-group-item label-info funcionalidades">
-							<span class="list-group-item-text"><i class="fa fa-check"></i> Visualizar a sua Avaliação.</span>
-						</a>
-						<a href="#" class="list-group-item label-warning funcionalidades">
-							<span class="list-group-item-text"><i class="fa fa-check"></i> Emitir a sua Declaração de Estagio.</span>
-						</a>
-					</c:if>
-				</div>
-			</div>
-		</div>
+<%-- 					<c:if test="${possuiTurma}"> --%>
+<!-- 						<a href="#" class="list-group-item label-info funcionalidades"> -->
+<!-- 							<span class="list-group-item-text"><i class="fa fa-check"></i> Realizar sua frequencia diaria, além de visualizar mais informações da sua frequencia.</span> -->
+<!-- 						</a> -->
+<!-- 						<a href="#" class="list-group-item label-warning funcionalidades"> -->
+<!-- 							<span class="list-group-item-text"><i class="fa fa-check"></i> Visualizar as informações e os membros do projeto que esta participando.</span> -->
+<!-- 						</a> -->
+<!-- 						<a href="#" class="list-group-item label-success funcionalidades"> -->
+<!-- 							<span class="list-group-item-text"><i class="fa fa-check"></i> Enviar a documentação do estagio.</span> -->
+<!-- 						</a> -->
+<!-- 						<a href="#" class="list-group-item label-info funcionalidades"> -->
+<!-- 							<span class="list-group-item-text"><i class="fa fa-check"></i> Visualizar a sua Avaliação.</span> -->
+<!-- 						</a> -->
+<!-- 						<a href="#" class="list-group-item label-warning funcionalidades"> -->
+<!-- 							<span class="list-group-item-text"><i class="fa fa-check"></i> Emitir a sua Declaração de Estagio.</span> -->
+<!-- 						</a> -->
+<%-- 					</c:if> --%>
+<!-- 				</div> -->
+<!-- 			</div> -->
+<!-- 		</div> -->
 
 	</div>
 	</div>

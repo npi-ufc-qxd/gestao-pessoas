@@ -144,7 +144,7 @@
 							<tbody class="text-view-info">
 								<c:forEach var="estagiario" items="${turma.estagiarios}">
 									<tr>
-										<td>${estagiario.nomeCompleto}</td>
+										<td><a href="<c:url value="/supervisor/estagiario/${estagiario.id}"/>">${estagiario.nomeCompleto}</a></td>
 										<td>${estagiario.matricula}</td>
 										<td>${estagiario.curso.labelCurso}</td>
 <!-- 										<td>Frequecias%</td> -->

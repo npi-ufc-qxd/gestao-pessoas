@@ -42,7 +42,7 @@ $(document).ready(function() {
 	$(".cpfNumeros").mask("99999999999");
 	$(".cep").mask("99.999-999");
 	$(".matricula").mask("9999999");
-	$(".telefone").mask("(99) - 9999-9999");
+	$(".telefone").mask("(99) 9 9999-9999");
 
 	$('#form-projeto').validate({
         rules: {

@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="TERMO_COMPROMISSO" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
 	<property name="ireport.zoom" value="1.8150000000000033"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="2115"/>
+	<property name="ireport.y" value="408"/>
 	<style name="table">
 		<box>
 			<pen lineWidth="1.0" lineColor="#000000"/>
@@ -179,7 +179,7 @@ Represent. Legal: Reitor Henry de Holanda Campos
 			<staticText>
 				<reportElement x="280" y="269" width="274" height="13"/>
 				<textElement verticalAlignment="Top">
-					<font fontName="Arial" size="9"/>
+					<font fontName="Arial" size="10"/>
 				</textElement>
 				<text><![CDATA[Lotação: CAMPUS DA UFC EM QUIXADÁ/DIRETORIA]]></text>
 			</staticText>
@@ -237,7 +237,7 @@ Represent. Legal: Reitor Henry de Holanda Campos
 				<textElement textAlignment="Justified">
 					<font fontName="Arial" size="10"/>
 				</textElement>
-				<text><![CDATA[As partes firmam o presente Termo de Compromisso de Estágio Obrigatório, observando o disposto na Lei nº 11.788 de 25 de setembro de 2008, na Resolução no 23/CEPE de 30 de outubro 2009 e no Termo de Convênio já firmado entre a Unidade Concedente e a UFC em ___/___/_____, além das seguintes cláusulas:
+				<text><![CDATA[As partes firmam o presente Termo de Compromisso de Estágio Obrigatório, observando o disposto na Lei nº 11.788 de 25 de setembro de 2008, na Resolução nº 23/CEPE de 30 de outubro 2009 e no Termo de Convênio já firmado entre a Unidade Concedente e a UFC em ___/___/_____, além das seguintes cláusulas:
 CLÁUSULA PRIMEIRA: Através deste Termo, a UNIDADE CONCEDENTE se compromete a conceder experiência prática profissional ao ESTAGIÁRIO previamente selecionado, e com frequência regular no curso de graduação em que está matriculado na UFC, em conformidade com o Art. 3º, I, da Lei nº 11.788 de 25/09/2008.
 CLÁUSULA SEGUNDA: O estágio tem como objetivo proporcionar ao estudante integração entre teoria e prática, a partir de situações reais e adequadas de trabalho, visando ao seu aprimoramento profissional e pessoal, e obedecerá ao seguinte Plano de Atividades, devendo tais atividades ser compatíveis com o currículo e com os horários escolares do ESTAGIÁRIO, conforme estabelecem o art. 7o, parágrafo único, o art. 3o, III, e o art. 10 da Lei nº 11.788 de 25/09/2008:]]></text>
 			</staticText>
@@ -269,11 +269,11 @@ CLÁUSULA SEGUNDA: O estágio tem como objetivo proporcionar ao estudante integr
 ]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="1" y="673" width="554" height="73"/>
+				<reportElement x="1" y="673" width="554" height="59"/>
 				<textElement textAlignment="Justified">
 					<font fontName="Arial"/>
 				</textElement>
-				<text><![CDATA[f) O estágio somente poderá ter início após a assinatura deste Termo pelas partes envolvidas, conforme estabelece o Art. 9º, inciso I da Lei nº 11.788 de 25/09/2008, e o Art. 7o, “g”, da Resolução no 23/CEPE de 30/10/2009.
+				<text><![CDATA[f) O estágio somente poderá ter início após a assinatura deste Termo pelas partes envolvidas, conforme estabelece o Art. 9º, inciso I da Lei nº 11.788 de 25/09/2008, e o Art. 7º, “g”, da Resolução no 23/CEPE de 30/10/2009.
 CLÁUSULA QUARTA: Compete ao ESTAGIÁRIO:
 a) Cumprir as normas internas da UNIDADE CONCEDENTE, especialmente as de orientação do plano de atividades
 ]]></text>
@@ -734,8 +734,15 @@ e) A UFC oferece seguro contra acidentes pessoais a todos os seus estudantes dev
 				</textElement>
 				<textFieldExpression><![CDATA["Fone: " + $F{telefone}]]></textFieldExpression>
 			</textField>
+			<staticText>
+				<reportElement x="532" y="732" width="23" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[1]]></text>
+			</staticText>
 		</band>
-		<band height="670">
+		<band height="752">
 			<staticText>
 				<reportElement x="1" y="7" width="554" height="291"/>
 				<textElement textAlignment="Justified">
@@ -805,6 +812,13 @@ E, por estarem devidamente cientes das condições aqui estipuladas, bem como da
 				</textElement>
 				<text><![CDATA[DECLARO, serem exatas e verdadeiras as informações aqui prestadas, sob pena de responsabilidade administrativa, cível e penal.
 ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="532" y="732" width="23" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[2]]></text>
 			</staticText>
 		</band>
 	</detail>

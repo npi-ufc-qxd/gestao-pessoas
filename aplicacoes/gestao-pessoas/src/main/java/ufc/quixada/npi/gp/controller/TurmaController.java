@@ -90,7 +90,6 @@ public class TurmaController {
 		model.addAttribute("NOME", usuario.getNome());
 		model.addAttribute("SIAPE", usuario.getSiape());
 		model.addAttribute("TELEFONE", usuario.getTelefone());
-		model.addAttribute("TELEFONE", usuario.getTelefone());
 		model.addAttribute("TURNO", UtilGestao.getTurnoExpediente(turma.getHorarios().get(0)));
 		model.addAttribute("INICIO_ESTAGIO", dataFormatada.format(turma.getInicio()));
 		model.addAttribute("FINAL_ESTAGIO", dataFormatada.format(turma.getTermino()));
@@ -379,7 +378,7 @@ public class TurmaController {
 	}
 
 	private Model configurarExpediente(List<Horario> horarios, Model model) {
-		SimpleDateFormat horaFormatada = new SimpleDateFormat("HH:ss");
+		SimpleDateFormat horaFormatada = new SimpleDateFormat("HH:mm");
 
 		for (Horario horario : horarios) {
 

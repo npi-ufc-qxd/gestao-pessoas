@@ -24,14 +24,14 @@
 					<h2 class="titulo-panels">
 						<span class="fa fa-folder-open"></span> Turma <strong>${turma.nome}</strong>
 					</h2>
-
+					<input type="hidden" value="${turma.id}" id="turmaID">
 					<div class="pull-right">
 						<a title="Voltar" class="btn btn-default back"><span
-							class="fa fa-arrow-left"></span> Voltar</a>
-						<a href="<c:url value="/supervisor/turma/${turma.id}/expediente" />"
+							class="fa fa-arrow-left"></span> Voltar</a> <a
+							href="<c:url value="/supervisor/turma/${turma.id}/expediente" />"
 							title="Atualizar Expediente" class="btn btn-primary"><span
-							class="fa fa-refresh"></span> Expediente</a>
-						<a href="<c:url value="/supervisor/turma/${turma.id}/vincular" />"
+							class="fa fa-refresh"></span> Expediente</a> <a
+							href="<c:url value="/supervisor/turma/${turma.id}/vincular" />"
 							title="Atualizar Vínculos" class="btn btn-primary"><span
 							class="glyphicon glyphicon-link"></span> Vinculos</a>
 					</div>
@@ -55,13 +55,14 @@
 							</strong></label><label class="col-sm-3 text-view-info">${turma.ano}.${turma.semestre}</label>
 
 							<label class="col-sm-1 text-view-info"><strong>Periodo:
-							</strong></label>
-							<label class="col-sm-3 text-view-info" >
-							<fmt:formatDate value="${turma.inicio}" pattern="dd/MM/yyyy"/> a <fmt:formatDate value="${turma.termino}" pattern="dd/MM/yyyy"/>
+							</strong></label> <label class="col-sm-3 text-view-info"> <fmt:formatDate
+									value="${turma.inicio}" pattern="dd/MM/yyyy" /> a <fmt:formatDate
+									value="${turma.termino}" pattern="dd/MM/yyyy" />
 							</label> <label class="col-sm-1 text-view-info"><strong>Status:
 							</strong></label><label class="col-sm-3 text-view-info">${turma.statusTurma}</label>
 						</div>
-					</c:if> <br>
+					</c:if>
+					<br>
 
 
 					<c:if test="${not empty turma.horarios}">
@@ -93,26 +94,36 @@
 
 						</div>
 					</c:if>
-					
+
 				</div>
-		</div>
+			</div>
 
 			<div class="panel panel-success">
 				<div class="panel-heading">
 					<h2 class="titulo-panels">
-						<span class="fa fa-group"></span> Estagiários <span class="badge bVinculos">${fn:length(turma.estagiarios)}</span>
+						<span class="fa fa-group"></span> Estagiários <span
+							class="badge bVinculos">${fn:length(turma.estagiarios)}</span>
 					</h2>
 
 					<div class="pull-right">
 						<c:if test="${not empty turma.estagiarios}">
+							<p hidden id="cp"></p>
+							<button class="btn btn-success" id="copy"
+								onclick="copyToClipboard('#cp')"
+								title="Copiar E-mail dos Estagiarios">
+								<span class="fa fa-clone"></span> E-mail
+							</button>
+							
 							<a class="btn btn-success"
 								href="<c:url value="/supervisor/turma/${idTurma }/mapa-frequencia" ></c:url>"
 								title="Mapa de Frequência"><span
 								class="fa fa-calendar-check-o"></span> Mapa de Frequência</a>
+								
 							<a class="btn btn-success"
 								href="<c:url value="/supervisor/turma/${idTurma }/tce" ></c:url>"
 								title="Termo de Compromisso"><span class="fa fa-file-pdf-o"></span>
 								Termo de Compromisso</a>
+								
 							<a class="btn btn-success"
 								href="<c:url value="/supervisor/turma/${idTurma }/declaracoes" ></c:url>"
 								title="Declaração de Estágio"><span class="fa fa-file-pdf-o"></span>
@@ -136,7 +147,7 @@
 									<th class="col-md-4">Nome</th>
 									<th class="col-md-1">Matrícula</th>
 									<th class="col-md-3">Curso</th>
-<!-- 									<th class="col-md-3">Frequência</th> -->
+									<!-- 									<th class="col-md-3">Frequência</th> -->
 									<th class="col-md-1"></th>
 									<th class="col-md-1"></th>
 								</tr>
@@ -144,10 +155,11 @@
 							<tbody class="text-view-info">
 								<c:forEach var="estagiario" items="${turma.estagiarios}">
 									<tr>
-										<td><a href="<c:url value="/supervisor/estagiario/${estagiario.id}"/>">${estagiario.nomeCompleto}</a></td>
+										<td><a
+											href="<c:url value="/supervisor/estagiario/${estagiario.id}"/>">${estagiario.nomeCompleto}</a></td>
 										<td>${estagiario.matricula}</td>
 										<td>${estagiario.curso.labelCurso}</td>
-<!-- 										<td>Frequecias%</td> -->
+										<!-- 										<td>Frequecias%</td> -->
 										<td align="right"><a
 											href="<c:url value="/supervisor/turma/${idTurma }/acompanhamento-avaliacao/estagiario/${estagiario.id}" />"
 											title="Acompanhamento de Avaliação"
@@ -164,68 +176,121 @@
 					</c:if>
 				</div>
 			</div>
-	
-	<!-- Início Eventos -->
-	<div class="panel panel-info">
-		<div class="panel-heading">
-			<h2 class="titulo-panels"><span class="fa fa-calendar"></span> Eventos <span class="badge bVinculos">${fn:length(turma.eventos)}</span></h2>
-			
-			<div class="pull-right">
-				<a href="<c:url value="/supervisor/turma/${turma.id}/evento" />" title="Atualizar Evento" class="btn btn-info"><span class="fa fa-refresh"></span> Eventos</a>
-			</div>
-		</div>
-		
-		<div class="panel-body">
-		<c:if test="${empty turma.eventos}"><div class="alert alert-warning" role="alert">Sem eventos cadastrados.</div></c:if>
-		<c:if test="${not empty turma.eventos}">
-			<div class="form-group">
-					<label class="col-sm-12 text-view-info"><strong>Calendário de Eventos</strong></label>
-				
-					<table id="eventos-turma" class="table table-striped table-hover">
-						<thead>
-							<tr>
-								<th>Período</th>
-								<th>Descrição</th>								
-				           </tr>
-				       </thead>
-				       <tbody class="text-view-info">
-							<c:forEach var="evento" items="${turma.eventos}" varStatus="indice">
-								<tr align="justify">
-									<td ><fmt:formatDate value="${evento.inicio}" pattern="dd/MM/yyyy"/> a <fmt:formatDate value="${evento.termino}" pattern="dd/MM/yyyy"/></td>
-									<td>${evento.descricao }</td>
-								</tr>
-							</c:forEach>
-				       </tbody>
-			       </table>
-					
+
+			<!-- Início Eventos -->
+			<div class="panel panel-info">
+				<div class="panel-heading">
+					<h2 class="titulo-panels">
+						<span class="fa fa-calendar"></span> Eventos <span
+							class="badge bVinculos">${fn:length(turma.eventos)}</span>
+					</h2>
+
+					<div class="pull-right">
+						<a href="<c:url value="/supervisor/turma/${turma.id}/evento" />"
+							title="Atualizar Evento" class="btn btn-info"><span
+							class="fa fa-refresh"></span> Eventos</a>
+					</div>
 				</div>
-			</c:if>
+
+				<div class="panel-body">
+					<c:if test="${empty turma.eventos}">
+						<div class="alert alert-warning" role="alert">Sem eventos
+							cadastrados.</div>
+					</c:if>
+					<c:if test="${not empty turma.eventos}">
+						<div class="form-group">
+							<label class="col-sm-12 text-view-info"><strong>Calendário
+									de Eventos</strong></label>
+
+							<table id="eventos-turma" class="table table-striped table-hover">
+								<thead>
+									<tr>
+										<th>Período</th>
+										<th>Descrição</th>
+									</tr>
+								</thead>
+								<tbody class="text-view-info">
+									<c:forEach var="evento" items="${turma.eventos}"
+										varStatus="indice">
+										<tr align="justify">
+											<td><fmt:formatDate value="${evento.inicio}"
+													pattern="dd/MM/yyyy" /> a <fmt:formatDate
+													value="${evento.termino}" pattern="dd/MM/yyyy" /></td>
+											<td>${evento.descricao }</td>
+										</tr>
+									</c:forEach>
+								</tbody>
+							</table>
+
+						</div>
+					</c:if>
+				</div>
+			</div>
+			<!-- Término Evento -->
 		</div>
 	</div>
-	<!-- Término Evento -->
-	</div>
-	</div>
 
-		<br> <br>
-		<jsp:include page="../modulos/footer.jsp" />
+	<br>
+	<br>
+	<jsp:include page="../modulos/footer.jsp" />
 
-		<script type="text/javascript">
-			$(".menu #turmas").addClass("active");
-			
-			$('#estagiarios-turma').DataTable({
-				"paging" : false,
-				"bInfo" : false,
+	<script type="text/javascript">
+		$(".menu #turmas").addClass("active");
+
+		$('#estagiarios-turma').DataTable({
+			"paging" : false,
+			"bInfo" : false,
+			"order" : [ 0, 'asc' ],
+			"bFilter" : false,
+			"columnDefs" : [ {
 				"order" : [ 0, 'asc' ],
-				"bFilter" : false,
-				"columnDefs" : [ 
-					{"order" : [ 0, 'asc' ], "targets" : [ 0, 'asc' ]}, 
-					{"orderable" : false, "targets" : 1}, 
-					{"orderable" : false, "targets" : 2},
-					{"orderable" : false, "targets" : 3},
-					{"orderable" : false, "targets" : 4},
-// 					{"orderable" : false, "targets" : 5}
-				],
-			});
-		</script>
+				"targets" : [ 0, 'asc' ]
+			}, {
+				"orderable" : false,
+				"targets" : 1
+			}, {
+				"orderable" : false,
+				"targets" : 2
+			}, {
+				"orderable" : false,
+				"targets" : 3
+			}, {
+				"orderable" : false,
+				"targets" : 4
+			},
+			//{"orderable" : false, "targets" : 5}
+			],
+		});
+		
+		//Nessa função recebemos a lista de e-mails dos estagiarios
+		$("#copy").ready(
+				function() {
+					$.ajax({
+						type : 'GET',
+						url : '/gestao-pessoas/supervisor/turma/'+ $('#turmaID').val() +'/getEmailTurma',
+						data : {
+							turmaID : $('#turmaID').val()
+						},
+
+						success : function(data) {
+							$("#cp").append(data);													
+						},
+						error : function(data) {
+							console.log("Error!");
+						}
+
+					});
+				});
+		
+		//Função para copiar a lista de e-mails
+		function copyToClipboard(element) {
+			  var $temp = $("<input>");
+			  $("body").append($temp);
+			  $temp.val($(element).text()).select();
+			  document.execCommand("copy");
+			  $temp.remove();
+			}	
+		
+	</script>
 </body>
 </html>

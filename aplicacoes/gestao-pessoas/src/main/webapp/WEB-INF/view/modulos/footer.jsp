@@ -14,6 +14,7 @@
 <script src="<c:url value="/resources/js/bootstrap-editable.min.js" />"></script>
 <script src="<c:url value="/resources/js/bootstrap-time.js" />"></script>
 <script src="<c:url value="/resources/js/moment.js" />"></script>
+
 <br>
 <div class="clear"></div>
 

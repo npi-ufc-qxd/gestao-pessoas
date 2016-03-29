@@ -15,20 +15,19 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import br.ufc.quixada.npi.ldap.service.UsuarioService;
-
 import ufc.quixada.npi.gp.model.Estagiario;
 import ufc.quixada.npi.gp.model.Frequencia;
 import ufc.quixada.npi.gp.model.Papel;
 import ufc.quixada.npi.gp.model.Pessoa;
 import ufc.quixada.npi.gp.model.Servidor;
-import ufc.quixada.npi.gp.model.Submissao;
 import ufc.quixada.npi.gp.model.Turma;
 import ufc.quixada.npi.gp.model.enums.StatusFrequencia;
-import ufc.quixada.npi.gp.service.AvaliacaoService;
 import ufc.quixada.npi.gp.model.enums.TipoFrequencia;
+import ufc.quixada.npi.gp.service.AvaliacaoService;
 import ufc.quixada.npi.gp.service.EstagiarioService;
 import ufc.quixada.npi.gp.service.FrequenciaService;
 import ufc.quixada.npi.gp.service.PapelService;
@@ -167,10 +166,6 @@ public class SupervisorController {
 		return "";
 	}
 	
-	
-	
-	
-
 	private Pessoa getUsuarioLogado(HttpSession session) {
 		if (session.getAttribute(Constants.USUARIO_LOGADO) == null) {
 			Pessoa pessoa = pessoaService.getPessoaByCpf(SecurityContextHolder.getContext().getAuthentication()
@@ -186,6 +181,19 @@ public class SupervisorController {
 		return "supervisor/info-estagiario";
 	}
 
-	
-	
+	@RequestMapping(value = "/turma/{turma.id}/getEmailTurma", method = RequestMethod.GET)
+	@ResponseBody
+	public String listaEmailsEstagiarios(@RequestParam long turmaID) {
+	      
+		Turma turma = turmaService.find(Turma.class, turmaID);
+		
+		List<Estagiario> estagiarios = turma.getEstagiarios();
+		
+		String emails = "";
+		for (Estagiario estagiario : estagiarios) {
+			emails = estagiario.getContaHangout() + ";" + emails;
+		}
+							
+		return emails;
+	}
 }

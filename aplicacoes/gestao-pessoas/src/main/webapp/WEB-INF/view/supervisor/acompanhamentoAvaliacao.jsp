@@ -4,6 +4,11 @@
 <%@ taglib prefix="sec"
 	uri="http://www.springframework.org/security/tags"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<c:if test="${action eq 'cadastrar' }">
+	<c:set var="url"
+		value="/supervisor/turma/${turma.id}/acompanhamento-avaliacao/estagiario/${estagiario.id}/"></c:set>
+	<c:set var="titulo" value="Nova Avaliação"></c:set>
+</c:if>
 
 <!DOCTYPE html>
 
@@ -51,49 +56,35 @@
 					</c:if>
 				</div>
 			</div>
+			<c:forEach var="submissoes" items="${submissoes}">
+				<div class="panel panel-info">
+					<div class="panel-heading">
+						<h2 class="titulo-panels">
+							<span class="fa fa-file-pdf-o"></span>${submissoes.tipo}
+						</h2>
+					</div>
+					<div class="panel-body">
+						<c:if test="${empty submissoes}">
+							<div class="alert alert-warning" role="alert">Submissão
+								inexistente.</div>
+						</c:if>
+						<c:if test="${not empty submissoes}">
+							<div class="pull-right">
+								<button class="btn btn-primary" data-toggle="modal"
+									data-target="#lancarNotas">Lançar Notas</button>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-1 text-view-info"><strong>Nota
+								</strong></label> <label class="col-sm-1 text-view-info">${submissoes.nota}</label>
+								<label class="col-sm-1 text-view-info"><strong>Status
+								</strong></label> <label class="col-sm-2 text-view-info">${submissoes.statusEntrega}</label>
+								<br> <br>
+							</div>
 
-			<div class="panel panel-info">
-				<div class="panel-heading">
-					<h2 class="titulo-panels">
-						<span class="fa fa-file-pdf-o"></span> Documentos
-					</h2>
+						</c:if>
+					</div>
 				</div>
-				<div class="panel-body">
-
-					<h4>Plano</h4>
-					<c:if test="${empty submissoes}">
-						<div class="alert alert-warning" role="alert">Estagiário
-							inexistente.</div>
-					</c:if>
-					<c:forEach var="submissoes" items="${submissoes}">
-						<form class="form-inline" role="form">
-							<div class="form-group">
-								<label for="nota" class="control-label">Nota:</label> <input
-									type="number" class="form-control" id="nota">
-							</div>
-							<div class="form-group">
-								<label for="status">Status:</label> <select class="form-control"
-									id="status">
-									<option>ENVIADO</option>
-									<option>ACEITO</option>
-									<option>REJEITADO</option>
-								</select>
-							</div>
-							<div class="form-group">
-								<label class="col-sm-3 text-view-info"><strong>Tipo:
-								</strong></label> <label class="col-sm-3 text-view-info">${submissoes.tipo}</label>
-
-							</div>
-							<a
-								href="<c:url value="/supervisor/turma/${turma.id}/submissao/${submissao.id}/estagiario/${estagiario.id}/avaliar-submissao" ></c:url>"
-								title="Editar"><button class="btn btn-primary">
-									<span class="fa fa-pencil"></span> Avaliar
-								</button></a>
-						</form>
-						<br>
-					</c:forEach>
-				</div>
-			</div>
+			</c:forEach>
 			<div class="panel panel-info">
 				<div class="panel-heading">
 					<h2 class="titulo-panels">
@@ -147,20 +138,52 @@
 								</strong></label><label class="col-sm-12 text-view-info">${avaliacaoEstagio.fatorResponsabilidade}</label>
 								<label class="col-sm-12 text-view-info"><strong>Relacionamento
 								</strong></label><label class="col-sm-12 text-view-info">${avaliacaoEstagio.fatorRelacionamento}</label>
-
-
 							</div>
 						</c:forEach>
 					</c:if>
-
 				</div>
 			</div>
-
 		</div>
 	</div>
 	<br>
 	<br>
 	<jsp:include page="../modulos/footer.jsp" />
-
+	<div>
+		<div class="modal fade" id="lancarNotas" tabindex="-1" role="dialog"
+			aria-labelledby="lancarNotasLabel" data-backdrop="false">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+						<h4 class="modal-title" id="lancarNotasLabel">Lançar Notas</h4>
+					</div>
+					<div class="modal-body">
+						<form class="form-inline">
+							<div class="form-group">
+								<label for="nota">Nota</label> <input type="number"
+									class="form-control" id="nota">
+							</div>
+							<div class="form-group">
+								<label for="statusEntrega">Status</label>
+								<!-- 						    <input type="email"id="statusEntrega"> -->
+								<select class="form-control">
+									<option>ENVIADO</option>
+									<option>ACEITO</option>
+									<option>REJEITADO</option>
+								</select>
+							</div>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+						<button type="button" class="btn btn-primary">Salvar</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </body>
 </html>

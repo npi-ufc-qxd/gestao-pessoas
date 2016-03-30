@@ -27,27 +27,7 @@
 		</div>
 
 		<form:form id="form-vincular-estagiario" role="form" modelAttribute="turma" servletRelativeAction="/supervisor/turma/${turma.id}/vincular" method="POST">
-			<div class="panel-body">
-				<form:hidden path="id"/>
-				<table id="table-estagiarios" class="table table-striped table-hover">
-					<thead>
-						<tr>
-							<th>Estagiários da turma</th>
-						</tr>
-					</thead>
-					<tbody>
-						<c:forEach var="estagiario" items="${estagiariosDaTurma}" varStatus="contador">
-							<tr>
-								<td>
-									<c:set var="indice" value="${contador.index}"></c:set>
-									<form:checkbox id="estagiarioDaTurma${indice}" path="estagiarios[${indice}].id" value="${estagiario.id}" checked="checked"/>
-									<label for="estagiarioDaTurma${contador.index}" class="text-view-info">${estagiario.nomeCompleto}</label>
-								</td>
-							</tr>
-						</c:forEach>
-					</tbody>
-				</table>
-			</div>
+			
 
 			<div class="panel-body">
 				<table id="table-vincular-estagiarios" class="table table-striped table-hover">
@@ -57,13 +37,23 @@
 						</tr>
 					</thead>
 					<tbody>
+					
 						<c:forEach var="estagiario" items="${outrosEstagiarios}" varStatus="contadorOutroEstagiario">
 							<tr>
 								<td>
-<%-- 									<c:set var="indice" value="${indice + contadorOutroEstagiario.count}" ></c:set> --%>
+								<%-- 									<c:set var="indice" value="${indice + contadorOutroEstagiario.count}" ></c:set> --%>
 									<c:set var="indice" value="${contadorOutroEstagiario.count}" ></c:set>
 									<input type="checkbox" id="outroEstagiario${indice}" name="estagiarios[${indice}].id" value="${estagiario.id}"/>
 									<label for="outroEstagiario${indice}" class="text-view-info">${estagiario.nomeCompleto}</label>
+								</td>
+							</tr>
+						</c:forEach>
+						<c:forEach var="estagiario" items="${estagiariosDaTurma}" varStatus="contador">
+							<tr>
+								<td>
+									<c:set var="indice" value="${contador.index}"></c:set>
+									<form:checkbox id="estagiarioDaTurma${indice}" path="estagiarios[${indice}].id" value="${estagiario.id}" checked="checked"/>
+									<label for="estagiarioDaTurma${contador.index}" class="text-view-info">${estagiario.nomeCompleto}</label>
 								</td>
 							</tr>
 						</c:forEach>
@@ -86,15 +76,29 @@
 	
     <script type="text/javascript">
 		$(".menu #turmas").addClass("active");
+		
+		
 
 		$('#table-vincular-estagiarios').DataTable({
 			 "pageLength": 10,
 			"language": ptBR,
 			 "order": [0, 'asc'],
 			 "columnDefs": [
-				{ "orderable": false, "targets": 0 },
+				{ "orderable": true, "targets": 0 },
+				{ "orderDataType": "dom-checkbox","targets": 0 },
+							
 			],
 		});
+		$(document).ready( function(){
+			$.fn.dataTable.ext.order['dom-checkbox'] = function  ( settings, col )
+			{
+			    return this.api().column( col, {order:'index'} ).nodes().map( function ( td, i ) {
+			        return $('input', td).prop('checked') ? '1' : '0';
+			    } );
+			}		 
+			
+		});
+		
 
 		$('.dataTables_length label').addClass('text-view-info');
 		$('.dataTables_filter label').addClass('text-view-info');

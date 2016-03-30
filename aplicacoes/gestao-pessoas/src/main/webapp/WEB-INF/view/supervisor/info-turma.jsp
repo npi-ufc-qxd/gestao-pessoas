@@ -107,9 +107,9 @@
 
 					<div class="pull-right">
 						<c:if test="${not empty turma.estagiarios}">
-							<p hidden id="cp"></p>
+							<p hidden id="copiar"></p>
 							<button class="btn btn-success" id="copy"
-								onclick="copyToClipboard('#cp')"
+								onclick="copyToClipboard('#copiar')"
 								title="Copiar E-mail dos Estagiarios">
 								<span class="fa fa-clone"></span> E-mail
 							</button>
@@ -146,8 +146,8 @@
 								<tr>
 									<th class="col-md-4">Nome</th>
 									<th class="col-md-1">Matrícula</th>
+									<th class="col-md-3">E-mail</th>
 									<th class="col-md-3">Curso</th>
-									<!-- 									<th class="col-md-3">Frequência</th> -->
 									<th class="col-md-1"></th>
 									<th class="col-md-1"></th>
 								</tr>
@@ -158,8 +158,8 @@
 										<td><a
 											href="<c:url value="/supervisor/estagiario/${estagiario.id}"/>">${estagiario.nomeCompleto}</a></td>
 										<td>${estagiario.matricula}</td>
+										<td id="email">${estagiario.contaHangout}</td>
 										<td>${estagiario.curso.labelCurso}</td>
-										<!-- 										<td>Frequecias%</td> -->
 										<td align="right"><a
 											href="<c:url value="/supervisor/turma/${idTurma }/acompanhamento-avaliacao/estagiario/${estagiario.id}" />"
 											title="Acompanhamento de Avaliação"
@@ -258,10 +258,10 @@
 				"orderable" : false,
 				"targets" : 4
 			},
-			//{"orderable" : false, "targets" : 5}
+			{"orderable" : false, "targets" : 5}
 			],
 		});
-		
+				
 		//Nessa função recebemos a lista de e-mails dos estagiarios
 		$("#copy").ready(
 				function() {
@@ -273,7 +273,7 @@
 						},
 
 						success : function(data) {
-							$("#cp").append(data);													
+							$("#copiar").append(data);													
 						},
 						error : function(data) {
 							console.log("Error!");
@@ -289,7 +289,7 @@
 			  $temp.val($(element).text()).select();
 			  document.execCommand("copy");
 			  $temp.remove();
-			}	
+			}		
 		
 	</script>
 </body>

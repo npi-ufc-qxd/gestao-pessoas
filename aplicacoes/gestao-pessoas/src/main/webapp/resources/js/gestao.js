@@ -277,6 +277,27 @@ $(document).ready(function() {
 		orientation: "top auto",
 	});
 	
+	$("#ano").keyup(function() {
+       var valor = $(this).val().replace(/[^0-9]+/g,'');
+       $(this).val(valor);
+    });
+
+	
+	$(".inputNomeTurma").keyup(function() {
+        var valor = $(this).val().replace(/(([a-zA-Z]*\d{3,})|[!"#$%&'()*+ºª,-./:;<=>?@[\]_{|}])/,'');
+	    $(this).val(valor);
+	});
+	
+	$("#inicio").keyup(function() {
+	       var valor = $(this).val().replace(/[^0-9]+/g,'');
+	       $(this).val(valor);
+	});
+	
+	$("#termino").keyup(function() {
+	       var valor = $(this).val().replace(/[^0-9]+/g,'');
+	       $(this).val(valor);
+	});
+	
 });
 
 function ativarEditable() {

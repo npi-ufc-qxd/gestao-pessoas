@@ -49,45 +49,56 @@
 				<label class="col-sm-2 text-view-info"><strong>Frequência (%): </strong></label><label class="col-sm-2 text-view-info">${dadosConsolidados.porcentagemFrequencia}</label>
 		
 				<label class="col-sm-2 text-view-info"><strong>Faltas: </strong></label><label class="col-sm-2 text-view-info">${dadosConsolidados.faltas}</label>
+		
 			</div><br><br>
 			
 			<div class="col-sm-12">
+			<h3>Frequências Pendentes</h3>
 				<c:forEach var="frequencia" items="${frequencias}">
 				<fmt:formatDate var="dataFrequencia" pattern="yyyy-MM-dd" value="${frequencia.data}" />
 				<fmt:formatDate var="today" value="${dataAtual}" pattern="yyyy-MM-dd" />
 				<c:if test="${frequencia.statusFrequencia == null and dataFrequencia < today}">
-					<form action="<c:url value="/supervisor/estagiario/${estagiario.id}/turma/${turma.id}/frequencia/pendente"></c:url>" method="POST" class="form-inline">
-				    <h5 class=""><strong>&nbsp;<span class="label label-warning">Pendente</span>&nbsp;&nbsp;<fmt:formatDate value="${frequencia.data}" pattern="E" />, <fmt:formatDate value="${frequencia.data}" pattern="dd/MM/yyyy" /></strong></h5>
-					 <div class="form-group">
+					<form id="formFrequencia" action="<c:url value="/supervisor/estagiario/${estagiario.id}/turma/${turma.id}/frequencia/pendente"></c:url>" method="POST" class="form-inline">
+				    <div class="form-group col-sm-3">
+				  		 <strong>&nbsp;<span class="label label-warning">Pendente</span>&nbsp;&nbsp;<fmt:formatDate value="${frequencia.data}" pattern="E" />, <fmt:formatDate value="${frequencia.data}" pattern="dd/MM/yyyy" /></strong>
+	  			    </div>
+					<div class="form-group">
 					    <input type="hidden" name="data" class="form-control" value="<fmt:formatDate value="${frequencia.data}" pattern="MM/dd/yyyy" />">
-					  </div>
-					  <div class="form-group">
+					</div>
+					  
+					  <div class="form-group col-sm-3">
 					    <label class="sr-only">Observação</label>
-					    <textarea class="form-control" rows="1" cols="106" name="observacao" placeholder="Observação"></textarea>
+					    <textarea id="elasticText"class="form-control" rows="1" cols="20" name="observacao" placeholder="Observação"></textarea>
 					  </div>
-					  <div class="form-group">
+					  
+					  <div class="form-group col-sm-3">
 					    <label class="sr-only" >Status</label>
-						<select class="form-control" name="statusFrequencia">
+						<select class="form-control" name="statusFrequencia" id="statusFrequencia">
+							<option value="">Selecionar Status</option>
 							<c:forEach var="status" items="${statusFrequencias}">
 								<option value="${status}">${status}</option>
 							</c:forEach>
 						</select>
-					  </div>
-					  <button type="submit" class="btn btn-warning">Lançar</button>
+					</div>
+					 
+					  <button type="submit" class="btn btn-warning"><i class="fa fa-floppy-o"></i> Lançar</button>
 					</form>
 				</c:if>
 
 				<c:if test="${frequencia.statusFrequencia == null and dataFrequencia == today}">
 					<form action="<c:url value="/supervisor/estagiario/${estagiario.id}/turma/${turma.id}/frequencia/pendente"></c:url>" method="POST" class="form-inline">
-				    <h5 class=""><strong>&nbsp;<span class="label label-primary">Presença de Hoje</span>&nbsp;&nbsp;<fmt:formatDate value="${frequencia.data}" pattern="EEEE" />, <fmt:formatDate value="${frequencia.data}" pattern="dd/MM/yyyy" /></strong></h5>
-					 <div class="form-group">
+				   		
+				   		<div class="form-group col-sm-3">
+				   			<strong><span class="label label-primary">Hoje</span>&nbsp;&nbsp;<fmt:formatDate value="${frequencia.data}" pattern="EEEE" />, <fmt:formatDate value="${frequencia.data}" pattern="dd/MM/yyyy" /></strong>
+				   		</div>
+					 <div class="form-group ">
 					    <input type="hidden" name="data" class="form-control" value="<fmt:formatDate value="${frequencia.data}" pattern="MM/dd/yyyy" />">
 					  </div>
-					  <div class="form-group">
+					  <div class="form-group col-sm-3">
 					    <label class="sr-only">Observação</label>
-					    <textarea class="form-control" rows="1" cols="106" name="observacao" placeholder="Observação"></textarea>
+					    <textarea  id="elasticText" class="form-control" rows="1" cols="20" name="observacao" placeholder="Observação"></textarea>
 					  </div>
-					  <div class="form-group">
+					  <div class="form-group col-sm-3">
 					    <label class="sr-only" >Status</label>
 						<select class="form-control" name="statusFrequencia">
 							<c:forEach var="status" items="${statusFrequencias}">
@@ -95,11 +106,12 @@
 							</c:forEach>
 						</select>
 					  </div>
-					  <button type="submit" class="btn btn-primary">Lançar</button>
+					  <button type="submit" class="btn btn-primary"><i class="fa fa-floppy-o"></i> Lançar</button>
 					</form>
 				</c:if>
 			</c:forEach>	
 		</div>
+		
 
 		<div class="col-sm-12">
 			<h3>Frequências</h3>
@@ -133,6 +145,8 @@
 		       </tbody>
 			</table>
 		</div>
+	
+	
 	</div>
 	</div>
 	</div>
@@ -143,6 +157,7 @@
 
 	<script type="text/javascript">
 		$(".menu #turmas").addClass("active");
+		
 	</script>
 
 </body>

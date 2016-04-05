@@ -80,10 +80,7 @@
 							<label for="cpf" class="sr-only">CPF</label>
 							<input type="text" class="form-control" id="cpf" name="cpf" placeholder="CPF" value="${estagiario.pessoa.cpf}" readonly="readonly">
 						</div>
-						<div class="form-group">
-							<label for="senha" class="sr-only">Senha</label>
-							<input type="password" class="form-control" id="senha" name="senha" placeholder="Senha" autofocus="autofocus">
-						</div>
+						
 						<button type="submit" class="btn btn-success">Estou Presente !!!</button>
 					</form>
 				  </div>

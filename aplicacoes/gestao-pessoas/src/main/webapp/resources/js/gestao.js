@@ -183,30 +183,35 @@ $(document).ready(function() {
             },
         }
     });	
-	$('#formFrequencia').validate({
-        rules: {
-        	statusFrequencia:{
-        		required: true,
-        	}
-            
-        },
-        highlight: function(element) {
-            $(element).closest('.form-group').addClass('has-error');
-        },
-        unhighlight: function(element) {
-            $(element).closest('.form-group').removeClass('has-error');
-        },
-        errorElement: 'span',
-        errorClass: 'help-block',
-        errorPlacement: function(error, element) {
-            error.insertAfter(element.parent().children().last());
-        },
-        messages:{
-        	statusFrequencia:{
-                required:"Campo obrigatório",
-            }
-        }
-    });
+	$('.formFrequencia').each(function (){
+		$(this).validate({
+	        rules: {
+	        	statusFrequencia:{
+	        		required: true
+	        	}
+	            
+	        },
+	        highlight: function(element) {
+	            $(element).closest('.form-group').addClass('has-error');
+	        },
+	        unhighlight: function(element) {
+	            $(element).closest('.form-group').removeClass('has-error');
+	        },
+	        errorElement: 'span',
+	        errorClass: 'help-block',
+	        errorPlacement: function(error, element) {
+	            error.insertAfter(element.parent().children().last());
+	            
+	        },
+	        messages:{
+	        	statusFrequencia:{
+	                required:"Campo obrigatório",
+	            }
+	        }
+	    });
+		
+	});
+	
 
 	$( "#form-estagiario" ).validate({
         rules: {

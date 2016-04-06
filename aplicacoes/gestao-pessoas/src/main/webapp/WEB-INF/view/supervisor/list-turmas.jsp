@@ -38,7 +38,7 @@
 				<table id="table-turmas" class="table table-striped table-hover">
 					<thead>
 						<tr class="">
-							<th>Periodo</th>
+							<th>Semestre</th>
 							<th class="hidden">Ano</th>
 							<th class="hidden">Semestre</th>
 							<th>Nome</th>

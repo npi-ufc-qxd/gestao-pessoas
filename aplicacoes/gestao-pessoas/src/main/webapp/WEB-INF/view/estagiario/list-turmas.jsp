@@ -95,7 +95,6 @@
 				{ "orderable": false, "targets": 4 },
 				{ "orderable": false, "targets": 5 },
 				{ "orderable": false, "targets": 6 },
-				{ "orderable": false, "targets": 7 },
 			],
 			"language": ptBR,
 		});

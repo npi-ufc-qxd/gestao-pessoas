@@ -38,6 +38,7 @@
 				<table id="table-turmas" class="table table-striped table-hover">
 					<thead>
 						<tr class="">
+
 							<th>Semestre</th>
 							<th class="hidden">Ano</th>
 							<th class="hidden">Semestre</th>
@@ -51,8 +52,7 @@
 			       <tbody class="text-view-info">
 							<c:forEach var="turma" items="${turmas}">
 								<tr>
-									<td>${turma.ano}.${turma.semestre}</td>
-									<td class="hidden">${turma.ano}</td>
+									<td>${turma.semestre}</td>
 									<td class="hidden">${turma.semestre}</td>
 									<td>${turma.nome}</td>
 									
@@ -102,7 +102,6 @@
 				{ "orderable": false, "targets": 4 },
 				{ "orderable": false, "targets": 5 },
 				{ "orderable": false, "targets": 6 },
-				{ "orderable": false, "targets": 7 },
 			],
 			"language": ptBR,
 		});

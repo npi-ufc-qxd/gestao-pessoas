@@ -53,11 +53,6 @@
 				</div>
 
 				<div class="form-group">
-					<div class="form-item col-sm-3">
-						<label for="ano" class="control-label">*Ano:</label>
-						<form:input id="ano" path="ano" cssClass="form-control" placeholder="Ano" required="required"/>
-						<div class="error-validation"><form:errors path="ano"></form:errors></div>
-					</div>
 	
 					<div class="form-item col-sm-3">
 						<label for="semestre" class="control-label">Semestre:</label>

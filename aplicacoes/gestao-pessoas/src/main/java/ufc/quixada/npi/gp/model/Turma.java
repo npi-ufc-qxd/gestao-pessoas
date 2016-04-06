@@ -33,10 +33,6 @@ public class Turma {
 	private Long id;
 	
 	private String nome;
-	
-	@Column(nullable = false)
-	@NotEmpty(message = "Informe o ano.")
-	private String ano;
 
 	@Column(nullable = false)
 	@NotEmpty(message = "Informe o semestre.")
@@ -142,15 +138,7 @@ public class Turma {
 	public void setFrequencias(List<Frequencia> frequencias) {
 		this.frequencias = frequencias;
 	}
-
-	public String getAno() {
-		return ano;
-	}
-
-	public void setAno(String ano) {
-		this.ano = ano;
-	}
-
+	
 	public String getSemestre() {
 		return semestre;
 	}

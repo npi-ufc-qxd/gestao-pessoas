@@ -60,7 +60,7 @@
 				<div class="form-group">
 				
 					<div class="form-item col-sm-4">
-						<label class="text-view-info"><strong>Matricula: </strong></label><label class="text-view-info">${estagiario.matricula}</label>
+						<label class="text-view-info"><strong>Matrícula: </strong></label><label class="text-view-info">${estagiario.matricula}</label>
 					</div>
 					
 					<div class="form-item col-sm-4">
@@ -80,15 +80,11 @@
 				<div class="form-group">
 				
 					<div class="form-item col-sm-12">
-						<label class="text-view-info"><strong>Conta Redmine: </label><label class="text-view-info">${estagiario.contaRedmine}</label>
+						<label class="text-view-info"><strong>Usuário github: </label><label class="text-view-info">${estagiario.usuarioGithub}</label>
 					</div>
 					
 					<div class="form-item col-sm-12">
-						<label class="text-view-info"><strong>Conta github: </label><label class="text-view-info">${estagiario.contaGithub}</label>
-					</div>
-					
-					<div class="form-item col-sm-12">
-						<label class="text-view-info"><strong>Conta Hangout: </label><label class="text-view-info">${estagiario.contaHangout}</label>		
+						<label class="text-view-info"><strong>E-mail: </label><label class="text-view-info">${estagiario.email}</label>		
 					</div>
 					
 				</div>

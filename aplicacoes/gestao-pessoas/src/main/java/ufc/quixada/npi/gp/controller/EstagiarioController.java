@@ -257,9 +257,7 @@ public class EstagiarioController {
 	public String cadastrarFrequencia(HttpSession session, @ModelAttribute("idTurma") Long idTurma, RedirectAttributes redirectAttributes) {
 		Pessoa pessoa = getUsuarioLogado(session);
 		Estagiario estagiario = estagiarioService.getEstagiarioByPessoaId(pessoa.getId());
-		
-		//boolean estagiarioValido = usuarioService.autentica(pessoa.getCpf(), senha);
-		
+						
 		Turma turma = turmaService.getTurmaByIdAndEstagiarioId(idTurma, estagiario.getId());
 		
 		boolean presencaLiberada = false;

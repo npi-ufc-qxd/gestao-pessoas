@@ -74,7 +74,8 @@ public class SupervisorController {
 	public String paginaInicial(Model Model, HttpSession session) {
 
 		String cpf = SecurityContextHolder.getContext().getAuthentication().getName();
-
+		Pessoa usuarioLogado = getUsuarioLogado(session);
+		
 		if (!pessoaService.isPessoa(cpf)) {
 
 			Papel papel = papelService.getPapel("ROLE_SUPERVISOR");

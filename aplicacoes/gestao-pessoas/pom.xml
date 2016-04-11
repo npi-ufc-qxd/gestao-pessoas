@@ -32,7 +32,7 @@
 		<hibernate.version>4.3.1.Final</hibernate.version>
 
 		<!-- Database access -->
-		<postgresql.version>9.1-901.jdbc4</postgresql.version>
+		<postgresql.version>9.4-1204-jdbc42</postgresql.version>
 
 		<!-- Logging -->
 		<slf4j-log4j12.version>1.7.6</slf4j-log4j12.version>
@@ -187,7 +187,7 @@
 
 		<!-- Databases - Uses POSTGRESQL by default -->
 		<dependency>
-			<groupId>postgresql</groupId>
+			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
 			<version>${postgresql.version}</version>
 		</dependency>
@@ -271,7 +271,7 @@
 		<dependency>
 			<groupId>javax.mail</groupId>
 			<artifactId>mail</artifactId>
-			<version>1.4.3</version>
+			<version>1.4.7</version>
 		</dependency>
 
 		<!-- Dependência ObjectLab Kit -->

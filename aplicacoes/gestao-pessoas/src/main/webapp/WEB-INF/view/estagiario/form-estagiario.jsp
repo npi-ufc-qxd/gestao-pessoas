@@ -103,27 +103,20 @@
 				<h4 class="secao-form-h4">Contas</h4>
 				
 				<div class="form-group">
+		
 					<div class="form-item col-sm-4">
-						<label for="contaRedmine" class=" control-label">Conta Redmine:</label>
+						<label for="usuarioGithub" class="control-label">Usuario github:</label>
 						<div class="input-group">
 							<span class="input-group-addon">@</span>
-							<form:input id="contaRedmine" path="contaRedmine" class="form-control" placeholder="Conta Redmine" aria-describedby="sizing-addon2"></form:input>
+							<form:input id="usuarioGithub" path="usuarioGithub" class="form-control" placeholder="Usuario github"></form:input>
 						</div>
 					</div>
 		
 					<div class="form-item col-sm-4">
-						<label for="contaGithub" class="control-label">Conta github:</label>
+						<label for="email" class="control-label">E-mail:</label>
 						<div class="input-group">
 							<span class="input-group-addon">@</span>
-							<form:input id="contaGithub" path="contaGithub" class="form-control" placeholder="Conta github"></form:input>
-						</div>
-					</div>
-		
-					<div class="form-item col-sm-4">
-						<label for="contaHangout" class="control-label">Conta Hangout:</label>
-						<div class="input-group">
-							<span class="input-group-addon">@</span>
-							<form:input id="contaHangout" path="contaHangout" type="email" class="form-control" placeholder="Conta Hangout" value="${empty estagiario.contaHangout? usuario.email : estagiario.contaHangout}"></form:input>
+							<form:input id="email" path="email" type="email" class="form-control" placeholder="E-mail" value="${empty estagiario.email? usuario.email : estagiario.email}"></form:input>
 						</div>
 		
 					</div>

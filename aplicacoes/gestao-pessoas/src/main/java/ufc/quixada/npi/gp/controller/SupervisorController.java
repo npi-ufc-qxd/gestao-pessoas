@@ -111,17 +111,22 @@ public class SupervisorController {
 		Frequencia frequencia = frequenciaService.getFrequenciaByDataByTurmaByEstagiario(data, idTurma, idEstagiario);
 		
 		if (frequencia == null) {
-			frequencia = new Frequencia();
-			frequencia.setTurma(turma);
-			frequencia.setEstagiario(estagiario);
-			frequencia.setData(data);
-			frequencia.setHorario(new Date());
-			frequencia.setTipoFrequencia(TipoFrequencia.NORMAL);
-			frequencia.setStatusFrequencia(statusFrequencia);
-			frequencia.setObservacao(observacao);
-
-			frequenciaService.save(frequencia);
-			redirectAttributes.addFlashAttribute("sucesso", "Frequência lançada com sucesso");
+			
+			if(statusFrequencia == null){
+				redirectAttributes.addFlashAttribute("error", "Escolha um Status Válido");
+			}else{
+				frequencia = new Frequencia();
+				frequencia.setTurma(turma);
+				frequencia.setEstagiario(estagiario);
+				frequencia.setData(data);
+				frequencia.setHorario(new Date());
+				frequencia.setTipoFrequencia(TipoFrequencia.NORMAL);
+				frequencia.setStatusFrequencia(statusFrequencia);
+				frequencia.setObservacao(observacao);
+				frequenciaService.save(frequencia);
+				redirectAttributes.addFlashAttribute("sucesso", "Frequência lançada com sucesso");
+			}
+			
 		} else{
 			redirectAttributes.addFlashAttribute("error", "Não é possivel lançar a Frequência para esta data");
 		}

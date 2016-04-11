@@ -25,22 +25,6 @@
 			<div class="pull-right">
 				<a title="Voltar" class="btn btn-primary back"><span class="fa fa-arrow-circle-o-left"></span> Voltar</a>
 			</div>
-
-		    <div class="btn-group">
-				 <c:if test="${empty turma}">
-				 	<button type="button" data-toggle="dropdown" class="btn btn-default dropdown-toggle col-sm-12">Selecione a Turma&nbsp;&nbsp;<span class="caret"></span></button>
-				 </c:if>
-				 <c:if test="${not empty turma}">
-				 	<button type="button" data-toggle="dropdown" class="btn btn-default dropdown-toggle col-sm-12">${turma.ano}.${turma.semestre} - ${turma.nome}&nbsp;&nbsp;<span class="caret"></span></button>
-				 </c:if>
-		         
-		         <ul class="dropdown-menu">
-	                <li><a href="<c:url value="/estagiario/minha-frequencia" />">Selecione a Turma&nbsp;&nbsp;</a></li>
-		         	<c:forEach var="turma" items="${turmas}">
-		              <li><a href="<c:url value="/estagiario/minha-frequencia/turma/${turma.id}" />">${turma.ano}.${turma.semestre} - ${turma.nome}</a></li>
-					</c:forEach>
-		         </ul>
-		     </div>
 		</div>
 
 		<c:if test="${empty turmas}">
@@ -87,13 +71,13 @@
 				</div>
 			</c:if>
 	
-<!-- 			<div class="form-group"> -->
-<%-- 				<label class="col-sm-2 text-view-info"><strong>Dias Trabalhados: </strong></label><label class="col-sm-10 text-view-info">${dadosConsolidados.diasTrabalhados}</label> --%>
+ 			<div class="form-group">
+ 				<label class="col-sm-2 text-view-info"><strong>Dias Trabalhados: </strong></label><label class="col-sm-10 text-view-info">${dadosConsolidados.diasTrabalhados}</label>
 		
-<%-- 				<label class="col-sm-2 text-view-info"><strong>Frequência (%): </strong></label><label class="col-sm-10 text-view-info">${dadosConsolidados.porcentagemFrequencia}</label> --%>
+ 				<label class="col-sm-2 text-view-info"><strong>Frequência (%): </strong></label><label class="col-sm-10 text-view-info">${dadosConsolidados.porcentagemFrequencia}</label>
 		
-<%-- 				<label class="col-sm-2 text-view-info"><strong>Faltas: </strong></label><label class="col-sm-10 text-view-info">${dadosConsolidados.faltas}</label> --%>
-<!-- 			</div> -->
+ 				<label class="col-sm-2 text-view-info"><strong>Faltas: </strong></label><label class="col-sm-10 text-view-info">${dadosConsolidados.faltas}</label>
+ 			</div>
 	
 			<c:if test="${not empty message}"><div class="alert alert-info msg"><i class="fa fa-info-circle"> </i> ${message}</div></c:if>
 	

@@ -64,6 +64,7 @@
 									<td><fmt:formatDate value="${turma.termino}" pattern="dd/MM/yyyy" /></td>
 
 									<td align="right">
+										<a href="<c:url value="/estagiario/minha-frequencia/turma/${turma.id}" />" title="Minha Frequência" class="btn btn-info informacao"><span class="fa fa-calendar-check-o"></span></a>
 										<a href="<c:url value="/estagiario/turma/${turma.id}" />" title="Informações" class="btn btn-info informacao"><span class="fa fa-info"></span></a>
 									</td>
 							</tr>
@@ -96,7 +97,6 @@
 				{ "orderable": false, "targets": 4 },
 				{ "orderable": false, "targets": 5 },
 				{ "orderable": false, "targets": 6 },
-				{ "orderable": false, "targets": 7 },
 			],
 			"language": ptBR,
 		});

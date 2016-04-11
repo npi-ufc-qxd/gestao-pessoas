@@ -307,15 +307,21 @@ public class TurmaController {
 
 		Estagiario estagiario = estagiarioService.find(Estagiario.class, idEstagiario);
 		Turma turma = turmaService.find(Turma.class, idTurma);
+		
 		List<Frequencia> frequenciaCompleta = new ArrayList<Frequencia>();
-
+		List<Frequencia> frequenciaPendentes =  frequenciaService.frequenciaPendente(turma, estagiario);
+		
 		frequenciaCompleta = frequenciaService.gerarFrequencia(turma, estagiario);
 		DadoConsolidado dadosConsolidados = frequenciaService.calcularDadosConsolidados(frequenciaCompleta);
-
+		
+		System.out.println("Pendentes: " + frequenciaPendentes.size());
+		
 		model.addAttribute("estagiario", estagiario);
 		model.addAttribute("turma", turma);
 		model.addAttribute("frequencias", frequenciaCompleta);
-
+		
+		model.addAttribute("pendentes", frequenciaPendentes.size());
+		
 		model.addAttribute("dadosConsolidados", dadosConsolidados);
 		model.addAttribute("statusFrequencias", StatusFrequencia.values());
 		model.addAttribute("dataAtual", new Date());

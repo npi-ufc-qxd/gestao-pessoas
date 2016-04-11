@@ -56,10 +56,12 @@
 	
 					<div class="form-item col-sm-3">
 						<label for="semestre" class="control-label">Semestre:</label>
-						<form:select id="semestre" path="semestre" cssClass="selectpicker" data-width="100%">
+						<form:input id="semestre" path="semestre" cssClass="form-control" placeholder="Semestre da Turma" required="required" />
+						<!--<form:select id="semestre" path="semestre" cssClass="selectpicker" data-width="100%">
 							<form:option value="1"></form:option>
 							<form:option value="2"></form:option>
 						</form:select>
+						-->
 						<div class="error-validation"><form:errors path="semestre"></form:errors></div>
 					</div>
 
@@ -92,6 +94,8 @@
 	
     <script type="text/javascript">
 		$('.menu #turmas').addClass('active');
+		
+		
 	</script>		
 	
 	

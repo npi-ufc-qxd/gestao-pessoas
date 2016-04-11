@@ -43,7 +43,10 @@ $(document).ready(function() {
 	$(".cep").mask("99.999-999");
 	$(".matricula").mask("9999999");
 	$(".telefone").mask("(99) 9 9999-9999");
-
+	
+	$.mask.definitions['s'] = '[1-2]';
+	$('#semestre').mask("20**.s",{placeholder: " "});
+	
 	$('#form-projeto').validate({
         rules: {
             

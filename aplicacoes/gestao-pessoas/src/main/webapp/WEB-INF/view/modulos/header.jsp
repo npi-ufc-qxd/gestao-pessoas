@@ -42,7 +42,7 @@
 			<ul class="nav navbar-right navbar-nav">
 				<li class="dropdown">
 					
-					<a href="#" class="dropdown-toggle" data-toggle="dropdown"><b><strong> ${usuarioLogado.nome}&nbsp </strong></b> <i class="glyphicon glyphicon-user"></i><i class="glyphicon glyphicon-chevron-down"></i></a>
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown"><b><strong> ${usuario.nome}&nbsp </strong></b> <i class="glyphicon glyphicon-user"></i><i class="glyphicon glyphicon-chevron-down"></i></a>
 					<ul class="dropdown-menu">
 						
 						<sec:authorize access="hasAnyRole('ROLE_ESTAGIARIO_NPI')">

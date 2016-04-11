@@ -70,7 +70,7 @@ public class EstagiarioController {
 	@RequestMapping(value = {"/",""}, method = RequestMethod.GET)
 	public String paginaInicial(Model model, HttpSession session) {
 		Pessoa pessoa = getUsuarioLogado(session);
-		session.setAttribute("usuarioLogado", pessoa);
+		
 		if(!estagiarioService.possuiTurmaAtiva(pessoa.getCpf())){
 			model.addAttribute("possuiTurma", false);
 		}

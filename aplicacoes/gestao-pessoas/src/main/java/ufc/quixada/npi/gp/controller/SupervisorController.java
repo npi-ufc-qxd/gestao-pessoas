@@ -75,7 +75,6 @@ public class SupervisorController {
 
 		String cpf = SecurityContextHolder.getContext().getAuthentication().getName();
 		Pessoa usuarioLogado = getUsuarioLogado(session);
-		session.setAttribute("usuarioLogado", usuarioLogado);
 		
 		if (!pessoaService.isPessoa(cpf)) {
 

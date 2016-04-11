@@ -71,8 +71,6 @@ public class EstagiarioController {
 	public String paginaInicial(Model model, HttpSession session) {
 		Pessoa pessoa = getUsuarioLogado(session);
 		session.setAttribute("usuarioLogado", pessoa);
-		System.out.println(pessoa.getNome());
-		
 		if(!estagiarioService.possuiTurmaAtiva(pessoa.getCpf())){
 			model.addAttribute("possuiTurma", false);
 		}

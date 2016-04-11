@@ -314,7 +314,6 @@ function ativarEditable() {
     	title : 'Observaçao',
     	type : 'textarea',
         emptytext : "faça sua observação",
-        mode : 'inline',
         placement: 'right',
     });
 

@@ -40,7 +40,6 @@
 						<tr class="">
 
 							<th>Semestre</th>
-							<th class="hidden">Ano</th>
 							<th class="hidden">Semestre</th>
 							<th>Nome</th>
 							<th>Status</th>

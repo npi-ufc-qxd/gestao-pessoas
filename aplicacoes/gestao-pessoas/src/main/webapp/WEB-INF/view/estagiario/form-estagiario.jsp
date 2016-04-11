@@ -57,7 +57,7 @@
 				<div class="form-group">
 					<div class="form-item col-sm-12">
 						<label for="nomeMae" class="control-label">*Nome da Mãe:</label>
-						<form:input id="nomeMae" path="nomeMae" cssClass="form-control" placeholder="Nome Mãe" required="required" />
+						<form:input id="nomeMae" path="nomeMae" cssClass="form-control caractere" placeholder="Nome Mãe" required="required"/>
 						<div class="error-validation"><form:errors path="nomeMae"></form:errors></div>
 					</div>
 				</div>
@@ -129,7 +129,7 @@
 				<div class="form-group">
 					<div class="form-item col-sm-12">
 						<label for="endereco" class="control-label">*Endereço:</label>
-						<form:input id="endereco" path="endereco" cssClass="form-control" placeholder="Rua, Nº, Bairro" required="required" />
+						<form:input id="endereco" path="endereco" cssClass="form-control caractere" placeholder="Rua, Nº, Bairro" required="required" />
 						<div class="error-validation"><form:errors path="endereco"></form:errors></div>
 					</div>
 				</div>
@@ -137,7 +137,7 @@
 				<div class="form-group">
 					<div class="form-item col-sm-4">
 						<label for="cidade" class="control-label">*Cidade:</label>
-						<form:input id="cidade" path="cidade" cssClass="form-control" placeholder="Cidade" required="required" />
+						<form:input id="cidade" path="cidade" cssClass="form-control caractere" placeholder="Cidade" required="required" />
 						<div class="error-validation"><form:errors path="cidade"></form:errors></div>
 					</div>
 		

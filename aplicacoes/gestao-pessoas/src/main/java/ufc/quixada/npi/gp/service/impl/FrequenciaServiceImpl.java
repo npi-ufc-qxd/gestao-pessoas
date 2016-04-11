@@ -350,5 +350,17 @@ public class FrequenciaServiceImpl extends GenericServiceImpl<Frequencia> implem
 	public Frequencia getFrequenciaByDataByTurmaByEstagiario(Date data, Long turma, Long estagiario) {
 		return frequenciaRepository.findFrequenciaByDataByTurmaByEstagiario(data, turma, estagiario);
 	}
-
+	
+	
+	public List<Frequencia> frequenciaPendente(Turma turma, Estagiario estagiario){
+		List<Frequencia> frequenciaTotal = gerarFrequencia(turma, estagiario);
+		
+		List<Frequencia> frequenciaPendentes = new ArrayList<Frequencia>() ;
+		for (Frequencia frequencia : frequenciaTotal) {
+			if(frequencia.getStatusFrequencia() == null){
+				frequenciaPendentes.add(frequencia);
+			}
+		}
+		return frequenciaPendentes;
+	}
 }

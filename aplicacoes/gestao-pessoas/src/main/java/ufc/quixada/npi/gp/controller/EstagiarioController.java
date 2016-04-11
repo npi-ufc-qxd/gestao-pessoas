@@ -254,12 +254,10 @@ public class EstagiarioController {
 	}
 
 	@RequestMapping(value = "/minha-frequencia/turma/{idTurma}", method = RequestMethod.POST)
-	public String cadastrarFrequencia(HttpSession session, @RequestParam("senha") String senha, @ModelAttribute("idTurma") Long idTurma, RedirectAttributes redirectAttributes) {
+	public String cadastrarFrequencia(HttpSession session, @ModelAttribute("idTurma") Long idTurma, RedirectAttributes redirectAttributes) {
 		Pessoa pessoa = getUsuarioLogado(session);
 		Estagiario estagiario = estagiarioService.getEstagiarioByPessoaId(pessoa.getId());
-		
-		boolean estagiarioValido = usuarioService.autentica(pessoa.getCpf(), senha);
-		
+						
 		Turma turma = turmaService.getTurmaByIdAndEstagiarioId(idTurma, estagiario.getId());
 		
 		boolean presencaLiberada = false;
@@ -269,7 +267,7 @@ public class EstagiarioController {
 
 		boolean frequenciaNaoRealizada = frequenciaService.getFrequenciaDeHojeByEstagiarioId(estagiario.getId()) == null ? true : false;
 
-		if(estagiarioValido && presencaLiberada && frequenciaNaoRealizada){
+		if(presencaLiberada && frequenciaNaoRealizada){
 			Frequencia frequencia = new Frequencia();
 
 			frequencia.setEstagiario(estagiario);

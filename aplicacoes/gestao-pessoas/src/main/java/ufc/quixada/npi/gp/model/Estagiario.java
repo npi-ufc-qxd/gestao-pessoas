@@ -62,10 +62,9 @@ public class Estagiario {
 	@NotEmpty(message = "Campo obrigatório.")
 	private String telefone;
 
-	private String contaRedmine;
-	private String contaGithub;
+	private String usuarioGithub;
 	@Email(message = "Informe um e-mail valido")
-	private String contaHangout;
+	private String email;
 
 	@NotNull(message = "Campo obrigatório.")
 	@NotEmpty(message = "Campo obrigatório.")
@@ -116,8 +115,8 @@ public class Estagiario {
 	public Estagiario(Long id, String nomeCompleto, Date dataNascimento,
 			String nomeMae, String endereco, String cep, String cidade,
 			Estado uf, String telefone, Curso curso, Integer semestre,
-			int matricula, String contaRedmine, String contaGithub,
-			String contaHangout, Pessoa pessoa) {
+			int matricula, String usuarioGithub,
+			String email, Pessoa pessoa) {
 		super();
 		this.id = id;
 		this.nomeCompleto = nomeCompleto;
@@ -131,9 +130,8 @@ public class Estagiario {
 		this.curso = curso;
 		this.semestre = semestre;
 		this.matricula = matricula;
-		this.contaRedmine = contaRedmine;
-		this.contaGithub = contaGithub;
-		this.contaHangout = contaHangout;
+		this.usuarioGithub = usuarioGithub;
+		this.email = email;
 		this.pessoa = pessoa;
 	}
 
@@ -241,28 +239,20 @@ public class Estagiario {
 		this.pessoa = pessoa;
 	}
 
-	public String getContaRedmine() {
-		return contaRedmine;
+	public String getUsuarioGithub() {
+		return usuarioGithub;
 	}
 
-	public void setContaRedmine(String contaRedmine) {
-		this.contaRedmine = contaRedmine;
+	public void setUsuarioGithub(String usuarioGithub) {
+		this.usuarioGithub = usuarioGithub;
 	}
 
-	public String getContaGithub() {
-		return contaGithub;
+	public String getEmail() {
+		return email;
 	}
 
-	public void setContaGithub(String contaGithub) {
-		this.contaGithub = contaGithub;
-	}
-
-	public String getContaHangout() {
-		return contaHangout;
-	}
-
-	public void setContaHangout(String contaHangout) {
-		this.contaHangout = contaHangout;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 }

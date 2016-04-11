@@ -52,7 +52,7 @@
 
 						<div class="form-group">
 							<label class="col-sm-1 text-view-info"><strong>Semestre:
-							</strong></label><label class="col-sm-3 text-view-info">${turma.ano}.${turma.semestre}</label>
+							</strong></label><label class="col-sm-3 text-view-info">${turma.semestre}</label>
 
 							<label class="col-sm-1 text-view-info"><strong>Periodo:
 							</strong></label>

@@ -45,7 +45,7 @@
 					<div class="form-item col-sm-12">
 						<fmt:formatDate var="inicio" value="${periodo.inicio}" pattern="dd/MM/yyyy" />
 						<fmt:formatDate var="termino" value="${periodo.termino}" pattern="dd/MM/yyyy" />
-						<label class="control-label text-view-info"><strong>Período</strong>: ${periodo.ano}.${periodo.semestre}, de ${inicio} a ${termino}</label>
+						<label class="control-label text-view-info"><strong>Período</strong>: ${periodo.semestre}, de ${inicio} a ${termino}</label>
 					</div>
 				</div>
 

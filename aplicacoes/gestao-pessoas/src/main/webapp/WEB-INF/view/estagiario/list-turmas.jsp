@@ -34,7 +34,8 @@
 				<table id="table-turmas" class="table table-striped table-hover">
 					<thead>
 						<tr class="">
-							<th>Periodo</th>
+
+							<th>Semestre</th>
 							<th class="hidden">Ano</th>
 							<th class="hidden">Semestre</th>
 							<th>Nome</th>
@@ -47,8 +48,7 @@
 			       <tbody class="text-view-info">
 							<c:forEach var="turma" items="${turmas}">
 								<tr>
-									<td>${turma.ano}.${turma.semestre}</td>
-									<td class="hidden">${turma.ano}</td>
+									<td>${turma.semestre}</td>
 									<td class="hidden">${turma.semestre}</td>
 									<td>${turma.nome}</td>
 									
@@ -64,6 +64,7 @@
 									<td><fmt:formatDate value="${turma.termino}" pattern="dd/MM/yyyy" /></td>
 
 									<td align="right">
+										<a href="<c:url value="/estagiario/minha-frequencia/turma/${turma.id}" />" title="Minha Frequência" class="btn btn-info informacao"><span class="fa fa-calendar-check-o"></span></a>
 										<a href="<c:url value="/estagiario/turma/${turma.id}" />" title="Informações" class="btn btn-info informacao"><span class="fa fa-info"></span></a>
 									</td>
 							</tr>
@@ -96,7 +97,6 @@
 				{ "orderable": false, "targets": 4 },
 				{ "orderable": false, "targets": 5 },
 				{ "orderable": false, "targets": 6 },
-				{ "orderable": false, "targets": 7 },
 			],
 			"language": ptBR,
 		});

@@ -51,9 +51,9 @@
 					<br>
 
 					<div class="form-group">
-						<label class="col-sm-2 text-view-info"><strong>Turma:
+						<label class="col-sm-2 text-view-info"><strong>Turma
 						</strong></label><label class="col-sm-2 text-view-info">${turma.nome}</label> <label
-							class="col-sm-2 text-view-info"><strong>Periodo:
+							class="col-sm-2 text-view-info"><strong>Período
 						</strong></label><label class="col-sm-3 text-view-info">de <fmt:formatDate
 								value="${turma.inicio}" pattern="dd/MM/yyyy" /> a <fmt:formatDate
 								value="${turma.termino}" pattern="dd/MM/yyyy" /></label> <label
@@ -68,7 +68,7 @@
 						<label class="col-sm-2 text-view-info"><strong>Frequência
 								(%): </strong></label><label class="col-sm-2 text-view-info">${dadosConsolidados.porcentagemFrequencia}</label>
 
-						<label class="col-sm-2 text-view-info"><strong>Faltas:
+						<label class="col-sm-2 text-view-info"><strong>Faltas
 						</strong></label><label class="col-sm-2 text-view-info">${dadosConsolidados.faltas}</label>
 
 					</div>
@@ -209,5 +209,4 @@
 		$(".menu #turmas").addClass("active");
 		
 	</script>
-
 </body>

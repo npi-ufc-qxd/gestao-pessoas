@@ -36,12 +36,8 @@
 						<tr class="">
 
 							<th>Semestre</th>
-							<th class="hidden">Ano</th>
-							<th class="hidden">Semestre</th>
 							<th>Nome</th>
 							<th>Status</th>
-							<th>Início</th>
-							<th>Término</th>
 							<th></th>
 			           </tr>
 			       </thead>
@@ -49,7 +45,6 @@
 							<c:forEach var="turma" items="${turmas}">
 								<tr>
 									<td>${turma.semestre}</td>
-									<td class="hidden">${turma.semestre}</td>
 									<td>${turma.nome}</td>
 									
 									<c:if test="${turma.statusTurma eq 'FECHADA'}">
@@ -58,10 +53,6 @@
 									<c:if test="${turma.statusTurma eq 'ABERTA'}">
 										<td><span class="label label-info">${turma.statusTurma}</span></td>
 									</c:if>
-
-									<td><fmt:formatDate value="${turma.inicio}" pattern="dd/MM/yyyy" /></td>
-
-									<td><fmt:formatDate value="${turma.termino}" pattern="dd/MM/yyyy" /></td>
 
 									<td align="right">
 										<a href="<c:url value="/estagiario/minha-frequencia/turma/${turma.id}" />" title="Minha Frequência" class="btn btn-info informacao"><span class="fa fa-calendar-check-o"></span></a>
@@ -89,14 +80,12 @@
 
 		$('#table-turmas').DataTable({
 			 "pageLength": 10,
-			 "order": [[ 1, 'asc' ], [ 2, 'asc' ]],
+			 "order": [[ 0, 'asc' ]],
 			 "columnDefs": [
-				{ "order": [[ 1, 'asc' ], [ 2, 'asc' ]],    "targets": [0, 'asc'] },
+				{ "order": [[ 0, 'asc' ]] },    
+				{ "orderable": false, "targets": 1 },
 				{ "orderable": false, "targets": 2 },
 				{ "orderable": false, "targets": 3 },
-				{ "orderable": false, "targets": 4 },
-				{ "orderable": false, "targets": 5 },
-				{ "orderable": false, "targets": 6 },
 			],
 			"language": ptBR,
 		});

@@ -43,7 +43,10 @@ $(document).ready(function() {
 	$(".cep").mask("99.999-999");
 	$(".matricula").mask("9999999");
 	$(".telefone").mask("(99) 9 9999-9999");
-
+	
+	$.mask.definitions['s'] = '[1-2]';
+	$('#semestre').mask("20**.s",{placeholder: " "});
+	
 	$('#form-projeto').validate({
         rules: {
             
@@ -183,6 +186,35 @@ $(document).ready(function() {
             },
         }
     });	
+	$('.formFrequencia').each(function (){
+		$(this).validate({
+	        rules: {
+	        	statusFrequencia:{
+	        		required: true
+	        	}
+	            
+	        },
+	        highlight: function(element) {
+	            $(element).closest('.form-group').addClass('has-error');
+	        },
+	        unhighlight: function(element) {
+	            $(element).closest('.form-group').removeClass('has-error');
+	        },
+	        errorElement: 'span',
+	        errorClass: 'help-block',
+	        errorPlacement: function(error, element) {
+	            error.insertAfter(element.parent().children().last());
+	            
+	        },
+	        messages:{
+	        	statusFrequencia:{
+	                required:"Campo obrigatório",
+	            }
+	        }
+	    });
+		
+	});
+	
 
 	$( "#form-estagiario" ).validate({
         rules: {

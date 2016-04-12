@@ -31,4 +31,6 @@ public interface FrequenciaService extends GenericService<Frequencia>{
 	
 	List<Estagiario> getEstagiariosSemFrequencia(Date data, Long idTurma);
 	
+	List<Frequencia> frequenciaPendente(Turma turma, Estagiario estagiario);
+	
 }

@@ -309,6 +309,19 @@ $(document).ready(function() {
 		orientation: "top auto",
 	});
 	
+	$(".caractere").bind('keypress', function (event) 
+			{
+			   var regex = new RegExp("^[ 0-9a-zA-Z-.ªº\b\0]+$");
+			   var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+			   
+			   if (!regex.test(key)) 
+			   {
+			      event.preventDefault();
+			      return false;
+			   }
+			});
+	
+	
 });
 
 function ativarEditable() {

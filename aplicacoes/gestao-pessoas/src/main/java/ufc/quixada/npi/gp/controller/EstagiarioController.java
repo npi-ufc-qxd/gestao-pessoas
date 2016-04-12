@@ -60,17 +60,24 @@ public class EstagiarioController {
 
 	@Inject
 	private FrequenciaService frequenciaService;
-	
+
 	@Inject
 	private UsuarioService usuarioService;
-	
+
 	@Inject
 	private SubmissaoService submissaoService;
 
 	@RequestMapping(value = {"/",""}, method = RequestMethod.GET)
 	public String paginaInicial(Model model, HttpSession session) {
 		Pessoa pessoa = getUsuarioLogado(session);
-		
+
+		Estagiario estagiario = estagiarioService.getEstagiarioByPessoaId(pessoa.getId());
+
+		List<Turma> turmasInicial = turmaService.getTurmasByEstagiarioId(estagiario.getId());
+
+		model.addAttribute("turmasInicial", turmasInicial);
+
+
 		if(!estagiarioService.possuiTurmaAtiva(pessoa.getCpf())){
 			model.addAttribute("possuiTurma", false);
 		}
@@ -83,14 +90,14 @@ public class EstagiarioController {
 		String cpf = SecurityContextHolder.getContext().getAuthentication().getName();
 
 		Estagiario estagiario = estagiarioService.getEstagiarioByPessoaCpf(cpf);
-		
+
 		if (estagiario == null) {
 			return "redirect:/home/meu-cadastro";
 		} else {
 			model.addAttribute("action", "editar");
 			model.addAttribute("estagiario", estagiario);
 		}
-		
+
 		return PAGINA_FORM_ESTAGIARIO;
 	}
 
@@ -115,18 +122,18 @@ public class EstagiarioController {
 
 		estagiario.setPessoa(pessoa);
 		estagiarioService.update(estagiario);
-		
+
 		getUsuarioLogado(session);
 
 		redirect.addFlashAttribute("info", "Parabéns, " + pessoa.getNome() + ", seu cadastro foi realizado com sucesso!");
 
 		return REDIRECT_PAGINA_INICIAL_ESTAGIARIO;
 	}
-	
+
 	@RequestMapping(value = "/minha-frequencia", method = RequestMethod.GET)
 	public String minhaFrequecia(HttpSession session, Model model) {
 		Pessoa pessoa = getUsuarioLogado(session);
-		
+
 		Estagiario estagiario = estagiarioService.getEstagiarioByPessoaId(pessoa.getId());
 
 		List<Turma> turmas = turmaService.getTurmasByEstagiarioId(estagiario.getId());
@@ -135,105 +142,106 @@ public class EstagiarioController {
 
 		return PAGINA_MINHA_PRESENCA;
 	}
-	
+
 	@RequestMapping(value = "/turmas", method = RequestMethod.GET)
 	public String listarTurmas(Model model, HttpSession session) {
 		Pessoa pessoa = getUsuarioLogado(session);
-		
+
 		Estagiario estagiario = estagiarioService.getEstagiarioByPessoaId(pessoa.getId());
 
-		List<Turma> turmas = turmaService.getTurmasByEstagiarioId(estagiario.getId());
-		
-		model.addAttribute("turmas", turmas);
+		List<Turma> turmasInicial = turmaService.getTurmasByEstagiarioId(estagiario.getId());
+
+		model.addAttribute("turmas", turmasInicial);
 
 		return "estagiario/list-turmas";
 	}
-	
+
+
 	@RequestMapping(value = "/turma/{idTurma}", method = RequestMethod.GET)
 	public String detalhesTurma(@PathVariable("idTurma") Long idTurma, Model model, HttpSession session) {
 		Pessoa pessoa = getUsuarioLogado(session);
-		
+
 		Estagiario estagiario = estagiarioService.getEstagiarioByPessoaId(pessoa.getId());
-		
+
 		List<Submissao> submissoes = submissaoService.getSubmissoesByEstagiarioIdAndIdTurma(estagiario.getId(), idTurma);
 
 		model.addAttribute("submissoes", submissoes);
 		model.addAttribute("estagiarioNome", estagiario.getNomeCompleto());
 		model.addAttribute("turma", turmaService.getTurmaByIdAndEstagiarioId(idTurma, estagiario.getId()));
-		
+
 		return "estagiario/info-turma";
 	}
-	
+
 	@RequestMapping(value = "/minha-documentacao/turma/{idTurma}", method = RequestMethod.POST)
 	public String minhaDocumentacao(@Valid @RequestParam("anexo") MultipartFile anexo, HttpSession session, Model model, @RequestParam("tipo") Tipo tipo, @ModelAttribute("idTurma") Long idTurma, RedirectAttributes redirectAttributes ){
 		Pessoa pessoa = getUsuarioLogado(session);
 		Estagiario estagiario = estagiarioService.getEstagiarioByPessoaId(pessoa.getId());
 		Turma turma = turmaService.getTurmaByIdAndEstagiarioId(idTurma, estagiario.getId());
-		
+
 		Submissao submissao = submissaoService.getSubmissaoByEstagiarioIdAndIdTurmaAndTipo(estagiario.getId(), idTurma, tipo);
-		
+
 		try {
 			if(!anexo.getContentType().equals("application/pdf")){
 				redirectAttributes.addFlashAttribute("error", "Escolha um arquivo pdf.");
 				return "redirect:/estagiario/turma/" + idTurma;
 			}
 			if(submissao == null && anexo.getBytes() != null && anexo.getBytes().length != 0 && anexo.getContentType().equals("application/pdf")){
-					Documento documento = new Documento();
-					documento.setNome(tipo+"_"+estagiario.getNomeCompleto().toUpperCase());
-					documento.setExtensao(anexo.getContentType());
-					documento.setArquivo(anexo.getBytes());
-					
-					submissao = new Submissao();
-					submissao.setData(new Date());
-					submissao.setHorario(new Date());
-					submissao.setStatusEntrega(StatusEntrega.ENVIADO);
-					submissao.setTipo(tipo);
-					submissao.setEstagiario(estagiario);
-					submissao.setTurma(turma);
-					submissao.setDocumento(documento);
-					submissaoService.salvar(submissao);
-				} else if(submissao.getStatusEntrega().equals(StatusEntrega.ENVIADO) && anexo.getBytes() != null && anexo.getBytes().length != 0 && anexo.getContentType().equals("application/pdf")){
-					submissao.getDocumento().setNome(tipo+"_"+estagiario.getNomeCompleto().toUpperCase());
-					submissao.getDocumento().setArquivo(anexo.getBytes());
-					submissao.getDocumento().setExtensao(anexo.getContentType());
-					submissao.setData(new Date());
-					submissao.setHorario(new Date());
-					submissao.setStatusEntrega(StatusEntrega.ENVIADO);
-					submissao.setTipo(tipo);
-					submissao.setEstagiario(estagiario);
-					submissao.setTurma(turma);
-					submissaoService.update(submissao);
-				}
+				Documento documento = new Documento();
+				documento.setNome(tipo+"_"+estagiario.getNomeCompleto().toUpperCase());
+				documento.setExtensao(anexo.getContentType());
+				documento.setArquivo(anexo.getBytes());
+
+				submissao = new Submissao();
+				submissao.setData(new Date());
+				submissao.setHorario(new Date());
+				submissao.setStatusEntrega(StatusEntrega.ENVIADO);
+				submissao.setTipo(tipo);
+				submissao.setEstagiario(estagiario);
+				submissao.setTurma(turma);
+				submissao.setDocumento(documento);
+				submissaoService.salvar(submissao);
+			} else if(submissao.getStatusEntrega().equals(StatusEntrega.ENVIADO) && anexo.getBytes() != null && anexo.getBytes().length != 0 && anexo.getContentType().equals("application/pdf")){
+				submissao.getDocumento().setNome(tipo+"_"+estagiario.getNomeCompleto().toUpperCase());
+				submissao.getDocumento().setArquivo(anexo.getBytes());
+				submissao.getDocumento().setExtensao(anexo.getContentType());
+				submissao.setData(new Date());
+				submissao.setHorario(new Date());
+				submissao.setStatusEntrega(StatusEntrega.ENVIADO);
+				submissao.setTipo(tipo);
+				submissao.setEstagiario(estagiario);
+				submissao.setTurma(turma);
+				submissaoService.update(submissao);
+			}
 		} catch (IOException e) {
 			return "redirect:/500";
 		}
-		
+
 		return "redirect:/estagiario/turma/" + idTurma;
 	}
 
 	@RequestMapping(value = "/minha-frequencia/turma/{idTurma}", method = RequestMethod.GET)
 	public String getFrequeciaByTurma(HttpSession session, Model model, @ModelAttribute("idTurma") Long idTurma) {
 		Pessoa pessoa = getUsuarioLogado(session);
-		
+
 		Estagiario estagiario = estagiarioService.getEstagiarioByPessoaId(pessoa.getId());
-		
+
 		List<Turma> turmas = turmaService.getTurmasByEstagiarioIdAndStatus(StatusTurma.ABERTA, estagiario.getId());
-		
+
 		Turma turma = turmaService.getTurmaByIdAndEstagiarioId(idTurma, estagiario.getId());
 
 		boolean liberarPresenca = false;
 
 		boolean possuiTurma  = turma != null ? true : false;
-		
+
 		if(possuiTurma) {
-			
+
 			boolean frequenciaNaoRealizada = frequenciaService.getFrequenciaDeHojeByEstagiarioId(estagiario.getId()) == null ? true : false;
 
 			if(frequenciaService.liberarPreseca(turma) && frequenciaNaoRealizada) {
 				liberarPresenca = true;
 			}
 
-			
+
 			List<Frequencia> frequencias = frequenciaService.getFrequenciasByEstagiarioId(estagiario.getId(), turma.getId());
 
 			DadoConsolidado dadosConsolidados = frequenciaService.calcularDadosConsolidados(frequencias);
@@ -257,11 +265,11 @@ public class EstagiarioController {
 	public String cadastrarFrequencia(HttpSession session, @RequestParam("senha") String senha, @ModelAttribute("idTurma") Long idTurma, RedirectAttributes redirectAttributes) {
 		Pessoa pessoa = getUsuarioLogado(session);
 		Estagiario estagiario = estagiarioService.getEstagiarioByPessoaId(pessoa.getId());
-		
+
 		boolean estagiarioValido = usuarioService.autentica(pessoa.getCpf(), senha);
-		
+
 		Turma turma = turmaService.getTurmaByIdAndEstagiarioId(idTurma, estagiario.getId());
-		
+
 		boolean presencaLiberada = false;
 		if(turma != null) {
 			presencaLiberada = frequenciaService.liberarPreseca(turma);
@@ -278,7 +286,7 @@ public class EstagiarioController {
 			frequencia.setData(new Date());
 			frequencia.setStatusFrequencia(StatusFrequencia.PRESENTE);
 			frequencia.setHorario(new Date());
-			
+
 			frequenciaService.save(frequencia);
 		}
 
@@ -289,10 +297,10 @@ public class EstagiarioController {
 	public String avaliacao(HttpSession session, Model model) {
 		return PAGINA_AVALIACAO;
 	}
-	
+
 	private Pessoa getUsuarioLogado(HttpSession session) {
 		Pessoa pessoa = (Pessoa) session.getAttribute(Constants.USUARIO_LOGADO);
-		
+
 		if (pessoa == null || pessoa.getNome() == null) {
 			pessoa = pessoaService.getPessoaByCpf(SecurityContextHolder.getContext().getAuthentication().getName());
 			session.setAttribute(Constants.USUARIO_LOGADO, pessoa);

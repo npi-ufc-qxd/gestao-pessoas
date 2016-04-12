@@ -73,15 +73,16 @@ public class EstagiarioController {
 
 		Estagiario estagiario = estagiarioService.getEstagiarioByPessoaId(pessoa.getId());
 
-		List<Turma> turmasInicial = turmaService.getTurmasByEstagiarioId(estagiario.getId());
+		List<Turma> turmas = turmaService.getTurmasByEstagiarioId(estagiario.getId());
 
-		model.addAttribute("turmasInicial", turmasInicial);
+		model.addAttribute("turmas", turmas);
 
 
 		if(!estagiarioService.possuiTurmaAtiva(pessoa.getCpf())){
 			model.addAttribute("possuiTurma", false);
 		}
-
+		
+		
 		return PAGINA_INICIAL_ESTAGIARIO;
 	}
 
@@ -142,20 +143,6 @@ public class EstagiarioController {
 
 		return PAGINA_MINHA_PRESENCA;
 	}
-
-	@RequestMapping(value = "/turmas", method = RequestMethod.GET)
-	public String listarTurmas(Model model, HttpSession session) {
-		Pessoa pessoa = getUsuarioLogado(session);
-
-		Estagiario estagiario = estagiarioService.getEstagiarioByPessoaId(pessoa.getId());
-
-		List<Turma> turmasInicial = turmaService.getTurmasByEstagiarioId(estagiario.getId());
-
-		model.addAttribute("turmas", turmasInicial);
-
-		return "estagiario/list-turmas";
-	}
-
 
 	@RequestMapping(value = "/turma/{idTurma}", method = RequestMethod.GET)
 	public String detalhesTurma(@PathVariable("idTurma") Long idTurma, Model model, HttpSession session) {

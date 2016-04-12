@@ -34,7 +34,7 @@
 			<sec:authorize access="hasRole('ROLE_ESTAGIARIO_NPI')">
 
 				<ul class="nav navbar-nav menu">
-					<li id="turmas"><a href="<c:url value="/estagiario/turmas" />"><span class="fa fa-folder-open"></span> Minhas Turmas</a></li>
+					<li id="turmas"><a href="<c:url value="/estagiario/" />"><span class="fa fa-folder-open"></span> Minhas Turmas</a></li>
 				</ul>
 			</sec:authorize>
 			

@@ -8,7 +8,7 @@ public class Constants {
 
 	public static final String PAGINA_LOGIN = "login";
 
-	public static final String PAGINA_INICIAL_ESTAGIARIO = "estagiario/inicial";
+	public static final String PAGINA_INICIAL_ESTAGIARIO = "estagiario/list-turmas";
 
 	public static final String PAGINA_MEU_PROJETO = "estagiario/meu-projeto";
 
@@ -29,7 +29,7 @@ public class Constants {
 	public static final String PAGINA_FORM_ESTAGIARIO = "estagiario/form-estagiario";
 
 	public static final String PAGINA_INFO_ESTAGIARIO = "estagiario/info-estagiario";
-
+	
 	/** Redirecionamentos */
 
 	public static final String REDIRECT_PAGINA_INICIAL_ESTAGIARIO = "redirect:/estagiario/";

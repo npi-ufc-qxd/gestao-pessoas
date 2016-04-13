@@ -93,7 +93,7 @@
 		
 					<div class="form-item col-sm-4">
 						<label for="semestre" class="control-label">*Semestre:</label>
-						<form:input type="number" id="semestre" path="semestre" cssClass="form-control semestre" placeholder="Semestre" required="required" max="12" min="1" />			
+						<form:input type="number" id="inputSemestre" path="semestre" cssClass="form-control semestre" placeholder="Semestre" required="required" max="12" min="1" />			
 						<div class="error-validation">
 							<form:errors path="semestre"></form:errors>
 						</div>

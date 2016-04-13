@@ -180,7 +180,7 @@
 						</div>
 					</c:if>
 				</div>
-
+				<!-- mudar a url de submissão para a adequada para esse documento -->
 				<c:if test="${showPlano}">
 					<form class="form-inline"
 						action="<c:url value="/estagiario/minha-documentacao/turma/${turma.id }"></c:url>"
@@ -208,7 +208,7 @@
 						</div>
 					</form>
 				</c:if>
-
+				<!-- mudar a url de submissão para a adequada para esse documento -->
 				<c:if test="${showRelatorio}">
 					<form id="fileForm" class="form-inline"
 						action="<c:url value="/estagiario/minha-documentacao/turma/${turma.id }"></c:url>"

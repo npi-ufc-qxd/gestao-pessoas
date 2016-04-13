@@ -144,6 +144,7 @@ public class EstagiarioController {
 		return PAGINA_MINHA_PRESENCA;
 	}
 
+	//esse método irá mudar tmb. a submissão não ser recuperda de submissão service e sim de turmaservice 
 	@RequestMapping(value = "/turma/{idTurma}", method = RequestMethod.GET)
 	public String detalhesTurma(@PathVariable("idTurma") Long idTurma, Model model, HttpSession session) {
 		Pessoa pessoa = getUsuarioLogado(session);
@@ -158,7 +159,9 @@ public class EstagiarioController {
 
 		return "estagiario/info-turma";
 	}
-
+	
+	//separar esse método em 2 outros para que cada documento seja submetido para um método separado
+	//evitando assim que na jsp seja preciso enviar o atributo de 'tipo'
 	@RequestMapping(value = "/minha-documentacao/turma/{idTurma}", method = RequestMethod.POST)
 	public String minhaDocumentacao(@Valid @RequestParam("anexo") MultipartFile anexo, HttpSession session, Model model, @RequestParam("tipo") Tipo tipo, @ModelAttribute("idTurma") Long idTurma, RedirectAttributes redirectAttributes ){
 		Pessoa pessoa = getUsuarioLogado(session);
@@ -184,9 +187,12 @@ public class EstagiarioController {
 				submissao.setStatusEntrega(StatusEntrega.ENVIADO);
 				submissao.setTipo(tipo);
 				submissao.setEstagiario(estagiario);
-				submissao.setTurma(turma);
 				submissao.setDocumento(documento);
-				submissaoService.salvar(submissao);
+				
+				turma.getSubmissoes().add(submissao);
+				
+				turmaService.update(turma);
+				
 			} else if(submissao.getStatusEntrega().equals(StatusEntrega.ENVIADO) && anexo.getBytes() != null && anexo.getBytes().length != 0 && anexo.getContentType().equals("application/pdf")){
 				submissao.getDocumento().setNome(tipo+"_"+estagiario.getNomeCompleto().toUpperCase());
 				submissao.getDocumento().setArquivo(anexo.getBytes());
@@ -196,8 +202,13 @@ public class EstagiarioController {
 				submissao.setStatusEntrega(StatusEntrega.ENVIADO);
 				submissao.setTipo(tipo);
 				submissao.setEstagiario(estagiario);
-				submissao.setTurma(turma);
+				
+				//mudar para turmaService
 				submissaoService.update(submissao);
+				
+				turma.getSubmissoes().add(submissao);
+				turmaService.update(turma);
+				
 			}
 		} catch (IOException e) {
 			return "redirect:/500";

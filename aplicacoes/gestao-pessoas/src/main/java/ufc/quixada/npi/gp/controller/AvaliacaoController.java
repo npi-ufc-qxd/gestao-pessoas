@@ -122,12 +122,14 @@ public class AvaliacaoController {
 		Turma turma = turmaService.getTurmaByIdAndEstagiarioId(idTurma, idEstagiario);
 		
 		submissaoDoBanco.setEstagiario(estagiario);
-		submissaoDoBanco.setTurma(turma);
+		//submissaoDoBanco.setTurma(turma);
 		submissaoDoBanco.setNota(submissao.getNota());
 		submissaoDoBanco.setStatusEntrega(submissao.getStatusEntrega());
 		submissaoDoBanco.setComentario(submissao.getComentario());
 		
-		submissaoService.update(submissaoDoBanco);
+		//submissaoService.update(submissaoDoBanco);
+		turma.getSubmissoes().add(submissaoDoBanco);
+		turmaService.update(turma);
 
 		return "redirect:/supervisor/turma/{idTurma}/acompanhamento-avaliacao/estagiario/{idEstagiario}";
 	}

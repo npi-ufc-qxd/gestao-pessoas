@@ -144,14 +144,14 @@ public class EstagiarioController {
 		return PAGINA_MINHA_PRESENCA;
 	}
 
-	//esse método irá mudar tmb. a submissão não ser recuperda de submissão service e sim de turmaservice 
+	//esse método irá mudar tmb. a submissão não será recuperada de submissãoservice e sim de turmaservice 
 	@RequestMapping(value = "/turma/{idTurma}", method = RequestMethod.GET)
 	public String detalhesTurma(@PathVariable("idTurma") Long idTurma, Model model, HttpSession session) {
 		Pessoa pessoa = getUsuarioLogado(session);
 
 		Estagiario estagiario = estagiarioService.getEstagiarioByPessoaId(pessoa.getId());
 
-		List<Submissao> submissoes = submissaoService.getSubmissoesByEstagiarioIdAndIdTurma(estagiario.getId(), idTurma);
+		List<Submissao> submissoes = turmaService.getSubmissoesByEstagiarioIdAndIdTurma(estagiario.getId(), idTurma);
 
 		model.addAttribute("submissoes", submissoes);
 		model.addAttribute("estagiarioNome", estagiario.getNomeCompleto());
@@ -162,61 +162,57 @@ public class EstagiarioController {
 	
 	//separar esse método em 2 outros para que cada documento seja submetido para um método separado
 	//evitando assim que na jsp seja preciso enviar o atributo de 'tipo'
-	@RequestMapping(value = "/minha-documentacao/turma/{idTurma}", method = RequestMethod.POST)
-	public String minhaDocumentacao(@Valid @RequestParam("anexo") MultipartFile anexo, HttpSession session, Model model, @RequestParam("tipo") Tipo tipo, @ModelAttribute("idTurma") Long idTurma, RedirectAttributes redirectAttributes ){
-		Pessoa pessoa = getUsuarioLogado(session);
-		Estagiario estagiario = estagiarioService.getEstagiarioByPessoaId(pessoa.getId());
-		Turma turma = turmaService.getTurmaByIdAndEstagiarioId(idTurma, estagiario.getId());
-
-		Submissao submissao = submissaoService.getSubmissaoByEstagiarioIdAndIdTurmaAndTipo(estagiario.getId(), idTurma, tipo);
+	@RequestMapping(value = "/minha-documentacao/turma/relatorioFinal/{idTurma}", method = RequestMethod.POST)
+	public String minhaDocumentacaoRelatorioFinalEstagio(@Valid @RequestParam("anexo") MultipartFile anexo, HttpSession session, Model model, @ModelAttribute("idTurma") Long idTurma, RedirectAttributes redirectAttributes ){
 
 		try {
 			if(!anexo.getContentType().equals("application/pdf")){
 				redirectAttributes.addFlashAttribute("error", "Escolha um arquivo pdf.");
 				return "redirect:/estagiario/turma/" + idTurma;
 			}
-			if(submissao == null && anexo.getBytes() != null && anexo.getBytes().length != 0 && anexo.getContentType().equals("application/pdf")){
-				Documento documento = new Documento();
-				documento.setNome(tipo+"_"+estagiario.getNomeCompleto().toUpperCase());
-				documento.setExtensao(anexo.getContentType());
-				documento.setArquivo(anexo.getBytes());
 
-				submissao = new Submissao();
-				submissao.setData(new Date());
-				submissao.setHorario(new Date());
-				submissao.setStatusEntrega(StatusEntrega.ENVIADO);
-				submissao.setTipo(tipo);
-				submissao.setEstagiario(estagiario);
-				submissao.setDocumento(documento);
-				
-				turma.getSubmissoes().add(submissao);
-				
-				turmaService.update(turma);
-				
-			} else if(submissao.getStatusEntrega().equals(StatusEntrega.ENVIADO) && anexo.getBytes() != null && anexo.getBytes().length != 0 && anexo.getContentType().equals("application/pdf")){
-				submissao.getDocumento().setNome(tipo+"_"+estagiario.getNomeCompleto().toUpperCase());
-				submissao.getDocumento().setArquivo(anexo.getBytes());
-				submissao.getDocumento().setExtensao(anexo.getContentType());
-				submissao.setData(new Date());
-				submissao.setHorario(new Date());
-				submissao.setStatusEntrega(StatusEntrega.ENVIADO);
-				submissao.setTipo(tipo);
-				submissao.setEstagiario(estagiario);
-				
-				//mudar para turmaService
-				submissaoService.update(submissao);
-				
-				turma.getSubmissoes().add(submissao);
-				turmaService.update(turma);
-				
-			}
+			Pessoa pessoa = getUsuarioLogado(session);
+			
+			Estagiario estagiario = estagiarioService.getEstagiarioByPessoaId(pessoa.getId());
+			
+			Turma turma = turmaService.getTurmaByIdAndEstagiarioId(idTurma, estagiario.getId());
+			
+			Tipo tipo = Tipo.RELATORIO_FINAL_ESTAGIO;
+								
+			turmaService.submeterDocumento(estagiario, turma, tipo, anexo);
+			
 		} catch (IOException e) {
 			return "redirect:/500";
 		}
 
 		return "redirect:/estagiario/turma/" + idTurma;
 	}
+	@RequestMapping(value = "/minha-documentacao/turma/planoEstagio/{idTurma}", method = RequestMethod.POST)
+	public String minhaDocumentacaoPlanoEstagio(@Valid @RequestParam("anexo") MultipartFile anexo, HttpSession session, Model model, @ModelAttribute("idTurma") Long idTurma, RedirectAttributes redirectAttributes ){
+							
+		try {
+			if(!anexo.getContentType().equals("application/pdf")){
+				redirectAttributes.addFlashAttribute("error", "Escolha um arquivo pdf.");
+				return "redirect:/estagiario/turma/" + idTurma;
+			}
+			Pessoa pessoa = getUsuarioLogado(session);
+			
+			Estagiario estagiario = estagiarioService.getEstagiarioByPessoaId(pessoa.getId());
+			
+			Turma turma = turmaService.getTurmaByIdAndEstagiarioId(idTurma, estagiario.getId());
+			
+			Tipo tipo = Tipo.PLANO_ESTAGIO;
+			
+			turmaService.submeterDocumento(estagiario, turma, tipo, anexo);
+			
+		} catch (IOException e) {
+			return "redirect:/500";
+		}
 
+		return "redirect:/estagiario/turma/" + idTurma;
+	}
+	
+	
 	@RequestMapping(value = "/minha-frequencia/turma/{idTurma}", method = RequestMethod.GET)
 	public String getFrequeciaByTurma(HttpSession session, Model model, @ModelAttribute("idTurma") Long idTurma) {
 		Pessoa pessoa = getUsuarioLogado(session);

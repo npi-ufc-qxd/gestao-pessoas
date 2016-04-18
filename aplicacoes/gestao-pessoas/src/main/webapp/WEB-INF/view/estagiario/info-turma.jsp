@@ -129,7 +129,6 @@
 										test="${submissao.tipo.labelTipo == 'Relatório Final de Estágio' && submissao.statusEntrega.label != 'Enviado'}">
 										<c:set var="showRelatorio" value="false"></c:set>
 									</c:if>
-									<c:if test="${submissao.turma.id == turma.id}">
 										<c:choose>
 											<c:when test="${submissao.statusEntrega.label == 'Aceito'}">
 												<tr class="success">
@@ -163,7 +162,7 @@
 												</tr>
 											</c:otherwise>
 										</c:choose>
-									</c:if>
+									
 								</c:forEach>
 							</tbody>
 						</table>
@@ -183,7 +182,7 @@
 				<!-- mudar a url de submissão para a adequada para esse documento -->
 				<c:if test="${showPlano}">
 					<form class="form-inline"
-						action="<c:url value="/estagiario/minha-documentacao/turma/${turma.id }"></c:url>"
+						action="<c:url value="/estagiario/minha-documentacao/turma/planoEstagio/${turma.id }"></c:url>"
 						method="POST" enctype="multipart/form-data">
 						<div class="panel-body">
 							<div class="col-sm-12">
@@ -195,8 +194,7 @@
 										data-buttonText=" Escolher arquivo" data-size="sm"
 										data-buttonName="btn-primary" id="plano"
 										data-placeholder="Plano de Estágio" data-inputSize="423px"
-										accept="application/pdf"> <input id="tipo"
-										type="hidden" name="tipo" value=PLANO_ESTAGIO>
+										accept="application/pdf"> 
 								</div>
 								<div class="form-group col-sm-3">
 									<button class="btn btn-primary btn-sm submeter" type="submit">
@@ -211,7 +209,7 @@
 				<!-- mudar a url de submissão para a adequada para esse documento -->
 				<c:if test="${showRelatorio}">
 					<form id="fileForm" class="form-inline"
-						action="<c:url value="/estagiario/minha-documentacao/turma/${turma.id }"></c:url>"
+						action="<c:url value="/estagiario/minha-documentacao/turma/relatorioFinal/${turma.id }"></c:url>"
 						method="POST" enctype="multipart/form-data">
 						<div class="panel-body">
 							<div class="col-sm-12">
@@ -223,9 +221,7 @@
 										data-buttonText=" Escolher arquivo" data-size="sm"
 										data-buttonName="btn-primary" id="relatorio"
 										data-placeholder="Relatório Final de Estágio"
-										data-inputSize="423px" accept="application/pdf"> <input
-										id="tipo" type="hidden" name="tipo"
-										value=RELATORIO_FINAL_ESTAGIO>
+										data-inputSize="423px" accept="application/pdf"> 
 
 								</div>
 								<div class="form-group col-sm-3">

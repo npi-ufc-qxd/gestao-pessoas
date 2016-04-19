@@ -12,6 +12,7 @@ import ufc.quixada.npi.gp.model.Turma;
 import ufc.quixada.npi.gp.model.enums.StatusTurma;
 import ufc.quixada.npi.gp.model.enums.Tipo;
 
+
 public interface TurmaService extends GenericService<Turma> {
 
 	List<Turma> getTurmasBySupervisorId(Long idSupervisor);

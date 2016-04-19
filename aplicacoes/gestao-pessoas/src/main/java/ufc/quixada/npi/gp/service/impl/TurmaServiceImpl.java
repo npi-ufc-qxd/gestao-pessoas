@@ -18,7 +18,6 @@ import ufc.quixada.npi.gp.model.Turma;
 import ufc.quixada.npi.gp.model.enums.StatusEntrega;
 import ufc.quixada.npi.gp.model.enums.StatusTurma;
 import ufc.quixada.npi.gp.model.enums.Tipo;
-import ufc.quixada.npi.gp.service.SubmissaoService;
 import ufc.quixada.npi.gp.service.TurmaService;
 import br.ufc.quixada.npi.enumeration.QueryType;
 import br.ufc.quixada.npi.repository.GenericRepository;
@@ -159,7 +158,7 @@ public class TurmaServiceImpl extends GenericServiceImpl<Turma> implements Turma
 			params.put("idTurma", idTurma);
 			params.put("tipo", tipo);
 			@SuppressWarnings("unchecked")
-			Submissao submissao = (Submissao) findFirst(QueryType.JPQL,"select s from Turma t join t.submissoes where s.estagiario.id = :idEstagiario and t.id = :idTurma and s.tipo = :tipo", params);
+			Submissao submissao = (Submissao) findFirst(QueryType.JPQL,"select s from Turma t join t.submissoes s where s.estagiario.id = :idEstagiario and t.id = :idTurma and s.tipo = :tipo", params);
 			
 			return submissao;
 		}

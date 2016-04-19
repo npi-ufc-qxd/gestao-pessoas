@@ -143,8 +143,7 @@ public class EstagiarioController {
 
 		return PAGINA_MINHA_PRESENCA;
 	}
-
-	//esse método irá mudar tmb. a submissão não será recuperada de submissãoservice e sim de turmaservice 
+	
 	@RequestMapping(value = "/turma/{idTurma}", method = RequestMethod.GET)
 	public String detalhesTurma(@PathVariable("idTurma") Long idTurma, Model model, HttpSession session) {
 		Pessoa pessoa = getUsuarioLogado(session);
@@ -159,9 +158,7 @@ public class EstagiarioController {
 
 		return "estagiario/info-turma";
 	}
-	
-	//separar esse método em 2 outros para que cada documento seja submetido para um método separado
-	//evitando assim que na jsp seja preciso enviar o atributo de 'tipo'
+		
 	@RequestMapping(value = "/minha-documentacao/turma/relatorioFinal/{idTurma}", method = RequestMethod.POST)
 	public String minhaDocumentacaoRelatorioFinalEstagio(@Valid @RequestParam("anexo") MultipartFile anexo, HttpSession session, Model model, @ModelAttribute("idTurma") Long idTurma, RedirectAttributes redirectAttributes ){
 

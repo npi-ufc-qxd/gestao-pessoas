@@ -152,38 +152,30 @@ public class TurmaServiceImpl extends GenericServiceImpl<Turma> implements Turma
 		public void remover(Submissao submissao) {
 			submissaoRepository.delete(submissao);
 		}
-		//verificar se essa consulta precisa ser mudada
+		
 		public Submissao getSubmissaoByEstagiarioIdAndIdTurmaAndTipo(Long idEstagiario, Long idTurma, Tipo tipo) {
 			Map<String, Object> params = new HashMap<String, Object>();
 			params.put("idEstagiario", idEstagiario);
 			params.put("idTurma", idTurma);
 			params.put("tipo", tipo);
-			//@SuppressWarnings("unchecked")
-			//Submissao submissao = (Submissao) findFirst(QueryType.JPQL,"select s from Submissao s where s.estagiario.id = :idEstagiario and s.turma.id = :idTurma and s.tipo = :tipo", params);
-			List<Submissao> submissoes = getTurmaByIdAndEstagiarioId(idTurma, idEstagiario).getSubmissoes();
+			@SuppressWarnings("unchecked")
+			Submissao submissao = (Submissao) findFirst(QueryType.JPQL,"select s from Turma t join t.submissoes where s.estagiario.id = :idEstagiario and t.id = :idTurma and s.tipo = :tipo", params);
 			
-			for (Submissao s : submissoes) {
-				if(s.getTipo().equals(tipo))
-					return s;
-			}
-			
-			return null;
-			//return submissao;
+			return submissao;
 		}
-		
-		//verificar se essa consulta precisa ser mudada
+				
 		public List<Submissao> getSubmissoesByEstagiarioIdAndIdTurma(Long idEstagiario, Long idTurma) {
 			Map<String, Object> params = new HashMap<String, Object>();
 			params.put("idEstagiario", idEstagiario);
 			params.put("idTurma", idTurma);
+			
 			@SuppressWarnings("unchecked")
-			List <Submissao> submissoes = find(QueryType.JPQL,"select s from Turma t join Turma.submissoes s where s.estagiario.id = :idEstagiario and t.id = :idTurma", params);
+			List <Submissao> submissoes = find(QueryType.JPQL,"select s from Turma t join t.submissoes s where s.estagiario.id = :idEstagiario and t.id = :idTurma", params);
 			
-			return submissoes;
+			return submissoes;			
 			
-			//return getTurmaByIdAndEstagiarioId(idTurma, idEstagiario).getSubmissoes();
 		}
-		/* fim métodos de submissão */
+		
 
 
 		public void submeterDocumento(Estagiario estagiario, Turma turma, Tipo tipo, MultipartFile anexo) throws IOException {
@@ -216,5 +208,6 @@ public class TurmaServiceImpl extends GenericServiceImpl<Turma> implements Turma
 			}
 			
 		}
+		/* fim métodos de submissão */
 
 }

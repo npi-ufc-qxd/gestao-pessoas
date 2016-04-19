@@ -7,6 +7,7 @@ import static ufc.quixada.npi.gp.utils.Constants.PAGINA_MINHA_PRESENCA;
 import static ufc.quixada.npi.gp.utils.Constants.REDIRECT_PAGINA_INICIAL_ESTAGIARIO;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -74,17 +75,36 @@ public class EstagiarioController {
 		Estagiario estagiario = estagiarioService.getEstagiarioByPessoaId(pessoa.getId());
 
 		List<Turma> turmas = turmaService.getTurmasByEstagiarioId(estagiario.getId());
+		List<Turma> turmasComPresencaHj  = new ArrayList<Turma>();
+		List<Turma> turmasSemPresencaHj  = new ArrayList<Turma>();
 
+			
+		for (Turma turma : turmas) {
+			boolean frequenciaNaoRealizada = frequenciaService.getFrequenciaDeHojeByEstagiarioId(estagiario.getId()) == null ? true : false;
+				if(frequenciaService.liberarPreseca(turma) && frequenciaNaoRealizada) {
+					turmasSemPresencaHj.add(turma);
+				}else{
+					turmasComPresencaHj.add(turma);
+				}			
+		}
+		
 		model.addAttribute("turmas", turmas);
+		model.addAttribute("estagiario", estagiario);
+		model.addAttribute("turmasComPresencaHj", turmasComPresencaHj);
+		model.addAttribute("turmasSemPresencaHj", turmasSemPresencaHj);
+
 
 
 		if(!estagiarioService.possuiTurmaAtiva(pessoa.getCpf())){
 			model.addAttribute("possuiTurma", false);
 		}
-		
-		
+
+
 		return PAGINA_INICIAL_ESTAGIARIO;
 	}
+
+	
+
 
 	@RequestMapping(value = "/meus-dados", method = RequestMethod.GET)
 	public String paginaPerfilEstagiario(Model model) {
@@ -276,7 +296,7 @@ public class EstagiarioController {
 		}
 
 		return "redirect:/estagiario/minha-frequencia/turma/" + idTurma;
-	}
+}
 
 	@RequestMapping(value = "/minha-avaliacao", method = RequestMethod.GET)
 	public String avaliacao(HttpSession session, Model model) {

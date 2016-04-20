@@ -1,6 +1,7 @@
 package ufc.quixada.npi.gp.controller;
 
 import javax.inject.Inject;
+
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
@@ -14,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import ufc.quixada.npi.gp.model.AvaliacaoEstagio;
+import ufc.quixada.npi.gp.model.AvaliacaoRendimento;
 import ufc.quixada.npi.gp.model.Estagiario;
 import ufc.quixada.npi.gp.model.Pessoa;
 import ufc.quixada.npi.gp.model.Submissao;
@@ -49,7 +50,7 @@ public class AvaliacaoController {
 	@RequestMapping(value = "{idTurma}/acompanhamento-avaliacao/estagiario/{idEstagiario}/adicionar/", method = RequestMethod.GET)
 	public String novaAvaliacaoEstagio(Model model, @PathVariable("idEstagiario") Long idEstagiario, @PathVariable("idTurma") Long idTurma) {
 		model.addAttribute("action", "cadastrar");
-		model.addAttribute("avaliacaoEstagio", new AvaliacaoEstagio());
+		model.addAttribute("avaliacaoEstagio", new AvaliacaoRendimento());
 		model.addAttribute("turma",turmaService.getTurmaByIdAndEstagiarioId(idTurma, idEstagiario));
 		model.addAttribute("estagiario",estagiarioService.find(Estagiario.class, idEstagiario));
 		return "supervisor/form-avaliacao-estagio";
@@ -57,7 +58,7 @@ public class AvaliacaoController {
 
 	@RequestMapping(value = "{idTurma}/acompanhamento-avaliacao/estagiario/{idEstagiario}/adicionar/", method = RequestMethod.POST)
 	public String adicionarAvaliacaoEstagio(Model model,
-			@Valid @ModelAttribute("avaliacaoEstagio") AvaliacaoEstagio avaliacaoEstagio, HttpSession session,
+			@Valid @ModelAttribute("avaliacaoEstagio") AvaliacaoRendimento avaliacaoRendimento, HttpSession session,
 			RedirectAttributes redirect, @PathVariable("idEstagiario") Long idEstagiario,
 			@PathVariable("idTurma") Long idTurma) {
 		model.addAttribute("action", "cadastrar");
@@ -65,10 +66,10 @@ public class AvaliacaoController {
 		Estagiario estagiario = estagiarioService.find(Estagiario.class, idEstagiario);
 		Turma turma = turmaService.getTurmaByIdAndEstagiarioId(idTurma, idEstagiario);
 		
-		avaliacaoEstagio.setSupervisor(pessoa);
-		avaliacaoEstagio.setTurma(turma);
-		avaliacaoEstagio.setEstagiario(estagiario);
-		avaliacaoService.save(avaliacaoEstagio);
+		avaliacaoRendimento.setSupervisor(pessoa);
+		avaliacaoRendimento.setTurma(turma);
+		avaliacaoRendimento.setEstagiario(estagiario);
+		avaliacaoService.save(avaliacaoRendimento);
 		redirect.addFlashAttribute("success", "Avaliação cadastrada com sucesso.");
 
 		return "redirect:/supervisor/turma/{idTurma}/acompanhamento-avaliacao/estagiario/{idEstagiario}";
@@ -77,7 +78,7 @@ public class AvaliacaoController {
 	@RequestMapping(value = "{idTurma}/avaliacao/{idAvaliacaoEstagio}/estagiario/{idEstagiario}/editar", method = RequestMethod.GET)
 	public String paginaEditarAvaliacaoEstagio(@PathVariable("idEstagiario") Long idEstagiario, @PathVariable("idTurma") Long idTurma, @PathVariable("idAvaliacaoEstagio") Long idAvaliacaoEstagio, Model model, HttpSession session) {
 		model.addAttribute("action", "editar");
-		model.addAttribute("avaliacaoEstagio", avaliacaoService.find(AvaliacaoEstagio.class, idAvaliacaoEstagio));
+		model.addAttribute("avaliacaoEstagio", avaliacaoService.find(AvaliacaoRendimento.class, idAvaliacaoEstagio));
 		model.addAttribute("turma",turmaService.getTurmaByIdAndEstagiarioId(idTurma, idEstagiario));
 		model.addAttribute("estagiario",estagiarioService.find(Estagiario.class, idEstagiario));
 		return "supervisor/form-avaliacao-estagio";
@@ -85,12 +86,12 @@ public class AvaliacaoController {
 
 	@RequestMapping(value = "{idTurma}/avaliacao/{idAvaliacaoEstagio}/estagiario/{idEstagiario}/editar", method = RequestMethod.POST)
 	public String editarAvaliacaoEstagio(Model model,
-			@Valid @ModelAttribute("avaliacaoEstagio") AvaliacaoEstagio avaliacaoEstagio, HttpSession session,
+			@Valid @ModelAttribute("avaliacaoEstagio") AvaliacaoRendimento avaliacaoRendimento, HttpSession session,
 			RedirectAttributes redirect, @PathVariable("idEstagiario") Long idEstagiario,
 			@PathVariable("idTurma") Long idTurma) {
 
 		model.addAttribute("action", "editar");
-		AvaliacaoEstagio avaliacaoDoBanco = avaliacaoService.find(AvaliacaoEstagio.class, avaliacaoEstagio.getId());
+		AvaliacaoRendimento avaliacaoDoBanco = avaliacaoService.find(AvaliacaoRendimento.class, avaliacaoRendimento.getId());
 		Pessoa pessoa = getUsuarioLogado(session);
 		Estagiario estagiario = estagiarioService.find(Estagiario.class, idEstagiario);
 		Turma turma = turmaService.getTurmaByIdAndEstagiarioId(idTurma, idEstagiario);
@@ -98,11 +99,11 @@ public class AvaliacaoController {
 		avaliacaoDoBanco.setSupervisor(pessoa);
 		avaliacaoDoBanco.setEstagiario(estagiario);
 		avaliacaoDoBanco.setTurma(turma);
-		avaliacaoDoBanco.setNota(avaliacaoEstagio.getNota());
-		avaliacaoDoBanco.setFatorAssiduidadeDisciplina(avaliacaoEstagio.getFatorAssiduidadeDisciplina());
-		avaliacaoDoBanco.setFatorIniciativaProdutividade(avaliacaoEstagio.getFatorIniciativaProdutividade());
-		avaliacaoDoBanco.setFatorRelacionamento(avaliacaoEstagio.getFatorRelacionamento());
-		avaliacaoDoBanco.setFatorResponsabilidade(avaliacaoEstagio.getFatorResponsabilidade());
+		avaliacaoDoBanco.setNota(avaliacaoRendimento.getNota());
+		avaliacaoDoBanco.setFatorAssiduidadeDisciplina(avaliacaoRendimento.getFatorAssiduidadeDisciplina());
+		avaliacaoDoBanco.setFatorIniciativaProdutividade(avaliacaoRendimento.getFatorIniciativaProdutividade());
+		avaliacaoDoBanco.setFatorRelacionamento(avaliacaoRendimento.getFatorRelacionamento());
+		avaliacaoDoBanco.setFatorResponsabilidade(avaliacaoRendimento.getFatorResponsabilidade());
 		
 		avaliacaoService.update(avaliacaoDoBanco);
 

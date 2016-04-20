@@ -22,7 +22,6 @@ import ufc.quixada.npi.gp.model.Turma;
 import ufc.quixada.npi.gp.service.AvaliacaoService;
 import ufc.quixada.npi.gp.service.EstagiarioService;
 import ufc.quixada.npi.gp.service.PessoaService;
-import ufc.quixada.npi.gp.service.SubmissaoService;
 import ufc.quixada.npi.gp.service.TurmaService;
 import ufc.quixada.npi.gp.utils.Constants;
 
@@ -34,9 +33,6 @@ public class AvaliacaoController {
 	@Inject
 	private AvaliacaoService avaliacaoService;
 	
-	@Inject
-	private SubmissaoService submissaoService;
-
 	@Inject
 	private PessoaService pessoaService;
 
@@ -116,18 +112,18 @@ public class AvaliacaoController {
 			@PathVariable("idTurma") Long idTurma) {
 
 		model.addAttribute("action", "editar");
-		Submissao submissaoDoBanco = submissaoService.find(Submissao.class, submissao.getId());
+		Submissao submissaoDoBanco = turmaService.getSubmissaoById(submissao.getId());
 		Pessoa pessoa = getUsuarioLogado(session);
 		Estagiario estagiario = estagiarioService.find(Estagiario.class, idEstagiario);
 		Turma turma = turmaService.getTurmaByIdAndEstagiarioId(idTurma, idEstagiario);
 		
 		submissaoDoBanco.setEstagiario(estagiario);
-		submissaoDoBanco.setTurma(turma);
 		submissaoDoBanco.setNota(submissao.getNota());
 		submissaoDoBanco.setStatusEntrega(submissao.getStatusEntrega());
 		submissaoDoBanco.setComentario(submissao.getComentario());
-		
-		submissaoService.update(submissaoDoBanco);
+				
+		turma.getSubmissoes().add(submissaoDoBanco);
+		turmaService.update(turma);
 
 		return "redirect:/supervisor/turma/{idTurma}/acompanhamento-avaliacao/estagiario/{idEstagiario}";
 	}

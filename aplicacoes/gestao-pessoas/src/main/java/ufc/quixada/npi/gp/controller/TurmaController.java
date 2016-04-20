@@ -45,8 +45,9 @@ import ufc.quixada.npi.gp.service.FrequenciaService;
 import ufc.quixada.npi.gp.service.HorarioService;
 import ufc.quixada.npi.gp.service.PessoaService;
 import ufc.quixada.npi.gp.service.TurmaService;
-import ufc.quixada.npi.gp.utils.Constants;
 import ufc.quixada.npi.gp.utils.UtilGestao;
+import ufc.quixada.npi.gp.utils.Constants;
+
 
 @Component
 @Controller

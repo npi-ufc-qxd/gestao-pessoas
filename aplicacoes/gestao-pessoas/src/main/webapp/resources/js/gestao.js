@@ -309,9 +309,8 @@ $(document).ready(function() {
 		orientation: "top auto",
 	});
 	
-	$(".caractere").bind('keypress', function (event) 
-			{
-			   var regex = new RegExp("^[ 0-9a-zA-Z-.ªº\b\0]+$");
+	$(".nome").bind('keypress', function (event) {
+			   var regex = new RegExp("^[ 0-9a-zA-Z\b\0]+$");
 			   var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
 			   
 			   if (!regex.test(key)) 
@@ -320,6 +319,28 @@ $(document).ready(function() {
 			      return false;
 			   }
 			});
+	
+	$(".endereco").bind('keypress', function (event) {
+			   var regex = new RegExp("^[ 0-9a-zA-Z-.ªº,\b\0]+$");
+			   var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+			   
+			   if (!regex.test(key)) 
+			   {
+			      event.preventDefault();
+			      return false;
+			   }
+			})
+			
+	$(".data, .semestre").bind('keypress', function (event) {
+		var regex = new RegExp("^[ 0-9-/\b\0]+$");
+		var key = String.fromCharCode(!event.charCode ? event.which : event.charCode);
+		   
+		if (!regex.test(key)) 
+			{
+		      event.preventDefault();
+		      return false;
+			}			  
+	})
 	
 	
 });

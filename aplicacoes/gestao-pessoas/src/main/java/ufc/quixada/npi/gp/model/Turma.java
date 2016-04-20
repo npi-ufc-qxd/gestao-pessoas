@@ -67,9 +67,12 @@ public class Turma {
 	private List<Estagiario> estagiarios;
 	
 	@OneToMany(cascade = {CascadeType.REFRESH, CascadeType.MERGE, CascadeType.PERSIST})
-	//@JoinTable(name="turma_has_submissoes", joinColumns={@JoinColumn(name="turma_id", referencedColumnName="id")}, inverseJoinColumns={@JoinColumn(name="submissao_id", referencedColumnName="id")})
 	@JoinColumn(name="turma_id")
 	private List<Submissao> submissoes;
+	
+	@OneToMany(mappedBy = "turma")
+	private List<Evento> eventos;
+	
 	
 	public List<Submissao> getSubmissoes() {
 		return submissoes;
@@ -78,10 +81,7 @@ public class Turma {
 	public void setSubmissoes(List<Submissao> submissoes) {
 		this.submissoes = submissoes;
 	}
-
-	@OneToMany(mappedBy = "turma")
-	private List<Evento> eventos;
-
+	
 	public List<Evento> getEventos() {
 		return eventos;
 	}

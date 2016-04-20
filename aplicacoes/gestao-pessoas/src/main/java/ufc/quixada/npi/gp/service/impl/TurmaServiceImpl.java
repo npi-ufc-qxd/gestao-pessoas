@@ -182,11 +182,9 @@ public class TurmaServiceImpl extends GenericServiceImpl<Turma> implements Turma
 			
 			if(submissao == null) {
 				submissao = new Submissao();
-			}
-
-			if(StatusEntrega.ENVIADO.equals(submissao.getStatusEntrega())) {
+			}	
 				
-				if(anexo.getBytes() != null && anexo.getBytes().length != 0 && anexo.getContentType().equals("application/pdf")){
+				if(StatusEntrega.ENVIADO.equals(submissao.getStatusEntrega()) && anexo.getBytes() != null && anexo.getBytes().length != 0 && anexo.getContentType().equals("application/pdf")){
 					Documento documento = new Documento();
 					documento.setNome(tipo+"_"+estagiario.getNomeCompleto().toUpperCase());
 					documento.setExtensao(anexo.getContentType());
@@ -206,7 +204,7 @@ public class TurmaServiceImpl extends GenericServiceImpl<Turma> implements Turma
 				}
 			}
 			
-		}
+		
 		/* fim métodos de submissão */
 
 }

@@ -128,83 +128,72 @@ public class TurmaServiceImpl extends GenericServiceImpl<Turma> implements Turma
 
 		return turma;
 	}
-	/* Metodos de submissão */
-	
-	
-		public void salvar(Submissao submissao) {
+
+	public void salvar(Submissao submissao) {
+		submissaoRepository.save(submissao);
+	}
+
+	public void salvar(List<Submissao> submissaos) {
+		for(Submissao submissao : submissaos) {
 			submissaoRepository.save(submissao);
 		}
-		
-		
-		public void salvar(List<Submissao> submissaos) {
-			for(Submissao submissao : submissaos) {
-				submissaoRepository.save(submissao);
-			}
-		}
+	}
 	
-		
-		public Submissao getSubmissaoById(Long id) {
-			return submissaoRepository.find(Submissao.class, id);
-		}
+	public Submissao getSubmissaoById(Long id) {
+		return submissaoRepository.find(Submissao.class, id);
+	}
 	
+	public void remover(Submissao submissao) {
+		submissaoRepository.delete(submissao);
+	}
+	
+	public Submissao getSubmissaoByEstagiarioIdAndIdTurmaAndTipo(Long idEstagiario, Long idTurma, Tipo tipo) {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("idEstagiario", idEstagiario);
+		params.put("idTurma", idTurma);
+		params.put("tipo", tipo);
+		@SuppressWarnings("unchecked")
+		Submissao submissao = (Submissao) findFirst(QueryType.JPQL,"select s from Turma t join t.submissoes s where s.estagiario.id = :idEstagiario and t.id = :idTurma and s.tipo = :tipo", params);
 		
-		public void remover(Submissao submissao) {
-			submissaoRepository.delete(submissao);
-		}
-		
-		public Submissao getSubmissaoByEstagiarioIdAndIdTurmaAndTipo(Long idEstagiario, Long idTurma, Tipo tipo) {
-			Map<String, Object> params = new HashMap<String, Object>();
-			params.put("idEstagiario", idEstagiario);
-			params.put("idTurma", idTurma);
-			params.put("tipo", tipo);
-			@SuppressWarnings("unchecked")
-			Submissao submissao = (Submissao) findFirst(QueryType.JPQL,"select s from Turma t join t.submissoes s where s.estagiario.id = :idEstagiario and t.id = :idTurma and s.tipo = :tipo", params);
+		return submissao;
+	}
 			
-			return submissao;
-		}
+	public List<Submissao> getSubmissoesByEstagiarioIdAndIdTurma(Long idEstagiario, Long idTurma) {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("idEstagiario", idEstagiario);
+		params.put("idTurma", idTurma);
+		
+		@SuppressWarnings("unchecked")
+		List <Submissao> submissoes = find(QueryType.JPQL,"select s from Turma t join t.submissoes s where s.estagiario.id = :idEstagiario and t.id = :idTurma", params);
+		
+		return submissoes;			
+		
+	}
+
+	public void submeterDocumento(Estagiario estagiario, Turma turma, Tipo tipo, MultipartFile anexo) throws IOException {
+		Submissao submissao = getSubmissaoByEstagiarioIdAndIdTurmaAndTipo(estagiario.getId(), turma.getId(), tipo);
+		
+		if(submissao == null) {
+			submissao = new Submissao();
+		}	
+			
+		if(StatusEntrega.ENVIADO.equals(submissao.getStatusEntrega()) && anexo.getBytes() != null && anexo.getBytes().length != 0 && anexo.getContentType().equals("application/pdf")){
+			Documento documento = new Documento();
+			documento.setNome(tipo+"_"+estagiario.getNomeCompleto().toUpperCase());
+			documento.setExtensao(anexo.getContentType());
+			documento.setArquivo(anexo.getBytes());
+
 				
-		public List<Submissao> getSubmissoesByEstagiarioIdAndIdTurma(Long idEstagiario, Long idTurma) {
-			Map<String, Object> params = new HashMap<String, Object>();
-			params.put("idEstagiario", idEstagiario);
-			params.put("idTurma", idTurma);
+			submissao.setData(new Date());
+			submissao.setHorario(new Date());
+			submissao.setStatusEntrega(StatusEntrega.ENVIADO);
+			submissao.setTipo(tipo);
+			submissao.setEstagiario(estagiario);
+			submissao.setDocumento(documento);
 			
-			@SuppressWarnings("unchecked")
-			List <Submissao> submissoes = find(QueryType.JPQL,"select s from Turma t join t.submissoes s where s.estagiario.id = :idEstagiario and t.id = :idTurma", params);
+			turma.getSubmissoes().add(submissao);
 			
-			return submissoes;			
-			
+			update(turma);
 		}
-		
-
-
-		public void submeterDocumento(Estagiario estagiario, Turma turma, Tipo tipo, MultipartFile anexo) throws IOException {
-			Submissao submissao = getSubmissaoByEstagiarioIdAndIdTurmaAndTipo(estagiario.getId(), turma.getId(), tipo);
-			
-			if(submissao == null) {
-				submissao = new Submissao();
-			}	
-				
-				if(StatusEntrega.ENVIADO.equals(submissao.getStatusEntrega()) && anexo.getBytes() != null && anexo.getBytes().length != 0 && anexo.getContentType().equals("application/pdf")){
-					Documento documento = new Documento();
-					documento.setNome(tipo+"_"+estagiario.getNomeCompleto().toUpperCase());
-					documento.setExtensao(anexo.getContentType());
-					documento.setArquivo(anexo.getBytes());
-
-					
-					submissao.setData(new Date());
-					submissao.setHorario(new Date());
-					submissao.setStatusEntrega(StatusEntrega.ENVIADO);
-					submissao.setTipo(tipo);
-					submissao.setEstagiario(estagiario);
-					submissao.setDocumento(documento);
-					
-					turma.getSubmissoes().add(submissao);
-					
-					update(turma);
-				}
-			}
-			
-		
-		/* fim métodos de submissão */
-
+	}
 }

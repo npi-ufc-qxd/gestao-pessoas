@@ -32,7 +32,7 @@ public interface TurmaService extends GenericService<Turma> {
 	//métodos que antes eram de submissaoService 
 	void salvar(Submissao submissao);
 	
-	void salvar(List<Submissao> submissoes);
+	//void salvar(List<Submissao> submissoes);
 	
 	Submissao getSubmissaoById(Long id);
 	

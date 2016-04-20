@@ -50,7 +50,7 @@ public class AvaliacaoController {
 	@RequestMapping(value = "{idTurma}/acompanhamento-avaliacao/estagiario/{idEstagiario}/adicionar/", method = RequestMethod.GET)
 	public String novaAvaliacaoEstagio(Model model, @PathVariable("idEstagiario") Long idEstagiario, @PathVariable("idTurma") Long idTurma) {
 		model.addAttribute("action", "cadastrar");
-		model.addAttribute("avaliacaoEstagio", new AvaliacaoRendimento());
+		model.addAttribute("avaliacaoRendimento", new AvaliacaoRendimento());
 		model.addAttribute("turma",turmaService.getTurmaByIdAndEstagiarioId(idTurma, idEstagiario));
 		model.addAttribute("estagiario",estagiarioService.find(Estagiario.class, idEstagiario));
 		return "supervisor/form-avaliacao-estagio";
@@ -58,7 +58,7 @@ public class AvaliacaoController {
 
 	@RequestMapping(value = "{idTurma}/acompanhamento-avaliacao/estagiario/{idEstagiario}/adicionar/", method = RequestMethod.POST)
 	public String adicionarAvaliacaoEstagio(Model model,
-			@Valid @ModelAttribute("avaliacaoEstagio") AvaliacaoRendimento avaliacaoRendimento, HttpSession session,
+			@Valid @ModelAttribute("avaliacaoRendimento") AvaliacaoRendimento avaliacaoRendimento, HttpSession session,
 			RedirectAttributes redirect, @PathVariable("idEstagiario") Long idEstagiario,
 			@PathVariable("idTurma") Long idTurma) {
 		model.addAttribute("action", "cadastrar");
@@ -75,18 +75,18 @@ public class AvaliacaoController {
 		return "redirect:/supervisor/turma/{idTurma}/acompanhamento-avaliacao/estagiario/{idEstagiario}";
 	}
 	
-	@RequestMapping(value = "{idTurma}/avaliacao/{idAvaliacaoEstagio}/estagiario/{idEstagiario}/editar", method = RequestMethod.GET)
-	public String paginaEditarAvaliacaoEstagio(@PathVariable("idEstagiario") Long idEstagiario, @PathVariable("idTurma") Long idTurma, @PathVariable("idAvaliacaoEstagio") Long idAvaliacaoEstagio, Model model, HttpSession session) {
+	@RequestMapping(value = "{idTurma}/avaliacao/{idAvaliacaoRendimento}/estagiario/{idEstagiario}/editar", method = RequestMethod.GET)
+	public String paginaEditarAvaliacaoEstagio(@PathVariable("idEstagiario") Long idEstagiario, @PathVariable("idTurma") Long idTurma, @PathVariable("idAvaliacaoRendimento") Long idAvaliacaoRendimento, Model model, HttpSession session) {
 		model.addAttribute("action", "editar");
-		model.addAttribute("avaliacaoEstagio", avaliacaoService.find(AvaliacaoRendimento.class, idAvaliacaoEstagio));
+		model.addAttribute("avaliacaoRendimento", avaliacaoService.find(AvaliacaoRendimento.class, idAvaliacaoRendimento));
 		model.addAttribute("turma",turmaService.getTurmaByIdAndEstagiarioId(idTurma, idEstagiario));
 		model.addAttribute("estagiario",estagiarioService.find(Estagiario.class, idEstagiario));
 		return "supervisor/form-avaliacao-estagio";
 	}
 
-	@RequestMapping(value = "{idTurma}/avaliacao/{idAvaliacaoEstagio}/estagiario/{idEstagiario}/editar", method = RequestMethod.POST)
+	@RequestMapping(value = "{idTurma}/avaliacao/{idAvaliacaoRendimento}/estagiario/{idEstagiario}/editar", method = RequestMethod.POST)
 	public String editarAvaliacaoEstagio(Model model,
-			@Valid @ModelAttribute("avaliacaoEstagio") AvaliacaoRendimento avaliacaoRendimento, HttpSession session,
+			@Valid @ModelAttribute("avaliacaoRendimento") AvaliacaoRendimento avaliacaoRendimento, HttpSession session,
 			RedirectAttributes redirect, @PathVariable("idEstagiario") Long idEstagiario,
 			@PathVariable("idTurma") Long idTurma) {
 

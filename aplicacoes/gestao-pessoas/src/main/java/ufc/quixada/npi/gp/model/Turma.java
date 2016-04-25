@@ -66,9 +66,22 @@ public class Turma {
 	@JoinTable(name = "turmas_estagiarios")
 	private List<Estagiario> estagiarios;
 	
+	@OneToMany(cascade = {CascadeType.REFRESH, CascadeType.MERGE, CascadeType.PERSIST})
+	@JoinColumn(name="turma_id")
+	private List<Submissao> submissoes;
+	
 	@OneToMany(mappedBy = "turma")
 	private List<Evento> eventos;
+	
+	
+	public List<Submissao> getSubmissoes() {
+		return submissoes;
+	}
 
+	public void setSubmissoes(List<Submissao> submissoes) {
+		this.submissoes = submissoes;
+	}
+	
 	public List<Evento> getEventos() {
 		return eventos;
 	}

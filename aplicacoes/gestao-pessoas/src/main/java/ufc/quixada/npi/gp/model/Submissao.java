@@ -52,10 +52,7 @@ public class Submissao {
 	@ManyToOne
 	@JoinColumn(name = "estagiario_id")
 	private Estagiario estagiario;
-
-	@ManyToOne
-	@JoinColumn(name = "turma_id")
-	private Turma turma;
+	
 	
 	@OneToOne(cascade = CascadeType.ALL)	
 	@JoinColumn(name = "documento_id")
@@ -100,15 +97,7 @@ public class Submissao {
 	public void setStatusEntrega(StatusEntrega statusEntrega) {
 		this.statusEntrega = statusEntrega;
 	}
-	
-	public Turma getTurma() {
-		return turma;
-	}
-
-	public void setTurma(Turma turma) {
-		this.turma = turma;
-	}
-
+		
 	public Tipo getTipo() {
 		return tipo;
 	}

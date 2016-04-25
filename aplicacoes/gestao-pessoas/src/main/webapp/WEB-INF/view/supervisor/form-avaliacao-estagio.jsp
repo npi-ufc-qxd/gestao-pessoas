@@ -10,7 +10,7 @@
 </c:if>
 <c:if test="${action eq 'editar' }">
 	<c:set var="url"
-		value="/supervisor/turma/${turma.id}/avaliacao/${avaliacaoEstagio.id}/estagiario/${estagiario.id}/editar"></c:set>
+		value="/supervisor/turma/${turma.id}/avaliacao/${avaliacaoRendimento.id}/estagiario/${estagiario.id}/editar"></c:set>
 	<c:set var="titulo" value="Editar Avaliação"></c:set>
 </c:if>
 
@@ -38,7 +38,7 @@
 				</div>
 
 				<form:form id="form-avaliacao-estagio" role="form"
-					commandName="avaliacaoEstagio" servletRelativeAction="${url}"
+					commandName="avaliacaoRendimento" servletRelativeAction="${url}"
 					method="POST" cssClass="form-horizontal">
 					<div class="panel-body">
 						<form:hidden path="id" />

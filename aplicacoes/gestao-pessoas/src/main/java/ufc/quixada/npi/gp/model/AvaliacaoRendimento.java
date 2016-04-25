@@ -9,17 +9,13 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 
 @Entity
-public class AvaliacaoEstagio {
+public class AvaliacaoRendimento {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
 	private double nota;
-
-	private double notaSeminario;
-
-	private String comentarioSeminario;
 
 	@Lob
 	private String fatorAssiduidadeDisciplina;
@@ -32,6 +28,12 @@ public class AvaliacaoEstagio {
 
 	@Lob
 	private String fatorRelacionamento;
+
+	@ManyToOne
+	@JoinColumn(name = "documento_id")
+	private Documento documento;
+
+	private String comentario;
 
 	@ManyToOne
 	@JoinColumn(name = "turma_id")
@@ -59,22 +61,6 @@ public class AvaliacaoEstagio {
 
 	public void setNota(double nota) {
 		this.nota = nota;
-	}
-
-	public double getNotaSeminario() {
-		return notaSeminario;
-	}
-
-	public void setNotaSeminario(double notaSeminario) {
-		this.notaSeminario = notaSeminario;
-	}
-
-	public String getComentarioSeminario() {
-		return comentarioSeminario;
-	}
-
-	public void setComentarioSeminario(String comentarioSeminario) {
-		this.comentarioSeminario = comentarioSeminario;
 	}
 
 	public String getFatorAssiduidadeDisciplina() {
@@ -109,6 +95,22 @@ public class AvaliacaoEstagio {
 		this.fatorRelacionamento = fatorRelacionamento;
 	}
 
+	public Documento getDocumento() {
+		return documento;
+	}
+
+	public void setDocumento(Documento documento) {
+		this.documento = documento;
+	}
+
+	public String getComentario() {
+		return comentario;
+	}
+
+	public void setComentario(String comentario) {
+		this.comentario = comentario;
+	}
+
 	public Turma getTurma() {
 		return turma;
 	}
@@ -135,14 +137,12 @@ public class AvaliacaoEstagio {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (obj instanceof AvaliacaoEstagio) {
-			AvaliacaoEstagio other = (AvaliacaoEstagio) obj;
+		if (obj instanceof AvaliacaoRendimento) {
+			AvaliacaoRendimento other = (AvaliacaoRendimento) obj;
 			if (other != null && other.getId() != null && this.id != null && other.getId().equals(this.id)) {
 				return true;
 			}
 		}
 		return false;
 	}
-
 }
-

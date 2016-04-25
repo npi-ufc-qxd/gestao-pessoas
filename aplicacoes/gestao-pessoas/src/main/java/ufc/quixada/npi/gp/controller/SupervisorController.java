@@ -34,7 +34,6 @@ import ufc.quixada.npi.gp.service.FrequenciaService;
 import ufc.quixada.npi.gp.service.PapelService;
 import ufc.quixada.npi.gp.service.PessoaService;
 import ufc.quixada.npi.gp.service.ServidorService;
-import ufc.quixada.npi.gp.service.SubmissaoService;
 import ufc.quixada.npi.gp.service.TurmaService;
 import ufc.quixada.npi.gp.utils.Constants;
 
@@ -67,9 +66,6 @@ public class SupervisorController {
 	@Inject
 	private FrequenciaService frequenciaService;
 
-	@Inject
-	private SubmissaoService submissaoService;
-	
 	@RequestMapping(value = { "", "/" }, method = RequestMethod.GET)
 	public String paginaInicial(Model Model, HttpSession session) {
 
@@ -140,7 +136,7 @@ public class SupervisorController {
 		model.addAttribute("avaliacaoEstagio", avaliacaoService.getAvaliacoesEstagioByEstagiarioIdAndTurmaById(idEstagiario, idTurma));
 		model.addAttribute("turma", turmaService.find(Turma.class, idTurma));
 		model.addAttribute("estagiario", estagiarioService.find(Estagiario.class, idEstagiario));
-		model.addAttribute("submissoes", submissaoService.getSubmissoesByEstagiarioIdAndIdTurma(idEstagiario, idTurma));
+		model.addAttribute("submissoes", turmaService.getSubmissoesByEstagiarioIdAndIdTurma(idEstagiario, idTurma));
 
 		return "supervisor/acompanhamentoAvaliacao";
 	}

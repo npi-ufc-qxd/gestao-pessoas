@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import ufc.quixada.npi.gp.model.Documento;
 import ufc.quixada.npi.gp.model.Submissao;
-import ufc.quixada.npi.gp.service.SubmissaoService;
+import ufc.quixada.npi.gp.service.TurmaService;
 
 
 @Controller
@@ -25,12 +25,12 @@ import ufc.quixada.npi.gp.service.SubmissaoService;
 public class DocumentoController {
 	
 	@Inject
-	private SubmissaoService submissaoService;
+	private TurmaService turmaService;
 	
 	@RequestMapping(value = "/{idSubmissao}", method = RequestMethod.GET)
 	public void getArquivo(@PathVariable("idSubmissao") Long idSubmissao, HttpServletResponse response, HttpSession session) {
 		try {
-			Submissao submissao = submissaoService.getSubmissaoById(idSubmissao);
+			Submissao submissao = turmaService.getSubmissaoById(idSubmissao);
 			if(submissao != null) {
 				InputStream is = new ByteArrayInputStream(submissao.getDocumento().getArquivo());
 				response.setContentType(submissao.toString());
@@ -45,14 +45,14 @@ public class DocumentoController {
 	@RequestMapping(value = "/remover/{id}", method = RequestMethod.POST)
 	@ResponseBody public  ModelMap excluirDocumento(@PathVariable("id") Long id, HttpSession session) {
 		ModelMap model = new ModelMap();
-		Submissao documento = submissaoService.getSubmissaoById(id);
+		Submissao documento = turmaService.getSubmissaoById(id);
 
 		if(documento == null) {
 			model.addAttribute("mensagem", "Documento inexistente.");
 			return model;
 		}
 
-		submissaoService.remover(documento);
+		turmaService.remover(documento);
 		model.addAttribute("result", "ok");
 		return model;
 	}

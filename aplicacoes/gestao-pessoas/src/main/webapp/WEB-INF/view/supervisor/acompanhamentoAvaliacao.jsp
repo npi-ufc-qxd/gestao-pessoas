@@ -99,7 +99,7 @@
 					<h2 class="titulo-panels">
 						<span class="fa fa-pencil"></span> Avaliação de estágio
 					</h2>
-					<c:if test="${empty avaliacaoEstagio}">
+					<c:if test="${empty avaliacaoRendimento}">
 						<div class="pull-right">
 							<a
 								href="<c:url value="/supervisor/turma/${turma.id}/acompanhamento-avaliacao/estagiario/${estagiario.id}/adicionar/" ></c:url>"
@@ -108,11 +108,11 @@
 								</button></a>
 						</div>
 					</c:if>
-					<c:if test="${not empty avaliacaoEstagio}">
-						<c:forEach var="avaliacaoEstagio" items="${avaliacaoEstagio}">
+					<c:if test="${not empty avaliacaoRendimento}">
+						<c:forEach var="avaliacaoRendimento" items="${avaliacaoEstagio}">
 							<div class="pull-right">
 								<a
-									href="<c:url value="/supervisor/turma/${turma.id}/avaliacao/${avaliacaoEstagio.id}/estagiario/${estagiario.id}/editar" ></c:url>"
+									href="<c:url value="/supervisor/turma/${turma.id}/avaliacao/${avaliacaoRendimento.id}/estagiario/${estagiario.id}/editar" ></c:url>"
 									title="Editar"><button class="btn btn-success">
 										<span class="fa fa-pencil"></span> Editar avaliação
 									</button></a>
@@ -128,25 +128,25 @@
 							<button type="button" class="close" data-dismiss="alert">×</button>${success}</div>
 					</c:if>
 
-					<c:if test="${empty avaliacaoEstagio}">
+					<c:if test="${empty avaliacaoRendimento}">
 						<div class="alert alert-warning" role="alert">Não há
 							Avaliação cadastrada.</div>
 					</c:if>
 
-					<c:if test="${not empty avaliacaoEstagio}">
-						<c:forEach var="avaliacaoEstagio" items="${avaliacaoEstagio}">
+					<c:if test="${not empty avaliacaoRendimento}">
+						<c:forEach var="avaliacaoRendimento" items="${avaliacaoRendimento}">
 							<div class="form-group">
 								<label class="col-sm-3 text-view-info"><strong>Nota
-										geral do estágio: </strong></label><label class="col-sm-3 text-view-info">${avaliacaoEstagio.nota}</label>
+										geral do estágio: </strong></label><label class="col-sm-3 text-view-info">${avaliacaoRendimento.nota}</label>
 
 								<label class="col-sm-12 text-view-info"><strong>Assiduidade
-										e Disciplina </strong></label><label class="col-sm-12 text-view-info">${avaliacaoEstagio.fatorAssiduidadeDisciplina}</label>
+										e Disciplina </strong></label><label class="col-sm-12 text-view-info">${avaliacaoRendimento.fatorAssiduidadeDisciplina}</label>
 								<label class="col-sm-12 text-view-info"><strong>Iniciativa
-										e Produtividade </strong></label><label class="col-sm-12 text-view-info">${avaliacaoEstagio.fatorIniciativaProdutividade}</label>
+										e Produtividade </strong></label><label class="col-sm-12 text-view-info">${avaliacaoRendimento.fatorIniciativaProdutividade}</label>
 								<label class="col-sm-12 text-view-info"><strong>Responsabilidade
-								</strong></label><label class="col-sm-12 text-view-info">${avaliacaoEstagio.fatorResponsabilidade}</label>
+								</strong></label><label class="col-sm-12 text-view-info">${avaliacaoRendimento.fatorResponsabilidade}</label>
 								<label class="col-sm-12 text-view-info"><strong>Relacionamento
-								</strong></label><label class="col-sm-12 text-view-info">${avaliacaoEstagio.fatorRelacionamento}</label>
+								</strong></label><label class="col-sm-12 text-view-info">${avaliacaoRendimento.fatorRelacionamento}</label>
 
 
 							</div>

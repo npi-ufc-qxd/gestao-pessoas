@@ -2,17 +2,17 @@ package ufc.quixada.npi.gp.service;
 
 import java.util.List;
 
-import ufc.quixada.npi.gp.model.AvaliacaoEstagio;
+import ufc.quixada.npi.gp.model.AvaliacaoRendimento;
 import br.ufc.quixada.npi.service.GenericService;
 
-public interface AvaliacaoService extends GenericService<AvaliacaoEstagio>{
+public interface AvaliacaoService extends GenericService<AvaliacaoRendimento>{
 
-	List<AvaliacaoEstagio> getAvaliacaoBySupervisorId(Long idSupervisor);
+	List<AvaliacaoRendimento> getAvaliacaoBySupervisorId(Long idSupervisor);
 
-	List<AvaliacaoEstagio> getAvaliacaoByEstagiarioId(Long idEstagiario);
+	List<AvaliacaoRendimento> getAvaliacaoByEstagiarioId(Long idEstagiario);
 
-	AvaliacaoEstagio getAvaliacaoEstagioById(Long idAvaliacao);
+	AvaliacaoRendimento getAvaliacaoEstagioById(Long idAvaliacao);
 
-	List<AvaliacaoEstagio> getAvaliacoesEstagioByEstagiarioIdAndTurmaById(Long idEstagiario, Long idTurma);
+	List<AvaliacaoRendimento> getAvaliacoesEstagioByEstagiarioIdAndTurmaById(Long idEstagiario, Long idTurma);
 
 }

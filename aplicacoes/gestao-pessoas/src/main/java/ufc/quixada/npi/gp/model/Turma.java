@@ -57,6 +57,9 @@ public class Turma {
 	
 	@Enumerated(EnumType.STRING)
 	private StatusTurma statusTurma;
+	
+	@Enumerated(EnumType.STRING)
+	private TipoTurma tipoTurma;
 
 	@OneToMany(cascade = {CascadeType.REFRESH, CascadeType.MERGE, CascadeType.PERSIST})//, fetch = FetchType.LAZY)
 	@JoinColumn(name= "turma_id")
@@ -96,6 +99,14 @@ public class Turma {
 
 	public void setStatusTurma(StatusTurma statusTurma) {
 		this.statusTurma = statusTurma;
+	}
+	
+	public TipoTurma getTipoTurma() {
+		return tipoTurma;
+	}
+	
+	public void setTipoTurma(TipoTurma tipoTurma) {
+		this.tipoTurma = tipoTurma;
 	}
 
 	public List<Horario> getHorarios() {

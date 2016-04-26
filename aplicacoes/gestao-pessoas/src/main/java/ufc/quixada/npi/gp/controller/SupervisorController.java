@@ -2,7 +2,6 @@ package ufc.quixada.npi.gp.controller;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
@@ -71,7 +70,7 @@ public class SupervisorController {
 
 		String cpf = SecurityContextHolder.getContext().getAuthentication().getName();
 		Pessoa usuarioLogado = getUsuarioLogado(session);
-		
+
 		if (!pessoaService.isPessoa(cpf)) {
 
 			Papel papel = papelService.getPapel("ROLE_SUPERVISOR");
@@ -96,22 +95,25 @@ public class SupervisorController {
 
 		return "supervisor/list-turmas";
 	}
-	
-	//@RequestMapping(value = "/")
+
+	// @RequestMapping(value = "/")
 
 	@RequestMapping(value = "/estagiario/{idEstagiario}/turma/{idTurma}/frequencia/pendente", method = RequestMethod.POST)
-	public String lancarFrequencia(@PathVariable("idEstagiario") Long idEstagiario, @PathVariable("idTurma") Long idTurma, @RequestParam("data") Date data, @RequestParam("statusFrequencia") StatusFrequencia statusFrequencia, @RequestParam("observacao") String observacao, Model model, RedirectAttributes redirectAttributes) {
+	public String lancarFrequencia(@PathVariable("idEstagiario") Long idEstagiario,
+			@PathVariable("idTurma") Long idTurma, @RequestParam("data") Date data,
+			@RequestParam("statusFrequencia") StatusFrequencia statusFrequencia,
+			@RequestParam("observacao") String observacao, Model model, RedirectAttributes redirectAttributes) {
 
-		Turma turma =turmaService.find(Turma.class, idTurma);
+		Turma turma = turmaService.find(Turma.class, idTurma);
 		Estagiario estagiario = estagiarioService.find(Estagiario.class, idEstagiario);
 
 		Frequencia frequencia = frequenciaService.getFrequenciaByDataByTurmaByEstagiario(data, idTurma, idEstagiario);
-		
+
 		if (frequencia == null) {
-			
-			if(statusFrequencia == null){
+
+			if (statusFrequencia == null) {
 				redirectAttributes.addFlashAttribute("error", "Escolha um Status Válido");
-			}else{
+			} else {
 				frequencia = new Frequencia();
 				frequencia.setTurma(turma);
 				frequencia.setEstagiario(estagiario);
@@ -123,8 +125,8 @@ public class SupervisorController {
 				frequenciaService.save(frequencia);
 				redirectAttributes.addFlashAttribute("sucesso", "Frequência lançada com sucesso");
 			}
-			
-		} else{
+
+		} else {
 			redirectAttributes.addFlashAttribute("error", "Não é possivel lançar a Frequência para esta data");
 		}
 
@@ -132,8 +134,10 @@ public class SupervisorController {
 	}
 
 	@RequestMapping(value = "/turma/{idTurma}/acompanhamento-avaliacao/estagiario/{idEstagiario}", method = RequestMethod.GET)
-	public String listarAcompanhamento(Model model, HttpSession session, @PathVariable("idEstagiario") Long idEstagiario, @PathVariable("idTurma") Long idTurma) {
-		model.addAttribute("avaliacaoEstagio", avaliacaoService.getAvaliacoesEstagioByEstagiarioIdAndTurmaById(idEstagiario, idTurma));
+	public String listarAcompanhamento(Model model, HttpSession session,
+			@PathVariable("idEstagiario") Long idEstagiario, @PathVariable("idTurma") Long idTurma) {
+		model.addAttribute("avaliacaoEstagio",
+				avaliacaoService.getAvaliacoesEstagioByEstagiarioIdAndTurmaById(idEstagiario, idTurma));
 		model.addAttribute("turma", turmaService.find(Turma.class, idTurma));
 		model.addAttribute("estagiario", estagiarioService.find(Estagiario.class, idEstagiario));
 		model.addAttribute("submissoes", turmaService.getSubmissoesByEstagiarioIdAndIdTurma(idEstagiario, idTurma));
@@ -156,8 +160,8 @@ public class SupervisorController {
 	}
 
 	@RequestMapping(value = "/frequencia/atualizar-status", method = RequestMethod.POST)
-	public String atualizarStatus(@RequestParam("pk") Long idFrequencia,
-			@RequestParam("value") StatusFrequencia status, Model model, RedirectAttributes redirectAttributes) {
+	public String atualizarStatus(@RequestParam("pk") Long idFrequencia, @RequestParam("value") StatusFrequencia status,
+			Model model, RedirectAttributes redirectAttributes) {
 		Frequencia frequencia = frequenciaService.find(Frequencia.class, idFrequencia);
 
 		if (frequencia != null) {
@@ -168,26 +172,20 @@ public class SupervisorController {
 
 		return "";
 	}
-	
-	
-	
-	
 
 	private Pessoa getUsuarioLogado(HttpSession session) {
 		if (session.getAttribute(Constants.USUARIO_LOGADO) == null) {
-			Pessoa pessoa = pessoaService.getPessoaByCpf(SecurityContextHolder.getContext().getAuthentication()
-					.getName());
+			Pessoa pessoa = pessoaService
+					.getPessoaByCpf(SecurityContextHolder.getContext().getAuthentication().getName());
 			session.setAttribute(Constants.USUARIO_LOGADO, pessoa);
 		}
 		return (Pessoa) session.getAttribute(Constants.USUARIO_LOGADO);
 	}
-	
+
 	@RequestMapping(value = "/estagiario/{id}", method = RequestMethod.GET)
 	public String infoEstagiario(@PathVariable("id") Long id, Model model) {
 		model.addAttribute("estagiario", estagiarioService.find(Estagiario.class, id));
 		return "supervisor/info-estagiario";
 	}
 
-	
-	
 }

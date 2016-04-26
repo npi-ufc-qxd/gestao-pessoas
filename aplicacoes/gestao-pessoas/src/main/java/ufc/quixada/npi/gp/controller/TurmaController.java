@@ -188,7 +188,11 @@ public class TurmaController {
 		
 		model.addAttribute("turma", turmaService.getTurmaByIdAndSupervisorById(idTurma, pessoa.getId()));
 		turmaService.getTurmaByIdAndSupervisorById(idTurma, pessoa.getId());
-
+		
+		
+		List<Estagiario> aniversariantes = estagiarioService.getAniversariantesMesByTurmaId(idTurma);
+		model.addAttribute("aniversariantes", aniversariantes);	
+		
 		return "supervisor/info-turma";
 	}
 
@@ -470,5 +474,5 @@ public class TurmaController {
 		redirect.addFlashAttribute("success", "Alterações realizadas com sucesso!");
 		return "redirect:/supervisor/turma/" + evento.getTurma().getId() + "/evento";	
 	}
-	// Evento Termino
+// Evento Termino
 }

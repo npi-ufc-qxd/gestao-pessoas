@@ -55,17 +55,9 @@
 							<div class="form-group" align="center">
 								<label class="control-label col-xs-2"></label>
 								<div class="col-xs-10"><div class="form-control label label-danger"><i class="fa fa-times-circle-o"></i> ${error}</div></div>
+										
 							</div>
 						</c:if>
-						<fieldset class="form-group">
-							<label class="panel-title"><strong>Minha Presença</strong></label>
-						</fieldset>
-						<div class="form-group">
-							<label for="cpf" class="sr-only">CPF</label>
-							<input type="text" class="form-control" id="cpf" name="cpf" placeholder="CPF" value="${estagiario.pessoa.cpf}" readonly="readonly">
-						</div>
-						
-						<button type="submit" class="btn btn-success">Estou Presente !!!</button>
 					</form>
 				  </div>
 				</div>

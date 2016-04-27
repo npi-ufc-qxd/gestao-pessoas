@@ -91,6 +91,9 @@ public class Estagiario {
 	@OneToMany(mappedBy = "estagiario", cascade = { CascadeType.PERSIST })
 	// @JoinColumn(name= "estagiario_id")
 	private List<Frequencia> frequencias;
+	
+	@OneToMany(mappedBy="estagiario")
+	private List<Estagio> estagios;
 
 	public List<Frequencia> getFrequencias() {
 		return frequencias;

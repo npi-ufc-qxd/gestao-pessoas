@@ -173,6 +173,7 @@ public class TurmaController {
 
 		turmaDoBanco.setNome(turma.getNome());
 		turmaDoBanco.setStatusTurma(turma.getStatusTurma());
+		turmaDoBanco.setTipoTurma(turma.getTipoTurma());
 		turmaDoBanco.setSemestre(turma.getSemestre());
 		turmaDoBanco.setInicio(turma.getInicio());
 		turmaDoBanco.setTermino(turma.getTermino());
@@ -188,7 +189,11 @@ public class TurmaController {
 		
 		model.addAttribute("turma", turmaService.getTurmaByIdAndSupervisorById(idTurma, pessoa.getId()));
 		turmaService.getTurmaByIdAndSupervisorById(idTurma, pessoa.getId());
-
+		
+		
+		List<Estagiario> aniversariantes = estagiarioService.getAniversariantesMesByTurmaId(idTurma);
+		model.addAttribute("aniversariantes", aniversariantes);	
+		
 		return "supervisor/info-turma";
 	}
 
@@ -470,5 +475,5 @@ public class TurmaController {
 		redirect.addFlashAttribute("success", "Alterações realizadas com sucesso!");
 		return "redirect:/supervisor/turma/" + evento.getTurma().getId() + "/evento";	
 	}
-	// Evento Termino
+// Evento Termino
 }

@@ -84,7 +84,7 @@ public class SupervisorController {
 			Servidor servidor = new Servidor(pessoa, usuarioService.getByCpf(cpf).getSiape());
 			servidorService.save(servidor);
 		}
-
+		
 		return "redirect:/supervisor/turmas";
 	}
 

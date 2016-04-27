@@ -76,6 +76,14 @@
 						<form:input id="termino" path="termino" cssClass="form-control data" placeholder="Término do periodo" required="required"/>
 						<div class="error-validation"><form:errors path="termino"></form:errors></div>
 					</div>
+					
+					<div class="form-item col-sm-3">
+						<label for="tipoTurma" class="control-label">*Tipo:</label>
+						<form:select id="tipoTurma" path="tipoTurma" cssClass="form-control selectpicker" required="required">
+							<form:options itemLabel="label" />
+						</form:select>
+						<div class="error-validation"><form:errors path="tipoTurma"></form:errors></div>
+					</div>
 				</div>
 			</div>
 			

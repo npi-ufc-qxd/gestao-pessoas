@@ -173,6 +173,7 @@ public class TurmaController {
 
 		turmaDoBanco.setNome(turma.getNome());
 		turmaDoBanco.setStatusTurma(turma.getStatusTurma());
+		turmaDoBanco.setTipoTurma(turma.getTipoTurma());
 		turmaDoBanco.setSemestre(turma.getSemestre());
 		turmaDoBanco.setInicio(turma.getInicio());
 		turmaDoBanco.setTermino(turma.getTermino());

@@ -95,6 +95,14 @@ public class Estagiario {
 	@OneToMany(mappedBy="estagiario")
 	private List<Estagio> estagios;
 
+	public List<Estagio> getEstagios() {
+		return estagios;
+	}
+
+	public void setEstagios(List<Estagio> estagios) {
+		this.estagios = estagios;
+	}
+
 	public List<Frequencia> getFrequencias() {
 		return frequencias;
 	}

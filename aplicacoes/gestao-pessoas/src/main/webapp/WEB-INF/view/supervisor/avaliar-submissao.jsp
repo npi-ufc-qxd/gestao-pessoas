@@ -83,80 +83,15 @@
 								</strong></label> <label class="col-sm-3 text-view-info">${submissoes.tipo}</label>
 
 							</div>
-							<a
-								href="<c:url value="/supervisor/turma/${turma.id}/submissao/${submissao.id}/estagiario/${estagiario.id}/avaliar-submissao" ></c:url>"
-								title="Editar"><button class="btn btn-primary">
-									<span class="fa fa-pencil"></span> Avaliar
-								</button></a>
+							
 						</form>
 						<br>
 					</c:forEach>
 				</div>
 			</div>
-			<div class="panel panel-info">
-				<div class="panel-heading">
-					<h2 class="titulo-panels">
-						<span class="fa fa-pencil"></span> Avaliação de estágio
-					</h2>
-					<c:if test="${empty avaliacaoRendimento}">
-						<div class="pull-right">
-							<a
-								href="<c:url value="/supervisor/turma/${turma.id}/acompanhamento-avaliacao/estagiario/${estagiario.id}/adicionar/" ></c:url>"
-								title="Nova Avaliacao"><button class="btn btn-primary">
-									<span class="fa fa-plus"></span> Avaliação
-								</button></a>
-						</div>
-					</c:if>
-					<c:if test="${not empty avaliacaoRendimento}">
-						<c:forEach var="avaliacaoRendimento" items="${avaliacaoEstagio}">
-							<div class="pull-right">
-								<a
-									href="<c:url value="/supervisor/turma/${turma.id}/avaliacao/${avaliacaoRendimento.id}/estagiario/${estagiario.id}/editar" ></c:url>"
-									title="Editar"><button class="btn btn-success">
-										<span class="fa fa-pencil"></span> Editar avaliação
-									</button></a>
-							</div>
-						</c:forEach>
-					</c:if>
-					- <br>
-				</div>
-				<div class="panel-body">
-
-					<c:if test="${not empty success }">
-						<div class="alert alert-dismissible alert-success">
-							<button type="button" class="close" data-dismiss="alert">×</button>${success}</div>
-					</c:if>
-
-					<c:if test="${empty avaliacaoRendimento}">
-						<div class="alert alert-warning" role="alert">Não há
-							Avaliação cadastrada.</div>
-					</c:if>
-
-					<c:if test="${not empty avaliacaoRendimento}">
-						<c:forEach var="avaliacaoRendimento" items="${avaliacaoRendimento}">
-							<div class="form-group">
-								<label class="col-sm-3 text-view-info"><strong>Nota
-										geral do estágio: </strong></label><label class="col-sm-3 text-view-info">${avaliacaoRendimento.nota}</label>
-
-								<label class="col-sm-12 text-view-info"><strong>Assiduidade
-										e Disciplina </strong></label><label class="col-sm-12 text-view-info">${avaliacaoRendimento.fatorAssiduidadeDisciplina}</label>
-								<label class="col-sm-12 text-view-info"><strong>Iniciativa
-										e Produtividade </strong></label><label class="col-sm-12 text-view-info">${avaliacaoRendimento.fatorIniciativaProdutividade}</label>
-								<label class="col-sm-12 text-view-info"><strong>Responsabilidade
-								</strong></label><label class="col-sm-12 text-view-info">${avaliacaoRendimento.fatorResponsabilidade}</label>
-								<label class="col-sm-12 text-view-info"><strong>Relacionamento
-								</strong></label><label class="col-sm-12 text-view-info">${avaliacaoRendimento.fatorRelacionamento}</label>
-
-
-							</div>
-						</c:forEach>
-					</c:if>
-
-				</div>
 			</div>
 
 		</div>
-	</div>
 	<br>
 	<br>
 	<jsp:include page="../modulos/footer.jsp" />

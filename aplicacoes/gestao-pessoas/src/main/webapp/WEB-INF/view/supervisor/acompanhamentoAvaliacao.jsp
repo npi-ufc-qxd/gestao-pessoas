@@ -78,8 +78,8 @@
 									<td><a href="<c:url value="/documento/ ${submissoes.id }" />">${submissoes.documento.nome}</a></td>
 									<td>${submissoes.tipo}</td>
 									<td><a
-								href="<c:url value="/supervisor/turma/${turma.id}/submissao/${submissoes.id}/estagiario/${estagiario.id}/avaliar-submissao" ></c:url>"
-								title="Editar"><button class="btn btn-primary pull-center">
+								href="<c:url value="/supervisor/turma/${turma.id}/submissao/${submissoes.id}/estagiario/${estagiario.id}/avaliar-submissao-estagiario" ></c:url>"
+								title="Avaliar"><button class="btn btn-primary pull-center">
 									<span class="fa fa-pencil"></span> Avaliar
 								</button></a></td>
 								</tr>

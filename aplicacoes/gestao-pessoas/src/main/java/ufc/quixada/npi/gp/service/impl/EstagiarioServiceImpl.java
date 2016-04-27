@@ -80,5 +80,14 @@ public class EstagiarioServiceImpl extends GenericServiceImpl<Estagiario> implem
 
 		return false;
 	}
+	@Override
+	public List<Estagiario> getAniversariantesMesByTurmaId(Long id) {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("id", id);
+		
+		List<Estagiario> estagiarios = find(QueryType.JPQL, "select e from Estagiario e join e.turmas t where t.id = :id and month(e.dataNascimento) = month(current_date())", params);
+
+		return estagiarios;
+	}
 
 }

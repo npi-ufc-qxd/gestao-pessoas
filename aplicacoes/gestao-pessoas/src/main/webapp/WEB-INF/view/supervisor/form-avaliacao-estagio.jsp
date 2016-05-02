@@ -4,6 +4,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
+
 <c:if test="${action eq 'cadastrar' }">
 	<c:set var="url" value="/supervisor/turma/${turma.id}/acompanhamento-avaliacao/estagiario/${estagiario.id}/adicionar/"></c:set>
 	<c:set var="titulo" value="Nova Avaliação"></c:set>
@@ -18,6 +19,8 @@
 <head>
 <title>${titulo }</title>
 <jsp:include page="../modulos/header-estrutura.jsp" />
+<link href="<c:url value="/resources/css/jquery-filestyle.min.css" />"
+	rel="stylesheet" />
 </head>
 <body>
 	<jsp:include page="../modulos/header.jsp" />
@@ -36,68 +39,91 @@
 							class="fa fa-arrow-left"></span> Voltar</a>
 					</div>
 				</div>
-
 				<form:form id="form-avaliacao-estagio" role="form"
 					commandName="avaliacaoRendimento" servletRelativeAction="${url}"
-					method="POST" cssClass="form-horizontal">
+					method="POST" cssClass="form-horizontal" enctype="multipart/form-data">
 					<div class="panel-body">
 						<form:hidden path="id" />
-
-						<div class="form-group">
-							<div class="form-item col-sm-12">
-								<label for="assiduidadeDisciplina" class="control-label">*Assiduidade
-									e Disciplina:</label>
-								<form:textarea id="assiduidadeDisciplina"
-									path="fatorAssiduidadeDisciplina" cssClass="form-control"
-									placeholder="Comentário" required="required" />
-								<div class="error-validation">
-									<form:errors path="fatorAssiduidadeDisciplina"></form:errors>
+						<c:if test = "${showTurmaNPI eq true}">
+							<div class="form-group">
+								<div class="form-item col-sm-12">
+									<label for="assiduidadeDisciplina" class="control-label">*Assiduidade
+										e Disciplina:</label>
+									<form:textarea id="assiduidadeDisciplina"
+										path="fatorAssiduidadeDisciplina" cssClass="form-control"
+										placeholder="Comentário" required="required" />
+									<div class="error-validation">
+										<form:errors path="fatorAssiduidadeDisciplina"></form:errors>
+									</div>
 								</div>
 							</div>
-						</div>
+	
 
-
-						<div class="form-group">
-							<div class="form-item col-sm-12">
-								<label for="iniciativaProdutividade" class="control-label">*Iniciativa
-									e Produtividade:</label>
-								<form:textarea id="iniciativaProdutividade"
-									path="fatorIniciativaProdutividade" cssClass="form-control"
-									placeholder="Comentário" required="required" />
-								<div class="error-validation">
-									<form:errors path="fatorIniciativaProdutividade"></form:errors>
+							<div class="form-group">
+								<div class="form-item col-sm-12">
+									<label for="iniciativaProdutividade" class="control-label">*Iniciativa
+										e Produtividade:</label>
+									<form:textarea id="iniciativaProdutividade"
+										path="fatorIniciativaProdutividade" cssClass="form-control"
+										placeholder="Comentário" required="required" />
+									<div class="error-validation">
+										<form:errors path="fatorIniciativaProdutividade"></form:errors>
+									</div>
 								</div>
 							</div>
-						</div>
-						<div class="form-group">
-							<div class="form-item col-sm-12">
-								<label for="responsabilidade" class="control-label">*Responsabilidade:</label>
-								<form:textarea id="responsabilidade"
-									path="fatorResponsabilidade" cssClass="form-control"
-									placeholder="Comentário" required="required" />
-								<div class="error-validation">
-									<form:errors path="fatorResponsabilidade"></form:errors>
+							<div class="form-group">
+								<div class="form-item col-sm-12">
+									<label for="responsabilidade" class="control-label">*Responsabilidade:</label>
+									<form:textarea id="responsabilidade"
+										path="fatorResponsabilidade" cssClass="form-control"
+										placeholder="Comentário" required="required" />
+									<div class="error-validation">
+										<form:errors path="fatorResponsabilidade"></form:errors>
+									</div>
 								</div>
 							</div>
+							<div class="form-group">
+								<div class="form-item col-sm-12">
+									<label for="relacionamento" class="control-label">*Relacionamento:</label>
+									<form:textarea id="relacionamento" path="fatorRelacionamento"
+										cssClass="form-control" placeholder="Comentário"
+										required="required" />
+									<div class="error-validation">
+										<form:errors path="fatorRelacionamento"></form:errors>
+									</div>
+								</div>
+							</div>
+						</c:if> 
+						
+						<div class="form-group">
+							<div class="form-item col-sm-3">
+								<label for="nota" class="control-label">*Nota:</label>
+								<form:input path="nota" cssClass="form-control"></form:input>
+								<div class="error-validation"><form:errors path="nota"></form:errors></div>
+								
+								<label for="notaSeminario" class="control-label">*Nota Seminário:</label>
+								<form:input path="notaSeminario" cssClass="form-control"></form:input>
+								<div class="error-validation"><form:errors path="notaSeminario"></form:errors></div>
+							</div>
 						</div>
+						
 						<div class="form-group">
 							<div class="form-item col-sm-12">
-								<label for="relacionamento" class="control-label">*Relacionamento:</label>
-								<form:textarea id="relacionamento" path="fatorRelacionamento"
+								<label for="comentarioSeminario" class="control-label">*Comentário Seminário:</label>
+								<form:textarea id="comentarioSeminario" path="fatorComentarioSeminario"
 									cssClass="form-control" placeholder="Comentário"
 									required="required" />
 								<div class="error-validation">
-									<form:errors path="fatorRelacionamento"></form:errors>
+									<form:errors path="fatorComentarioSeminario"></form:errors>
 								</div>
 							</div>
 						</div>
-						<div class="form-item col-sm-3">
-						<label for="nota" class="control-label">*Nota:</label>
-						<form:input path="nota" cssClass="form-control"></form:input>
-						<div class="error-validation"><form:errors path="nota"></form:errors></div>
-					</div>
-
-					</div>
+					
+					<input name = "rendimento" type="file" class="jfilestyle" data-placeholder="Avaliação de Rendimento" data-buttontext="Escolher arquivo"
+						   accept="application/pdf" data-inputSize="423px" required="required">
+						   
+				    </div>
+					
 					<div class="panel-footer" align="center">
 						<div class="controls">
 							<c:if test="${action eq 'cadastrar' }">
@@ -119,6 +145,8 @@
 	</div>
 
 	<jsp:include page="../modulos/footer.jsp" />
+	
+	<script src="<c:url value="/resources/js/jquery-filestyle.min.js" />"></script>
 
 </body>
 </html>

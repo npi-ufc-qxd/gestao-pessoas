@@ -16,6 +16,8 @@ public class AvaliacaoRendimento {
 	private Long id;
 
 	private double nota;
+	
+	private double notaSeminario;
 
 	@Lob
 	private String fatorAssiduidadeDisciplina;
@@ -28,6 +30,9 @@ public class AvaliacaoRendimento {
 
 	@Lob
 	private String fatorRelacionamento;
+	
+	@Lob
+	private String fatorComentarioSeminario;
 
 	@ManyToOne
 	@JoinColumn(name = "documento_id")
@@ -134,6 +139,22 @@ public class AvaliacaoRendimento {
 	public void setEstagiario(Estagiario estagiario) {
 		this.estagiario = estagiario;
 	}
+	
+	public double getNotaSeminario() {
+		return notaSeminario;
+	}
+
+	public void setNotaSeminario(double notaSeminario) {
+		this.notaSeminario = notaSeminario;
+	}
+	
+	public String getFatorComentarioSeminario() {
+		return fatorComentarioSeminario;
+	}
+
+	public void setFatorComentarioSeminario(String fatorComentarioSeminario) {
+		this.fatorComentarioSeminario = fatorComentarioSeminario;
+	}
 
 	@Override
 	public boolean equals(Object obj) {
@@ -145,4 +166,5 @@ public class AvaliacaoRendimento {
 		}
 		return false;
 	}
+
 }

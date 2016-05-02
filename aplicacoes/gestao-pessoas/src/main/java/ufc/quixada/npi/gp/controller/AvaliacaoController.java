@@ -129,6 +129,8 @@ public class AvaliacaoController {
 		avaliacaoDoBanco.setFatorIniciativaProdutividade(avaliacaoRendimento.getFatorIniciativaProdutividade());
 		avaliacaoDoBanco.setFatorRelacionamento(avaliacaoRendimento.getFatorRelacionamento());
 		avaliacaoDoBanco.setFatorResponsabilidade(avaliacaoRendimento.getFatorResponsabilidade());
+		avaliacaoDoBanco.setNotaSeminario(avaliacaoRendimento.getNotaSeminario());
+		avaliacaoDoBanco.setFatorComentarioSeminario(avaliacaoRendimento.getFatorComentarioSeminario());
 		
 		avaliacaoService.update(avaliacaoDoBanco);
 

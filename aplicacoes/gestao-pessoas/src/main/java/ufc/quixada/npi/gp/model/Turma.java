@@ -76,7 +76,18 @@ public class Turma {
 	@OneToMany(mappedBy = "turma")
 	private List<Evento> eventos;
 	
+	@OneToMany(mappedBy="turma")
+	private List<Estagio> estagios;
 	
+	
+	public List<Estagio> getEstagios() {
+		return estagios;
+	}
+
+	public void setEstagio(List<Estagio> estagios) {
+		this.estagios = estagios;
+	}
+
 	public List<Submissao> getSubmissoes() {
 		return submissoes;
 	}

@@ -58,7 +58,7 @@
 								</div>
 							</div>
 	
-	
+
 							<div class="form-group">
 								<div class="form-item col-sm-12">
 									<label for="iniciativaProdutividade" class="control-label">*Iniciativa
@@ -93,19 +93,37 @@
 									</div>
 								</div>
 							</div>
-						</c:if>
+						</c:if> 
+						
 						<div class="form-group">
 							<div class="form-item col-sm-3">
 								<label for="nota" class="control-label">*Nota:</label>
-								<form:input path="nota" cssClass="form-control" required="required"></form:input>
+								<form:input path="nota" cssClass="form-control"></form:input>
 								<div class="error-validation"><form:errors path="nota"></form:errors></div>
+								
+								<label for="notaSeminario" class="control-label">*Nota Seminário:</label>
+								<form:input path="notaSeminario" cssClass="form-control"></form:input>
+								<div class="error-validation"><form:errors path="notaSeminario"></form:errors></div>
 							</div>
 						</div>
-
-						<input name = "rendimento" type="file" class="jfilestyle" data-placeholder="Avaliação de Rendimento" data-buttontext="Escolher arquivo"
-						accept="application/pdf" data-inputSize="423px" required="required"> 
 						
-					</div>
+						<div class="form-group">
+							<div class="form-item col-sm-12">
+								<label for="comentarioSeminario" class="control-label">*Comentário Seminário:</label>
+								<form:textarea id="comentarioSeminario" path="fatorComentarioSeminario"
+									cssClass="form-control" placeholder="Comentário"
+									required="required" />
+								<div class="error-validation">
+									<form:errors path="fatorComentarioSeminario"></form:errors>
+								</div>
+							</div>
+						</div>
+					
+					<input name = "rendimento" type="file" class="jfilestyle" data-placeholder="Avaliação de Rendimento" data-buttontext="Escolher arquivo"
+						   accept="application/pdf" data-inputSize="423px" required="required">
+						   
+				    </div>
+					
 					<div class="panel-footer" align="center">
 						<div class="controls">
 							<c:if test="${action eq 'cadastrar' }">

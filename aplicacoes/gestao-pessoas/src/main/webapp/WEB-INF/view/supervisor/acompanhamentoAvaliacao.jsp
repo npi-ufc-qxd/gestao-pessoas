@@ -127,6 +127,15 @@
 						<div class="alert alert-dismissible alert-success">
 							<button type="button" class="close" data-dismiss="alert">×</button>${success}</div>
 					</c:if>
+					
+					<c:if test="${not empty error}">
+						<div class="alert alert-dismissible alert-danger" role="alert">
+							<button type="button" class="close" data-dismiss="alert">×</button>
+							<p>
+								<strong>Atenção!</strong> ${error }
+							</p>
+						</div>
+					</c:if>
 
 					<c:if test="${empty avaliacaoRendimento}">
 						<div class="alert alert-warning" role="alert">Não há
@@ -138,7 +147,8 @@
 							<div class="form-group">
 								<label class="col-sm-3 text-view-info"><strong>Nota
 										geral do estágio: </strong></label><label class="col-sm-3 text-view-info">${avaliacaoRendimento.nota}</label>
-
+								<label class="col-sm-3 text-view-info"><strong>Nota
+										do seminário: </strong></label><label class="col-sm-3 text-view-info">${avaliacaoRendimento.notaSeminario}</label>
 								<label class="col-sm-12 text-view-info"><strong>Assiduidade
 										e Disciplina </strong></label><label class="col-sm-12 text-view-info">${avaliacaoRendimento.fatorAssiduidadeDisciplina}</label>
 								<label class="col-sm-12 text-view-info"><strong>Iniciativa
@@ -147,7 +157,8 @@
 								</strong></label><label class="col-sm-12 text-view-info">${avaliacaoRendimento.fatorResponsabilidade}</label>
 								<label class="col-sm-12 text-view-info"><strong>Relacionamento
 								</strong></label><label class="col-sm-12 text-view-info">${avaliacaoRendimento.fatorRelacionamento}</label>
-
+								<label class="col-sm-12 text-view-info"><strong>Seminário
+								</strong></label><label class="col-sm-12 text-view-info">${avaliacaoRendimento.ComentarioSeminario}</label>
 
 							</div>
 						</c:forEach>

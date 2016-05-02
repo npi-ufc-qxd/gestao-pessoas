@@ -85,7 +85,7 @@ public class SupervisorController {
 			Servidor servidor = new Servidor(pessoa, usuarioService.getByCpf(cpf).getSiape());
 			servidorService.save(servidor);
 		}
-
+		
 		return "redirect:/supervisor/turmas";
 	}
 
@@ -168,11 +168,7 @@ public class SupervisorController {
 
 		return "";
 	}
-	
-	
-	
-	
-
+		
 	private Pessoa getUsuarioLogado(HttpSession session) {
 		if (session.getAttribute(Constants.USUARIO_LOGADO) == null) {
 			Pessoa pessoa = pessoaService.getPessoaByCpf(SecurityContextHolder.getContext().getAuthentication()

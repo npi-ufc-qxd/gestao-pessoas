@@ -40,12 +40,11 @@
 						<tr class="">
 
 							<th>Semestre</th>
-							<th class="hidden">Semestre</th>
 							<th>Nome</th>
 							<th>Status</th>
+							<th>Tipo</th>
 							<th>Início</th>
 							<th>Término</th>
-							<th></th>
 			           </tr>
 			       </thead>
 			       <tbody class="text-view-info">
@@ -60,6 +59,16 @@
 									</c:if>
 									<c:if test="${turma.statusTurma eq 'ABERTA'}">
 										<td><span class="label label-info">${turma.statusTurma}</span></td>
+									</c:if>
+									<c:if test="${turma.statusTurma eq 'CONCLUIDA'}">
+										<td><span class="label label-success">${turma.statusTurma}</span></td>
+									</c:if>
+									
+									<c:if test="${turma.tipoTurma eq 'EMPRESA'}">
+										<td><span>${turma.tipoTurma.label}</span></td>
+									</c:if>
+									<c:if test="${turma.tipoTurma eq 'NPI'}">
+										<td><span>${turma.tipoTurma}</span></td>
 									</c:if>
 
 									<td><fmt:formatDate value="${turma.inicio}" pattern="dd/MM/yyyy" /></td>

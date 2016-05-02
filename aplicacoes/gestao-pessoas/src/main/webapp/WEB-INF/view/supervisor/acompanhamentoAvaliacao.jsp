@@ -59,39 +59,33 @@
 					</h2>
 				</div>
 				<div class="panel-body">
-
-					<h4>Plano</h4>
 					<c:if test="${empty submissoes}">
 						<div class="alert alert-warning" role="alert">Estagiário
 							inexistente.</div>
 					</c:if>
-					<c:forEach var="submissoes" items="${submissoes}">
-						<form class="form-inline" role="form">
-							<div class="form-group">
-								<label for="nota" class="control-label">Nota:</label> <input
-									type="number" class="form-control" id="nota">
-							</div>
-							<div class="form-group">
-								<label for="status">Status:</label> <select class="form-control"
-									id="status">
-									<option>ENVIADO</option>
-									<option>ACEITO</option>
-									<option>REJEITADO</option>
-								</select>
-							</div>
-							<div class="form-group">
-								<label class="col-sm-3 text-view-info"><strong>Tipo:
-								</strong></label> <label class="col-sm-3 text-view-info">${submissoes.tipo}</label>
-
-							</div>
-							<a
-								href="<c:url value="/supervisor/turma/${turma.id}/submissao/${submissao.id}/estagiario/${estagiario.id}/avaliar-submissao" ></c:url>"
-								title="Editar"><button class="btn btn-primary">
+						<table id="table-submissao" class="table table-striped table-hover">
+							<thead>
+								<tr>
+									<th>Documento</th>
+									<th>Tipo</th>
+									<th>Avaliar</th>
+								</tr>
+								
+							</thead>
+							<c:forEach var="submissoes" items="${submissoes}">
+							<tbody class="text-view-info">
+								<tr>
+									<td><a href="<c:url value="/documento/ ${submissoes.id }" />">${submissoes.documento.nome}</a></td>
+									<td>${submissoes.tipo}</td>
+									<td><a
+								href="<c:url value="/supervisor/turma/${turma.id}/submissao/${submissoes.id}/estagiario/${estagiario.id}/avaliar-submissao-estagiario" ></c:url>"
+								title="Avaliar"><button class="btn btn-primary pull-center">
 									<span class="fa fa-pencil"></span> Avaliar
-								</button></a>
-						</form>
-						<br>
-					</c:forEach>
+								</button></a></td>
+								</tr>
+							</tbody>
+							</c:forEach>
+						</table>
 				</div>
 			</div>
 			<div class="panel panel-info">

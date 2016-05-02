@@ -1,12 +1,27 @@
 package ufc.quixada.npi.gp.model;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
+
+import ufc.quixada.npi.gp.model.enums.CaraterTreinamento;
+import ufc.quixada.npi.gp.model.enums.Comprometimento;
+import ufc.quixada.npi.gp.model.enums.CuidadoMateriais;
+import ufc.quixada.npi.gp.model.enums.CumprimentoPrazos;
+import ufc.quixada.npi.gp.model.enums.Disciplina;
+import ufc.quixada.npi.gp.model.enums.Frequencia;
+import ufc.quixada.npi.gp.model.enums.Iniciativa;
+import ufc.quixada.npi.gp.model.enums.Permanencia;
+import ufc.quixada.npi.gp.model.enums.QualidadeDeTrabalho;
+import ufc.quixada.npi.gp.model.enums.QuantidadeDeTrabalho;
+import ufc.quixada.npi.gp.model.enums.Relacionamento;
+import ufc.quixada.npi.gp.model.enums.TrabalhoEmEquipe;
 
 @Entity
 public class AvaliacaoRendimento {
@@ -22,6 +37,42 @@ public class AvaliacaoRendimento {
 	@Lob
 	private String fatorAssiduidadeDisciplina;
 
+	@Enumerated(EnumType.STRING)
+	private Frequencia frequencia;
+	
+	@Enumerated(EnumType.STRING)
+	private Iniciativa iniciativa;
+	
+	@Enumerated(EnumType.STRING)
+	private Disciplina disciplina;
+	
+	@Enumerated(EnumType.STRING)
+	private Comprometimento comprometimento;
+	
+	@Enumerated(EnumType.STRING)
+	private CuidadoMateriais cuidadoMateriais;
+	
+	@Enumerated(EnumType.STRING)
+	private Permanencia permanencia; 
+	
+	@Enumerated(EnumType.STRING)
+	private QualidadeDeTrabalho qualidadeTrabalho;
+	
+	@Enumerated(EnumType.STRING)
+	private QuantidadeDeTrabalho quantidadeTrabalho;
+	
+	@Enumerated(EnumType.STRING)
+	private Relacionamento relacionamento;
+	
+	@Enumerated(EnumType.STRING)
+	private TrabalhoEmEquipe trabalhoEquipe;
+	
+	@Enumerated(EnumType.STRING)
+	private CumprimentoPrazos cumprimentoPrazos; 
+	
+	@Enumerated(EnumType.STRING)
+	private CaraterTreinamento caraterTreinamento;
+	
 	@Lob
 	private String fatorIniciativaProdutividade;
 
@@ -51,7 +102,9 @@ public class AvaliacaoRendimento {
 	@ManyToOne
 	@JoinColumn(name = "estagiario_id")
 	private Estagiario estagiario;
-
+	
+	private Boolean confirmadoEstagio; 
+	
 	public Long getId() {
 		return id;
 	}
@@ -156,6 +209,63 @@ public class AvaliacaoRendimento {
 		this.fatorComentarioSeminario = fatorComentarioSeminario;
 	}
 
+	public Frequencia getFrequencia() {
+		return frequencia;
+	}
+
+	public Iniciativa getIniciativa() {
+		return iniciativa;
+	}
+
+	public Disciplina getDisciplina() {
+		return disciplina;
+	}
+
+	public Comprometimento getComprometimento() {
+		return comprometimento;
+	}
+
+	public CuidadoMateriais getCuidadoMateriais() {
+		return cuidadoMateriais;
+	}
+
+	public Permanencia getPermanencia() {
+		return permanencia;
+	}
+
+	public QualidadeDeTrabalho getQualidadeTrabalho() {
+		return qualidadeTrabalho;
+	}
+
+	public QuantidadeDeTrabalho getQuantidadeTrabalho() {
+		return quantidadeTrabalho;
+	}
+
+	public Relacionamento getRelacionamento() {
+		return relacionamento;
+	}
+
+	public TrabalhoEmEquipe getTrabalhoEquipe() {
+		return trabalhoEquipe;
+	}
+
+	public CumprimentoPrazos getCumprimentoPrazos() {
+		return cumprimentoPrazos;
+	}
+
+	public CaraterTreinamento getCaraterTreinamento() {
+		return caraterTreinamento;
+	}
+	
+	/*
+	public boolean isConfirmadoEstagio() {
+		return confirmadoEstagio;
+	}
+
+	public void setConfirmadoEstagio(boolean confirmadoEstagio) {
+		this.confirmadoEstagio = confirmadoEstagio;
+	}*/
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (obj instanceof AvaliacaoRendimento) {

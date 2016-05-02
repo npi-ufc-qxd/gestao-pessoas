@@ -25,6 +25,17 @@ import ufc.quixada.npi.gp.model.Estagiario;
 import ufc.quixada.npi.gp.model.Pessoa;
 import ufc.quixada.npi.gp.model.Submissao;
 import ufc.quixada.npi.gp.model.Turma;
+import ufc.quixada.npi.gp.model.enums.Comprometimento;
+import ufc.quixada.npi.gp.model.enums.CuidadoMateriais;
+import ufc.quixada.npi.gp.model.enums.CumprimentoPrazos;
+import ufc.quixada.npi.gp.model.enums.Disciplina;
+import ufc.quixada.npi.gp.model.enums.Frequencia;
+import ufc.quixada.npi.gp.model.enums.Iniciativa;
+import ufc.quixada.npi.gp.model.enums.Permanencia;
+import ufc.quixada.npi.gp.model.enums.QualidadeDeTrabalho;
+import ufc.quixada.npi.gp.model.enums.QuantidadeDeTrabalho;
+import ufc.quixada.npi.gp.model.enums.Relacionamento;
+import ufc.quixada.npi.gp.model.enums.TrabalhoEmEquipe;
 import ufc.quixada.npi.gp.model.enums.Tipo;
 import ufc.quixada.npi.gp.service.AvaliacaoService;
 import ufc.quixada.npi.gp.service.EstagiarioService;
@@ -60,6 +71,20 @@ public class AvaliacaoController {
 		model.addAttribute("avaliacaoRendimento", new AvaliacaoRendimento());
 		model.addAttribute("turma",turma);
 		model.addAttribute("estagiario",estagiarioService.find(Estagiario.class, idEstagiario));
+
+		
+		model.addAttribute("frequencias",Frequencia.values());
+		model.addAttribute("permanencias",Permanencia.values());
+		model.addAttribute("disciplinas",Disciplina.values());
+		model.addAttribute("quantidades",QuantidadeDeTrabalho.values());
+		model.addAttribute("qualidades",QualidadeDeTrabalho.values());
+		model.addAttribute("cumprimentos",CumprimentoPrazos.values());
+		model.addAttribute("frequencias",Frequencia.values());
+		model.addAttribute("iniciativas",Iniciativa.values());
+		model.addAttribute("comprometimentos",Comprometimento.values());
+		model.addAttribute("cuidados",CuidadoMateriais.values());
+		model.addAttribute("relacionamentos",Relacionamento.values());
+		model.addAttribute("trabalhos",TrabalhoEmEquipe.values());
 		model.addAttribute("showTurmaNPI", showTurmaNPI);
 		return "supervisor/form-avaliacao-estagio";
 	}

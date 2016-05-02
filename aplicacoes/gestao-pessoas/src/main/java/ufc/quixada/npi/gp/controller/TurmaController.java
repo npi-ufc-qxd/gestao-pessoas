@@ -29,6 +29,7 @@ import br.ufc.quixada.npi.ldap.service.UsuarioService;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import ufc.quixada.npi.gp.model.AvaliacaoRendimento;
 import ufc.quixada.npi.gp.model.Estagiario;
 import ufc.quixada.npi.gp.model.Evento;
 import ufc.quixada.npi.gp.model.Frequencia;
@@ -119,7 +120,7 @@ public class TurmaController {
 
 		model.addAttribute("turma", new Turma());
 		model.addAttribute("dias", Dia.values());
-
+		
 		return "supervisor/form-turma";
 	}
 

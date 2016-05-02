@@ -15,13 +15,6 @@
 	<c:set var="titulo" value="Editar Avaliação"></c:set>
 </c:if>
 
-<c:set var="showTurmaEmpresa" value="true"></c:set>
-<c:if test="${true}">
-		<c:set var="showTurmaEmpresa" value="false"></c:set>
-</c:if>
-
-
-
 <html>
 <head>
 <title>${titulo }</title>
@@ -46,14 +39,12 @@
 							class="fa fa-arrow-left"></span> Voltar</a>
 					</div>
 				</div>
-
 				<form:form id="form-avaliacao-estagio" role="form"
 					commandName="avaliacaoRendimento" servletRelativeAction="${url}"
 					method="POST" cssClass="form-horizontal" enctype="multipart/form-data">
 					<div class="panel-body">
 						<form:hidden path="id" />
-
-						<c:if test = "${showTurmaEmpresa == false}">
+						<c:if test = "${showTurmaNPI eq true}">
 							<div class="form-group">
 								<div class="form-item col-sm-12">
 									<label for="assiduidadeDisciplina" class="control-label">*Assiduidade

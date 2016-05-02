@@ -127,6 +127,15 @@
 						<div class="alert alert-dismissible alert-success">
 							<button type="button" class="close" data-dismiss="alert">×</button>${success}</div>
 					</c:if>
+					
+					<c:if test="${not empty error}">
+						<div class="alert alert-dismissible alert-danger" role="alert">
+							<button type="button" class="close" data-dismiss="alert">×</button>
+							<p>
+								<strong>Atenção!</strong> ${error }
+							</p>
+						</div>
+					</c:if>
 
 					<c:if test="${empty avaliacaoRendimento}">
 						<div class="alert alert-warning" role="alert">Não há

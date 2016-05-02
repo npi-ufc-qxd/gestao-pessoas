@@ -25,6 +25,7 @@ import ufc.quixada.npi.gp.model.Documento;
 import ufc.quixada.npi.gp.model.Estagiario;
 import ufc.quixada.npi.gp.model.Pessoa;
 import ufc.quixada.npi.gp.model.Submissao;
+import ufc.quixada.npi.gp.model.TipoTurma;
 import ufc.quixada.npi.gp.model.Turma;
 import ufc.quixada.npi.gp.model.enums.Tipo;
 import ufc.quixada.npi.gp.service.AvaliacaoService;
@@ -51,11 +52,17 @@ public class AvaliacaoController {
 	private TurmaService turmaService;
 
 	@RequestMapping(value = "{idTurma}/acompanhamento-avaliacao/estagiario/{idEstagiario}/adicionar/", method = RequestMethod.GET)
-	public String novaAvaliacaoEstagio(Model model, @PathVariable("idEstagiario") Long idEstagiario, @PathVariable("idTurma") Long idTurma) {
+	public String novaAvaliacaoEstagio(Model model, @PathVariable("idEstagiario") Long idEstagiario, @PathVariable("idTurma") Long idTurma) {	
+		Turma turma = turmaService.getTurmaByIdAndEstagiarioId(idTurma, idEstagiario);
+		boolean showTurmaNPI = true;
+		if(turma.getTipoTurma().getLabel() == "Empresa"){
+			showTurmaNPI = false;
+		}
 		model.addAttribute("action", "cadastrar");
 		model.addAttribute("avaliacaoRendimento", new AvaliacaoRendimento());
-		model.addAttribute("turma",turmaService.getTurmaByIdAndEstagiarioId(idTurma, idEstagiario));
+		model.addAttribute("turma",turma);
 		model.addAttribute("estagiario",estagiarioService.find(Estagiario.class, idEstagiario));
+		model.addAttribute("showTurmaNPI", showTurmaNPI);
 		return "supervisor/form-avaliacao-estagio";
 	}
 
@@ -67,7 +74,7 @@ public class AvaliacaoController {
 
 		if(!rendimento.getContentType().equals("application/pdf")){
 			redirect.addFlashAttribute("error", "Escolha um arquivo pdf.");
-			return "redirect:/500";
+			return "redirect:/supervisor/turma/{idTurma}/acompanhamento-avaliacao/estagiario/{idEstagiario}";
 		}
 		
 		model.addAttribute("action", "cadastrar");
@@ -78,16 +85,17 @@ public class AvaliacaoController {
 		
 		try {
 			turmaService.submeterDocumento(estagiario, turma, tipo, rendimento);
-			//turmaService.getSubmissaoByEstagiarioIdAndIdTurmaAndTipo(idEstagiario, idTurma, tipo);
 		} catch (IOException e) {
 			return "redirect:/500";
 		}
 		
+		Submissao submissao = turmaService.getSubmissaoByEstagiarioIdAndIdTurmaAndTipo(idEstagiario, idTurma, tipo);
+		Documento documento = submissao.getDocumento();
 		avaliacaoRendimento.setSupervisor(pessoa);
 		avaliacaoRendimento.setTurma(turma);
 		avaliacaoRendimento.setEstagiario(estagiario);
 		avaliacaoRendimento.setNota(nota);
-		//avaliacaoRendimento.setDocumento(documento);
+		avaliacaoRendimento.setDocumento(documento);
 		avaliacaoService.save(avaliacaoRendimento);
 		redirect.addFlashAttribute("success", "Avaliação cadastrada com sucesso.");
 

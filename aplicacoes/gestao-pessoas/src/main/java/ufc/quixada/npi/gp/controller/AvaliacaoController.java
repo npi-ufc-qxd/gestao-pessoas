@@ -7,7 +7,6 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
-import org.apache.commons.fileupload.FileUpload;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
@@ -25,7 +24,6 @@ import ufc.quixada.npi.gp.model.Documento;
 import ufc.quixada.npi.gp.model.Estagiario;
 import ufc.quixada.npi.gp.model.Pessoa;
 import ufc.quixada.npi.gp.model.Submissao;
-import ufc.quixada.npi.gp.model.TipoTurma;
 import ufc.quixada.npi.gp.model.Turma;
 import ufc.quixada.npi.gp.model.enums.Tipo;
 import ufc.quixada.npi.gp.service.AvaliacaoService;

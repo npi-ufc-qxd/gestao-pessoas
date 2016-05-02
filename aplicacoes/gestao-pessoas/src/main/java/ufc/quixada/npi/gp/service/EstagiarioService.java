@@ -18,6 +18,8 @@ public interface EstagiarioService extends GenericService<Estagiario> {
 	
 	List<Estagiario> getEstagiarioByNotTurmaIdOrSemTurma(Long id);
 	
+	List<Estagiario> getAniversariantesMesByTurmaId(Long id);
+	
 	boolean possuiTurmaAtiva(String cpf);
 
 }

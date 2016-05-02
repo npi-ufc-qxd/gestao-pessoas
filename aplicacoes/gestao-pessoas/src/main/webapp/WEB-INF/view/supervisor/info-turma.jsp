@@ -203,6 +203,42 @@
 		</div>
 	</div>
 	<!-- Término Evento -->
+	
+	<!-- Início ANIVERSARIANTES -->
+	<div class="panel panel-info">
+		<div class="panel-heading">
+			<h2 class="titulo-panels"><span class="fa fa-birthday-cake"></span> Aniversariantes do Mês <span class="badge bVinculos">${fn:length(aniversariantes)}</span></h2>
+						
+		</div>
+		
+		<div class="panel-body">
+		<c:if test="${empty aniversariantes}"><div class="alert alert-warning" role="alert">Sem Aniversariantes esse Mês</div></c:if>
+		<c:if test="${not empty aniversariantes}">
+			<div class="form-group">
+								
+					<table id="eventos-turma" class="table table-striped table-hover">
+						<thead>
+							<tr>
+								<th>Nome</th>
+								<th></th>								
+				           </tr>
+				       </thead>
+				       <tbody class="text-view-info">
+							<c:forEach var="aniversariante" items="${aniversariantes}" varStatus="indice">
+								<tr align="justify">
+									<td>${aniversariante.nomeCompleto }</td>
+									<td ><strong><fmt:formatDate value="${aniversariante.dataNascimento}" pattern="EEEE"/> (<fmt:formatDate value="${aniversariante.dataNascimento}" pattern="dd/MM"/> )</strong></td>
+									
+								</tr>
+							</c:forEach>
+				       </tbody>
+			       </table>
+					
+				</div>
+			</c:if>
+		</div>
+	</div>
+	<!-- Término ANIVERSARIANTES -->
 	</div>
 	</div>
 

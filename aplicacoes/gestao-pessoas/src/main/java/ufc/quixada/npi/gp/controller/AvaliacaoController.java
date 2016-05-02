@@ -111,14 +111,24 @@ public class AvaliacaoController {
 		return "redirect:/supervisor/turma/{idTurma}/acompanhamento-avaliacao/estagiario/{idEstagiario}";
 	}
 
-	@RequestMapping(value = "{idTurma}/acompanhamento-avaliacao/estagiario/{idEstagiario}/avaliar-submissao", method = RequestMethod.POST)
-	public String avaliarSubmissao(Model model, @Valid @ModelAttribute("submissoes") Submissao submissao,
+	@RequestMapping(value = "{idTurma}/submissao/{idSubmissao}/estagiario/{idEstagiario}/avaliar-submissao-estagiario", method = RequestMethod.GET)
+	public String avaliarSubmissaoEstagiario(Model model, @Valid @ModelAttribute("submissoes") Submissao submissao,
 			HttpSession session, RedirectAttributes redirect, @PathVariable("idEstagiario") Long idEstagiario,
-			@PathVariable("idTurma") Long idTurma) {
-
-		model.addAttribute("action", "editar");
+			@PathVariable("idTurma") Long idTurma, @PathVariable("idSubmissao") Long idSubmissao) {
+		
+		model.addAttribute("turma", turmaService.getTurmaByIdAndEstagiarioId(idTurma, idEstagiario));
+		model.addAttribute("submissao", turmaService.getSubmissaoById(idSubmissao));
+		model.addAttribute("estagiario", estagiarioService.find(Estagiario.class, idEstagiario));
+		model.addAttribute("Submissao", new Submissao());
+		
+		return "supervisor/avaliar-submissao";
+	}
+	@RequestMapping( value = "{idTurma}/submissao/{idSubmissao}/estagiario/{idEstagiario}/salvar-submissao-estagiario", method = RequestMethod.POST)
+	public String salvarSubmisssaoEstagiario(Model model, @Valid @ModelAttribute("submissao") Submissao submissao,
+			HttpSession session, RedirectAttributes redirect, @PathVariable("idEstagiario") Long idEstagiario,
+			@PathVariable("idTurma") Long idTurma, @PathVariable("idSubmissao") Long idSubmissao){
+		
 		Submissao submissaoDoBanco = turmaService.getSubmissaoById(submissao.getId());
-		Pessoa pessoa = getUsuarioLogado(session);
 		Estagiario estagiario = estagiarioService.find(Estagiario.class, idEstagiario);
 		Turma turma = turmaService.getTurmaByIdAndEstagiarioId(idTurma, idEstagiario);
 
@@ -129,19 +139,8 @@ public class AvaliacaoController {
 
 		turma.getSubmissoes().add(submissaoDoBanco);
 		turmaService.update(turma);
-
-		return "redirect:/supervisor/turma/{idTurma}/acompanhamento-avaliacao/estagiario/{idEstagiario}";
-	}
-
-	@RequestMapping(value = "{idTurma}/submissao/{idSubmissao}/estagiario/{idEstagiario}/avaliar-submissao-estagiario")
-	public String avaliarSubmissaoEstagiario(Model model, @Valid @ModelAttribute("submissoes") Submissao submissao,
-			HttpSession session, RedirectAttributes redirect, @PathVariable("idEstagiario") Long idEstagiario,
-			@PathVariable("idTurma") Long idTurma, @PathVariable("idSubmissao") Long idSubmissao) {
 		
-		model.addAttribute("submissoes", turmaService.getSubmissoesByEstagiarioIdAndIdTurma(idEstagiario, idTurma));
-		model.addAttribute("estagiario", estagiarioService.find(Estagiario.class, idEstagiario));
-		
-		return "supervisor/avaliar-submissao";
+		return "redirect:/supervisor/turma/{idTurma}/submissao/{idSubmissao}/estagiario/{idEstagiario}/avaliar-submissao-estagiario";
 	}
 
 	private Pessoa getUsuarioLogado(HttpSession session) {

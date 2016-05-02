@@ -1,8 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib prefix="sec"
-	uri="http://www.springframework.org/security/tags"%>
+<%@ taglib prefix="sec"	uri="http://www.springframework.org/security/tags"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <!DOCTYPE html>
@@ -59,34 +59,45 @@
 				</div>
 				<div class="panel-body">
 
-					<h4>Plano</h4>
-					<c:if test="${empty submissoes}">
+					<h4><strong>${submissao.tipo.labelTipo}</strong></h4>
+					<c:if test="${empty submissao}">
 						<div class="alert alert-warning" role="alert">Estagiário
 							inexistente.</div>
 					</c:if>
-					<c:forEach var="submissoes" items="${submissoes}">
-						<form class="form-inline" role="form">
+					
+					<form:form id="avaliar-submissao" role="form" commandName="Submissao" servletRelativeAction=""
+					  method="POST" cssClass="form-horizontal">
 							<div class="form-group">
-								<label for="nota" class="control-label">Nota:</label> <input
+								<div class="form-item col-sm-3">
+									<label class="col-sm-2 text-view-info" for="nota"><strong>
+									Nota:
+									</strong></label> <input
 									type="number" class="form-control" id="nota">
-							</div>
-							<div class="form-group">
-								<label for="status">Status:</label> <select class="form-control"
-									id="status">
-									<option>ENVIADO</option>
-									<option>ACEITO</option>
-									<option>REJEITADO</option>
-								</select>
-							</div>
-							<div class="form-group">
-								<label class="col-sm-3 text-view-info"><strong>Tipo:
-								</strong></label> <label class="col-sm-3 text-view-info">${submissoes.tipo}</label>
-
-							</div>
+								</div>
 							
-						</form>
+								<div class="form-item col-sm-3">
+									<label for="statusEntrega" class="col-sm-2 text-view-info"><strong>Status:</strong></label> 
+									<form:select path="statusEntrega" cssClass="form-control selectpicker" required="required">
+										<form:options itemLabel="label"/>
+									</form:select>
+								</div>
+							
+								<div class="form-item col-sm-12">
+									<label for="comentario" class="col-sm-2 text-view-info"><strong>Comentário:</strong></label>
+									<form:textarea id="comentario" path="comentario" cssClass="form-control"
+										placeholder="Comentário" required="required" />
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="form-item col-sm-4">
+									<a href="<c:url value="/supervisor/turma/${turma.id}/submissao/${submissao.id}/estagiario/${estagiario.id}/salvar-submissao-estagiario" ></c:url>"title="Salvar">
+									<button class="btn btn-primary pull-center"><span class="fa fa-floppy-o"></span>  Salvar </button>
+									</a>
+								</div>
+							</div>
+						</form:form>
 						<br>
-					</c:forEach>
+					
 				</div>
 			</div>
 			</div>

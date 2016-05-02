@@ -188,7 +188,7 @@
 								<div class="form-group col-sm-9">
 									<a href="<c:url value="/resources/documents/UFC-Quixada-Plano_Estagio-modelo.doc"/>" class="template"><button class="btn btn-primary btn-sm modelo" type="button"><span class="fa fa-arrow-circle-down"></span> Modelo de Plano de Estágio</button></a>
 
-									<input name="anexo" type="file" multiple="multiple"
+									<input name="anexo" type="file"
 										class="form-control filestyle jfilestyle"
 										data-buttonText=" Escolher arquivo" data-size="sm"
 										data-buttonName="btn-primary" id="plano"

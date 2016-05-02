@@ -1,5 +1,7 @@
 package ufc.quixada.npi.gp.controller;
 
+import java.io.IOException;
+
 import javax.inject.Inject;
 
 import javax.servlet.http.HttpSession;
@@ -13,13 +15,17 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import ufc.quixada.npi.gp.model.AvaliacaoRendimento;
+import ufc.quixada.npi.gp.model.Documento;
 import ufc.quixada.npi.gp.model.Estagiario;
 import ufc.quixada.npi.gp.model.Pessoa;
 import ufc.quixada.npi.gp.model.Submissao;
 import ufc.quixada.npi.gp.model.Turma;
+import ufc.quixada.npi.gp.model.enums.Tipo;
 import ufc.quixada.npi.gp.service.AvaliacaoService;
 import ufc.quixada.npi.gp.service.EstagiarioService;
 import ufc.quixada.npi.gp.service.PessoaService;
@@ -44,11 +50,17 @@ public class AvaliacaoController {
 	private TurmaService turmaService;
 
 	@RequestMapping(value = "{idTurma}/acompanhamento-avaliacao/estagiario/{idEstagiario}/adicionar/", method = RequestMethod.GET)
-	public String novaAvaliacaoEstagio(Model model, @PathVariable("idEstagiario") Long idEstagiario, @PathVariable("idTurma") Long idTurma) {
+	public String novaAvaliacaoEstagio(Model model, @PathVariable("idEstagiario") Long idEstagiario, @PathVariable("idTurma") Long idTurma) {	
+		Turma turma = turmaService.getTurmaByIdAndEstagiarioId(idTurma, idEstagiario);
+		boolean showTurmaNPI = true;
+		if(turma.getTipoTurma().getLabel() == "Empresa"){
+			showTurmaNPI = false;
+		}
 		model.addAttribute("action", "cadastrar");
 		model.addAttribute("avaliacaoRendimento", new AvaliacaoRendimento());
-		model.addAttribute("turma",turmaService.getTurmaByIdAndEstagiarioId(idTurma, idEstagiario));
+		model.addAttribute("turma",turma);
 		model.addAttribute("estagiario",estagiarioService.find(Estagiario.class, idEstagiario));
+		model.addAttribute("showTurmaNPI", showTurmaNPI);
 		return "supervisor/form-avaliacao-estagio";
 	}
 
@@ -56,15 +68,32 @@ public class AvaliacaoController {
 	public String adicionarAvaliacaoEstagio(Model model,
 			@Valid @ModelAttribute("avaliacaoRendimento") AvaliacaoRendimento avaliacaoRendimento, HttpSession session,
 			RedirectAttributes redirect, @PathVariable("idEstagiario") Long idEstagiario,
-			@PathVariable("idTurma") Long idTurma) {
+			@PathVariable("idTurma") Long idTurma, @Valid @RequestParam("nota") Double nota, @Valid @RequestParam("rendimento") MultipartFile rendimento){
+
+		if(!rendimento.getContentType().equals("application/pdf")){
+			redirect.addFlashAttribute("error", "Escolha um arquivo pdf.");
+			return "redirect:/supervisor/turma/{idTurma}/acompanhamento-avaliacao/estagiario/{idEstagiario}";
+		}
+		
 		model.addAttribute("action", "cadastrar");
 		Pessoa pessoa = getUsuarioLogado(session);
 		Estagiario estagiario = estagiarioService.find(Estagiario.class, idEstagiario);
 		Turma turma = turmaService.getTurmaByIdAndEstagiarioId(idTurma, idEstagiario);
+		Tipo tipo = Tipo.AVALIACAO_RENDIMENTO;
 		
+		try {
+			turmaService.submeterDocumento(estagiario, turma, tipo, rendimento);
+		} catch (IOException e) {
+			return "redirect:/500";
+		}
+		
+		Submissao submissao = turmaService.getSubmissaoByEstagiarioIdAndIdTurmaAndTipo(idEstagiario, idTurma, tipo);
+		Documento documento = submissao.getDocumento();
 		avaliacaoRendimento.setSupervisor(pessoa);
 		avaliacaoRendimento.setTurma(turma);
 		avaliacaoRendimento.setEstagiario(estagiario);
+		avaliacaoRendimento.setNota(nota);
+		avaliacaoRendimento.setDocumento(documento);
 		avaliacaoService.save(avaliacaoRendimento);
 		redirect.addFlashAttribute("success", "Avaliação cadastrada com sucesso.");
 

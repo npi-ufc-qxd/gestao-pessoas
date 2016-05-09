@@ -71,12 +71,6 @@ import ufc.quixada.npi.gp.service.TurmaService;
 import ufc.quixada.npi.gp.utils.Constants;
 import ufc.quixada.npi.gp.utils.UtilGestao;
 
-
-
-
-
-
-
 @Component
 @Controller
 @RequestMapping("supervisor")
@@ -114,6 +108,307 @@ public class SupervisorController {
 	
 	private JRDataSource jrDatasource;
 	
+	@RequestMapping(value = { "", "/", "/Turmas" }, method = RequestMethod.GET)
+	public String getTurmas(Model model, HttpSession session) {
+
+		String cpf = SecurityContextHolder.getContext().getAuthentication().getName();
+		Pessoa usuarioLogado = getUsuarioLogado(session);
+		model.addAttribute("turmas", turmaService.getTurmasBySupervisorId(usuarioLogado.getId()));
+
+		if (!pessoaService.isPessoa(cpf)) {
+
+			Papel papel = papelService.getPapel("ROLE_SUPERVISOR");
+
+			Pessoa pessoa = new Pessoa(cpf);
+			pessoa.setPapeis(new ArrayList<Papel>());
+			pessoa.getPapeis().add(papel);
+
+			pessoaService.save(pessoa);
+
+			Servidor servidor = new Servidor(pessoa, usuarioService.getByCpf(cpf).getSiape());
+			servidorService.save(servidor);
+		}
+		
+		return "supervisor/list-turmas";
+	}
+
+	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
+	public String getInfoTurma(@PathVariable("idTurma") Long idTurma, Model model, HttpSession session) {
+		Pessoa pessoa = getUsuarioLogado(session);
+		
+		model.addAttribute("turma", turmaService.getTurmaByIdAndSupervisorById(idTurma, pessoa.getId()));
+		turmaService.getTurmaByIdAndSupervisorById(idTurma, pessoa.getId());
+		
+		
+		List<Estagiario> aniversariantes = estagiarioService.getAniversariantesMesByTurmaId(idTurma);
+		model.addAttribute("aniversariantes", aniversariantes);	
+		
+		return "supervisor/info-turma";
+	}
+	
+	@RequestMapping(value = "/Adicionar", method = RequestMethod.GET)
+	public String getAdicionarTurma(Model model) {
+		
+		model.addAttribute("action", "cadastrar");
+		model.addAttribute("turma", new Turma());
+		model.addAttribute("dias", Dia.values());
+		
+		return "supervisor/form-turma";
+	}
+	
+	@RequestMapping(value = "/Adicionar", method = RequestMethod.POST)
+	public String postAdicionarTurma(Model model, @Valid @ModelAttribute("turma") Turma turma, BindingResult result,
+			HttpSession session, RedirectAttributes redirect) {
+		
+		model.addAttribute("action", "cadastrar");
+		turma.setHorarios(atualizarHorarios(turma));
+
+		if (result.hasErrors()) {
+			model.addAttribute("dias", Dia.values());
+			return "supervisor/form-turma";
+		}
+
+		Pessoa pessoa = getUsuarioLogado(session);
+
+		turma.setSupervisor(pessoa);
+		turmaService.save(turma);
+
+		redirect.addFlashAttribute("success", "Turma cadastrada com sucesso.");
+
+		return "redirect:/supervisor/turmas";
+	}
+
+	@RequestMapping(value = "/{id}/Editar", method = RequestMethod.GET)
+	public String getEditarTurma(@PathVariable("idTurma") Long idTurma, Model model, HttpSession session) {
+		model.addAttribute("action", "editar");
+
+		Pessoa pessoa = getUsuarioLogado(session);
+
+		model.addAttribute("turma", turmaService.getTurmaByIdAndSupervisorById(idTurma, pessoa.getId()));
+		model.addAttribute("dias", Dia.values());
+
+		return "supervisor/form-turma";
+	}
+
+	@RequestMapping(value = "/{id}/Editar", method = RequestMethod.POST)
+	public String postEditarTurma(Model model, @Valid @ModelAttribute("turma") Turma turma, BindingResult result,
+			HttpSession session) {
+
+		model.addAttribute("action", "editar");
+
+		if (result.hasErrors()) {
+			model.addAttribute("dias", Dia.values());
+			return "supervisor/form-turma";
+		}
+
+		Pessoa pessoa = getUsuarioLogado(session);
+		Turma turmaDoBanco = turmaService.getTurmaByIdAndSupervisorById(turma.getId(), pessoa.getId());
+
+		turmaDoBanco.setNome(turma.getNome());
+		turmaDoBanco.setStatusTurma(turma.getStatusTurma());
+		turmaDoBanco.setTipoTurma(turma.getTipoTurma());
+		turmaDoBanco.setSemestre(turma.getSemestre());
+		turmaDoBanco.setInicio(turma.getInicio());
+		turmaDoBanco.setTermino(turma.getTermino());
+
+		turmaService.update(turmaDoBanco);
+
+		return "redirect:/supervisor/turmas";
+	}
+
+	@RequestMapping(value = "/{idTurma}/tce", method = RequestMethod.GET)
+	public String gerarTermoDeCompromisso(@PathVariable("idTurma") Long idTurma, Model model) throws JRException {
+
+		Turma turma = turmaService.find(Turma.class, idTurma);
+
+		Usuario usuario = usuarioService.getByCpf(turma.getSupervisor().getCpf());
+
+		jrDatasource = new JRBeanCollectionDataSource(turma.getEstagiarios());
+
+		SimpleDateFormat dataFormatada = new SimpleDateFormat("dd/MM/yyyy");
+
+		model.addAttribute("NOME", usuario.getNome());
+		model.addAttribute("SIAPE", usuario.getSiape());
+		model.addAttribute("TELEFONE", usuario.getTelefone());
+		model.addAttribute("TURNO", UtilGestao.getTurnoExpediente(turma.getHorarios().get(0)));
+		model.addAttribute("INICIO_ESTAGIO", dataFormatada.format(turma.getInicio()));
+		model.addAttribute("FINAL_ESTAGIO", dataFormatada.format(turma.getTermino()));
+		model.addAttribute("datasource", jrDatasource);
+		model.addAttribute("format", "pdf");
+
+		if (turma.getHorarios() != null) {
+			model = configurarExpediente(turma.getHorarios(), model);
+		}
+
+		return PAGINA_TCE;
+	}
+
+	@RequestMapping(value = "/{idTurma}/declaracoes", method = RequestMethod.GET)
+	public String gerarDeclaracaoEstagio(Model model, @PathVariable("idTurma") Long idTurma) throws JRException {
+		jrDatasource = new JRBeanCollectionDataSource(estagiarioService.getEstagiarioByTurmaId(idTurma));
+
+		model.addAttribute("datasource", jrDatasource);
+		model.addAttribute("format", "pdf");
+		return PAGINA_DECLARACAO_ESTAGIO;
+	}
+	
+	@RequestMapping(value = "/{id}/Expediente/Adicionar", method = RequestMethod.GET)
+	public String getExpediente(Model model, @ModelAttribute("idTurma") Long idTurma) {
+
+		model.addAttribute("dias", Dia.values());
+		model.addAttribute("horario", new Horario());
+		model.addAttribute("turma", turmaService.find(Turma.class, idTurma));
+
+		return "supervisor/form-horario";
+	}
+
+	@RequestMapping(value = "/{id}/Expediente/Adicionar", method = RequestMethod.POST)
+	public String postAdicionarExpediente(Model model, @Valid @ModelAttribute("horario") Horario horario,
+			@ModelAttribute("idTurma") Long idTurma, BindingResult result, HttpSession session,
+			RedirectAttributes redirect) {
+
+		if (result.hasErrors()) {
+			model.addAttribute("dias", Dia.values());
+			return "supervisor/form-horario";
+		}
+
+		Pessoa supervisor = getUsuarioLogado(session);
+		Turma turma = turmaService.getTurmaByIdAndSupervisorById(idTurma, supervisor.getId());
+		horario.setTurma(turma);
+
+		horarioService.save(horario);
+
+		redirect.addFlashAttribute("success", "Horário cadastrado com sucesso.");
+
+		return "redirect:/supervisor/turma/" + idTurma + "/expediente";
+	}
+	
+	@RequestMapping(value = "/{idTurma}/Expediente/{idHorario}/Excluir", method = RequestMethod.GET)
+	public String getExcluirExpediente(Model model, @ModelAttribute("idHorario") Long idHorario,
+			@ModelAttribute("idTurma") Long idTurma, BindingResult result, HttpSession session,
+			RedirectAttributes redirect) {
+
+		horarioService.delete(horarioService.find(Horario.class, idHorario));
+
+		redirect.addFlashAttribute("success", "Horário excluído com sucesso.");
+
+		return "redirect:/supervisor/turma/" + idTurma + "/expediente";
+	}
+	
+	@RequestMapping(value = "/{id}/Evento", method = RequestMethod.GET)
+	public String getEventos(Model model, @PathVariable("idTurma") Long idTurma) {
+		model.addAttribute("action", "cadastrar");
+		model.addAttribute("evento", new Evento());
+		model.addAttribute("turma", turmaService.find(Turma.class, idTurma));
+
+		return "supervisor/form-evento";
+	}
+
+	@RequestMapping(value = "/{id}/Evento/Adicionar", method = RequestMethod.POST)
+	public String postAdicionarEventos(@ModelAttribute("evento") Evento evento, @PathVariable("idTurma") Long idTurma,
+			HttpSession session, RedirectAttributes redirect, Model model) {
+		model.addAttribute("action", "cadastrar");
+		Pessoa supervisor = getUsuarioLogado(session);
+		Turma turma = turmaService.getTurmaByIdAndSupervisorById(idTurma, supervisor.getId());
+
+		evento.setTurma(turma);
+		eventoService.save(evento);
+
+		redirect.addFlashAttribute("success", "Evento cadastrado com sucesso.");
+
+		return "redirect:/supervisor/turma/" + idTurma + "/evento";
+	}
+
+	@RequestMapping(value = "/{idTurma}/Evento/{idEvento}/Editar", method = RequestMethod.GET)
+	public String getEditarEvento(@PathVariable("idEvento") Long idEvento, Model model, 
+			@PathVariable("idTurma") Long idTurma, HttpSession session, RedirectAttributes attributes){
+		
+		Evento evento = eventoService.find(Evento.class, idEvento);
+		Turma turma = turmaService.find(Turma.class, idTurma);
+		Pessoa pessoa = getUsuarioLogado(session);
+		if(turma.getSupervisor().equals(pessoa)){
+			attributes.addFlashAttribute("erro", "Permissão negada.");
+			return "redirect:/";
+		}
+		if(!turma.getEventos().contains(evento)){
+			attributes.addFlashAttribute("erro", "Erro ao tentar editar turma.");
+			return "redirect:/turma/"+turma.getId();
+		}
+		model.addAttribute("evento", evento);	
+		model.addAttribute("turma", turma);
+		model.addAttribute("action", "editar");
+		return "supervisor/form-evento";
+	}
+	
+	@RequestMapping(value="/{idTurma}/Evento/{idEvento}/Editar", method = RequestMethod.POST)
+	public String postEditarEvento(@ModelAttribute("evento") Evento evento, RedirectAttributes redirect){
+		eventoService.update(evento);
+		redirect.addFlashAttribute("success", "Alterações realizadas com sucesso!");
+		return "redirect:/supervisor/turma/" + evento.getTurma().getId() + "/evento";	
+	}
+	
+	@RequestMapping(value="/{idTurma}/Evento/{idEvento}/Excluir", method = RequestMethod.GET)
+	public String getExcluirEvento(@PathVariable("idEvento") Long idEvento, 
+		@PathVariable("idTurma") Long idTurma,HttpSession session,
+		RedirectAttributes redirect){
+	eventoService.delete(eventoService.find(Evento.class, idEvento));
+	
+	redirect.addFlashAttribute("success", "Evento excluído com sucesso!");
+	
+	return "redirect:/supervisor/turma/" + idTurma + "/evento";
+	}
+
+	@RequestMapping(value = "/{id}/MapaFrequencia", method = RequestMethod.GET)
+	public String listarFrequenciaTurma(@PathVariable("idTurma") Long idTurma, Model model, HttpSession session) {
+		Pessoa pessoa = getUsuarioLogado(session);
+		Date dataAtual = new Date();
+		List<Frequencia> frequencias = frequenciaService.getFrequenciasByTurmaIdAndData(dataAtual, idTurma);
+		List<Estagiario> estagiarios = frequenciaService.getEstagiariosSemFrequencia(dataAtual, idTurma);
+
+		model.addAttribute("turma", turmaService.getTurmaByIdAndSupervisorById(idTurma, pessoa.getId()));
+		model.addAttribute("frequencias", frequencias);
+		model.addAttribute("estagiarios", estagiarios);
+		model.addAttribute("dataAtual", dataAtual);
+
+		return "supervisor/list-frequencias";
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+/*	
+	
+	@RequestMapping( value = "{idTurma}/submissao/{idSubmissao}/estagiario/{idEstagiario}/salvar-submissao-estagiario", method = RequestMethod.POST)
+	public String salvarSubmisssaoEstagiario(Model model, @Valid @ModelAttribute("submissao") Submissao submissao,
+			HttpSession session, RedirectAttributes redirect, @PathVariable("idEstagiario") Long idEstagiario,
+			@PathVariable("idTurma") Long idTurma, @PathVariable("idSubmissao") Long idSubmissao){
+		
+		Submissao submissaoDoBanco = turmaService.getSubmissaoById(submissao.getId());
+		Estagiario estagiario = estagiarioService.find(Estagiario.class, idEstagiario);
+		Turma turma = turmaService.getTurmaByIdAndEstagiarioId(idTurma, idEstagiario);
+
+		submissaoDoBanco.setEstagiario(estagiario);
+		submissaoDoBanco.setNota(submissao.getNota());
+		submissaoDoBanco.setStatusEntrega(submissao.getStatusEntrega());
+		submissaoDoBanco.setComentario(submissao.getComentario());
+
+		turma.getSubmissoes().add(submissaoDoBanco);
+		turmaService.update(turma);
+		
+		return "redirect:/supervisor/turma/{idTurma}/submissao/{idSubmissao}/estagiario/{idEstagiario}/avaliar-submissao-estagiario";
+	}
+	
 	@RequestMapping(value = "{idTurma}/acompanhamento-avaliacao/estagiario/{idEstagiario}/adicionar/", method = RequestMethod.GET)
 
 	public String novaAvaliacaoEstagio(Model model, @PathVariable("idEstagiario") Long idEstagiario, @PathVariable("idTurma") Long idTurma) {	
@@ -144,43 +439,6 @@ public class SupervisorController {
 		model.addAttribute("trabalhos",TrabalhoEmEquipe.values());
 		model.addAttribute("showTurmaNPI", showTurmaNPI);
 		return "supervisor/form-avaliacao-estagio";
-	}
-
-	@RequestMapping(value = "{idTurma}/acompanhamento-avaliacao/estagiario/{idEstagiario}/adicionar/", method = RequestMethod.POST)
-	public String adicionarAvaliacaoEstagio(Model model,
-			@Valid @ModelAttribute("avaliacaoRendimento") AvaliacaoRendimento avaliacaoRendimento, HttpSession session,
-			RedirectAttributes redirect, @PathVariable("idEstagiario") Long idEstagiario,
-			@PathVariable("idTurma") Long idTurma, @Valid @RequestParam("nota") Double nota, @Valid @RequestParam("rendimento") MultipartFile rendimento){
-
-		if(!rendimento.getContentType().equals("application/pdf")){
-			redirect.addFlashAttribute("error", "Escolha um arquivo pdf.");
-			return "redirect:/supervisor/turma/{idTurma}/acompanhamento-avaliacao/estagiario/{idEstagiario}";
-		}
-		
-		model.addAttribute("action", "cadastrar");
-		Pessoa pessoa = getUsuarioLogado(session);
-		Estagiario estagiario = estagiarioService.find(Estagiario.class, idEstagiario);
-		Turma turma = turmaService.getTurmaByIdAndEstagiarioId(idTurma, idEstagiario);
-
-		Tipo tipo = Tipo.AVALIACAO_RENDIMENTO;
-		
-		try {
-			turmaService.submeterDocumento(estagiario, turma, tipo, rendimento);
-		} catch (IOException e) {
-			return "redirect:/500";
-		}
-		
-		Submissao submissao = turmaService.getSubmissaoByEstagiarioIdAndIdTurmaAndTipo(idEstagiario, idTurma, tipo);
-		Documento documento = submissao.getDocumento();
-		avaliacaoRendimento.setSupervisor(pessoa);
-		avaliacaoRendimento.setTurma(turma);
-		avaliacaoRendimento.setEstagiario(estagiario);
-		avaliacaoRendimento.setNota(nota);
-		avaliacaoRendimento.setDocumento(documento);
-		avaliacaoService.save(avaliacaoRendimento);
-		redirect.addFlashAttribute("success", "Avaliação cadastrada com sucesso.");
-
-		return "redirect:/supervisor/turma/{idTurma}/acompanhamento-avaliacao/estagiario/{idEstagiario}";
 	}
 
 	@RequestMapping(value = "{idTurma}/avaliacao/{idAvaliacaoRendimento}/estagiario/{idEstagiario}/editar", method = RequestMethod.GET)
@@ -236,187 +494,248 @@ public class SupervisorController {
 		
 		return "supervisor/avaliar-submissao";
 	}
-	@RequestMapping( value = "{idTurma}/submissao/{idSubmissao}/estagiario/{idEstagiario}/salvar-submissao-estagiario", method = RequestMethod.POST)
-	public String salvarSubmisssaoEstagiario(Model model, @Valid @ModelAttribute("submissao") Submissao submissao,
-			HttpSession session, RedirectAttributes redirect, @PathVariable("idEstagiario") Long idEstagiario,
-			@PathVariable("idTurma") Long idTurma, @PathVariable("idSubmissao") Long idSubmissao){
+	
+	@RequestMapping(value = "{idTurma}/acompanhamento-avaliacao/estagiario/{idEstagiario}/adicionar/", method = RequestMethod.POST)
+	public String adicionarAvaliacaoEstagio(Model model,
+			@Valid @ModelAttribute("avaliacaoRendimento") AvaliacaoRendimento avaliacaoRendimento, HttpSession session,
+			RedirectAttributes redirect, @PathVariable("idEstagiario") Long idEstagiario,
+			@PathVariable("idTurma") Long idTurma, @Valid @RequestParam("nota") Double nota, @Valid @RequestParam("rendimento") MultipartFile rendimento){
+
+		if(!rendimento.getContentType().equals("application/pdf")){
+			redirect.addFlashAttribute("error", "Escolha um arquivo pdf.");
+			return "redirect:/supervisor/turma/{idTurma}/acompanhamento-avaliacao/estagiario/{idEstagiario}";
+		}
 		
-		Submissao submissaoDoBanco = turmaService.getSubmissaoById(submissao.getId());
+		model.addAttribute("action", "cadastrar");
+		Pessoa pessoa = getUsuarioLogado(session);
 		Estagiario estagiario = estagiarioService.find(Estagiario.class, idEstagiario);
 		Turma turma = turmaService.getTurmaByIdAndEstagiarioId(idTurma, idEstagiario);
 
-		submissaoDoBanco.setEstagiario(estagiario);
-		submissaoDoBanco.setNota(submissao.getNota());
-		submissaoDoBanco.setStatusEntrega(submissao.getStatusEntrega());
-		submissaoDoBanco.setComentario(submissao.getComentario());
-
-		turma.getSubmissoes().add(submissaoDoBanco);
-		turmaService.update(turma);
+		Tipo tipo = Tipo.AVALIACAO_RENDIMENTO;
 		
-		return "redirect:/supervisor/turma/{idTurma}/submissao/{idSubmissao}/estagiario/{idEstagiario}/avaliar-submissao-estagiario";
+		try {
+			turmaService.submeterDocumento(estagiario, turma, tipo, rendimento);
+		} catch (IOException e) {
+			return "redirect:/500";
+		}
+		
+		Submissao submissao = turmaService.getSubmissaoByEstagiarioIdAndIdTurmaAndTipo(idEstagiario, idTurma, tipo);
+		Documento documento = submissao.getDocumento();
+		avaliacaoRendimento.setSupervisor(pessoa);
+		avaliacaoRendimento.setTurma(turma);
+		avaliacaoRendimento.setEstagiario(estagiario);
+		avaliacaoRendimento.setNota(nota);
+		avaliacaoRendimento.setDocumento(documento);
+		avaliacaoService.save(avaliacaoRendimento);
+		redirect.addFlashAttribute("success", "Avaliação cadastrada com sucesso.");
+
+		return "redirect:/supervisor/turma/{idTurma}/acompanhamento-avaliacao/estagiario/{idEstagiario}";
 	}
 	
-	@RequestMapping(value = "/{idTurma}/tce", method = RequestMethod.GET)
-	public String gerarTermoDeCompromisso(@PathVariable("idTurma") Long idTurma, Model model) throws JRException {
+	@RequestMapping(value = "/turma/{idTurma}/acompanhamento-avaliacao/estagiario/{idEstagiario}", method = RequestMethod.GET)
+	public String listarAcompanhamento(Model model, HttpSession session,
+			@PathVariable("idEstagiario") Long idEstagiario, @PathVariable("idTurma") Long idTurma) {
+		model.addAttribute("avaliacaoEstagio",
+				avaliacaoService.getAvaliacoesEstagioByEstagiarioIdAndTurmaById(idEstagiario, idTurma));
+		model.addAttribute("turma", turmaService.find(Turma.class, idTurma));
+		model.addAttribute("estagiario", estagiarioService.find(Estagiario.class, idEstagiario));
+		model.addAttribute("submissoes", turmaService.getSubmissoesByEstagiarioIdAndIdTurma(idEstagiario, idTurma));
+
+		return "supervisor/acompanhamentoAvaliacao";
+	}
+	
+	
+*/
+	
+
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+
+
+	@RequestMapping(value = "/{idTurma}/estagiario/{idEstagiario}/frequencia", method = RequestMethod.GET)
+	public String minhaPresenca(HttpSession session, Model model, @PathVariable("idTurma") Long idTurma,
+			@PathVariable("idEstagiario") Long idEstagiario) {
+
+		Estagiario estagiario = estagiarioService.find(Estagiario.class, idEstagiario);
+		Turma turma = turmaService.find(Turma.class, idTurma);
+		
+		List<Frequencia> frequenciaCompleta = new ArrayList<Frequencia>();
+		List<Frequencia> frequenciaPendentes =  frequenciaService.frequenciaPendente(turma, estagiario);
+		
+		frequenciaCompleta = frequenciaService.gerarFrequencia(turma, estagiario);
+		DadoConsolidado dadosConsolidados = frequenciaService.calcularDadosConsolidados(frequenciaCompleta);
+		
+		System.out.println("Pendentes: " + frequenciaPendentes.size());
+		
+		model.addAttribute("estagiario", estagiario);
+		model.addAttribute("turma", turma);
+		model.addAttribute("frequencias", frequenciaCompleta);
+		
+		model.addAttribute("pendentes", frequenciaPendentes.size());
+		
+		model.addAttribute("dadosConsolidados", dadosConsolidados);
+		model.addAttribute("statusFrequencias", StatusFrequencia.values());
+		model.addAttribute("dataAtual", new Date());
+
+		return "supervisor/list-frequencia-estagiario";
+	}
+
+	@RequestMapping(value = "/{idTurma}/frequencias", method = RequestMethod.POST)
+	public String listarFrequenciaTurmaData(@PathVariable("idTurma") Long idTurma, @RequestParam("data") Date data,
+			Model model, HttpSession session) {
+		Pessoa pessoa = getUsuarioLogado(session);
+
+		List<Frequencia> frequencias = frequenciaService.getFrequenciasByTurmaIdAndData(data, idTurma);
+		
+		List<Estagiario> estagiarios = frequenciaService.getEstagiariosSemFrequencia(data, idTurma);
+		
+		model.addAttribute("turma", turmaService.getTurmaByIdAndSupervisorById(idTurma, pessoa.getId()));
+		model.addAttribute("turmas", turmaService.getTurmasBySupervisorIdAndStatus(StatusTurma.ABERTA, pessoa.getId()));
+		model.addAttribute("frequencias", frequencias);
+		model.addAttribute("estagiarios", estagiarios);
+		model.addAttribute("dataAtual", new Date());
+		return "supervisor/list-frequencias";
+	}
+	
+
+	
+	@RequestMapping(value = "/estagiario/{idEstagiario}/turma/{idTurma}/frequencia/pendente", method = RequestMethod.POST)
+	public String lancarFrequencia(@PathVariable("idEstagiario") Long idEstagiario,
+			@PathVariable("idTurma") Long idTurma, @RequestParam("data") Date data,
+			@RequestParam("statusFrequencia") StatusFrequencia statusFrequencia,
+			@RequestParam("observacao") String observacao, Model model, RedirectAttributes redirectAttributes) {
 
 		Turma turma = turmaService.find(Turma.class, idTurma);
+		Estagiario estagiario = estagiarioService.find(Estagiario.class, idEstagiario);
 
-		Usuario usuario = usuarioService.getByCpf(turma.getSupervisor().getCpf());
+		Frequencia frequencia = frequenciaService.getFrequenciaByDataByTurmaByEstagiario(data, idTurma, idEstagiario);
 
-		jrDatasource = new JRBeanCollectionDataSource(turma.getEstagiarios());
+		if (frequencia == null) {
 
-		SimpleDateFormat dataFormatada = new SimpleDateFormat("dd/MM/yyyy");
+			if (statusFrequencia == null) {
+				redirectAttributes.addFlashAttribute("error", "Escolha um Status Válido");
+			} else {
+				frequencia = new Frequencia();
+				frequencia.setTurma(turma);
+				frequencia.setEstagiario(estagiario);
+				frequencia.setData(data);
+				frequencia.setHorario(new Date());
+				frequencia.setTipoFrequencia(TipoFrequencia.NORMAL);
+				frequencia.setStatusFrequencia(statusFrequencia);
+				frequencia.setObservacao(observacao);
+				frequenciaService.save(frequencia);
+				redirectAttributes.addFlashAttribute("sucesso", "Frequência lançada com sucesso");
+			}
 
-		model.addAttribute("NOME", usuario.getNome());
-		model.addAttribute("SIAPE", usuario.getSiape());
-		model.addAttribute("TELEFONE", usuario.getTelefone());
-		model.addAttribute("TURNO", UtilGestao.getTurnoExpediente(turma.getHorarios().get(0)));
-		model.addAttribute("INICIO_ESTAGIO", dataFormatada.format(turma.getInicio()));
-		model.addAttribute("FINAL_ESTAGIO", dataFormatada.format(turma.getTermino()));
-		model.addAttribute("datasource", jrDatasource);
-		model.addAttribute("format", "pdf");
-
-		if (turma.getHorarios() != null) {
-			model = configurarExpediente(turma.getHorarios(), model);
+		} else {
+			redirectAttributes.addFlashAttribute("error", "Não é possivel lançar a Frequência para esta data");
 		}
 
-		return PAGINA_TCE;
+		return "redirect:/supervisor/turma/" + idTurma + "/estagiario/" + idEstagiario + "/frequencia";
 	}
 
-	@RequestMapping(value = "/{idTurma}/declaracoes", method = RequestMethod.GET)
-	public String gerarDeclaracaoEstagio(Model model, @PathVariable("idTurma") Long idTurma) throws JRException {
-		jrDatasource = new JRBeanCollectionDataSource(estagiarioService.getEstagiarioByTurmaId(idTurma));
+	@RequestMapping(value = "/frequencia/realizar-observacao", method = RequestMethod.POST)
+	public String frequenciaObservar(@RequestParam("pk") Long idFrequencia, @RequestParam("value") String observacao,
+			Model model) {
+		Frequencia frequencia = frequenciaService.find(Frequencia.class, idFrequencia);
 
-		model.addAttribute("datasource", jrDatasource);
-		model.addAttribute("format", "pdf");
-		return PAGINA_DECLARACAO_ESTAGIO;
-	}
-
-	@RequestMapping(value = "/adicionar", method = RequestMethod.GET)
-	public String novaTurma(Model model) {
-		model.addAttribute("action", "cadastrar");
-
-		model.addAttribute("turma", new Turma());
-		model.addAttribute("dias", Dia.values());
-		
-		return "supervisor/form-turma";
-	}
-
-	@RequestMapping(value = "/adicionar", method = RequestMethod.POST)
-	public String adicionarTurma(Model model, @Valid @ModelAttribute("turma") Turma turma, BindingResult result,
-			HttpSession session, RedirectAttributes redirect) {
-		model.addAttribute("action", "cadastrar");
-
-		turma.setHorarios(atualizarHorarios(turma));
-
-		if (result.hasErrors()) {
-			model.addAttribute("dias", Dia.values());
-			return "supervisor/form-turma";
+		if (frequencia != null) {
+			frequencia.setObservacao(observacao);
+			frequenciaService.update(frequencia);
+			return "supervisor/list-frequencia-estagiario";
 		}
 
-		Pessoa pessoa = getUsuarioLogado(session);
-
-		turma.setSupervisor(pessoa);
-		turmaService.save(turma);
-
-		redirect.addFlashAttribute("success", "Turma cadastrada com sucesso.");
-
-		return "redirect:/supervisor/turmas";
+		return "";
 	}
 
-	@RequestMapping(value = "/{idTurma}/editar", method = RequestMethod.GET)
-	public String paginaEditarTurma(@PathVariable("idTurma") Long idTurma, Model model, HttpSession session) {
-		model.addAttribute("action", "editar");
+	@RequestMapping(value = "/frequencia/atualizar-status", method = RequestMethod.POST)
+	public String atualizarStatus(@RequestParam("pk") Long idFrequencia, @RequestParam("value") StatusFrequencia status,
+			Model model, RedirectAttributes redirectAttributes) {
+		Frequencia frequencia = frequenciaService.find(Frequencia.class, idFrequencia);
 
-		Pessoa pessoa = getUsuarioLogado(session);
-
-		model.addAttribute("turma", turmaService.getTurmaByIdAndSupervisorById(idTurma, pessoa.getId()));
-		model.addAttribute("dias", Dia.values());
-
-		return "supervisor/form-turma";
-	}
-
-	@RequestMapping(value = "/{idTurma}/editar", method = RequestMethod.POST)
-	public String editarTurma(Model model, @Valid @ModelAttribute("turma") Turma turma, BindingResult result,
-			HttpSession session) {
-
-		model.addAttribute("action", "editar");
-
-		if (result.hasErrors()) {
-			model.addAttribute("dias", Dia.values());
-			return "supervisor/form-turma";
+		if (frequencia != null) {
+			frequencia.setStatusFrequencia(status);
+			frequenciaService.update(frequencia);
+			return "supervisor/list-frequencia-estagiario";
 		}
 
-		Pessoa pessoa = getUsuarioLogado(session);
-		Turma turmaDoBanco = turmaService.getTurmaByIdAndSupervisorById(turma.getId(), pessoa.getId());
-
-		turmaDoBanco.setNome(turma.getNome());
-		turmaDoBanco.setStatusTurma(turma.getStatusTurma());
-		turmaDoBanco.setTipoTurma(turma.getTipoTurma());
-		turmaDoBanco.setSemestre(turma.getSemestre());
-		turmaDoBanco.setInicio(turma.getInicio());
-		turmaDoBanco.setTermino(turma.getTermino());
-
-		turmaService.update(turmaDoBanco);
-
-		return "redirect:/supervisor/turmas";
+		return "";
 	}
 
-	@RequestMapping(value = "/{idTurma}", method = RequestMethod.GET)
-	public String detalhesTurma(@PathVariable("idTurma") Long idTurma, Model model, HttpSession session) {
-		Pessoa pessoa = getUsuarioLogado(session);
-		
-		model.addAttribute("turma", turmaService.getTurmaByIdAndSupervisorById(idTurma, pessoa.getId()));
-		turmaService.getTurmaByIdAndSupervisorById(idTurma, pessoa.getId());
-		
-		
-		List<Estagiario> aniversariantes = estagiarioService.getAniversariantesMesByTurmaId(idTurma);
-		model.addAttribute("aniversariantes", aniversariantes);	
-		
-		return "supervisor/info-turma";
-	}
 
-	@RequestMapping(value = "/{idTurma}/expediente", method = RequestMethod.GET)
-	public String paginaExpedienteTurma(Model model, @ModelAttribute("idTurma") Long idTurma) {
-
-		model.addAttribute("dias", Dia.values());
-		model.addAttribute("horario", new Horario());
-		model.addAttribute("turma", turmaService.find(Turma.class, idTurma));
-
-		return "supervisor/form-horario";
-	}
-
-	@RequestMapping(value = "/{idTurma}/expediente", method = RequestMethod.POST)
-	public String paginaExpediente(Model model, @Valid @ModelAttribute("horario") Horario horario,
-			@ModelAttribute("idTurma") Long idTurma, BindingResult result, HttpSession session,
-			RedirectAttributes redirect) {
-
-		if (result.hasErrors()) {
-			model.addAttribute("dias", Dia.values());
-			return "supervisor/form-horario";
-		}
-
-		Pessoa supervisor = getUsuarioLogado(session);
-		Turma turma = turmaService.getTurmaByIdAndSupervisorById(idTurma, supervisor.getId());
-		horario.setTurma(turma);
-
-		horarioService.save(horario);
-
-		redirect.addFlashAttribute("success", "Horário cadastrado com sucesso.");
-
-		return "redirect:/supervisor/turma/" + idTurma + "/expediente";
-	}
-
-	@RequestMapping(value = "/{idTurma}/expediente/{idHorario}/excluir", method = RequestMethod.GET)
-	public String excluirExpediente(Model model, @ModelAttribute("idHorario") Long idHorario,
-			@ModelAttribute("idTurma") Long idTurma, BindingResult result, HttpSession session,
-			RedirectAttributes redirect) {
-
-		horarioService.delete(horarioService.find(Horario.class, idHorario));
-
-		redirect.addFlashAttribute("success", "Horário excluído com sucesso.");
-
-		return "redirect:/supervisor/turma/" + idTurma + "/expediente";
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	@RequestMapping(value = "/estagiario/{id}", method = RequestMethod.GET)
+	public String infoEstagiario(@PathVariable("id") Long id, Model model) {
+		model.addAttribute("estagiario", estagiarioService.find(Estagiario.class, id));
+		return "supervisor/info-estagiario";
 	}
 
 	@RequestMapping(value = "/{id}/vincular", method = RequestMethod.GET)
@@ -454,80 +773,30 @@ public class SupervisorController {
 		return "redirect:/supervisor/turma/" + turmaDoBanco.getId();
 	}
 
-	@RequestMapping(value = "/{idTurma}/mapa-frequencia", method = RequestMethod.GET)
-	public String listarFrequenciaTurma(@PathVariable("idTurma") Long idTurma, Model model, HttpSession session) {
-		Pessoa pessoa = getUsuarioLogado(session);
-		Date dataAtual = new Date();
-		List<Frequencia> frequencias = frequenciaService.getFrequenciasByTurmaIdAndData(dataAtual, idTurma);
-		List<Estagiario> estagiarios = frequenciaService.getEstagiariosSemFrequencia(dataAtual, idTurma);
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
-		model.addAttribute("turma", turmaService.getTurmaByIdAndSupervisorById(idTurma, pessoa.getId()));
-		model.addAttribute("frequencias", frequencias);
-		model.addAttribute("estagiarios", estagiarios);
-		model.addAttribute("dataAtual", dataAtual);
-
-		return "supervisor/list-frequencias";
-	}
-
-	@RequestMapping(value = "/{idTurma}/frequencias", method = RequestMethod.POST)
-	public String listarFrequenciaTurmaData(@PathVariable("idTurma") Long idTurma, @RequestParam("data") Date data,
-			Model model, HttpSession session) {
-		Pessoa pessoa = getUsuarioLogado(session);
-
-		List<Frequencia> frequencias = frequenciaService.getFrequenciasByTurmaIdAndData(data, idTurma);
-		
-		List<Estagiario> estagiarios = frequenciaService.getEstagiariosSemFrequencia(data, idTurma);
-		
-		model.addAttribute("turma", turmaService.getTurmaByIdAndSupervisorById(idTurma, pessoa.getId()));
-		model.addAttribute("turmas", turmaService.getTurmasBySupervisorIdAndStatus(StatusTurma.ABERTA, pessoa.getId()));
-		model.addAttribute("frequencias", frequencias);
-		model.addAttribute("estagiarios", estagiarios);
-		model.addAttribute("dataAtual", new Date());
-		return "supervisor/list-frequencias";
-	}
-
-	@RequestMapping(value = "/{idTurma}/estagiario/{idEstagiario}/frequencia", method = RequestMethod.GET)
-	public String minhaPresenca(HttpSession session, Model model, @PathVariable("idTurma") Long idTurma,
-			@PathVariable("idEstagiario") Long idEstagiario) {
-
-		Estagiario estagiario = estagiarioService.find(Estagiario.class, idEstagiario);
-		Turma turma = turmaService.find(Turma.class, idTurma);
-		
-		List<Frequencia> frequenciaCompleta = new ArrayList<Frequencia>();
-		List<Frequencia> frequenciaPendentes =  frequenciaService.frequenciaPendente(turma, estagiario);
-		
-		frequenciaCompleta = frequenciaService.gerarFrequencia(turma, estagiario);
-		DadoConsolidado dadosConsolidados = frequenciaService.calcularDadosConsolidados(frequenciaCompleta);
-		
-		System.out.println("Pendentes: " + frequenciaPendentes.size());
-		
-		model.addAttribute("estagiario", estagiario);
-		model.addAttribute("turma", turma);
-		model.addAttribute("frequencias", frequenciaCompleta);
-		
-		model.addAttribute("pendentes", frequenciaPendentes.size());
-		
-		model.addAttribute("dadosConsolidados", dadosConsolidados);
-		model.addAttribute("statusFrequencias", StatusFrequencia.values());
-		model.addAttribute("dataAtual", new Date());
-
-		return "supervisor/list-frequencia-estagiario";
-	}
-
-	private List<Estagiario> getEstagiariosSelecionados(List<Estagiario> estagiarios) {
-		List<Estagiario> estagiariosSelecionados = new ArrayList<Estagiario>();
-
-		for (Estagiario estagiario : estagiarios) {
-			if (estagiario.getId() != null) {
-				estagiario = estagiarioService.find(Estagiario.class, estagiario.getId());
-
-				estagiariosSelecionados.add(estagiario);
-			}
-		}
-
-		return estagiariosSelecionados;
-	}
-
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	private List<Estagiario> atualizarTurmaEstagiarios(List<Estagiario> estagiarios, Turma turma) {
 		for (Estagiario estagiario : estagiarios) {
 			if (estagiario.getTurmas() != null) {
@@ -579,179 +848,20 @@ public class SupervisorController {
 		return model;
 
 	}
-	
-// EventoInicio
-	@RequestMapping(value = "/{idTurma}/evento", method = RequestMethod.GET)
-	public String paginaEventosTurma(Model model, @PathVariable("idTurma") Long idTurma) {
 
-		
-		model.addAttribute("action", "cadastrar");
-		model.addAttribute("evento", new Evento());
-		model.addAttribute("turma", turmaService.find(Turma.class, idTurma));
 
-		return "supervisor/form-evento";
-	}
+	private List<Estagiario> getEstagiariosSelecionados(List<Estagiario> estagiarios) {
+		List<Estagiario> estagiariosSelecionados = new ArrayList<Estagiario>();
 
-	@RequestMapping(value = "/{idTurma}/evento/cadastrar", method = RequestMethod.POST)
-	public String adicionarEventosTurma(@ModelAttribute("evento") Evento evento, @PathVariable("idTurma") Long idTurma,
-			HttpSession session, RedirectAttributes redirect, Model model) {
-		model.addAttribute("action", "cadastrar");
-		Pessoa supervisor = getUsuarioLogado(session);
-		Turma turma = turmaService.getTurmaByIdAndSupervisorById(idTurma, supervisor.getId());
+		for (Estagiario estagiario : estagiarios) {
+			if (estagiario.getId() != null) {
+				estagiario = estagiarioService.find(Estagiario.class, estagiario.getId());
 
-		evento.setTurma(turma);
-		eventoService.save(evento);
-
-		redirect.addFlashAttribute("success", "Evento cadastrado com sucesso.");
-
-		return "redirect:/supervisor/turma/" + idTurma + "/evento";
-	}
-			
-	@RequestMapping(value="/{idTurma}/evento/{idEvento}/excluir", method = RequestMethod.GET)
-	public String excluirEvento(@PathVariable("idEvento") Long idEvento, 
-			@PathVariable("idTurma") Long idTurma,HttpSession session,
-			RedirectAttributes redirect){
-		eventoService.delete(eventoService.find(Evento.class, idEvento));
-		
-		redirect.addFlashAttribute("success", "Evento excluído com sucesso!");
-		
-		return "redirect:/supervisor/turma/" + idTurma + "/evento";
-	}
-
-	@RequestMapping(value = "/{idTurma}/evento/{idEvento}/editar", method = RequestMethod.GET)
-	public String editarEvento(@PathVariable("idEvento") Long idEvento, Model model, 
-			@PathVariable("idTurma") Long idTurma, HttpSession session, RedirectAttributes attributes){
-		
-		Evento evento = eventoService.find(Evento.class, idEvento);
-		Turma turma = turmaService.find(Turma.class, idTurma);
-		Pessoa pessoa = getUsuarioLogado(session);
-		if(turma.getSupervisor().equals(pessoa)){
-			attributes.addFlashAttribute("erro", "Permissão negada.");
-			return "redirect:/";
-		}
-		if(!turma.getEventos().contains(evento)){
-			attributes.addFlashAttribute("erro", "Erro ao tentar editar turma.");
-			return "redirect:/turma/"+turma.getId();
-		}
-		model.addAttribute("evento", evento);	
-		model.addAttribute("turma", turma);
-		model.addAttribute("action", "editar");
-		return "supervisor/form-evento";
-	}
-	
-	@RequestMapping(value="/{turma.id}/evento/{id}/editar", method = RequestMethod.POST)
-	public String editarEventoTurma(@ModelAttribute("evento") Evento evento, RedirectAttributes redirect){
-		eventoService.update(evento);
-		redirect.addFlashAttribute("success", "Alterações realizadas com sucesso!");
-		return "redirect:/supervisor/turma/" + evento.getTurma().getId() + "/evento";	
-	}
-
-	@RequestMapping(value = { "", "/" }, method = RequestMethod.GET)
-	public String paginaInicial(Model Model, HttpSession session) {
-
-		String cpf = SecurityContextHolder.getContext().getAuthentication().getName();
-		Pessoa usuarioLogado = getUsuarioLogado(session);
-
-		if (!pessoaService.isPessoa(cpf)) {
-
-			Papel papel = papelService.getPapel("ROLE_SUPERVISOR");
-
-			Pessoa pessoa = new Pessoa(cpf);
-			pessoa.setPapeis(new ArrayList<Papel>());
-			pessoa.getPapeis().add(papel);
-
-			pessoaService.save(pessoa);
-
-			Servidor servidor = new Servidor(pessoa, usuarioService.getByCpf(cpf).getSiape());
-			servidorService.save(servidor);
-		}
-		
-		return "redirect:/supervisor/turmas";
-	}
-
-	@RequestMapping(value = "/turmas", method = RequestMethod.GET)
-	public String listarTurmas(Model model, HttpSession session) {
-		Pessoa pessoa = getUsuarioLogado(session);
-		model.addAttribute("turmas", turmaService.getTurmasBySupervisorId(pessoa.getId()));
-
-		return "supervisor/list-turmas";
-	}
-
-	// @RequestMapping(value = "/")
-
-	@RequestMapping(value = "/estagiario/{idEstagiario}/turma/{idTurma}/frequencia/pendente", method = RequestMethod.POST)
-	public String lancarFrequencia(@PathVariable("idEstagiario") Long idEstagiario,
-			@PathVariable("idTurma") Long idTurma, @RequestParam("data") Date data,
-			@RequestParam("statusFrequencia") StatusFrequencia statusFrequencia,
-			@RequestParam("observacao") String observacao, Model model, RedirectAttributes redirectAttributes) {
-
-		Turma turma = turmaService.find(Turma.class, idTurma);
-		Estagiario estagiario = estagiarioService.find(Estagiario.class, idEstagiario);
-
-		Frequencia frequencia = frequenciaService.getFrequenciaByDataByTurmaByEstagiario(data, idTurma, idEstagiario);
-
-		if (frequencia == null) {
-
-			if (statusFrequencia == null) {
-				redirectAttributes.addFlashAttribute("error", "Escolha um Status Válido");
-			} else {
-				frequencia = new Frequencia();
-				frequencia.setTurma(turma);
-				frequencia.setEstagiario(estagiario);
-				frequencia.setData(data);
-				frequencia.setHorario(new Date());
-				frequencia.setTipoFrequencia(TipoFrequencia.NORMAL);
-				frequencia.setStatusFrequencia(statusFrequencia);
-				frequencia.setObservacao(observacao);
-				frequenciaService.save(frequencia);
-				redirectAttributes.addFlashAttribute("sucesso", "Frequência lançada com sucesso");
+				estagiariosSelecionados.add(estagiario);
 			}
-
-		} else {
-			redirectAttributes.addFlashAttribute("error", "Não é possivel lançar a Frequência para esta data");
 		}
 
-		return "redirect:/supervisor/turma/" + idTurma + "/estagiario/" + idEstagiario + "/frequencia";
-	}
-
-	@RequestMapping(value = "/turma/{idTurma}/acompanhamento-avaliacao/estagiario/{idEstagiario}", method = RequestMethod.GET)
-	public String listarAcompanhamento(Model model, HttpSession session,
-			@PathVariable("idEstagiario") Long idEstagiario, @PathVariable("idTurma") Long idTurma) {
-		model.addAttribute("avaliacaoEstagio",
-				avaliacaoService.getAvaliacoesEstagioByEstagiarioIdAndTurmaById(idEstagiario, idTurma));
-		model.addAttribute("turma", turmaService.find(Turma.class, idTurma));
-		model.addAttribute("estagiario", estagiarioService.find(Estagiario.class, idEstagiario));
-		model.addAttribute("submissoes", turmaService.getSubmissoesByEstagiarioIdAndIdTurma(idEstagiario, idTurma));
-
-		return "supervisor/acompanhamentoAvaliacao";
-	}
-
-	@RequestMapping(value = "/frequencia/realizar-observacao", method = RequestMethod.POST)
-	public String frequenciaObservar(@RequestParam("pk") Long idFrequencia, @RequestParam("value") String observacao,
-			Model model) {
-		Frequencia frequencia = frequenciaService.find(Frequencia.class, idFrequencia);
-
-		if (frequencia != null) {
-			frequencia.setObservacao(observacao);
-			frequenciaService.update(frequencia);
-			return "supervisor/list-frequencia-estagiario";
-		}
-
-		return "";
-	}
-
-	@RequestMapping(value = "/frequencia/atualizar-status", method = RequestMethod.POST)
-	public String atualizarStatus(@RequestParam("pk") Long idFrequencia, @RequestParam("value") StatusFrequencia status,
-			Model model, RedirectAttributes redirectAttributes) {
-		Frequencia frequencia = frequenciaService.find(Frequencia.class, idFrequencia);
-
-		if (frequencia != null) {
-			frequencia.setStatusFrequencia(status);
-			frequenciaService.update(frequencia);
-			return "supervisor/list-frequencia-estagiario";
-		}
-
-		return "";
+		return estagiariosSelecionados;
 	}
 
 	private Pessoa getUsuarioLogado(HttpSession session) {
@@ -762,11 +872,14 @@ public class SupervisorController {
 		}
 		return (Pessoa) session.getAttribute(Constants.USUARIO_LOGADO);
 	}
-
-	@RequestMapping(value = "/estagiario/{id}", method = RequestMethod.GET)
-	public String infoEstagiario(@PathVariable("id") Long id, Model model) {
-		model.addAttribute("estagiario", estagiarioService.find(Estagiario.class, id));
-		return "supervisor/info-estagiario";
-	}
-
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }

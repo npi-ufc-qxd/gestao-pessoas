@@ -52,36 +52,6 @@ public class EstagiarioController {
 
 	@Inject
 	private FrequenciaService frequenciaService;
-	
-//	@RequestMapping(value = "/{idSubmissao}", method = RequestMethod.GET)
-//	public void getArquivo(@PathVariable("idSubmissao") Long idSubmissao, HttpServletResponse response, HttpSession session) {
-//		try {
-//			Submissao submissao = turmaService.getSubmissaoById(idSubmissao);
-//			if(submissao != null) {
-//				InputStream is = new ByteArrayInputStream(submissao.getDocumento().getArquivo());
-//				response.setContentType(submissao.toString());
-//				response.setHeader("Content-Disposition", "attachment; filename=" + submissao.getDocumento().getNome());
-//				IOUtils.copy(is, response.getOutputStream());
-//				response.flushBuffer();
-//			}
-//		} catch (IOException ex) {
-//		}
-//	}
-//	
-//	@RequestMapping(value = "/remover/{id}", method = RequestMethod.POST)
-//	@ResponseBody public  ModelMap excluirDocumento(@PathVariable("id") Long id, HttpSession session) {
-//		ModelMap model = new ModelMap();
-//		Submissao documento = turmaService.getSubmissaoById(id);
-//
-//		if(documento == null) {
-//			model.addAttribute("mensagem", "Documento inexistente.");
-//			return model;
-//		}
-//
-//		turmaService.remover(documento);
-//		model.addAttribute("result", "ok");
-//		return model;
-//	}
 
 	@RequestMapping(value = "/MinhasTurmas", method = RequestMethod.GET)
 	public String getTurmas(Model model, HttpSession session) {

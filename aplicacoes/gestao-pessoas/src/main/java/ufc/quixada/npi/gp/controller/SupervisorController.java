@@ -1,9 +1,12 @@
 package ufc.quixada.npi.gp.controller;
 
 import static ufc.quixada.npi.gp.utils.Constants.PAGINA_DECLARACAO_ESTAGIO;
+import static ufc.quixada.npi.gp.utils.Constants.PAGINA_FORM_TURMA;
+import static ufc.quixada.npi.gp.utils.Constants.PAGINA_INFO_TURMA;
+import static ufc.quixada.npi.gp.utils.Constants.PAGINA_MAPA_FREQUENCIAS;
+import static ufc.quixada.npi.gp.utils.Constants.PAGINA_FORM_VINCULOS;
 import static ufc.quixada.npi.gp.utils.Constants.PAGINA_TCE;
 
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -23,7 +26,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import br.ufc.quixada.npi.ldap.model.Usuario;
@@ -31,33 +33,17 @@ import br.ufc.quixada.npi.ldap.service.UsuarioService;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
-import ufc.quixada.npi.gp.model.AvaliacaoRendimento;
-import ufc.quixada.npi.gp.model.Documento;
 import ufc.quixada.npi.gp.model.Estagiario;
-import ufc.quixada.npi.gp.model.Evento;
 import ufc.quixada.npi.gp.model.Frequencia;
 import ufc.quixada.npi.gp.model.Horario;
 import ufc.quixada.npi.gp.model.Papel;
 import ufc.quixada.npi.gp.model.Pessoa;
 import ufc.quixada.npi.gp.model.Servidor;
-import ufc.quixada.npi.gp.model.Submissao;
 import ufc.quixada.npi.gp.model.Turma;
-import ufc.quixada.npi.gp.model.enums.Comprometimento;
-import ufc.quixada.npi.gp.model.enums.CuidadoMateriais;
-import ufc.quixada.npi.gp.model.enums.CumprimentoPrazos;
 import ufc.quixada.npi.gp.model.enums.Dia;
-import ufc.quixada.npi.gp.model.enums.Disciplina;
-import ufc.quixada.npi.gp.model.enums.Iniciativa;
-import ufc.quixada.npi.gp.model.enums.Permanencia;
-import ufc.quixada.npi.gp.model.enums.QualidadeDeTrabalho;
-import ufc.quixada.npi.gp.model.enums.QuantidadeDeTrabalho;
-import ufc.quixada.npi.gp.model.enums.Relacionamento;
 import ufc.quixada.npi.gp.model.enums.StatusFrequencia;
 import ufc.quixada.npi.gp.model.enums.StatusTurma;
-import ufc.quixada.npi.gp.model.enums.Tipo;
 import ufc.quixada.npi.gp.model.enums.TipoFrequencia;
-import ufc.quixada.npi.gp.model.enums.TrabalhoEmEquipe;
-import ufc.quixada.npi.gp.model.enums.Frequencias;
 import ufc.quixada.npi.gp.service.AvaliacaoService;
 import ufc.quixada.npi.gp.service.DadoConsolidado;
 import ufc.quixada.npi.gp.service.EstagiarioService;
@@ -73,7 +59,7 @@ import ufc.quixada.npi.gp.utils.UtilGestao;
 
 @Component
 @Controller
-@RequestMapping("supervisor")
+@RequestMapping("Supervisor")
 public class SupervisorController {
 
 	@Inject
@@ -132,7 +118,7 @@ public class SupervisorController {
 		return "supervisor/list-turmas";
 	}
 
-	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/Turma/{idTurma}", method = RequestMethod.GET)
 	public String getInfoTurma(@PathVariable("idTurma") Long idTurma, Model model, HttpSession session) {
 		Pessoa pessoa = getUsuarioLogado(session);
 		
@@ -143,20 +129,20 @@ public class SupervisorController {
 		List<Estagiario> aniversariantes = estagiarioService.getAniversariantesMesByTurmaId(idTurma);
 		model.addAttribute("aniversariantes", aniversariantes);	
 		
-		return "supervisor/info-turma";
+		return PAGINA_INFO_TURMA;
 	}
 	
-	@RequestMapping(value = "/Adicionar", method = RequestMethod.GET)
+	@RequestMapping(value = "/Turma/Adicionar", method = RequestMethod.GET)
 	public String getAdicionarTurma(Model model) {
 		
 		model.addAttribute("action", "cadastrar");
 		model.addAttribute("turma", new Turma());
 		model.addAttribute("dias", Dia.values());
 		
-		return "supervisor/form-turma";
+		return PAGINA_FORM_TURMA;
 	}
 	
-	@RequestMapping(value = "/Adicionar", method = RequestMethod.POST)
+	@RequestMapping(value = "/Turma/Adicionar", method = RequestMethod.POST)
 	public String postAdicionarTurma(Model model, @Valid @ModelAttribute("turma") Turma turma, BindingResult result,
 			HttpSession session, RedirectAttributes redirect) {
 		
@@ -165,7 +151,7 @@ public class SupervisorController {
 
 		if (result.hasErrors()) {
 			model.addAttribute("dias", Dia.values());
-			return "supervisor/form-turma";
+			return PAGINA_FORM_TURMA;
 		}
 
 		Pessoa pessoa = getUsuarioLogado(session);
@@ -178,7 +164,7 @@ public class SupervisorController {
 		return "redirect:/supervisor/turmas";
 	}
 
-	@RequestMapping(value = "/{id}/Editar", method = RequestMethod.GET)
+	@RequestMapping(value = "/Turma/{idTurma}/Editar", method = RequestMethod.GET)
 	public String getEditarTurma(@PathVariable("idTurma") Long idTurma, Model model, HttpSession session) {
 		model.addAttribute("action", "editar");
 
@@ -187,10 +173,10 @@ public class SupervisorController {
 		model.addAttribute("turma", turmaService.getTurmaByIdAndSupervisorById(idTurma, pessoa.getId()));
 		model.addAttribute("dias", Dia.values());
 
-		return "supervisor/form-turma";
+		return PAGINA_FORM_TURMA;
 	}
 
-	@RequestMapping(value = "/{id}/Editar", method = RequestMethod.POST)
+	@RequestMapping(value = "/Turma/{idTurma}/Editar", method = RequestMethod.POST)
 	public String postEditarTurma(Model model, @Valid @ModelAttribute("turma") Turma turma, BindingResult result,
 			HttpSession session) {
 
@@ -198,7 +184,7 @@ public class SupervisorController {
 
 		if (result.hasErrors()) {
 			model.addAttribute("dias", Dia.values());
-			return "supervisor/form-turma";
+			return PAGINA_FORM_TURMA;
 		}
 
 		Pessoa pessoa = getUsuarioLogado(session);
@@ -216,7 +202,7 @@ public class SupervisorController {
 		return "redirect:/supervisor/turmas";
 	}
 
-	@RequestMapping(value = "/{idTurma}/tce", method = RequestMethod.GET)
+	@RequestMapping(value = "/Turma/{idTurma}/tce", method = RequestMethod.GET)
 	public String gerarTermoDeCompromisso(@PathVariable("idTurma") Long idTurma, Model model) throws JRException {
 
 		Turma turma = turmaService.find(Turma.class, idTurma);
@@ -243,7 +229,7 @@ public class SupervisorController {
 		return PAGINA_TCE;
 	}
 
-	@RequestMapping(value = "/{idTurma}/declaracoes", method = RequestMethod.GET)
+	@RequestMapping(value = "/Turma/{idTurma}/declaracoes", method = RequestMethod.GET)
 	public String gerarDeclaracaoEstagio(Model model, @PathVariable("idTurma") Long idTurma) throws JRException {
 		jrDatasource = new JRBeanCollectionDataSource(estagiarioService.getEstagiarioByTurmaId(idTurma));
 
@@ -251,20 +237,12 @@ public class SupervisorController {
 		model.addAttribute("format", "pdf");
 		return PAGINA_DECLARACAO_ESTAGIO;
 	}
-	
-	@RequestMapping(value = "/{id}/Expediente/Adicionar", method = RequestMethod.GET)
-	public String getExpediente(Model model, @ModelAttribute("idTurma") Long idTurma) {
 
-		model.addAttribute("dias", Dia.values());
-		model.addAttribute("horario", new Horario());
-		model.addAttribute("turma", turmaService.find(Turma.class, idTurma));
+	/* VERIFICAR UTILIZAÇÃO 
 
-		return "supervisor/form-horario";
-	}
-
-	@RequestMapping(value = "/{id}/Expediente/Adicionar", method = RequestMethod.POST)
+	@RequestMapping(value = "/Turma/{idTurma}/Expediente/Adicionar", method = RequestMethod.POST)
 	public String postAdicionarExpediente(Model model, @Valid @ModelAttribute("horario") Horario horario,
-			@ModelAttribute("idTurma") Long idTurma, BindingResult result, HttpSession session,
+			@PathVariable("idTurma") Long idTurma, BindingResult result, HttpSession session,
 			RedirectAttributes redirect) {
 
 		if (result.hasErrors()) {
@@ -283,9 +261,9 @@ public class SupervisorController {
 		return "redirect:/supervisor/turma/" + idTurma + "/expediente";
 	}
 	
-	@RequestMapping(value = "/{idTurma}/Expediente/{idHorario}/Excluir", method = RequestMethod.GET)
-	public String getExcluirExpediente(Model model, @ModelAttribute("idHorario") Long idHorario,
-			@ModelAttribute("idTurma") Long idTurma, BindingResult result, HttpSession session,
+	@RequestMapping(value = "/Turma/{idTurma}/Expediente/{idHorario}/Excluir", method = RequestMethod.GET)
+	public String getExcluirExpediente(@PathVariable("idHorario") Long idHorario,
+			@PathVariable("idTurma") Long idTurma,
 			RedirectAttributes redirect) {
 
 		horarioService.delete(horarioService.find(Horario.class, idHorario));
@@ -294,17 +272,8 @@ public class SupervisorController {
 
 		return "redirect:/supervisor/turma/" + idTurma + "/expediente";
 	}
-	
-	@RequestMapping(value = "/{id}/Evento", method = RequestMethod.GET)
-	public String getEventos(Model model, @PathVariable("idTurma") Long idTurma) {
-		model.addAttribute("action", "cadastrar");
-		model.addAttribute("evento", new Evento());
-		model.addAttribute("turma", turmaService.find(Turma.class, idTurma));
 
-		return "supervisor/form-evento";
-	}
-
-	@RequestMapping(value = "/{id}/Evento/Adicionar", method = RequestMethod.POST)
+	@RequestMapping(value = "/Turma/{idTurma}/Evento/Adicionar", method = RequestMethod.POST)
 	public String postAdicionarEventos(@ModelAttribute("evento") Evento evento, @PathVariable("idTurma") Long idTurma,
 			HttpSession session, RedirectAttributes redirect, Model model) {
 		model.addAttribute("action", "cadastrar");
@@ -318,38 +287,17 @@ public class SupervisorController {
 
 		return "redirect:/supervisor/turma/" + idTurma + "/evento";
 	}
-
-	@RequestMapping(value = "/{idTurma}/Evento/{idEvento}/Editar", method = RequestMethod.GET)
-	public String getEditarEvento(@PathVariable("idEvento") Long idEvento, Model model, 
-			@PathVariable("idTurma") Long idTurma, HttpSession session, RedirectAttributes attributes){
-		
-		Evento evento = eventoService.find(Evento.class, idEvento);
-		Turma turma = turmaService.find(Turma.class, idTurma);
-		Pessoa pessoa = getUsuarioLogado(session);
-		if(turma.getSupervisor().equals(pessoa)){
-			attributes.addFlashAttribute("erro", "Permissão negada.");
-			return "redirect:/";
-		}
-		if(!turma.getEventos().contains(evento)){
-			attributes.addFlashAttribute("erro", "Erro ao tentar editar turma.");
-			return "redirect:/turma/"+turma.getId();
-		}
-		model.addAttribute("evento", evento);	
-		model.addAttribute("turma", turma);
-		model.addAttribute("action", "editar");
-		return "supervisor/form-evento";
-	}
 	
-	@RequestMapping(value="/{idTurma}/Evento/{idEvento}/Editar", method = RequestMethod.POST)
+	@RequestMapping(value="/Turma/{idTurma}/Evento/{idEvento}/Editar", method = RequestMethod.POST)
 	public String postEditarEvento(@ModelAttribute("evento") Evento evento, RedirectAttributes redirect){
 		eventoService.update(evento);
 		redirect.addFlashAttribute("success", "Alterações realizadas com sucesso!");
 		return "redirect:/supervisor/turma/" + evento.getTurma().getId() + "/evento";	
 	}
 	
-	@RequestMapping(value="/{idTurma}/Evento/{idEvento}/Excluir", method = RequestMethod.GET)
+	@RequestMapping(value="/Turma/{idTurma}/Evento/{idEvento}/Excluir", method = RequestMethod.GET)
 	public String getExcluirEvento(@PathVariable("idEvento") Long idEvento, 
-		@PathVariable("idTurma") Long idTurma,HttpSession session,
+		@PathVariable("idTurma") Long idTurma,
 		RedirectAttributes redirect){
 	eventoService.delete(eventoService.find(Evento.class, idEvento));
 	
@@ -358,7 +306,45 @@ public class SupervisorController {
 	return "redirect:/supervisor/turma/" + idTurma + "/evento";
 	}
 
-	@RequestMapping(value = "/{id}/MapaFrequencia", method = RequestMethod.GET)
+
+*/
+	@RequestMapping(value = "/Turma/{idTurma}/Vincular", method = RequestMethod.GET)
+	public String paginaVincularEstagiarioTurma(Model model, HttpSession session, @PathVariable("idTurma") Long idTurma) {
+		Pessoa pessoa = getUsuarioLogado(session);
+
+		model.addAttribute("turma", turmaService.getTurmaByIdAndSupervisorById(idTurma, pessoa.getId()));
+		model.addAttribute("estagiariosDaTurma", estagiarioService.getEstagiarioByTurmaId(idTurma));
+		model.addAttribute("outrosEstagiarios", estagiarioService.getEstagiarioByNotTurmaIdOrSemTurma(idTurma));
+
+		return PAGINA_FORM_VINCULOS;
+	}
+
+
+	@RequestMapping(value = "/Turma/{idTurma}/vincular", method = RequestMethod.POST)
+	public String atualizarVinculoEstagiarioTurma(Model model, HttpSession session,
+			@ModelAttribute("turma") Turma turma) {
+		Pessoa pessoa = getUsuarioLogado(session);
+
+		Turma turmaDoBanco = turmaService.getTurmaByIdAndSupervisorById(turma.getId(), pessoa.getId());
+
+		List<Estagiario> estagiariosSelecionados = new ArrayList<Estagiario>();
+
+		if (turma.getEstagiarios() != null) {
+			estagiariosSelecionados = getEstagiariosSelecionados(turma.getEstagiarios());
+			estagiariosSelecionados = atualizarTurmaEstagiarios(estagiariosSelecionados, turmaDoBanco);
+		}
+
+		turmaDoBanco.setEstagiarios(estagiariosSelecionados);
+
+		turmaService.update(turmaDoBanco);
+
+		model.addAttribute("turma", turmaDoBanco);
+		model.addAttribute("estagiarios", estagiarioService.find(Estagiario.class));
+
+		return "redirect:/supervisor/turma/" + turmaDoBanco.getId();
+	}
+	
+	@RequestMapping(value = "/Turma/{idTurma}/MapaFrequencia", method = RequestMethod.GET)
 	public String listarFrequenciaTurma(@PathVariable("idTurma") Long idTurma, Model model, HttpSession session) {
 		Pessoa pessoa = getUsuarioLogado(session);
 		Date dataAtual = new Date();
@@ -370,7 +356,7 @@ public class SupervisorController {
 		model.addAttribute("estagiarios", estagiarios);
 		model.addAttribute("dataAtual", dataAtual);
 
-		return "supervisor/list-frequencias";
+		return PAGINA_MAPA_FREQUENCIAS;
 	}
 	
 	
@@ -738,40 +724,7 @@ public class SupervisorController {
 		return "supervisor/info-estagiario";
 	}
 
-	@RequestMapping(value = "/{id}/vincular", method = RequestMethod.GET)
-	public String paginaVincularEstagiarioTurma(Model model, HttpSession session, @PathVariable("id") Long idTurma) {
-		Pessoa pessoa = getUsuarioLogado(session);
 
-		model.addAttribute("turma", turmaService.getTurmaByIdAndSupervisorById(idTurma, pessoa.getId()));
-		model.addAttribute("estagiariosDaTurma", estagiarioService.getEstagiarioByTurmaId(idTurma));
-		model.addAttribute("outrosEstagiarios", estagiarioService.getEstagiarioByNotTurmaIdOrSemTurma(idTurma));
-
-		return "supervisor/form-vincular-estagiarios-turma";
-	}
-
-	@RequestMapping(value = "/{id}/vincular", method = RequestMethod.POST)
-	public String atualizarVinculoEstagiarioTurma(Model model, HttpSession session,
-			@ModelAttribute("turma") Turma turma) {
-		Pessoa pessoa = getUsuarioLogado(session);
-
-		Turma turmaDoBanco = turmaService.getTurmaByIdAndSupervisorById(turma.getId(), pessoa.getId());
-
-		List<Estagiario> estagiariosSelecionados = new ArrayList<Estagiario>();
-
-		if (turma.getEstagiarios() != null) {
-			estagiariosSelecionados = getEstagiariosSelecionados(turma.getEstagiarios());
-			estagiariosSelecionados = atualizarTurmaEstagiarios(estagiariosSelecionados, turmaDoBanco);
-		}
-
-		turmaDoBanco.setEstagiarios(estagiariosSelecionados);
-
-		turmaService.update(turmaDoBanco);
-
-		model.addAttribute("turma", turmaDoBanco);
-		model.addAttribute("estagiarios", estagiarioService.find(Estagiario.class));
-
-		return "redirect:/supervisor/turma/" + turmaDoBanco.getId();
-	}
 
 	
 	
@@ -872,14 +825,4 @@ public class SupervisorController {
 		}
 		return (Pessoa) session.getAttribute(Constants.USUARIO_LOGADO);
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 }

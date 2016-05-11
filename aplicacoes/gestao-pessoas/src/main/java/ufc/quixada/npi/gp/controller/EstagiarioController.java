@@ -1,9 +1,7 @@
 package ufc.quixada.npi.gp.controller;
 
-import static ufc.quixada.npi.gp.utils.Constants.PAGINA_AVALIACAO;
 import static ufc.quixada.npi.gp.utils.Constants.PAGINA_FORM_ESTAGIARIO;
 import static ufc.quixada.npi.gp.utils.Constants.PAGINA_INICIAL_ESTAGIARIO;
-import static ufc.quixada.npi.gp.utils.Constants.PAGINA_MINHA_PRESENCA;
 import static ufc.quixada.npi.gp.utils.Constants.REDIRECT_PAGINA_INICIAL_ESTAGIARIO;
 
 import java.io.IOException;
@@ -26,16 +24,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import br.ufc.quixada.npi.ldap.service.UsuarioService;
 import ufc.quixada.npi.gp.model.Estagiario;
 import ufc.quixada.npi.gp.model.Frequencia;
 import ufc.quixada.npi.gp.model.Pessoa;
 import ufc.quixada.npi.gp.model.Submissao;
 import ufc.quixada.npi.gp.model.Turma;
 import ufc.quixada.npi.gp.model.enums.StatusFrequencia;
-import ufc.quixada.npi.gp.model.enums.StatusTurma;
 import ufc.quixada.npi.gp.model.enums.Tipo;
-import ufc.quixada.npi.gp.service.DadoConsolidado;
 import ufc.quixada.npi.gp.service.EstagiarioService;
 import ufc.quixada.npi.gp.service.FrequenciaService;
 import ufc.quixada.npi.gp.service.PessoaService;
@@ -58,8 +53,8 @@ public class EstagiarioController {
 	@Inject
 	private FrequenciaService frequenciaService;
 
-	@RequestMapping(value = {"/",""}, method = RequestMethod.GET)
-	public String paginaInicial(Model model, HttpSession session) {
+	@RequestMapping(value = "/MinhasTurmas", method = RequestMethod.GET)
+	public String getTurmas(Model model, HttpSession session) {
 		Pessoa pessoa = getUsuarioLogado(session);
 
 		Estagiario estagiario = estagiarioService.getEstagiarioByPessoaId(pessoa.getId());
@@ -77,8 +72,9 @@ public class EstagiarioController {
 		return PAGINA_INICIAL_ESTAGIARIO;
 	}
 
-	@RequestMapping(value = "/meus-dados", method = RequestMethod.GET)
-	public String paginaPerfilEstagiario(Model model) {
+	@RequestMapping(value = "/MeusDados", method = RequestMethod.GET)
+	public String getMeusDados(Model model) {
+		
 		String cpf = SecurityContextHolder.getContext().getAuthentication().getName();
 
 		Estagiario estagiario = estagiarioService.getEstagiarioByPessoaCpf(cpf);
@@ -93,17 +89,8 @@ public class EstagiarioController {
 		return PAGINA_FORM_ESTAGIARIO;
 	}
 
-	@RequestMapping(value = "/editar-perfil", method = RequestMethod.GET)
-	public String paginaEditarPerfil(Model model) {
-		String cpf = SecurityContextHolder.getContext().getAuthentication().getName();
-		model.addAttribute("estagiario", estagiarioService.getEstagiarioByPessoaCpf(cpf));
-		model.addAttribute("action", "editar");
-
-		return PAGINA_FORM_ESTAGIARIO;
-	}
-
-	@RequestMapping(value = "/editar-perfil", method = RequestMethod.POST)
-	public String adicionarEstagiario(@Valid @ModelAttribute("estagiario") Estagiario estagiario, BindingResult result, HttpSession session, RedirectAttributes redirect, Model model) {
+	@RequestMapping(value = "/MeusDados", method = RequestMethod.POST)
+	public String postMeusDados(@Valid @ModelAttribute("estagiario") Estagiario estagiario, BindingResult result, HttpSession session, RedirectAttributes redirect, Model model) {
 		model.addAttribute("action", "editar");
 
 		if (result.hasErrors()) {
@@ -121,130 +108,14 @@ public class EstagiarioController {
 
 		return REDIRECT_PAGINA_INICIAL_ESTAGIARIO;
 	}
-
-	@RequestMapping(value = "/minha-frequencia", method = RequestMethod.GET)
-	public String minhaFrequecia(HttpSession session, Model model) {
-		Pessoa pessoa = getUsuarioLogado(session);
-
-		Estagiario estagiario = estagiarioService.getEstagiarioByPessoaId(pessoa.getId());
-
-		List<Turma> turmas = turmaService.getTurmasByEstagiarioId(estagiario.getId());
-
-		model.addAttribute("turmas", turmas);
-
-		return PAGINA_MINHA_PRESENCA;
+	
+	@RequestMapping(value = "/Sobre", method = RequestMethod.GET)
+	public String getSobre(){
+		return "";
 	}
 	
-	@RequestMapping(value = "/turma/{idTurma}", method = RequestMethod.GET)
-	public String detalhesTurma(@PathVariable("idTurma") Long idTurma, Model model, HttpSession session) {
-		Pessoa pessoa = getUsuarioLogado(session);
-
-		Estagiario estagiario = estagiarioService.getEstagiarioByPessoaId(pessoa.getId());
-
-		List<Submissao> submissoes = turmaService.getSubmissoesByEstagiarioIdAndIdTurma(estagiario.getId(), idTurma);
-
-		model.addAttribute("submissoes", submissoes);
-		model.addAttribute("estagiarioNome", estagiario.getNomeCompleto());
-		model.addAttribute("turma", turmaService.getTurmaByIdAndEstagiarioId(idTurma, estagiario.getId()));
-
-		return "estagiario/info-turma";
-	}
-		
-	@RequestMapping(value = "/minha-documentacao/turma/relatorioFinal/{idTurma}", method = RequestMethod.POST)
-	public String minhaDocumentacaoRelatorioFinalEstagio(@Valid @RequestParam("anexo") MultipartFile anexo, HttpSession session, Model model, @ModelAttribute("idTurma") Long idTurma, RedirectAttributes redirectAttributes ){
-
-		try {
-			if(!anexo.getContentType().equals("application/pdf")){
-				redirectAttributes.addFlashAttribute("error", "Escolha um arquivo pdf.");
-				return "redirect:/estagiario/turma/" + idTurma;
-			}
-
-			Pessoa pessoa = getUsuarioLogado(session);
-			
-			Estagiario estagiario = estagiarioService.getEstagiarioByPessoaId(pessoa.getId());
-			
-			Turma turma = turmaService.getTurmaByIdAndEstagiarioId(idTurma, estagiario.getId());
-			
-			Tipo tipo = Tipo.RELATORIO_FINAL_ESTAGIO;
-								
-			turmaService.submeterDocumento(estagiario, turma, tipo, anexo);
-			
-		} catch (IOException e) {
-			return "redirect:/500";
-		}
-
-		return "redirect:/estagiario/turma/" + idTurma;
-	}
-	@RequestMapping(value = "/minha-documentacao/turma/planoEstagio/{idTurma}", method = RequestMethod.POST)
-	public String minhaDocumentacaoPlanoEstagio(@Valid @RequestParam("anexo") MultipartFile anexo, HttpSession session, Model model, @ModelAttribute("idTurma") Long idTurma, RedirectAttributes redirectAttributes ){
-							
-		try {
-			if(!anexo.getContentType().equals("application/pdf")){
-				redirectAttributes.addFlashAttribute("error", "Escolha um arquivo pdf.");
-				return "redirect:/estagiario/turma/" + idTurma;
-			}
-			Pessoa pessoa = getUsuarioLogado(session);
-			
-			Estagiario estagiario = estagiarioService.getEstagiarioByPessoaId(pessoa.getId());
-			
-			Turma turma = turmaService.getTurmaByIdAndEstagiarioId(idTurma, estagiario.getId());
-			
-			Tipo tipo = Tipo.PLANO_ESTAGIO;
-			
-			turmaService.submeterDocumento(estagiario, turma, tipo, anexo);
-			
-		} catch (IOException e) {
-			return "redirect:/500";
-		}
-
-		return "redirect:/estagiario/turma/" + idTurma;
-	}
-	
-	
-	@RequestMapping(value = "/minha-frequencia/turma/{idTurma}", method = RequestMethod.GET)
-	public String getFrequeciaByTurma(HttpSession session, Model model, @ModelAttribute("idTurma") Long idTurma) {
-		Pessoa pessoa = getUsuarioLogado(session);
-
-		Estagiario estagiario = estagiarioService.getEstagiarioByPessoaId(pessoa.getId());
-
-		List<Turma> turmas = turmaService.getTurmasByEstagiarioIdAndStatus(StatusTurma.ABERTA, estagiario.getId());
-
-		Turma turma = turmaService.getTurmaByIdAndEstagiarioId(idTurma, estagiario.getId());
-
-		boolean liberarPresenca = false;
-
-		boolean possuiTurma  = turma != null ? true : false;
-
-		if(possuiTurma) {
-
-			boolean frequenciaNaoRealizada = frequenciaService.getFrequenciaDeHojeByEstagiarioId(estagiario.getId()) == null ? true : false;
-
-			if(frequenciaService.liberarPreseca(turma) && frequenciaNaoRealizada) {
-				liberarPresenca = true;
-			}
-
-
-			List<Frequencia> frequencias = frequenciaService.getFrequenciasByEstagiarioId(estagiario.getId(), turma.getId());
-
-			DadoConsolidado dadosConsolidados = frequenciaService.calcularDadosConsolidados(frequencias);
-
-			model.addAttribute("frequencias", frequencias);
-			model.addAttribute("dadosConsolidados", dadosConsolidados);		
-			model.addAttribute("dadosConsolidados", dadosConsolidados);		
-			model.addAttribute("estagiario", estagiario);
-			model.addAttribute("liberarPresenca", liberarPresenca);
-			model.addAttribute("frequenciaNaoRealizada", frequenciaNaoRealizada);
-			model.addAttribute("turma", turma);
-			model.addAttribute("turmas", turmas);
-		}
-
-		model.addAttribute("possuiTurma", possuiTurma);
-
-		return PAGINA_MINHA_PRESENCA;
-	}
-
-	@RequestMapping(value = "/minha-frequencia/turma/{idTurma}", method = RequestMethod.POST)
-	public String cadastrarFrequencia(HttpSession session, @ModelAttribute("idTurma") Long idTurma, RedirectAttributes redirectAttributes) {
+	@RequestMapping(value = "/Presenca/Estagio/{id}", method = RequestMethod.POST)
+	public String postPresenca(HttpSession session, @ModelAttribute("idTurma") Long idTurma, RedirectAttributes redirectAttributes) {
 		Pessoa pessoa = getUsuarioLogado(session);
 		Estagiario estagiario = estagiarioService.getEstagiarioByPessoaId(pessoa.getId());
 
@@ -272,12 +143,83 @@ public class EstagiarioController {
 
 		return "redirect:/estagiario/minha-frequencia/turma/" + idTurma;
 	}
+	
+	@RequestMapping(value = "/Acompanhamento/Estagio/{id}", method = RequestMethod.GET)
+	public String getAcompanhamento(@PathVariable("idTurma") Long idTurma, Model model, HttpSession session) {
+		Pessoa pessoa = getUsuarioLogado(session);
 
-	@RequestMapping(value = "/minha-avaliacao", method = RequestMethod.GET)
-	public String avaliacao(HttpSession session, Model model) {
-		return PAGINA_AVALIACAO;
+		Estagiario estagiario = estagiarioService.getEstagiarioByPessoaId(pessoa.getId());
+
+		List<Submissao> submissoes = turmaService.getSubmissoesByEstagiarioIdAndIdTurma(estagiario.getId(), idTurma);
+
+		model.addAttribute("submissoes", submissoes);
+		model.addAttribute("estagiarioNome", estagiario.getNomeCompleto());
+		model.addAttribute("turma", turmaService.getTurmaByIdAndEstagiarioId(idTurma, estagiario.getId()));
+
+		return "estagiario/info-turma";
+	}
+		
+	@RequestMapping(value = "/Acompanhamento/Estagio/{id}/SubmeterPlano", method = RequestMethod.POST)
+	public String postSubmeterPlano(@Valid @RequestParam("anexo") MultipartFile anexo, HttpSession session, Model model, @ModelAttribute("idTurma") Long idTurma, RedirectAttributes redirectAttributes ){
+							
+		try {
+			if(!anexo.getContentType().equals("application/pdf")){
+				redirectAttributes.addFlashAttribute("error", "Escolha um arquivo pdf.");
+				return "redirect:/estagiario/turma/" + idTurma;
+			}
+			Pessoa pessoa = getUsuarioLogado(session);
+			
+			Estagiario estagiario = estagiarioService.getEstagiarioByPessoaId(pessoa.getId());
+			
+			Turma turma = turmaService.getTurmaByIdAndEstagiarioId(idTurma, estagiario.getId());
+			
+			Tipo tipo = Tipo.PLANO_ESTAGIO;
+			
+			turmaService.submeterDocumento(estagiario, turma, tipo, anexo);
+			
+		} catch (IOException e) {
+			return "redirect:/500";
+		}
+
+		return "redirect:/estagiario/turma/" + idTurma;
+	}
+	
+	@RequestMapping(value = "/Acompanhamento/Estagio/{id}/SubmeterRelatorio", method = RequestMethod.POST)
+	public String postSubmeterRelatorio(@Valid @RequestParam("anexo") MultipartFile anexo, HttpSession session, Model model, @ModelAttribute("idTurma") Long idTurma, RedirectAttributes redirectAttributes ){
+
+		try {
+			if(!anexo.getContentType().equals("application/pdf")){
+				redirectAttributes.addFlashAttribute("error", "Escolha um arquivo pdf.");
+				return "redirect:/estagiario/turma/" + idTurma;
+			}
+
+			Pessoa pessoa = getUsuarioLogado(session);
+			
+			Estagiario estagiario = estagiarioService.getEstagiarioByPessoaId(pessoa.getId());
+			
+			Turma turma = turmaService.getTurmaByIdAndEstagiarioId(idTurma, estagiario.getId());
+			
+			Tipo tipo = Tipo.RELATORIO_FINAL_ESTAGIO;
+								
+			turmaService.submeterDocumento(estagiario, turma, tipo, anexo);
+			
+		} catch (IOException e) {
+			return "redirect:/500";
+		}
+
+		return "redirect:/estagiario/turma/" + idTurma;
 	}
 
+	@RequestMapping(value = "/Acompanhamento/Estagio/{id}/EditarRelatorio", method = RequestMethod.POST)
+	public String postEditarRelatorio(){
+		return "";
+	}
+	
+	@RequestMapping(value = "/Acompanhamento/Estagio/{id}/EditarPlano", method = RequestMethod.POST)
+	public String postEditarPlano(){
+		return "";
+	}
+	
 	private Pessoa getUsuarioLogado(HttpSession session) {
 		Pessoa pessoa = (Pessoa) session.getAttribute(Constants.USUARIO_LOGADO);
 

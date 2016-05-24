@@ -43,7 +43,7 @@ public class TurmaServiceImpl implements TurmaService{
 	}
 
 	@Override
-	public List<Turma> listarDoSupervisorOuOrientado(Long idServidor) {
+	public List<Turma> buscarTurmasSupervisorOuOrientador(Long idServidor) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -85,7 +85,7 @@ public class TurmaServiceImpl implements TurmaService{
 	}
 
 	@Override
-	public void removerExpedienteo(Long idExpediente) {
+	public void excluirExpediente(Long idExpediente) {
 		// TODO Auto-generated method stub
 		
 	}

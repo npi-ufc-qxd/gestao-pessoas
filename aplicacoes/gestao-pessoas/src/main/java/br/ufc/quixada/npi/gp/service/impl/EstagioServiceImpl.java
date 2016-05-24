@@ -120,7 +120,7 @@ public class EstagioServiceImpl implements EstagioService {
 	}
 
 	@Override
-	public boolean liberarPreseca(Turma turma) {
+	public boolean liberarPresenca(Turma turma) {
 		// TODO Auto-generated method stub
 		return false;
 	}

@@ -46,7 +46,7 @@ public interface EstagioService {
 	
 	List<Frequencia> buscarFrequenciasPendentes(Turma turma, Estagiario estagiario);
 
-	boolean liberarPreseca(Turma turma);
+	boolean liberarPresenca(Turma turma);
 	
 	boolean permitirPresenca(Estagio estagio);
 	

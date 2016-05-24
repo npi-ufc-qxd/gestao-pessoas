@@ -19,7 +19,7 @@ public interface TurmaService {
 	
 	List<Turma> listarTurmas();
 
-	List<Turma>  listarDoSupervisorOuOrientado(Long idServidor);
+	List<Turma>  buscarTurmasSupervisorOuOrientador(Long idServidor);
 	
 	void adicionarEvento(Evento evento);
 
@@ -33,6 +33,6 @@ public interface TurmaService {
 
 	void adicionarExpediente(Expediente expediente);
 
-	void removerExpedienteo(Long idExpediente);
+	void excluirExpediente(Long idExpediente);
 
 }

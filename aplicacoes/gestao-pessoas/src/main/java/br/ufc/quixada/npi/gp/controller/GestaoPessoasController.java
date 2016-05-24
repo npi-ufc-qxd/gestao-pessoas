@@ -38,7 +38,7 @@ public class GestaoPessoasController {
 	@RequestMapping(value = "/logout", method = RequestMethod.GET)
 	public String logout(ModelMap model, HttpSession session) {
 		session.invalidate();
-		return "login";
+		return "redirect:/login";
 	}
 
 	@RequestMapping(value = "/403", method = RequestMethod.GET)

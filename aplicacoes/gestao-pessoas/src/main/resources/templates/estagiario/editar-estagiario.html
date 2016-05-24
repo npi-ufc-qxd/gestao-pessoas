@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorator="layouts/LayoutEstagiario">
+
+<head>
+	<title>Gestão Pessoas | Meus Dados</title>
+	
+  <style type="text/css">
+    .inline {
+      display:inline;
+    }
+    .color {
+    }
+
+    .link {
+      font-weight: 700;
+    }
+
+    .statusTurmas {
+      padding: 5px;
+    }
+    .opcao {
+      margin-left: 10px;
+    }
+    .item-turma {
+      margin-bottom: 5px; 
+    }
+    .legendTop {
+      margin-top: 40px;
+    }
+    #borda {
+      margin-top: 40px;
+    }
+    .legendBottom {
+      margin-bottom: 5px;
+    }
+    
+    .gp-panel-footer {
+    	margin-top: -25px;
+    	padding-bottom: 25px;
+    }
+
+
+  </style>	
+</head>
+
+<section layout:fragment="conteudo">
+
+	<div class="container animated fadeInRight"> 
+    <div class="row">
+
+	    <div class="col-sm-12">
+			<h3 class="gp-titulo-h5"><a th:href="@{/Estagiario/}" class="gp-btn-voltar"><i class="fa fa-arrow-left"></i></a> meus dados</h3>
+	    </div>
+
+    <div class="col-sm-12">
+	  <form id="form-estagiario" class="form-horizontal" role="form" action="/gestao-pessoas/estagiario/editar-perfil" method="POST" novalidate="novalidate">
+      <div class="panel panel-default">
+        <div class="panel-body gp-panel-body-background">
+
+			<div class="panel panel-primary">
+				<div class="panel-heading">
+					<h3 class="panel-title">Dados Pessoais</h3>
+				</div>
+				<div class="panel-body">
+			        <div class="form-group">
+			          <div class="form-item col-sm-9">
+			            <label for="nomeCompleto" class="control-label">*Nome Completo:</label>
+			            <input id="nomeCompleto" name="nomeCompleto" class="form-control" placeholder="Meu nome completo" type="text" aria-required="true" aria-invalid="false" />
+			            <div class="error-validation"></div>
+			          </div>
+			          
+			          <div class="form-item col-sm-3">
+			            
+			            <label for="dataNascimento" class="control-label">*Data de Nascimento:</label>
+			            <input id="dataNascimento" name="dataNascimento" class="form-control data" type="text" placeholder="dd/mm/aaaa" aria-required="true" />
+			            <div class="error-validation"> </div>
+			          </div>
+			        </div>
+			    
+			        <div class="form-group">
+			          <div class="form-item col-sm-12">
+			            <label for="nomeMae" class="control-label">*Nome da Mãe:</label>
+			            <input id="nomeMae" name="nomeMae" class="form-control" placeholder="Nome Mãe" type="text" aria-required="true" />
+			            <div class="error-validation"></div>
+			          </div>
+			        </div>
+				</div>
+			</div>
+
+			<div class="panel panel-primary">
+				<div class="panel-heading">
+					<h3 class="panel-title">Dados de Contatos</h3>
+				</div>
+				<div class="panel-body">
+			       <div class="form-group">
+			          <div class="form-item col-sm-4">
+			            <label for="telefone" class=" control-label">*Telefone:</label>
+			            <input id="telefone" name="telefone" placeholder="Telefone" type="text" class="form-control telefone" />
+			          </div>
+			
+			          <div class="form-item col-sm-4">
+			            <label for="contaHangout" class="control-label">Conta Hangout:</label>
+			            <input id="contaHangout" name="contaHangout" placeholder="Conta Hangout" type="email" class="form-control" />
+			          </div>
+			
+			          <div class="form-item col-sm-4">
+			            <label for="contaGithub" class="control-label">Usuario github:</label>
+			            <input id="contaGithub" name="contaGithub" placeholder="Conta github" class="form-control" type="text" />
+			          </div>
+			        </div>
+				</div>
+			</div>
+
+			<div class="panel panel-primary">
+				<div class="panel-heading">
+					<h3 class="panel-title">Dados do Curso</h3>
+				</div>
+				<div class="panel-body">
+			        <div class="form-group">
+			          <div class="col-sm-4">
+			            <label for="matricula" class="control-label">*Matricula:</label>
+			            <input id="matricula" name="matricula" class="form-control" placeholder="Matricula" required="required" type="text" size="7" maxlength="7" aria-required="true" />
+			            <div class="error-validation"></div>
+			          </div>
+			
+			          <div class="form-item col-sm-4">
+			            <label for="curso" class="control-label">*Curso:</label>
+			            <select class="form-control">
+			              <option>Selecione o curso</option>
+			              <option>Engenharia de Software</option>
+			              <option>Sistemas de Informação</option>
+			              <option>Ciência da Computação</option>
+			              <option>Design Digital</option>
+			              <option>Engenharia da Computação</option>
+			            </select>
+			            <div class="error-validation"></div>
+			          </div>
+			    
+			          <div class="form-item col-sm-4">
+			            <label for="semestre" class="control-label">*Semestre:</label>
+			            <input id="semestre" name="semestre" class="form-control semestre" min="1" max="12" placeholder="Semestre" type="number" required="required" aria-required="true" />      
+			            <div class="error-validation">
+			              
+			            </div>
+			          </div>
+			        </div>
+				</div>
+			</div>
+
+			<div class="panel panel-primary">
+				<div class="panel-heading">
+					<h3 class="panel-title">Endereço</h3>
+				</div>
+				<div class="panel-body">
+
+			        <div class="form-group">
+			          <div class="form-item col-sm-12">
+			            <label for="endereco" class="control-label">*Endereço:</label>
+			            <input id="endereco" name="endereco" class="form-control" placeholder="Rua, Nº, Bairro" required="required" type="text" aria-required="true" />
+			            <div class="error-validation"></div>
+			          </div>
+			        </div>
+			    
+			        <div class="form-group">
+			          <div class="form-item col-sm-4">
+			            <label for="cidade" class="control-label">*Cidade:</label>
+			            <input id="cidade" name="cidade" class="form-control" placeholder="Cidade" required="required" type="text" aria-required="true" />
+			            <div class="error-validation"></div>
+			          </div>
+			    
+			          <div class="form-item col-sm-4">
+			            <label for="uf" class="control-label">*UF:</label>
+			            <select class="form-control">
+			              <option value="">Selecione</option>
+			              <option value="AC">Acre</option>
+			              <option value="AL">Alagoas</option>
+			              <option value="AP">Amapá</option>
+			              <option value="AM">Amazonas</option>
+			              <option value="BA">Bahia</option>
+			              <option value="CE">Ceará</option>
+			              <option value="DF">Distrito Federal</option>
+			              <option value="ES">Espirito Santo</option>
+			              <option value="GO">Goiás</option>
+			              <option value="MA">Maranhão</option>
+			              <option value="MS">Mato Grosso do Sul</option>
+			              <option value="MT">Mato Grosso</option>
+			              <option value="MG">Minas Gerais</option>
+			              <option value="PA">Pará</option>
+			              <option value="PB">Paraíba</option>
+			              <option value="PR">Paraná</option>
+			              <option value="PE">Pernambuco</option>
+			              <option value="PI">Piauí</option>
+			              <option value="RJ">Rio de Janeiro</option>
+			              <option value="RN">Rio Grande do Norte</option>
+			              <option value="RS">Rio Grande do Sul</option>
+			              <option value="RO">Rondônia</option>
+			              <option value="RR">Roraima</option>
+			              <option value="SC">Santa Catarina</option>
+			              <option value="SP">São Paulo</option>
+			              <option value="SE">Sergipe</option>
+			              <option value="TO">Tocantins</option>
+			            </select>
+			            <div class="error-validation"></div>
+			          </div>
+			    
+			          <div class="form-item col-sm-4">
+			            <label for="cep" class="control-label">*CEP :</label>
+			            <input id="cep" name="cep" class="form-control cep" placeholder="CEP" required="required" type="text" aria-required="true" />
+			            <div class="error-validation"></div>
+			          </div>
+					</div>
+				</div>
+			</div>
+
+
+
+		</div>
+		<div class="panel-footer gp-panel-footer" align="right">
+	          <button type="submit" class="btn btn-dafault">Cancelar</button>
+	          <button type="submit" class="btn btn-primary"><span class="fa fa-floppy-o"></span> Salvar alterações</button>
+	        </div>
+      </div>
+      </form>
+    </div>
+    
+    
+    </div>
+    </div>
+  </section>
+</html>

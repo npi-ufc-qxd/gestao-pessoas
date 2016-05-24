@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorator="layouts/LayoutSupervisor">
+
+<head>
+	<title>Gestão Pessoas | Detalhes da Turma</title>
+</head>
+
+<section layout:fragment="conteudo">
+	<div class="container animated fadeInRight"> 
+	    <div class="row">
+	    <div class="col-sm-12">
+			<h3 class="gp-titulo-h5"><a th:href="@{/Supervisor/}" class="gp-btn-voltar"><i class="fa fa-arrow-left"></i></a> detalhes da turma</h3>
+	    </div>
+	    <div class="col-md-7">
+			<div class="panel panel-default">
+	          <div class="panel-heading">
+	            <h5 class="gp-inline"><a data-toggle="collapse" href="#painelEstagiarios" class="collapsed" aria-expanded="false"><i class="fa fa-caret-down" aria-hidden="true"></i> Estagiários</a></h5>
+	          </div>
+	          <div id="painelEstagiarios" class="panel-body gp-panel-body-background collapse in">
+	          </div>
+	        </div>
+	    </div>
+
+		<div class="col-md-5">
+			<div class="panel panel-primary">
+				<div class="panel-heading">
+					<h3 class="panel-title">Informações da Turma</h3>
+				</div>
+
+				<div class="panel-body">Em andamento.</div>
+			</div>
+		</div>
+
+		</div>
+	</div>
+  </section>
+</html>

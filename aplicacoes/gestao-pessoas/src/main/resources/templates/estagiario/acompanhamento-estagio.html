@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorator="layouts/LayoutEstagiario">
+
+<head>
+	<title>Gestão Pessoas | Acompanhamento</title>
+</head>
+
+<section layout:fragment="conteudo">
+	<div class="container animated fadeInRight"> 
+	    <div class="row">
+	    <div class="col-sm-12">
+			<h3 class="gp-titulo-h5"><a th:href="@{/Estagiario/}" class="gp-btn-voltar"><i class="fa fa-arrow-left"></i></a> acompanhamento</h3>
+	    </div>
+	    <div class="col-md-7">
+			<div class="panel panel-default">
+	          <div class="panel-heading">
+	            <h5 class="gp-inline"><a data-toggle="collapse" href="#painelPlano" class="collapsed" aria-expanded="false"><i class="fa fa-caret-down" aria-hidden="true"></i> Plano de Estágio</a></h5>
+	          </div>
+	        
+	          <div id="painelPlano" class="panel-body gp-panel-body-background collapse in">
+	            <ul class="list-group">
+	              <li class="list-group-item">
+	                <b><a class="gp-link-download-submissao">20/7/2016 - Plano de Estágio </a> <span class="label label-primary pull-right gp-label-submissao">Submetido</span></b></li>
+	              <li class="list-group-item">
+	                <b>Nota: </b>8.9 <br/>
+	                <b>Comentário</b><br/>
+	                <span>Não há comentário.</span>
+	              </li>
+	            </ul>
+	            <div class="gp-modelo-doc">Modelo de Plano de Estágio 
+	            	<a href="#">Clique aqui para baixar!</a><a href="#submissao" class="btn btn-success btn-sm pull-right" data-toggle="modal">Editar submissao</a>
+	            </div>    
+	          </div>
+	        </div>
+	      
+	        <div class="panel panel-default">
+	          <div class="panel-heading">
+	            <h5 class="gp-inline"><a data-toggle="collapse" href="#painelRelatorio" class="collapsed" aria-expanded="false"><i class="fa fa-caret-down" aria-hidden="true"></i> Relatório Final de Estágio</a></h5>
+	          </div>
+	        
+	          <div id="painelRelatorio" class="panel-body gp-panel-body-background collapse in">
+	            <div class="gp-modelo-doc">Modelo de Relatório Final de Estágio <a href="#">Clique aqui para baixar!</a>
+	            <a href="#submissao" id="btn-submeter-modal" class="btn btn-success btn-sm pull-right" data-toggle="modal">Submeter</a>
+            </div>    
+	    
+	          </div>
+	        </div>
+	      
+	        <div class="panel panel-default">
+	          <div class="panel-heading">
+	            <h5 class="gp-inline"><a data-toggle="collapse" href="#painelRendimento" class="collapsed" aria-expanded="false"><i class="fa fa-caret-down" aria-hidden="true"></i> Avalição de Rendimento</a></h5>
+	          </div>
+	        
+	          <div id="painelRendimento" class="panel-body gp-panel-body-background collapse in">
+	            <div class="">Sua avaliação de rendimento ainda não foi realizada.</div>    
+	          </div>
+	        </div>
+	
+	      </div>
+	    
+	      <div class="col-md-5">
+	        <div class="panel panel-primary">
+	          <div class="panel-heading">
+	            <h3 class="panel-title">Informações da Turma</h3>
+	          </div>
+	
+	          <div class="panel-body">
+	            Em andamento.
+	           </div>
+	        </div>
+	
+	        <div class="panel panel-primary">
+	          <div class="panel-heading">
+	            <h3 class="panel-title">Avaliação Final de Estágio</h3>
+	          </div>
+	
+	          <div class="panel-body">
+	            Em andamento.
+	           </div>
+	        </div>
+	
+	        <div class="panel panel-primary">
+	          <div class="panel-heading">
+	            <h3 class="panel-title">Frequência de Estágio</h3>
+	          </div>
+	
+	          <div class="panel-body">
+	            Em andamento.
+	           </div>
+	        </div>
+	
+	      </div>
+	    </div>
+	
+	</div>
+
+     <form class="form-horizontal">
+		 <div id="submissao" class="modal animated zoomInDown">
+		   <div class="modal-dialog">
+		     <div class="modal-content">
+		       <div class="modal-header">
+		         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+		         <h4 class="modal-title">Plano de Estágio</h4>
+		       </div>
+		
+		         <div class="modal-body">
+		             <label for="inputArquivo">Plano de Estágio</label><br/>
+		             <input type="file" class="form-control" id="inputArquivo" placeholder="Arquivo" /> 
+		         </div>
+		         
+		         <div class="modal-footer">
+		           <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+		           <button type="button" class="btn btn-primary">Submeter <i class="fa fa-arrow-circle-up" aria-hidden="true"></i></button>
+		         </div>
+		     </div>
+		   </div>
+		 </div>
+     </form>	
+
+  </section>
+</html>

@@ -9,34 +9,30 @@ import br.ufc.quixada.npi.gp.model.Turma;
 
 public interface TurmaService {
 
-	/**
-	 * 
-	
-	List<Turma>  getTurmasBySupervisorOrOrientador(Long idServidor);
-
-	Horario getHorarioTurmaById(Long idHorario, Long idTurma);
-	
-	List<Evento> getEventosByTurma(Long idTurma);
-	
-	//crud turma
 	void adicionarTurma(Turma turma);
-	void editarTurma(Turma turma);
-	void removerTurma(Long idTurma);
-	Turma getTurma(Long idTurma);
-	List<Turma> getAllTurmas();
-	
-	//crud evento
-	void adicionarEvento(Evento evento);
-	void editarEvento(Evento evento);
-	void removerEvento(Long idEvento);
-	Evento getEvento(Long idEvento);
-	List<Evento> getAllEventosByTurma(Long idTurma);
-	
-	//save delete horario
-	void adicionarHorario(Horario horario);
-	void removerHorario(Long idHorario);
-	
 
-	 */
+	void editarTurma(Turma turma);
+	
+	void excluirTurma(Long idTurma);
+	
+	Turma buscarTurmaPorId(Long idTurma);
+	
+	List<Turma> listarTurmas();
+
+	List<Turma>  listarDoSupervisorOuOrientado(Long idServidor);
+	
+	void adicionarEvento(Evento evento);
+
+	void editarEvento(Evento evento);
+	
+	void excluirEvento(Long idEvento);
+	
+	Evento buscarEventoPorId(Long idEvento);
+
+	Expediente buscarHorarioPorIdETurmaId(Long idExpediente, Long idTurma);
+
+	void adicionarExpediente(Expediente expediente);
+
+	void removerExpedienteo(Long idExpediente);
 
 }

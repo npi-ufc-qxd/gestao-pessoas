@@ -1,10 +1,161 @@
 package br.ufc.quixada.npi.gp.service.impl;
 
+import java.util.Date;
+import java.util.List;
+
 import javax.inject.Named;
 
+import br.ufc.quixada.npi.gp.model.AvaliacaoRendimento;
+import br.ufc.quixada.npi.gp.model.Estagiario;
+import br.ufc.quixada.npi.gp.model.Estagio;
+import br.ufc.quixada.npi.gp.model.Frequencia;
+import br.ufc.quixada.npi.gp.model.Submissao;
+import br.ufc.quixada.npi.gp.model.Submissao.TipoSubmissao;
+import br.ufc.quixada.npi.gp.model.Turma;
+import br.ufc.quixada.npi.gp.service.ConsolidadoFrequencia;
 import br.ufc.quixada.npi.gp.service.EstagioService;
 @Named
 public class EstagioServiceImpl implements EstagioService {
+
+	@Override
+	public Estagio buscarEstagioPorIdEEstagiarioId(Long idEstagio, Long idEstagiario) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Estagio> buscarEstagiosPorEstagiarioCpf(Long idEstagiario) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Estagio buscarEstagioPorIdEEstagiarioCpf(Long idEstagio, String cpf) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void submeterPlano(Submissao submissao) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void editarPlano(Submissao submissao) throws Exception {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void submeterRelatorio(Submissao submissao) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void editarRelatorio(Submissao submissao) throws Exception {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void avaliarSubmissao(Submissao submissao) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Submissao buscarSubmissaoPorEstagioIdETipo(Long idEstagio, TipoSubmissao tipoSubmissao) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void adicionarAvaliacaoRendimento(AvaliacaoRendimento avaliacaoRendimento) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void editarAvaliacaoRendimento(AvaliacaoRendimento avaliacaoRendimento) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public List<Frequencia> buscarFrequenciaPorEstagioId(Long idEstagio) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Frequencia buscarFrequenciaPorDataEEstagioId(Date data, Long idEstagio) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Frequencia> buscarFrequenciasPorDataETurmaId(Date data, Long idTurma) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ConsolidadoFrequencia calcularDadosConsolidados(List<Frequencia> frequencia) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Frequencia> gerarFrequencia(Turma turma, Estagiario estagiario) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Frequencia> buscarFrequenciasPendentes(Turma turma, Estagiario estagiario) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean liberarPreseca(Turma turma) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean permitirPresenca(Estagio estagio) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void realizarPresenca(Estagio estagio) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void adicionarFrequencia(Frequencia frequencia) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void editarStatusFrequencia() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void adicionarObservacaoFrequencia() {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	
 	
 	/**
 	 * 

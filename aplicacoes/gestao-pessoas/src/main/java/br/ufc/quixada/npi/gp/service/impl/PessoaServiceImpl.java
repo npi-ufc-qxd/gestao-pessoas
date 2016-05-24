@@ -1,9 +1,12 @@
 package br.ufc.quixada.npi.gp.service.impl;
 
+import java.util.List;
+
 import javax.inject.Named;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import br.ufc.quixada.npi.gp.model.Estagiario;
 import br.ufc.quixada.npi.gp.model.Papel;
 import br.ufc.quixada.npi.gp.model.Pessoa;
 import br.ufc.quixada.npi.gp.model.Servidor;
@@ -43,6 +46,78 @@ public class PessoaServiceImpl implements PessoaService {
 	@Override
 	public void adicionarServidor(Servidor servidor) {
 		servidorRepository.save(servidor);
+	}
+
+	@Override
+	public Pessoa getPessoaById(Long idPessoa) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean existePessoa(String cpf) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public Servidor buscarServidorPorCpf(String cpf) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Servidor buscarServidorPorId(Long idServidor) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void editarServidor(Servidor servidor) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public boolean existeServidor(String cpf) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public Estagiario buscarEstagiarioPorCpf(String cpf) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Estagiario buscarEstagiarioPorId(Long idEstagiario) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Estagiario> buscarAniversariantesDoMesPorTurmaId(Long idTurma) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void adicionarEstagiario(Estagiario estagiario) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void editarEstagiario(Estagiario estagiario) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public boolean existeEstagiario(String cpf) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 

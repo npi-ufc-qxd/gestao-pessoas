@@ -9,39 +9,35 @@ import br.ufc.quixada.npi.gp.model.Servidor;
 
 public interface PessoaService {
 
-	Papel buscarPapelPorNome(String string);
-
 	Pessoa buscarPessoaPorCpf(String cpf);
-
+	
+	Pessoa getPessoaById(Long idPessoa);
+	
 	void adicionarPessoa(Pessoa pessoa);
 
+	boolean existePessoa(String cpf);
+
+	Servidor buscarServidorPorCpf(String cpf); 
+
+	Servidor buscarServidorPorId(Long idServidor);
+
 	void adicionarServidor(Servidor servidor);
+	
+	void editarServidor(Servidor servidor);
 
-	/**
-	Estagiario getEstagiarioByPessoaCpf(String cpf);
-	
-	
-	Pessoa getPessoaById(Long id);
+	boolean existeServidor(String cpf);
 
-	List<Papel> getPapeis(String cpf);
+	Estagiario buscarEstagiarioPorCpf(String cpf);
 
-	boolean isServidor(String cpf);
-	
-	boolean isEstagiario(String cpf);
+	Estagiario buscarEstagiarioPorId(Long idEstagiario);
 
-	boolean isPessoa(String cpf);
-	
-	Papel getPapel(String papel);
-	
-	Estagiario getEstagiarioByPessoaCpf(String cpf);
-			
-	Estagiario getEstagiarioByPessoa(Long idPessoa);
-	
+	List<Estagiario> buscarAniversariantesDoMesPorTurmaId(Long idTurma);
+
+	void adicionarEstagiario(Estagiario estagiario);
+
 	void editarEstagiario(Estagiario estagiario);
 	
-	Servidor getServidorByPessoa(Long idPessoa);
-	
-	Servidor getServidorByPessoaCpf(String cpf);
-	 */
-	
+	boolean existeEstagiario(String cpf);
+
+	Papel buscarPapelPorNome(String string);
 }

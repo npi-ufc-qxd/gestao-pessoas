@@ -1,50 +1,61 @@
 package br.ufc.quixada.npi.gp.service;
 
+import java.util.Date;
+import java.util.List;
+
+import br.ufc.quixada.npi.gp.model.AvaliacaoRendimento;
+import br.ufc.quixada.npi.gp.model.Estagiario;
+import br.ufc.quixada.npi.gp.model.Estagio;
+import br.ufc.quixada.npi.gp.model.Frequencia;
+import br.ufc.quixada.npi.gp.model.Submissao;
+import br.ufc.quixada.npi.gp.model.Turma;
+
 public interface EstagioService {
 
-	/**
-	 * 
-	Submissao getSubmissaoByEstagioIdAndTipo(Long idEstagio, TipoSubmissao tipoSubmissao);
+	Estagio buscarEstagioPorIdEEstagiarioId(Long idEstagio, Long idEstagiario);
+
+	List<Estagio> buscarEstagiosPorEstagiarioCpf(Long idEstagiario);
 	
+	Estagio buscarEstagioPorIdEEstagiarioCpf(Long idEstagio, String cpf);
+
+	void submeterPlano(Submissao submissao);
+
+	void editarPlano(Submissao submissao)  throws Exception;
+	
+	void submeterRelatorio(Submissao submissao);
+	
+	void editarRelatorio(Submissao submissao) throws Exception;
+
 	void avaliarSubmissao(Submissao submissao);
-	void realizarAvaliacaoRendimento(AvaliacaoRendimento avaliacaoRendimento);
+
+	Submissao buscarSubmissaoPorEstagioIdETipo(Long idEstagio, Submissao.TipoSubmissao tipoSubmissao);
 	
-	@Transactional
-	void atualizarStatus();
+	void adicionarAvaliacaoRendimento(AvaliacaoRendimento avaliacaoRendimento);
+	
+	void editarAvaliacaoRendimento(AvaliacaoRendimento avaliacaoRendimento);
+
+	List<Frequencia> buscarFrequenciaPorEstagioId(Long idEstagio);
+
+	Frequencia buscarFrequenciaPorDataEEstagioId(Date data, Long idEstagio);
+
+	List<Frequencia> buscarFrequenciasPorDataETurmaId(Date data, Long idTurma);
+
+	ConsolidadoFrequencia calcularDadosConsolidados(List<Frequencia> frequencia);
+
+	List<Frequencia> gerarFrequencia(Turma turma, Estagiario estagiario);
+	
+	List<Frequencia> buscarFrequenciasPendentes(Turma turma, Estagiario estagiario);
 
 	boolean liberarPreseca(Turma turma);
 	
 	boolean permitirPresenca(Estagio estagio);
 	
-	Frequencia getFrequenciaDeHojeByEstagiarioId(Long id);
-
-	List<Frequencia> getFrequenciasByEstagiarioId(Long idEstagiario, Long idTurma);
-
-	Frequencia getFrequenciaByDataByTurmaByEstagiario(Date data, Long turma, Long estagiario);
-
-	List<Frequencia> getFrequenciasByTurmaIdAndData(Date data, Long idTurma);
-
-	DadoConsolidado calcularDadosConsolidados(List<Frequencia> frequencia);
-
-	List<Frequencia> gerarFrequencia(Turma turma, Estagiario estagiario);
-	
-	List<Estagiario> getEstagiariosSemFrequencia(Date data, Long idTurma);
-	
-	List<Frequencia> frequenciaPendente(Turma turma, Estagiario estagiario);
+	void realizarPresenca(Estagio estagio);
 	
 	void adicionarFrequencia(Frequencia frequencia);
-	
-	List<Estagiario> getAniversariantesMesByTurmaId(Long id);
-	
-	Estagio getEstagioByIdAndEstagiarioId(Long idEstagio, Long idEstagiario);
-			
-	Estagio getEstagioByIdAndEstagiarioCpf(Long idEstagio, String cpf);
-	
-	void submeterPlano(Submissao submissao);
-	void submeterRelatorio(Submissao submissao);
-	void editarPlano(Submissao submissao)  throws Exception;
-	void editarRelatorio(Submissao submissao) throws Exception;
-	void realizarPresenca(Estagio estagio);
 
-	 */
+	void editarStatusFrequencia();
+
+	void adicionarObservacaoFrequencia();
+
 }

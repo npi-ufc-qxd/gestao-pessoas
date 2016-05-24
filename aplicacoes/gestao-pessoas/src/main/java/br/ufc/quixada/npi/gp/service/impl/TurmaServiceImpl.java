@@ -1,11 +1,94 @@
 package br.ufc.quixada.npi.gp.service.impl;
 
+import java.util.List;
+
 import javax.inject.Named;
 
+import br.ufc.quixada.npi.gp.model.Evento;
+import br.ufc.quixada.npi.gp.model.Expediente;
+import br.ufc.quixada.npi.gp.model.Turma;
 import br.ufc.quixada.npi.gp.service.TurmaService;
 
 @Named
 public class TurmaServiceImpl implements TurmaService{
+
+	@Override
+	public void adicionarTurma(Turma turma) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void editarTurma(Turma turma) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void excluirTurma(Long idTurma) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Turma buscarTurmaPorId(Long idTurma) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Turma> listarTurmas() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Turma> listarDoSupervisorOuOrientado(Long idServidor) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void adicionarEvento(Evento evento) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void editarEvento(Evento evento) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void excluirEvento(Long idEvento) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Evento buscarEventoPorId(Long idEvento) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Expediente buscarHorarioPorIdETurmaId(Long idExpediente, Long idTurma) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void adicionarExpediente(Expediente expediente) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void removerExpedienteo(Long idExpediente) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 /**
  * 

@@ -40,23 +40,23 @@ public class AuthenticationSuccessHandlerImpl implements AuthenticationSuccessHa
 			String papel = grantedAuthority.getAuthority();
 			
 			switch (papel) {
-				case "ROLE_DISCENTE":
+				case "DISCENTE":
 					url = "/Estagiario/";
 					break;
 	
-				case "ROLE_DOCENTE":
+				case "DOCENTE":
 					url = "/Supervisor/";
 					break;
 	
-				case "ROLE_STA":
+				case "STA":
 					url = "/Supervisor/";
 					break;
 	
-				case "ROLE_ESTAGIARIO":
+				case "ESTAGIARIO":
 					url = "/Estagiario/";
 					break;
 	
-				case "ROLE_SUPERVISOR":
+				case "SUPERVISOR":
 					url = "/Supervisor/";
 					break;
 	

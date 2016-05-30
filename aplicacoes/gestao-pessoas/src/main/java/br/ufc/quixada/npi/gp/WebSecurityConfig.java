@@ -24,8 +24,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
 		    .authorizeRequests()
 		    	.antMatchers("/404", "/js**", "/css**", "/images**").permitAll()
-		    	.antMatchers("/Estagiario/**").hasAnyRole("ESTAGIARIO", "DISCENTE")
-		    	.antMatchers("/Supervisor/**").hasAnyRole("SUPERVISOR", "DOCENTE", "STA").and()
+		    	.antMatchers("/Estagiario/**").hasAnyAuthority("ESTAGIARIO", "DISCENTE")
+		    	.antMatchers("/Supervisor/**").hasAnyAuthority("SUPERVISOR", "DOCENTE", "STA").and()
 		    .formLogin()
 		        .loginPage("/login").successHandler(new AuthenticationSuccessHandlerImpl()).permitAll().and()
 		        .logout().logoutUrl("/logout").permitAll();
@@ -34,5 +34,5 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
     	auth.authenticationProvider(ldapAuthenticationProvider);
-    }
+    }    
 }

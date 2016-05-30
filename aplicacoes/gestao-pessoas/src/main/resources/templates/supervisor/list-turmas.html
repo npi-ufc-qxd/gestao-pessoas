@@ -9,19 +9,24 @@
 </head>
 
 <section layout:fragment="conteudo">
+
+  <div class="container-fluid titulo-pagina">
+    <div class="container">
+        <ul class="breadcrumb">
+            <li><a href="#">Inicio</a></li>
+        </ul>
+        <h1>Minhas Turmas</h1>
+    </div>
+  </div>
+
 	<div class="container animated fadeInRight"> 
     <div class="row">
-    
-    		<div class="col-sm-12">
-				<h3 class="gp-titulo-h5 pull-left">minhas turmas</h3>
-	            <a th:href="@{/Supervisor/Turma/Adicionar}" class="btn btn-success btn-sm gp-btn-nova-turma pull-right">Nova Turma</a>
-		    </div>
-
-
-    
     <div class="col-sm-12">
       <div class="panel panel-default">
-        <div id="painelPlano" class="panel-body gp-panel-body-background">
+
+       <div><a th:href="@{/Supervisor/Turma/Adicionar}" class="btn btn-success btn-sm gp-btn-nova-turma pull-right">Nova Turma</a></div>
+
+        <div id="painelPlano" class="panel-body clear">
           <ul class="list-group">
             <li class="list-group-item gp-list-group-item">
               <b> NPI-Manhã 2016.1 <span class="label label-primary">Aberta</span></b>
@@ -42,8 +47,6 @@
         </div>
       </div>
     </div>
-    
-    
     </div>
     </div>
 </section>

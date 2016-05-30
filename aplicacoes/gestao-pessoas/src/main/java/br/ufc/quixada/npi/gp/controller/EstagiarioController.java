@@ -6,10 +6,10 @@ import static br.ufc.quixada.npi.gp.utils.Constants.NOME_USUARIO;
 import static br.ufc.quixada.npi.gp.utils.Constants.PAGINA_INICIAL_ESTAGIARIO;
 import static br.ufc.quixada.npi.gp.utils.Constants.REDIRECT_PAGINA_INICIAL_ESTAGIARIO;
 
-import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,8 +23,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import br.ufc.quixada.npi.gp.model.Estagiario;
 import br.ufc.quixada.npi.gp.model.Frequencia;
-import br.ufc.quixada.npi.gp.service.EstagioService;
-import br.ufc.quixada.npi.gp.service.PessoaService;
 import br.ufc.quixada.npi.ldap.service.UsuarioService;
 
 @Controller
@@ -32,13 +30,13 @@ import br.ufc.quixada.npi.ldap.service.UsuarioService;
 public class EstagiarioController {
 	
 
-	@Inject
-	private PessoaService pessoaService;
-
-	@Inject
-	private EstagioService estagioService;
+//	@Inject
+//	private PessoaService pessoaService;
+//
+//	@Inject
+//	private EstagioService estagioService;
 	
-	@Inject
+	@Autowired
 	private UsuarioService usuarioService;
 	
 
@@ -178,16 +176,17 @@ public class EstagiarioController {
 
 		return "redirect:/Acompanhamento/Estagio/" + idEstagio;
 	}
+	
 	 */
 	
 
 	private void inserirNomeUsuarioNaSessao(HttpSession session) {
 		if (session.getAttribute(NOME_USUARIO) == null) {
-			session.setAttribute(NOME_USUARIO, usuarioService.getByCpf(getCpf()).getNome());
+			session.setAttribute(NOME_USUARIO, usuarioService.getByCpf(getCpfUsuarioLogado()).getNome());
 		}
 	}
 	
-	private String getCpf() {
+	private String getCpfUsuarioLogado() {
 		return SecurityContextHolder.getContext().getAuthentication().getName();
 	}
 }

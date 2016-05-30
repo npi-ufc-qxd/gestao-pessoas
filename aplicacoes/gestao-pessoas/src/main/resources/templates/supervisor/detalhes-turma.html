@@ -9,32 +9,95 @@
 </head>
 
 <section layout:fragment="conteudo">
-	<div class="container animated fadeInRight"> 
+
+
+  <div class="container-fluid titulo-pagina">
+    <div class="container">
+        <ul class="breadcrumb">
+            <li><a href="#">Minhas Turmas</a></li>
+            <li><a href="#">Detalhes Turma</a></li>
+        </ul>
+        <h1>Detalhes da Turma</h1>
+    </div>
+  </div>
+
+
+	<div class="container animated fadeInRight">
 	    <div class="row">
-	    <div class="col-sm-12">
-			<h3 class="gp-titulo-h5"><a th:href="@{/Supervisor/}" class="gp-btn-voltar"><i class="fa fa-arrow-left"></i></a> detalhes da turma</h3>
-	    </div>
-	    <div class="col-md-7">
-			<div class="panel panel-default">
+	      <div class="col-md-4">
+	        <div class="panel panel-bluegray">
 	          <div class="panel-heading">
-	            <h5 class="gp-inline"><a data-toggle="collapse" href="#painelEstagiarios" class="collapsed" aria-expanded="false"><i class="fa fa-caret-down" aria-hidden="true"></i> Estagiários</a></h5>
-	          </div>
-	          <div id="painelEstagiarios" class="panel-body gp-panel-body-background collapse in">
-	          </div>
+	            <a class="panel-title" data-toggle="collapse" data-target="#detalhesTurma"><i class="fa fa-caret-down" aria-hidden="true"></i> Turma NPI - 2016.1</a>
+				<a href="#" class="btn btn-xs pull-right gp-btn-opcao">editar</a>
+  			  </div>
+	          <div id="detalhesTurma" class="panel-body collapse in">
+				  <table class="table table-hover">
+				    <tbody>
+				      <tr>
+				        <td class="gp-sem-borda"><strong>Orientador</strong></td>
+				        <td class="gp-sem-borda">Bruno Gois</td>
+				      </tr>
+				      <tr>
+				        <td><strong>Supervisores</strong></td>
+				        <td>Rayson, Virginia</td>
+				      </tr>
+				      <tr>
+				        <td><strong>Período</strong></td>
+				        <td>01/03/2016 a 01/07/2016</td>
+				      </tr>
+				      <tr>
+				        <td><strong>Expediente</strong></td>
+				        <td>Segunda-feira - 08:00 ás 12:00<br/>Segunda-feira - 08:00 ás 12:00<br/>Segunda-feira - 08:00 ás 12:00</td>
+				      </tr>
+				    </tbody>
+				  </table>
+	           </div>
 	        </div>
+	
+	        <div class="panel panel-bluegray">
+	          <div class="panel-heading">
+	            <a class="panel-title" data-toggle="collapse" data-target="#eventos"><i class="fa fa-caret-down" aria-hidden="true"></i> Eventos</a>
+				<a href="#" class="btn btn-xs pull-right gp-btn-opcao">adicionar</a>
+	          </div>
+
+	          <div id="eventos" class="panel-body collapse in">
+	           </div>
+	        </div>
+	      </div>
+
+
+	    <div class="col-md-8">
+	        <div class="panel panel-bluegray">
+	          <div class="panel-heading">
+	            <a class="panel-title" data-toggle="collapse" data-target="#estagiarios"><i class="fa fa-caret-down" aria-hidden="true"></i> Estágiarios</a>
+				<a href="#" class="btn btn-xs pull-right gp-btn-opcao">mapa frequência</a>
+				<a href="#" class="btn btn-xs pull-right gp-btn-opcao">termos</a>
+				<a href="#" class="btn btn-xs pull-right gp-btn-opcao">declarações</a>
+	          </div>
+	          <div id="estagiarios" class="panel-body collapse in">
+		          <ul class="list-group">
+		            <li class="list-group-item gp-list-group-item">
+		              <b> José de Souza Filho Almeida </b>
+		              <a th:href="@{/Supervisor/Turma/Acompanhamento/1#}" class="btn btn-success btn-sm pull-right gp-btn-acompanhamento">acompanhamento</a>
+		            </li>
+		            <li class="list-group-item gp-list-group-item">
+		              <b> José de Souza Filho Almeida </b>
+		              <a th:href="@{/Supervisor/Turma/Acompanhamento/1#}" class="btn btn-success btn-sm pull-right gp-btn-acompanhamento">acompanhamento</a>
+		            </li>
+		            <li class="list-group-item gp-list-group-item">
+		              <b> José de Souza Filho Almeida </b>
+		              <a th:href="@{/Supervisor/Turma/Acompanhamento/1#}" class="btn btn-success btn-sm pull-right gp-btn-acompanhamento">acompanhamento</a>
+		            </li>
+		            <li class="list-group-item gp-list-group-item">
+		              <b> José de Souza Filho Almeida </b>
+		              <a th:href="@{/Supervisor/Turma/Acompanhamento/1#}" class="btn btn-success btn-sm pull-right gp-btn-acompanhamento">acompanhamento</a>
+		            </li>
+		          </ul>
+
+	           </div>
+	        </div>
+	      </div>
 	    </div>
-
-		<div class="col-md-5">
-			<div class="panel panel-primary">
-				<div class="panel-heading">
-					<h3 class="panel-title">Informações da Turma</h3>
-				</div>
-
-				<div class="panel-body">Em andamento.</div>
-			</div>
-		</div>
-
-		</div>
 	</div>
   </section>
 </html>

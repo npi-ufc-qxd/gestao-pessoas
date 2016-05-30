@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorator="layouts/LayoutSupervisor">
+
+<head>
+	<title>Gestão Pessoas | Avaliação do Plano</title>
+</head>
+
+<section layout:fragment="conteudo">
+
+	<div class="container-fluid titulo-pagina">
+    	<div class="container">
+	        <ul class="breadcrumb">
+	            <li><a href="#">Minhas Turmas</a></li>
+	            <li><a href="#">Turma</a></li>
+	            <li><a href="#">Acompanhamento</a></li>
+	            <li><a href="#">Avaliação do Plano</a></li>
+	        </ul>
+        	<h1>Avaliação do Plano</h1>
+    	</div>
+  	</div>
+  
+	<div class="container animated fadeInRight">
+		<div class="row">
+	    	<div class="col-md-4">
+	        	<div class="panel panel-bluegray">
+		          <div class="panel-heading">
+		            <a class="panel-title" data-toggle="collapse" data-target="#detalhesTurma"><i class="fa fa-caret-down" aria-hidden="true"></i> Turma NPI - 2016.1</a>
+	  			  </div>
+		          <div id="detalhesTurma" class="panel-body collapse in">
+					  <table class="table table-hover">
+							<tbody>
+						   		<tr>
+						        	<td class="gp-sem-borda"><strong>Estagiário</strong></td>
+						        	<td class="gp-sem-borda">Italo Bandeira</td>
+						      	</tr>
+						      	<tr>
+						        	<td><strong>Curso</strong></td>
+						        	<td>Engenharia de Software</td>
+						      	</tr>
+						      	<tr>
+						        	<td><strong>Email</strong></td>
+						        	<td>italobpl94@gmail.com</td>
+						      	</tr>
+						      	<tr>
+						        	<td><strong>Telefone</strong></td>
+						        	<td>(88)99701-1112</td>
+						      	</tr>
+						      	<tr>
+						        	<td><strong>Usuário GitHub</strong></td>
+						        	<td>@italobandeira</td>
+						      	</tr>
+							</tbody>
+						</table>
+		           </div>
+	    		</div>
+			</div>
+
+		    <div class="col-md-8">
+				<div class="panel panel-bluegray">
+			    	<div class="panel-heading">
+			        	<a class="panel-title" data-toggle="collapse" data-target="#detalhesEstagiario"><i class="fa fa-caret-down" aria-hidden="true"></i> Avaliar Plano</a>
+		  			</div>
+			        <div id="detalhesEstagiario" class="panel-body collapse in">
+				        <form class="form-horizontal">
+							<div class="form-group">
+						      <label for="inputEmail" class="col-lg-2 control-label">Status</label>
+						      <div class="col-lg-10">
+						        <input type="text" class="form-control" id="inputEmail" placeholder="Status"></input>
+						      </div>
+						    </div>
+							<div class="form-group">
+						      <label for="inputEmail" class="col-lg-2 control-label">Nota</label>
+						      <div class="col-lg-10">
+						        <input type="text" class="form-control" id="inputEmail" placeholder="Nota"></input>
+						      </div>
+						    </div>
+							<div class="form-group">
+						      <label for="textArea" class="col-lg-2 control-label">Comentário</label>
+						      <div class="col-lg-10">
+						        <textarea class="form-control" rows="3" id="textArea"></textarea>
+						        <span class="help-block">Comentário sobre a avaliação.</span>
+						      </div>
+						    </div>
+							<div class="form-group pull-right">
+						      <div class="col-lg-10 col-lg-offset-2">
+						        <button type="reset" class="btn btn-default">Cancelar</button>
+						        <button type="submit" class="btn btn-success">Salvar</button>
+						      </div>
+						    </div>
+						</form>
+			        </div>
+				</div>
+			</div>
+		</div>
+		
+	</div>
+</section>
+</html>

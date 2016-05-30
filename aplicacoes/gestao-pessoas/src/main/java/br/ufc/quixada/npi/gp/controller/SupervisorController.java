@@ -4,6 +4,7 @@ import static br.ufc.quixada.npi.gp.utils.Constants.ACOMPANHAMENTO_ESTAGIARIO;
 import static br.ufc.quixada.npi.gp.utils.Constants.DECLARACAO_ESTAGIO;
 import static br.ufc.quixada.npi.gp.utils.Constants.DETALHES_FREQUENCIA_ESTAGIARIO;
 import static br.ufc.quixada.npi.gp.utils.Constants.DETALHES_TURMA;
+import static br.ufc.quixada.npi.gp.utils.Constants.FORMULARIO_AVALIAR_PLANO;
 import static br.ufc.quixada.npi.gp.utils.Constants.FORMULARIO_ADICIONAR_AVALIACAO_RENDIMENTO;
 import static br.ufc.quixada.npi.gp.utils.Constants.FORMULARIO_ADICIONAR_TURMA;
 import static br.ufc.quixada.npi.gp.utils.Constants.FORMULARIO_EDITAR_AVALIACAO_RENDIMENTO;
@@ -234,6 +235,11 @@ public class SupervisorController {
 	@RequestMapping( value = "/Turma/AcompanhamentoEstagiario/{idEstagio}", method = RequestMethod.GET)
 	public String detalhesAcompanhamentoEstagiario(Model model, @PathVariable("idEstagio") Long idEstagio) {
 		return ACOMPANHAMENTO_ESTAGIARIO;
+	}
+	
+	@RequestMapping( value = "/Turma/AcompanhamentoEstagiario/{idEstagio}/AvaliarPlano", method = RequestMethod.GET)
+	public String formularioAvaliarPlanoEstagio(@PathVariable("idEstagio") Long idEstagio) {
+		return FORMULARIO_AVALIAR_PLANO;
 	}
 	
 	@RequestMapping( value = "/Turma/AcompanhamentoEstagiario/{idEstagio}/AvaliarPlano", method = RequestMethod.POST)

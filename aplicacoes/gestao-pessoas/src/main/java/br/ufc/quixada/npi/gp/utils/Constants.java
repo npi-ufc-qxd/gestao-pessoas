@@ -27,6 +27,8 @@ public class Constants {
 	public static final String FORMULARIO_EDITAR_TURMA = "supervisor/editar-turma";
 
 	public static final String ACOMPANHAMENTO_ESTAGIARIO = "supervisor/acompanhamento-estagiario";
+	
+	public static final String FORMULARIO_AVALIAR_PLANO = "supervisor/adicionar-avaliacao-plano";
 
 	public static final String FORMULARIO_ADICIONAR_AVALIACAO_RENDIMENTO = "supervisor/adicionar-avaliacao-rendimento";
 

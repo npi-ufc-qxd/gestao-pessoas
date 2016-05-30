@@ -42,6 +42,8 @@ public class Constants {
 
 	public static final String DECLARACAO_ESTAGIO = "DECLARACAO_ESTAGIO";
 	
+	public static final String AVALIAR_RELATORIO = "supervisor/avaliar-relatorio";
+	
 
 	/** REDIRECIONAMENTOS */
 

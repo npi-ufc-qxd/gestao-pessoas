@@ -14,6 +14,7 @@ import static br.ufc.quixada.npi.gp.utils.Constants.PAGINA_INICIAL_SUPERVISOR;
 import static br.ufc.quixada.npi.gp.utils.Constants.REDIRECT_ACOMPANHAMENTO_ESTAGIARIO;
 import static br.ufc.quixada.npi.gp.utils.Constants.REDIRECT_DETALHES_TURMA;
 import static br.ufc.quixada.npi.gp.utils.Constants.TERMO_COMPROMISSO_ESTAGIO;
+import static br.ufc.quixada.npi.gp.utils.Constants.AVALIAR_RELATORIO;
 
 import java.util.ArrayList;
 
@@ -236,6 +237,7 @@ public class SupervisorController {
 		return ACOMPANHAMENTO_ESTAGIARIO;
 	}
 	
+	
 	@RequestMapping( value = "/Turma/AcompanhamentoEstagiario/{idEstagio}/AvaliarPlano", method = RequestMethod.POST)
 	public String avaliarPlanoEstagio(RedirectAttributes redirect, @PathVariable("idEstagio") Long idEstagio) {
 //		
@@ -252,6 +254,11 @@ public class SupervisorController {
 //		turmaService.update(turma);
 		
 		return REDIRECT_ACOMPANHAMENTO_ESTAGIARIO + idEstagio;
+	}
+	
+	@RequestMapping (value = "/Turma/Acompanhamento/{idEstagio}/AvaliarRelatorio", method = RequestMethod.GET)
+	public String avaliarRelatorio(RedirectAttributes redirect, @PathVariable("idEstagio") Long idEstagio) {
+		return AVALIAR_RELATORIO;
 	}
 	
 	@RequestMapping( value = "/Turma/AcompanhamentoEstagiario/{idEstagio}/AvaliarRelatorio", method = RequestMethod.POST)

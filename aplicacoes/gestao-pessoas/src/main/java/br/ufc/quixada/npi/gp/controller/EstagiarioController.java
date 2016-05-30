@@ -4,8 +4,10 @@ import static br.ufc.quixada.npi.gp.utils.Constants.ACOMPANHAMENTO_ESTAGIO;
 import static br.ufc.quixada.npi.gp.utils.Constants.FORMULARIO_EDITAR_ESTAGIARIO;
 import static br.ufc.quixada.npi.gp.utils.Constants.NOME_USUARIO;
 import static br.ufc.quixada.npi.gp.utils.Constants.PAGINA_INICIAL_ESTAGIARIO;
+import static br.ufc.quixada.npi.gp.utils.Constants.REDIRECT_ACOMPANHAMENTO_ESTAGIO;
 import static br.ufc.quixada.npi.gp.utils.Constants.REDIRECT_PAGINA_INICIAL_ESTAGIARIO;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
@@ -18,11 +20,15 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import br.ufc.quixada.npi.gp.model.Estagiario;
+import br.ufc.quixada.npi.gp.model.Estagio;
 import br.ufc.quixada.npi.gp.model.Frequencia;
+import br.ufc.quixada.npi.gp.service.EstagioService;
 import br.ufc.quixada.npi.ldap.service.UsuarioService;
 
 @Controller
@@ -33,8 +39,8 @@ public class EstagiarioController {
 //	@Inject
 //	private PessoaService pessoaService;
 //
-//	@Inject
-//	private EstagioService estagioService;
+	@Inject
+	private EstagioService estagioService;
 	
 	@Autowired
 	private UsuarioService usuarioService;
@@ -102,11 +108,12 @@ public class EstagiarioController {
 		return null;
 	}
 		
-	/**
+	
 	@RequestMapping(value = "/Acompanhamento/{idEstagio}/SubmeterPlano", method = RequestMethod.POST)
-	public String submeterPlano(@Valid @RequestParam("anexo") MultipartFile anexo, @PathVariable("idEstagio") Long idEstagio, RedirectAttributes redirectAttributes ){
-		try {
-			Estagio estagio = estagioService.getEstagioByIdAndEstagiarioCpf(idEstagio, getCpf());
+	public String submeterPlano(@Valid @RequestParam("planoEstagio") MultipartFile planoEstagio, @PathVariable("idEstagio") Long idEstagio, RedirectAttributes redirectAttributes ){
+		
+		Estagio estagio = estagioService.buscarEstagioPorIdEEstagiarioCpf(idEstagio, getCpfUsuarioLogado());
+/*		try {
 
 			if (estagio != null) {
 				Submissao submissao = estagioService.getSubmissaoByEstagioIdAndTipo(idEstagio, TipoSubmissao.PLANO_ESTAGIO);
@@ -137,13 +144,14 @@ public class EstagiarioController {
 		} catch (IOException e) {
 			return "redirect:/500";
 		}
-
-		return "redirect:/Acompanhamento/Estagio/" + idEstagio;
+*/
+		return REDIRECT_ACOMPANHAMENTO_ESTAGIO + idEstagio;
 	}
 	
+	
 	@RequestMapping(value = "/Acompanhamento/Estagio/{idEstagio}/SubmeterRelatorio", method = RequestMethod.POST)
-	public String postSubmeterRelatorio(@Valid @RequestParam("anexo") MultipartFile anexo, @PathVariable("idEstagio") Long idEstagio, RedirectAttributes redirectAttributes ){
-
+	public String postSubmeterRelatorio(@Valid @RequestParam("relatorio") MultipartFile relatorio, @PathVariable("idEstagio") Long idEstagio, RedirectAttributes redirectAttributes ){
+/*
 		try {
 			Estagio estagio = estagioService.getEstagioByIdAndEstagiarioCpf(idEstagio, getCpf());
 			Submissao submissao = estagioService.getSubmissaoByEstagioIdAndTipo(idEstagio, TipoSubmissao.RELATORIO_FINAL_ESTAGIO);
@@ -173,11 +181,11 @@ public class EstagiarioController {
 		} catch (IOException e) {
 			return "redirect:/500";
 		}
-
-		return "redirect:/Acompanhamento/Estagio/" + idEstagio;
+*/
+		return REDIRECT_ACOMPANHAMENTO_ESTAGIO + idEstagio;
 	}
 	
-	 */
+	 
 	
 
 	private void inserirNomeUsuarioNaSessao(HttpSession session) {

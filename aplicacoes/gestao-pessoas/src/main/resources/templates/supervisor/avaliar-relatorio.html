@@ -14,9 +14,10 @@
   <div class="container-fluid titulo-pagina">
     <div class="container">
         <ul class="breadcrumb">
-        <li><a href="#">Minhas Turmas</a></li>
-            <li><a href="#">Detalhes Turma</a></li>
-            <li><a href="#">Avaliar Relátorio</a></li>
+        	<li><a th:href="@{/Supervisor/}" >Minhas Turmas</a></li>
+            <li><a th:href="@{/Supervisor/Turma/1/}">Detalhes Turma</a></li>
+            <li><a th:href="@{/Supervisor/Turma/1/AcompanhamentoEstagiario/1}">Acompanhamento Estagiário</a></li>
+            <li><a th:href="@{/Supervisor/Turma/Acompanhamento/1/AvaliarRelatorio}">Avaliar Relátorio</a></li>
         </ul>
         <h1>Avaliar Relátorio</h1>
     </div>
@@ -69,20 +70,19 @@
 	        <div class="panel panel-bluegray">
 	          <div class="panel-heading">
 	            <a class="panel-title" data-toggle="collapse" data-target="#avaliarRelatorio"><i class="fa fa-caret-down" aria-hidden="true"></i> Relatório Final do Estágio</a>
-				<a href="#" class="btn btn-xs pull-right gp-btn-opcao">editar</a>
+				<a th:href="@{/Supervisor/Turma/Acompanhamento/1/AvaliarRelatorio}" class="btn btn-xs pull-right gp-btn-opcao">editar</a>
 				
 	          </div>
 	          <div id="avaliarRelatorio" class="panel-body collapse in">
-		          <form class="form-horizontal">
-		          	
+		          <form class="gp-align-left form-horizontal">
 				    <div class="form-group">
 				      <label class="col-lg-2 control-label">Status</label>
 				      <div class="col-lg-10">
 				        <div class="radio">
-				          <label>
-				            <input type="radio" name="status" id="optionRadios2" value="option1" checked=""/>
+				          <label> 
+				            <input type="radio" name="status" id="optionRadios1" value="option1" checked=""/>
 				            Submetido
-				          </label>
+				           </label>
 				        </div>
 				        <div class="radio">
 				          <label>
@@ -104,11 +104,27 @@
 				        </div>
 				      </div>
 				    </div>
+				   
+				    <div class="form-group">
+  						<label class="control-label col-lg-2" for="nota"> Nota</label>
+  						<div class="col-lg-2">
+  						<input type="text" class="form-control" id="nota"/>
+						</div>
+					</div>
+					
+				    
 		         	<div class="form-group">
       					<label for="comentario" class="col-lg-2 control-label">Comentário</label>
       					<div class="col-lg-10">
         					<textarea class="form-control" rows="3" id="comentario"></textarea>
         					<span class="help-block">Digite um comentário sobre o Relatório do Aluno</span>
+      					</div>
+    				</div>
+    				
+    				<div class="form-group">
+      					<div class="col-lg-10 col-lg-offset-2">
+        					<button type="reset" class="btn btn-default">Cancelar</button>
+        					<button type="submit" class="btn btn-primary">Enviar</button>
       					</div>
     				</div>
 		          </form>

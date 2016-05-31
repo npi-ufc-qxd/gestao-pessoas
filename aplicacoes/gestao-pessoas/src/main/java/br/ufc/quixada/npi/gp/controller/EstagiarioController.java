@@ -10,6 +10,7 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
+import org.springframework.jdbc.core.metadata.GenericTableMetaDataProvider;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,8 +24,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import br.ufc.quixada.npi.gp.model.Estagiario;
 import br.ufc.quixada.npi.gp.model.Frequencia;
+import br.ufc.quixada.npi.gp.model.Pessoa;
 import br.ufc.quixada.npi.gp.service.EstagioService;
 import br.ufc.quixada.npi.gp.service.PessoaService;
+import br.ufc.quixada.npi.gp.utils.Constants;
 import br.ufc.quixada.npi.ldap.service.UsuarioService;
 
 @Controller
@@ -32,12 +35,7 @@ import br.ufc.quixada.npi.ldap.service.UsuarioService;
 public class EstagiarioController {
 	
 
-	@Inject
-	private PessoaService pessoaService;
-
-	@Inject
-	private EstagioService estagioService;
-	
+		
 	@Inject
 	private UsuarioService usuarioService;
 	
@@ -95,11 +93,7 @@ public class EstagiarioController {
 	@RequestMapping(value = "/Acompanhamento/{idEstagio}/Presenca", method = RequestMethod.POST)
 	public @ResponseBody Frequencia.StatusFrequencia realizarPresenca(HttpSession session, @PathVariable("idEstagio") Long idEstagio) {
 
-//		Estagio estagio = estagioService.getEstagioByIdAndEstagiarioCpf(idEstagio, getCpf());
-//		
-//		if(estagio != null) {
-//			return estagioService.realizarPresenca(Estagio estagio);
-//		}
+		
 		
 		return null;
 	}
@@ -190,4 +184,5 @@ public class EstagiarioController {
 	private String getCpf() {
 		return SecurityContextHolder.getContext().getAuthentication().getName();
 	}
+	
 }

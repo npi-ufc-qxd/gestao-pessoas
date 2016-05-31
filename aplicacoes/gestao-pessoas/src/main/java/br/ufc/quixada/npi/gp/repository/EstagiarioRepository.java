@@ -11,4 +11,8 @@ public interface EstagiarioRepository extends JpaRepository<Estagiario, Long> {
 	@Query("select e from Estagiario e where e.pessoa.cpf = :cpf")
 	Estagiario findByPessoaByCpf(@Param("cpf") String cpf);
 
+	@Query("select e from Estagiario e join Estagio f where f.estagiario = e.id and f.id = :idEstagio")
+	Estagiario findEstagiarioByEstagioId(@Param("idEstagio") Long idEstagio);
+
+
 }

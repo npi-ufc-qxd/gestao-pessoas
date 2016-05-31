@@ -5,22 +5,47 @@ import java.util.List;
 
 import javax.inject.Named;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import br.ufc.quixada.npi.gp.model.AvaliacaoRendimento;
 import br.ufc.quixada.npi.gp.model.Estagiario;
 import br.ufc.quixada.npi.gp.model.Estagio;
+import br.ufc.quixada.npi.gp.model.Expediente;
 import br.ufc.quixada.npi.gp.model.Frequencia;
+import br.ufc.quixada.npi.gp.model.Frequencia.StatusFrequencia;
+import br.ufc.quixada.npi.gp.model.Frequencia.TipoFrequencia;
 import br.ufc.quixada.npi.gp.model.Submissao;
 import br.ufc.quixada.npi.gp.model.Submissao.TipoSubmissao;
 import br.ufc.quixada.npi.gp.model.Turma;
+import br.ufc.quixada.npi.gp.repository.EstagiarioRepository;
+import br.ufc.quixada.npi.gp.repository.EstagioRepository;
+import br.ufc.quixada.npi.gp.repository.FrequenciaRepository;
+import br.ufc.quixada.npi.gp.repository.PessoaRepository;
 import br.ufc.quixada.npi.gp.service.ConsolidadoFrequencia;
 import br.ufc.quixada.npi.gp.service.EstagioService;
 @Named
 public class EstagioServiceImpl implements EstagioService {
+	
+	@Autowired
+	private FrequenciaRepository frequenciaRepository;
+	
+	@Autowired
+	private EstagioRepository estagioRepository;
+	
+	@Autowired
+	private EstagiarioRepository estagiarioRepository;
+
+
 
 	@Override
 	public Estagio buscarEstagioPorIdEEstagiarioId(Long idEstagio, Long idEstagiario) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	
+	@Override
+	public Estagio buscarEstagioPorIdEstagio(Long idEstagio) {
+		return estagioRepository.findEstagioByEstagioId(idEstagio) ;
 	}
 
 	@Override
@@ -94,6 +119,11 @@ public class EstagioServiceImpl implements EstagioService {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	@Override
+	public Frequencia buscarFrequenciaDeHojePorEstagio(Estagio estagio) {
+		return frequenciaRepository.findFrequenciaDeHojeByEstagio(estagio) ;
+	}
 
 	@Override
 	public List<Frequencia> buscarFrequenciasPorDataETurmaId(Date data, Long idTurma) {
@@ -132,8 +162,30 @@ public class EstagioServiceImpl implements EstagioService {
 	}
 
 	@Override
-	public void realizarPresenca(Estagio estagio) {
-		// TODO Auto-generated method stub
+	public void realizarPresenca(Long idEstagio) {
+		
+		Estagio estagio = buscarEstagioPorIdEstagio(idEstagio);
+		
+		//Estagiario estagiario = estagiarioRepository.findEstagiarioByEstagioId(idEstagio); 
+		
+		Frequencia frequencia = buscarFrequenciaDeHojePorEstagio(estagio);
+		
+		if(frequencia != null){
+			if(frequencia.getTipo() == TipoFrequencia.REPOSICAO && frequencia.getStatus() == StatusFrequencia.JUSTIFICATIVA){
+				
+				Frequencia frequenciaDeHoje = new Frequencia();
+				
+				frequenciaDeHoje.setEstagio(estagio);
+				frequenciaDeHoje.setStatus(StatusFrequencia.PRESENTE);
+				frequenciaDeHoje.setData(new Date());
+				frequenciaDeHoje.setHorario(new Date());
+				frequenciaDeHoje.setTipo(TipoFrequencia.REPOSICAO);
+				
+				frequenciaRepository.save(frequenciaDeHoje);
+				
+				
+			}
+		}
 		
 	}
 
@@ -154,9 +206,7 @@ public class EstagioServiceImpl implements EstagioService {
 		// TODO Auto-generated method stub
 		
 	}
-	
-	
-	
+
 	/**
 	 * 
 	

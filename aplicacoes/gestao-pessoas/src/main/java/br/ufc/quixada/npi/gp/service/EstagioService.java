@@ -6,6 +6,7 @@ import java.util.List;
 import br.ufc.quixada.npi.gp.model.AvaliacaoRendimento;
 import br.ufc.quixada.npi.gp.model.Estagiario;
 import br.ufc.quixada.npi.gp.model.Estagio;
+import br.ufc.quixada.npi.gp.model.Expediente;
 import br.ufc.quixada.npi.gp.model.Frequencia;
 import br.ufc.quixada.npi.gp.model.Submissao;
 import br.ufc.quixada.npi.gp.model.Turma;
@@ -17,6 +18,8 @@ public interface EstagioService {
 	List<Estagio> buscarEstagiosPorEstagiarioCpf(Long idEstagiario);
 	
 	Estagio buscarEstagioPorIdEEstagiarioCpf(Long idEstagio, String cpf);
+	
+	Estagio buscarEstagioPorIdEstagio(Long idEstagio);
 
 	void submeterPlano(Submissao submissao);
 
@@ -35,8 +38,10 @@ public interface EstagioService {
 	void editarAvaliacaoRendimento(AvaliacaoRendimento avaliacaoRendimento);
 
 	List<Frequencia> buscarFrequenciaPorEstagioId(Long idEstagio);
-
+	
 	Frequencia buscarFrequenciaPorDataEEstagioId(Date data, Long idEstagio);
+	
+	Frequencia buscarFrequenciaDeHojePorEstagio(Estagio estagio);
 
 	List<Frequencia> buscarFrequenciasPorDataETurmaId(Date data, Long idTurma);
 
@@ -50,7 +55,7 @@ public interface EstagioService {
 	
 	boolean permitirPresenca(Estagio estagio);
 	
-	void realizarPresenca(Estagio estagio);
+	void realizarPresenca(Long idEstagio);
 	
 	void adicionarFrequencia(Frequencia frequencia);
 

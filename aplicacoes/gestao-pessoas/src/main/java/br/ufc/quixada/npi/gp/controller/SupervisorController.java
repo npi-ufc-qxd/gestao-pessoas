@@ -14,8 +14,11 @@ import static br.ufc.quixada.npi.gp.utils.Constants.PAGINA_INICIAL_SUPERVISOR;
 import static br.ufc.quixada.npi.gp.utils.Constants.REDIRECT_ACOMPANHAMENTO_ESTAGIARIO;
 import static br.ufc.quixada.npi.gp.utils.Constants.REDIRECT_DETALHES_TURMA;
 import static br.ufc.quixada.npi.gp.utils.Constants.TERMO_COMPROMISSO_ESTAGIO;
+import static br.ufc.quixada.npi.gp.utils.Constants.REDIRECT_PAGINA_INICIAL_SUPERVISOR;
+
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -40,6 +43,7 @@ import br.ufc.quixada.npi.gp.model.Pessoa;
 import br.ufc.quixada.npi.gp.model.Servidor;
 import br.ufc.quixada.npi.gp.model.Turma;
 import br.ufc.quixada.npi.gp.service.PessoaService;
+import br.ufc.quixada.npi.gp.service.TurmaService;
 import br.ufc.quixada.npi.ldap.service.UsuarioService;
 import net.sf.jasperreports.engine.JRException;
 
@@ -57,8 +61,8 @@ public class SupervisorController {
 //	@Inject
 //	private EstagioService estagioService;
 //
-//	@Autowired
-//	private TurmaService turmaService;
+	@Autowired
+	private TurmaService turmaService;
 //
 //	private JRDataSource jrDatasource;
 	
@@ -150,7 +154,7 @@ public class SupervisorController {
 	}
 
 	@RequestMapping(value = "/Turma/{idTurma}", method = RequestMethod.GET)
-	public String visualizarDetalhesTurma(@PathVariable("idTurma") Long idTurma, Model model, HttpSession session) {
+	public String visualizarDetalhesTurma(@PathVariable("idTurma") Long idTurma, RedirectAttributes redirect, Model model, HttpSession session) {
 //
 //		Servidor servidor = pessoaService.buscarServidorPorCpf(getCpf());
 //		
@@ -160,8 +164,27 @@ public class SupervisorController {
 //		
 //		List<Estagiario> aniversariantes = estagiarioService.getAniversariantesMesByTurmaId(idTurma);
 //		model.addAttribute("aniversariantes", aniversariantes);
+		Pessoa pessoa = pessoaService.buscarPessoaPorCpf(getCpfUsuarioLogado());
 		
-		return DETALHES_TURMA;
+		Turma turma = turmaService.buscarTurmaPorId(idTurma);
+		
+		if(turma == null){
+			redirect.addFlashAttribute("error", "Turma não existe");
+			return REDIRECT_PAGINA_INICIAL_SUPERVISOR; 
+		}
+		
+		List<Servidor> supervisores = turma.getSupervisores();
+		for (Servidor servidor : supervisores) {
+			if(servidor.getPessoa().getCpf().equals(pessoa.getCpf())){
+				model.addAttribute("turma", turma);
+				return DETALHES_TURMA;
+			}
+		}
+		
+		redirect.addFlashAttribute("error", "Permissão negada");
+		return REDIRECT_PAGINA_INICIAL_SUPERVISOR; 
+		
+		
 	}
 	
 	@RequestMapping(value = "/Turma/{idTurma}/TermosCompromisso", method = RequestMethod.GET)

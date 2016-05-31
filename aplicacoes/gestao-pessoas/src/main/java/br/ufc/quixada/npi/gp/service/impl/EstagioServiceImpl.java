@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.inject.Named;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import br.ufc.quixada.npi.gp.model.AvaliacaoRendimento;
 import br.ufc.quixada.npi.gp.model.Estagiario;
 import br.ufc.quixada.npi.gp.model.Estagio;
@@ -12,10 +14,14 @@ import br.ufc.quixada.npi.gp.model.Frequencia;
 import br.ufc.quixada.npi.gp.model.Submissao;
 import br.ufc.quixada.npi.gp.model.Submissao.TipoSubmissao;
 import br.ufc.quixada.npi.gp.model.Turma;
+import br.ufc.quixada.npi.gp.repository.SubmissaoRepository;
 import br.ufc.quixada.npi.gp.service.ConsolidadoFrequencia;
 import br.ufc.quixada.npi.gp.service.EstagioService;
 @Named
 public class EstagioServiceImpl implements EstagioService {
+	
+	@Autowired
+	private SubmissaoRepository submissaoRepository;
 
 	@Override
 	public Estagio buscarEstagioPorIdEEstagiarioId(Long idEstagio, Long idEstagiario) {
@@ -67,8 +73,7 @@ public class EstagioServiceImpl implements EstagioService {
 
 	@Override
 	public Submissao buscarSubmissaoPorEstagioIdETipo(Long idEstagio, TipoSubmissao tipoSubmissao) {
-		// TODO Auto-generated method stub
-		return null;
+		return submissaoRepository.findByTipoEId(idEstagio, tipoSubmissao);
 	}
 
 	@Override

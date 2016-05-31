@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
+import org.apache.xmlbeans.impl.schema.BuiltinSchemaTypeSystem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
@@ -36,11 +37,16 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import br.ufc.quixada.npi.gp.model.AvaliacaoRendimento;
+import br.ufc.quixada.npi.gp.model.Estagio;
 import br.ufc.quixada.npi.gp.model.Papel;
 import br.ufc.quixada.npi.gp.model.Pessoa;
 import br.ufc.quixada.npi.gp.model.Servidor;
+import br.ufc.quixada.npi.gp.model.Submissao;
 import br.ufc.quixada.npi.gp.model.Turma;
+import br.ufc.quixada.npi.gp.model.Submissao.TipoSubmissao;
+import br.ufc.quixada.npi.gp.service.EstagioService;
 import br.ufc.quixada.npi.gp.service.PessoaService;
+import br.ufc.quixada.npi.gp.service.TurmaService;
 import br.ufc.quixada.npi.ldap.service.UsuarioService;
 import net.sf.jasperreports.engine.JRException;
 
@@ -54,6 +60,12 @@ public class SupervisorController {
 
 	@Autowired
 	private UsuarioService usuarioService;
+	
+	@Autowired
+	private EstagioService estagioService;
+	
+	@Autowired
+	private TurmaService turmaService;
 
 //	@Inject
 //	private EstagioService estagioService;
@@ -238,13 +250,22 @@ public class SupervisorController {
 	}
 	
 	@RequestMapping( value = "/Turma/AcompanhamentoEstagiario/{idEstagio}/AvaliarPlano", method = RequestMethod.GET)
-	public String formularioAvaliarPlanoEstagio(@PathVariable("idEstagio") Long idEstagio) {
+	public String formularioAvaliarPlanoEstagio(@PathVariable("idEstagio") Long idEstagio, Model model) {
+
+		Submissao submissaoPlano = estagioService.buscarSubmissaoPorEstagioIdETipo(idEstagio, TipoSubmissao.PLANO_ESTAGIO);
+		model.addAttribute("submissaoPlano", submissaoPlano);
+
 		return FORMULARIO_AVALIAR_PLANO;
 	}
 	
 	@RequestMapping( value = "/Turma/AcompanhamentoEstagiario/{idEstagio}/AvaliarPlano", method = RequestMethod.POST)
 	public String avaliarPlanoEstagio(RedirectAttributes redirect, @PathVariable("idEstagio") Long idEstagio) {
-//		
+		
+		Submissao submissao = estagioService.buscarSubmissaoPorEstagioIdETipo(idEstagio, TipoSubmissao.PLANO_ESTAGIO);
+		
+		submissao.setComentario(submissao.getComentario());
+		submissao.setDocumento(submissao.getDocumento());
+		
 //		Submissao submissaoDoBanco = turmaService.getSubmissaoById(submissao.getId());
 //		Estagiario estagiario = estagiarioService.find(Estagiario.class, idEstagiario);
 //		Turma turma = turmaService.getTurmaByIdAndEstagiarioId(idTurma, idEstagiario);

@@ -12,9 +12,11 @@ import br.ufc.quixada.npi.gp.model.Estagiario;
 import br.ufc.quixada.npi.gp.model.Estagio;
 import br.ufc.quixada.npi.gp.model.Frequencia;
 import br.ufc.quixada.npi.gp.model.Submissao;
+import br.ufc.quixada.npi.gp.model.Submissao.StatusEntrega;
 import br.ufc.quixada.npi.gp.model.Submissao.TipoSubmissao;
 import br.ufc.quixada.npi.gp.model.Turma;
 import br.ufc.quixada.npi.gp.repository.EstagioRepository;
+import br.ufc.quixada.npi.gp.repository.SubmissaoRepository;
 import br.ufc.quixada.npi.gp.service.ConsolidadoFrequencia;
 import br.ufc.quixada.npi.gp.service.EstagioService;
 @Named
@@ -22,6 +24,9 @@ public class EstagioServiceImpl implements EstagioService {
 
 	@Autowired
 	private EstagioRepository estagioRepository;
+	
+	@Autowired
+	private SubmissaoRepository submissaoRepository;
 	
 	@Override
 	public Estagio buscarEstagioPorIdEEstagiarioId(Long idEstagio, Long idEstagiario) {
@@ -37,25 +42,23 @@ public class EstagioServiceImpl implements EstagioService {
 
 	@Override
 	public Estagio buscarEstagioPorIdEEstagiarioCpf(Long idEstagio, String cpf) {
-		return estagioRepository.buscarEstagioPorIdEEstagiarioCpf(idEstagio, cpf);
+		return estagioRepository.findByIdAndEstagiario_Pessoa_Cpf(idEstagio, cpf);
+	}
+	
+	
+
+	@Override
+	public void submeter(Submissao submissao) {
+		submissaoRepository.save(submissao);
 	}
 
 	@Override
-	public void submeterPlano(Submissao submissao) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void editarPlano(Submissao submissao) throws Exception {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void submeterRelatorio(Submissao submissao) {
-		// TODO Auto-generated method stub
-		
+	public void editarSubmissao(Submissao submissao) throws Exception {
+		if(StatusEntrega.SUBMETIDO.equals(submissao.getStatusEntrega()) || StatusEntrega.CORRECAO.equals(submissao.getStatusEntrega())){
+			submissaoRepository.save(submissao);
+		}else{
+			throw new Exception();
+		}
 	}
 
 	@Override
@@ -71,9 +74,8 @@ public class EstagioServiceImpl implements EstagioService {
 	}
 
 	@Override
-	public Submissao buscarSubmissaoPorEstagioIdETipo(Long idEstagio, TipoSubmissao tipoSubmissao) {
-		// TODO Auto-generated method stub
-		return null;
+	public Submissao buscarSubmissaoPorTipoSubmissaoEEstagioIdECpf(TipoSubmissao tipoSubmissao, Long idEstagio, String cpf) {
+		return submissaoRepository.findByTipoSubmissaoAndEstagio_IdAndEstagio_Estagiario_Pessoa_Cpf(tipoSubmissao, idEstagio, cpf);
 	}
 
 	@Override

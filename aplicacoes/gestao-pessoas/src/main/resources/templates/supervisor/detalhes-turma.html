@@ -39,7 +39,8 @@
 				      </tr>
 				      <tr>
 				        <td><strong>Supervisores</strong></td>
-				        <td>Rayson, Virginia</td>
+				     	<td  th:inline="text"> <p th:each="sup : ${turma.supervisores}"> [[${sup.nome}]]</p> </td>
+
 				      </tr>
 				      <tr>
 				        <td><strong>Período</strong></td>
@@ -47,18 +48,7 @@
 				      </tr>
 				      <tr>
 				        <td><strong>Expediente</strong></td>
-				        <tr>
-				        	<table>
-				        		<thead>
-				        			<tr>dia</tr>
-				        			<tr>inicio</tr>
-				        			<tr>fim</tr>
-				        		</thead>
-				        		<tbody>
-				        			
-				        		</tbody>
-				        	</table>
-				        </tr>
+				       	<td  th:inline="text"> <p th:each="exp : ${turma.expedientes}"> [[${exp.diaSemana}]] - [[${exp.horaInicio}]] ás [[${exp.horaTermino}]]</p> </td>
 				      </tr>
 				    </tbody>
 				  </table>
@@ -72,6 +62,13 @@
 	          </div>
 
 	          <div id="eventos" class="panel-body collapse in">
+	          <ul class="list-group">
+		          <li th:each="evento :${turma.eventos}" class="list-group-item gp-list-group-item">
+		          	<h6 th:text="${evento.titulo}"></h6>
+		          	<p th:inline="text"><strong>[[${evento.inicio}]]</strong>  a <strong>[[${evento.termino}]]</strong> </p>
+		          	
+		          </li>
+	          </ul>
 	           </div>
 	        </div>
 	      </div>
@@ -87,22 +84,11 @@
 	          </div>
 	          <div id="estagiarios" class="panel-body collapse in">
 		          <ul class="list-group">
-		            <li class="list-group-item gp-list-group-item">
-		              <b> José de Souza Filho Almeida </b>
-		              <a th:href="@{/Supervisor/Turma/AcompanhamentoEstagiario/1}" class="btn btn-success btn-sm pull-right gp-btn-acompanhamento">acompanhamento</a>
+		            <li th:each="est :${turma.estagios}" class="list-group-item gp-list-group-item">
+		              <b th:inline="text"> [[${est.estagiario.nomeCompleto}]] </b>
+		              <a th:href="@{/Supervisor/Turma/AcompanhamentoEstagiario/{id}(id=${est.estagiario.id})}" class="btn btn-success btn-sm pull-right gp-btn-acompanhamento">acompanhamento</a>
 		            </li>
-		            <li class="list-group-item gp-list-group-item">
-		              <b> José de Souza Filho Almeida </b>
-		              <a th:href="@{/Supervisor/Turma/Acompanhamento/1#}" class="btn btn-success btn-sm pull-right gp-btn-acompanhamento">acompanhamento</a>
-		            </li>
-		            <li class="list-group-item gp-list-group-item">
-		              <b> José de Souza Filho Almeida </b>
-		              <a th:href="@{/Supervisor/Turma/Acompanhamento/1#}" class="btn btn-success btn-sm pull-right gp-btn-acompanhamento">acompanhamento</a>
-		            </li>
-		            <li class="list-group-item gp-list-group-item">
-		              <b> José de Souza Filho Almeida </b>
-		              <a th:href="@{/Supervisor/Turma/Acompanhamento/1#}" class="btn btn-success btn-sm pull-right gp-btn-acompanhamento">acompanhamento</a>
-		            </li>
+		            
 		          </ul>
 
 	           </div>

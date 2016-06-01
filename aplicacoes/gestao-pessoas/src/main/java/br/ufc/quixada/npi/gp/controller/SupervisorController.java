@@ -37,6 +37,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import br.ufc.quixada.npi.gp.model.AvaliacaoRendimento;
+import br.ufc.quixada.npi.gp.model.Estagiario;
 import br.ufc.quixada.npi.gp.model.Estagio;
 import br.ufc.quixada.npi.gp.model.Papel;
 import br.ufc.quixada.npi.gp.model.Pessoa;
@@ -63,9 +64,6 @@ public class SupervisorController {
 	
 	@Autowired
 	private EstagioService estagioService;
-	
-	@Autowired
-	private TurmaService turmaService;
 
 //	@Inject
 //	private EstagioService estagioService;
@@ -244,12 +242,12 @@ public class SupervisorController {
 		return MAPA_FREQUENCIAS;
 	}
 	
-	@RequestMapping( value = "/Turma/AcompanhamentoEstagiario/{idEstagio}", method = RequestMethod.GET)
+	@RequestMapping( value = "/Turma/Acompanhamento/{idEstagio}", method = RequestMethod.GET)
 	public String detalhesAcompanhamentoEstagiario(Model model, @PathVariable("idEstagio") Long idEstagio) {
 		return ACOMPANHAMENTO_ESTAGIARIO;
 	}
 	
-	@RequestMapping( value = "/Turma/AcompanhamentoEstagiario/{idEstagio}/AvaliarPlano", method = RequestMethod.GET)
+	@RequestMapping( value = "/Turma/Acompanhamento/{idEstagio}/AvaliarPlano", method = RequestMethod.GET)
 	public String formularioAvaliarPlanoEstagio(@PathVariable("idEstagio") Long idEstagio, Model model) {
 
 		Submissao submissaoPlano = estagioService.buscarSubmissaoPorEstagioIdETipo(idEstagio, TipoSubmissao.PLANO_ESTAGIO);
@@ -258,13 +256,18 @@ public class SupervisorController {
 		return FORMULARIO_AVALIAR_PLANO;
 	}
 	
-	@RequestMapping( value = "/Turma/AcompanhamentoEstagiario/{idEstagio}/AvaliarPlano", method = RequestMethod.POST)
-	public String avaliarPlanoEstagio(RedirectAttributes redirect, @PathVariable("idEstagio") Long idEstagio) {
+	@RequestMapping( value = "/Turma/Acompanhamento/{idEstagio}/AvaliarPlano", method = RequestMethod.POST)
+	public String avaliarPlanoEstagio(RedirectAttributes redirect, @PathVariable("idEstagio") Long idEstagio, @RequestParam("nota") Double nota, @RequestParam("status") Submissao.StatusEntrega status, @RequestParam("comentario") String comentario) {
 		
-		Submissao submissao = estagioService.buscarSubmissaoPorEstagioIdETipo(idEstagio, TipoSubmissao.PLANO_ESTAGIO);
-		
-		submissao.setComentario(submissao.getComentario());
-		submissao.setDocumento(submissao.getDocumento());
+//		Submissao submissao = estagioService.buscarSubmissaoPorEstagioIdETipo(idEstagio, TipoSubmissao.PLANO_ESTAGIO);
+//		
+//		submissao.setStatusEntrega(status);
+//		submissao.setNota(nota);
+//		submissao.setComentario(comentario);
+//		
+//		Estagio estagio = new Estagio();
+//		estagio = estagioService.buscarEstagioPorIdEEstagiarioId(idEstagio, estagio.getEstagiario().getId());
+//		estagio.getSubmissoes().add(submissao);
 		
 //		Submissao submissaoDoBanco = turmaService.getSubmissaoById(submissao.getId());
 //		Estagiario estagiario = estagiarioService.find(Estagiario.class, idEstagiario);
@@ -277,7 +280,7 @@ public class SupervisorController {
 //
 //		turma.getSubmissoes().add(submissaoDoBanco);
 //		turmaService.update(turma);
-		
+
 		return REDIRECT_ACOMPANHAMENTO_ESTAGIARIO + idEstagio;
 	}
 	
@@ -345,7 +348,8 @@ public class SupervisorController {
 //		avaliacaoRendimento.setDocumento(documento);
 //		avaliacaoService.save(avaliacaoRendimento);
 //		redirect.addFlashAttribute("success", "Avaliação cadastrada com sucesso.");
-
+		
+		
 		return REDIRECT_ACOMPANHAMENTO_ESTAGIARIO + idEstagio;
 	}
 

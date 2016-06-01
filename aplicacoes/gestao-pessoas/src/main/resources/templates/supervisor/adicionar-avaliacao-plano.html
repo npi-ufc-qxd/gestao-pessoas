@@ -64,23 +64,29 @@
 			        	<a class="panel-title" data-toggle="collapse" data-target="#detalhesEstagiario"><i class="fa fa-caret-down" aria-hidden="true"></i> Avaliar Plano</a>
 		  			</div>
 			        <div id="detalhesEstagiario" class="panel-body collapse in">
-				        <form id="form-avaliar" class="form-horizontal" th:action="@{/Turma/AcompanhamentoEstagiario/${idEstagio}/AvaliarPlano}" th:object="${submissaoPlano}" method="post">				     
+				        <form id="form-avaliar" class="form-horizontal" th:action="@{/Supervisor/Turma/Acompanhamento/1/AvaliarPlano}" method="post">				     
 							<div class="form-group">
-						      <label for="inputEmail" class="col-lg-2 control-label">Status</label>
+						    	<label for="status" class="col-lg-2 control-label"><strong>Status</strong></label>
+						    	<div class="col-lg-10">
+							        <select name="status" class="form-control" id="status">
+							        	<option></option>
+							          	<option>Submetido</option>
+							          	<option>Correção</option>
+							          	<option>Rejeitado</option>
+							          	<option>Avaliado</option>
+							        </select>
+						    	</div>
+						   	</div>
+							<div class="form-group">
+						      <label for="nota" class="col-lg-2 control-label"><strong>Nota</strong></label>
 						      <div class="col-lg-10">
-						        <input type="text" class="form-control" id="inputStatus" placeholder="Status"></input>
+						        <input name="nota" type="text" th:value="${submissaoPlano.nota}" class="form-control" id="nota" placeholder="Nota"></input>
 						      </div>
 						    </div>
 							<div class="form-group">
-						      <label for="inputEmail" class="col-lg-2 control-label">Nota</label>
+						      <label for="comentario" class="col-lg-2 control-label"><strong>Comentário</strong></label>
 						      <div class="col-lg-10">
-						        <input type="text" th:field="*{nota}" class="form-control" id="inputNota" placeholder="Nota"></input>
-						      </div>
-						    </div>
-							<div class="form-group">
-						      <label for="comentario" class="col-lg-2 control-label">Comentário</label>
-						      <div class="col-lg-10">
-						        <textarea class="form-control" th:field="*{comentario}" rows="3" id="comentario"></textarea>
+						        <textarea name="comentario" class="form-control" th:text="${submissaoPlano.comentario}" rows="3" id="comentario"></textarea>
 						        <span class="help-block">Comentário sobre a avaliação.</span>
 						      </div>
 						    </div>

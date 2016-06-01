@@ -19,8 +19,6 @@ public interface EstagioService {
 	
 	Estagio buscarEstagioPorIdEEstagiarioCpf(Long idEstagio, String cpf);
 	
-	Estagio buscarEstagioPorIdEstagio(Long idEstagio);
-
 	void submeterPlano(Submissao submissao);
 
 	void editarPlano(Submissao submissao)  throws Exception;
@@ -41,8 +39,8 @@ public interface EstagioService {
 	
 	Frequencia buscarFrequenciaPorDataEEstagioId(Date data, Long idEstagio);
 	
-	Frequencia buscarFrequenciaDeHojePorEstagio(Estagio estagio);
-
+	//Frequencia buscarFrequenciaDeHojePorEstagiarioIdETurmaId(Long idEstagiario, Long idTurma);
+	
 	List<Frequencia> buscarFrequenciasPorDataETurmaId(Date data, Long idTurma);
 
 	ConsolidadoFrequencia calcularDadosConsolidados(List<Frequencia> frequencia);
@@ -62,5 +60,9 @@ public interface EstagioService {
 	void editarStatusFrequencia();
 
 	void adicionarObservacaoFrequencia();
+
+	Frequencia buscarFrequenciaDeHojePorEstagio(Estagio estagio);
+
+	Estagio buscarEstagioPorIdEstagio(Long idEstagio);
 
 }

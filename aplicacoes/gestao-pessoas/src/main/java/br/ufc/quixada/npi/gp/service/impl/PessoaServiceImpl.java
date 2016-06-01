@@ -96,17 +96,6 @@ public class PessoaServiceImpl implements PessoaService {
 	}
 
 	@Override
-	public Estagiario buscarEstagiarioPorId(Long idEstagiario) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
-	@Override
-	public Estagiario buscarEstagiarioPorIdEstagio(Long idEstagio) {
-		return estagiarioRepository.findEstagiarioByEstagioId(idEstagio);
-	}
-
-	@Override
 	public List<Estagiario> buscarAniversariantesDoMesPorTurmaId(Long idTurma) {
 		// TODO Auto-generated method stub
 		return null;

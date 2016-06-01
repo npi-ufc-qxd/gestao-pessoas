@@ -172,22 +172,33 @@ public class EstagioServiceImpl implements EstagioService {
 		
 		if(frequencia != null){
 			if(frequencia.getTipo() == TipoFrequencia.REPOSICAO && frequencia.getStatus() == StatusFrequencia.JUSTIFICATIVA){
-				
+
 				Frequencia frequenciaDeHoje = new Frequencia();
-				
+
 				frequenciaDeHoje.setEstagio(estagio);
 				frequenciaDeHoje.setStatus(StatusFrequencia.PRESENTE);
 				frequenciaDeHoje.setData(new Date());
 				frequenciaDeHoje.setHorario(new Date());
 				frequenciaDeHoje.setTipo(TipoFrequencia.REPOSICAO);
-				
+
 				frequenciaRepository.save(frequenciaDeHoje);
-				
-				
+			}else{
+				if(frequencia.getTipo() == TipoFrequencia.NORMAL && frequencia.getStatus() == StatusFrequencia.PRESENTE){
+
+				}
 			}
 		}
-		
+
+
+
+		if(frequencia == null){
+
+		}
+			
+			
 	}
+		
+	
 
 	@Override
 	public void adicionarFrequencia(Frequencia frequencia) {

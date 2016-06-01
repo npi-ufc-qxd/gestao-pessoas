@@ -9,10 +9,10 @@ import br.ufc.quixada.npi.gp.model.Frequencia;
 
 public interface FrequenciaRepository extends JpaRepository<Frequencia, Long> {
 	
-	
 	@Query("select f from Frequencia f where f.estagio = :estagio.id and f.data = CURRENT_DATE")
 	Frequencia findFrequenciaDeHojeByEstagio(@Param("estagio") Estagio estagio);
-
+	
+	
 //	void updateStatus(String queryName, Map<String, Object> namedParams);
 //	
 //	Frequencia findFrequenciaByDataByTurmaByEstagiario(Date data, Long turma, Long estagiario);

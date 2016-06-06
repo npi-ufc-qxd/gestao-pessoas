@@ -21,12 +21,12 @@ import br.ufc.quixada.npi.gp.service.ConsolidadoFrequencia;
 import br.ufc.quixada.npi.gp.service.EstagioService;
 @Named
 public class EstagioServiceImpl implements EstagioService {
-
-	@Autowired
-	private EstagioRepository estagioRepository;
 	
 	@Autowired
 	private SubmissaoRepository submissaoRepository;
+
+	@Autowired
+	private EstagioRepository estagioRepository;
 	
 	@Override
 	public Estagio buscarEstagioPorIdEEstagiarioId(Long idEstagio, Long idEstagiario) {
@@ -63,14 +63,13 @@ public class EstagioServiceImpl implements EstagioService {
 
 	@Override
 	public void editarRelatorio(Submissao submissao) throws Exception {
-		// TODO Auto-generated method stub
+		//
 		
 	}
 
 	@Override
 	public void avaliarSubmissao(Submissao submissao) {
-		// TODO Auto-generated method stub
-		
+		submissaoRepository.save(submissao);
 	}
 
 	@Override
@@ -160,6 +159,11 @@ public class EstagioServiceImpl implements EstagioService {
 	public void adicionarObservacaoFrequencia() {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public Submissao buscarSubmissaoPorTipoSubmissaoEEstagioId(TipoSubmissao tipoSubmissao, Long idEstagio) {
+		return submissaoRepository.findByIdETipo(tipoSubmissao, idEstagio);
 	}
 	
 	

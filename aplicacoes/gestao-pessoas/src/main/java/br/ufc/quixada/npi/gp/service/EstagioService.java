@@ -27,6 +27,8 @@ public interface EstagioService {
 	void avaliarSubmissao(Submissao submissao);
 
 	Submissao buscarSubmissaoPorTipoSubmissaoEEstagioIdECpf(Submissao.TipoSubmissao tipoSubmissao, Long idEstagio, String cpf);
+
+	Submissao buscarSubmissaoPorTipoSubmissaoEEstagioId(Submissao.TipoSubmissao tipoSubmissao, Long idEstagio);
 	
 	void adicionarAvaliacaoRendimento(AvaliacaoRendimento avaliacaoRendimento);
 	

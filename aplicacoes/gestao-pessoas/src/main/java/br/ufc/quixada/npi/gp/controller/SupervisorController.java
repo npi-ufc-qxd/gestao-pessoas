@@ -1,11 +1,13 @@
 package br.ufc.quixada.npi.gp.controller;
 
 import static br.ufc.quixada.npi.gp.utils.Constants.ACOMPANHAMENTO_ESTAGIARIO;
+import static br.ufc.quixada.npi.gp.utils.Constants.AVALIAR_RELATORIO;
 import static br.ufc.quixada.npi.gp.utils.Constants.DECLARACAO_ESTAGIO;
 import static br.ufc.quixada.npi.gp.utils.Constants.DETALHES_FREQUENCIA_ESTAGIARIO;
 import static br.ufc.quixada.npi.gp.utils.Constants.DETALHES_TURMA;
 import static br.ufc.quixada.npi.gp.utils.Constants.FORMULARIO_ADICIONAR_AVALIACAO_RENDIMENTO;
 import static br.ufc.quixada.npi.gp.utils.Constants.FORMULARIO_ADICIONAR_TURMA;
+import static br.ufc.quixada.npi.gp.utils.Constants.FORMULARIO_AVALIAR_PLANO;
 import static br.ufc.quixada.npi.gp.utils.Constants.FORMULARIO_EDITAR_AVALIACAO_RENDIMENTO;
 import static br.ufc.quixada.npi.gp.utils.Constants.FORMULARIO_EDITAR_TURMA;
 import static br.ufc.quixada.npi.gp.utils.Constants.MAPA_FREQUENCIAS;
@@ -13,10 +15,8 @@ import static br.ufc.quixada.npi.gp.utils.Constants.NOME_USUARIO;
 import static br.ufc.quixada.npi.gp.utils.Constants.PAGINA_INICIAL_SUPERVISOR;
 import static br.ufc.quixada.npi.gp.utils.Constants.REDIRECT_ACOMPANHAMENTO_ESTAGIARIO;
 import static br.ufc.quixada.npi.gp.utils.Constants.REDIRECT_DETALHES_TURMA;
-import static br.ufc.quixada.npi.gp.utils.Constants.TERMO_COMPROMISSO_ESTAGIO;
-import static br.ufc.quixada.npi.gp.utils.Constants.AVALIAR_RELATORIO;
 import static br.ufc.quixada.npi.gp.utils.Constants.REDIRECT_PAGINA_INICIAL_SUPERVISOR;
-
+import static br.ufc.quixada.npi.gp.utils.Constants.TERMO_COMPROMISSO_ESTAGIO;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,7 +42,10 @@ import br.ufc.quixada.npi.gp.model.AvaliacaoRendimento;
 import br.ufc.quixada.npi.gp.model.Papel;
 import br.ufc.quixada.npi.gp.model.Pessoa;
 import br.ufc.quixada.npi.gp.model.Servidor;
+import br.ufc.quixada.npi.gp.model.Submissao;
+import br.ufc.quixada.npi.gp.model.Submissao.TipoSubmissao;
 import br.ufc.quixada.npi.gp.model.Turma;
+import br.ufc.quixada.npi.gp.service.EstagioService;
 import br.ufc.quixada.npi.gp.service.PessoaService;
 import br.ufc.quixada.npi.gp.service.TurmaService;
 import br.ufc.quixada.npi.ldap.service.UsuarioService;
@@ -58,6 +61,9 @@ public class SupervisorController {
 
 	@Autowired
 	private UsuarioService usuarioService;
+	
+	@Autowired
+	private EstagioService estagioService;
 
 //	@Inject
 //	private EstagioService estagioService;
@@ -255,49 +261,54 @@ public class SupervisorController {
 		return MAPA_FREQUENCIAS;
 	}
 	
-	@RequestMapping( value = "/Turma/AcompanhamentoEstagiario/{idEstagio}", method = RequestMethod.GET)
+	@RequestMapping( value = "/Turma/Acompanhamento/{idEstagio}", method = RequestMethod.GET)
 	public String detalhesAcompanhamentoEstagiario(Model model, @PathVariable("idEstagio") Long idEstagio) {
 		return ACOMPANHAMENTO_ESTAGIARIO;
 	}
 	
+	@RequestMapping( value = "/Turma/Acompanhamento/{idEstagio}/AvaliarPlano", method = RequestMethod.GET)
+	public String formularioAvaliarPlanoEstagio(@PathVariable("idEstagio") Long idEstagio, Model model) {
+
+		Submissao submissaoPlano = estagioService.buscarSubmissaoPorTipoSubmissaoEEstagioId(TipoSubmissao.PLANO_ESTAGIO, idEstagio);
+		model.addAttribute("submissaoPlano", submissaoPlano);
+
+		return FORMULARIO_AVALIAR_PLANO;
+	}
 	
-	@RequestMapping( value = "/Turma/AcompanhamentoEstagiario/{idEstagio}/AvaliarPlano", method = RequestMethod.POST)
-	public String avaliarPlanoEstagio(RedirectAttributes redirect, @PathVariable("idEstagio") Long idEstagio) {
-//		
-//		Submissao submissaoDoBanco = turmaService.getSubmissaoById(submissao.getId());
-//		Estagiario estagiario = estagiarioService.find(Estagiario.class, idEstagiario);
-//		Turma turma = turmaService.getTurmaByIdAndEstagiarioId(idTurma, idEstagiario);
-//
-//		submissaoDoBanco.setEstagiario(estagiario);
-//		submissaoDoBanco.setNota(submissao.getNota());
-//		submissaoDoBanco.setStatusEntrega(submissao.getStatusEntrega());
-//		submissaoDoBanco.setComentario(submissao.getComentario());
-//
-//		turma.getSubmissoes().add(submissaoDoBanco);
-//		turmaService.update(turma);
+	@RequestMapping( value = "/Turma/Acompanhamento/{idEstagio}/AvaliarPlano", method = RequestMethod.POST)
+	public String avaliarPlanoEstagio(RedirectAttributes redirect, @PathVariable("idEstagio") Long idEstagio, @RequestParam("nota") Double nota, @RequestParam("status") Submissao.StatusEntrega status, @RequestParam("comentario") String comentario) {
 		
+		Submissao submissao = estagioService.buscarSubmissaoPorTipoSubmissaoEEstagioId(TipoSubmissao.PLANO_ESTAGIO, idEstagio);
+		
+		submissao.setStatusEntrega(status);
+		submissao.setNota(nota);
+		submissao.setComentario(comentario);
+		
+		estagioService.avaliarSubmissao(submissao);
+
 		return REDIRECT_ACOMPANHAMENTO_ESTAGIARIO + idEstagio;
 	}
 	
 	@RequestMapping (value = "/Turma/Acompanhamento/{idEstagio}/AvaliarRelatorio", method = RequestMethod.GET)
-	public String avaliarRelatorio(RedirectAttributes redirect, @PathVariable("idEstagio") Long idEstagio) {
+	public String avaliarRelatorio(RedirectAttributes redirect, @PathVariable("idEstagio") Long idEstagio, Model model ) {
+		
+		Submissao submissaoRelatorio = estagioService.buscarSubmissaoPorTipoSubmissaoEEstagioId(TipoSubmissao.RELATORIO_FINAL_ESTAGIO, idEstagio);
+		model.addAttribute("submissaoRelatorio", submissaoRelatorio);
+		
 		return AVALIAR_RELATORIO;
 	}
 	
-	@RequestMapping( value = "/Turma/AcompanhamentoEstagiario/{idEstagio}/AvaliarRelatorio", method = RequestMethod.POST)
-	public String avaliarRelatorioFinalEstagio(RedirectAttributes redirect, @PathVariable("idEstagio") Long idEstagio) {
+	@RequestMapping( value = "/Turma/Acompanhamento/{idEstagio}/AvaliarRelatorio", method = RequestMethod.POST)
+	public String avaliarRelatorioFinalEstagio(RedirectAttributes redirect, @PathVariable("idEstagio") Long idEstagio, @RequestParam("nota") Double nota, @RequestParam("status") Submissao.StatusEntrega status, @RequestParam("comentario") String comentario) {
 		
-//		Submissao submissaoDoBanco = turmaService.getSubmissaoById(submissao.getId());
-//		Estagiario estagiario = estagiarioService.find(Estagiario.class, idEstagiario);
-//		Turma turma = turmaService.getTurmaByIdAndEstagiarioId(idTurma, idEstagiario);
-//
-//		submissaoDoBanco.setEstagiario(estagiario);
-//		submissaoDoBanco.setNota(submissao.getNota());
-//		submissaoDoBanco.setStatusEntrega(submissao.getStatusEntrega());
-//		submissaoDoBanco.setComentario(submissao.getComentario());
-//
-//		turma.getSubmissoes().add(submissaoDoBanco);
-//		turmaService.update(turma);
+		Submissao submissao = estagioService.buscarSubmissaoPorTipoSubmissaoEEstagioId(TipoSubmissao.RELATORIO_FINAL_ESTAGIO, idEstagio);
+		
+		submissao.setStatusEntrega(status);
+		submissao.setNota(nota);
+		submissao.setComentario(comentario);
+		
+		estagioService.avaliarSubmissao(submissao);
+
 		
 		return REDIRECT_ACOMPANHAMENTO_ESTAGIARIO + idEstagio;
 	}
@@ -348,7 +359,8 @@ public class SupervisorController {
 //		avaliacaoRendimento.setDocumento(documento);
 //		avaliacaoService.save(avaliacaoRendimento);
 //		redirect.addFlashAttribute("success", "Avaliação cadastrada com sucesso.");
-
+		
+		
 		return REDIRECT_ACOMPANHAMENTO_ESTAGIARIO + idEstagio;
 	}
 

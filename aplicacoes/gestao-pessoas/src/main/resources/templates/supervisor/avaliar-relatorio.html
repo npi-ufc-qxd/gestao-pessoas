@@ -78,12 +78,12 @@
 				
 	          </div>
 	          <div id="avaliarRelatorio" class="panel-body collapse in">
-		          <form class="gp-align-left form-horizontal">
+		          <form class="gp-align-left form-horizontal" th:action="@{/Supervisor/Turma/Acompanhamento/1/AvaliarRelatorio}">
 				    
 				    <div class="form-group">
       					<label for="status" class="col-lg-2 control-label">Status</label>
       					<div class="col-lg-10">
-					        <select class="form-control" id="status" title="Status" >
+					        <select class="form-control" id="status" title="Status" name="status">
 					          <option hidden="status"></option>
 					          <option>Submetido</option>
 					          <option>Correção</option>
@@ -96,7 +96,7 @@
 				    <div class="form-group">
   						<label class="control-label col-lg-2" for="nota"> Nota</label>
   						<div class="col-lg-10">
-  						<input type="text" class="form-control" id="nota" placeholder="0.0"/>
+  						<input type="text" class="form-control" id="nota" placeholder="0.0" name="nota" th:value="${submissaoRelatorio.nota}"/>
 						</div>
 					</div>
 					
@@ -104,7 +104,7 @@
 		         	<div class="form-group">
       					<label for="comentario" class="col-lg-2 control-label">Comentário</label>
       					<div class="col-lg-10">
-        					<textarea class="form-control" rows="3" id="comentario"></textarea>
+        					<textarea class="form-control" rows="3" id="comentario" name="comentario" th:text="${submissaoRelatorio.comentario}"></textarea>
         					<span class="help-block">Digite um comentário sobre o Relatório do Aluno</span>
       					</div>
     				</div>

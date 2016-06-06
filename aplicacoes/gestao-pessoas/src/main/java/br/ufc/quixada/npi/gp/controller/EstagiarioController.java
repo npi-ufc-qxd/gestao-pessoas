@@ -238,7 +238,7 @@ public class EstagiarioController {
 		
 		submissao.getDocumento().setArquivo(relatorio.getBytes());
 		estagioService.editarSubmissao(submissao);
-		redirectAttributes.addFlashAttribute("msg", "Plano editado com sucesso.");
+		redirectAttributes.addFlashAttribute("msg", "Relatorio editado com sucesso.");
 		return REDIRECT_ACOMPANHAMENTO_ESTAGIO + idEstagio;
 		
 	}

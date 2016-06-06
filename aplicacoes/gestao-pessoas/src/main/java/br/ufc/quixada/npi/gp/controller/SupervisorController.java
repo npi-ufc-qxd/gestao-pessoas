@@ -4,9 +4,9 @@ import static br.ufc.quixada.npi.gp.utils.Constants.ACOMPANHAMENTO_ESTAGIARIO;
 import static br.ufc.quixada.npi.gp.utils.Constants.DECLARACAO_ESTAGIO;
 import static br.ufc.quixada.npi.gp.utils.Constants.DETALHES_FREQUENCIA_ESTAGIARIO;
 import static br.ufc.quixada.npi.gp.utils.Constants.DETALHES_TURMA;
-import static br.ufc.quixada.npi.gp.utils.Constants.FORMULARIO_AVALIAR_PLANO;
 import static br.ufc.quixada.npi.gp.utils.Constants.FORMULARIO_ADICIONAR_AVALIACAO_RENDIMENTO;
 import static br.ufc.quixada.npi.gp.utils.Constants.FORMULARIO_ADICIONAR_TURMA;
+import static br.ufc.quixada.npi.gp.utils.Constants.FORMULARIO_AVALIAR_PLANO;
 import static br.ufc.quixada.npi.gp.utils.Constants.FORMULARIO_EDITAR_AVALIACAO_RENDIMENTO;
 import static br.ufc.quixada.npi.gp.utils.Constants.FORMULARIO_EDITAR_TURMA;
 import static br.ufc.quixada.npi.gp.utils.Constants.MAPA_FREQUENCIAS;
@@ -14,14 +14,15 @@ import static br.ufc.quixada.npi.gp.utils.Constants.NOME_USUARIO;
 import static br.ufc.quixada.npi.gp.utils.Constants.PAGINA_INICIAL_SUPERVISOR;
 import static br.ufc.quixada.npi.gp.utils.Constants.REDIRECT_ACOMPANHAMENTO_ESTAGIARIO;
 import static br.ufc.quixada.npi.gp.utils.Constants.REDIRECT_DETALHES_TURMA;
+import static br.ufc.quixada.npi.gp.utils.Constants.REDIRECT_PAGINA_INICIAL_SUPERVISOR;
 import static br.ufc.quixada.npi.gp.utils.Constants.TERMO_COMPROMISSO_ESTAGIO;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
-import org.apache.xmlbeans.impl.schema.BuiltinSchemaTypeSystem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
@@ -37,14 +38,12 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import br.ufc.quixada.npi.gp.model.AvaliacaoRendimento;
-import br.ufc.quixada.npi.gp.model.Estagiario;
-import br.ufc.quixada.npi.gp.model.Estagio;
 import br.ufc.quixada.npi.gp.model.Papel;
 import br.ufc.quixada.npi.gp.model.Pessoa;
 import br.ufc.quixada.npi.gp.model.Servidor;
 import br.ufc.quixada.npi.gp.model.Submissao;
-import br.ufc.quixada.npi.gp.model.Turma;
 import br.ufc.quixada.npi.gp.model.Submissao.TipoSubmissao;
+import br.ufc.quixada.npi.gp.model.Turma;
 import br.ufc.quixada.npi.gp.service.EstagioService;
 import br.ufc.quixada.npi.gp.service.PessoaService;
 import br.ufc.quixada.npi.gp.service.TurmaService;
@@ -68,8 +67,8 @@ public class SupervisorController {
 //	@Inject
 //	private EstagioService estagioService;
 //
-//	@Autowired
-//	private TurmaService turmaService;
+	@Autowired
+	private TurmaService turmaService;
 //
 //	private JRDataSource jrDatasource;
 	
@@ -161,7 +160,7 @@ public class SupervisorController {
 	}
 
 	@RequestMapping(value = "/Turma/{idTurma}", method = RequestMethod.GET)
-	public String visualizarDetalhesTurma(@PathVariable("idTurma") Long idTurma, Model model, HttpSession session) {
+	public String visualizarDetalhesTurma(@PathVariable("idTurma") Long idTurma, RedirectAttributes redirect, Model model, HttpSession session) {
 //
 //		Servidor servidor = pessoaService.buscarServidorPorCpf(getCpf());
 //		
@@ -171,8 +170,27 @@ public class SupervisorController {
 //		
 //		List<Estagiario> aniversariantes = estagiarioService.getAniversariantesMesByTurmaId(idTurma);
 //		model.addAttribute("aniversariantes", aniversariantes);
+		Pessoa pessoa = pessoaService.buscarPessoaPorCpf(getCpfUsuarioLogado());
 		
-		return DETALHES_TURMA;
+		Turma turma = turmaService.buscarTurmaPorId(idTurma);
+		
+		if(turma == null){
+			redirect.addFlashAttribute("error", "Turma não existe");
+			return REDIRECT_PAGINA_INICIAL_SUPERVISOR; 
+		}
+		
+		List<Servidor> supervisores = turma.getSupervisores();
+		for (Servidor servidor : supervisores) {
+			if(servidor.getPessoa().getCpf().equals(pessoa.getCpf())){
+				model.addAttribute("turma", turma);
+				return DETALHES_TURMA;
+			}
+		}
+		
+		redirect.addFlashAttribute("error", "Permissão negada");
+		return REDIRECT_PAGINA_INICIAL_SUPERVISOR; 
+		
+		
 	}
 	
 	@RequestMapping(value = "/Turma/{idTurma}/TermosCompromisso", method = RequestMethod.GET)
@@ -250,7 +268,7 @@ public class SupervisorController {
 	@RequestMapping( value = "/Turma/Acompanhamento/{idEstagio}/AvaliarPlano", method = RequestMethod.GET)
 	public String formularioAvaliarPlanoEstagio(@PathVariable("idEstagio") Long idEstagio, Model model) {
 
-		Submissao submissaoPlano = estagioService.buscarSubmissaoPorEstagioIdETipo(idEstagio, TipoSubmissao.PLANO_ESTAGIO);
+		Submissao submissaoPlano = estagioService.buscarSubmissaoPorTipoSubmissaoEEstagioIdECpf(TipoSubmissao.PLANO_ESTAGIO, idEstagio, getCpfUsuarioLogado());
 		model.addAttribute("submissaoPlano", submissaoPlano);
 
 		return FORMULARIO_AVALIAR_PLANO;
@@ -259,7 +277,7 @@ public class SupervisorController {
 	@RequestMapping( value = "/Turma/Acompanhamento/{idEstagio}/AvaliarPlano", method = RequestMethod.POST)
 	public String avaliarPlanoEstagio(RedirectAttributes redirect, @PathVariable("idEstagio") Long idEstagio, @RequestParam("nota") Double nota, @RequestParam("status") Submissao.StatusEntrega status, @RequestParam("comentario") String comentario) {
 		
-		Submissao submissao = estagioService.buscarSubmissaoPorEstagioIdETipo(idEstagio, TipoSubmissao.PLANO_ESTAGIO);
+		Submissao submissao = estagioService.buscarSubmissaoPorTipoSubmissaoEEstagioIdECpf(TipoSubmissao.PLANO_ESTAGIO, idEstagio, getCpfUsuarioLogado());
 		
 		submissao.setStatusEntrega(status);
 		submissao.setNota(nota);

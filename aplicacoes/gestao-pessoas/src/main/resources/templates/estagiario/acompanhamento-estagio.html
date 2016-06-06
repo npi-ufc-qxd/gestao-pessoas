@@ -28,7 +28,6 @@
 	        <div class="panel panel-bluegray">
 	          <div class="panel-heading">
 	            <a class="panel-title" data-toggle="collapse" data-target="#planoEstagio"><i class="fa fa-caret-down" aria-hidden="true"></i> Plano de Estágio</a>
-				<a href="#" class="btn btn-success btn-xs pull-right">editar</a>
 	          </div>
 	          <div id="planoEstagio" class="panel-body collapse in">
 				  <table class="table table-hover">
@@ -47,27 +46,47 @@
 				      </tr>
 				      <tr>
 				        <td><strong>Comentario</strong></td>
-				        <td>Segunda-feira - 08:sdfpijas-feira - 0asdfasfd8:00 ás 12:asdfsdpfojasdfasdafSegunda-feira - 08:00 ás 12:00</td>
+				        <td></td>
 				      </tr>
 				    </tbody>
 				  </table>
 				  
 		            <div class="gp-modelo-doc">
 		            	Modelo de Plano de Estágio <a href="#">Clique aqui para baixar!</a>
-		            	<a href="#submissao" class="btn btn-success btn-sm pull-right gp-submissao-modal" data-toggle="modal">Editar submissao</a>
+		            	<a href="#submissaoPlano" class="btn btn-success btn-sm pull-right gp-submissao-modal" data-toggle="modal">Editar submissao</a>
 		            </div>    
 	           </div>
 	        </div>
 	      
 			<div class="panel panel-bluegray">
 				<div class="panel-heading">
-		            <a class="panel-title" data-toggle="collapse" data-target="#relatorioEstagio"><i class="fa fa-caret-down" aria-hidden="true"></i> Plano de Estágio</a>
+		            <a class="panel-title" data-toggle="collapse" data-target="#relatorioEstagio"><i class="fa fa-caret-down" aria-hidden="true"></i> Relatório de Estágio</a>
 				</div>
 
 				<div id="relatorioEstagio" class="panel-body collapse in">
-		            <div class="gp-modelo-doc">Modelo de Plano de Estágio 
-		            	<a href="#">Clique aqui para baixar!</a><a href="#submissao" class="btn btn-success btn-sm pull-right gp-submissao-modal" data-toggle="modal">Submeter</a>
-		            </div>    
+		            <table class="table table-hover">
+				    <tbody>
+				      <tr>
+				        <td class="gp-sem-borda"><strong>Documento</strong></td>
+				        <td class="gp-sem-borda"><a class="gp-link-download-submissao">27/7/2016 - Relatório de Estágio </a></td>
+				      </tr>
+				      <tr>
+				        <td><strong>Status</strong></td>
+				        <td>SUBMETIDO</td>
+				      </tr>
+				      <tr>
+				        <td><strong>Nota</strong></td>
+				        <td>9.0</td>
+				      </tr>
+				      <tr>
+				        <td><strong>Comentario</strong></td>
+				        <td></td>
+				      </tr>
+				    </tbody>
+				  </table>
+		            <div class="gp-modelo-doc">Modelo de Relatório de Estágio 
+		            	<a href="#">Clique aqui para baixar!</a><a href="#submissaoRelatorio" class="btn btn-success btn-sm pull-right gp-submissao-modal" data-toggle="modal">Submeter</a>
+		            </div>       
 				</div>
 			</div>
 
@@ -171,8 +190,8 @@
 	
 	</div>
 
-     <form class="form-horizontal">
-		 <div id="submissao" class="modal animated zoomInDown">
+	<div id="submissaoPlano" class="modal">
+		 <form class="form-horizontal" th:action="@{/Estagiario/Acompanhamento/1/SubmeterPlano}" method="post" enctype="multipart/form-data">
 		   <div class="modal-dialog">
 		     <div class="modal-content">
 		       <div class="modal-header">
@@ -182,16 +201,40 @@
 		
 		         <div class="modal-body">
 		             <label for="inputArquivo">Plano de Estágio</label><br/>
-		             <input type="file" class="form-control" id="inputArquivo" placeholder="Arquivo" /> 
+		             <input type="file" class="form-control" id="inputArquivo" placeholder="Arquivo" name="planoEstagio" /> 
 		         </div>
 		         
 		         <div class="modal-footer">
 		           <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-		           <button type="button" class="btn btn-success">Submeter <i class="fa fa-arrow-circle-up" aria-hidden="true"></i></button>
+		           <button type="submit" class="btn btn-success">Submeter <i class="fa fa-arrow-circle-up" aria-hidden="true"></i></button>
 		         </div>
 		     </div>
 		   </div>
-		 </div>
-     </form>	
+		</form>
+	</div>
+     
+     
+     <div id="submissaoRelatorio" class="modal">
+     	<form class="form-horizontal" th:action="@{/Estagiario/Acompanhamento/Estagio/1/SubmeterRelatorio}" method="post" enctype="multipart/form-data">
+		   <div class="modal-dialog">
+		     <div class="modal-content">
+		       <div class="modal-header">
+		         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+		         <h4 class="modal-title">Relatório de Estágio</h4>
+		       </div>
+		
+		         <div class="modal-body">
+		             <label for="inputArquivo">Relatório de Estágio</label><br/>
+		             <input type="file" class="form-control" id="inputArquivo" placeholder="Arquivo" name="relatorio" /> 
+		         </div>
+		         
+		         <div class="modal-footer">
+		           <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+		           <button type="submit" class="btn btn-success">Submeter <i class="fa fa-arrow-circle-up" aria-hidden="true"></i></button>
+		         </div>
+		     </div>
+		   </div>	 
+     	</form>	
+     </div>
   </section>
 </html>

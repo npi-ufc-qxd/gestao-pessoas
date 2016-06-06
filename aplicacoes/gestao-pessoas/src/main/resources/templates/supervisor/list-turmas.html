@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorator="layouts/LayoutSupervisor">
+
+<head>
+	<title>Gestão Pessoas | Minhas Turmas</title>
+</head>
+
+<section layout:fragment="conteudo">
+
+  <div class="container-fluid titulo-pagina">
+    <div class="container">
+        <ul class="breadcrumb">
+            <li><a href="#">Inicio</a></li>
+        </ul>
+        <h1>Minhas Turmas</h1>
+    </div>
+  </div>
+
+	<div class="container animated fadeInRight"> 
+
+<div class="alert alert-dismissible alert-warning" th:if="${!#strings.isEmpty(error)}">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+  <p th:text="${error}"></p>
+</div>		
+	
+    <div class="row">
+    <div class="col-sm-12">
+      <div class="panel panel-default">
+
+       <div><a th:href="@{/Supervisor/Turma/Adicionar}" class="btn btn-success btn-sm gp-btn-nova-turma pull-right">Nova Turma</a></div>
+
+        <div id="painelPlano" class="panel-body clear">
+          <ul class="list-group">
+            <li class="list-group-item gp-list-group-item">
+              <b> NPI-Manhã 2016.1 <span class="label label-primary">Aberta</span></b>
+              <a th:href="@{/Supervisor/Turma/1/}" class="btn btn-info btn-sm pull-right gp-btn-acompanhamento">Detalhes</a>
+              <a th:href="@{/Supervisor/Turma/1/Editar}" class="btn btn-success btn-sm pull-right">Editar</a>
+            </li>
+            <li class="list-group-item gp-list-group-item">
+              <b> NPI-Manhã 2016.1 <span class="label label-success">Concluída</span></b>
+              <a th:href="@{/Supervisor/Turma/1/}" class="btn btn-info btn-sm pull-right gp-btn-acompanhamento">Detalhes</a>
+              <a th:href="@{/Supervisor/Turma/1/Editar}"  class="btn btn-success btn-sm pull-right">Editar</a>
+            </li>
+            <li class="list-group-item gp-list-group-item">
+              <b> NPI-Manhã 2016.1 <span class="label label-danger">Fechada</span></b>
+              <a th:href="@{/Supervisor/Turma/1/}" class="btn btn-info btn-sm pull-right gp-btn-acompanhamento">Detalhes</a>
+              <a th:href="@{/Supervisor/Turma/1/Editar}" class="btn btn-success btn-sm pull-right">Editar</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    </div>
+    </div>
+</section>
+</html>

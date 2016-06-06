@@ -1,56 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>ufc.quixada.npi</groupId>
 	<artifactId>gestao-pessoas</artifactId>
-	<packaging>war</packaging>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>gestao-pessoas Maven Webapp</name>
-	<url>http://maven.apache.org</url>
+	<packaging>war</packaging>
+
+	<name>gestao-pessoas</name>
+	<description></description>
+
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>1.3.3.RELEASE</version>
+		<relativePath/> <!-- lookup parent from repository -->
+	</parent>
 
 	<properties>
-
-		<!-- Jackson JSON Mapper -->
-		<jackson.version>1.9.10</jackson.version>
-
-		<!-- Generic properties -->
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-
-		<!-- Java EE / Java SE dependencies -->
-
-		<jstl.version>1.2</jstl.version>
-		<javaee.web.api.version>6.0</javaee.web.api.version>
-		<java.validation.version>1.1.0.Final</java.validation.version>
-		<javax.inject.version>1</javax.inject.version>
-
-		<!-- Spring -->
-		<spring.version>4.0.1.RELEASE</spring.version>
-
-		<!-- Spring Security -->
-		<spring.security.version>3.2.1.RELEASE</spring.security.version>
-
-		<!-- Hibernate / JPA -->
-		<hibernate.version>4.3.1.Final</hibernate.version>
-
-		<!-- Database access -->
-		<postgresql.version>9.4-1204-jdbc42</postgresql.version>
-
-		<!-- Logging -->
-		<slf4j-log4j12.version>1.7.6</slf4j-log4j12.version>
-
-		<!-- Web dependencies -->
-		<bootstrap.version>3.3.2</bootstrap.version>
-		<bootstrap.editable.version>1.5.1</bootstrap.editable.version>
-		<jquery.version>2.1.3</jquery.version>
-		<jquery-ui.version>1.10.3</jquery-ui.version>
-		<jquery.maskedinput.version>1.3.1</jquery.maskedinput.version>
-		<jquery.validation.version>1.12.0</jquery.validation.version>
-		<font-awesome.version>4.4.0</font-awesome.version>
-		<dandelion.datatables.version>0.9.3</dandelion.datatables.version>
+		<java.version>1.8</java.version>
 
 		<!-- NPI -->
 		<npi.core.version>0.1.1</npi.core.version>
 		<npi.ldap.version>0.1.2</npi.ldap.version>
-
 	</properties>
 
 	<repositories>
@@ -61,267 +35,68 @@
 	</repositories>
 
 	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-thymeleaf</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-tomcat</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<!-- NPI -->
+		<dependency>
+			<groupId>br.ufc.quixada.npi</groupId>
+			<artifactId>npi-ldap</artifactId>
+			<version>${npi.ldap.version}</version>
+		</dependency>
+		
+		<!-- JODA-TIME -->
+		<dependency>
+			<groupId>joda-time</groupId>
+			<artifactId>joda-time</artifactId>
+		</dependency>
 
-		<!-- Dependência Jasper Reports -->
+		<!-- JASPER REPORTS -->
 		<dependency>
 			<groupId>net.sf.jasperreports</groupId>
 			<artifactId>jasperreports</artifactId>
 			<version>4.5.1</version>
 		</dependency>
 
-		<dependency>
-			<groupId>joda-time</groupId>
-			<artifactId>joda-time</artifactId>
-			<version>2.5</version>
-		</dependency>
-
-		<!-- Jackson JSON Mapper -->
-		<dependency>
-			<groupId>org.codehaus.jackson</groupId>
-			<artifactId>jackson-mapper-asl</artifactId>
-			<version>${jackson.version}</version>
-		</dependency>
-
-		<!-- Java EE / Java SE dependencies -->
-		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>servlet-api</artifactId>
-			<version>3.0-alpha-1</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>jstl</artifactId>
-			<version>${jstl.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>javax.inject</groupId>
-			<artifactId>javax.inject</artifactId>
-			<version>${javax.inject.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>javax.validation</groupId>
-			<artifactId>validation-api</artifactId>
-			<version>${java.validation.version}</version>
-		</dependency>
-
-		<!-- SPRING -->
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-context</artifactId>
-			<version>${spring.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-context-support</artifactId>
-			<version>${spring.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-core</artifactId>
-			<version>${spring.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-web</artifactId>
-			<version>${spring.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-webmvc</artifactId>
-			<version>${spring.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-orm</artifactId>
-			<version>${spring.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-taglibs</artifactId>
-			<version>${spring.security.version}</version>
-		</dependency>
-
-		<!-- Spring Security -->
-		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-core</artifactId>
-			<version>${spring.security.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-web</artifactId>
-			<version>${spring.security.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-config</artifactId>
-			<version>${spring.security.version}</version>
-		</dependency>
-
-
-		<!-- Spring + Quartz need transaction -->
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-tx</artifactId>
-			<version>${spring.version}</version>
-		</dependency>
-
-		<!-- Quartz framework -->
-		<dependency>
-			<groupId>org.quartz-scheduler</groupId>
-			<artifactId>quartz</artifactId>
-			<version>2.2.1</version>
-		</dependency>
-
-		<!-- HIBERNATE -->
-		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-entitymanager</artifactId>
-			<version>${hibernate.version}</version>
-		</dependency>
-
-		<!-- Databases - Uses POSTGRESQL by default -->
-		<dependency>
-			<groupId>org.postgresql</groupId>
-			<artifactId>postgresql</artifactId>
-			<version>${postgresql.version}</version>
-		</dependency>
-
-		<!-- Logging with SLF4J & LogBack -->
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-log4j12</artifactId>
-			<version>${slf4j-log4j12.version}</version>
-		</dependency>
-
-		<!-- Webjars (static dependencies distributed as JAR files) -->
-
-		<!-- bootstrap -->
-		<!-- <dependency> -->
-		<!-- <groupId>org.webjars</groupId> -->
-		<!-- <artifactId>x-editable-bootstrap</artifactId> -->
-		<!-- <version>${bootstrap.editable.version}</version> -->
-		<!-- </dependency> -->
-
-		<dependency>
-			<groupId>org.webjars</groupId>
-			<artifactId>bootstrap</artifactId>
-			<version>${bootstrap.version}</version>
-		</dependency>
-
-		<!-- jquery -->
-		<dependency>
-			<groupId>org.webjars</groupId>
-			<artifactId>jquery</artifactId>
-			<version>${jquery.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.webjars</groupId>
-			<artifactId>jquery-ui</artifactId>
-			<version>${jquery-ui.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.webjars</groupId>
-			<artifactId>jquery-maskedinput</artifactId>
-			<version>${jquery.maskedinput.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.webjars</groupId>
-			<artifactId>jquery-validation</artifactId>
-			<version>${jquery.validation.version}</version>
-		</dependency>
-
-		<!-- font-awesome -->
-		<dependency>
-			<groupId>org.webjars</groupId>
-			<artifactId>font-awesome</artifactId>
-			<version>${font-awesome.version}</version>
-		</dependency>
-
-		<!-- Dependência do Apache Common File -->
-		<dependency>
-			<groupId>commons-fileupload</groupId>
-			<artifactId>commons-fileupload</artifactId>
-			<version>1.3.1</version>
-		</dependency>
-
-		<!-- Apache Commons IO -->
-		<dependency>
-			<groupId>commons-io</groupId>
-			<artifactId>commons-io</artifactId>
-			<version>2.4</version>
-		</dependency>
-
-		<!-- Dependência do hibernate validator para validar o form -->
-		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-validator</artifactId>
-			<version>5.1.0.Final</version>
-		</dependency>
-
-		<!-- Dependência Java Mail -->
-		<dependency>
-			<groupId>javax.mail</groupId>
-			<artifactId>mail</artifactId>
-			<version>1.4.7</version>
-		</dependency>
-
-		<!-- Dependência ObjectLab Kit -->
-		<dependency>
-			<groupId>net.objectlab.kit</groupId>
-			<artifactId>datecalc-common</artifactId>
-			<version>1.4.0</version>
-		</dependency>
-		<dependency>
-			<groupId>net.objectlab.kit</groupId>
-			<artifactId>datecalc-joda</artifactId>
-			<version>1.4.0</version>
-		</dependency>
-
-		<!-- Dependência Jollyday -->
-		<dependency>
-			<groupId>de.jollyday</groupId>
-			<artifactId>jollyday</artifactId>
-			<version>0.4.7</version>
-		</dependency>
-
-
-		<!-- NPI Core -->
-		<dependency>
-			<groupId>br.ufc.quixada.npi</groupId>
-			<artifactId>npi-core-api</artifactId>
-			<version>${npi.core.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>br.ufc.quixada.npi</groupId>
-			<artifactId>npi-ldap</artifactId>
-			<version>${npi.ldap.version}</version>
-		</dependency>
-
-
 	</dependencies>
+	
 	<build>
-		<finalName>gestao-pessoas</finalName>
-
 		<plugins>
 			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<configuration>
-					<source>1.8</source>
-					<target>1.8</target>
-				</configuration>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
 		</plugins>
 	</build>
-	<groupId>quixada.ufc.br</groupId>
+
+
 </project>

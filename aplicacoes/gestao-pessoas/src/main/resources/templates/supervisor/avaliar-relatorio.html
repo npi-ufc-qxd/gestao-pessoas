@@ -69,45 +69,33 @@
 	    <div class="col-md-8">
 	        <div class="panel panel-bluegray">
 	          <div class="panel-heading">
-	            <a class="panel-title" data-toggle="collapse" data-target="#avaliarRelatorio"><i class="fa fa-caret-down" aria-hidden="true"></i> Relatório Final do Estágio</a>
+	            <a class="panel-title" data-toggle="collapse" data-target="#avaliarRelatorio">
+	            	<i class="fa fa-caret-down" aria-hidden="true"></i> 
+	            	Relatório Final do Estágio
+	            </a>
+				
 				<a th:href="@{/Supervisor/Turma/Acompanhamento/1/AvaliarRelatorio}" class="btn btn-xs pull-right gp-btn-opcao">editar</a>
 				
 	          </div>
 	          <div id="avaliarRelatorio" class="panel-body collapse in">
 		          <form class="gp-align-left form-horizontal">
+				    
 				    <div class="form-group">
-				      <label class="col-lg-2 control-label">Status</label>
-				      <div class="col-lg-10">
-				        <div class="radio">
-				          <label> 
-				            <input type="radio" name="status" id="optionRadios1" value="option1" checked=""/>
-				            Submetido
-				           </label>
-				        </div>
-				        <div class="radio">
-				          <label>
-				            <input type="radio" name="status" id="optionsRadios2" value="option2"/>
-				            Correção
-				          </label>
-				        </div>
-				        <div class="radio">
-				          <label>
-				            <input type="radio" name="status" id="optionsRadios3" value="option3"/>
-				            Rejeitado
-				          </label>
-				        </div>
-				        <div class="radio">
-				          <label>
-				            <input type="radio" name="status" id="optionsRadios4" value="option4" />
-				            Avaliado
-				          </label>
-				        </div>
-				      </div>
-				    </div>
+      					<label for="status" class="col-lg-2 control-label">Status</label>
+      					<div class="col-lg-10">
+					        <select class="form-control" id="status" title="Status" >
+					          <option hidden="status"></option>
+					          <option>Submetido</option>
+					          <option>Correção</option>
+					          <option>Rejeitado</option>
+					          <option>Avaliado</option>
+					        </select>
+					    </div>
+					</div>
 				   
 				    <div class="form-group">
   						<label class="control-label col-lg-2" for="nota"> Nota</label>
-  						<div class="col-lg-2">
+  						<div class="col-lg-10">
   						<input type="text" class="form-control" id="nota"/>
 						</div>
 					</div>
@@ -121,10 +109,10 @@
       					</div>
     				</div>
     				
-    				<div class="form-group">
+    				<div class="form-group pull-right">
       					<div class="col-lg-10 col-lg-offset-2">
         					<button type="reset" class="btn btn-default">Cancelar</button>
-        					<button type="submit" class="btn btn-primary">Enviar</button>
+        					<button type="submit" class="btn btn-success">Salvar</button>
       					</div>
     				</div>
 		          </form>

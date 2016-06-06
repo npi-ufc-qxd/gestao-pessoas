@@ -17,6 +17,8 @@ public interface TurmaService {
 	
 	Turma buscarTurmaPorId(Long idTurma);
 	
+	Turma buscarTurmaPorIdEstagio(Long idEstagio);
+	
 	List<Turma> listarTurmas();
 
 	List<Turma>  buscarTurmasSupervisorOuOrientador(Long idServidor);
@@ -30,6 +32,8 @@ public interface TurmaService {
 	Evento buscarEventoPorId(Long idEvento);
 
 	Expediente buscarHorarioPorIdETurmaId(Long idExpediente, Long idTurma);
+	
+	Expediente buscarExpedientePorTurma(Turma turma); 
 
 	void adicionarExpediente(Expediente expediente);
 

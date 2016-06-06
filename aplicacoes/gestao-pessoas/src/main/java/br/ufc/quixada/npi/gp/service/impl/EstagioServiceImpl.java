@@ -3,6 +3,7 @@ package br.ufc.quixada.npi.gp.service.impl;
 import java.util.Date;
 import java.util.List;
 
+import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,12 +18,14 @@ import br.ufc.quixada.npi.gp.model.Frequencia.TipoFrequencia;
 import br.ufc.quixada.npi.gp.model.Submissao;
 import br.ufc.quixada.npi.gp.model.Submissao.TipoSubmissao;
 import br.ufc.quixada.npi.gp.model.Turma;
-import br.ufc.quixada.npi.gp.repository.EstagiarioRepository;
+
 import br.ufc.quixada.npi.gp.repository.EstagioRepository;
 import br.ufc.quixada.npi.gp.repository.FrequenciaRepository;
-import br.ufc.quixada.npi.gp.repository.PessoaRepository;
+
 import br.ufc.quixada.npi.gp.service.ConsolidadoFrequencia;
 import br.ufc.quixada.npi.gp.service.EstagioService;
+import br.ufc.quixada.npi.gp.service.TurmaService;
+import br.ufc.quixada.npi.gp.utils.UtilGestao;
 @Named
 public class EstagioServiceImpl implements EstagioService {
 	
@@ -33,10 +36,9 @@ public class EstagioServiceImpl implements EstagioService {
 	private EstagioRepository estagioRepository;
 	
 	@Autowired
-	private EstagiarioRepository estagiarioRepository;
-
-
-
+	private TurmaService turmaService;
+	
+	
 	@Override
 	public Estagio buscarEstagioPorIdEEstagiarioId(Long idEstagio, Long idEstagiario) {
 		// TODO Auto-generated method stub
@@ -45,7 +47,7 @@ public class EstagioServiceImpl implements EstagioService {
 	
 	@Override
 	public Estagio buscarEstagioPorIdEstagio(Long idEstagio) {
-		return estagioRepository.findEstagioByEstagioId(idEstagio) ;
+		return estagioRepository.findEstagioByEstagioId(idEstagio);
 	}
 
 	@Override
@@ -121,8 +123,8 @@ public class EstagioServiceImpl implements EstagioService {
 	}
 	
 	@Override
-	public Frequencia buscarFrequenciaDeHojePorEstagio(Estagio estagio) {
-		return frequenciaRepository.findFrequenciaDeHojeByEstagio(estagio) ;
+	public Frequencia buscarFrequenciaDeHojePorIdEstagio(Long idEstagio) {
+		return frequenciaRepository.findFrequenciaDeHojeByEstagio(idEstagio) ;
 	}
 
 	@Override
@@ -166,15 +168,18 @@ public class EstagioServiceImpl implements EstagioService {
 		
 		Estagio estagio = buscarEstagioPorIdEstagio(idEstagio);
 		
-		//Estagiario estagiario = estagiarioRepository.findEstagiarioByEstagioId(idEstagio); 
+		Turma turma = turmaService.buscarTurmaPorIdEstagio(idEstagio);
 		
-		Frequencia frequencia = buscarFrequenciaDeHojePorEstagio(estagio);
-		
+		//Expediente expediente = turmaService.buscarExpedientePorTurma(turma) ; 
+
+		Frequencia frequencia = buscarFrequenciaDeHojePorIdEstagio(idEstagio);
+
 		if(frequencia != null){
-			if(frequencia.getTipo() == TipoFrequencia.REPOSICAO && frequencia.getStatus() == StatusFrequencia.JUSTIFICATIVA){
+			if(frequencia.getTipo() == TipoFrequencia.REPOSICAO && frequencia.getStatus() == StatusFrequencia.AGUARDO){
 
 				Frequencia frequenciaDeHoje = new Frequencia();
 
+				frequenciaDeHoje.setTurma(turma);
 				frequenciaDeHoje.setEstagio(estagio);
 				frequenciaDeHoje.setStatus(StatusFrequencia.PRESENTE);
 				frequenciaDeHoje.setData(new Date());
@@ -188,16 +193,21 @@ public class EstagioServiceImpl implements EstagioService {
 				}
 			}
 		}
-
-
+		
+		/*if (!calendarioDeFeriadosNPI.isNonWorkingDay(dia)) {
+			if(UtilGestao.hojeEDiaDeTrabahoDaTurma(turma.getHorarios()) && UtilGestao.isHoraPermitida(turma.getHorarios())){
+				return true;
+			}
+		}*/
 
 		if(frequencia == null){
-
+			//if(UtilGestao.hojeEDiaDeTrabahoDaTurma(expediente.getHoraInicio())){}
+				
 		}
-			
-			
+
+
 	}
-		
+
 	
 
 	@Override

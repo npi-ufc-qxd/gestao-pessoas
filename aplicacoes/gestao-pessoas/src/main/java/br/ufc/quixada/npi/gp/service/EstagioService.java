@@ -6,7 +6,7 @@ import java.util.List;
 import br.ufc.quixada.npi.gp.model.AvaliacaoRendimento;
 import br.ufc.quixada.npi.gp.model.Estagiario;
 import br.ufc.quixada.npi.gp.model.Estagio;
-import br.ufc.quixada.npi.gp.model.Expediente;
+
 import br.ufc.quixada.npi.gp.model.Frequencia;
 import br.ufc.quixada.npi.gp.model.Submissao;
 import br.ufc.quixada.npi.gp.model.Turma;
@@ -39,8 +39,6 @@ public interface EstagioService {
 	
 	Frequencia buscarFrequenciaPorDataEEstagioId(Date data, Long idEstagio);
 	
-	//Frequencia buscarFrequenciaDeHojePorEstagiarioIdETurmaId(Long idEstagiario, Long idTurma);
-	
 	List<Frequencia> buscarFrequenciasPorDataETurmaId(Date data, Long idTurma);
 
 	ConsolidadoFrequencia calcularDadosConsolidados(List<Frequencia> frequencia);
@@ -61,7 +59,7 @@ public interface EstagioService {
 
 	void adicionarObservacaoFrequencia();
 
-	Frequencia buscarFrequenciaDeHojePorEstagio(Estagio estagio);
+	Frequencia buscarFrequenciaDeHojePorIdEstagio(Long idEstagio);
 
 	Estagio buscarEstagioPorIdEstagio(Long idEstagio);
 

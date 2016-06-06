@@ -109,7 +109,9 @@ public class Frequencia {
 		ATRASADO("Atrasado"), 
 		FERIADO("Feriado"),
 		ABONADO("Abonado"),
-		JUSTIFICATIVA("Justificativa");
+		JUSTIFICATIVA("Justificativa"),
+		AGUARDO ("Aguardo");
+		
 
 		private String descricao;
 		

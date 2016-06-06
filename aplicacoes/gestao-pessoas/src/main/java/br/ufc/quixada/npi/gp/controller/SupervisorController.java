@@ -268,7 +268,7 @@ public class SupervisorController {
 	@RequestMapping( value = "/Turma/Acompanhamento/{idEstagio}/AvaliarPlano", method = RequestMethod.GET)
 	public String formularioAvaliarPlanoEstagio(@PathVariable("idEstagio") Long idEstagio, Model model) {
 
-		Submissao submissaoPlano = estagioService.buscarSubmissaoPorTipoSubmissaoEEstagioIdECpf(TipoSubmissao.PLANO_ESTAGIO, idEstagio, getCpfUsuarioLogado());
+		Submissao submissaoPlano = estagioService.buscarSubmissaoPorTipoSubmissaoEEstagioId(TipoSubmissao.PLANO_ESTAGIO, idEstagio);
 		model.addAttribute("submissaoPlano", submissaoPlano);
 
 		return FORMULARIO_AVALIAR_PLANO;
@@ -277,7 +277,7 @@ public class SupervisorController {
 	@RequestMapping( value = "/Turma/Acompanhamento/{idEstagio}/AvaliarPlano", method = RequestMethod.POST)
 	public String avaliarPlanoEstagio(RedirectAttributes redirect, @PathVariable("idEstagio") Long idEstagio, @RequestParam("nota") Double nota, @RequestParam("status") Submissao.StatusEntrega status, @RequestParam("comentario") String comentario) {
 		
-		Submissao submissao = estagioService.buscarSubmissaoPorTipoSubmissaoEEstagioIdECpf(TipoSubmissao.PLANO_ESTAGIO, idEstagio, getCpfUsuarioLogado());
+		Submissao submissao = estagioService.buscarSubmissaoPorTipoSubmissaoEEstagioId(TipoSubmissao.PLANO_ESTAGIO, idEstagio);
 		
 		submissao.setStatusEntrega(status);
 		submissao.setNota(nota);

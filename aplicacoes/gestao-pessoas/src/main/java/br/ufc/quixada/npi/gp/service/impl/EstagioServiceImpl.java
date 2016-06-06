@@ -160,6 +160,11 @@ public class EstagioServiceImpl implements EstagioService {
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public Submissao buscarSubmissaoPorTipoSubmissaoEEstagioId(TipoSubmissao tipoSubmissao, Long idEstagio) {
+		return submissaoRepository.findByIdETipo(tipoSubmissao, idEstagio);
+	}
 	
 	
 	

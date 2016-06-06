@@ -34,19 +34,20 @@
 				    <tbody>
 				      <tr>
 				        <td class="gp-sem-borda"><strong>Orientador</strong></td>
-				        <td class="gp-sem-borda">Bruno Gois</td>
+				        <td th:text="${estagio.turma.orientador.nome}" class="gp-sem-borda"> bruno</td>
 				      </tr>
 				      <tr>
 				        <td><strong>Supervisores</strong></td>
-				        <td>Rayson, Virginia</td>
+				     	<td  th:inline="text"> <p th:each="sup : ${estagio.turma.supervisores}"> [[${sup.nome}]]</p> </td>
+
 				      </tr>
 				      <tr>
 				        <td><strong>Período</strong></td>
-				        <td>01/03/2016 a 01/07/2016</td>
+				        <td><label th:text="${estagio.turma.inicio}"></label>  a <label th:text="${estagio.turma.termino}"></label></td>
 				      </tr>
 				      <tr>
 				        <td><strong>Expediente</strong></td>
-				        <td>Segunda-feira - 08:00 ás 12:00<br/>Segunda-feira - 08:00 ás 12:00<br/>Segunda-feira - 08:00 ás 12:00</td>
+				       	<td  th:inline="text"> <p th:each="exp : ${estagio.turma.expedientes}"> [[${exp.diaSemana}]] - [[${exp.horaInicio}]] ás [[${exp.horaTermino}]]</p> </td>
 				      </tr>
 				    </tbody>
 				  </table>

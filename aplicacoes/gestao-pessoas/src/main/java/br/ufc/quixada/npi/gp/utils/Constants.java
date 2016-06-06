@@ -55,6 +55,8 @@ public class Constants {
 	
 	public static final String REDIRECT_ACOMPANHAMENTO_ESTAGIARIO = "Supervisor/Turma/Acompanhamento/";
 	
+	public static final String REDIRECT_ACOMPANHAMENTO_ESTAGIO = "redirect:/Estagiario/Acompanhamento/";
+	
 	public static final String REDIRECT_PAGINA_LOGIN = "redirect:/login";
 
 }

@@ -259,27 +259,13 @@ public class SupervisorController {
 	@RequestMapping( value = "/Turma/Acompanhamento/{idEstagio}/AvaliarPlano", method = RequestMethod.POST)
 	public String avaliarPlanoEstagio(RedirectAttributes redirect, @PathVariable("idEstagio") Long idEstagio, @RequestParam("nota") Double nota, @RequestParam("status") Submissao.StatusEntrega status, @RequestParam("comentario") String comentario) {
 		
-//		Submissao submissao = estagioService.buscarSubmissaoPorEstagioIdETipo(idEstagio, TipoSubmissao.PLANO_ESTAGIO);
-//		
-//		submissao.setStatusEntrega(status);
-//		submissao.setNota(nota);
-//		submissao.setComentario(comentario);
-//		
-//		Estagio estagio = new Estagio();
-//		estagio = estagioService.buscarEstagioPorIdEEstagiarioId(idEstagio, estagio.getEstagiario().getId());
-//		estagio.getSubmissoes().add(submissao);
+		Submissao submissao = estagioService.buscarSubmissaoPorEstagioIdETipo(idEstagio, TipoSubmissao.PLANO_ESTAGIO);
 		
-//		Submissao submissaoDoBanco = turmaService.getSubmissaoById(submissao.getId());
-//		Estagiario estagiario = estagiarioService.find(Estagiario.class, idEstagiario);
-//		Turma turma = turmaService.getTurmaByIdAndEstagiarioId(idTurma, idEstagiario);
-//
-//		submissaoDoBanco.setEstagiario(estagiario);
-//		submissaoDoBanco.setNota(submissao.getNota());
-//		submissaoDoBanco.setStatusEntrega(submissao.getStatusEntrega());
-//		submissaoDoBanco.setComentario(submissao.getComentario());
-//
-//		turma.getSubmissoes().add(submissaoDoBanco);
-//		turmaService.update(turma);
+		submissao.setStatusEntrega(status);
+		submissao.setNota(nota);
+		submissao.setComentario(comentario);
+		
+		estagioService.avaliarSubmissao(submissao);
 
 		return REDIRECT_ACOMPANHAMENTO_ESTAGIARIO + idEstagio;
 	}

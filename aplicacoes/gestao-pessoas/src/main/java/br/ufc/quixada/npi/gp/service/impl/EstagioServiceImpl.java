@@ -67,8 +67,7 @@ public class EstagioServiceImpl implements EstagioService {
 
 	@Override
 	public void avaliarSubmissao(Submissao submissao) {
-		// TODO Auto-generated method stub
-		
+		submissaoRepository.save(submissao);
 	}
 
 	@Override

@@ -90,14 +90,32 @@ public class EstagiarioController {
 	@RequestMapping(value = "/Acompanhamento/{idEstagio}", method = RequestMethod.GET)
 	public String visualizarAcompanhamento(Model model, @PathVariable("idEstagio") Long idEstagio, RedirectAttributes redirectAttributes) {
 
-//		Estagio estagio = estagioService.getEstagioByIdAndEstagiarioCpf(idEstagio, getCpf());
-//		
-//		if(estagio == null) {
-//			redirectAttributes.addAttribute("error", "Estagio inexistente");
-//			return "redirect:/Estagiario/MinhasTurmas";
-//		}
-//		
-//		model.addAttribute("estagio", estagio);
+		Estagio estagio =  estagioService.buscarEstagioPorIdEEstagiarioCpf(idEstagio, getCpfUsuarioLogado());
+		
+		if(estagio == null) {
+			redirectAttributes.addAttribute("error", "Estagio inexistente");
+			return REDIRECT_PAGINA_INICIAL_ESTAGIARIO;
+		}
+		
+		Submissao submissaoPlano = estagioService.buscarSubmissaoPorTipoSubmissaoEEstagioIdECpf(Submissao.TipoSubmissao.PLANO_ESTAGIO, idEstagio, getCpfUsuarioLogado());
+		Submissao submissaoRelatorio = estagioService.buscarSubmissaoPorTipoSubmissaoEEstagioIdECpf(Submissao.TipoSubmissao.RELATORIO_FINAL_ESTAGIO, idEstagio, getCpfUsuarioLogado());
+		
+		if(submissaoPlano.getStatusEntrega() == StatusEntrega.CORRECAO || submissaoPlano.getStatusEntrega() == StatusEntrega.SUBMETIDO){
+			model.addAttribute("editarSubmissaoPlano", true);
+		} else {
+			model.addAttribute("editarSubmissaoPlano", false);
+		}
+		
+		if(submissaoRelatorio.getStatusEntrega() == StatusEntrega.CORRECAO || submissaoPlano.getStatusEntrega() == StatusEntrega.SUBMETIDO){
+			model.addAttribute("editarSubmissaoRelatorio", true);
+		} else {
+			model.addAttribute("editarSubmissaoRelatorio", false);
+		}
+		
+		model.addAttribute("estagio", estagio);
+		submissaoPlano = null;
+		model.addAttribute("submissaoPlano", submissaoPlano);
+		model.addAttribute("submissaoRelatorio", submissaoRelatorio);
 
 		return ACOMPANHAMENTO_ESTAGIO;
 	}

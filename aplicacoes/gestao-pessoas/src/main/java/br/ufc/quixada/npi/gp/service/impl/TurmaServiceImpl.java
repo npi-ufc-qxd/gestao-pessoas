@@ -94,11 +94,6 @@ public class TurmaServiceImpl implements TurmaService{
 	}
 
 	@Override
-	public Expediente buscarExpedientePorTurma(Turma turma) {
-		return expedienteRepository.findExpedienteByTurma(turma);
-	}
-	
-	@Override
 	public void adicionarExpediente(Expediente expediente) {
 		// TODO Auto-generated method stub
 		

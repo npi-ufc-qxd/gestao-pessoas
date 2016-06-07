@@ -51,7 +51,7 @@ public interface EstagioService {
 	
 	boolean permitirPresenca(Estagio estagio);
 	
-	void realizarPresenca(Long idEstagio);
+	void realizarPresenca(Long idEstagio) throws Exception;
 	
 	void adicionarFrequencia(Frequencia frequencia);
 

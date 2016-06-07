@@ -3,7 +3,6 @@ package br.ufc.quixada.npi.gp.service.impl;
 import java.util.Date;
 import java.util.List;
 
-import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,17 +10,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import br.ufc.quixada.npi.gp.model.AvaliacaoRendimento;
 import br.ufc.quixada.npi.gp.model.Estagiario;
 import br.ufc.quixada.npi.gp.model.Estagio;
-import br.ufc.quixada.npi.gp.model.Expediente;
 import br.ufc.quixada.npi.gp.model.Frequencia;
 import br.ufc.quixada.npi.gp.model.Frequencia.StatusFrequencia;
 import br.ufc.quixada.npi.gp.model.Frequencia.TipoFrequencia;
 import br.ufc.quixada.npi.gp.model.Submissao;
 import br.ufc.quixada.npi.gp.model.Submissao.TipoSubmissao;
 import br.ufc.quixada.npi.gp.model.Turma;
-
 import br.ufc.quixada.npi.gp.repository.EstagioRepository;
 import br.ufc.quixada.npi.gp.repository.FrequenciaRepository;
-
 import br.ufc.quixada.npi.gp.service.ConsolidadoFrequencia;
 import br.ufc.quixada.npi.gp.service.EstagioService;
 import br.ufc.quixada.npi.gp.service.TurmaService;
@@ -164,13 +160,11 @@ public class EstagioServiceImpl implements EstagioService {
 	}
 
 	@Override
-	public void realizarPresenca(Long idEstagio) {
+	public void realizarPresenca(Long idEstagio) throws Exception {
 		
 		Estagio estagio = buscarEstagioPorIdEstagio(idEstagio);
-		
+
 		Turma turma = turmaService.buscarTurmaPorIdEstagio(idEstagio);
-		
-		//Expediente expediente = turmaService.buscarExpedientePorTurma(turma) ; 
 
 		Frequencia frequencia = buscarFrequenciaDeHojePorIdEstagio(idEstagio);
 
@@ -188,24 +182,31 @@ public class EstagioServiceImpl implements EstagioService {
 
 				frequenciaRepository.save(frequenciaDeHoje);
 			}else{
-				if(frequencia.getTipo() == TipoFrequencia.NORMAL && frequencia.getStatus() == StatusFrequencia.PRESENTE){
 
-				}
+				throw new Exception();
 			}
 		}
-		
-		/*if (!calendarioDeFeriadosNPI.isNonWorkingDay(dia)) {
-			if(UtilGestao.hojeEDiaDeTrabahoDaTurma(turma.getHorarios()) && UtilGestao.isHoraPermitida(turma.getHorarios())){
-				return true;
-			}
-		}*/
+
 
 		if(frequencia == null){
-			//if(UtilGestao.hojeEDiaDeTrabahoDaTurma(expediente.getHoraInicio())){}
-				
+			if(UtilGestao.hojeEDiaDeTrabahoDaTurma(turma.getExpedientes()) && UtilGestao.isHoraPermitida(turma.getExpedientes())){
+
+				Frequencia frequenciaDeHoje = new Frequencia();
+
+				frequenciaDeHoje.setTurma(turma);
+				frequenciaDeHoje.setEstagio(estagio);
+				frequenciaDeHoje.setStatus(StatusFrequencia.PRESENTE);
+				frequenciaDeHoje.setData(new Date());
+				frequenciaDeHoje.setHorario(new Date());
+				frequenciaDeHoje.setTipo(TipoFrequencia.NORMAL);
+
+				frequenciaRepository.save(frequenciaDeHoje);
+
+			}else{
+
+				throw new Exception();
+			}
 		}
-
-
 	}
 
 	

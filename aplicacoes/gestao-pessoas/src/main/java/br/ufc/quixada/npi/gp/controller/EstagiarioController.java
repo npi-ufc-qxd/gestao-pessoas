@@ -10,7 +10,6 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
-import org.springframework.jdbc.core.metadata.GenericTableMetaDataProvider;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,10 +23,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import br.ufc.quixada.npi.gp.model.Estagiario;
 import br.ufc.quixada.npi.gp.model.Frequencia;
-import br.ufc.quixada.npi.gp.model.Pessoa;
 import br.ufc.quixada.npi.gp.service.EstagioService;
-import br.ufc.quixada.npi.gp.service.PessoaService;
-import br.ufc.quixada.npi.gp.utils.Constants;
 import br.ufc.quixada.npi.ldap.service.UsuarioService;
 
 @Controller
@@ -38,6 +34,9 @@ public class EstagiarioController {
 		
 	@Inject
 	private UsuarioService usuarioService;
+	
+	@Inject 
+	private EstagioService estagioService;
 	
 
 	@RequestMapping(value = {"", "/", "/MinhasTurmas"}, method = RequestMethod.GET)
@@ -90,10 +89,10 @@ public class EstagiarioController {
 	}
 
 	
-	@RequestMapping(value = "/Acompanhamento/{idEstagio}/Presenca", method = RequestMethod.POST)
-	public @ResponseBody Frequencia.StatusFrequencia realizarPresenca(HttpSession session, @PathVariable("idEstagio") Long idEstagio) {
-
+	@RequestMapping(value = "/Acompanhamento/{idEstagio}/Presenca", method = RequestMethod.GET)
+	public @ResponseBody Frequencia.StatusFrequencia realizarPresenca(HttpSession session, @PathVariable("idEstagio") Long idEstagio) throws Exception {
 		
+		estagioService.realizarPresenca(idEstagio);
 		
 		return null;
 	}

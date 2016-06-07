@@ -9,7 +9,5 @@ import br.ufc.quixada.npi.gp.model.Turma;
 
 public interface ExpedienteRepository extends JpaRepository<Expediente, Long> {
 	
-	@Query("select e from Expediente e where e.turma = :turma")
-	Expediente findExpedienteByTurma(@Param("turma") Turma turma); 
 
 }

@@ -78,17 +78,17 @@
 				
 	          </div>
 	          <div id="avaliarRelatorio" class="panel-body collapse in">
-		          <form class="gp-align-left form-horizontal" th:action="@{/Supervisor/Turma/Acompanhamento/1/AvaliarRelatorio}">
+		          <form class="gp-align-left form-horizontal" th:action="@{/Supervisor/Turma/Acompanhamento/1/AvaliarRelatorio}" method="post">
 				    
 				    <div class="form-group">
       					<label for="status" class="col-lg-2 control-label">Status</label>
       					<div class="col-lg-10">
 					        <select class="form-control" id="status" title="Status" name="status">
 					          <option hidden="status"></option>
-					          <option>Submetido</option>
-					          <option>Correção</option>
-					          <option>Rejeitado</option>
-					          <option>Avaliado</option>
+					          <option th:each ="status : ${statusEntrega}" 
+					          		  th:value = "${status}" 
+					          		  th:text = "${status.descricao}">
+					          </option>
 					        </select>
 					    </div>
 					</div>

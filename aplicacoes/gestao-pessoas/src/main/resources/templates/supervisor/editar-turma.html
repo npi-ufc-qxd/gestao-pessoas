@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorator="layouts/LayoutSupervisor">
+
+<head>
+	<title>Gestão Pessoas | Editar Turma</title>
+	
+  <style type="text/css">
+    .inline {
+      display:inline;
+    }
+    .color {
+    }
+
+    .link {
+      font-weight: 700;
+    }
+
+    .statusTurmas {
+      padding: 5px;
+    }
+    .opcao {
+      margin-left: 10px;
+    }
+    .item-turma {
+      margin-bottom: 5px; 
+    }
+    .legendTop {
+      margin-top: 40px;
+    }
+    #borda {
+      margin-top: 40px;
+    }
+    .legendBottom {
+      margin-bottom: 5px;
+    }
+    
+    .gp-panel-footer {
+    	margin-top: -25px;
+    	padding-bottom: 25px;
+    }
+
+
+  </style>	
+</head>
+
+<section layout:fragment="conteudo">
+
+	<div class="container animated fadeInRight"> 
+    <div class="row">
+
+	    <div class="col-sm-12">
+			<h3 class="gp-titulo-h5"><a th:href="@{/Supervisor/}" class="gp-btn-voltar"><i class="fa fa-arrow-left"></i></a> nova turma</h3>
+	    </div>
+
+    <div class="col-sm-12">
+	  <form id="form-estagiario" class="form-horizontal" role="form" action="#" method="POST" novalidate="novalidate">
+      <div class="panel panel-default">
+        <div class="panel-body gp-panel-body-background">
+
+			<div class="panel panel-primary">
+				<div class="panel-heading">
+					<h3 class="panel-title">Turma</h3>
+				</div>
+				<div class="panel-body">
+			        <div class="form-group">
+			          <div class="form-item col-sm-12">
+			            <label for="nomeCompleto" class="control-label">*Nome Turma:</label>
+			            <input id="nomeCompleto" name="nomeCompleto" class="form-control" placeholder="Meu nome completo" type="text" aria-required="true" aria-invalid="false" />
+			            <div class="error-validation"></div>
+			          </div>
+			        </div>
+				</div>
+			</div>
+		</div>
+		<div class="panel-footer gp-panel-footer" align="right">
+	          <a th:href="@{/Supervisor/}" class="btn btn-dafault">Cancelar</a>
+	          <button type="submit" class="btn btn-success"><span class="fa fa-floppy-o"></span> Salvar</button>
+	        </div>
+      </div>
+      </form>
+    </div>
+    
+    
+    </div>
+    </div>
+  </section>
+</html>

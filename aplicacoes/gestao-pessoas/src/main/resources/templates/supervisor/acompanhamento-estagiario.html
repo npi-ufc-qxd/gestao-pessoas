@@ -63,23 +63,23 @@
 				    <tbody>
 				      <tr>
 				        <td class="gp-sem-borda"><strong>Nome:</strong></td>
-				        <td class="gp-sem-borda">Jose de Souza Filho de Almeida</td>
+				        <td class="gp-sem-borda" th:text="${estagio.estagiario.nomeCompleto}"></td>
 				      </tr>
 				      <tr>
 				        <td><strong>Curso:</strong></td>
-				        <td>Engenharia de Software</td>
+				        <td th:text="${estagio.estagiario.curso.descricao}"></td>
 				      </tr>
 				      <tr>
 				        <td><strong>Email:</strong></td>
-				        <td>jose@mail.com</td>
+				        <td th:text="${estagio.estagiario.email}"></td>
 				      </tr>
 				      <tr>
 				        <td><strong>Telefone:</strong></td>
-				        <td>88 8888888</td>
+				        <td th:text="${estagio.estagiario.telefone}"></td>
 				      </tr>
 				      <tr>
 				        <td><strong>Github:</strong></td>
-				        <td>@jose123</td>
+				        <td th:text="${estagio.estagiario.usuarioGithub}"></td>
 				      </tr>
 				      
 				    </tbody>
@@ -96,28 +96,27 @@
 			  </div>
 	          <div id="avaliacaoPlano" class="panel-body collapse in">
 	          <table class="table table-hover">
-	          <tbody>
+	          <tbody th:each="sub : ${estagio.submissoes}" th:if="${#strings.equals(sub.tipoSubmissao, 'PLANO_ESTAGIO')}">
 				      <tr>
 				        <td class="gp-sem-borda"><strong>Nome Documento:</strong></td>
-				        <td class="gp-sem-borda">Plano_estagio_03333</td>
+				        <td class="gp-sem-borda" th:text="${sub.tipoSubmissao.descricao}"></td>
 				      </tr>
 				      <tr>
 				        <td><strong>Status:</strong></td>
-				        <td>Em Análise</td>
+				        <td th:text="${sub.statusEntrega.descricao}"></td>
 				      </tr>
 				      <tr>
 				        <td><strong>Data Submissão:</strong></td>
-				        <td>05/05/2016</td>
+				        <td th:text="${sub.submetidoEm}"></td>
 				      </tr>
 				      <tr>
 				        <td><strong>Nota:</strong></td>
-				        <td>8</td>
+				        <td th:text="${sub.nota}"></td>
 				      </tr>
-				      <tr>
+				      <tr th:if="not ${#strings.isEmpty(sub.comentario)}">
 				        <td><strong>Comentário:</strong></td>
-				        <td>Mussum Ipsum, cacilds vidis litro abertis. Em pé sem cair, deitado sem dormir, sentado sem cochilar e fazendo pose. Leite de capivaris, leite de mula manquis. Viva Forevis aptent taciti sociosqu ad litora torquent Nullam volutpat risus nec leo commodo, ut interdum diam laoreet. Sed non consequat odio.</td>
-				      </tr>
-				      
+				        <td th:text="${sub.comentario}"></td>
+				      </tr>				      
 				    </tbody>
 				  </table>
 		        <a th:href="@{/Supervisor/Turma/Acompanhamento/1/AvaliarPlano}" class="btn btn-success btn-sm pull-right">Avaliar</a>
@@ -130,28 +129,27 @@
 			  </div>
 	          <div id="avaliacaoRelatorio" class="panel-body collapse in">
 	          <table class="table table-hover">
-	          <tbody>
+	          <tbody th:each="sub : ${estagio.submissoes}" th:if="${#strings.equals(sub.tipoSubmissao, 'RELATORIO_FINAL_ESTAGIO')}">
 				      <tr>
 				        <td class="gp-sem-borda"><strong>Nome Documento:</strong></td>
-				        <td class="gp-sem-borda">Relatorio_estagio_03333</td>
+				        <td class="gp-sem-borda" th:text="${sub.tipoSubmissao.descricao}"></td>
 				      </tr>
 				      <tr>
 				        <td><strong>Status:</strong></td>
-				        <td>Em Análise</td>
+				        <td th:text="${sub.statusEntrega.descricao}"></td>
 				      </tr>
 				      <tr>
 				        <td><strong>Data Submissão:</strong></td>
-				        <td>08/05/2016</td>
+				        <td th:text="${sub.submetidoEm}"></td>
 				      </tr>
 				      <tr>
 				        <td><strong>Nota:</strong></td>
-				        <td>9</td>
+				        <td th:text="${sub.nota}"></td>
 				      </tr>
-				      <tr>
+				      <tr th:if="not ${#strings.isEmpty(sub.comentario)}">
 				        <td><strong>Comentário:</strong></td>
-				        <td>Mussum Ipsum, cacilds vidis litro abertis. Manduma pindureta quium dia nois paga. Delegadis gente finis, bibendum egestas augue arcu ut est. Quem num gosti di mum que vai caçá sua turmis! in elementis mé pra quem é amistosis quis leo.</td>
-				      </tr>
-				      
+				        <td th:text="${sub.comentario}"></td>
+				      </tr>				      
 				    </tbody>
 				  </table>
 		        <a th:href="@{/Supervisor/Turma/Acompanhamento/1#}" class="btn btn-success btn-sm pull-right">Avaliar</a>

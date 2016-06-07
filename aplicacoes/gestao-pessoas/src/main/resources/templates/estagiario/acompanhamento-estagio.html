@@ -9,86 +9,179 @@
 </head>
 
 <section layout:fragment="conteudo">
+
+  <div class="container-fluid titulo-pagina">
+    <div class="container">
+        <ul class="breadcrumb">
+            <li><a href="#">Minhas Turmas</a></li>
+            <li><a href="#">Detalhes Turma</a></li>
+            <li class="active">Acompanhamento Estágiario</li>
+        </ul>
+        <h1>Acompanhamento</h1>
+    </div>
+  </div>
+
+
 	<div class="container animated fadeInRight"> 
 	    <div class="row">
-	    <div class="col-sm-12">
-			<h3 class="gp-titulo-h5"><a th:href="@{/Estagiario/}" class="gp-btn-voltar"><i class="fa fa-arrow-left"></i></a> acompanhamento</h3>
-	    </div>
 	    <div class="col-md-7">
-			<div class="panel panel-default">
+	        <div class="panel panel-bluegray">
 	          <div class="panel-heading">
-	            <h5 class="gp-inline"><a data-toggle="collapse" href="#painelPlano" class="collapsed" aria-expanded="false"><i class="fa fa-caret-down" aria-hidden="true"></i> Plano de Estágio</a></h5>
+	            <a class="panel-title" data-toggle="collapse" data-target="#planoEstagio"><i class="fa fa-caret-down" aria-hidden="true"></i> Plano de Estágio</a>
 	          </div>
-	        
-	          <div id="painelPlano" class="panel-body gp-panel-body-background collapse in">
-	            <ul class="list-group">
-	              <li class="list-group-item">
-	                <b><a class="gp-link-download-submissao">20/7/2016 - Plano de Estágio </a> <span class="label label-primary pull-right gp-label-submissao">Submetido</span></b></li>
-	              <li class="list-group-item">
-	                <b>Nota: </b>8.9 <br/>
-	                <b>Comentário</b><br/>
-	                <span>Não há comentário.</span>
-	              </li>
-	            </ul>
-	            <div class="gp-modelo-doc">Modelo de Plano de Estágio 
-	            	<a href="#">Clique aqui para baixar!</a><a href="#submissao" class="btn btn-success btn-sm pull-right" data-toggle="modal">Editar submissao</a>
-	            </div>    
-	          </div>
+	          <div id="planoEstagio" class="panel-body collapse in">
+				  <table class="table table-hover">
+				    <tbody>
+				      <tr>
+				        <td class="gp-sem-borda"><strong>Documento</strong></td>
+				        <td class="gp-sem-borda"><a class="gp-link-download-submissao">20/7/2016 - Plano de Estágio </a></td>
+				      </tr>
+				      <tr>
+				        <td><strong>Status</strong></td>
+				        <td>SUBMETIDO</td>
+				      </tr>
+				      <tr>
+				        <td><strong>Nota</strong></td>
+				        <td>9.5</td>
+				      </tr>
+				      <tr>
+				        <td><strong>Comentario</strong></td>
+				        <td></td>
+				      </tr>
+				    </tbody>
+				  </table>
+				  
+		            <div class="gp-modelo-doc">
+		            	Modelo de Plano de Estágio <a href="#">Clique aqui para baixar!</a>
+		            	<a href="#submissaoPlano" class="btn btn-success btn-sm pull-right gp-submissao-modal" data-toggle="modal">Editar submissao</a>
+		            </div>    
+	           </div>
 	        </div>
 	      
-	        <div class="panel panel-default">
+			<div class="panel panel-bluegray">
+				<div class="panel-heading">
+		            <a class="panel-title" data-toggle="collapse" data-target="#relatorioEstagio"><i class="fa fa-caret-down" aria-hidden="true"></i> Relatório de Estágio</a>
+				</div>
+
+				<div id="relatorioEstagio" class="panel-body collapse in">
+		            <table class="table table-hover">
+				    <tbody>
+				      <tr>
+				        <td class="gp-sem-borda"><strong>Documento</strong></td>
+				        <td class="gp-sem-borda"><a class="gp-link-download-submissao">27/7/2016 - Relatório de Estágio </a></td>
+				      </tr>
+				      <tr>
+				        <td><strong>Status</strong></td>
+				        <td>SUBMETIDO</td>
+				      </tr>
+				      <tr>
+				        <td><strong>Nota</strong></td>
+				        <td>9.0</td>
+				      </tr>
+				      <tr>
+				        <td><strong>Comentario</strong></td>
+				        <td></td>
+				      </tr>
+				    </tbody>
+				  </table>
+		            <div class="gp-modelo-doc">Modelo de Relatório de Estágio 
+		            	<a href="#">Clique aqui para baixar!</a><a href="#submissaoRelatorio" class="btn btn-success btn-sm pull-right gp-submissao-modal" data-toggle="modal">Submeter</a>
+		            </div>       
+				</div>
+			</div>
+
+	        <div class="panel panel-bluegray">
 	          <div class="panel-heading">
-	            <h5 class="gp-inline"><a data-toggle="collapse" href="#painelRelatorio" class="collapsed" aria-expanded="false"><i class="fa fa-caret-down" aria-hidden="true"></i> Relatório Final de Estágio</a></h5>
+				<a class="panel-title" data-toggle="collapse" data-target="#avaliacaoRendimento"><i class="fa fa-caret-down" aria-hidden="true"></i> Avalição de Rendimento</a>
 	          </div>
 	        
-	          <div id="painelRelatorio" class="panel-body gp-panel-body-background collapse in">
-	            <div class="gp-modelo-doc">Modelo de Relatório Final de Estágio <a href="#">Clique aqui para baixar!</a>
-	            <a href="#submissao" id="btn-submeter-modal" class="btn btn-success btn-sm pull-right" data-toggle="modal">Submeter</a>
-            </div>    
-	    
-	          </div>
-	        </div>
-	      
-	        <div class="panel panel-default">
-	          <div class="panel-heading">
-	            <h5 class="gp-inline"><a data-toggle="collapse" href="#painelRendimento" class="collapsed" aria-expanded="false"><i class="fa fa-caret-down" aria-hidden="true"></i> Avalição de Rendimento</a></h5>
-	          </div>
-	        
-	          <div id="painelRendimento" class="panel-body gp-panel-body-background collapse in">
-	            <div class="">Sua avaliação de rendimento ainda não foi realizada.</div>    
+	          <div id="avaliacaoRendimento" class="panel-body collapse in">
+	            <div>Sua avaliação de rendimento ainda não foi realizada.</div>    
 	          </div>
 	        </div>
 	
 	      </div>
 	    
 	      <div class="col-md-5">
-	        <div class="panel panel-primary">
+	        <div class="panel panel-bluegray">
 	          <div class="panel-heading">
-	            <h3 class="panel-title">Informações da Turma</h3>
-	          </div>
-	
-	          <div class="panel-body">
-	            Em andamento.
+	            <a class="panel-title" data-toggle="collapse" data-target="#detalhesTurma"><i class="fa fa-caret-down" aria-hidden="true"></i> Turma NPI - 2016.1</a>
+  			  </div>
+	          <div id="detalhesTurma" class="panel-body collapse in">
+				  <table class="table table-hover">
+				    <tbody>
+				      <tr>
+				        <td class="gp-sem-borda"><strong>Orientador</strong></td>
+				        <td class="gp-sem-borda">Bruno Gois</td>
+				      </tr>
+				      <tr>
+				        <td><strong>Supervisores</strong></td>
+				        <td>Rayson, Virginia</td>
+				      </tr>
+				      <tr>
+				        <td><strong>Período</strong></td>
+				        <td>01/03/2016 a 01/07/2016</td>
+				      </tr>
+				      <tr>
+				        <td><strong>Expediente</strong></td>
+				        <td>Segunda-feira - 08:00 ás 12:00<br/>Segunda-feira - 08:00 ás 12:00<br/>Segunda-feira - 08:00 ás 12:00</td>
+				      </tr>
+				    </tbody>
+				  </table>
 	           </div>
 	        </div>
 	
-	        <div class="panel panel-primary">
+	        <div class="panel panel-bluegray">
 	          <div class="panel-heading">
-	            <h3 class="panel-title">Avaliação Final de Estágio</h3>
+	            <a class="panel-title" data-toggle="collapse" data-target="#avaliacaoEstagio"><i class="fa fa-caret-down" aria-hidden="true"></i> Avaliação Final de Estágio</a>
 	          </div>
 	
-	          <div class="panel-body">
-	            Em andamento.
+	          <div id="avaliacaoEstagio" class="panel-body collapse in">
+				  <table class="table table-hover">
+				    <tbody>
+				      <tr>
+				        <td class="gp-sem-borda"><strong>Situação</strong></td>
+				        <td class="gp-sem-borda">Você está em avaliação.</td>
+				      </tr>
+				      <tr>
+				        <td><strong>Nota</strong></td>
+				        <td>9.5</td>
+				      </tr>
+				      <tr>
+				        <td><strong>Resultado</strong></td>
+				        <td>APROVADO</td>
+				      </tr>
+				    </tbody>
+				  </table>
 	           </div>
 	        </div>
 	
-	        <div class="panel panel-primary">
+	        <div class="panel panel-bluegray">
 	          <div class="panel-heading">
-	            <h3 class="panel-title">Frequência de Estágio</h3>
+	            <a class="panel-title" data-toggle="collapse" data-target="#frequencia"><i class="fa fa-caret-down" aria-hidden="true"></i> Frequência de Estágio</a>
 	          </div>
 	
-	          <div class="panel-body">
-	            Em andamento.
+	          <div id="frequencia" class="panel-body">
+				  <table class="table table-hover">
+				    <tbody>
+				      <tr>
+				        <td class="gp-sem-borda"><strong>Presença:</strong></td>
+				        <td class="gp-sem-borda">81%</td>
+				      </tr>
+				      <tr>
+				        <td><strong>Horas estagiadas:</strong></td>
+				        <td>80h</td>
+				      </tr>
+				      <tr>
+				        <td><strong>Falta</strong></td>
+				        <td>9.0%</td>
+				      </tr>
+				      <tr>
+				        <td><strong>Frequencias Pendentes</strong></td>
+				        <td>10%</td>
+				      </tr>
+				    </tbody>
+				  </table>
 	           </div>
 	        </div>
 	
@@ -97,8 +190,8 @@
 	
 	</div>
 
-     <form class="form-horizontal">
-		 <div id="submissao" class="modal animated zoomInDown">
+	<div id="submissaoPlano" class="modal">
+		 <form class="form-horizontal" th:action="@{/Estagiario/Acompanhamento/1/SubmeterPlano}" method="post" enctype="multipart/form-data">
 		   <div class="modal-dialog">
 		     <div class="modal-content">
 		       <div class="modal-header">
@@ -108,17 +201,40 @@
 		
 		         <div class="modal-body">
 		             <label for="inputArquivo">Plano de Estágio</label><br/>
-		             <input type="file" class="form-control" id="inputArquivo" placeholder="Arquivo" /> 
+		             <input type="file" class="form-control" id="inputArquivo" placeholder="Arquivo" name="planoEstagio" /> 
 		         </div>
 		         
 		         <div class="modal-footer">
 		           <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-		           <button type="button" class="btn btn-primary">Submeter <i class="fa fa-arrow-circle-up" aria-hidden="true"></i></button>
+		           <button type="submit" class="btn btn-success">Submeter <i class="fa fa-arrow-circle-up" aria-hidden="true"></i></button>
 		         </div>
 		     </div>
 		   </div>
-		 </div>
-     </form>	
-
+		</form>
+	</div>
+     
+     
+     <div id="submissaoRelatorio" class="modal">
+     	<form class="form-horizontal" th:action="@{/Estagiario/Acompanhamento/Estagio/1/SubmeterRelatorio}" method="post" enctype="multipart/form-data">
+		   <div class="modal-dialog">
+		     <div class="modal-content">
+		       <div class="modal-header">
+		         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+		         <h4 class="modal-title">Relatório de Estágio</h4>
+		       </div>
+		
+		         <div class="modal-body">
+		             <label for="inputArquivo">Relatório de Estágio</label><br/>
+		             <input type="file" class="form-control" id="inputArquivo" placeholder="Arquivo" name="relatorio" /> 
+		         </div>
+		         
+		         <div class="modal-footer">
+		           <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+		           <button type="submit" class="btn btn-success">Submeter <i class="fa fa-arrow-circle-up" aria-hidden="true"></i></button>
+		         </div>
+		     </div>
+		   </div>	 
+     	</form>	
+     </div>
   </section>
 </html>

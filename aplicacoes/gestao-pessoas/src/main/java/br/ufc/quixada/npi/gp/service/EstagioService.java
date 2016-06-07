@@ -18,18 +18,18 @@ public interface EstagioService {
 	List<Estagio> buscarEstagiosPorEstagiarioCpf(Long idEstagiario);
 	
 	Estagio buscarEstagioPorIdEEstagiarioCpf(Long idEstagio, String cpf);
-	
-	void submeterPlano(Submissao submissao);
 
-	void editarPlano(Submissao submissao)  throws Exception;
-	
-	void submeterRelatorio(Submissao submissao);
+	void submeter(Submissao submissao);
+
+	void editarSubmissao(Submissao submissao)  throws Exception;
 	
 	void editarRelatorio(Submissao submissao) throws Exception;
 
 	void avaliarSubmissao(Submissao submissao);
 
-	Submissao buscarSubmissaoPorEstagioIdETipo(Long idEstagio, Submissao.TipoSubmissao tipoSubmissao);
+	Submissao buscarSubmissaoPorTipoSubmissaoEEstagioIdECpf(Submissao.TipoSubmissao tipoSubmissao, Long idEstagio, String cpf);
+
+	Submissao buscarSubmissaoPorTipoSubmissaoEEstagioId(Submissao.TipoSubmissao tipoSubmissao, Long idEstagio);
 	
 	void adicionarAvaliacaoRendimento(AvaliacaoRendimento avaliacaoRendimento);
 	

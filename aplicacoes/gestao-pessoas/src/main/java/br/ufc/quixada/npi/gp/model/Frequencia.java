@@ -37,8 +37,6 @@ public class Frequencia {
 	@Enumerated(EnumType.STRING)
 	private TipoFrequencia tipo;
 
-	private String observacao;
-
 	public Long getId() {
 		return id;
 	}
@@ -95,14 +93,6 @@ public class Frequencia {
 		this.tipo = tipo;
 	}
 
-	public String getObservacao() {
-		return observacao;
-	}
-
-	public void setObservacao(String observacao) {
-		this.observacao = observacao;
-	}
-	
 	public enum StatusFrequencia {
 		PRESENTE("Presente"),
 		FALTA("Falta"), 

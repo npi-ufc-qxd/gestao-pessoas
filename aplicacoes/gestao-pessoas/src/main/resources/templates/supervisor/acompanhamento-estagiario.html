@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorator="layouts/LayoutSupervisor">
+
+<head>
+	<title>Gestão Pessoas | Acompanhamento Estágiario</title>
+</head>
+
+<section layout:fragment="conteudo">
+			
+  <div class="container-fluid titulo-pagina">
+    <div class="container">
+        <ul class="breadcrumb">
+            <li><a th:href="@{/Supervisor/}" >Minhas Turmas</a></li>
+            <li><a th:href="@{/Supervisor/Turma/1/}" >Detalhes Turma</a></li>
+            <li><a href="#">Acompanhamento Estágiario</a></li>
+        </ul>
+        <h1>Acompanhamento Estágiario</h1>
+    </div>
+  </div>
+
+
+	<div class="container animated fadeInRight">
+	    <div class="row">
+	      <div class="col-md-4">
+	        <div class="panel panel-bluegray">
+	          <div class="panel-heading">
+	            <a class="panel-title" data-toggle="collapse" data-target="#detalhesTurma"><i class="fa fa-caret-down" aria-hidden="true"></i> Turma NPI - 2016.1</a>
+			  </div>
+	          <div id="detalhesTurma" class="panel-body collapse in">
+				  <table class="table table-hover">
+				    <tbody>
+				      <tr>
+				        <td class="gp-sem-borda"><strong>Orientador</strong></td>
+				        <td class="gp-sem-borda">Bruno Gois</td>
+				      </tr>
+				      <tr>
+				        <td><strong>Supervisores</strong></td>
+				        <td>Rayson, Virginia</td>
+				      </tr>
+				      <tr>
+				        <td><strong>Período</strong></td>
+				        <td>01/03/2016 a 01/07/2016</td>
+				      </tr>
+				      <tr>
+				        <td><strong>Expediente</strong></td>
+				        <td>Segunda-feira - 08:00 ás 12:00<br/>Segunda-feira - 08:00 ás 12:00<br/>Segunda-feira - 08:00 ás 12:00</td>
+				      </tr>
+				    </tbody>
+				  </table>
+	           </div>
+	        </div>
+	
+	        <div class="panel panel-bluegray">
+	          <div class="panel-heading">
+	            <a class="panel-title" data-toggle="collapse" data-target="#estagiario"><i class="fa fa-caret-down" aria-hidden="true"></i> Estágiario</a>
+			  </div>
+	          <div id="estagiario" class="panel-body collapse in">
+	          	<table class="table table-hover">
+				    <tbody>
+				      <tr>
+				        <td class="gp-sem-borda"><strong>Nome:</strong></td>
+				        <td class="gp-sem-borda">Jose de Souza Filho de Almeida</td>
+				      </tr>
+				      <tr>
+				        <td><strong>Curso:</strong></td>
+				        <td>Engenharia de Software</td>
+				      </tr>
+				      <tr>
+				        <td><strong>Email:</strong></td>
+				        <td>jose@mail.com</td>
+				      </tr>
+				      <tr>
+				        <td><strong>Telefone:</strong></td>
+				        <td>88 8888888</td>
+				      </tr>
+				      <tr>
+				        <td><strong>Github:</strong></td>
+				        <td>@jose123</td>
+				      </tr>
+				      
+				    </tbody>
+				  </table>
+	          </div>
+	        </div>
+	      </div>
+
+
+	    <div class="col-md-8">
+	        <div class="panel panel-bluegray">
+	          <div class="panel-heading">
+	            <a class="panel-title" data-toggle="collapse" data-target="#avaliacaoPlano"><i class="fa fa-caret-down" aria-hidden="true"></i> Avaliação Plano</a>
+			  </div>
+	          <div id="avaliacaoPlano" class="panel-body collapse in">
+	          <table class="table table-hover">
+	          <tbody>
+				      <tr>
+				        <td class="gp-sem-borda"><strong>Nome Documento:</strong></td>
+				        <td class="gp-sem-borda">Plano_estagio_03333</td>
+				      </tr>
+				      <tr>
+				        <td><strong>Status:</strong></td>
+				        <td>Em Análise</td>
+				      </tr>
+				      <tr>
+				        <td><strong>Data Submissão:</strong></td>
+				        <td>05/05/2016</td>
+				      </tr>
+				      <tr>
+				        <td><strong>Nota:</strong></td>
+				        <td>8</td>
+				      </tr>
+				      <tr>
+				        <td><strong>Comentário:</strong></td>
+				        <td>Mussum Ipsum, cacilds vidis litro abertis. Em pé sem cair, deitado sem dormir, sentado sem cochilar e fazendo pose. Leite de capivaris, leite de mula manquis. Viva Forevis aptent taciti sociosqu ad litora torquent Nullam volutpat risus nec leo commodo, ut interdum diam laoreet. Sed non consequat odio.</td>
+				      </tr>
+				      
+				    </tbody>
+				  </table>
+		        <a th:href="@{/Supervisor/Turma/Acompanhamento/1/AvaliarPlano}" class="btn btn-success btn-sm pull-right">Avaliar</a>
+	           </div>
+	        </div>
+
+	        <div class="panel panel-bluegray">
+	          <div class="panel-heading">
+	            <a class="panel-title" data-toggle="collapse" data-target="#avaliacaoRelatorio"><i class="fa fa-caret-down" aria-hidden="true"></i> Avaliação Relatório</a>
+			  </div>
+	          <div id="avaliacaoRelatorio" class="panel-body collapse in">
+	          <table class="table table-hover">
+	          <tbody>
+				      <tr>
+				        <td class="gp-sem-borda"><strong>Nome Documento:</strong></td>
+				        <td class="gp-sem-borda">Relatorio_estagio_03333</td>
+				      </tr>
+				      <tr>
+				        <td><strong>Status:</strong></td>
+				        <td>Em Análise</td>
+				      </tr>
+				      <tr>
+				        <td><strong>Data Submissão:</strong></td>
+				        <td>08/05/2016</td>
+				      </tr>
+				      <tr>
+				        <td><strong>Nota:</strong></td>
+				        <td>9</td>
+				      </tr>
+				      <tr>
+				        <td><strong>Comentário:</strong></td>
+				        <td>Mussum Ipsum, cacilds vidis litro abertis. Manduma pindureta quium dia nois paga. Delegadis gente finis, bibendum egestas augue arcu ut est. Quem num gosti di mum que vai caçá sua turmis! in elementis mé pra quem é amistosis quis leo.</td>
+				      </tr>
+				      
+				    </tbody>
+				  </table>
+		        <a th:href="@{/Supervisor/Turma/Acompanhamento/1#}" class="btn btn-success btn-sm pull-right">Avaliar</a>
+	           </div>
+	        </div>
+
+	        <div class="panel panel-bluegray">
+	          <div class="panel-heading">
+	            <a class="panel-title" data-toggle="collapse" data-target="#avaliacaoRendimento"><i class="fa fa-caret-down" aria-hidden="true"></i> Avaliação Rendimento</a>
+			  </div>
+	          <div id="avaliacaoRendimento" class="panel-body collapse in">
+	        
+		        <a th:href="@{/Supervisor/Turma/Acompanhamento/1#}" class="btn btn-success btn-sm pull-right">Avaliar</a>
+	           </div>
+	        </div>
+	    </div>
+	      
+    </div>
+</div>
+</section>
+
+</html>

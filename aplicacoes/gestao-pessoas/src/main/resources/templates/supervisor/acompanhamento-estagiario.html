@@ -64,7 +64,7 @@
 				      <tr>
 				        <td class="gp-sem-borda"><strong>Nome:</strong></td>
 				        <td class="gp-sem-borda" th:text="${estagio.estagiario.nomeCompleto}"></td>
-				      </tr>
+				 	  </tr>
 				      <tr>
 				        <td><strong>Curso:</strong></td>
 				        <td th:text="${estagio.estagiario.curso.descricao}"></td>
@@ -161,14 +161,88 @@
 	            <a class="panel-title" data-toggle="collapse" data-target="#avaliacaoRendimento"><i class="fa fa-caret-down" aria-hidden="true"></i> Avaliação Rendimento</a>
 			  </div>
 	          <div id="avaliacaoRendimento" class="panel-body collapse in">
-	        
+	   			<div class="row">
+	         		<div class="col-md-12"><h6>ASSIDUIDADE E DISCIPLINA</h6></div>
+				     <div class="col-md-12">
+				      <strong>Frequência:</strong>
+				      <p th:text="${estagio.avaliacaoRendimento.frequencia.descricaoItem}"></p>
+				      </div>
+				      <div class="col-md-12">
+				      	<strong>Permanência:</strong>
+				      	<p th:text="${estagio.avaliacaoRendimento.permanencia.descricaoItem}"> </p>
+				      </div>
+				      <div class="col-md-12">
+				      	<strong>Disciplina quando ao cumprimento de normas:</strong>
+				      	<p th:text="${estagio.avaliacaoRendimento.disciplina.descricaoItem}"></p>
+				      </div>
+				      <div class="col-md-12">
+				      	<strong>Comentário:</strong>
+				      	<p th:text="${estagio.avaliacaoRendimento.fatorAssuidadeDisciplinaComentario}"></p>
+				      </div>
+			     </div>
+			     <hr/>
+			      <div class="row">
+				      	<div class="col-md-12"><h6 >INICIATIVA E PRODUTIVIDADE</h6></div>
+				      	<div class="col-md-12">
+				      		<strong>Iniciativa:</strong>
+							<p th:text="${estagio.avaliacaoRendimento.iniciativa.descricaoItem}"></p>
+						 </div>
+				      	<div class="col-md-12">
+				      		<strong>Quantidade de Trabalho:</strong>
+				      		<p th:text="${estagio.avaliacaoRendimento.quantidadeTrabalho.descricaoItem}"></p>
+				      	</div>
+				      <div class="col-md-12">
+				      		<strong>Qualidade de Trabalho:</strong>
+				      		<p th:text="${estagio.avaliacaoRendimento.qualidadeTrabalho.descricaoItem}"></p> 
+				      </div>
+				      <div class="col-md-12">
+				      		<strong>Cumprimento de prazos:</strong>
+				      		<p th:text="${estagio.avaliacaoRendimento.cumprimentoPrazos.descricaoItem}"></p>
+			      	  </div>
+			      	   <div class="col-md-12">
+				      	<strong>Comentário:</strong>
+				      	<p th:text="${estagio.avaliacaoRendimento.fatorIniciativaProdutividadeComentario}"></p>
+				      </div>
+			      </div>
+			       <hr/>
+			      <div class="row">
+			      		<div class="col-md-12"><h6 >RESPONSABILIDADE</h6></div>
+				      		<div class="col-md-12">
+				      		<strong>Comprometimento com o trabalho:</strong>
+				      		<p th:text="${estagio.avaliacaoRendimento.comprometimento.descricaoItem}"></p>
+				    	  </div>
+				    	  <div class="col-md-12">
+				      		<strong>Cuidado com materiais e equipamentos:</strong>
+				      		<p th:text="${estagio.avaliacaoRendimento.cuidadoMateriais.descricaoItem}"></p>
+				    	  </div>
+				    	 <div class="col-md-12">
+				      		<strong>Comentário:</strong>
+				      		<p th:text="${estagio.avaliacaoRendimento.fatorResponsabilidadeComentario}"></p>
+				     	 </div>
+			      </div>
+			       <hr/>
+			      <div class="row">
+			      		<div class="col-md-12"><h6>RELACIONAMENTO</h6></div>
+				      	<div class="col-md-12">
+				      		<strong>Relacionamento junto a gerência e demais funcionários:</strong>
+				      		<p th:text="${estagio.avaliacaoRendimento.relacionamento.descricaoItem}"></p>
+				      	</div>
+				      	<div class="col-md-12">
+				      		<strong>Trabalho em equipe:</strong>
+				      		<p th:text="${estagio.avaliacaoRendimento.trabalhoEquipe.descricaoItem}"></p>
+				     	 </div>
+				     	 <div class="col-md-12">
+				      		<strong>Comentário:</strong>
+				      		<p th:text="${estagio.avaliacaoRendimento.fatorRelacionamentoComentario}"></p>
+				     	 </div>
+			     </div>
+				          		
 		        <a th:href="@{/Supervisor/Turma/Acompanhamento/1#}" class="btn btn-success btn-sm pull-right">Avaliar</a>
 	           </div>
 	        </div>
-	    </div>
-	      
-    </div>
-</div>
+	     </div>
+	   </div>
+	  </div>
 </section>
 
 </html>

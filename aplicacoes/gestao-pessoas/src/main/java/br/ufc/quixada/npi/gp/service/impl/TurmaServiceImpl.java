@@ -13,7 +13,7 @@ import br.ufc.quixada.npi.gp.repository.TurmaRepository;
 import br.ufc.quixada.npi.gp.service.TurmaService;
 
 @Named
-public class TurmaServiceImpl implements TurmaService{
+public class TurmaServiceImpl implements TurmaService {
 	
 	@Autowired
 	private TurmaRepository turmaRepository;
@@ -95,12 +95,6 @@ public class TurmaServiceImpl implements TurmaService{
 		// TODO Auto-generated method stub
 		
 	}
-
-	@Override
-	public Turma buscarTurmaPorIdEstagio(Long idEstagio) {
-		return turmaRepository.findTurmaByEstagioId(idEstagio);
-	}
-
 	
 	
 /**

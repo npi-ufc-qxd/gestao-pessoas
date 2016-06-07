@@ -4,13 +4,13 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-
+import br.ufc.quixada.npi.gp.model.Estagio;
 import br.ufc.quixada.npi.gp.model.Frequencia;
 
 public interface FrequenciaRepository extends JpaRepository<Frequencia, Long> {
 	
-	@Query("select f from Frequencia f where f.estagio = :idEstagio and f.data = CURRENT_DATE")
-	Frequencia findFrequenciaDeHojeByEstagio(@Param("idEstagio") Long idEstagio);
+	@Query("select f from Frequencia f where f.estagio = :estagio and f.data = CURRENT_DATE")
+	Frequencia findFrequenciaDeHojeByEstagio(@Param("estagio") Estagio estagio);
 	
 	
 //	void updateStatus(String queryName, Map<String, Object> namedParams);

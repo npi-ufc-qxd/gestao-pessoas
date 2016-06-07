@@ -17,8 +17,6 @@ public interface TurmaService {
 	
 	Turma buscarTurmaPorId(Long idTurma);
 	
-	Turma buscarTurmaPorIdEstagio(Long idEstagio);
-	
 	List<Turma> listarTurmas();
 
 	List<Turma>  buscarTurmasSupervisorOuOrientador(Long idServidor);

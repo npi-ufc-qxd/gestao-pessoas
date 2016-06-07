@@ -22,16 +22,12 @@ import br.ufc.quixada.npi.gp.repository.FrequenciaRepository;
 import br.ufc.quixada.npi.gp.repository.SubmissaoRepository;
 import br.ufc.quixada.npi.gp.service.ConsolidadoFrequencia;
 import br.ufc.quixada.npi.gp.service.EstagioService;
-import br.ufc.quixada.npi.gp.service.TurmaService;
 import br.ufc.quixada.npi.gp.utils.UtilGestao;
 @Named
 public class EstagioServiceImpl implements EstagioService {
 	
 	@Autowired
 	private FrequenciaRepository frequenciaRepository;
-	
-	@Autowired
-	private TurmaService turmaService;
 	
 	@Autowired
 	private SubmissaoRepository submissaoRepository;
@@ -47,7 +43,7 @@ public class EstagioServiceImpl implements EstagioService {
 	
 	@Override
 	public Estagio buscarEstagioPorIdEstagio(Long idEstagio) {
-		return estagioRepository.findEstagioByEstagioId(idEstagio);
+		return estagioRepository.findById(idEstagio);
 	}
 
 	@Override
@@ -118,8 +114,8 @@ public class EstagioServiceImpl implements EstagioService {
 	}
 	
 	@Override
-	public Frequencia buscarFrequenciaDeHojePorIdEstagio(Long idEstagio) {
-		return frequenciaRepository.findFrequenciaDeHojeByEstagio(idEstagio) ;
+	public Frequencia buscarFrequenciaDeHojePorEstagio(Estagio estagio) {
+		return frequenciaRepository.findFrequenciaDeHojeByEstagio(estagio) ;
 	}
 
 	@Override
@@ -159,20 +155,16 @@ public class EstagioServiceImpl implements EstagioService {
 	}
 
 	@Override
-	public void realizarPresenca(Long idEstagio) throws Exception {
+	public void realizarPresenca(Estagio estagio) throws Exception {
 		
-		Estagio estagio = buscarEstagioPorIdEstagio(idEstagio);
-
-		Turma turma = turmaService.buscarTurmaPorIdEstagio(idEstagio);
-
-		Frequencia frequencia = buscarFrequenciaDeHojePorIdEstagio(idEstagio);
-
+		Frequencia frequencia = buscarFrequenciaDeHojePorEstagio(estagio);
+		
 		if(frequencia != null){
 			if(frequencia.getTipo() == TipoFrequencia.REPOSICAO && frequencia.getStatus() == StatusFrequencia.AGUARDO){
 
 				Frequencia frequenciaDeHoje = new Frequencia();
 
-				frequenciaDeHoje.setTurma(turma);
+				frequenciaDeHoje.setTurma(frequencia.getTurma());
 				frequenciaDeHoje.setEstagio(estagio);
 				frequenciaDeHoje.setStatus(StatusFrequencia.PRESENTE);
 				frequenciaDeHoje.setData(new Date());
@@ -181,18 +173,22 @@ public class EstagioServiceImpl implements EstagioService {
 
 				frequenciaRepository.save(frequenciaDeHoje);
 			}else{
+				if(frequencia.getTipo() == TipoFrequencia.NORMAL && frequencia.getStatus() == StatusFrequencia.PRESENTE){
 
-				throw new Exception();
+					throw new Exception();
+				}
+
 			}
 		}
 
-
+		
 		if(frequencia == null){
-			if(UtilGestao.hojeEDiaDeTrabahoDaTurma(turma.getExpedientes()) && UtilGestao.isHoraPermitida(turma.getExpedientes())){
+			
+			if(UtilGestao.hojeEDiaDeTrabahoDaTurma(estagio.getTurma().getExpedientes())&& UtilGestao.isHoraPermitida(estagio.getTurma().getExpedientes())){
 
 				Frequencia frequenciaDeHoje = new Frequencia();
 
-				frequenciaDeHoje.setTurma(turma);
+				frequenciaDeHoje.setTurma(estagio.getTurma());
 				frequenciaDeHoje.setEstagio(estagio);
 				frequenciaDeHoje.setStatus(StatusFrequencia.PRESENTE);
 				frequenciaDeHoje.setData(new Date());

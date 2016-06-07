@@ -31,7 +31,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import br.ufc.quixada.npi.gp.model.Documento;
 import br.ufc.quixada.npi.gp.model.Estagiario;
 import br.ufc.quixada.npi.gp.model.Estagio;
-import br.ufc.quixada.npi.gp.model.Frequencia;
 import br.ufc.quixada.npi.gp.model.Submissao;
 import br.ufc.quixada.npi.gp.model.Submissao.StatusEntrega;
 import br.ufc.quixada.npi.gp.model.Submissao.TipoSubmissao;
@@ -105,9 +104,15 @@ public class EstagiarioController {
 
 	
 	@RequestMapping(value = "/Acompanhamento/{idEstagio}/Presenca", method = RequestMethod.GET)
-	public @ResponseBody Frequencia.StatusFrequencia realizarPresenca(HttpSession session, @PathVariable("idEstagio") Long idEstagio) throws Exception {
+	public @ResponseBody String realizarPresenca(HttpSession session, @PathVariable("idEstagio") Long idEstagio) throws Exception {
 		
-		estagioService.realizarPresenca(idEstagio);
+		Estagio estagio = estagioService.buscarEstagioPorIdEEstagiarioCpf(idEstagio, getCpfUsuarioLogado());
+		
+		if(estagio == null) {
+			return "Acesso negado.";
+		}
+
+		estagioService.realizarPresenca(estagio);
 		
 		return null;
 	}

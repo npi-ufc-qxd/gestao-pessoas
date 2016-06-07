@@ -356,25 +356,25 @@ public class SupervisorController {
 	
 	@RequestMapping(value="/Turma/Acompanhamento/{idEstagio}/DownloadRelatorio", method=RequestMethod.GET)
     @ResponseBody
-	public HttpEntity<byte[]> downloadPlano(@PathVariable("idEstagio") Long idEstagio, RedirectAttributes redirectAttributes) {
+	public HttpEntity<byte[]> downloadRelatorio(@PathVariable("idEstagio") Long idEstagio, RedirectAttributes redirectAttributes) {
         
-        Submissao submissaoPlano = estagioService.buscarSubmissaoPorTipoSubmissaoEEstagioIdECpf(Submissao.TipoSubmissao.RELATORIO_FINAL_ESTAGIO, idEstagio, getCpfUsuarioLogado());
+        Submissao submissaoRelatorio = estagioService.buscarSubmissaoPorTipoSubmissaoEEstagioId(Submissao.TipoSubmissao.RELATORIO_FINAL_ESTAGIO, idEstagio);
         
 //        if(submissaoPlano == null){
 //            redirectAttributes.addFlashAttribute("error", "Acesso negado.");
 //            return REDIRECT_PAGINA_INICIAL_ESTAGIARIO;
 //        }
         
-        byte[] plano = submissaoPlano.getDocumento().getArquivo();
-        String[] tipo = submissaoPlano.getDocumento().getExtensao().split("/");
+        byte[] relatorio = submissaoRelatorio.getDocumento().getArquivo();
+        String[] tipo = submissaoRelatorio.getDocumento().getExtensao().split("/");
         
         HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(new MediaType(tipo[0], tipo[1]));
-        headers.set("Content-Disposition", "attachment; filename=" + submissaoPlano.getDocumento().getNome());
-        headers.setContentLength(plano.length);
+        headers.set("Content-Disposition", "attachment; filename=" + submissaoRelatorio.getDocumento().getNome());
+        headers.setContentLength(relatorio.length);
         
         
-        return new HttpEntity<byte[]>(plano, headers);
+        return new HttpEntity<byte[]>(relatorio, headers);
     }
 
 	// AVALIAÇÃO DE RENDIMENTO

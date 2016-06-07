@@ -73,15 +73,15 @@
 	            	<i class="fa fa-caret-down" aria-hidden="true"></i> 
 	            	Relatório Final do Estágio
 	            </a>
-				
-				<a th:href="@{/Supervisor/Turma/Acompanhamento/1/AvaliarRelatorio}" class="btn btn-xs pull-right gp-btn-opcao">editar</a>
-				
 	          </div>
 	 
 	          <div id="avaliarRelatorio" class="panel-body collapse in">
 		          <form class="gp-align-left form-horizontal">
 			          <div class="form-group">
 			          	<label for="documento" class="col-lg-2 control-label">Documento</label>
+			          	<div class="col-lg-10">
+			          		<a class="gp-link-donwload-submissao" th:href="@{|DownloadRelatorio|}" th:text="${#dates.format(submissaoRelatorio.submetidoEm, 'dd/MM/yyyy')} + ' - Relatório de Estágio'"></a>
+			          	</div>
 			          </div>
 		          </form>
 		          <form class="gp-align-left form-horizontal" th:action="@{/Supervisor/Turma/Acompanhamento/1/AvaliarRelatorio}" method="post">
@@ -101,8 +101,8 @@
 				    <div class="form-group">
 	 						<label class="control-label col-lg-2" for="nota"> Nota</label>
 	 						<div class="col-lg-10">
-	 						<input type="text" class="form-control" id="nota" placeholder="0.0" name="nota" th:value="${submissaoRelatorio.nota}"/>
-						</div>
+	 							<input type="text" class="form-control" id="nota" placeholder="0.0" name="nota" th:value="${submissaoRelatorio.nota}"/>
+							</div>
 					</div>
 					
 				    

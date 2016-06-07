@@ -30,11 +30,11 @@
 	            <a class="panel-title" data-toggle="collapse" data-target="#planoEstagio"><i class="fa fa-caret-down" aria-hidden="true"></i> Plano de Estágio</a>
 	          </div>
 	          <div id="planoEstagio" class="panel-body collapse in">
-				  <table class="table table-hover">
-				    <tbody th:if="${submissaoPlano != null}">
+				  <table th:if="${submissaoPlano != null}" class="table table-hover">
+				    <tbody>
 				      <tr>
 				        <td class="gp-sem-borda"><strong>Documento</strong></td>
-				        <td class="gp-sem-borda"><a class="gp-link-download-submissao">20/7/2016 - Plano de Estágio </a></td>
+				        <td class="gp-sem-borda"><a class="gp-link-download-submissao" th:href="@{|DownloadPlano|}"    th:text="${#dates.format(submissaoPlano.submetidoEm, 'dd/MM/yyyy')} + ' - Plano de Estágio'"></a></td>
 				      </tr>
 				      <tr>
 				        <td><strong>Status</strong></td>
@@ -53,9 +53,9 @@
 				  
 		            <div class="gp-modelo-doc">
 		            	Modelo de Plano de Estágio <a href="#">Clique aqui para baixar!</a>
-		            	<div th:if="${submissaoPlano != null}">
+		            	<span th:if="${submissaoPlano != null}">
 		            		<a th:if="${#strings.equals(submissaoPlano.statusEntrega, 'SUBMETIDO')} or ${#strings.equals(submissaoPlano.statusEntrega, 'CORRECAO')}" href="#submissaoPlano" class="btn btn-success btn-sm pull-right gp-submissao-modal" data-toggle="modal">Editar Submissão</a>
-		            	</div>
+		            	</span>
 		            	<a th:if="${submissaoPlano == null}" href="#submissaoPlano" class="btn btn-success btn-sm pull-right gp-submissao-modal" data-toggle="modal">Submeter</a>
 		            </div>    
 	           </div>
@@ -67,15 +67,15 @@
 				</div>
 
 				<div id="relatorioEstagio" class="panel-body collapse in">
-		            <table class="table table-hover">
+		            <table th:if="${submissaoRelatorio != null}" class="table table-hover">
 				    <tbody>
 				      <tr>
 				        <td class="gp-sem-borda"><strong>Documento</strong></td>
-				        <td class="gp-sem-borda"><a class="gp-link-download-submissao">27/7/2016 - Relatório de Estágio </a></td>
+				        <td class="gp-sem-borda"><a class="gp-link-download-submissao" th:href="@{|DownloadRelatorio|}" th:text="${#dates.format(submissaoRelatorio.submetidoEm, 'dd/MM/yyyy')} + ' - Relatório de Estágio'"></a></td>
 				      </tr>
 				      <tr>
 				        <td><strong>Status</strong></td>
-				        	<td th:text="${submissaoRelatorio.statusEntrega}"></td>
+				        <td th:text="${submissaoRelatorio.statusEntrega}"></td>
 				      </tr>
 				      <tr>
 				        <td><strong>Nota</strong></td>
@@ -89,7 +89,9 @@
 				  </table>
 		            <div class="gp-modelo-doc">Modelo de Relatório de Estágio 
 		            	<a href="#">Clique aqui para baixar!</a>
-		            	<a th:if="${#strings.equals(submissaoRelatorio.statusEntrega, 'SUBMETIDO')} or ${#strings.equals(submissaoRelatorio.statusEntrega, 'CORRECAO')}" href="#submissaoPlano" class="btn btn-success btn-sm pull-right gp-submissao-modal" data-toggle="modal">Editar Submissão</a>
+		            	<span th:if="${submissaoRelatorio != null}">
+		            		<a th:if="${#strings.equals(submissaoRelatorio.statusEntrega, 'SUBMETIDO')} or ${#strings.equals(submissaoRelatorio.statusEntrega, 'CORRECAO')}" href="#submissaoPlano" class="btn btn-success btn-sm pull-right gp-submissao-modal" data-toggle="modal">Editar Submissão</a>
+		            	</span>
 		            	<a th:if="${submissaoRelatorio == null}" href="#submissaoPlano" class="btn btn-success btn-sm pull-right gp-submissao-modal" data-toggle="modal">Submeter</a>
 		            </div>       
 				</div>
@@ -117,19 +119,19 @@
 				    <tbody>
 				      <tr>
 				        <td class="gp-sem-borda"><strong>Orientador</strong></td>
-				        <td class="gp-sem-borda">Bruno Gois</td>
+				        <td class="gp-sem-borda" th:text="${estagio.turma.orientador.nome}"></td>
 				      </tr>
 				      <tr>
 				        <td><strong>Supervisores</strong></td>
-				        <td>Rayson, Virginia</td>
+				        <td  th:inline="text"> <p th:each="sup : ${estagio.turma.supervisores}"> [[${sup.nome}]]</p> </td>
 				      </tr>
 				      <tr>
 				        <td><strong>Período</strong></td>
-				        <td>01/03/2016 a 01/07/2016</td>
+				        <td th:text="${#dates.format(estagio.turma.inicio, 'dd/MM/yyyy')} + ' a ' + ${#dates.format(estagio.turma.termino, 'dd/MM/yyyy')}"></td>
 				      </tr>
 				      <tr>
 				        <td><strong>Expediente</strong></td>
-				        <td>Segunda-feira - 08:00 ás 12:00<br/>Segunda-feira - 08:00 ás 12:00<br/>Segunda-feira - 08:00 ás 12:00</td>
+				        	 <td  th:inline="text"> <p th:each="exp : ${estagio.turma.expedientes}"> [[${exp.diaSemana.descricao}]] - [[${exp.horaInicio}]] ás [[${exp.horaTermino}]]</p> </td>
 				      </tr>
 				    </tbody>
 				  </table>
@@ -242,7 +244,7 @@
 		</div>
 
 
-	     <div id="submissaoRelatorio" class="modal">
+	     <div th:if="${submissaoRelatorio == null}" id="submissaoRelatorio" class="modal">
 	     	<form class="form-horizontal" th:action="@{/Estagiario/Acompanhamento/Estagio/${idEstagio}/SubmeterRelatorio}" method="post" enctype="multipart/form-data">
 			   <div class="modal-dialog">
 			     <div class="modal-content">
@@ -264,7 +266,7 @@
 			   </div>	 
 	     	</form>	
 	     </div>
-	     <div th:if="${submissaoPlano} == null" id="submissaoRelatorio" class="modal">
+	     <div th:if="${submissaoRelatorio} != null" id="submissaoRelatorio" class="modal">
 	     	<form class="form-horizontal" th:action="@{/Estagiario/Acompanhamento/Estagio/${idEstagio}/EditarRelatorio}" method="post" enctype="multipart/form-data">
 			   <div class="modal-dialog">
 			     <div class="modal-content">

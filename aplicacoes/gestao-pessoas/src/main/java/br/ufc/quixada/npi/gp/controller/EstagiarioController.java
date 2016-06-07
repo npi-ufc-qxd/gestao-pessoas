@@ -15,6 +15,9 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -99,25 +102,59 @@ public class EstagiarioController {
 		
 		Submissao submissaoPlano = estagioService.buscarSubmissaoPorTipoSubmissaoEEstagioIdECpf(Submissao.TipoSubmissao.PLANO_ESTAGIO, idEstagio, getCpfUsuarioLogado());
 		Submissao submissaoRelatorio = estagioService.buscarSubmissaoPorTipoSubmissaoEEstagioIdECpf(Submissao.TipoSubmissao.RELATORIO_FINAL_ESTAGIO, idEstagio, getCpfUsuarioLogado());
-		
-		if(submissaoPlano.getStatusEntrega() == StatusEntrega.CORRECAO || submissaoPlano.getStatusEntrega() == StatusEntrega.SUBMETIDO){
-			model.addAttribute("editarSubmissaoPlano", true);
-		} else {
-			model.addAttribute("editarSubmissaoPlano", false);
-		}
-		
-		if(submissaoRelatorio.getStatusEntrega() == StatusEntrega.CORRECAO || submissaoPlano.getStatusEntrega() == StatusEntrega.SUBMETIDO){
-			model.addAttribute("editarSubmissaoRelatorio", true);
-		} else {
-			model.addAttribute("editarSubmissaoRelatorio", false);
-		}
-		
+
 		model.addAttribute("estagio", estagio);
-		submissaoPlano = null;
+		//submissaoPlano = null;
 		model.addAttribute("submissaoPlano", submissaoPlano);
 		model.addAttribute("submissaoRelatorio", submissaoRelatorio);
 
 		return ACOMPANHAMENTO_ESTAGIO;
+	}
+	
+	@RequestMapping(value="/Acompanhamento/{idEstagio}/DownloadPlano", method=RequestMethod.GET)
+	@ResponseBody
+	public HttpEntity<byte[]> downloadPlano(@PathVariable("idEstagio") Long idEstagio, RedirectAttributes redirectAttributes) {
+		
+		Submissao submissaoPlano = estagioService.buscarSubmissaoPorTipoSubmissaoEEstagioIdECpf(Submissao.TipoSubmissao.PLANO_ESTAGIO, idEstagio, getCpfUsuarioLogado());
+	    
+//		if(submissaoPlano == null){
+//			redirectAttributes.addFlashAttribute("error", "Acesso negado.");
+//			return REDIRECT_PAGINA_INICIAL_ESTAGIARIO;
+//	    }
+	    
+		byte[] plano = submissaoPlano.getDocumento().getArquivo();
+		String[] tipo = submissaoPlano.getDocumento().getExtensao().split("/");
+		
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(new MediaType(tipo[0], tipo[1]));
+		headers.set("Content-Disposition", "attachment; filename=" + submissaoPlano.getDocumento().getNome());
+		headers.setContentLength(plano.length);
+		
+		
+	    return new HttpEntity<byte[]>(plano, headers);
+	}
+	
+	@RequestMapping(value="/Acompanhamento/{idEstagio}/DownloadRelatorio", method=RequestMethod.GET)
+	@ResponseBody
+	public HttpEntity<byte[]> downloadRelatorio(@PathVariable("idEstagio") Long idEstagio, RedirectAttributes redirectAttributes) {
+		
+		Submissao submissaoRelatorio = estagioService.buscarSubmissaoPorTipoSubmissaoEEstagioIdECpf(Submissao.TipoSubmissao.RELATORIO_FINAL_ESTAGIO, idEstagio, getCpfUsuarioLogado());
+	    
+//		if(submissaoPlano == null){
+//			redirectAttributes.addFlashAttribute("error", "Acesso negado.");
+//			return REDIRECT_PAGINA_INICIAL_ESTAGIARIO;
+//	    }
+	    
+		byte[] relatorio = submissaoRelatorio.getDocumento().getArquivo();
+		String[] tipo = submissaoRelatorio.getDocumento().getExtensao().split("/");
+		
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(new MediaType(tipo[0], tipo[1]));
+		headers.set("Content-Disposition", "attachment; filename=" + submissaoRelatorio.getDocumento().getNome());
+		headers.setContentLength(relatorio.length);
+		
+		
+	    return new HttpEntity<byte[]>(relatorio, headers);
 	}
 
 	

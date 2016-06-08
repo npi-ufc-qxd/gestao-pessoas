@@ -20,9 +20,6 @@ public class Frequencia {
 	private Long id;
 
 	@ManyToOne
-	private Turma turma;
-
-	@ManyToOne
 	private Estagio estagio;
 
 	@Enumerated(EnumType.STRING)
@@ -43,14 +40,6 @@ public class Frequencia {
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	public Turma getTurma() {
-		return turma;
-	}
-
-	public void setTurma(Turma turma) {
-		this.turma = turma;
 	}
 
 	public Estagio getEstagio() {

@@ -155,14 +155,26 @@ public class EstagioServiceImpl implements EstagioService {
 	}
 
 	@Override
-	public void realizarPresenca(Estagio estagio) throws Exception {
+	public boolean realizarPresenca(Estagio estagio) {
 		
 		Frequencia frequencia = buscarFrequenciaDeHojePorEstagio(estagio);
 		
-		if(frequencia != null){
-			if(frequencia.getTipo() == TipoFrequencia.REPOSICAO && frequencia.getStatus() == StatusFrequencia.AGUARDO){
+		if(frequencia == null) {
+			if(UtilGestao.hojeEDiaDeTrabahoDaTurma(estagio.getTurma().getExpedientes()) && UtilGestao.isHoraPermitida(estagio.getTurma().getExpedientes())){
+	
+				frequencia = new Frequencia();
 
-				frequencia.setTurma(estagio.getTurma());
+				frequencia.setEstagio(estagio);
+				frequencia.setStatus(StatusFrequencia.PRESENTE);
+				frequencia.setData(new Date());
+				frequencia.setHorario(new Date());
+				frequencia.setTipo(TipoFrequencia.NORMAL);
+	
+				frequenciaRepository.save(frequencia);
+				return true;
+			}	
+		} else {
+			if(frequencia.getTipo() == TipoFrequencia.REPOSICAO && frequencia.getStatus() == StatusFrequencia.AGUARDO) {
 				frequencia.setEstagio(estagio);
 				frequencia.setStatus(StatusFrequencia.PRESENTE);
 				frequencia.setData(new Date());
@@ -170,36 +182,12 @@ public class EstagioServiceImpl implements EstagioService {
 				frequencia.setTipo(TipoFrequencia.REPOSICAO);
 
 				frequenciaRepository.save(frequencia);
-			}else{
-				if(frequencia.getTipo() == TipoFrequencia.NORMAL && frequencia.getStatus() == StatusFrequencia.PRESENTE){
-
-					throw new Exception();
-				}
-
+				return true;
 			}
 		}
-
 		
-		if(frequencia == null){
-			
-			if(UtilGestao.hojeEDiaDeTrabahoDaTurma(estagio.getTurma().getExpedientes())&& UtilGestao.isHoraPermitida(estagio.getTurma().getExpedientes())){
-
-				Frequencia frequenciaDeHoje = new Frequencia();
-
-				frequenciaDeHoje.setTurma(estagio.getTurma());
-				frequenciaDeHoje.setEstagio(estagio);
-				frequenciaDeHoje.setStatus(StatusFrequencia.PRESENTE);
-				frequenciaDeHoje.setData(new Date());
-				frequenciaDeHoje.setHorario(new Date());
-				frequenciaDeHoje.setTipo(TipoFrequencia.NORMAL);
-
-				frequenciaRepository.save(frequenciaDeHoje);
-
-			}else{
-
-				throw new Exception();
-			}
-		}
+		return false;
+		
 	}
 
 	

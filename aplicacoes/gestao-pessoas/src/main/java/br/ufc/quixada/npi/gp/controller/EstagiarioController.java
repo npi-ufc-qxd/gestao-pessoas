@@ -103,18 +103,16 @@ public class EstagiarioController {
 	}
 
 	
-	@RequestMapping(value = "/Acompanhamento/{idEstagio}/Presenca", method = RequestMethod.GET)
-	public @ResponseBody String realizarPresenca(HttpSession session, @PathVariable("idEstagio") Long idEstagio) throws Exception {
-		
+	@RequestMapping(value = "/Acompanhamento/{idEstagio}/Presenca", method = RequestMethod.POST)
+	public @ResponseBody boolean realizarPresenca(HttpSession session, @PathVariable("idEstagio") Long idEstagio) {
+
 		Estagio estagio = estagioService.buscarEstagioPorIdEEstagiarioCpf(idEstagio, getCpfUsuarioLogado());
-		
+
 		if(estagio == null) {
-			return "Acesso negado.";
+			return false;
 		}
 
-		estagioService.realizarPresenca(estagio);
-		
-		return null;
+		return estagioService.realizarPresenca(estagio);
 	}
 		
 	@RequestMapping(value = "/Acompanhamento/{idEstagio}/SubmeterPlano", method = RequestMethod.POST)

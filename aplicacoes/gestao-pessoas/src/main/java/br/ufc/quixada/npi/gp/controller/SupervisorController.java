@@ -376,6 +376,29 @@ public class SupervisorController {
         
         return new HttpEntity<byte[]>(relatorio, headers);
     }
+	
+	@RequestMapping(value="/Turma/Acompanhamento/{idEstagio}/DownloadPlano", method=RequestMethod.GET)
+    @ResponseBody
+	public HttpEntity<byte[]> downloadPlano(@PathVariable("idEstagio") Long idEstagio, RedirectAttributes redirectAttributes) {
+        
+        Submissao submissaoPlano = estagioService.buscarSubmissaoPorTipoSubmissaoEEstagioId(Submissao.TipoSubmissao.PLANO_ESTAGIO, idEstagio);
+        
+//        if(submissaoPlano == null){
+//            redirectAttributes.addFlashAttribute("error", "Acesso negado.");
+//            return REDIRECT_PAGINA_INICIAL_ESTAGIARIO;
+//        }
+        
+        byte[] plano = submissaoPlano.getDocumento().getArquivo();
+        String[] tipo = submissaoPlano.getDocumento().getExtensao().split("/");
+        
+        HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(new MediaType(tipo[0], tipo[1]));
+        headers.set("Content-Disposition", "attachment; filename=" + submissaoPlano.getDocumento().getNome());
+        headers.setContentLength(plano.length);
+        
+        
+        return new HttpEntity<byte[]>(plano, headers);
+    }
 
 	// AVALIAÇÃO DE RENDIMENTO
 

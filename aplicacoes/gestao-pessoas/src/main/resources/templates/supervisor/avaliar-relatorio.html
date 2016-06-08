@@ -16,7 +16,7 @@
         <ul class="breadcrumb">
         	<li><a th:href="@{/Supervisor/}" >Minhas Turmas</a></li>
             <li><a th:href="@{/Supervisor/Turma/1/}">Detalhes Turma</a></li>
-            <li><a th:href="@{/Supervisor/Turma/1/AcompanhamentoEstagiario/1}">Acompanhamento Estagiário</a></li>
+            <li><a th:href="@{/Supervisor/Turma/Acompanhamento/1}">Acompanhamento Estagiário</a></li>
             <li><a th:href="@{/Supervisor/Turma/Acompanhamento/1/AvaliarRelatorio}">Avaliar Relatório</a></li>
         </ul>
         <h1>Avaliar Relatório</h1>
@@ -76,30 +76,30 @@
 	          </div>
 	 
 	          <div id="avaliarRelatorio" class="panel-body collapse in">
-		          <form class="gp-align-left form-horizontal">
+		          <form class="form-horizontal">
 			          <div class="form-group">
-			          	<label for="documento" class="col-lg-2 control-label">Documento</label>
+			          	<label for="documento" class="col-lg-2 control-label"><strong>Documento</strong></label>
 			          	<div class="col-lg-10">
 			          		<a class="gp-link-donwload-submissao" th:href="@{|DownloadRelatorio|}" th:text="${#dates.format(submissaoRelatorio.submetidoEm, 'dd/MM/yyyy')} + ' - Relatório de Estágio'"></a>
 			          	</div>
 			          </div>
 		          </form>
-		          <form class="gp-align-left form-horizontal" th:action="@{/Supervisor/Turma/Acompanhamento/1/AvaliarRelatorio}" method="post">
+		          <form class="form-horizontal" th:action="@{/Supervisor/Turma/Acompanhamento/1/AvaliarRelatorio}" method="post">
 				    <div class="form-group">
-	     					<label for="status" class="col-lg-2 control-label">Status</label>
+	     					<label for="status" class="col-lg-2 control-label"> <strong>Status</strong></label>
 	     					<div class="col-lg-10">
 					        <select class="form-control" id="status" title="Status" name="status">
 					          <option th:each ="status : ${statusEntrega}" 
 					          		  th:value = "${status}" 
 					          		  th:text = "${status.descricao}"
-					          		  th:if="${#strings.equals(status, submissaoRelatorio.statusEntrega)}" selected="selected">
+					          		  th:selected="${#strings.equals(status, submissaoRelatorio.statusEntrega)}">
 					          </option>
 					        </select>
 					    </div>
 					</div>
 				   
 				    <div class="form-group">
-	 						<label class="control-label col-lg-2" for="nota"> Nota</label>
+	 						<label class="control-label col-lg-2" for="nota"> <strong>Nota</strong></label>
 	 						<div class="col-lg-10">
 	 							<input type="text" class="form-control" id="nota" placeholder="0.0" name="nota" th:value="${submissaoRelatorio.nota}"/>
 							</div>
@@ -107,7 +107,7 @@
 					
 				    
 		         	<div class="form-group">
-	     					<label for="comentario" class="col-lg-2 control-label">Comentário</label>
+	     					<label for="comentario" class="col-lg-2 control-label"> <strong>Comentário</strong></label>
 	     					<div class="col-lg-10">
 	       					<textarea class="form-control" rows="3" id="comentario" name="comentario" th:text="${submissaoRelatorio.comentario}"></textarea>
 	       					<span class="help-block">Digite um comentário sobre o Relatório do Aluno</span>

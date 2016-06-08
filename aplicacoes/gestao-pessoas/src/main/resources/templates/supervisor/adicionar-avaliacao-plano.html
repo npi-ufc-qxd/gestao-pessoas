@@ -64,19 +64,27 @@
 			        	<a class="panel-title" data-toggle="collapse" data-target="#detalhesEstagiario"><i class="fa fa-caret-down" aria-hidden="true"></i> Avaliar Plano</a>
 		  			</div>
 			        <div id="detalhesEstagiario" class="panel-body collapse in">
+						<form class="form-horizontal">
+				          <div class="form-group">
+				          	<label for="documento" class="col-lg-2 control-label"><strong>Documento</strong></label>
+					          	<div class="col-lg-10">
+					          		<a class="gp-link-donwload-submissao" th:href="@{|DownloadPlano|}" th:text="${#dates.format(submissaoPlano.submetidoEm, 'dd/MM/yyyy')} + ' - Plano de Estágio'"></a>
+					          	</div>
+				        	</div>
+			            </form>
 				        <form id="form-avaliar" class="form-horizontal" th:action="@{/Supervisor/Turma/Acompanhamento/1/AvaliarPlano}" method="post">				     
-							<div class="form-group">
-						    	<label for="status" class="col-lg-2 control-label"><strong>Status</strong></label>
-						    	<div class="col-lg-10">
-							        <select name="status" class="form-control" id="status">
-							        	<option></option>
-							          	<option>Submetido</option>
-							          	<option>Correção</option>
-							          	<option>Rejeitado</option>
-							          	<option>Avaliado</option>
-							        </select>
-						    	</div>
-						   	</div>
+						<div class="form-group">
+	     					<label for="status" class="col-lg-2 control-label"><strong>Status</strong></label>
+	     					<div class="col-lg-10">
+						        <select class="form-control" id="status" title="Status" name="status">
+						          <option th:each ="status : ${statusEntrega}" 
+						          		  th:value = "${status}" 
+						          		  th:text = "${status.descricao}"
+						          		  th:selected="${#strings.equals(status, submissaoPlano.statusEntrega)}">
+						          </option>
+						        </select>
+					    	</div>
+						</div>
 							<div class="form-group">
 						      <label for="nota" class="col-lg-2 control-label"><strong>Nota</strong></label>
 						      <div class="col-lg-10">

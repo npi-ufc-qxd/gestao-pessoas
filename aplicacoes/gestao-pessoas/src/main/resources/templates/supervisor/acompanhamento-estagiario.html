@@ -95,8 +95,8 @@
 	            <a class="panel-title" data-toggle="collapse" data-target="#avaliacaoPlano"><i class="fa fa-caret-down" aria-hidden="true"></i> Avaliação Plano</a>
 			  </div>
 	          <div id="avaliacaoPlano" class="panel-body collapse in">
-	          <table class="table table-hover">
-	          <tbody th:each="sub : ${estagio.submissoes}" th:if="${#strings.equals(sub.tipoSubmissao, 'PLANO_ESTAGIO')}">
+	          <table class="table table-hover" th:each="sub : ${estagio.submissoes}" th:if="${#strings.equals(sub.tipoSubmissao, 'PLANO_ESTAGIO')}">
+	          <tbody  >
 				      <tr>
 				        <td class="gp-sem-borda"><strong>Nome Documento:</strong></td>
 				        <td class="gp-sem-borda" th:text="${sub.tipoSubmissao.descricao}"></td>
@@ -128,8 +128,8 @@
 	            <a class="panel-title" data-toggle="collapse" data-target="#avaliacaoRelatorio"><i class="fa fa-caret-down" aria-hidden="true"></i> Avaliação Relatório</a>
 			  </div>
 	          <div id="avaliacaoRelatorio" class="panel-body collapse in">
-	          <table class="table table-hover">
-	          <tbody th:each="sub : ${estagio.submissoes}" th:if="${#strings.equals(sub.tipoSubmissao, 'RELATORIO_FINAL_ESTAGIO')}">
+	          <table class="table table-hover" th:each="sub : ${estagio.submissoes}"  th:if="${#strings.equals(sub.tipoSubmissao, 'RELATORIO_FINAL_ESTAGIO')}">
+	          <tbody >
 				      <tr>
 				        <td class="gp-sem-borda"><strong>Nome Documento:</strong></td>
 				        <td class="gp-sem-borda" th:text="${sub.tipoSubmissao.descricao}"></td>

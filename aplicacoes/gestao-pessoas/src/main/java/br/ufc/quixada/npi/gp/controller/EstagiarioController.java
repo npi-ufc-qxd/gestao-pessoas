@@ -104,7 +104,6 @@ public class EstagiarioController {
 		Submissao submissaoRelatorio = estagioService.buscarSubmissaoPorTipoSubmissaoEEstagioIdECpf(Submissao.TipoSubmissao.RELATORIO_FINAL_ESTAGIO, idEstagio, getCpfUsuarioLogado());
 
 		model.addAttribute("estagio", estagio);
-		//submissaoPlano = null;
 		model.addAttribute("submissaoPlano", submissaoPlano);
 		model.addAttribute("submissaoRelatorio", submissaoRelatorio);
 

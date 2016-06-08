@@ -138,10 +138,10 @@ public class Estagio {
 	}	
 	
 	public enum Situacao {
-		EM_ANDAMENTO("Em andamento"),
-		CONCLUIDO("Concluído"),
-		DESISTENCIA("Desistência"),
-		DESLIGADO("Desligado");
+		EM_AVALIAÇÃO("Você está em avaliação"),
+		CONCLUIDO("Estágio concluído"),
+		DESISTENCIA("Você desistiu"),
+		DESLIGADO("Você foi desligado");
 
 		private String descricao;
 		

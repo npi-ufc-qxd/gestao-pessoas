@@ -514,7 +514,7 @@ public class AvaliacaoRendimento {
 		}
 
 		public void setDescricaoItem(String descricaoItem) {
-			setDescricaoItem(descricaoItem);
+			this.descricaoItem = descricaoItem;
 		}
 
 	}	
@@ -542,7 +542,7 @@ public class AvaliacaoRendimento {
 		}
 
 		public void setDescricaoItem(String descricaoItem) {
-			setDescricaoItem(descricaoItem);
+			this.descricaoItem = descricaoItem;
 		}
 			
 	
@@ -566,7 +566,7 @@ public class AvaliacaoRendimento {
 		}
 
 		public void setDescricaoItem(String descricaoItem) {
-			setDescricaoItem(descricaoItem);
+			this.descricaoItem = descricaoItem;
 		}
 		
 	}
@@ -588,7 +588,7 @@ public class AvaliacaoRendimento {
 		}
 
 		public void setDescricaoItem(String descricaoItem) {
-			setDescricaoItem(descricaoItem);
+			this.descricaoItem = descricaoItem;
 		}
 		
 	}
@@ -610,7 +610,7 @@ public class AvaliacaoRendimento {
 		}
 
 		public void setDescricaoItem(String descricaoItem) {
-			setDescricaoItem(descricaoItem);
+			this.descricaoItem = descricaoItem;
 		}
 	}
 	
@@ -637,7 +637,7 @@ public class AvaliacaoRendimento {
 		}
 
 		public void setDescricaoItem(String descricaoItem) {
-			setDescricaoItem(descricaoItem);
+			this.descricaoItem = descricaoItem;
 		}
 	}	
 
@@ -659,7 +659,7 @@ public class AvaliacaoRendimento {
 		}
 
 		public void setDescricaoItem(String descricaoItem) {
-			setDescricaoItem(descricaoItem);
+			this.descricaoItem = descricaoItem;
 		}
 		
 	}
@@ -687,7 +687,7 @@ public class AvaliacaoRendimento {
 		}
 
 		public void setDescricaoItem(String descricaoItem) {
-			setDescricaoItem(descricaoItem);
+			this.descricaoItem = descricaoItem;
 		}
 	}
 
@@ -708,7 +708,7 @@ public class AvaliacaoRendimento {
 		}
 
 		public void setDescricaoItem(String descricaoItem) {
-			setDescricaoItem(descricaoItem);
+			this.descricaoItem = descricaoItem;
 		}
 
 	}

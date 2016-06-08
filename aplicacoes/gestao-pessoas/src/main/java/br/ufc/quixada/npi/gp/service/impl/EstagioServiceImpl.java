@@ -67,7 +67,7 @@ public class EstagioServiceImpl implements EstagioService {
 
 	@Override
 	public void editarRelatorio(Submissao submissao) throws Exception {
-		// TODO Auto-generated method stub
+		//
 		
 	}
 

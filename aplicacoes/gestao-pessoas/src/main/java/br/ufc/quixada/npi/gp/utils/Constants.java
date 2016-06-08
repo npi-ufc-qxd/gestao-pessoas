@@ -27,6 +27,8 @@ public class Constants {
 	public static final String FORMULARIO_EDITAR_TURMA = "supervisor/editar-turma";
 
 	public static final String ACOMPANHAMENTO_ESTAGIARIO = "supervisor/acompanhamento-estagiario";
+	
+	public static final String FORMULARIO_AVALIAR_PLANO = "supervisor/adicionar-avaliacao-plano";
 
 	public static final String FORMULARIO_ADICIONAR_AVALIACAO_RENDIMENTO = "supervisor/adicionar-avaliacao-rendimento";
 
@@ -42,6 +44,8 @@ public class Constants {
 
 	public static final String DECLARACAO_ESTAGIO = "DECLARACAO_ESTAGIO";
 	
+	public static final String AVALIAR_RELATORIO = "supervisor/avaliar-relatorio";
+	
 
 	/** REDIRECIONAMENTOS */
 
@@ -51,7 +55,7 @@ public class Constants {
 
 	public static final String REDIRECT_DETALHES_TURMA = "redirect:/Supervisor/detalhes-turma";
 	
-	public static final String REDIRECT_ACOMPANHAMENTO_ESTAGIARIO = "Supervisor/Turma/Acompanhamento/";
+	public static final String REDIRECT_ACOMPANHAMENTO_ESTAGIARIO = "redirect:/Supervisor/Turma/Acompanhamento/";
 	
 	public static final String REDIRECT_ACOMPANHAMENTO_ESTAGIO = "redirect:/Estagiario/Acompanhamento/";
 	

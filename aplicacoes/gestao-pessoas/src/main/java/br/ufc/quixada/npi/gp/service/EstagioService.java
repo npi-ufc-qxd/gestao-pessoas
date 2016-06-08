@@ -17,7 +17,7 @@ public interface EstagioService {
 	List<Estagio> buscarEstagiosPorEstagiarioCpf(Long idEstagiario);
 	
 	Estagio buscarEstagioPorIdEEstagiarioCpf(Long idEstagio, String cpf);
-
+	Estagio buscarEstagioPorId(Long idEstagio);
 	void submeter(Submissao submissao);
 
 	void editarSubmissao(Submissao submissao)  throws Exception;
@@ -27,6 +27,8 @@ public interface EstagioService {
 	void avaliarSubmissao(Submissao submissao);
 
 	Submissao buscarSubmissaoPorTipoSubmissaoEEstagioIdECpf(Submissao.TipoSubmissao tipoSubmissao, Long idEstagio, String cpf);
+
+	Submissao buscarSubmissaoPorTipoSubmissaoEEstagioId(Submissao.TipoSubmissao tipoSubmissao, Long idEstagio);
 	
 	void adicionarAvaliacaoRendimento(AvaliacaoRendimento avaliacaoRendimento);
 	

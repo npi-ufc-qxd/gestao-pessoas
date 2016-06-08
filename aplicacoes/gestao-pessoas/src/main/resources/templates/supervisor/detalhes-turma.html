@@ -86,7 +86,7 @@
 		          <ul class="list-group">
 		            <li th:each="est :${turma.estagios}" class="list-group-item gp-list-group-item">
 		              <b th:inline="text"> [[${est.estagiario.nomeCompleto}]] </b>
-		              <a th:href="@{/Supervisor/Turma/AcompanhamentoEstagiario/{id}(id=${est.estagiario.id})}" class="btn btn-success btn-sm pull-right gp-btn-acompanhamento">acompanhamento</a>
+		              <a th:href="@{/Supervisor/Turma/Acompanhamento/{id}(id=${est.estagiario.id})}" class="btn btn-success btn-sm pull-right gp-btn-acompanhamento">acompanhamento</a>
 		            </li>
 		            
 		          </ul>

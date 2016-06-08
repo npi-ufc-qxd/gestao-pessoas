@@ -173,3 +173,7 @@ a.btn.gp-btn-opcao:active, a.btn.gp-btn-opcao:visited {
 .list-group li a {
 	margin-top: -5px;
 }
+.gp-align-left .control-label{
+	text-align: left !important;
+	font-weight: bold;
+}

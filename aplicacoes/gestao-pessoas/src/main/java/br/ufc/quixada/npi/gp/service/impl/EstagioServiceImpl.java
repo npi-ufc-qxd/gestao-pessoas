@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.inject.Named;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import br.ufc.quixada.npi.gp.model.AvaliacaoRendimento;
 import br.ufc.quixada.npi.gp.model.Estagiario;
 import br.ufc.quixada.npi.gp.model.Estagio;
@@ -12,11 +14,19 @@ import br.ufc.quixada.npi.gp.model.Frequencia;
 import br.ufc.quixada.npi.gp.model.Submissao;
 import br.ufc.quixada.npi.gp.model.Submissao.TipoSubmissao;
 import br.ufc.quixada.npi.gp.model.Turma;
+import br.ufc.quixada.npi.gp.repository.AvaliacaoRendimentoRepository;
+import br.ufc.quixada.npi.gp.repository.EstagioRepository;
 import br.ufc.quixada.npi.gp.service.ConsolidadoFrequencia;
 import br.ufc.quixada.npi.gp.service.EstagioService;
 @Named
 public class EstagioServiceImpl implements EstagioService {
 
+	@Autowired
+	AvaliacaoRendimentoRepository avaliacaoRepository;
+	
+	@Autowired
+	EstagioRepository estagioRepository;
+	
 	@Override
 	public Estagio buscarEstagioPorIdEEstagiarioId(Long idEstagio, Long idEstagiario) {
 		// TODO Auto-generated method stub
@@ -74,7 +84,7 @@ public class EstagioServiceImpl implements EstagioService {
 	@Override
 	public void adicionarAvaliacaoRendimento(AvaliacaoRendimento avaliacaoRendimento) {
 		// TODO Auto-generated method stub
-		
+		avaliacaoRepository.save(avaliacaoRendimento);
 	}
 
 	@Override
@@ -153,6 +163,11 @@ public class EstagioServiceImpl implements EstagioService {
 	public void adicionarObservacaoFrequencia() {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public Estagio buscarEstagioPorId(Long idEstagio) {
+		return estagioRepository.findOne(idEstagio);
 	}
 	
 	

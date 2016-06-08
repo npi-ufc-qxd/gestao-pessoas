@@ -14,6 +14,8 @@ public interface EstagioService {
 
 	Estagio buscarEstagioPorIdEEstagiarioId(Long idEstagio, Long idEstagiario);
 
+	Estagio buscarEstagioPorId(Long idEstagio);
+	
 	List<Estagio> buscarEstagiosPorEstagiarioCpf(Long idEstagiario);
 	
 	Estagio buscarEstagioPorIdEEstagiarioCpf(Long idEstagio, String cpf);

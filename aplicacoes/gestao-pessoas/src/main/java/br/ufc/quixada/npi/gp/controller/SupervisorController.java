@@ -13,10 +13,14 @@ import static br.ufc.quixada.npi.gp.utils.Constants.NOME_USUARIO;
 import static br.ufc.quixada.npi.gp.utils.Constants.PAGINA_INICIAL_SUPERVISOR;
 import static br.ufc.quixada.npi.gp.utils.Constants.REDIRECT_ACOMPANHAMENTO_ESTAGIARIO;
 import static br.ufc.quixada.npi.gp.utils.Constants.REDIRECT_DETALHES_TURMA;
+import static br.ufc.quixada.npi.gp.utils.Constants.REDIRECT_PAGINA_LOGIN;
 import static br.ufc.quixada.npi.gp.utils.Constants.TERMO_COMPROMISSO_ESTAGIO;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
@@ -35,10 +39,12 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import br.ufc.quixada.npi.gp.model.AvaliacaoRendimento;
+import br.ufc.quixada.npi.gp.model.Estagio;
 import br.ufc.quixada.npi.gp.model.Papel;
 import br.ufc.quixada.npi.gp.model.Pessoa;
 import br.ufc.quixada.npi.gp.model.Servidor;
 import br.ufc.quixada.npi.gp.model.Turma;
+import br.ufc.quixada.npi.gp.service.EstagioService;
 import br.ufc.quixada.npi.gp.service.PessoaService;
 import br.ufc.quixada.npi.ldap.service.UsuarioService;
 import net.sf.jasperreports.engine.JRException;
@@ -53,9 +59,9 @@ public class SupervisorController {
 
 	@Autowired
 	private UsuarioService usuarioService;
-
-//	@Inject
-//	private EstagioService estagioService;
+	
+	@Inject
+	private EstagioService estagioService;
 //
 //	@Autowired
 //	private TurmaService turmaService;
@@ -275,50 +281,90 @@ public class SupervisorController {
 	
 	// AVALIAÇÃO DE RENDIMENTO
 	
-	@RequestMapping(value = "/Turma/AcompanhamentoEstagiario/{idEstagio}/AvaliacaoRendimento", method = RequestMethod.GET)
+	@RequestMapping(value = "/Turma/Acompanhamento/{idEstagio}/AvaliacaoRendimento", method = RequestMethod.GET)
 	public String formularioAdicionarAvaliacaoRendimento(Model model, @PathVariable("idEstagio") Long idEstagio) {
 //		model.addAttribute("avaliacaoEstagio", avaliacaoService.getAvaliacoesEstagioByEstagiarioIdAndTurmaById(idEstagiario, idTurma));
 //		model.addAttribute("turma", turmaService.find(Turma.class, idTurma));
 //		model.addAttribute("estagiario", estagiarioService.find(Estagiario.class, idEstagiario));
 //		model.addAttribute("submissoes", turmaService.getSubmissoesByEstagiarioIdAndIdTurma(idEstagiario, idTurma));
 
+		Estagio estagio = estagioService.buscarEstagioPorId(idEstagio);
+		
+		model.addAttribute("avaliacaoRendimento", new AvaliacaoRendimento());
+		model.addAttribute("idEstagio", idEstagio);
+		model.addAttribute("estagio", estagio);
+
 		return FORMULARIO_ADICIONAR_AVALIACAO_RENDIMENTO;
 	}
 
+	@ModelAttribute("frequencias")
+    public List<AvaliacaoRendimento.Frequencia> todasFrequencias() {
+        return Arrays.asList(AvaliacaoRendimento.Frequencia.values());
+    }	
+	
+	@ModelAttribute("permanencias")
+    public List<AvaliacaoRendimento.Permanencia> todasPermanencias() {
+        return Arrays.asList(AvaliacaoRendimento.Permanencia.values());
+    }
+	
+	@ModelAttribute("disciplinas")
+    public List<AvaliacaoRendimento.DisciplinaQuantoAoCumprimentoDasNormas> todasDisciplinas() {
+        return Arrays.asList(AvaliacaoRendimento.DisciplinaQuantoAoCumprimentoDasNormas.values());
+    }
+	
+	@ModelAttribute("iniciativas")
+    public List<AvaliacaoRendimento.Iniciativa> todasIniciativas() {
+        return Arrays.asList(AvaliacaoRendimento.Iniciativa.values());
+    }
+	
+	@ModelAttribute("qualidades")
+    public List<AvaliacaoRendimento.QualidadeDoTrabalho> todasQualidades() {
+        return Arrays.asList(AvaliacaoRendimento.QualidadeDoTrabalho.values());
+    }
+	
+	@ModelAttribute("quantidades")
+    public List<AvaliacaoRendimento.QuantidadeDeTrabalho> todasQuantidades() {
+        return Arrays.asList(AvaliacaoRendimento.QuantidadeDeTrabalho.values());
+    }
+	
+	@ModelAttribute("cumprimentos")
+    public List<AvaliacaoRendimento.CumprimentoPrazos> todosCumprimentos() {
+        return Arrays.asList(AvaliacaoRendimento.CumprimentoPrazos.values());
+    }
+	
+	@ModelAttribute("relacionamentos")
+    public List<AvaliacaoRendimento.RelacionamentoGerenciaEFuncionarios> todosRelacionamentos() {
+        return Arrays.asList(AvaliacaoRendimento.RelacionamentoGerenciaEFuncionarios.values());
+    }
+	
+	@ModelAttribute("trabalhos")
+    public List<AvaliacaoRendimento.TrabalhoEmEquipe> todosTrabalhos() {
+        return Arrays.asList(AvaliacaoRendimento.TrabalhoEmEquipe.values());
+    }
+    
+	@ModelAttribute("comprometimentos")
+    public List<AvaliacaoRendimento.ComprometimentoComTrabalho> todosComprometimentos() {
+        return Arrays.asList(AvaliacaoRendimento.ComprometimentoComTrabalho.values());
+    }
+	
+	@ModelAttribute("cuidados")
+    public List<AvaliacaoRendimento.CuidadoMateriaisEEquipamentos> todosCuidados() {
+        return Arrays.asList(AvaliacaoRendimento.CuidadoMateriaisEEquipamentos.values());
+    }
+	
+	/*@ModelAttribute("todas")
+    public List<AvaliacaoRendimento.> todas() {
+        return Arrays.asList(AvaliacaoRendimento..values());
+    }*/
+	
 	@RequestMapping(value = "/Turma/AcompanhamentoEstagiario/{idEstagio}/AvaliacaoRendimento", method = RequestMethod.POST)
-	public String adicionarAvaliacaoRendimento(Model model,
+	public String adicionarAvaliacaoRendimento(Model model, @RequestParam(value="arquivo", required = false) MultipartFile arquivo,
 			@Valid @ModelAttribute("avaliacaoRendimento") AvaliacaoRendimento avaliacaoRendimento,
-			RedirectAttributes redirect, @PathVariable("idEstagio") Long idEstagio,
-			@RequestParam("arquivoAvaliacaoRendimento") MultipartFile arquivoAvaliacaoRendimento) {
-
-//		if(!rendimento.getContentType().equals("application/pdf")){
-//			redirect.addFlashAttribute("error", "Escolha um arquivo pdf.");
-//			return "redirect:/supervisor/turma/{idTurma}/acompanhamento-avaliacao/estagiario/{idEstagiario}";
-//		}
-//		
-//		model.addAttribute("action", "cadastrar");
-//		Pessoa pessoa = getUsuarioLogado(session);
-//		Estagiario estagiario = estagiarioService.find(Estagiario.class, idEstagiario);
-//		Turma turma = turmaService.getTurmaByIdAndEstagiarioId(idTurma, idEstagiario);
-//
-//		Tipo tipo = Tipo.AVALIACAO_RENDIMENTO;
-//		
-//		try {
-//			turmaService.submeterDocumento(estagiario, turma, tipo, rendimento);
-//		} catch (IOException e) {
-//			return "redirect:/500";
-//		}
-//		
-//		Submissao submissao = turmaService.getSubmissaoByEstagiarioIdAndIdTurmaAndTipo(idEstagiario, idTurma, tipo);
-//		Documento documento = submissao.getDocumento();
-//		avaliacaoRendimento.setSupervisor(pessoa);
-//		avaliacaoRendimento.setTurma(turma);
-//		avaliacaoRendimento.setEstagiario(estagiario);
-//		avaliacaoRendimento.setNota(nota);
-//		avaliacaoRendimento.setDocumento(documento);
-//		avaliacaoService.save(avaliacaoRendimento);
-//		redirect.addFlashAttribute("success", "Avaliação cadastrada com sucesso.");
-
+			RedirectAttributes redirect, @PathVariable("idEstagio") Long idEstagio) {
+	
+		avaliacaoRendimento.setEstagio(estagioService.buscarEstagioPorId(idEstagio));
+		estagioService.adicionarAvaliacaoRendimento(avaliacaoRendimento);
+		
 		return REDIRECT_ACOMPANHAMENTO_ESTAGIARIO + idEstagio;
 	}
 
@@ -382,7 +428,12 @@ public class SupervisorController {
 	
 	
 	
-	
+	private boolean isValidoArquivo(MultipartFile arquivo){
+		if(arquivo != null && arquivo.getContentType().equals("application/pdf")){
+			return true;
+		}	
+		return false;
+	}
 	
 	
 	

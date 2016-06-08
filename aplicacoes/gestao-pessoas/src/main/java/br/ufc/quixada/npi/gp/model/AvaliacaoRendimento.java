@@ -452,6 +452,7 @@ public class AvaliacaoRendimento {
 	 * @Fator: ASSIDUIDADE E DISCIPLINA
 	 *
 	 */
+
 	
 	public enum Frequencia {
 		PESSIMA("Falta constantemente ao estágio (menos de 75% de presença)"),
@@ -470,11 +471,10 @@ public class AvaliacaoRendimento {
 		}
 
 		public void setDescricaoItem(String descricaoItem) {
-			setDescricaoItem(descricaoItem);
+			this.descricaoItem = descricaoItem;
 		}
 		
 	}
-
 	public enum Permanencia {
 		PESSIMA("Não permanece no local do estágio"), 
 		IRREGULAR("Com frequência ausenta-se do local do estágio"), 
@@ -492,7 +492,7 @@ public class AvaliacaoRendimento {
 		}
 
 		public void setDescricaoItem(String descricaoItem) {
-			setDescricaoItem(descricaoItem);
+			this.descricaoItem = descricaoItem;
 		}
 
 	}
@@ -514,7 +514,7 @@ public class AvaliacaoRendimento {
 		}
 
 		public void setDescricaoItem(String descricaoItem) {
-			setDescricaoItem(descricaoItem);
+			this.descricaoItem = descricaoItem;
 		}
 
 	}	
@@ -542,7 +542,7 @@ public class AvaliacaoRendimento {
 		}
 
 		public void setDescricaoItem(String descricaoItem) {
-			setDescricaoItem(descricaoItem);
+			this.descricaoItem = descricaoItem;
 		}
 			
 	
@@ -566,7 +566,7 @@ public class AvaliacaoRendimento {
 		}
 
 		public void setDescricaoItem(String descricaoItem) {
-			setDescricaoItem(descricaoItem);
+			this.descricaoItem = descricaoItem;
 		}
 		
 	}
@@ -588,7 +588,7 @@ public class AvaliacaoRendimento {
 		}
 
 		public void setDescricaoItem(String descricaoItem) {
-			setDescricaoItem(descricaoItem);
+			this.descricaoItem = descricaoItem;
 		}
 		
 	}
@@ -610,7 +610,7 @@ public class AvaliacaoRendimento {
 		}
 
 		public void setDescricaoItem(String descricaoItem) {
-			setDescricaoItem(descricaoItem);
+			this.descricaoItem = descricaoItem;
 		}
 	}
 	
@@ -637,7 +637,7 @@ public class AvaliacaoRendimento {
 		}
 
 		public void setDescricaoItem(String descricaoItem) {
-			setDescricaoItem(descricaoItem);
+			this.descricaoItem = descricaoItem;
 		}
 	}	
 
@@ -659,7 +659,7 @@ public class AvaliacaoRendimento {
 		}
 
 		public void setDescricaoItem(String descricaoItem) {
-			setDescricaoItem(descricaoItem);
+			this.descricaoItem = descricaoItem;
 		}
 		
 	}
@@ -687,7 +687,7 @@ public class AvaliacaoRendimento {
 		}
 
 		public void setDescricaoItem(String descricaoItem) {
-			setDescricaoItem(descricaoItem);
+			this.descricaoItem = descricaoItem;
 		}
 	}
 
@@ -708,7 +708,7 @@ public class AvaliacaoRendimento {
 		}
 
 		public void setDescricaoItem(String descricaoItem) {
-			setDescricaoItem(descricaoItem);
+			this.descricaoItem = descricaoItem;
 		}
 
 	}

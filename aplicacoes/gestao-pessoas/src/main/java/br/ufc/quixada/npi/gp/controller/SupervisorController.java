@@ -44,6 +44,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import br.ufc.quixada.npi.gp.model.AvaliacaoRendimento;
+import br.ufc.quixada.npi.gp.model.Estagio;
 import br.ufc.quixada.npi.gp.model.Papel;
 import br.ufc.quixada.npi.gp.model.Pessoa;
 import br.ufc.quixada.npi.gp.model.Servidor;
@@ -71,9 +72,6 @@ public class SupervisorController {
 	@Autowired
 	private EstagioService estagioService;
 
-	// @Inject
-	// private EstagioService estagioService;
-	//
 	@Autowired
 	private TurmaService turmaService;
 	//
@@ -173,19 +171,8 @@ public class SupervisorController {
 	}
 
 	@RequestMapping(value = "/Turma/{idTurma}", method = RequestMethod.GET)
-	public String visualizarDetalhesTurma(@PathVariable("idTurma") Long idTurma, RedirectAttributes redirect,
-			Model model, HttpSession session) {
-		//
-		// Servidor servidor = pessoaService.buscarServidorPorCpf(getCpf());
-		//
-		// model.addAttribute("turma",
-		// turmaService.getTurmaByIdAndSupervisorById(idTurma, pessoa.getId()));
-		// turmaService.buscarTurmaPorIdEServidorId(idTurma, pessoa.getId());
-		//
-		//
-		// List<Estagiario> aniversariantes =
-		// estagiarioService.getAniversariantesMesByTurmaId(idTurma);
-		// model.addAttribute("aniversariantes", aniversariantes);
+	public String visualizarDetalhesTurma(@PathVariable("idTurma") Long idTurma, RedirectAttributes redirect, Model model, HttpSession session) {
+
 		Pessoa pessoa = pessoaService.buscarPessoaPorCpf(getCpfUsuarioLogado());
 
 		Turma turma = turmaService.buscarTurmaPorId(idTurma);
@@ -290,9 +277,30 @@ public class SupervisorController {
 		return MAPA_FREQUENCIAS;
 	}
 
-	@RequestMapping(value = "/Turma/Acompanhamento/{idEstagio}", method = RequestMethod.GET)
-	public String detalhesAcompanhamentoEstagiario(Model model, @PathVariable("idEstagio") Long idEstagio) {
-		return ACOMPANHAMENTO_ESTAGIARIO;
+	@RequestMapping( value = "/Turma/Acompanhamento/{idEstagio}", method = RequestMethod.GET)
+	public String detalhesAcompanhamentoEstagiario(Model model, @PathVariable("idEstagio") Long idEstagio, RedirectAttributes redirect) {
+		
+		Pessoa pessoa = pessoaService.buscarPessoaPorCpf(getCpfUsuarioLogado());
+		
+		Estagio estagio = estagioService.buscarEstagioPorId(idEstagio);
+		
+		if(estagio == null){
+			redirect.addFlashAttribute("error", "Estágio não existe");
+			return REDIRECT_PAGINA_INICIAL_SUPERVISOR; 
+		}
+		
+		List<Servidor> supervisores = estagio.getTurma().getSupervisores();
+		for (Servidor servidor : supervisores) {
+			if(servidor.getPessoa().getCpf().equals(pessoa.getCpf())){
+				model.addAttribute("estagio", estagio);
+				return ACOMPANHAMENTO_ESTAGIARIO;
+			}
+		}
+		
+		redirect.addFlashAttribute("error", "Permissão negada");
+		
+		return REDIRECT_PAGINA_INICIAL_SUPERVISOR; 
+
 	}
 
 	@RequestMapping(value = "/Turma/Acompanhamento/{idEstagio}/AvaliarPlano", method = RequestMethod.GET)

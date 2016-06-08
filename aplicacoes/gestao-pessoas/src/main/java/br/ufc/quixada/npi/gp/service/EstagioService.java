@@ -18,7 +18,7 @@ public interface EstagioService {
 	List<Estagio> buscarEstagiosPorEstagiarioCpf(Long idEstagiario);
 	
 	Estagio buscarEstagioPorIdEEstagiarioCpf(Long idEstagio, String cpf);
-
+	Estagio buscarEstagioPorId(Long idEstagio);
 	void submeter(Submissao submissao);
 
 	void editarSubmissao(Submissao submissao)  throws Exception;

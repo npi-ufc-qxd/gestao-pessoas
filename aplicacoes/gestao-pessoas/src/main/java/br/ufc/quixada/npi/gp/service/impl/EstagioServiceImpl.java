@@ -45,6 +45,10 @@ public class EstagioServiceImpl implements EstagioService {
 	public Estagio buscarEstagioPorIdEstagio(Long idEstagio) {
 		return estagioRepository.findById(idEstagio);
 	}
+	@Override
+	public Estagio buscarEstagioPorId(Long idEstagio){
+		return estagioRepository.findOne(idEstagio);
+	}
 
 	@Override
 	public List<Estagio> buscarEstagiosPorEstagiarioCpf(Long idEstagiario) {
@@ -75,7 +79,7 @@ public class EstagioServiceImpl implements EstagioService {
 
 	@Override
 	public void editarRelatorio(Submissao submissao) throws Exception {
-		// TODO Auto-generated method stub
+		//
 		
 	}
 

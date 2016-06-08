@@ -30,7 +30,7 @@ public interface TurmaService {
 	Evento buscarEventoPorId(Long idEvento);
 
 	Expediente buscarHorarioPorIdETurmaId(Long idExpediente, Long idTurma);
-
+	
 	void adicionarExpediente(Expediente expediente);
 
 	void excluirExpediente(Long idExpediente);

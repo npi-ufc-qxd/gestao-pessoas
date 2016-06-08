@@ -55,36 +55,36 @@
 	        </div>
 	
 	
-	        <div class="panel panel-bluegray">
+	            <div class="panel panel-bluegray">
 	          <div class="panel-heading">
-	            <a class="panel-title" data-toggle="collapse" data-target="#eventos"><i class="fa fa-caret-down" aria-hidden="true"></i> Detalhes do Estagiário</a>
-	          </div>
-
-	          <div id="detalhes_estagiario" class="panel-body collapse in">
-	          		<table class="table table-hover" >
-	          			<tbody>
-	          				<tr>
-	          					<td><strong>Nome</strong></td>
-	          					<td>José Alves</td>
-	          				</tr>
-	          				<tr>
-	          					<td><strong>Curso</strong></td>
-	          					<td>Sistemas de Informação</td>
-	          				</tr>
-	          				<tr>
-	          					<td><strong>E-mail</strong></td>
-	          					<td>ze.alves@bol.com.br</td>
-	          				</tr>
-	          				<tr>
-	          					<td><strong>Telefone</strong></td>
-	          					<td>(99) 90000-0000</td>
-	          				</tr>
-	          				<tr>
-	          					<td><strong>Usuário Github</strong></td>
-	          					<td>usuario.usuario</td>
-	          				</tr>
-	          			</tbody>
-	          		</table>	
+	            <a class="panel-title" data-toggle="collapse" data-target="#estagiario"><i class="fa fa-caret-down" aria-hidden="true"></i> Estágiario</a>
+			  </div>
+	          <div id="estagiario" class="panel-body collapse in">
+	          	<table class="table table-hover">
+				    <tbody>
+				      <tr>
+				        <td class="gp-sem-borda"><strong>Nome:</strong></td>
+				        <td class="gp-sem-borda" th:text="${estagio.estagiario.nomeCompleto}"></td>
+				 	  </tr>
+				      <tr>
+				        <td><strong>Curso:</strong></td>
+				        <td th:text="${estagio.estagiario.curso.descricao}"></td>
+				      </tr>
+				      <tr>
+				        <td><strong>Email:</strong></td>
+				        <td th:text="${estagio.estagiario.email}"></td>
+				      </tr>
+				      <tr>
+				        <td><strong>Telefone:</strong></td>
+				        <td th:text="${estagio.estagiario.telefone}"></td>
+				      </tr>
+				      <tr>
+				        <td><strong>Github:</strong></td>
+				        <td th:text="${estagio.estagiario.usuarioGithub}"></td>
+				      </tr>
+				      
+				    </tbody>
+				  </table>
 	          </div>
 	        </div>
 	      </div>
@@ -96,7 +96,7 @@
 	            <p class="panel-title" data-toggle="collapse" data-target="#estagiarios">Avaliação de Rendimento</p>
 	          </div>
 	          <div id="estagiarios" class="panel-body collapse in">
-					<form method="post" enctype="multipart/form-data" class="form-horizontal" action="#" th:action="@{/Supervisor/Turma/AcompanhamentoEstagiario/{idEstagio}/AvaliacaoRendimento(idEstagio=${idEstagio})}" th:object="${avaliacaoRendimento}">
+					<form method="post" enctype="multipart/form-data" class="form-horizontal" action="#" th:action="@{/Supervisor/Turma/Acompanhamento/{idEstagio}/AvaliacaoRendimento(idEstagio=${estagio.id})}" th:object="${avaliacaoRendimento}">
 
 					  <fieldset>
 					    <legend>Assuidade e Disciplina</legend>

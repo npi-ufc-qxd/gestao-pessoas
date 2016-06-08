@@ -15,7 +15,9 @@ public class Servidor {
 
 	@ManyToOne
 	private Pessoa pessoa;
-
+	
+	private String nome;
+	
 	private String siape;
 
 	private String telefone;
@@ -26,6 +28,14 @@ public class Servidor {
 
 	public String getSiape() {
 		return siape;
+	}
+
+	public String getNome() {
+		return nome;
+	}
+
+	public void setNome(String nome) {
+		this.nome = nome;
 	}
 
 	public void setSiape(String siape) {

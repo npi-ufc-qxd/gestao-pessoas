@@ -11,26 +11,48 @@ import br.ufc.quixada.npi.gp.model.AvaliacaoRendimento;
 import br.ufc.quixada.npi.gp.model.Estagiario;
 import br.ufc.quixada.npi.gp.model.Estagio;
 import br.ufc.quixada.npi.gp.model.Frequencia;
+import br.ufc.quixada.npi.gp.model.Frequencia.StatusFrequencia;
+import br.ufc.quixada.npi.gp.model.Frequencia.TipoFrequencia;
 import br.ufc.quixada.npi.gp.model.Submissao;
+import br.ufc.quixada.npi.gp.model.Submissao.StatusEntrega;
 import br.ufc.quixada.npi.gp.model.Submissao.TipoSubmissao;
 import br.ufc.quixada.npi.gp.model.Turma;
 import br.ufc.quixada.npi.gp.repository.AvaliacaoRendimentoRepository;
 import br.ufc.quixada.npi.gp.repository.EstagioRepository;
+import br.ufc.quixada.npi.gp.repository.FrequenciaRepository;
+import br.ufc.quixada.npi.gp.repository.SubmissaoRepository;
 import br.ufc.quixada.npi.gp.service.ConsolidadoFrequencia;
 import br.ufc.quixada.npi.gp.service.EstagioService;
+import br.ufc.quixada.npi.gp.utils.UtilGestao;
 @Named
 public class EstagioServiceImpl implements EstagioService {
+	
+	@Autowired
+	private FrequenciaRepository frequenciaRepository;
+	
+	@Autowired
+	private SubmissaoRepository submissaoRepository;
 
 	@Autowired
 	AvaliacaoRendimentoRepository avaliacaoRepository;
 	
 	@Autowired
 	EstagioRepository estagioRepository;
+
 	
 	@Override
 	public Estagio buscarEstagioPorIdEEstagiarioId(Long idEstagio, Long idEstagiario) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	
+	@Override
+	public Estagio buscarEstagioPorIdEstagio(Long idEstagio) {
+		return estagioRepository.findById(idEstagio);
+	}
+	@Override
+	public Estagio buscarEstagioPorId(Long idEstagio){
+		return estagioRepository.findOne(idEstagio);
 	}
 
 	@Override
@@ -41,44 +63,39 @@ public class EstagioServiceImpl implements EstagioService {
 
 	@Override
 	public Estagio buscarEstagioPorIdEEstagiarioCpf(Long idEstagio, String cpf) {
-		// TODO Auto-generated method stub
-		return null;
+		return estagioRepository.findByIdAndEstagiario_Pessoa_Cpf(idEstagio, cpf);
+	}
+	
+	
+
+	@Override
+	public void submeter(Submissao submissao) {
+		submissaoRepository.save(submissao);
 	}
 
 	@Override
-	public void submeterPlano(Submissao submissao) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void editarPlano(Submissao submissao) throws Exception {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void submeterRelatorio(Submissao submissao) {
-		// TODO Auto-generated method stub
-		
+	public void editarSubmissao(Submissao submissao) throws Exception {
+		if(StatusEntrega.SUBMETIDO.equals(submissao.getStatusEntrega()) || StatusEntrega.CORRECAO.equals(submissao.getStatusEntrega())){
+			submissaoRepository.save(submissao);
+		}else{
+			throw new Exception();
+		}
 	}
 
 	@Override
 	public void editarRelatorio(Submissao submissao) throws Exception {
-		// TODO Auto-generated method stub
+		//
 		
 	}
 
 	@Override
 	public void avaliarSubmissao(Submissao submissao) {
-		// TODO Auto-generated method stub
-		
+		submissaoRepository.save(submissao);
 	}
 
 	@Override
-	public Submissao buscarSubmissaoPorEstagioIdETipo(Long idEstagio, TipoSubmissao tipoSubmissao) {
-		// TODO Auto-generated method stub
-		return null;
+	public Submissao buscarSubmissaoPorTipoSubmissaoEEstagioIdECpf(TipoSubmissao tipoSubmissao, Long idEstagio, String cpf) {
+		return submissaoRepository.findByTipoSubmissaoAndEstagio_IdAndEstagio_Estagiario_Pessoa_Cpf(tipoSubmissao, idEstagio, cpf);
 	}
 
 	@Override
@@ -103,6 +120,11 @@ public class EstagioServiceImpl implements EstagioService {
 	public Frequencia buscarFrequenciaPorDataEEstagioId(Date data, Long idEstagio) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	
+	@Override
+	public Frequencia buscarFrequenciaDeHojePorEstagio(Estagio estagio) {
+		return frequenciaRepository.findFrequenciaDeHojeByEstagio(estagio) ;
 	}
 
 	@Override
@@ -142,8 +164,38 @@ public class EstagioServiceImpl implements EstagioService {
 	}
 
 	@Override
-	public void realizarPresenca(Estagio estagio) {
-		// TODO Auto-generated method stub
+	public boolean realizarPresenca(Estagio estagio) {
+		
+		Frequencia frequencia = buscarFrequenciaDeHojePorEstagio(estagio);
+		
+		if(frequencia == null) {
+			if(UtilGestao.hojeEDiaDeTrabahoDaTurma(estagio.getTurma().getExpedientes()) && UtilGestao.isHoraPermitida(estagio.getTurma().getExpedientes())){
+	
+				frequencia = new Frequencia();
+
+				frequencia.setEstagio(estagio);
+				frequencia.setStatus(StatusFrequencia.PRESENTE);
+				frequencia.setData(new Date());
+				frequencia.setHorario(new Date());
+				frequencia.setTipo(TipoFrequencia.NORMAL);
+	
+				frequenciaRepository.save(frequencia);
+				return true;
+			}	
+		} else {
+			if(frequencia.getTipo() == TipoFrequencia.REPOSICAO && frequencia.getStatus() == StatusFrequencia.AGUARDO) {
+				frequencia.setEstagio(estagio);
+				frequencia.setStatus(StatusFrequencia.PRESENTE);
+				frequencia.setData(new Date());
+				frequencia.setHorario(new Date());
+				frequencia.setTipo(TipoFrequencia.REPOSICAO);
+
+				frequenciaRepository.save(frequencia);
+				return true;
+			}
+		}
+		
+		return false;
 		
 	}
 
@@ -164,10 +216,11 @@ public class EstagioServiceImpl implements EstagioService {
 		// TODO Auto-generated method stub
 		
 	}
-
+	
 	@Override
-	public Estagio buscarEstagioPorId(Long idEstagio) {
-		return estagioRepository.findOne(idEstagio);
+	public Submissao buscarSubmissaoPorTipoSubmissaoEEstagioId(TipoSubmissao tipoSubmissao, Long idEstagio) {
+		return submissaoRepository.findByIdETipo(tipoSubmissao, idEstagio);
+
 	}
 	
 	

@@ -6,6 +6,7 @@ import java.util.List;
 import br.ufc.quixada.npi.gp.model.AvaliacaoRendimento;
 import br.ufc.quixada.npi.gp.model.Estagiario;
 import br.ufc.quixada.npi.gp.model.Estagio;
+
 import br.ufc.quixada.npi.gp.model.Frequencia;
 import br.ufc.quixada.npi.gp.model.Submissao;
 import br.ufc.quixada.npi.gp.model.Turma;
@@ -19,27 +20,27 @@ public interface EstagioService {
 	List<Estagio> buscarEstagiosPorEstagiarioCpf(Long idEstagiario);
 	
 	Estagio buscarEstagioPorIdEEstagiarioCpf(Long idEstagio, String cpf);
-
-	void submeterPlano(Submissao submissao);
-
-	void editarPlano(Submissao submissao)  throws Exception;
 	
-	void submeterRelatorio(Submissao submissao);
+	void submeter(Submissao submissao);
+
+	void editarSubmissao(Submissao submissao)  throws Exception;
 	
 	void editarRelatorio(Submissao submissao) throws Exception;
 
 	void avaliarSubmissao(Submissao submissao);
 
-	Submissao buscarSubmissaoPorEstagioIdETipo(Long idEstagio, Submissao.TipoSubmissao tipoSubmissao);
+	Submissao buscarSubmissaoPorTipoSubmissaoEEstagioIdECpf(Submissao.TipoSubmissao tipoSubmissao, Long idEstagio, String cpf);
+
+	Submissao buscarSubmissaoPorTipoSubmissaoEEstagioId(Submissao.TipoSubmissao tipoSubmissao, Long idEstagio);
 	
 	void adicionarAvaliacaoRendimento(AvaliacaoRendimento avaliacaoRendimento);
 	
 	void editarAvaliacaoRendimento(AvaliacaoRendimento avaliacaoRendimento);
 
 	List<Frequencia> buscarFrequenciaPorEstagioId(Long idEstagio);
-
+	
 	Frequencia buscarFrequenciaPorDataEEstagioId(Date data, Long idEstagio);
-
+	
 	List<Frequencia> buscarFrequenciasPorDataETurmaId(Date data, Long idTurma);
 
 	ConsolidadoFrequencia calcularDadosConsolidados(List<Frequencia> frequencia);
@@ -52,12 +53,16 @@ public interface EstagioService {
 	
 	boolean permitirPresenca(Estagio estagio);
 	
-	void realizarPresenca(Estagio estagio);
+	boolean realizarPresenca(Estagio estagio);
 	
 	void adicionarFrequencia(Frequencia frequencia);
 
 	void editarStatusFrequencia();
 
 	void adicionarObservacaoFrequencia();
+
+	Frequencia buscarFrequenciaDeHojePorEstagio(Estagio estagio);
+
+	Estagio buscarEstagioPorIdEstagio(Long idEstagio);
 
 }

@@ -29,8 +29,6 @@ public interface PessoaService {
 
 	Estagiario buscarEstagiarioPorCpf(String cpf);
 
-	Estagiario buscarEstagiarioPorId(Long idEstagiario);
-
 	List<Estagiario> buscarAniversariantesDoMesPorTurmaId(Long idTurma);
 
 	void adicionarEstagiario(Estagiario estagiario);

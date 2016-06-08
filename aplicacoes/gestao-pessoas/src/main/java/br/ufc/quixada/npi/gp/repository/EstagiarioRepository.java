@@ -10,5 +10,6 @@ public interface EstagiarioRepository extends JpaRepository<Estagiario, Long> {
 
 	@Query("select e from Estagiario e where e.pessoa.cpf = :cpf")
 	Estagiario findByPessoaByCpf(@Param("cpf") String cpf);
-
+	
+	
 }

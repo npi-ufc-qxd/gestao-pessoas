@@ -128,6 +128,7 @@ a:hover {
     background: inherit;
     box-shadow: none;
     color: rgba(236, 239, 241, 0.7);
+    font-weight: bold;
 }
 
 a.btn.gp-btn-opcao:hover, a.btn.gp-btn-opcao:focus {
@@ -171,4 +172,8 @@ a.btn.gp-btn-opcao:active, a.btn.gp-btn-opcao:visited {
 
 .list-group li a {
 	margin-top: -5px;
+}
+.gp-align-left .control-label{
+	text-align: left !important;
+	font-weight: bold;
 }

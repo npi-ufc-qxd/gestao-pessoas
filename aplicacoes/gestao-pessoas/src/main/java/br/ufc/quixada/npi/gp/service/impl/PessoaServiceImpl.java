@@ -10,6 +10,7 @@ import br.ufc.quixada.npi.gp.model.Estagiario;
 import br.ufc.quixada.npi.gp.model.Papel;
 import br.ufc.quixada.npi.gp.model.Pessoa;
 import br.ufc.quixada.npi.gp.model.Servidor;
+import br.ufc.quixada.npi.gp.repository.EstagiarioRepository;
 import br.ufc.quixada.npi.gp.repository.PapelRepository;
 import br.ufc.quixada.npi.gp.repository.PessoaRepository;
 import br.ufc.quixada.npi.gp.repository.ServidorRepository;
@@ -26,6 +27,10 @@ public class PessoaServiceImpl implements PessoaService {
 
 	@Autowired
 	private ServidorRepository servidorRepository;
+	
+	@Autowired
+	private EstagiarioRepository estagiarioRepository;
+
 
 	@Override
 	public Papel buscarPapelPorNome(String nome) {
@@ -91,12 +96,6 @@ public class PessoaServiceImpl implements PessoaService {
 	}
 
 	@Override
-	public Estagiario buscarEstagiarioPorId(Long idEstagiario) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public List<Estagiario> buscarAniversariantesDoMesPorTurmaId(Long idTurma) {
 		// TODO Auto-generated method stub
 		return null;
@@ -119,6 +118,8 @@ public class PessoaServiceImpl implements PessoaService {
 		// TODO Auto-generated method stub
 		return false;
 	}
+
+	
 
 
 	

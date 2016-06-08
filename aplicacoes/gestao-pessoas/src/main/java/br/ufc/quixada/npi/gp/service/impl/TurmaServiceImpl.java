@@ -4,14 +4,21 @@ import java.util.List;
 
 import javax.inject.Named;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import br.ufc.quixada.npi.gp.model.Evento;
 import br.ufc.quixada.npi.gp.model.Expediente;
 import br.ufc.quixada.npi.gp.model.Turma;
+import br.ufc.quixada.npi.gp.repository.TurmaRepository;
 import br.ufc.quixada.npi.gp.service.TurmaService;
 
 @Named
-public class TurmaServiceImpl implements TurmaService{
-
+public class TurmaServiceImpl implements TurmaService {
+	
+	@Autowired
+	private TurmaRepository turmaRepository;
+	
+	
 	@Override
 	public void adicionarTurma(Turma turma) {
 		// TODO Auto-generated method stub
@@ -32,8 +39,7 @@ public class TurmaServiceImpl implements TurmaService{
 
 	@Override
 	public Turma buscarTurmaPorId(Long idTurma) {
-		// TODO Auto-generated method stub
-		return null;
+		return turmaRepository.findOne(idTurma);
 	}
 
 	@Override
@@ -89,6 +95,7 @@ public class TurmaServiceImpl implements TurmaService{
 		// TODO Auto-generated method stub
 		
 	}
+	
 	
 /**
  * 

@@ -162,16 +162,14 @@ public class EstagioServiceImpl implements EstagioService {
 		if(frequencia != null){
 			if(frequencia.getTipo() == TipoFrequencia.REPOSICAO && frequencia.getStatus() == StatusFrequencia.AGUARDO){
 
-				Frequencia frequenciaDeHoje = new Frequencia();
+				frequencia.setTurma(estagio.getTurma());
+				frequencia.setEstagio(estagio);
+				frequencia.setStatus(StatusFrequencia.PRESENTE);
+				frequencia.setData(new Date());
+				frequencia.setHorario(new Date());
+				frequencia.setTipo(TipoFrequencia.REPOSICAO);
 
-				frequenciaDeHoje.setTurma(frequencia.getTurma());
-				frequenciaDeHoje.setEstagio(estagio);
-				frequenciaDeHoje.setStatus(StatusFrequencia.PRESENTE);
-				frequenciaDeHoje.setData(new Date());
-				frequenciaDeHoje.setHorario(new Date());
-				frequenciaDeHoje.setTipo(TipoFrequencia.REPOSICAO);
-
-				frequenciaRepository.save(frequenciaDeHoje);
+				frequenciaRepository.save(frequencia);
 			}else{
 				if(frequencia.getTipo() == TipoFrequencia.NORMAL && frequencia.getStatus() == StatusFrequencia.PRESENTE){
 

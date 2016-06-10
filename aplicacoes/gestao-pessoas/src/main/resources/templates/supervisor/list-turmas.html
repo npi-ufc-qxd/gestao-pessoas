@@ -29,9 +29,6 @@
     <div class="row">
     <div class="col-sm-12">
       <div class="panel panel-default">
-
-       <div><a th:href="@{/Supervisor/Turma/Adicionar}" class="btn btn-success btn-sm gp-btn-nova-turma pull-right">Nova Turma</a></div>
-
         <div id="painelPlano" class="panel-body clear">
           <ul class="list-group">
             <li class="list-group-item gp-list-group-item">
@@ -56,4 +53,11 @@
     </div>
     </div>
 </section>
+
+<section layout:fragment="js">
+	<script type="text/javascript">
+		$("#turmas").addClass("active");
+	</script>
+</section>
+
 </html>

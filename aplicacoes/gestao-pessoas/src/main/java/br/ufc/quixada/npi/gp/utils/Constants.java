@@ -45,6 +45,8 @@ public class Constants {
 	public static final String TERMO_COMPROMISSO_ESTAGIO = "TERMO_COMPROMISSO";
 
 	public static final String DECLARACAO_ESTAGIO = "DECLARACAO_ESTAGIO";
+
+	public static final String VINCULOS_TURMA = "supervisor/vinculos-turma";
 	
 	public static final String AVALIAR_RELATORIO = "supervisor/avaliar-relatorio";
 	

@@ -27,7 +27,8 @@
 	
 	    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-2">
 	      <ul class="nav navbar-nav">
-	        <li class="active"><a th:href="@{/Supervisor/}">Minhas Turmas <span class="sr-only">(current)</span></a></li>
+	        <li id="turmas"><a th:href="@{/Supervisor/}">Minhas Turmas <span class="sr-only">(current)</span></a></li>
+	        <li id="nova-turma"><a th:href="@{/Supervisor/Turma/Adicionar}">Nova Turma<span class="sr-only">(current)</span></a></li>
 	      </ul>
 	      <ul class="nav navbar-nav navbar-right">
 	        <li class="dropdown">
@@ -49,5 +50,8 @@
 	<script th:src="@{/js/localization/messages_pt_BR.min.js}"></script>
 	<script th:src="@{/js/jquery.validate.min.js}"></script>
 	<script th:src="@{/js/gestao-pessoas.js}"></script>
+
+	<section layout:fragment="js"></section>
+
 </body>
 </html>

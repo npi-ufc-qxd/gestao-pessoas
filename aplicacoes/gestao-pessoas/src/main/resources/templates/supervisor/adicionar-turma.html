@@ -48,43 +48,77 @@
 
 <section layout:fragment="conteudo">
 
-	<div class="container animated fadeInRight"> 
-    <div class="row">
 
-	    <div class="col-sm-12">
-			<h3 class="gp-titulo-h5"><a th:href="@{/Supervisor/}" class="gp-btn-voltar"><i class="fa fa-arrow-left"></i></a> nova turma</h3>
-	    </div>
+  <div class="container-fluid titulo-pagina">
+    <div class="container">
+        <ul class="breadcrumb">
+            <li><a href="#">Nova Turma</a></li>
+        </ul>
+        <h1>Nova Turma</h1>
+    </div>
+  </div>
 
-    <div class="col-sm-12">
-	  <form id="form-estagiario" class="form-horizontal" role="form" action="#" method="POST" novalidate="novalidate">
-      <div class="panel panel-default">
-        <div class="panel-body gp-panel-body-background">
 
-			<div class="panel panel-primary">
-				<div class="panel-heading">
-					<h3 class="panel-title">Turma</h3>
-				</div>
-				<div class="panel-body">
-			        <div class="form-group">
-			          <div class="form-item col-sm-12">
-			            <label for="nomeCompleto" class="control-label">*Nome Turma:</label>
-			            <input id="nomeCompleto" name="nomeCompleto" class="form-control" placeholder="Meu nome completo" type="text" aria-required="true" aria-invalid="false" />
-			            <div class="error-validation"></div>
-			          </div>
-			        </div>
-				</div>
-			</div>
-		</div>
-		<div class="panel-footer gp-panel-footer" align="right">
-	          <a th:href="@{/Supervisor/}" class="btn btn-dafault">Cancelar</a>
-	          <button type="submit" class="btn btn-success"><span class="fa fa-floppy-o"></span> Salvar</button>
-	        </div>
-      </div>
-      </form>
-    </div>
-    
-    
-    </div>
-    </div>
+	<div class="container animated fadeInRight">
+	    <div class="row">
+		    <div class="col-md-12">
+		        <div class="panel panel-bluegray">
+		          <div class="panel-body">
+
+						<form method="post" class="form-horizontal col-md-10" th:action="@{#/Supervisor/}">
+						   <div class="form-group">
+						      <label for="" class="col-md-2 control-label">Nome</label>
+						      <div class="col-md-10">
+						        <input type="text" class="form-control" id="" placeholder="Nome" />
+						      </div>
+						    </div>
+						   <div class="form-group">
+						      <label for="" class="col-md-2 control-label">Status</label>
+						      <div class="col-md-10">
+						        <select class="form-control" id="select">
+						          <option></option>
+						          <option>1</option>
+						          <option>2</option>
+						          <option>3</option>
+						          <option>4</option>
+						          <option>5</option>
+						        </select>
+      					      </div>
+						    </div>
+						   <div class="form-group">
+						      <label for="" class="col-md-2 control-label">Semestre</label>
+						      <div class="col-md-10">
+						        <input type="text" class="form-control" id="" placeholder="Semestre" />
+						      </div>
+						    </div>
+						   <div class="form-group">
+						      <label for="" class="col-md-2 control-label">Período</label>
+						      <div class="col-md-5">
+						        <input type="text" class="form-control" id="" placeholder="Período" />
+						      </div>
+						      <div class="col-md-5">
+						        <input type="text" class="form-control" id="" placeholder="Período" />
+						      </div>
+						    </div>
+
+							<div class="form-group">
+						      <div class="col-lg-10 col-lg-offset-2">
+						        <button type="reset" class="btn btn-default">Cancelar</button>
+						        <button type="submit" class="btn btn-success">Salvar</button>
+						      </div>
+						    </div>
+						</form>
+		           </div>
+		        </div>
+		    </div>
+	   </div>
+	</div>
   </section>
+  <section layout:fragment="js">
+	<script type="text/javascript">
+	 	$("#nova-turma").addClass("active");
+	</script>
+  </section>
+
+
 </html>

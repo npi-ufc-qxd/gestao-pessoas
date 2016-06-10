@@ -15,15 +15,14 @@ import static br.ufc.quixada.npi.gp.utils.Constants.NOME_USUARIO;
 import static br.ufc.quixada.npi.gp.utils.Constants.PAGINA_INICIAL_SUPERVISOR;
 import static br.ufc.quixada.npi.gp.utils.Constants.REDIRECT_ACOMPANHAMENTO_ESTAGIARIO;
 import static br.ufc.quixada.npi.gp.utils.Constants.REDIRECT_DETALHES_TURMA;
-import static br.ufc.quixada.npi.gp.utils.Constants.REDIRECT_PAGINA_LOGIN;
 import static br.ufc.quixada.npi.gp.utils.Constants.REDIRECT_PAGINA_INICIAL_SUPERVISOR;
 import static br.ufc.quixada.npi.gp.utils.Constants.TERMO_COMPROMISSO_ESTAGIO;
+import static br.ufc.quixada.npi.gp.utils.Constants.VINCULOS_TURMA;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
@@ -199,6 +198,14 @@ public class SupervisorController {
 
 	}
 
+	@RequestMapping(value = "/Turma/{idTurma}/AtualizarVinculos", method = RequestMethod.GET)
+	public String formularioVinculosTurma(@PathVariable("idTurma") Long idTurma, Model model) {
+		model.addAttribute("turma", turmaService.buscarTurmaPorId(idTurma));
+
+		return VINCULOS_TURMA;
+	}
+
+	
 	@RequestMapping(value = "/Turma/{idTurma}/TermosCompromisso", method = RequestMethod.GET)
 	public String gerarTermoDeCompromisso(@PathVariable("idTurma") Long idTurma, Model model) throws JRException {
 

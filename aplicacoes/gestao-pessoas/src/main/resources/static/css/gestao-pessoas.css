@@ -177,3 +177,6 @@ a.btn.gp-btn-opcao:active, a.btn.gp-btn-opcao:visited {
 	text-align: left !important;
 	font-weight: bold;
 }
+tr:nth-child(1) td {
+	border: none !important;
+}

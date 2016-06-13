@@ -43,12 +43,7 @@ import br.ufc.quixada.npi.ldap.service.UsuarioService;
 @Controller
 @RequestMapping("Estagiario")
 public class EstagiarioController {
-	
 
-
-//	@Inject
-//	private PessoaService pessoaService;
-//
 	@Inject
 	private EstagioService estagioService;
 	
@@ -156,7 +151,6 @@ public class EstagiarioController {
 	    return new HttpEntity<byte[]>(relatorio, headers);
 	}
 
-	
 	@RequestMapping(value = "/Acompanhamento/{idEstagio}/Presenca", method = RequestMethod.POST)
 	public @ResponseBody boolean realizarPresenca(HttpSession session, @PathVariable("idEstagio") Long idEstagio) {
 
@@ -171,9 +165,8 @@ public class EstagiarioController {
 		
 	@RequestMapping(value = "/Acompanhamento/{idEstagio}/SubmeterPlano", method = RequestMethod.POST)
 	public String submeterPlano(@Valid @RequestParam("planoEstagio") MultipartFile planoEstagio, @PathVariable("idEstagio") Long idEstagio, RedirectAttributes redirectAttributes ) throws Exception{
-		
+
 		try {
-			
 			if(!validarArquivo(planoEstagio)){
 				redirectAttributes.addFlashAttribute("error", "Escolha um arquivo pdf.");
 				return ACOMPANHAMENTO_ESTAGIO;
@@ -232,11 +225,10 @@ public class EstagiarioController {
 		return REDIRECT_ACOMPANHAMENTO_ESTAGIO + idEstagio;
 	}
 	
-	@RequestMapping(value = "/Acompanhamento/Estagio/{idEstagio}/SubmeterRelatorio", method = RequestMethod.POST)
+	@RequestMapping(value = "/Acompanhamento/{idEstagio}/SubmeterRelatorio", method = RequestMethod.POST)
 	public String postSubmeterRelatorio(@Valid @RequestParam("relatorio") MultipartFile relatorio, @PathVariable("idEstagio") Long idEstagio, RedirectAttributes redirectAttributes ) throws Exception{
 
 		try {
-			
 			if(!validarArquivo(relatorio)){
 				redirectAttributes.addFlashAttribute("error", "Escolha um arquivo pdf.");
 				return ACOMPANHAMENTO_ESTAGIO;
@@ -306,9 +298,7 @@ public class EstagiarioController {
 	private String getCpfUsuarioLogado() {
 		return SecurityContextHolder.getContext().getAuthentication().getName();
 	}
-	
 
-	//Retorna true se o arquivo for válido.
 	private boolean validarArquivo(MultipartFile anexo){
 		
 		if(anexo == null || !anexo.getContentType().equals("application/pdf")){

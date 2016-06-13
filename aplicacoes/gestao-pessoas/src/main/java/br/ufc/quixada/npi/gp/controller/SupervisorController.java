@@ -514,7 +514,7 @@ public class SupervisorController {
 		return REDIRECT_ACOMPANHAMENTO_ESTAGIARIO + idEstagio;
 	}
 
-	@RequestMapping(value = "/Turma/AcompanhamentoEstagiario/{idEstagio}/AvaliacaoRendimento/{idAvaliacaoRendimento}/Editar", method = RequestMethod.GET)
+	@RequestMapping(value = "/Turma/Acompanhamento/{idEstagio}/AvaliacaoRendimento/{idAvaliacaoRendimento}/Editar", method = RequestMethod.GET)
 	public String formularioEditarAvaliacaoRendimento(Model model, @PathVariable("idEstagio") Long idEstagio) {
 		// model.addAttribute("action", "editar");
 		// model.addAttribute("avaliacaoRendimento",
@@ -528,7 +528,7 @@ public class SupervisorController {
 		return FORMULARIO_EDITAR_AVALIACAO_RENDIMENTO;
 	}
 
-	@RequestMapping(value = "/Turma/AcompanhamentoEstagiario/{idEstagio}/AvaliacaoRendimento/{idAvaliacaoRendimento}/Editar", method = RequestMethod.POST)
+	@RequestMapping(value = "/Turma/Acompanhamento/{idEstagio}/AvaliacaoRendimento/{idAvaliacaoRendimento}/Editar", method = RequestMethod.POST)
 	public String editarAvaliacaoRendimento(Model model,
 			@Valid @ModelAttribute("avaliacaoRendimento") AvaliacaoRendimento avaliacaoRendimento,
 			RedirectAttributes redirect, @PathVariable("idEstagio") Long idEstagio) {
@@ -562,7 +562,7 @@ public class SupervisorController {
 		return REDIRECT_ACOMPANHAMENTO_ESTAGIARIO + idEstagio;
 	}
 
-	@RequestMapping(value = "/Turma/AcompanhamentoEstagiario/{idEstagio}/Frequencia", method = RequestMethod.GET)
+	@RequestMapping(value = "/Turma/Acompanhamento/{idEstagio}/Frequencia", method = RequestMethod.GET)
 	public String detalhesFrequenciaEstagiario(Model model, @PathVariable("idEstagio") Long idEstagio) {
 		return DETALHES_FREQUENCIA_ESTAGIARIO;
 	}
@@ -586,66 +586,7 @@ public class SupervisorController {
 	}
 
 	/**
-	 * EM ESTUDO (SELECAO E INSCRICAO)
-	 * 
-	 * @RequestMapping(value = "/Turma/{idTurma}/Vincular", method =
-	 *                       RequestMethod.GET) public String
-	 *                       paginaVincularEstagiarioTurma(Model model,
-	 *                       HttpSession session, @PathVariable("idTurma") Long
-	 *                       idTurma) { String cpf =
-	 *                       SecurityContextHolder.getContext().
-	 *                       getAuthentication().getName(); Pessoa pessoa =
-	 *                       pessoaService.buscarPessoaPorCpf(cpf);
-	 * 
-	 *                       model.addAttribute("turma",
-	 *                       turmaService.getTurmaByIdAndSupervisorById(idTurma,
-	 *                       pessoa.getId()));
-	 *                       model.addAttribute("estagiariosDaTurma",
-	 *                       estagiarioService.getEstagiarioByTurmaId(idTurma));
-	 *                       model.addAttribute("outrosEstagiarios",
-	 *                       estagiarioService.
-	 *                       getEstagiarioByNotTurmaIdOrSemTurma(idTurma));
-	 * 
-	 *                       return PAGINA_FORM_VINCULOS; }
-	 * 
-	 * 
-	 * @RequestMapping(value = "/Turma/{idTurma}/Vincular", method =
-	 *                       RequestMethod.POST) public String
-	 *                       atualizarVinculoEstagiarioTurma(Model model,
-	 *                       HttpSession session, @ModelAttribute("turma") Turma
-	 *                       turma) { String cpf =
-	 *                       SecurityContextHolder.getContext().
-	 *                       getAuthentication().getName(); Pessoa pessoa =
-	 *                       pessoaService.buscarPessoaPorCpf(cpf);
-	 * 
-	 *                       Turma turmaDoBanco =
-	 *                       turmaService.getTurmaByIdAndSupervisorById(turma.
-	 *                       getId(), pessoa.getId());
-	 * 
-	 *                       List<Estagiario> estagiariosSelecionados = new
-	 *                       ArrayList<Estagiario>();
-	 * 
-	 *                       if (turma.getEstagiarios() != null) {
-	 *                       estagiariosSelecionados =
-	 *                       getEstagiariosSelecionados(turma.getEstagiarios());
-	 *                       estagiariosSelecionados =
-	 *                       atualizarTurmaEstagiarios(estagiariosSelecionados,
-	 *                       turmaDoBanco); }
-	 * 
-	 *                       turmaDoBanco.setEstagiarios(estagiariosSelecionados
-	 *                       );
-	 * 
-	 *                       turmaService.update(turmaDoBanco);
-	 * 
-	 *                       model.addAttribute("turma", turmaDoBanco);
-	 *                       model.addAttribute("estagiarios",
-	 *                       estagiarioService.find(Estagiario.class));
-	 * 
-	 *                       return "redirect:/supervisor/turma/" +
-	 *                       turmaDoBanco.getId(); }
-	 * 
-	 * 
-	 *                       OPERAÇÕES DE CRUD DO EVENTO DA TURMA
+	 *	OPERAÇÕES DE CRUD DO EVENTO DA TURMA
 	 * 
 	 * @RequestMapping(value = "/Turma/{idTurma}/Evento/Adicionar", method =
 	 *                       RequestMethod.POST) public String

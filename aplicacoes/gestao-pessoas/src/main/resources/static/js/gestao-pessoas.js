@@ -10,3 +10,5 @@ $('.panel-body').on('shown.bs.collapse', toggleChevron);
 $(".gp-btn-presenca").on("click", function() {
 	swal("Bom trabalho!", "Presença realizada!", "success");
 });
+
+$('.data').datepicker();

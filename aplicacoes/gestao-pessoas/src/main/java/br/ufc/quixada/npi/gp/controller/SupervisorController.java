@@ -105,33 +105,31 @@ public class SupervisorController {
 	}
 
 	@RequestMapping(value = "/Turma/Adicionar", method = RequestMethod.GET)
-	public String formularioAdicionarTurma(Model model) {
-		// model.addAttribute("turma", new Turma());
+	public String formularioAdicionarTurma(Model model, @ModelAttribute("turma") Turma turma) {
+		
+		model.addAttribute("turma", new Turma());
+		
 		return FORMULARIO_ADICIONAR_TURMA;
 	}
 
 	@RequestMapping(value = "/Turma/Adicionar", method = RequestMethod.POST)
-	public String adicionarTurma(Model model, @Valid @ModelAttribute("turma") Turma turma, BindingResult result,
-			HttpSession session, RedirectAttributes redirect) {
-
-		// model.addAttribute("action", "cadastrar");
-		// turma.setHorarios(atualizarHorarios(turma));
-		//
-		// if (result.hasErrors()) {
-		// model.addAttribute("dias", Dia.values());
-		// return PAGINA_FORM_TURMA;
-		// }
-		//
-		// String cpf =
-		// SecurityContextHolder.getContext().getAuthentication().getName();
-		// Pessoa pessoa = pessoaService.buscarPessoaPorCpf(cpf);
-		//
-		// turma.setSupervisor(pessoa);
-		// turmaService.save(turma);
-
+	public String adicionarTurma(Model model, @Valid @ModelAttribute("turma") Turma turma, RedirectAttributes redirect) {
+		
+		turmaService.adicionarTurma(turma);
+		
 		redirect.addFlashAttribute("success", "Turma cadastrada com sucesso.");
 
 		return REDIRECT_DETALHES_TURMA;
+	}
+	
+	@ModelAttribute("statusTurma")
+	public List<Turma.StatusTurma> statusTurma() {
+		return Arrays.asList(Turma.StatusTurma.values());
+	}
+	
+	@ModelAttribute("tipoTurma")
+	public List<Turma.TipoTurma> tipoTurma() {
+		return Arrays.asList(Turma.TipoTurma.values());
 	}
 
 	@RequestMapping(value = "/Turma/{idTurma}/Editar", method = RequestMethod.GET)

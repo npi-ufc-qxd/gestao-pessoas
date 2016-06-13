@@ -43,7 +43,7 @@
     }
 
 
-  </style>	
+  </style>
 </head>
 
 <section layout:fragment="conteudo">
@@ -64,22 +64,23 @@
 		    <div class="col-md-12">
 		        <div class="panel panel-bluegray">
 		          <div class="panel-body">
-
-						<form method="post" class="form-horizontal col-md-10" th:action="@{#/Supervisor/}">
+			 	<input name="id" id="id" type="hidden" th:filed="${turma.id}" class="form-control"/>
+						<form class="form-horizontal col-md-10" th:action="@{/Supervisor/Turma/Adicionar}" th:object="${turma}" method="post" >
 						   <div class="form-group">
 						      <label for="" class="col-md-2 control-label">Nome</label>
 						      <div class="col-md-10">
-						        <input type="text" class="form-control" id="" placeholder="Nome" />
+						        <input name="nome" id="nome" type="text" th:filed="${turma.nome}" class="form-control" placeholder="Nome" />
 						      </div>
 						    </div>
 
 						   <div class="form-group">
 						      <label for="" class="col-md-2 control-label">Tipo</label>
 						      <div class="col-md-10">
-						        <select class="form-control" id="select">
-						          <option></option>
-						          <option>NPI</option>
-						          <option>EMPRESA</option>
+						        <select name="tipoTurma" id="tipoTurma" th:value="${turma.tipoTurma}" class="form-control">
+						          <option th:each ="tipoTurma : ${tipoTurma}" 
+							          	  th:value = "${tipoTurma.descricao}" 
+							          	  th:text = "${tipoTurma.descricao}">
+						          </option>
 						        </select>
 						      </div>
 						    </div>
@@ -87,29 +88,27 @@
 						   <div class="form-group">
 						      <label for="" class="col-md-2 control-label">Status</label>
 						      <div class="col-md-10">
-						        <select class="form-control" id="select">
-						          <option></option>
-						          <option>1</option>
-						          <option>2</option>
-						          <option>3</option>
-						          <option>4</option>
-						          <option>5</option>
+						        <select name="status" id="status" th:value="${turma.status}" class="form-control">
+						          <option th:each ="status : ${statusTurma}" 
+							          	  th:value = "${status}" 
+							          	  th:text = "${status.descricao}">
+						          </option>
 						        </select>
       					      </div>
 						    </div>
 						   <div class="form-group">
 						      <label for="" class="col-md-2 control-label">Semestre</label>
 						      <div class="col-md-10">
-						        <input type="text" class="form-control" id="" placeholder="Semestre" />
+						        <input name="semestre" id="semestre" th:value="${turma.semestre}" type="text" class="form-control" placeholder="Semestre" />
 						      </div>
 						    </div>
 						   <div class="form-group">
 						      <label for="" class="col-md-2 control-label">Período</label>
 						      <div class="col-md-5">
-						        <input type="text" class="form-control" id="" placeholder="Período" />
+						        <input name="inicio" type="text" class="form-control data" data-date-format="dd/mm/yyyy" id="inicio" th:value="${turma.inicio}" placeholder="Início" />
 						      </div>
 						      <div class="col-md-5">
-						        <input type="text" class="form-control" id="" placeholder="Período" />
+						        <input name="termino" type="text" class="form-control data" data-date-format="dd/mm/yyyy" id="termino" th:value="${turma.termino}" placeholder="Término" />
 						      </div>
 						    </div>
 

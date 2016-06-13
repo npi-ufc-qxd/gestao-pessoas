@@ -9,6 +9,9 @@ import static br.ufc.quixada.npi.gp.utils.Constants.REDIRECT_PAGINA_INICIAL_ESTA
 
 import java.io.IOException;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
@@ -54,10 +57,17 @@ public class EstagiarioController {
 	@RequestMapping(value = {"", "/", "/MinhasTurmas"}, method = RequestMethod.GET)
 	public String listarTurmas(Model model, HttpSession session) {
 		inserirNomeUsuarioNaSessao(session);
-
-		//Estagiario estagiario = pessoaService.getEstagiarioByPessoaCpf(getCpf());
-		//model.addAttribute("estagios", estagiario);
 		
+		List<Estagio> estagios = estagioService.buscarEstagiosPorEstagiarioCpf(getCpfUsuarioLogado());
+		
+		Map<Boolean, Estagio> presencaEstagio = new HashMap<>();
+		
+		for (Estagio estagio : estagios) {
+			presencaEstagio.put(false, estagio);
+		}
+
+		model.addAttribute("estagios", presencaEstagio);
+
 		return PAGINA_INICIAL_ESTAGIARIO;
 	}
 

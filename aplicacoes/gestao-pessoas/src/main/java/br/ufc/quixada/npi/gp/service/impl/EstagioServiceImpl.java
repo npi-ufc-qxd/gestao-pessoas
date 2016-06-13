@@ -56,9 +56,8 @@ public class EstagioServiceImpl implements EstagioService {
 	}
 
 	@Override
-	public List<Estagio> buscarEstagiosPorEstagiarioCpf(Long idEstagiario) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Estagio> buscarEstagiosPorEstagiarioCpf(String cpf) {
+		return estagioRepository.findByEstagiarioCpf(cpf);
 	}
 
 	@Override

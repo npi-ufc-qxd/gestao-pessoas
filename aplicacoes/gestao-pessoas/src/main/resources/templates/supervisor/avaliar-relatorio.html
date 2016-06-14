@@ -15,9 +15,9 @@
     <div class="container">
         <ul class="breadcrumb">
         	<li><a th:href="@{/Supervisor/}" >Minhas Turmas</a></li>
-            <li><a th:href="@{/Supervisor/Turma/1/}">Detalhes Turma</a></li>
-            <li><a th:href="@{/Supervisor/Turma/Acompanhamento/1}">Acompanhamento Estagiário</a></li>
-            <li><a th:href="@{/Supervisor/Turma/Acompanhamento/1/AvaliarRelatorio}">Avaliar Relatório</a></li>
+            <li><a th:href="@{'/Supervisor/Turma/' + ${estagio.turma.id}}">Detalhes Turma</a></li>
+            <li><a th:href="@{'/Supervisor/Turma/Acompanhamento/' + ${estagio.estagiario.id}}">Acompanhamento Estagiário</a></li>
+            <li class="active">Avaliar Relatório</li>
         </ul>
         <h1>Avaliar Relatório</h1>
     </div>

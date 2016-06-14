@@ -315,9 +315,10 @@ public class SupervisorController {
 	@RequestMapping(value = "/Turma/Acompanhamento/{idEstagio}/AvaliarPlano", method = RequestMethod.GET)
 	public String formularioAvaliarPlanoEstagio(@PathVariable("idEstagio") Long idEstagio, Model model) {
 
-		Submissao submissaoPlano = estagioService.buscarSubmissaoPorTipoSubmissaoEEstagioId(TipoSubmissao.PLANO_ESTAGIO,
-				idEstagio);
+		Submissao submissaoPlano = estagioService.buscarSubmissaoPorTipoSubmissaoEEstagioId(TipoSubmissao.PLANO_ESTAGIO, idEstagio);
+		
 		model.addAttribute("submissaoPlano", submissaoPlano);
+		model.addAttribute("estagio", submissaoPlano.getEstagio());
 
 		return FORMULARIO_AVALIAR_PLANO;
 	}
@@ -340,12 +341,12 @@ public class SupervisorController {
 	}
 
 	@RequestMapping(value = "/Turma/Acompanhamento/{idEstagio}/AvaliarRelatorio", method = RequestMethod.GET)
-	public String avaliarRelatorio(RedirectAttributes redirect, @PathVariable("idEstagio") Long idEstagio,
-			Model model) {
+	public String avaliarRelatorio(RedirectAttributes redirect, @PathVariable("idEstagio") Long idEstagio, Model model) {
 
-		Submissao submissaoRelatorio = estagioService
-				.buscarSubmissaoPorTipoSubmissaoEEstagioId(TipoSubmissao.RELATORIO_FINAL_ESTAGIO, idEstagio);
+		Submissao submissaoRelatorio = estagioService.buscarSubmissaoPorTipoSubmissaoEEstagioId(TipoSubmissao.RELATORIO_FINAL_ESTAGIO, idEstagio);		
+		
 		model.addAttribute("submissaoRelatorio", submissaoRelatorio);
+		model.addAttribute("estagio", submissaoRelatorio.getEstagio());
 
 		return AVALIAR_RELATORIO;
 	}

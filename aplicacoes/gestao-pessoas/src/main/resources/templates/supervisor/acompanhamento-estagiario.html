@@ -5,7 +5,7 @@
     layout:decorator="layouts/LayoutSupervisor">
 
 <head>
-	<title>Gestão Pessoas | Acompanhamento Estágiario</title>
+	<title>Gestão Pessoas | Acompanhamento Estagiário</title>
 </head>
 
 <section layout:fragment="conteudo">
@@ -14,10 +14,10 @@
     <div class="container">
         <ul class="breadcrumb">
             <li><a th:href="@{/Supervisor/}" >Minhas Turmas</a></li>
-            <li><a th:href="@{/Supervisor/Turma/1/}" >Detalhes Turma</a></li>
-            <li><a href="#">Acompanhamento Estágiario</a></li>
+            <li><a th:href="@{'/Supervisor/Turma/' + ${estagio.turma.id}}" >Detalhes Turma</a></li>
+            <li class="active">Acompanhamento Estagiário</li>
         </ul>
-        <h1>Acompanhamento Estágiario</h1>
+        <h1>Acompanhamento Estagiário</h1>
     </div>
   </div>
 
@@ -56,7 +56,7 @@
 	
 	        <div class="panel panel-bluegray">
 	          <div class="panel-heading">
-	            <a class="panel-title" data-toggle="collapse" data-target="#estagiario"><i class="fa fa-caret-down" aria-hidden="true"></i> Estágiario</a>
+	            <a class="panel-title" data-toggle="collapse" data-target="#estagiario"><i class="fa fa-caret-down" aria-hidden="true"></i> Estagiário</a>
 			  </div>
 	          <div id="estagiario" class="panel-body collapse in">
 	          	<table class="table table-hover">

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorator="layouts/LayoutSupervisor">
+
+<head>
+	<title>Gestão Pessoas | Detalhes da Turma</title>
+</head>
+
+<section layout:fragment="conteudo">
+
+
+  <div class="container-fluid titulo-pagina">
+    <div class="container">
+        <ul class="breadcrumb">
+            <li><a th:href="@{/Supervisor}">Minhas Turmas</a></li>
+            <li class="active">Detalhes Turma</li>
+        </ul>
+        <h1>Detalhes da Turma</h1>
+    </div>
+  </div>
+
+
+	<div class="container animated fadeInRight">
+	    <div class="row">
+	      <div class="col-md-4">
+	        <div class="panel panel-bluegray">
+	          <div class="panel-heading">
+	            <a class="panel-title" data-toggle="collapse" data-target="#detalhesTurma"><i class="fa fa-caret-down" aria-hidden="true"></i> Turma NPI - 2016.1</a>
+				<a href="#" class="btn btn-xs pull-right gp-btn-opcao">editar</a>
+  			  </div>
+	          <div id="detalhesTurma" class="panel-body collapse in">
+				  <table class="table table-hover">
+				    <tbody>
+				      <tr>
+				        <td><strong>Orientador</strong></td>
+				        <td th:text="${turma.orientador.nome}"> bruno</td>
+				      </tr>
+				      <tr>
+				        <td><strong>Supervisores</strong></td>
+				     	<td  th:inline="text"> <span th:each="sup : ${turma.supervisores}"> [[${sup.nome}]],</span></td>
+
+				      </tr>
+				      <tr>
+				        <td><strong>Período</strong></td>
+				        <td><label th:text="${#dates.format(turma.inicio, 'dd/MM/yyyy')}"></label>  a <label th:text="${#dates.format(turma.termino, 'dd/MM/yyyy')}"></label></td>
+				      </tr>
+				    </tbody>
+				  </table>
+	           </div>
+	        </div>
+	
+	        <div class="panel panel-bluegray">
+	          <div class="panel-heading">
+	            <a class="panel-title" data-toggle="collapse" data-target="#expedienteTurma"><i class="fa fa-caret-down" aria-hidden="true"></i> Expediente da Turma</a>
+				<a href="#" class="btn btn-xs pull-right gp-btn-opcao">adicionar</a>
+  			  </div>
+	          <div id="expedienteTurma" class="panel-body collapse in">
+				  <table class="table table-hover">
+				    <tbody>
+				      <tr th:each="expediente : ${turma.expedientes}">
+				        <td th:inline="text"><strong>[[${expediente.diaSemana.descricao}]]</strong></td>
+				        <td th:inline="text">[[${#dates.format(expediente.horaInicio, 'HH:mm')}]] ás [[${expediente.horaTermino}]]</td>
+				      </tr>
+				    </tbody>
+				  </table>
+	           </div>
+	        </div>
+	
+	        <div class="panel panel-bluegray">
+	          <div class="panel-heading">
+	            <a class="panel-title" data-toggle="collapse" data-target="#eventos"><i class="fa fa-caret-down" aria-hidden="true"></i> Eventos</a>
+				<a href="#" class="btn btn-xs pull-right gp-btn-opcao">adicionar</a>
+	          </div>
+
+	          <div id="eventos" class="panel-body collapse in">
+				  <table class="table table-hover">
+				    <tbody>
+				      <tr th:each="evento :${turma.eventos}">
+				        <td><strong th:text="${evento.titulo}"></strong></td>
+				        <td th:inline="text">[[${#dates.format(evento.inicio, 'dd/MM/yyyy')}]] a [[${#dates.format(evento.termino, 'dd/MM/yyyy')}]]</td>
+				      </tr>
+				    </tbody>
+				  </table>
+	           </div>
+	        </div>
+	      </div>
+
+
+	    <div class="col-md-8">
+	        <div class="panel panel-bluegray">
+	          <div class="panel-heading">
+	            <a class="panel-title" data-toggle="collapse" data-target="#estagiarios"><i class="fa fa-caret-down" aria-hidden="true"></i> Estagiários</a>
+				<a href="#" class="btn btn-xs pull-right gp-btn-opcao">mapa frequência</a>
+				<a href="#" class="btn btn-xs pull-right gp-btn-opcao">termos</a>
+				<a href="#" class="btn btn-xs pull-right gp-btn-opcao">declarações</a>
+				<a th:href="@{/Supervisor/Turma/{id}/AtualizarVinculos(id=${turma.id})}" class="btn btn-xs pull-right gp-btn-opcao">Atualizar Vínculos</a>
+	          </div>
+	          <div id="estagiarios" class="panel-body collapse in">
+		          <ul class="list-group">
+		            <li th:each="est :${turma.estagios}" class="list-group-item gp-list-group-item">
+		              <b th:inline="text"> [[${est.estagiario.nomeCompleto}]] </b>
+		              <a th:href="@{/Supervisor/Turma/Acompanhamento/{id}(id=${est.estagiario.id})}" class="btn btn-success btn-sm pull-right gp-btn-acompanhamento">acompanhamento</a>
+		            </li>
+		          </ul>
+
+	           </div>
+	        </div>
+	      </div>
+	    </div>
+	</div>
+  </section>
+</html>

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorator="layouts/LayoutSupervisor">
+
+<head>
+	<title>Gestão Pessoas | Avaliação do Plano</title>
+</head>
+
+<section layout:fragment="conteudo">
+
+	<div class="container-fluid titulo-pagina">
+    	<div class="container">
+	        <ul class="breadcrumb">
+	            <li><a th:href="@{/Supervisor}">Minhas Turmas</a></li>
+	            <li><a th:href="@{'/Supervisor/Turma/' + ${estagio.turma.id}}">Detalhes Turma</a></li>
+	            <li><a th:href="@{'/Supervisor/Turma/Acompanhamento/' + ${estagio.estagiario.id}}">Acompanhamento Estagiário</a></li>
+	            <li class="active">Avaliação do Plano</li>
+	        </ul>
+        	<h1>Avaliação do Plano</h1>
+    	</div>
+  	</div>
+  
+	<div class="container animated fadeInRight">
+		<div class="row">
+	    	<div class="col-md-4">
+	        <div class="panel panel-bluegray">
+	          <div class="panel-heading">
+	            <a class="panel-title" data-toggle="collapse" data-target="#estagiario"><i class="fa fa-caret-down" aria-hidden="true"></i> Estagiário</a>
+			  </div>
+	          <div id="estagiario" class="panel-body collapse in">
+	          	<table class="table table-hover">
+				    <tbody>
+				      <tr>
+				        <td class="gp-sem-borda"><strong>Nome:</strong></td>
+				        <td class="gp-sem-borda" th:text="${estagio.estagiario.nomeCompleto}"></td>
+				 	  </tr>
+				      <tr>
+				        <td><strong>Curso:</strong></td>
+				        <td th:text="${estagio.estagiario.curso.descricao}"></td>
+				      </tr>
+				      <tr>
+				        <td><strong>Email:</strong></td>
+				        <td th:text="${estagio.estagiario.email}"></td>
+				      </tr>
+				      <tr>
+				        <td><strong>Telefone:</strong></td>
+				        <td th:text="${estagio.estagiario.telefone}"></td>
+				      </tr>
+				      <tr>
+				        <td><strong>Github:</strong></td>
+				        <td th:text="${estagio.estagiario.usuarioGithub}"></td>
+				      </tr>
+				      
+				    </tbody>
+				  </table>
+	          </div>
+	        </div>
+			</div>
+
+		    <div class="col-md-8">
+				<div class="panel panel-bluegray">
+			    	<div class="panel-heading">
+			        	<a class="panel-title" data-toggle="collapse" data-target="#detalhesEstagiario"><i class="fa fa-caret-down" aria-hidden="true"></i> Avaliar Plano</a>
+		  			</div>
+			        <div id="detalhesEstagiario" class="panel-body collapse in">
+						<form class="form-horizontal">
+				          <div class="form-group">
+				          	<label for="documento" class="col-lg-2 control-label"><strong>Documento</strong></label>
+					          	<div class="col-lg-10">
+					          		<a class="gp-link-donwload-submissao" th:href="@{|DownloadPlano|}" th:text="${#dates.format(submissaoPlano.submetidoEm, 'dd/MM/yyyy')} + ' - Plano de Estágio'"></a>
+					          	</div>
+				        	</div>
+			            </form>
+				        <form id="form-avaliar" class="form-horizontal" th:action="@{/Supervisor/Turma/Acompanhamento/1/AvaliarPlano}" method="post">				     
+							<div class="form-group">
+		     					<label for="status" class="col-lg-2 control-label"><strong>Status</strong></label>
+		     					<div class="col-lg-10">
+							        <select class="form-control" id="status" title="Status" name="status">
+							          <option th:each ="status : ${statusEntrega}" 
+							          		  th:value = "${status}" 
+							          		  th:text = "${status.descricao}"
+							          		  th:selected="${#strings.equals(status, submissaoPlano.statusEntrega)}">
+							          </option>
+							        </select>
+						    	</div>
+							</div>
+							<div class="form-group">
+						      <label for="nota" class="col-lg-2 control-label"><strong>Nota</strong></label>
+						      <div class="col-lg-10">
+						        <input name="nota" type="text" th:value="${submissaoPlano.nota}" class="form-control" id="nota" placeholder="Nota"></input>
+						      </div>
+						    </div>
+							<div class="form-group">
+						      <label for="comentario" class="col-lg-2 control-label"><strong>Comentário</strong></label>
+						      <div class="col-lg-10">
+						        <textarea name="comentario" class="form-control" th:text="${submissaoPlano.comentario}" rows="3" id="comentario"></textarea>
+						        <span class="help-block">Comentário sobre a avaliação.</span>
+						      </div>
+						    </div>
+							<div class="form-group pull-right">
+						      <div class="col-lg-10 col-lg-offset-2">
+						        <button type="reset" class="btn btn-default">Cancelar</button>
+						        <button type="submit" class="btn btn-success">Salvar</button>
+						      </div>
+						    </div>
+						</form>
+			        </div>
+				</div>
+			</div>
+		</div>
+		
+	</div>
+</section>
+</html>

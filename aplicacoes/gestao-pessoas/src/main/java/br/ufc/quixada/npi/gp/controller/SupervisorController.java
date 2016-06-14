@@ -19,6 +19,7 @@ import static br.ufc.quixada.npi.gp.utils.Constants.REDIRECT_PAGINA_INICIAL_SUPE
 import static br.ufc.quixada.npi.gp.utils.Constants.TERMO_COMPROMISSO_ESTAGIO;
 import static br.ufc.quixada.npi.gp.utils.Constants.VINCULOS_TURMA;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -46,6 +47,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import br.ufc.quixada.npi.gp.model.AvaliacaoRendimento;
 import br.ufc.quixada.npi.gp.model.Estagio;
+import br.ufc.quixada.npi.gp.model.Expediente;
 import br.ufc.quixada.npi.gp.model.Papel;
 import br.ufc.quixada.npi.gp.model.Pessoa;
 import br.ufc.quixada.npi.gp.model.Servidor;
@@ -56,8 +58,12 @@ import br.ufc.quixada.npi.gp.model.Turma;
 import br.ufc.quixada.npi.gp.service.EstagioService;
 import br.ufc.quixada.npi.gp.service.PessoaService;
 import br.ufc.quixada.npi.gp.service.TurmaService;
+import br.ufc.quixada.npi.gp.utils.UtilGestao;
+import br.ufc.quixada.npi.ldap.model.Usuario;
 import br.ufc.quixada.npi.ldap.service.UsuarioService;
+import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 
 @Component
 @Controller
@@ -77,7 +83,8 @@ public class SupervisorController {
 	@Autowired
 	private TurmaService turmaService;
 	//
-	// private JRDataSource jrDatasource;
+	
+	private JRDataSource jrDatasource;
 
 
 	@RequestMapping(value = { "", "/", "/Turmas" }, method = RequestMethod.GET)
@@ -209,42 +216,39 @@ public class SupervisorController {
 	@RequestMapping(value = "/Turma/{idTurma}/TermosCompromisso", method = RequestMethod.GET)
 	public String gerarTermoDeCompromisso(@PathVariable("idTurma") Long idTurma, Model model) throws JRException {
 
-		// Turma turma = turmaService.find(Turma.class, idTurma);
-		//
-		// Usuario usuario =
-		// usuarioService.getByCpf(turma.getSupervisor().getCpf());
-		//
-		// jrDatasource = new
-		// JRBeanCollectionDataSource(turma.getEstagiarios());
-		//
-		// SimpleDateFormat dataFormatada = new SimpleDateFormat("dd/MM/yyyy");
-		//
-		// model.addAttribute("NOME", usuario.getNome());
-		// model.addAttribute("SIAPE", usuario.getSiape());
-		// model.addAttribute("TELEFONE", usuario.getTelefone());
-		// model.addAttribute("TURNO",
-		// UtilGestao.getTurnoExpediente(turma.getHorarios().get(0)));
-		// model.addAttribute("INICIO_ESTAGIO",
-		// dataFormatada.format(turma.getInicio()));
-		// model.addAttribute("FINAL_ESTAGIO",
-		// dataFormatada.format(turma.getTermino()));
-		// model.addAttribute("datasource", jrDatasource);
-		// model.addAttribute("format", "pdf");
-		//
-		// if (turma.getHorarios() != null) {
-		// model = configurarExpediente(turma.getHorarios(), model);
-		// }
+		 Turma turma = turmaService.buscarTurmaPorId(idTurma);
 
-		return TERMO_COMPROMISSO_ESTAGIO;
+		 Usuario usuario = usuarioService.getByCpf(getCpfUsuarioLogado());
+
+		 jrDatasource = new JRBeanCollectionDataSource(turma.getEstagios());
+		
+		 SimpleDateFormat dataFormatada = new SimpleDateFormat("dd/MM/yyyy");
+		
+		 model.addAttribute("NOME", usuario.getNome());
+		 model.addAttribute("SIAPE", usuario.getSiape());
+		 model.addAttribute("TELEFONE", usuario.getTelefone());
+		 model.addAttribute("TURNO", UtilGestao.getTurnoExpediente(turma.getExpedientes().get(0)));
+		 model.addAttribute("INICIO_ESTAGIO",
+		 dataFormatada.format(turma.getInicio()));
+		 model.addAttribute("FINAL_ESTAGIO",
+		 dataFormatada.format(turma.getTermino()));
+		 model.addAttribute("datasource", jrDatasource);
+		 model.addAttribute("format", "pdf");
+		
+		 if (turma.getExpedientes() != null) {
+			 model = configurarExpediente(turma.getExpedientes(), model);
+		 }
+
+		 return TERMO_COMPROMISSO_ESTAGIO;
+
 	}
 
-	@RequestMapping(value = "/Turma/{idTurma}/DeclaracaoEstagio", method = RequestMethod.GET)
+	@RequestMapping(value = "/Turma/{idTurma}/Declaracoes", method = RequestMethod.GET)
 	public String gerarDeclaracaoEstagio(Model model, @PathVariable("idTurma") Long idTurma) throws JRException {
-		// jrDatasource = new
-		// JRBeanCollectionDataSource(estagiarioService.getEstagiarioByTurmaId(idTurma));
-		//
-		// model.addAttribute("datasource", jrDatasource);
-		// model.addAttribute("format", "pdf");
+		 jrDatasource = new JRBeanCollectionDataSource(turmaService.buscarTurmaPorId(idTurma).getEstagios());
+
+		 model.addAttribute("datasource", jrDatasource);
+		 model.addAttribute("format", "pdf");
 
 		return DECLARACAO_ESTAGIO;
 	}
@@ -586,6 +590,34 @@ public class SupervisorController {
 		return false;
 	}
 
+	
+
+	private Model configurarExpediente(List<Expediente> expedientes, Model model) {
+		SimpleDateFormat horaFormatada = new SimpleDateFormat("HH:mm");
+
+		for (Expediente expediente: expedientes) {
+			String descricaoExpediente = horaFormatada.format(expediente.getHoraInicio()) + " as " + horaFormatada.format(expediente.getHoraTermino());
+
+			if (expediente.getDiaSemana().equals(Expediente.DiaDaSemana.SEGUNDA)) {
+				model.addAttribute("EXPEDIENTE_SEGUNDA", descricaoExpediente);
+			}
+			if (expediente.getDiaSemana().equals(Expediente.DiaDaSemana.TERCA)) {
+				model.addAttribute("EXPEDIENTE_TERCA", descricaoExpediente);
+			}
+			if (expediente.getDiaSemana().equals(Expediente.DiaDaSemana.QUARTA)) {
+				model.addAttribute("EXPEDIENTE_QUARTA", descricaoExpediente);
+			}
+			if (expediente.getDiaSemana().equals(Expediente.DiaDaSemana.QUINTA)) {
+				model.addAttribute("EXPEDIENTE_UINTA", descricaoExpediente);
+			}
+			if (expediente.getDiaSemana().equals(Expediente.DiaDaSemana.SEXTA)) {
+				model.addAttribute("EXPEDIENTE_SEXTA", descricaoExpediente);
+			}
+		}
+		return model;
+
+	}	
+	
 	/**
 	 *	OPERAÇÕES DE CRUD DO EVENTO DA TURMA
 	 * 

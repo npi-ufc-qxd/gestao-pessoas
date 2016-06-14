@@ -48,186 +48,153 @@
 
 <section layout:fragment="conteudo">
 
-	<div class="container animated fadeInRight"> 
-    <div class="row">
 
-	    <div class="col-sm-12">
-			<h3 class="gp-titulo-h5"><a th:href="@{/Estagiario/}" class="gp-btn-voltar"><i class="fa fa-arrow-left"></i></a> meus dados</h3>
-	    </div>
-
-    <div class="col-sm-12">
-	  <form id="form-estagiario" class="form-horizontal" role="form" action="/gestao-pessoas/estagiario/editar-perfil" method="POST" novalidate="novalidate">
-      <div class="panel panel-default">
-        <div class="panel-body gp-panel-body-background">
-
-			<div class="panel panel-primary">
-				<div class="panel-heading">
-					<h3 class="panel-title">Dados Pessoais</h3>
-				</div>
-				<div class="panel-body">
-			        <div class="form-group">
-			          <div class="form-item col-sm-9">
-			            <label for="nomeCompleto" class="control-label">*Nome Completo:</label>
-			            <input id="nomeCompleto" name="nomeCompleto" class="form-control" placeholder="Meu nome completo" type="text" aria-required="true" aria-invalid="false" />
-			            <div class="error-validation"></div>
-			          </div>
-			          
-			          <div class="form-item col-sm-3">
-			            
-			            <label for="dataNascimento" class="control-label">*Data de Nascimento:</label>
-			            <input id="dataNascimento" name="dataNascimento" class="form-control data" type="text" placeholder="dd/mm/aaaa" aria-required="true" />
-			            <div class="error-validation"> </div>
-			          </div>
-			        </div>
-			    
-			        <div class="form-group">
-			          <div class="form-item col-sm-12">
-			            <label for="nomeMae" class="control-label">*Nome da Mãe:</label>
-			            <input id="nomeMae" name="nomeMae" class="form-control" placeholder="Nome Mãe" type="text" aria-required="true" />
-			            <div class="error-validation"></div>
-			          </div>
-			        </div>
-				</div>
-			</div>
-
-			<div class="panel panel-primary">
-				<div class="panel-heading">
-					<h3 class="panel-title">Dados de Contatos</h3>
-				</div>
-				<div class="panel-body">
-			       <div class="form-group">
-			          <div class="form-item col-sm-4">
-			            <label for="telefone" class=" control-label">*Telefone:</label>
-			            <input id="telefone" name="telefone" placeholder="Telefone" type="text" class="form-control telefone" />
-			          </div>
-			
-			          <div class="form-item col-sm-4">
-			            <label for="email" class="control-label">*E-mail:</label>
-			            <input id="email" name="email" placeholder="E-mail" type="email" class="form-control" />
-			          </div>
-			
-			          <div class="form-item col-sm-4">
-			            <label for="contaGithub" class="control-label">Usuario github:</label>
-			            <input id="contaGithub" name="contaGithub" placeholder="Conta github" class="form-control" type="text" />
-			          </div>
-			        </div>
-				</div>
-			</div>
-
-			<div class="panel panel-primary">
-				<div class="panel-heading">
-					<h3 class="panel-title">Dados do Curso</h3>
-				</div>
-				<div class="panel-body">
-			        <div class="form-group">
-			          <div class="col-sm-4">
-			            <label for="matricula" class="control-label">*Matricula:</label>
-			            <input id="matricula" name="matricula" class="form-control" placeholder="Matricula" required="required" type="text" size="7" maxlength="7" aria-required="true" />
-			            <div class="error-validation"></div>
-			          </div>
-			
-			          <div class="form-item col-sm-4">
-			            <label for="curso" class="control-label">*Curso:</label>
-			            <select class="form-control">
-			              <option>Selecione o curso</option>
-			              <option>Engenharia de Software</option>
-			              <option>Sistemas de Informação</option>
-			              <option>Ciência da Computação</option>
-			              <option>Design Digital</option>
-			              <option>Engenharia da Computação</option>
-			            </select>
-			            <div class="error-validation"></div>
-			          </div>
-			    
-			          <div class="form-item col-sm-4">
-			            <label for="semestre" class="control-label">*Semestre:</label>
-			            <input id="semestre" name="semestre" class="form-control semestre" min="1" max="12" placeholder="Semestre" type="number" required="required" aria-required="true" />      
-			            <div class="error-validation">
-			              
-			            </div>
-			          </div>
-			        </div>
-				</div>
-			</div>
-
-			<div class="panel panel-primary">
-				<div class="panel-heading">
-					<h3 class="panel-title">Endereço</h3>
-				</div>
-				<div class="panel-body">
-
-			        <div class="form-group">
-			          <div class="form-item col-sm-12">
-			            <label for="endereco" class="control-label">*Endereço:</label>
-			            <input id="endereco" name="endereco" class="form-control" placeholder="Rua, Nº, Bairro" required="required" type="text" aria-required="true" />
-			            <div class="error-validation"></div>
-			          </div>
-			        </div>
-			    
-			        <div class="form-group">
-			          <div class="form-item col-sm-4">
-			            <label for="cidade" class="control-label">*Cidade:</label>
-			            <input id="cidade" name="cidade" class="form-control" placeholder="Cidade" required="required" type="text" aria-required="true" />
-			            <div class="error-validation"></div>
-			          </div>
-			    
-			          <div class="form-item col-sm-4">
-			            <label for="uf" class="control-label">*UF:</label>
-			            <select class="form-control">
-			              <option value="">Selecione</option>
-			              <option value="AC">Acre</option>
-			              <option value="AL">Alagoas</option>
-			              <option value="AP">Amapá</option>
-			              <option value="AM">Amazonas</option>
-			              <option value="BA">Bahia</option>
-			              <option value="CE">Ceará</option>
-			              <option value="DF">Distrito Federal</option>
-			              <option value="ES">Espirito Santo</option>
-			              <option value="GO">Goiás</option>
-			              <option value="MA">Maranhão</option>
-			              <option value="MS">Mato Grosso do Sul</option>
-			              <option value="MT">Mato Grosso</option>
-			              <option value="MG">Minas Gerais</option>
-			              <option value="PA">Pará</option>
-			              <option value="PB">Paraíba</option>
-			              <option value="PR">Paraná</option>
-			              <option value="PE">Pernambuco</option>
-			              <option value="PI">Piauí</option>
-			              <option value="RJ">Rio de Janeiro</option>
-			              <option value="RN">Rio Grande do Norte</option>
-			              <option value="RS">Rio Grande do Sul</option>
-			              <option value="RO">Rondônia</option>
-			              <option value="RR">Roraima</option>
-			              <option value="SC">Santa Catarina</option>
-			              <option value="SP">São Paulo</option>
-			              <option value="SE">Sergipe</option>
-			              <option value="TO">Tocantins</option>
-			            </select>
-			            <div class="error-validation"></div>
-			          </div>
-			    
-			          <div class="form-item col-sm-4">
-			            <label for="cep" class="control-label">*CEP :</label>
-			            <input id="cep" name="cep" class="form-control cep" placeholder="CEP" required="required" type="text" aria-required="true" />
-			            <div class="error-validation"></div>
-			          </div>
-					</div>
-				</div>
-			</div>
-
-
-
-		</div>
-		<div class="panel-footer gp-panel-footer" align="right">
-	          <button type="submit" class="btn btn-dafault">Cancelar</button>
-	          <button type="submit" class="btn btn-primary"><span class="fa fa-floppy-o"></span> Salvar alterações</button>
-	        </div>
-      </div>
-      </form>
+  <div class="container-fluid titulo-pagina">
+    <div class="container">
+        <ul class="breadcrumb">
+            <li><a href="#">Meus Dados</a></li>
+        </ul>
+        <h1>Meus Dados</h1>
     </div>
+  </div>
+
+
+	<div class="container animated fadeInRight">
+	    <div class="row">
+		    <div class="col-md-12">
+		        <div class="panel panel-bluegray">
+		          <div class="panel-body">
+		          		
+						<form method="post" class="form-horizontal" th:action="@{#/Supervisor/MeusDados}" th:object="${estagiario}">
+							<fieldset>
+								<legend>Dados Pessoais</legend>
+							   	<div class="form-group">
+							      	<label for="nomeCompleto" class="col-md-2 control-label">*Nome Completo</label>
+								     <div class="col-md-10">
+								     	<input type="text" class="form-control" id="nomeCompleto" th:field="*{nomeCompleto}"/>
+								     </div>
+								</div>
+								<input type="hidden" th:field="*{id}" />	 
+								<div class="form-group">
+									 <label for="dataNascimento" class="col-md-2 control-label">*Data de Nascimento</label>
+									 <div class="col-md-10">
+									 	<input id="dataNascimento" th:field="*{dataNascimento}" class="form-control data" type="text" placeholder="dd/mm/aaaa" aria-required="true" />
+									 </div>	
+								</div>	 
+								     
+							    <div class="form-group">
+							      	<label for="nomeMae" class="col-md-2 control-label">*Nome da Mãe</label>
+								     <div class="col-md-10">
+								     	<input id="nomeMae" th:field="*{nomeMae}" type="text" class="form-control" placeholder="Nome Mãe" />
+								     </div>
+							    </div>
+							</fieldset>
+
+							<fieldset>
+								<legend>Dados de Contatos</legend>
+							   <div class="form-group">
+							      <label for="telefone" class="col-md-2 control-label">Telefone</label>
+							      <div class="col-md-10">
+							        <input type="text" th:field="*{telefone}" class="form-control" id="telefone" placeholder="Telefone" />
+							      </div>
+							    </div>
+							    
+							    <div class="form-group">
+							      <label for="email" class="col-md-2 control-label">*E-mail:</label>
+							      <div class="col-md-10">
+									<input id="email" th:field="*{email}" placeholder="E-mail" type="email" class="form-control" />	      
+							      </div>
+							      </div>
+
+							    <div class="form-group">
+			            		  <label for="contaGithub" class="col-md-2 control-label">Usuario github:</label>
+			            		  <div class="col-md-10">
+			            			<input id="contaGithub" th:field="*{usuarioGithub}" placeholder="Conta github" class="form-control" type="text" />	      
+							      </div>	
+							    </div>
+							</fieldset>
+							
+							<fieldset>
+								<legend>Dados do Curso</legend>
+							   <div class="form-group">
+							      <label for="matricula" class="col-md-2 control-label">*Matricula:</label>
+							      <div class="col-md-4">
+			            			<input id="matricula" th:field="*{matricula}" class="form-control" placeholder="Matricula" required="required" type="text" size="7" maxlength="7" aria-required="true" />
+							      </div>
+
+							      <label for="semestre" class="col-md-2 control-label">*Semestre:</label>
+							      <div class="col-md-4">
+							      	<input id="semestre" th:field="*{semestre}" class="form-control" placeholder="Semestre" type="text" required="required" aria-required="true" />
+							      </div>
+
+						      </div>
+							      
+							   <div class="form-group">
+							      <label for="curso" class="col-md-2 control-label">*Curso:</label>
+							      <div class="col-md-10">
+							      	<select class="form-control" id="curso" th:name="curso">
+						              <option th:each="curso : ${cursos}"
+						              		  th:value="${curso}"
+						              		  th:text="${curso}"
+						              		  th:selected="${#strings.equals(curso,estagiario.curso)}"></option>
+						            </select>
+							      </div>
+							   </div>
+							</fieldset>
+							
+							<fieldset>
+								<legend>Endereço</legend>
+							   <div class="form-group">
+							      <label for="endereco" class="col-md-2 control-label">*Endereço:</label>
+							      <div class="col-md-4">
+			            			<input id="endereco" th:field="*{endereco}" class="form-control" placeholder="Endereço" required="required" type="text" size="7" maxlength="7" aria-required="true" />
+							      </div>
+
+							      <label for="cep" class="col-md-2 control-label">*CEP:</label>
+							      <div class="col-md-4">
+							      	<input id="cep" th:field="*{cep}" class="form-control" placeholder="CEP" required="required" type="text" size="7" maxlength="7" aria-required="true" />
+							      </div>
+
+						      </div>
+							      
+							   <div class="form-group">
+							      <label for="cidade" class="col-md-2 control-label">*Cidade:</label>
+							      <div class="col-md-4">
+							      	<input id="cidade" th:field="*{cidade}" class="form-control" placeholder="Cidade" required="required" type="text" size="7" maxlength="7" aria-required="true" />
+							      </div>
+
+							      <label for="uf" class="col-md-2 control-label">*UF:</label>
+							      <div class="col-md-4">
+							      	<select class="form-control" id="uf" th:name="uf">
+						              <option  th:each="estado: ${estados}" 
+						              		   th:value="${estado}"
+						              		   th:text="${estado}"
+						              		   th:selected="${#strings.equals(estado,estagiario.uf)}"></option>
+						            </select>
+							      </div>
+
+							   </div>
+							</fieldset>
+
+							<div class="form-group">
+						      <div class="col-lg-10 col-lg-offset-2">
+						        <button type="reset" class="btn btn-default">Cancelar</button>
+						        <button type="submit" class="btn btn-success">Salvar</button>
+						      </div>
+						    </div>
+						</form>
+		           </div>
+		        </div>
+		    </div>
+	   </div>
+	</div>
     
-    
-    </div>
-    </div>
   </section>
+
+  <section layout:fragment="js">
+	<script type="text/javascript">
+	 	$("#nova-turma").removeClass("active");
+	</script>
+  </section>
+  
 </html>

@@ -91,8 +91,8 @@ public class PessoaServiceImpl implements PessoaService {
 
 	@Override
 	public Estagiario buscarEstagiarioPorCpf(String cpf) {
-		// TODO Auto-generated method stub
-		return null;
+		 
+		return estagiarioRepository.findByPessoaByCpf(cpf);
 	}
 
 	@Override
@@ -109,7 +109,7 @@ public class PessoaServiceImpl implements PessoaService {
 
 	@Override
 	public void editarEstagiario(Estagiario estagiario) {
-		// TODO Auto-generated method stub
+		estagiarioRepository.save(estagiario);
 		
 	}
 

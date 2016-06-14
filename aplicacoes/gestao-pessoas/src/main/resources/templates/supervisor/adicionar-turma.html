@@ -78,7 +78,7 @@
 						      <div class="col-md-10">
 						        <select name="tipoTurma" id="tipoTurma" th:value="${turma.tipoTurma}" class="form-control">
 						          <option th:each ="tipoTurma : ${tipoTurma}" 
-							          	  th:value = "${tipoTurma.descricao}" 
+							          	  th:value = "${tipoTurma}" 
 							          	  th:text = "${tipoTurma.descricao}">
 						          </option>
 						        </select>

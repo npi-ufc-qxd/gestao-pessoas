@@ -119,7 +119,7 @@ public class SupervisorController {
 		
 		redirect.addFlashAttribute("success", "Turma cadastrada com sucesso.");
 
-		return REDIRECT_DETALHES_TURMA;
+		return REDIRECT_DETALHES_TURMA + turma.getId();
 	}
 	
 	@ModelAttribute("statusTurma")

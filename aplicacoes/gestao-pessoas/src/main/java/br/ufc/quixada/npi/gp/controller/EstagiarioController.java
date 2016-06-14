@@ -52,21 +52,14 @@ public class EstagiarioController {
 	
 	@Autowired
 	private UsuarioService usuarioService;
-	
 
 	@RequestMapping(value = {"", "/", "/MinhasTurmas"}, method = RequestMethod.GET)
 	public String listarTurmas(Model model, HttpSession session) {
 		inserirNomeUsuarioNaSessao(session);
 		
 		List<Estagio> estagios = estagioService.buscarEstagiosPorEstagiarioCpf(getCpfUsuarioLogado());
-		
-		Map<Boolean, Estagio> presencaEstagio = new HashMap<>();
-		
-		for (Estagio estagio : estagios) {
-			presencaEstagio.put(false, estagio);
-		}
 
-		model.addAttribute("estagios", presencaEstagio);
+		model.addAttribute("estagios", estagioService.permitirPresencaEstagio(estagios));
 
 		return PAGINA_INICIAL_ESTAGIARIO;
 	}
@@ -161,7 +154,7 @@ public class EstagiarioController {
 	    return new HttpEntity<byte[]>(relatorio, headers);
 	}
 
-	@RequestMapping(value = "/Acompanhamento/{idEstagio}/Presenca", method = RequestMethod.POST)
+	@RequestMapping(value = "/Acompanhamento/{idEstagio}/Presenca", method = RequestMethod.GET)
 	public @ResponseBody boolean realizarPresenca(HttpSession session, @PathVariable("idEstagio") Long idEstagio) {
 
 		Estagio estagio = estagioService.buscarEstagioPorIdEEstagiarioCpf(idEstagio, getCpfUsuarioLogado());

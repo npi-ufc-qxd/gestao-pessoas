@@ -10,6 +10,8 @@ import static br.ufc.quixada.npi.gp.utils.Constants.FORMULARIO_ADICIONAR_TURMA;
 import static br.ufc.quixada.npi.gp.utils.Constants.FORMULARIO_AVALIAR_PLANO;
 import static br.ufc.quixada.npi.gp.utils.Constants.FORMULARIO_EDITAR_AVALIACAO_RENDIMENTO;
 import static br.ufc.quixada.npi.gp.utils.Constants.FORMULARIO_EDITAR_TURMA;
+import static br.ufc.quixada.npi.gp.utils.Constants.FORMULARIO_EVENTO;
+import static br.ufc.quixada.npi.gp.utils.Constants.FORMULARIO_EXPEDIENTE;
 import static br.ufc.quixada.npi.gp.utils.Constants.MAPA_FREQUENCIAS;
 import static br.ufc.quixada.npi.gp.utils.Constants.NOME_USUARIO;
 import static br.ufc.quixada.npi.gp.utils.Constants.PAGINA_INICIAL_SUPERVISOR;
@@ -18,8 +20,6 @@ import static br.ufc.quixada.npi.gp.utils.Constants.REDIRECT_DETALHES_TURMA;
 import static br.ufc.quixada.npi.gp.utils.Constants.REDIRECT_PAGINA_INICIAL_SUPERVISOR;
 import static br.ufc.quixada.npi.gp.utils.Constants.TERMO_COMPROMISSO_ESTAGIO;
 import static br.ufc.quixada.npi.gp.utils.Constants.VINCULOS_TURMA;
-import static br.ufc.quixada.npi.gp.utils.Constants.FORMULARIO_EVENTO;
-import static br.ufc.quixada.npi.gp.utils.Constants.FORMULARIO_EXPEDIENTE;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

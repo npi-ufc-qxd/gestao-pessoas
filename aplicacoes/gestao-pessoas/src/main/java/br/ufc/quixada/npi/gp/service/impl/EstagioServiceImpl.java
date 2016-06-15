@@ -2,13 +2,10 @@ package br.ufc.quixada.npi.gp.service.impl;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.inject.Named;
 
-import org.apache.commons.collections.MultiMap;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import br.ufc.quixada.npi.gp.model.AvaliacaoRendimento;
@@ -165,7 +162,7 @@ public class EstagioServiceImpl implements EstagioService {
 	}
 
 	@Override
-	public List <Presenca> permitirPresencaEstagio(List<Estagio> estagios) {
+	public List<Presenca> permitirPresencaEstagio(List<Estagio> estagios) {
 
 		List <Presenca> presencas = new ArrayList<Presenca>();
 

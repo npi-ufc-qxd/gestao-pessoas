@@ -2,12 +2,10 @@ package br.ufc.quixada.npi.gp.service;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 import br.ufc.quixada.npi.gp.model.AvaliacaoRendimento;
 import br.ufc.quixada.npi.gp.model.Estagiario;
 import br.ufc.quixada.npi.gp.model.Estagio;
-
 import br.ufc.quixada.npi.gp.model.Frequencia;
 import br.ufc.quixada.npi.gp.model.Presenca;
 import br.ufc.quixada.npi.gp.model.Submissao;
@@ -53,7 +51,7 @@ public interface EstagioService {
 
 	boolean liberarPresenca(Turma turma);
 	
-	public List <Presenca> permitirPresencaEstagio(List<Estagio> estagios);
+	public List<Presenca> permitirPresencaEstagio(List<Estagio> estagios);
 	
 	boolean realizarPresenca(Estagio estagio);
 	

@@ -1,10 +1,14 @@
 package br.ufc.quixada.npi.gp.service.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Named;
 
+import org.apache.commons.collections.MultiMap;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import br.ufc.quixada.npi.gp.model.AvaliacaoRendimento;
@@ -13,6 +17,7 @@ import br.ufc.quixada.npi.gp.model.Estagio;
 import br.ufc.quixada.npi.gp.model.Frequencia;
 import br.ufc.quixada.npi.gp.model.Frequencia.StatusFrequencia;
 import br.ufc.quixada.npi.gp.model.Frequencia.TipoFrequencia;
+import br.ufc.quixada.npi.gp.model.Presenca;
 import br.ufc.quixada.npi.gp.model.Submissao;
 import br.ufc.quixada.npi.gp.model.Submissao.StatusEntrega;
 import br.ufc.quixada.npi.gp.model.Submissao.TipoSubmissao;
@@ -56,9 +61,8 @@ public class EstagioServiceImpl implements EstagioService {
 	}
 
 	@Override
-	public List<Estagio> buscarEstagiosPorEstagiarioCpf(Long idEstagiario) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Estagio> buscarEstagiosPorEstagiarioCpf(String cpf) {
+		return estagioRepository.findByEstagiarioCpf(cpf);
 	}
 
 	@Override
@@ -153,15 +157,32 @@ public class EstagioServiceImpl implements EstagioService {
 
 	@Override
 	public boolean liberarPresenca(Turma turma) {
-		// TODO Auto-generated method stub
-		return false;
+		return (UtilGestao.hojeEDiaDeTrabahoDaTurma(turma.getExpedientes()) && UtilGestao.isHoraPermitida(turma.getExpedientes()));
+	}
+
+	public boolean liberarReposicao(Frequencia frequencia) {
+		return (frequencia.getTipo() == TipoFrequencia.REPOSICAO && frequencia.getStatus() == StatusFrequencia.AGUARDO);
 	}
 
 	@Override
-	public boolean permitirPresenca(Estagio estagio) {
-		// TODO Auto-generated method stub
-		return false;
+	public List <Presenca> permitirPresencaEstagio(List<Estagio> estagios) {
+
+		List <Presenca> presencas = new ArrayList<Presenca>();
+
+		for (Estagio estagio : estagios) {
+			Frequencia frequencia = buscarFrequenciaDeHojePorEstagio(estagio);
+			
+			if(frequencia == null) {
+				presencas.add(new Presenca(liberarPresenca(estagio.getTurma()), estagio));
+
+			} else { 
+				presencas.add(new Presenca(liberarReposicao(frequencia),estagio));
+			}
+		}
+
+		return presencas;
 	}
+	
 
 	@Override
 	public boolean realizarPresenca(Estagio estagio) {
@@ -169,7 +190,7 @@ public class EstagioServiceImpl implements EstagioService {
 		Frequencia frequencia = buscarFrequenciaDeHojePorEstagio(estagio);
 		
 		if(frequencia == null) {
-			if(UtilGestao.hojeEDiaDeTrabahoDaTurma(estagio.getTurma().getExpedientes()) && UtilGestao.isHoraPermitida(estagio.getTurma().getExpedientes())){
+			if(liberarPresenca(estagio.getTurma())) {
 	
 				frequencia = new Frequencia();
 
@@ -182,17 +203,16 @@ public class EstagioServiceImpl implements EstagioService {
 				frequenciaRepository.save(frequencia);
 				return true;
 			}	
-		} else {
-			if(frequencia.getTipo() == TipoFrequencia.REPOSICAO && frequencia.getStatus() == StatusFrequencia.AGUARDO) {
-				frequencia.setEstagio(estagio);
-				frequencia.setStatus(StatusFrequencia.PRESENTE);
-				frequencia.setData(new Date());
-				frequencia.setHorario(new Date());
-				frequencia.setTipo(TipoFrequencia.REPOSICAO);
+		} else if(liberarReposicao(frequencia)) {
 
-				frequenciaRepository.save(frequencia);
-				return true;
-			}
+			frequencia.setEstagio(estagio);
+			frequencia.setStatus(StatusFrequencia.PRESENTE);
+			frequencia.setData(new Date());
+			frequencia.setHorario(new Date());
+			frequencia.setTipo(TipoFrequencia.REPOSICAO);
+
+			frequenciaRepository.save(frequencia);
+			return true;
 		}
 		
 		return false;

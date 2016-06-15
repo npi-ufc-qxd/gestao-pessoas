@@ -9,6 +9,9 @@ import static br.ufc.quixada.npi.gp.utils.Constants.REDIRECT_PAGINA_INICIAL_ESTA
 
 import java.io.IOException;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
@@ -49,15 +52,15 @@ public class EstagiarioController {
 	
 	@Autowired
 	private UsuarioService usuarioService;
-	
 
 	@RequestMapping(value = {"", "/", "/MinhasTurmas"}, method = RequestMethod.GET)
 	public String listarTurmas(Model model, HttpSession session) {
 		inserirNomeUsuarioNaSessao(session);
-
-		//Estagiario estagiario = pessoaService.getEstagiarioByPessoaCpf(getCpf());
-		//model.addAttribute("estagios", estagiario);
 		
+		List<Estagio> estagios = estagioService.buscarEstagiosPorEstagiarioCpf(getCpfUsuarioLogado());
+
+		model.addAttribute("presencas", estagioService.permitirPresencaEstagio(estagios));
+
 		return PAGINA_INICIAL_ESTAGIARIO;
 	}
 
@@ -151,7 +154,7 @@ public class EstagiarioController {
 	    return new HttpEntity<byte[]>(relatorio, headers);
 	}
 
-	@RequestMapping(value = "/Acompanhamento/{idEstagio}/Presenca", method = RequestMethod.POST)
+	@RequestMapping(value = "/Acompanhamento/{idEstagio}/Presenca", method = RequestMethod.GET)
 	public @ResponseBody boolean realizarPresenca(HttpSession session, @PathVariable("idEstagio") Long idEstagio) {
 
 		Estagio estagio = estagioService.buscarEstagioPorIdEEstagiarioCpf(idEstagio, getCpfUsuarioLogado());

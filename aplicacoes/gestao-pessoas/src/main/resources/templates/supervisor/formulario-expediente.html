@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorator="layouts/LayoutSupervisor">
+
+<head>
+	<title>Gestão Pessoas | Gerenciar Expediente</title>
+</head>
+
+<section layout:fragment="conteudo">
+
+
+  <div class="container-fluid titulo-pagina">
+    <div class="container">
+        <ul class="breadcrumb">
+            <li><a th:href="@{/Supervisor}">Minhas Turmas</a></li>
+            <li><a>Detalhes Turma</a></li>
+            <li class="active">Gerenciar Expediente</li>
+        </ul>
+        <h1>Gerenciar Expediente</h1>
+    </div>
+  </div>
+
+
+	<div class="container animated fadeInRight">
+	    <div class="row">
+	      <div class="col-md-4">
+	        <div class="panel panel-bluegray">
+	          <div class="panel-heading">
+	            <a class="panel-title" data-toggle="collapse" data-target="#detalhesTurma"><i class="fa fa-caret-down" aria-hidden="true"></i> Turma NPI - 2016.1</a>
+  			  </div>
+	          <div id="detalhesTurma" class="panel-body collapse in">
+				  <table class="table table-hover">
+				    <tbody>
+				      <tr>
+				        <td><strong>Orientador</strong></td>
+				        <td th:text="${turma.orientador.nome}"> bruno</td>
+				      </tr>
+				      <tr>
+				        <td><strong>Supervisores</strong></td>
+				     	<td  th:inline="text"> <span th:each="sup : ${turma.supervisores}"> [[${sup.nome}]],</span></td>
+
+				      </tr>
+				      <tr>
+				        <td><strong>Período</strong></td>
+				        <td><label th:text="${#dates.format(turma.inicio, 'dd/MM/yyyy')}"></label>  a <label th:text="${#dates.format(turma.termino, 'dd/MM/yyyy')}"></label></td>
+				      </tr>
+				    </tbody>
+				  </table>
+	           </div>
+	        </div>
+	      </div>
+
+	    <div class="col-md-8">
+	        <div class="panel panel-bluegray">
+	          <div class="panel-heading">
+	            <a class="panel-title" data-toggle="collapse" data-target="#add-expediente"><i class="fa fa-caret-down" aria-hidden="true"></i> Adicionar Expediente</a>
+	          </div>
+	          <div id="add-expediente" class="panel-body collapse in" align="center">
+				<form role="form">
+				      <div class="col-lg-3">
+						<div class="form-group">
+<!-- 						  <label class="control-label" >Dia da Semana</label> -->
+					        <select class="form-control" id="select">
+					          <option>Dia da Semana</option>
+					          <option>Segunda-feira</option>
+					          <option>Terça-feira</option>
+					          <option>Quarta-feira</option>
+					          <option>Quinta-feira</option>
+					          <option>Sexta-feira</option>
+					        </select>
+      					</div>
+					  </div>
+				      <div class="col-lg-3">
+						<div class="form-group">
+<!-- 						  <label class="control-label" >Hora Inicial</label> -->
+						  <input class="form-control" type="text" placeholder="Hora Inicial"/>
+						</div>
+					  </div>
+				      <div class="col-lg-3">
+						<div class="form-group">
+<!-- 						  <label class="control-label" >Hora Termino</label> -->
+						  <input class="form-control" type="text" placeholder="Hora Inicial"/>
+						</div>
+					  </div>
+					  <button type="submit" class="btn btn-primary">Adicionar</button>
+     			 </form>	          
+	           </div>
+	        </div>
+
+	        <div class="panel panel-bluegray">
+	          <div class="panel-heading">
+	            <a class="panel-title" data-toggle="collapse" data-target="#expedientes"><i class="fa fa-caret-down" aria-hidden="true"></i> Expedientes</a>
+	          </div>
+	          <div id="expedientes" class="panel-body collapse in">
+		          <ul class="list-group">
+<!-- 		            <li th:each="exp :${turma.expedientes}" class="list-group-item gp-list-group-item"> -->
+<!-- 		              <b th:inline="text"> [[${exp.diaSemana.descricao}]] </b> -->
+<!-- 		              <a th:href="@{/Supervisor/Turma/{id}/Expediente/{idExpediente}/Excluir(id=${est.estagiario.id})}" class="btn btn-danger btn-sm pull-right gp-btn-acompanhamento">excluir</a> -->
+<!-- 		            </li> -->
+		          </ul>
+
+	           </div>
+	        </div>
+	      </div>
+	    </div>
+	</div>
+  </section>
+</html>

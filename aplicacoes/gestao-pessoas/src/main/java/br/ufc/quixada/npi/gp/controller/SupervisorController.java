@@ -18,6 +18,8 @@ import static br.ufc.quixada.npi.gp.utils.Constants.REDIRECT_DETALHES_TURMA;
 import static br.ufc.quixada.npi.gp.utils.Constants.REDIRECT_PAGINA_INICIAL_SUPERVISOR;
 import static br.ufc.quixada.npi.gp.utils.Constants.TERMO_COMPROMISSO_ESTAGIO;
 import static br.ufc.quixada.npi.gp.utils.Constants.VINCULOS_TURMA;
+import static br.ufc.quixada.npi.gp.utils.Constants.FORMULARIO_EVENTO;
+import static br.ufc.quixada.npi.gp.utils.Constants.FORMULARIO_EXPEDIENTE;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -47,6 +49,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import br.ufc.quixada.npi.gp.model.AvaliacaoRendimento;
 import br.ufc.quixada.npi.gp.model.Estagio;
+import br.ufc.quixada.npi.gp.model.Evento;
 import br.ufc.quixada.npi.gp.model.Expediente;
 import br.ufc.quixada.npi.gp.model.Papel;
 import br.ufc.quixada.npi.gp.model.Pessoa;
@@ -251,6 +254,37 @@ public class SupervisorController {
 		 model.addAttribute("format", "pdf");
 
 		return DECLARACAO_ESTAGIO;
+	}
+
+	@RequestMapping(value = "/Turma/{idTurma}/Expediente", method = RequestMethod.GET)
+	public String formularioExpediente(Model model, @PathVariable("idTurma") Long idTurma) {
+		model.addAttribute("expediente", new Expediente());
+		model.addAttribute("turma", turmaService.buscarTurmaPorId(idTurma));
+		
+		return FORMULARIO_EXPEDIENTE;
+	}
+
+	@RequestMapping(value = "/Turma/{idTurma}/Expediente", method = RequestMethod.POST)
+	public String adicionarExpediente(Model model, @PathVariable("idTurma") Long idTurma) {
+		return REDIRECT_DETALHES_TURMA + idTurma + "/Expediente";
+	}
+
+	@RequestMapping(value = "/Turma/{idTurma}/Expediente/{idExpediente}/Excluir", method = RequestMethod.GET)
+	public String excluirExpediente(Model model, @PathVariable("idTurma") Long idTurma) {
+		return REDIRECT_DETALHES_TURMA + idTurma + "/Expediente";
+	}
+
+	@RequestMapping(value = "/Turma/{idTurma}/Evento", method = RequestMethod.GET)
+	public String formularioEvento(Model model, @PathVariable("idTurma") Long idTurma) {
+		model.addAttribute("evento", new Evento());
+		model.addAttribute("turma", turmaService.buscarTurmaPorId(idTurma));
+
+		return FORMULARIO_EVENTO;
+	}
+
+	@RequestMapping(value = "/Turma/{idTurma}/Evento", method = RequestMethod.POST)
+	public String adicionarEvento(Model model, @PathVariable("idTurma") Long idTurma) {
+		return REDIRECT_DETALHES_TURMA + idTurma + "/Evento";
 	}
 
 	@RequestMapping(value = "/Turma/{idTurma}/MapaFrequencia/{data}", method = RequestMethod.GET)

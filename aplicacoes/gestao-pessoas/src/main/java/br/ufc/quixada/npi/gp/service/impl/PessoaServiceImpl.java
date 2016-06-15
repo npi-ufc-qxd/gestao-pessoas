@@ -67,8 +67,7 @@ public class PessoaServiceImpl implements PessoaService {
 
 	@Override
 	public Servidor buscarServidorPorCpf(String cpf) {
-		// TODO Auto-generated method stub
-		return null;
+		return servidorRepository.findByPessoa_Cpf(cpf);
 	}
 
 	@Override

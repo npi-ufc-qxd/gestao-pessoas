@@ -32,33 +32,33 @@
 	            <a class="panel-title" data-toggle="collapse" data-target="#estagiario"><i class="fa fa-caret-down" aria-hidden="true"></i>  Estagiário</a>
 				</div>
 
-	          <div id="eventos" class="panel-body collapse in">
+	          <div id="estagiario" class="panel-body collapse in">
 	          		<table class="table table-hover">
 					    <tbody>
-					      <tr>
-					        <td class="gp-sem-borda"><strong>Nome</strong></td>
-					        <td class="gp-sem-borda">José de Sousa Filho Almeida</td>
-					      </tr>
-					      <tr>
-					        <td><strong>Curso</strong></td>
-					        <td>Sistemas de Informação</td>
-					      </tr>
-					      <tr>
-					      	<td><strong>Turma</strong></td>
-					      	<td>NPI - 2016.1</td>
-					      </tr>
-					      <tr>
-					        <td><strong>Email</strong></td>
-					        <td>josefilhoalmeida@ufc.com.br</td>
-					      </tr>
-					      <tr>
-					        <td><strong>Telefone</strong></td>
-					        <td>(88)99899-5546</td>
-					      </tr>
-					      <tr>
-					      	<td><strong>Usuário GitHub</strong></td>
-					      	<td>josefilhoalmeida</td>
-					      </tr>
+				      <tr>
+				        <td class="gp-sem-borda"><strong>Nome:</strong></td>
+				        <td class="gp-sem-borda" th:text="${estagio.estagiario.nomeCompleto}"></td>
+				 	  </tr>
+				      <tr>
+				        <td><strong>Curso:</strong></td>
+				        <td th:text="${estagio.estagiario.curso.descricao}"></td>
+				      </tr>
+				      <tr>
+				        <td><strong>Semestre:</strong></td>
+				        <td th:text="${estagio.estagiario.semestre}"></td>
+				      </tr>
+				      <tr>
+				        <td><strong>Email:</strong></td>
+				        <td th:text="${estagio.estagiario.email}"></td>
+				      </tr>
+				      <tr>
+				      	<td><strong>Github:</strong></td>
+				      	<td th:text="${estagio.estagiario.usuarioGithub}"></td> 
+				      </tr>
+				      <tr>
+				        <td><strong>Telefone:</strong></td>
+				        <td th:text="${estagio.estagiario.telefone}"></td>
+				      </tr>
 					    </tbody>
 				  	</table>
 	          </div>

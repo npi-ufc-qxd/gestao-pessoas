@@ -50,8 +50,7 @@ public class TurmaServiceImpl implements TurmaService {
 
 	@Override
 	public List<Turma> buscarTurmasSupervisorOuOrientador(Long idServidor) {
-		// TODO Auto-generated method stub
-		return null;
+		return turmaRepository.findByorientador_id(idServidor);
 	}
 
 	@Override

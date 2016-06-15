@@ -100,7 +100,11 @@ public class SupervisorController {
 
 			pessoaService.adicionarServidor(servidor);
 		}
-
+		
+		Servidor servidor = pessoaService.buscarServidorPorCpf(getCpfUsuarioLogado());
+		List<Turma> turmas = turmaService.buscarTurmasSupervisorOuOrientador(servidor.getId());
+		model.addAttribute("turmas", turmas);
+			
 		return PAGINA_INICIAL_SUPERVISOR;
 	}
 

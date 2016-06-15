@@ -31,20 +31,9 @@
       <div class="panel panel-default">
         <div id="painelPlano" class="panel-body clear">
           <ul class="list-group">
-            <li class="list-group-item gp-list-group-item">
-              <b> NPI-Manhã 2016.1 <span class="label label-primary">Aberta</span></b>
-              <a th:href="@{/Supervisor/Turma/1/}" class="btn btn-info btn-sm pull-right gp-btn-acompanhamento">Detalhes</a>
-              <a th:href="@{/Supervisor/Turma/1/Editar}" class="btn btn-success btn-sm pull-right">Editar</a>
-            </li>
-            <li class="list-group-item gp-list-group-item">
-              <b> NPI-Manhã 2016.1 <span class="label label-success">Concluída</span></b>
-              <a th:href="@{/Supervisor/Turma/1/}" class="btn btn-info btn-sm pull-right gp-btn-acompanhamento">Detalhes</a>
-              <a th:href="@{/Supervisor/Turma/1/Editar}"  class="btn btn-success btn-sm pull-right">Editar</a>
-            </li>
-            <li class="list-group-item gp-list-group-item">
-              <b> NPI-Manhã 2016.1 <span class="label label-danger">Fechada</span></b>
-              <a th:href="@{/Supervisor/Turma/1/}" class="btn btn-info btn-sm pull-right gp-btn-acompanhamento">Detalhes</a>
-              <a th:href="@{/Supervisor/Turma/1/Editar}" class="btn btn-success btn-sm pull-right">Editar</a>
+            <li th:each="turma : ${turmas}" class="list-group-item gp-list-group-item">
+              	<b th:inline="text">[[${turma.nome}]] <span class="label label-primary"> [[${turma.status.descricao}]]</span></b>
+              	<a th:href="@{'/Supervisor/Turma/' + ${turma.id}}" class="btn btn-info btn-sm pull-right gp-btn-acompanhamento">Detalhes</a>
             </li>
           </ul>
         </div>

@@ -25,10 +25,10 @@
       <div class="panel panel-default">
         <div id="painelPlano" class="panel-body gp-panel-body-background">
           <ul class="list-group">
-            <li class="list-group-item gp-list-group-item" th:each= "estagio: ${estagios}">
-              <b th:inline="text">[[${estagio.value.turma.nome}]] [[${estagio.value.turma.semestre}]]</b> 
-              <a th:href="@{/Estagiario/Acompanhamento/{idEstagio}(idEstagio=${estagio.value.id})}" class="btn btn-info btn-sm pull-right gp-btn-acompanhamento">Acompanhamento</a>
-              <a th:href="@{/Estagiario/Acompanhamento/{idEstagio}/Presenca(idEstagio=${estagio.value.id})}" class="btn btn-success btn-sm pull-right gp-btn-presenca" th:if="${estagio.key}">Estou Presente</a>
+            <li class="list-group-item gp-list-group-item" th:each= "presenca: ${presencas}">
+              <b th:inline="text">[[${presenca.estagio.turma.nome}]] [[${presenca.estagio.turma.semestre}]]</b> 
+              <a th:href="@{/Estagiario/Acompanhamento/{idEstagio}(idEstagio=${presenca.estagio.id})}" class="btn btn-info btn-sm pull-right gp-btn-acompanhamento">Acompanhamento</a>
+              <a th:href="@{/Estagiario/Acompanhamento/{idEstagio}/Presenca(idEstagio=${presenca.estagio.id})}" class="btn btn-success btn-sm pull-right gp-btn-presenca" th:if="${presenca.permissao}">Estou Presente</a>
             </li>
           </ul>
         </div>

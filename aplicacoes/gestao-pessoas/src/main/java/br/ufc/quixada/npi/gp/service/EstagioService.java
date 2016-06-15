@@ -9,6 +9,7 @@ import br.ufc.quixada.npi.gp.model.Estagiario;
 import br.ufc.quixada.npi.gp.model.Estagio;
 
 import br.ufc.quixada.npi.gp.model.Frequencia;
+import br.ufc.quixada.npi.gp.model.Presenca;
 import br.ufc.quixada.npi.gp.model.Submissao;
 import br.ufc.quixada.npi.gp.model.Turma;
 
@@ -52,7 +53,7 @@ public interface EstagioService {
 
 	boolean liberarPresenca(Turma turma);
 	
-	Map<Boolean, Estagio> permitirPresencaEstagio(List<Estagio> estagios);
+	public List <Presenca> permitirPresencaEstagio(List<Estagio> estagios);
 	
 	boolean realizarPresenca(Estagio estagio);
 	

@@ -1,5 +1,6 @@
 package br.ufc.quixada.npi.gp.service.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -16,6 +17,7 @@ import br.ufc.quixada.npi.gp.model.Estagio;
 import br.ufc.quixada.npi.gp.model.Frequencia;
 import br.ufc.quixada.npi.gp.model.Frequencia.StatusFrequencia;
 import br.ufc.quixada.npi.gp.model.Frequencia.TipoFrequencia;
+import br.ufc.quixada.npi.gp.model.Presenca;
 import br.ufc.quixada.npi.gp.model.Submissao;
 import br.ufc.quixada.npi.gp.model.Submissao.StatusEntrega;
 import br.ufc.quixada.npi.gp.model.Submissao.TipoSubmissao;
@@ -163,21 +165,22 @@ public class EstagioServiceImpl implements EstagioService {
 	}
 
 	@Override
-	public Map<Boolean, Estagio> permitirPresencaEstagio(List<Estagio> estagios) {
+	public List <Presenca> permitirPresencaEstagio(List<Estagio> estagios) {
 
-		Map<Boolean, Estagio> estagiosComPermissaoDePresenca = new HashMap<>();
+		List <Presenca> presencas = new ArrayList<Presenca>();
 
 		for (Estagio estagio : estagios) {
 			Frequencia frequencia = buscarFrequenciaDeHojePorEstagio(estagio);
+			
 			if(frequencia == null) {
-				estagiosComPermissaoDePresenca.put(liberarPresenca(estagio.getTurma()), estagio);
+				presencas.add(new Presenca(liberarPresenca(estagio.getTurma()), estagio));
 
 			} else { 
-				estagiosComPermissaoDePresenca.put(liberarReposicao(frequencia), estagio);
+				presencas.add(new Presenca(liberarReposicao(frequencia),estagio));
 			}
 		}
 
-		return estagiosComPermissaoDePresenca;
+		return presencas;
 	}
 	
 

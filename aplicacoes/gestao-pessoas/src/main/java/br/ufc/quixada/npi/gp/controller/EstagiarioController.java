@@ -59,7 +59,7 @@ public class EstagiarioController {
 		
 		List<Estagio> estagios = estagioService.buscarEstagiosPorEstagiarioCpf(getCpfUsuarioLogado());
 
-		model.addAttribute("estagios", estagioService.permitirPresencaEstagio(estagios));
+		model.addAttribute("presencas", estagioService.permitirPresencaEstagio(estagios));
 
 		return PAGINA_INICIAL_ESTAGIARIO;
 	}

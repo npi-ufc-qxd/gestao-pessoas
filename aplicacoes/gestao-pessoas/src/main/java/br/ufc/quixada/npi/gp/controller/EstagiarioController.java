@@ -17,6 +17,7 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.oauth2.authserver.OAuth2AuthorizationServerConfiguration;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -38,6 +39,7 @@ import br.ufc.quixada.npi.gp.model.AvaliacaoRendimento;
 import br.ufc.quixada.npi.gp.model.Documento;
 import br.ufc.quixada.npi.gp.model.Estagiario;
 import br.ufc.quixada.npi.gp.model.Estagio;
+import br.ufc.quixada.npi.gp.model.Pessoa;
 import br.ufc.quixada.npi.gp.model.Submissao;
 import br.ufc.quixada.npi.gp.model.Submissao.StatusEntrega;
 import br.ufc.quixada.npi.gp.model.Submissao.TipoSubmissao;
@@ -91,14 +93,29 @@ public class EstagiarioController {
     }
 	
 	@RequestMapping(value = "/MeusDados", method = RequestMethod.POST)
-	public String editarMeusDados(@Valid @ModelAttribute("estagiario") Estagiario estagiario, BindingResult result, RedirectAttributes redirect) {
+	public String editarMeusDados(@Valid @ModelAttribute("estagiario") Estagiario paramEstagiario, BindingResult result, RedirectAttributes redirect) {
 
 		if (result.hasErrors()) {
 			return FORMULARIO_EDITAR_ESTAGIARIO;
 		}
 		
-		estagiario.setPessoa(pessoaService.buscarPessoaPorCpf(getCpfUsuarioLogado()));
-		estagiario.setEstagios(estagioService.buscarEstagiosPorEstagiarioCpf(estagiario.getId()));
+		Estagiario estagiario = pessoaService.buscarEstagiarioPorCpf(getCpfUsuarioLogado());
+		Pessoa pessoa = pessoaService.buscarPessoaPorCpf(getCpfUsuarioLogado());
+		
+		estagiario.setNomeCompleto(paramEstagiario.getNomeCompleto());
+		estagiario.setCep(paramEstagiario.getCep());
+		estagiario.setCidade(paramEstagiario.getCidade());
+		estagiario.setCurso(paramEstagiario.getCurso());
+		estagiario.setDataNascimento(paramEstagiario.getDataNascimento());
+		estagiario.setEmail(paramEstagiario.getEmail());
+		estagiario.setEndereco(paramEstagiario.getEndereco());
+		estagiario.setNomeMae(paramEstagiario.getNomeMae());
+		estagiario.setMatricula(paramEstagiario.getMatricula());
+		estagiario.setPessoa(pessoa);
+		estagiario.setTelefone(paramEstagiario.getTelefone());
+		estagiario.setSemestre(paramEstagiario.getSemestre());
+		estagiario.setUsuarioGithub(paramEstagiario.getUsuarioGithub());
+		estagiario.setUf(paramEstagiario.getUf());
 		
 		pessoaService.editarEstagiario(estagiario);
 		redirect.addFlashAttribute("msg", "Parabéns, seu dados foram atualizados com sucesso!");

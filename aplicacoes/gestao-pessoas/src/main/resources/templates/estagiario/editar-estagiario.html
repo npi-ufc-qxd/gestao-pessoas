@@ -68,44 +68,49 @@
 						<form method="post" class="form-horizontal" th:action="@{#/Supervisor/MeusDados}" th:object="${estagiario}">
 							<fieldset>
 								<legend>Dados Pessoais</legend>
-							   	<div class="form-group">
+							   	<div class="form-group" th:class="${#fields.hasErrors('nomeCompleto')}? has-error">
 							      	<label for="nomeCompleto" class="col-md-2 control-label">*Nome Completo</label>
 								     <div class="col-md-10">
 								     	<input type="text" class="form-control" id="nomeCompleto" th:field="*{nomeCompleto}"/>
+							     		<label class="control-label" th:if="${#fields.hasErrors('nomeCompleto')}" th:errors="*{nomeCompleto}">O campo Nome tem que ser preenchido.</label>
 								     </div>
 								</div>
-								<input type="hidden" th:field="*{id}" />	 
-								<div class="form-group">
+								<div class="form-group" th:class="${#fields.hasErrors('dataNascimento')}? has-error">
 									 <label for="dataNascimento" class="col-md-2 control-label">*Data de Nascimento</label>
 									 <div class="col-md-10">
 									 	<input id="dataNascimento" th:field="*{dataNascimento}" class="form-control data" type="text" placeholder="dd/mm/aaaa" aria-required="true" />
+									 	<label class="control-label" th:if="${#fields.hasErrors('dataNascimento')}" th:errors="*{dataNascimento}">O campo Data de Nascimento tem que ser preenchido.</label>
 									 </div>	
 								</div>	 
 								     
-							    <div class="form-group">
+							    <div class="form-group" th:class="${#fields.hasErrors('nomeMae')}? has-error">
 							      	<label for="nomeMae" class="col-md-2 control-label">*Nome da Mãe</label>
 								     <div class="col-md-10">
 								     	<input id="nomeMae" th:field="*{nomeMae}" type="text" class="form-control" placeholder="Nome Mãe" />
+								     	<label class="control-label" th:if="${#fields.hasErrors('nomeMae')}" th:errors="*{nomeMae}">O campo Nome da Mãe tem que ser preenchido.</label>
 								     </div>
 							    </div>
 							</fieldset>
 
 							<fieldset>
 								<legend>Dados de Contatos</legend>
-							   <div class="form-group">
-							      <label for="telefone" class="col-md-2 control-label">Telefone</label>
+								
+								<div class="form-group" th:class="${#fields.hasErrors('email')}? has-error">
+							      <label for="email" class="col-md-2 control-label">*E-mail:</label>
+							      <div class="col-md-10">
+									<input id="email" th:field="*{email}" placeholder="E-mail" type="email" class="form-control" />
+									<label class="control-label" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">O campo E-mail tem que ser preenchido.</label>	      
+							      </div>
+							   </div>
+							   
+							   <div class="form-group" th:class="${#fields.hasErrors('telefone')}? has-error">
+							      <label for="telefone" class="col-md-2 control-label">*Telefone</label>
 							      <div class="col-md-10">
 							        <input type="text" th:field="*{telefone}" class="form-control" id="telefone" placeholder="Telefone" />
+							        <label class="control-label" th:if="${#fields.hasErrors('telefone')}" th:errors="*{telefone}">O campo Telefone tem que ser preenchido.</label>
 							      </div>
 							    </div>
 							    
-							    <div class="form-group">
-							      <label for="email" class="col-md-2 control-label">*E-mail:</label>
-							      <div class="col-md-10">
-									<input id="email" th:field="*{email}" placeholder="E-mail" type="email" class="form-control" />	      
-							      </div>
-							      </div>
-
 							    <div class="form-group">
 			            		  <label for="contaGithub" class="col-md-2 control-label">Usuario github:</label>
 			            		  <div class="col-md-10">
@@ -117,15 +122,23 @@
 							<fieldset>
 								<legend>Dados do Curso</legend>
 							   <div class="form-group">
-							      <label for="matricula" class="col-md-2 control-label">*Matricula:</label>
-							      <div class="col-md-4">
-			            			<input id="matricula" th:field="*{matricula}" class="form-control" placeholder="Matricula" required="required" type="text" size="7" maxlength="7" aria-required="true" />
+							   	
+							   	  <div class="form-item" th:class="${#fields.hasErrors('matricula')}? has-error">
+							   	  	<label for="matricula" class="col-md-2 control-label">*Matricula:</label>
+						   			<div class="col-md-4">
+		            					<input id="matricula" th:field="*{matricula}" class="form-control" placeholder="Matricula" required="required" type="text" size="7" maxlength="7" aria-required="true" />
+		            					<label class="control-label" th:if="${#fields.hasErrors('matricula')}" th:errors="*{matricula}">O campo Matrícula tem que ser preenchido.</label>
+						      		</div>
+							   	  </div>
+							      
+							      <div class="form-item" th:class="${#fields.hasErrors('semestre')}? has-error">
+								      <label for="semestre" class="col-md-2 control-label">*Semestre:</label>
+								      <div class="col-md-4">
+								         <input id="semestre" th:field="*{semestre}" class="form-control" placeholder="Semestre" type="text" required="required" aria-required="true" />
+										 <label class="control-label" th:if="${#fields.hasErrors('semestre')}" th:errors="*{semestre}">O campo Semestre tem que ser preenchido.</label>
+								      </div>
 							      </div>
 
-							      <label for="semestre" class="col-md-2 control-label">*Semestre:</label>
-							      <div class="col-md-4">
-							      	<input id="semestre" th:field="*{semestre}" class="form-control" placeholder="Semestre" type="text" required="required" aria-required="true" />
-							      </div>
 
 						      </div>
 							      
@@ -135,7 +148,7 @@
 							      	<select class="form-control" id="curso" th:name="curso">
 						              <option th:each="curso : ${cursos}"
 						              		  th:value="${curso}"
-						              		  th:text="${curso}"
+						              		  th:text="${curso.descricao}"
 						              		  th:selected="${#strings.equals(curso,estagiario.curso)}"></option>
 						            </select>
 							      </div>
@@ -168,7 +181,7 @@
 							      	<select class="form-control" id="uf" th:name="uf">
 						              <option  th:each="estado: ${estados}" 
 						              		   th:value="${estado}"
-						              		   th:text="${estado}"
+						              		   th:text="${estado.descricao}"
 						              		   th:selected="${#strings.equals(estado,estagiario.uf)}"></option>
 						            </select>
 							      </div>
@@ -193,7 +206,10 @@
 
   <section layout:fragment="js">
 	<script type="text/javascript">
-	 	$("#nova-turma").removeClass("active");
+		$("#nova-turma").removeClass("active");
+	 	
+
+	
 	</script>
   </section>
   

@@ -53,6 +53,8 @@ public class Constants {
 	public static final String FORMULARIO_EVENTO = "supervisor/formulario-evento";
 	
 	public static final String FORMULARIO_EXPEDIENTE = "supervisor/formulario-expediente";	
+	
+	public static final String GERENCIAR_FREQUENCIAS = "supervisor/gerenciar-frequencias";	
 
 	/** REDIRECIONAMENTOS */
 

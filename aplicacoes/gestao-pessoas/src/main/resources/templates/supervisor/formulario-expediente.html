@@ -55,6 +55,47 @@
 	    <div class="col-md-8">
 	        <div class="panel panel-bluegray">
 	          <div class="panel-heading">
+	            <a class="panel-title" data-toggle="collapse" data-target="#add-evento"><i class="fa fa-caret-down" aria-hidden="true"></i> Adicionar Expediente</a>
+	          </div>
+	          <div id="add-evento" class="panel-body collapse in">
+					<form class="form-horizontal">
+					    <div class="form-group">
+					      <label for="inputEmail" class="col-lg-2 control-label">Dia da Semana</label>
+					      <div class="col-lg-10">
+					        <select class="form-control" id="select">
+					          <option>Dia da Semana</option>
+					          <option>Segunda-feira</option>
+					          <option>Terça-feira</option>
+					          <option>Quarta-feira</option>
+					          <option>Quinta-feira</option>
+					          <option>Sexta-feira</option>
+					        </select>
+					      </div>
+					    </div>
+					    <div class="form-group">
+					    	<div class="form-item">
+						      <label for="inputEmail" class="col-lg-2 control-label">Horario</label>
+						      <div class="col-lg-4">
+						        <input type="text" class="form-control" id="termino" placeholder="08:00"/>
+						      </div>
+					    	</div>
+					    	<div class="form-item">
+						      <div class="col-lg-4">
+						        <input type="text" class="form-control" id="inicio" placeholder="08:00"/>
+						      </div>
+					    	</div>
+					    	<div class="form-item">
+						      <div class="col-lg-2">
+					        <button type="submit" class="btn btn-success">Adicionar</button>
+						      </div>
+					    	</div>
+					    </div>
+					</form>
+	           </div>
+	        </div>
+
+	        <div class="panel panel-bluegray">
+	          <div class="panel-heading">
 	            <a class="panel-title" data-toggle="collapse" data-target="#add-expediente"><i class="fa fa-caret-down" aria-hidden="true"></i> Adicionar Expediente</a>
 	          </div>
 	          <div id="add-expediente" class="panel-body collapse in" align="center">

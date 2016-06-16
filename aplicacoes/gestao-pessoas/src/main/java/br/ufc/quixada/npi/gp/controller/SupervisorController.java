@@ -12,6 +12,7 @@ import static br.ufc.quixada.npi.gp.utils.Constants.FORMULARIO_EDITAR_AVALIACAO_
 import static br.ufc.quixada.npi.gp.utils.Constants.FORMULARIO_EDITAR_TURMA;
 import static br.ufc.quixada.npi.gp.utils.Constants.FORMULARIO_EVENTO;
 import static br.ufc.quixada.npi.gp.utils.Constants.FORMULARIO_EXPEDIENTE;
+import static br.ufc.quixada.npi.gp.utils.Constants.GERENCIAR_FREQUENCIAS;
 import static br.ufc.quixada.npi.gp.utils.Constants.MAPA_FREQUENCIAS;
 import static br.ufc.quixada.npi.gp.utils.Constants.NOME_USUARIO;
 import static br.ufc.quixada.npi.gp.utils.Constants.PAGINA_INICIAL_SUPERVISOR;
@@ -85,7 +86,6 @@ public class SupervisorController {
 
 	@Autowired
 	private TurmaService turmaService;
-	//
 	
 	private JRDataSource jrDatasource;
 
@@ -352,6 +352,14 @@ public class SupervisorController {
 
 	}
 
+	@RequestMapping(value = "/Turma/Acompanhamento/{idEstagio}/Frequencias", method = RequestMethod.GET)
+	public String formularioFrequencias(Model model, @PathVariable("idEstagio") Long idEstagio) {
+		Estagio estagio = estagioService.buscarEstagioPorId(idEstagio);
+		model.addAttribute("estagio", estagio);
+
+		return GERENCIAR_FREQUENCIAS;
+	}
+
 	@RequestMapping(value = "/Turma/Acompanhamento/{idEstagio}/AvaliarPlano", method = RequestMethod.GET)
 	public String formularioAvaliarPlanoEstagio(@PathVariable("idEstagio") Long idEstagio, Model model) {
 
@@ -534,12 +542,7 @@ public class SupervisorController {
     public List<AvaliacaoRendimento.CuidadoMateriaisEEquipamentos> todosCuidados() {
         return Arrays.asList(AvaliacaoRendimento.CuidadoMateriaisEEquipamentos.values());
     }
-	
-	/*@ModelAttribute("todas")
-    public List<AvaliacaoRendimento.> todas() {
-        return Arrays.asList(AvaliacaoRendimento..values());
-    }*/
-	
+
 	@RequestMapping(value = "/Turma/Acompanhamento/{idEstagio}/AvaliacaoRendimento", method = RequestMethod.POST)
 	public String adicionarAvaliacaoRendimento(Model model, @RequestParam(value="arquivo", required = false) MultipartFile arquivo,
 			@Valid @ModelAttribute("avaliacaoRendimento") AvaliacaoRendimento avaliacaoRendimento,

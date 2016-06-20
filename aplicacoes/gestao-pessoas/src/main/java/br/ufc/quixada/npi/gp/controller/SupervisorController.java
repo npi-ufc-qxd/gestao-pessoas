@@ -25,6 +25,7 @@ import static br.ufc.quixada.npi.gp.utils.Constants.VINCULOS_TURMA;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -52,6 +53,7 @@ import br.ufc.quixada.npi.gp.model.AvaliacaoRendimento;
 import br.ufc.quixada.npi.gp.model.Estagio;
 import br.ufc.quixada.npi.gp.model.Evento;
 import br.ufc.quixada.npi.gp.model.Expediente;
+import br.ufc.quixada.npi.gp.model.Expediente.DiaDaSemana;
 import br.ufc.quixada.npi.gp.model.Papel;
 import br.ufc.quixada.npi.gp.model.Pessoa;
 import br.ufc.quixada.npi.gp.model.Servidor;
@@ -269,8 +271,24 @@ public class SupervisorController {
 	}
 
 	@RequestMapping(value = "/Turma/{idTurma}/Expediente", method = RequestMethod.POST)
-	public String adicionarExpediente(Model model, @PathVariable("idTurma") Long idTurma) {
+	public String adicionarExpediente(Model model, @PathVariable("idTurma") Long idTurma, @Valid @ModelAttribute("expediente") Expediente expediente, BindingResult result) {
+
+		model.addAttribute("turma", turmaService.buscarTurmaPorId(idTurma));
+
+		if(result.hasErrors()) {
+			return FORMULARIO_EXPEDIENTE;
+		}
+
+		Turma turma = turmaService.buscarTurmaPorId(idTurma);
+		expediente.setTurma(turma);
+		turmaService.adicionarExpediente(expediente);
+		
 		return REDIRECT_DETALHES_TURMA + idTurma + "/Expediente";
+	}
+	
+	@ModelAttribute("diaDaSemana")
+	public List<Expediente.DiaDaSemana> diaDaSemana() {
+		return Arrays.asList(Expediente.DiaDaSemana.values());
 	}
 
 	@RequestMapping(value = "/Turma/{idTurma}/Expediente/{idExpediente}/Excluir", method = RequestMethod.GET)

@@ -55,33 +55,32 @@
 	    <div class="col-md-8">
 	        <div class="panel panel-bluegray">
 	          <div class="panel-heading">
-	            <a class="panel-title" data-toggle="collapse" data-target="#add-evento"><i class="fa fa-caret-down" aria-hidden="true"></i> Adicionar Expediente</a>
+	            <a class="panel-title" data-toggle="collapse" data-target="#add-expediente"><i class="fa fa-caret-down" aria-hidden="true"></i> Adicionar Expediente</a>
 	          </div>
-	          <div id="add-evento" class="panel-body collapse in">
-					<form class="form-horizontal">
+	          <div id="add-expediente" class="panel-body collapse in">
+					<form class="form-horizontal" th:action= "@{/Supervisor/Turma/1/Expediente}" method="post" th:object="expediente">
 					    <div class="form-group">
-					      <label for="inputEmail" class="col-lg-2 control-label">Dia da Semana</label>
+					      <label for="diaDaSemana" class="col-lg-2 control-label">Dia da Semana</label>
 					      <div class="col-lg-10">
-					        <select class="form-control" id="select">
-					          <option>Dia da Semana</option>
-					          <option>Segunda-feira</option>
-					          <option>Terça-feira</option>
-					          <option>Quarta-feira</option>
-					          <option>Quinta-feira</option>
-					          <option>Sexta-feira</option>
+					        <select class="form-control" id="dia" th:field="diaDaSemana">
+					          <option th:each = "dia : ${diaDaSemana}" 
+					          		  th:value="${dia}" 
+					          		  th:text = "${dia.descricao}">
+					          </option> 
 					        </select>
 					      </div>
 					    </div>
-					    <div class="form-group">
+					    <div th:class="${#fields.hasErrors('horaInicio')}? 'form-group has-error' : form-group">
 					    	<div class="form-item">
-						      <label for="inputEmail" class="col-lg-2 control-label">Horario</label>
+						      <label class="col-lg-2 control-label">Horario</label>
 						      <div class="col-lg-4">
-						        <input type="text" class="form-control" id="termino" placeholder="08:00"/>
+						        <input type="text" class="form-control" id="horaInicio" th:field="horaInicio" placeholder="08:00"/>
+						        <label class="control-label" th:if="${#fields.hasErrors('horaInicio')}" th:errors="*{horaInicio}">O campo E-mail tem que ser preenchido.</label>
 						      </div>
 					    	</div>
 					    	<div class="form-item">
 						      <div class="col-lg-4">
-						        <input type="text" class="form-control" id="inicio" placeholder="08:00"/>
+						        <input type="text" class="form-control" id="horaTermino" th:field="horaTermino" placeholder="08:00"/>
 						      </div>
 					    	</div>
 					    	<div class="form-item">
@@ -91,42 +90,6 @@
 					    	</div>
 					    </div>
 					</form>
-	           </div>
-	        </div>
-
-	        <div class="panel panel-bluegray">
-	          <div class="panel-heading">
-	            <a class="panel-title" data-toggle="collapse" data-target="#add-expediente"><i class="fa fa-caret-down" aria-hidden="true"></i> Adicionar Expediente</a>
-	          </div>
-	          <div id="add-expediente" class="panel-body collapse in" align="center">
-				<form role="form">
-				      <div class="col-lg-3">
-						<div class="form-group">
-<!-- 						  <label class="control-label" >Dia da Semana</label> -->
-					        <select class="form-control" id="select">
-					          <option>Dia da Semana</option>
-					          <option>Segunda-feira</option>
-					          <option>Terça-feira</option>
-					          <option>Quarta-feira</option>
-					          <option>Quinta-feira</option>
-					          <option>Sexta-feira</option>
-					        </select>
-      					</div>
-					  </div>
-				      <div class="col-lg-3">
-						<div class="form-group">
-<!-- 						  <label class="control-label" >Hora Inicial</label> -->
-						  <input class="form-control" type="text" placeholder="Hora Inicial"/>
-						</div>
-					  </div>
-				      <div class="col-lg-3">
-						<div class="form-group">
-<!-- 						  <label class="control-label" >Hora Termino</label> -->
-						  <input class="form-control" type="text" placeholder="Hora Inicial"/>
-						</div>
-					  </div>
-					  <button type="submit" class="btn btn-primary">Adicionar</button>
-     			 </form>	          
 	           </div>
 	        </div>
 

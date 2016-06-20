@@ -180,3 +180,17 @@ a.btn.gp-btn-opcao:active, a.btn.gp-btn-opcao:visited {
 tr:nth-child(1) td {
 	border: none !important;
 }
+
+#consolidado a + a{
+	margin-left: 14px;
+} 
+.btn-bluegray {
+    -webkit-background-size: 200% 200%;
+    background-size: 200%;
+    background-position: 50%;
+}
+.btn-bluegray {
+    color: #ffffff;
+    background-color: #607d8b;
+    border-color: transparent;
+}

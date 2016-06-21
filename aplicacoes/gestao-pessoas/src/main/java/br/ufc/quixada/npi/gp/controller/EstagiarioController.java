@@ -8,6 +8,7 @@ import static br.ufc.quixada.npi.gp.utils.Constants.REDIRECT_ACOMPANHAMENTO_ESTA
 import static br.ufc.quixada.npi.gp.utils.Constants.REDIRECT_PAGINA_INICIAL_ESTAGIARIO;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -35,10 +36,12 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import br.ufc.quixada.npi.gp.model.Documento;
 import br.ufc.quixada.npi.gp.model.Estagiario;
 import br.ufc.quixada.npi.gp.model.Estagio;
+import br.ufc.quixada.npi.gp.model.Pessoa;
 import br.ufc.quixada.npi.gp.model.Submissao;
 import br.ufc.quixada.npi.gp.model.Submissao.StatusEntrega;
 import br.ufc.quixada.npi.gp.model.Submissao.TipoSubmissao;
 import br.ufc.quixada.npi.gp.service.EstagioService;
+import br.ufc.quixada.npi.gp.service.PessoaService;
 import br.ufc.quixada.npi.ldap.service.UsuarioService;
 
 @Controller
@@ -50,7 +53,10 @@ public class EstagiarioController {
 	
 	@Autowired
 	private UsuarioService usuarioService;
-
+	
+	@Autowired
+	private PessoaService pessoaService;
+	
 	@RequestMapping(value = {"", "/", "/MinhasTurmas"}, method = RequestMethod.GET)
 	public String listarTurmas(Model model, HttpSession session) {
 		inserirNomeUsuarioNaSessao(session);
@@ -65,21 +71,50 @@ public class EstagiarioController {
 	
 	@RequestMapping(value = "/MeusDados", method = RequestMethod.GET)
 	public String visualizarMeusDados(Model model) {
-//		Estagiario estagiario = pessoaService.getEstagiarioByCpf(getCpf());
-//		model.addAttribute("estagiario", estagiario);
 
+		Estagiario estagiario = pessoaService.buscarEstagiarioPorCpf(getCpfUsuarioLogado());
+		estagiario.getId();
+		model.addAttribute("estagiario",estagiario);
+		
 		return FORMULARIO_EDITAR_ESTAGIARIO;
 	}
 
+	@ModelAttribute("estados")
+    public List<Estagiario.Estado> todosEstados() {
+        return Arrays.asList(Estagiario.Estado.values());
+    }
+	
+	@ModelAttribute("cursos")
+    public List<Estagiario.Curso> todosCursos() {
+        return Arrays.asList(Estagiario.Curso.values());
+    }
+	
 	@RequestMapping(value = "/MeusDados", method = RequestMethod.POST)
-	public String editarMeusDados(@Valid @ModelAttribute("estagiario") Estagiario estagiario, BindingResult result, RedirectAttributes redirect) {
+	public String editarMeusDados(@Valid @ModelAttribute("estagiario") Estagiario paramEstagiario, BindingResult result, RedirectAttributes redirect) {
 
 		if (result.hasErrors()) {
 			return FORMULARIO_EDITAR_ESTAGIARIO;
 		}
-
-//		estagiario.setPessoa(pessoaService.getPessoaByCpf(getCpf()));
-//		pessoaService.editarEstagiario(estagiario);
+		
+		Estagiario estagiario = pessoaService.buscarEstagiarioPorCpf(getCpfUsuarioLogado());
+		Pessoa pessoa = pessoaService.buscarPessoaPorCpf(getCpfUsuarioLogado());
+		
+		estagiario.setNomeCompleto(paramEstagiario.getNomeCompleto());
+		estagiario.setCep(paramEstagiario.getCep());
+		estagiario.setCidade(paramEstagiario.getCidade());
+		estagiario.setCurso(paramEstagiario.getCurso());
+		estagiario.setDataNascimento(paramEstagiario.getDataNascimento());
+		estagiario.setEmail(paramEstagiario.getEmail());
+		estagiario.setEndereco(paramEstagiario.getEndereco());
+		estagiario.setNomeMae(paramEstagiario.getNomeMae());
+		estagiario.setMatricula(paramEstagiario.getMatricula());
+		estagiario.setPessoa(pessoa);
+		estagiario.setTelefone(paramEstagiario.getTelefone());
+		estagiario.setSemestre(paramEstagiario.getSemestre());
+		estagiario.setUsuarioGithub(paramEstagiario.getUsuarioGithub());
+		estagiario.setUf(paramEstagiario.getUf());
+		
+		pessoaService.editarEstagiario(estagiario);
 		redirect.addFlashAttribute("msg", "Parabéns, seu dados foram atualizados com sucesso!");
 
 		return REDIRECT_PAGINA_INICIAL_ESTAGIARIO;

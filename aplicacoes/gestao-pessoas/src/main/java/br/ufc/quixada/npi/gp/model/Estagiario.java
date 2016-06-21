@@ -45,6 +45,7 @@ public class Estagiario {
 
 	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	@Temporal(TemporalType.DATE)
+	@NotNull(message = "Campo obrigatório")
 	private Date dataNascimento;
 
 	@Enumerated(EnumType.STRING)
@@ -66,6 +67,7 @@ public class Estagiario {
 	@NotEmpty(message = "Campo obrigatório.")
 	private String usuarioGithub;
 	
+	@NotNull(message = "Campo obrigatório")
 	@Email(message = "Informe um e-mail valido")
 	private String email;
 

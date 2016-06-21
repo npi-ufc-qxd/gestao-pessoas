@@ -24,16 +24,16 @@ public class Expediente {
 	@ManyToOne
 	private Turma turma;
 
-	@NotNull
+	@NotNull(message = "Dia Da semana tem que ser preenchido.")
 	@Enumerated(EnumType.STRING)
 	private DiaDaSemana diaSemana;
 
-	@NotNull
+	@NotNull (message = "Horário tem que ser preenchido.")
 	@Temporal(TemporalType.TIME)
 	@DateTimeFormat(pattern = "HH:mm")
 	private Date horaInicio;
 
-	@NotNull
+	@NotNull(message = "Horário tem que ser preenchido.")
 	@Temporal(TemporalType.TIME)
 	@DateTimeFormat(pattern = "HH:mm")
 	private Date horaTermino;

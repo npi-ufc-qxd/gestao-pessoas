@@ -13,9 +13,8 @@
   <div class="container-fluid titulo-pagina">
     <div class="container">
         <ul class="breadcrumb">
-            <li><a href="#">Minhas Turmas</a></li>
-            <li><a href="#">Detalhes Turma</a></li>
-            <li class="active">Acompanhamento Estágiario</li>
+            <li><a th:href="@{/Estagiario}">Minhas Turmas</a></li>
+            <li class="active">Acompanhamento Estagiário</li>
         </ul>
         <h1>Acompanhamento</h1>
     </div>
@@ -24,7 +23,37 @@
 
 	<div class="container animated fadeInRight"> 
 	    <div class="row">
-	    <div class="col-md-7">
+	    
+	     <div class="col-md-7">
+	      	 <div class="panel panel-bluegray">
+	          <div class="panel-heading">
+	            <a class="panel-title" data-toggle="collapse" data-target="#frequencia"><i class="fa fa-caret-down" aria-hidden="true"></i> Frequência</a>
+	          	<a href="#" class="btn btn-xs pull-right gp-btn-opcao">Detalhes</a>
+	          </div>
+	
+	          <div id="frequencia" class="panel-body collapse in">
+				  <table class="table table-hover">
+				    <tbody>
+				      <tr>
+				        <td><strong>Horas estagiadas:</strong></td>
+				        <td></td>
+				      </tr>
+				      <tr>
+				        <td><strong>Presença:</strong></td>
+				        <td></td>
+				      </tr>
+				      <tr>
+				        <td><strong>Falta</strong></td>
+				        <td></td>
+				      </tr>
+				      <tr>
+				        <td><strong>Frequencias Pendentes</strong></td>
+				        <td></td>
+				      </tr>
+				    </tbody>
+				  </table>
+	           </div>
+	        </div>
 	        <div class="panel panel-bluegray">
 	          <div class="panel-heading">
 	            <a class="panel-title" data-toggle="collapse" data-target="#planoEstagio"><i class="fa fa-caret-down" aria-hidden="true"></i> Plano de Estágio</a>
@@ -180,13 +209,14 @@
 			     </div>
 			  </div>
 				          		
-		        <a th:href="@{/Supervisor/Turma/Acompanhamento/1#}" class="btn btn-success btn-sm pull-right">Avaliar</a>
 	           </div>
 	        </div>
 	
 	      </div>
 	    
 	      <div class="col-md-5">
+
+	      
 	        <div class="panel panel-bluegray">
 	          <div class="panel-heading">
 	            <a class="panel-title" data-toggle="collapse" data-target="#detalhesTurma"><i class="fa fa-caret-down" aria-hidden="true"></i> Turma NPI - 2016.1</a>
@@ -206,9 +236,21 @@
 				        <td><strong>Período</strong></td>
 				        <td th:text="${#dates.format(estagio.turma.inicio, 'dd/MM/yyyy')} + ' a ' + ${#dates.format(estagio.turma.termino, 'dd/MM/yyyy')}"></td>
 				      </tr>
-				      <tr>
-				        <td><strong>Expediente</strong></td>
-				        	 <td  th:inline="text"> <p th:each="exp : ${estagio.turma.expedientes}"> [[${exp.diaSemana.descricao}]] - [[${exp.horaInicio}]] ás [[${exp.horaTermino}]]</p> </td>
+				    </tbody>
+				  </table>
+	           </div>
+	        </div>
+	        
+	        <div th:if="${#strings.equals(estagio.turma.tipoTurma, 'NPI')}" class="panel panel-bluegray">
+	          <div class="panel-heading">
+	            <a class="panel-title" data-toggle="collapse" data-target="#expedienteTurma"><i class="fa fa-caret-down" aria-hidden="true"></i> Expediente da Turma</a>
+  			  </div>
+	          <div id="expedienteTurma" class="panel-body collapse in">
+				  <table class="table table-hover">
+				    <tbody>
+				      <tr th:each="expediente : ${estagio.turma.expedientes}">
+				        <td th:inline="text"><strong>[[${expediente.diaSemana.descricao}]]</strong></td>
+				        <td th:inline="text">[[${#dates.format(expediente.horaInicio, 'HH:mm')}]] ás [[${#dates.format(expediente.horaTermino, 'HH:mm')}]]</td>
 				      </tr>
 				    </tbody>
 				  </table>
@@ -239,37 +281,10 @@
 				  </table>
 	           </div>
 	        </div>
-	
-	        <div class="panel panel-bluegray">
-	          <div class="panel-heading">
-	            <a class="panel-title" data-toggle="collapse" data-target="#frequencia"><i class="fa fa-caret-down" aria-hidden="true"></i> Frequência de Estágio</a>
-	          </div>
-	
-	          <div id="frequencia" class="panel-body">
-				  <table class="table table-hover">
-				    <tbody>
-				      <tr>
-				        <td class="gp-sem-borda"><strong>Presença:</strong></td>
-				        <td class="gp-sem-borda">81%</td>
-				      </tr>
-				      <tr>
-				        <td><strong>Horas estagiadas:</strong></td>
-				        <td>80h</td>
-				      </tr>
-				      <tr>
-				        <td><strong>Falta</strong></td>
-				        <td>9.0%</td>
-				      </tr>
-				      <tr>
-				        <td><strong>Frequencias Pendentes</strong></td>
-				        <td>10%</td>
-				      </tr>
-				    </tbody>
-				  </table>
-	           </div>
-	        </div>
-	
 	      </div>
+	      
+
+	      
 	    </div>
 	
 	</div>

@@ -50,6 +50,11 @@ public class Constants {
 	
 	public static final String AVALIAR_RELATORIO = "supervisor/avaliar-relatorio";
 	
+	public static final String FORMULARIO_EVENTO = "supervisor/formulario-evento";
+	
+	public static final String FORMULARIO_EXPEDIENTE = "supervisor/formulario-expediente";	
+	
+	public static final String GERENCIAR_FREQUENCIAS = "supervisor/gerenciar-frequencias";	
 
 	/** REDIRECIONAMENTOS */
 
@@ -57,7 +62,7 @@ public class Constants {
 
 	public static final String REDIRECT_PAGINA_INICIAL_SUPERVISOR = "redirect:/Supervisor/Turmas";
 
-	public static final String REDIRECT_DETALHES_TURMA = "redirect:/Supervisor/detalhes-turma";
+	public static final String REDIRECT_DETALHES_TURMA = "redirect:/Supervisor/Turma/";
 	
 	public static final String REDIRECT_ACOMPANHAMENTO_ESTAGIARIO = "redirect:/Supervisor/Turma/Acompanhamento/";
 	

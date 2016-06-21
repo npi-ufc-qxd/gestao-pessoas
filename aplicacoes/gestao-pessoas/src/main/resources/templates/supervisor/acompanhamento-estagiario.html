@@ -5,7 +5,7 @@
     layout:decorator="layouts/LayoutSupervisor">
 
 <head>
-	<title>Gestão Pessoas | Acompanhamento Estágiario</title>
+	<title>Gestão Pessoas | Acompanhamento Estagiário</title>
 </head>
 
 <section layout:fragment="conteudo">
@@ -14,10 +14,10 @@
     <div class="container">
         <ul class="breadcrumb">
             <li><a th:href="@{/Supervisor/}" >Minhas Turmas</a></li>
-            <li><a th:href="@{/Supervisor/Turma/1/}" >Detalhes Turma</a></li>
-            <li><a href="#">Acompanhamento Estágiario</a></li>
+            <li><a th:href="@{'/Supervisor/Turma/' + ${estagio.turma.id}}" >Detalhes Turma</a></li>
+            <li class="active">Acompanhamento Estagiário</li>
         </ul>
-        <h1>Acompanhamento Estágiario</h1>
+        <h1>Acompanhamento Estagiário</h1>
     </div>
   </div>
 
@@ -39,7 +39,6 @@
 				      <tr>
 				        <td><strong>Supervisores</strong></td>
 				     	<td  th:inline="text"> <p th:each="sup : ${estagio.turma.supervisores}"> [[${sup.nome}]]</p> </td>
-
 				      </tr>
 				      <tr>
 				        <td><strong>Período</strong></td>
@@ -56,7 +55,7 @@
 	
 	        <div class="panel panel-bluegray">
 	          <div class="panel-heading">
-	            <a class="panel-title" data-toggle="collapse" data-target="#estagiario"><i class="fa fa-caret-down" aria-hidden="true"></i> Estágiario</a>
+	            <a class="panel-title" data-toggle="collapse" data-target="#estagiario"><i class="fa fa-caret-down" aria-hidden="true"></i> Estagiário</a>
 			  </div>
 	          <div id="estagiario" class="panel-body collapse in">
 	          	<table class="table table-hover">
@@ -70,26 +69,73 @@
 				        <td th:text="${estagio.estagiario.curso.descricao}"></td>
 				      </tr>
 				      <tr>
+				        <td><strong>Semestre:</strong></td>
+				        <td th:text="${estagio.estagiario.semestre}"></td>
+				      </tr>
+				      <tr>
 				        <td><strong>Email:</strong></td>
 				        <td th:text="${estagio.estagiario.email}"></td>
 				      </tr>
 				      <tr>
-				        <td><strong>Telefone:</strong></td>
-				        <td th:text="${estagio.estagiario.telefone}"></td>
+				      	<td><strong>Github:</strong></td>
+				      	<td th:text="${estagio.estagiario.usuarioGithub}"></td> 
 				      </tr>
 				      <tr>
-				        <td><strong>Github:</strong></td>
-				        <td th:text="${estagio.estagiario.usuarioGithub}"></td>
-				      </tr>
-				      
+				        <td><strong>Telefone:</strong></td>
+				        <td th:text="${estagio.estagiario.telefone}"></td>
+				      </tr>      
 				    </tbody>
 				  </table>
 	          </div>
 	        </div>
+	        <div class="panel panel-bluegray">
+	          <div class="panel-heading">
+	            <a class="panel-title" data-toggle="collapse" data-target="#detalhesTurma"><i class="fa fa-caret-down" aria-hidden="true"></i> Turma NPI - 2016.1</a>
+			  </div>
+	          <div id="detalhesTurma" class="panel-body collapse in">
+				  <table class="table table-hover">
+				    <tbody>
+				      <tr>
+				        <td><strong>Orientador</strong></td>
+				        <td th:text="${estagio.turma.orientador.nome}"></td>
+				      </tr>
+				      <tr>
+				        <td><strong>Supervisores</strong></td>
+				     	<td  th:inline="text"> <span th:each="sup : ${estagio.turma.supervisores}"> [[${sup.nome}]],</span></td>
+				      </tr>
+				      <tr>
+				        <td><strong>Período</strong></td>
+				        <td><label th:text="${#dates.format(estagio.turma.inicio, 'dd/MM/yyyy')}"></label>  a <label th:text="${#dates.format(estagio.turma.termino, 'dd/MM/yyyy')}"></label></td>
+				      </tr>
+				      <tr>
+				        <td><strong>Tipo</strong></td>
+				        <td th:text="${estagio.turma.tipoTurma.descricao}"></td>
+				      </tr>
+				      <tr>
+				        <td><strong>Status</strong></td>
+				        <td th:text="${estagio.turma.status.descricao}"></td>
+				      </tr>
+				    </tbody>
+				  </table>
+	           </div>
+	        </div>
 	      </div>
-
-
 	    <div class="col-md-8">
+	        <div class="panel panel-bluegray">
+	          <div class="panel-heading">
+	            <a class="panel-title" data-toggle="collapse" data-target="#consolidado"><i class="fa fa-caret-down" aria-hidden="true"></i> Consolidado Frequências</a>
+				<a th:href="@{/Supervisor/Turma/Acompanhamento/{id}/Frequencias(id=${estagio.id})}" class="btn btn-xs pull-right gp-btn-opcao">Gerenciar</a>
+			  </div>
+	          <div id="consolidado" class="panel-body collapse in">
+	            <a href="#" class="btn btn-default disabled" role="button"><span>100h</span> <br/>Carga Horária</a>
+	            <a href="#" class="btn btn-bluegray disabled" role="button"><span>10</span> <br/>Pendências</a>
+	            <a href="#" class="btn btn-warning disabled" role="button"><span>10%</span> <br/>Faltas</a>
+	            <a href="#" class="btn btn-info disabled" role="button"><span>4</span> <br/>Atrasos</a>
+	            <a href="#" class="btn btn-primary disabled" role="button"><span>0</span> <br/>Reposições</a>
+	            <a href="#" class="btn btn-success disabled" role="button"><span>20%</span> <br/>Presenças</a>
+	          </div>
+	        </div>
+
 	        <div class="panel panel-bluegray">
 	          <div class="panel-heading">
 	            <a class="panel-title" data-toggle="collapse" data-target="#avaliacaoPlano"><i class="fa fa-caret-down" aria-hidden="true"></i> Avaliação Plano</a>
@@ -155,7 +201,6 @@
 		        <a th:href="@{/Supervisor/Turma/Acompanhamento/1/AvaliarRelatorio}" class="btn btn-success btn-sm pull-right">Avaliar</a>
 	           </div>
 	        </div>
-
 	        <div class="panel panel-bluegray">
 	          <div class="panel-heading">
 	            <a class="panel-title" data-toggle="collapse" data-target="#avaliacaoRendimento"><i class="fa fa-caret-down" aria-hidden="true"></i> Avaliação Rendimento</a>
@@ -241,8 +286,8 @@
 				          		
 		        <a th:href="@{/Supervisor/Turma/Acompanhamento/{idEstagio}/AvaliacaoRendimento(idEstagio=${estagio.id})}" class="btn btn-success btn-sm pull-right">Avaliar</a>
 	           </div>
-	        </div>
-	     </div>
+	           </div>
+	             </div>
 	   </div>
 	  </div>
 </section>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorator="layouts/LayoutEstagiario">
+
+<head>
+	<title>Gestão Pessoas | Minhas Turmas</title>
+</head>
+
+<section layout:fragment="conteudo">
+
+  <div class="container-fluid titulo-pagina">
+    <div class="container">
+        <ul class="breadcrumb">
+            <li><a href="#">Minhas Turmas</a></li>
+        </ul>
+        <h1>Minhas Turmas</h1>
+    </div>
+  </div>
+
+	<div class="container animated fadeInRight"> 
+    <div class="row">
+    <div class="col-sm-12">
+      <div class="panel panel-default">
+        <div id="painelPlano" class="panel-body gp-panel-body-background">
+          <ul class="list-group">
+            <li class="list-group-item gp-list-group-item" th:each= "presenca: ${presencas}">
+              <b th:inline="text">[[${presenca.estagio.turma.nome}]] [[${presenca.estagio.turma.semestre}]]</b> 
+              <a th:href="@{/Estagiario/Acompanhamento/{idEstagio}(idEstagio=${presenca.estagio.id})}" class="btn btn-info btn-sm pull-right gp-btn-acompanhamento">Acompanhamento</a>
+              <a th:href="@{/Estagiario/Acompanhamento/{idEstagio}/Presenca(idEstagio=${presenca.estagio.id})}" class="btn btn-success btn-sm pull-right gp-btn-presenca" th:if="${presenca.permissao}">Estou Presente</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    
+    
+    </div>
+    </div>
+</section>
+</html>

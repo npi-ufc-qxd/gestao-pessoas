@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorator="layouts/LayoutSupervisor">
+
+<head>
+	<title>Supervisor | Nova Turma</title>
+	
+  <style type="text/css">
+    .inline {
+      display:inline;
+    }
+    .color {
+    }
+
+    .link {
+      font-weight: 700;
+    }
+
+    .statusTurmas {
+      padding: 5px;
+    }
+    .opcao {
+      margin-left: 10px;
+    }
+    .item-turma {
+      margin-bottom: 5px; 
+    }
+    .legendTop {
+      margin-top: 40px;
+    }
+    #borda {
+      margin-top: 40px;
+    }
+    .legendBottom {
+      margin-bottom: 5px;
+    }
+    
+    .gp-panel-footer {
+    	margin-top: -25px;
+    	padding-bottom: 25px;
+    }
+
+
+  </style>	
+</head>
+
+<section layout:fragment="conteudo">
+
+
+  <div class="container-fluid titulo-pagina">
+    <div class="container">
+        <ul class="breadcrumb">
+            <li class="active">Nova Turma</li>
+        </ul>
+        <h1>Nova Turma</h1>
+    </div>
+  </div>
+
+
+	<div class="container animated fadeInRight">
+	    <div class="row">
+		    <div class="col-md-12">
+		        <div class="panel panel-bluegray">
+		          <div class="panel-body">
+
+						<form method="post" class="form-horizontal col-md-10" th:action="@{#/Supervisor/}">
+						   <div class="form-group">
+						      <label for="" class="col-md-2 control-label">Nome</label>
+						      <div class="col-md-10">
+						        <input type="text" class="form-control" id="" placeholder="Nome" />
+						      </div>
+						    </div>
+
+						   <div class="form-group">
+						      <label for="" class="col-md-2 control-label">Tipo</label>
+						      <div class="col-md-10">
+						        <select class="form-control" id="select">
+						          <option></option>
+						          <option>NPI</option>
+						          <option>EMPRESA</option>
+						        </select>
+						      </div>
+						    </div>
+
+						   <div class="form-group">
+						      <label for="" class="col-md-2 control-label">Status</label>
+						      <div class="col-md-10">
+						        <select class="form-control" id="select">
+						          <option></option>
+						          <option>1</option>
+						          <option>2</option>
+						          <option>3</option>
+						          <option>4</option>
+						          <option>5</option>
+						        </select>
+      					      </div>
+						    </div>
+						   <div class="form-group">
+						      <label for="" class="col-md-2 control-label">Semestre</label>
+						      <div class="col-md-10">
+						        <input type="text" class="form-control" id="" placeholder="Semestre" />
+						      </div>
+						    </div>
+						   <div class="form-group">
+						      <label for="" class="col-md-2 control-label">Período</label>
+						      <div class="col-md-5">
+						        <input type="text" class="form-control" id="" placeholder="Período" />
+						      </div>
+						      <div class="col-md-5">
+						        <input type="text" class="form-control" id="" placeholder="Período" />
+						      </div>
+						    </div>
+
+							<div class="form-group">
+						      <div class="col-lg-10 col-lg-offset-2">
+						        <button type="reset" class="btn btn-default">Cancelar</button>
+						        <button type="submit" class="btn btn-success">Salvar</button>
+						      </div>
+						    </div>
+						</form>
+		           </div>
+		        </div>
+		    </div>
+	   </div>
+	</div>
+  </section>
+  <section layout:fragment="js">
+	<script type="text/javascript">
+	 	$("#nova-turma").addClass("active");
+	</script>
+  </section>
+
+
+</html>

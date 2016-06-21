@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+    
+<head>
+	<meta charset="UTF-8"/>
+	<title>Gestão Pessoas</title>
+	<link rel="stylesheet" type="text/css" th:href="@{/css/font-awesome.min.css}"/>
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"/>
+	
+	<link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap-paper.min.css}"/>
+	<link rel="stylesheet" type="text/css" th:href="@{/css/animate.css}"/>
+	<link rel="stylesheet" type="text/css" th:href="@{/css/sweetalert-boostrap.css}"/>
+	<link rel="stylesheet" type="text/css" th:href="@{/css/gestao-pessoas.css}"/>
+</head>
+<body >
+	<nav class="navbar navbar-default">
+	  <div class="container">
+	    <div class="navbar-header">
+	      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-2">
+	        <span class="sr-only">Toggle navigation</span>
+	        <span class="icon-bar"></span>
+	        <span class="icon-bar"></span>
+	        <span class="icon-bar"></span>
+	      </button>
+	      <a class="navbar-brand" th:href="@{/Estagiario/}">NPI</a>
+	    </div>
+	
+	    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-2">
+	      <ul class="nav navbar-nav">
+	        <li class="active"><a th:href="@{/Estagiario/}">Minhas Turmas <span class="sr-only">(current)</span></a></li>
+	      </ul>
+	      <ul class="nav navbar-nav navbar-right">
+	        <li class="dropdown">
+	          <a th:href="@{#}" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><span th:text="${session.nomeUsuario}"></span> <i class="fa fa-caret-down" aria-hidden="true"></i></a>
+	          <ul class="dropdown-menu" role="menu">
+	            <li><a th:href="@{/Estagiario/MeusDados}"><i class="fa fa-user" aria-hidden="true"></i> Meus Dados</a></li>
+	            <li class="divider"></li>
+	            <li><a th:href="@{/logout}"><i class="fa fa-sign-out" aria-hidden="true"></i> Sair</a></li>
+	          </ul>
+	        </li>
+	      </ul>
+	    </div>
+	  </div>
+	</nav>
+
+	<section layout:fragment="conteudo"></section>
+
+  	<script th:src="@{/js/jquery-2.2.3.min.js}"></script>
+	<script th:src="@{/js/bootstrap.min.js}"></script>
+	<script th:src="@{/js/sweetalert-boostrap.min.js}"></script>
+	<script th:src="@{/js/jquery.mask.min.js}"></script>
+	<script th:src="@{/js/bootstrap-datepicker.js}"></script>
+	<script th:src="@{/js/bootstrap-datepicker.pt-BR.js}"></script>
+	<script th:src="@{/js/jquery.validate.min.js}"></script>
+	<script th:src="@{/js/gestao-pessoas.js}"></script>
+</body>
+</html>

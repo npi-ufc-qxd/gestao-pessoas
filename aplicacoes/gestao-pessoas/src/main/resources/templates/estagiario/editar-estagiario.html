@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorator="layouts/LayoutEstagiario">
+
+<head>
+	<title>Gestão Pessoas | Meus Dados</title>
+	
+  <style type="text/css">
+    .inline {
+      display:inline;
+    }
+    .color {
+    }
+
+    .link {
+      font-weight: 700;
+    }
+
+    .statusTurmas {
+      padding: 5px;
+    }
+    .opcao {
+      margin-left: 10px;
+    }
+    .item-turma {
+      margin-bottom: 5px; 
+    }
+    .legendTop {
+      margin-top: 40px;
+    }
+    #borda {
+      margin-top: 40px;
+    }
+    .legendBottom {
+      margin-bottom: 5px;
+    }
+    
+    .gp-panel-footer {
+    	margin-top: -25px;
+    	padding-bottom: 25px;
+    }
+
+
+  </style>	
+</head>
+
+<section layout:fragment="conteudo">
+
+
+  <div class="container-fluid titulo-pagina">
+    <div class="container">
+        <ul class="breadcrumb">
+            <li><a href="#">Meus Dados</a></li>
+        </ul>
+        <h1>Meus Dados</h1>
+    </div>
+  </div>
+
+
+	<div class="container animated fadeInRight">
+	    <div class="row">
+		    <div class="col-md-12">
+		        <div class="panel panel-bluegray">
+		          <div class="panel-body">
+		          		
+						<form id="form-estagiario" method="post" class="form-horizontal" th:action="@{#/Supervisor/MeusDados}" th:object="${estagiario}">
+							<fieldset>
+								<legend>Dados Pessoais</legend>
+							   	<div th:class="${#fields.hasErrors('nomeCompleto')}? 'form-group has-error' : form-group">
+							      	<label for="nomeCompleto" class="col-md-2 control-label">*Nome Completo</label>
+								     <div class="col-md-10">
+								     	<input th:field="*{nomeCompleto}" placeholder="Nome Completo" type="text" class="form-control" id="nomeCompleto"  required="required"/>
+							     		<label class="control-label" th:if="${#fields.hasErrors('nomeCompleto')}" th:errors="*{nomeCompleto}">O campo Nome tem que ser preenchido.</label>
+								     </div>
+								</div>
+								<div th:class="${#fields.hasErrors('dataNascimento')}? 'form-group has-error' : form-group">
+									 <label for="dataNascimento" class="col-md-2 control-label">*Data de Nascimento</label>
+									 <div class="col-md-10 data">
+									 	<input id="dataNascimento" th:field="*{dataNascimento}" class="form-control data" type="text" placeholder="dd/mm/aaaa" aria-required="true" required="required"/>
+									 	<label class="control-label" th:if="${#fields.hasErrors('dataNascimento')}" th:errors="*{dataNascimento}">O campo Data de Nascimento tem que ser preenchido.</label>
+									 </div>	
+								</div>	 
+							    <div th:class="${#fields.hasErrors('nomeMae')}? 'form-group has-error': form-group">
+							      	<label for="nomeMae" class="col-md-2 control-label">*Nome da Mãe</label>
+								     <div class="col-md-10">
+								     	<input th:field="*{nomeMae}" placeholder="Nome Mãe" required="required" type="text" class="form-control" id="nomeMae" />
+								     	<label class="control-label" th:if="${#fields.hasErrors('nomeMae')}" th:errors="*{nomeMae}">O campo Nome da Mãe tem que ser preenchido.</label>
+								     </div>
+							    </div>
+							</fieldset>
+
+							<fieldset>
+								<legend>Dados de Contatos</legend>
+								<div class="form-group" th:class="${#fields.hasErrors('email')}? 'form-group has-error' : form-group">
+							      <label for="email" class="col-md-2 control-label">*E-mail:</label>
+							      <div class="col-md-10">
+									<input th:field="*{email}" placeholder="E-mail" required="required" type="text" class="form-control" />
+									<label class="control-label" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">O campo E-mail tem que ser preenchido.</label>	      
+							      </div>
+							   </div>
+							   <div class="form-group" th:class="${#fields.hasErrors('telefone')}? 'form-group has-error' : form-group">
+							      <label for="telefone" class="col-md-2 control-label">*Telefone</label>
+							      <div class="col-md-10">
+							        <input th:field="*{telefone}" placeholder="Telefone" required="required" type="text" class="form-control" id="telefone"  />
+							        <label class="control-label" th:if="${#fields.hasErrors('telefone')}" th:errors="*{telefone}">O campo Telefone tem que ser preenchido.</label>
+							      </div>
+							    </div>
+							    <div class="form-group" th:class="${#fields.hasErrors('usuarioGithub')}? 'form-group has-error' : form-group">
+			            		  <label for="contaGithub" class="col-md-2 control-label">Usuario github:</label>
+			            		  <div class="col-md-10">
+			            			<input id="contaGithub" th:field="*{usuarioGithub}" placeholder="Conta github" class="form-control" type="text" />	      
+							      </div>	
+							    </div>
+							</fieldset>
+							
+							<fieldset>
+								<legend>Dados do Curso</legend>
+							   	  <div th:class="${#fields.hasErrors('matricula')}? 'form-group has-error' : form-group">
+							   	  	<label for="matricula" class="col-md-2 control-label">*Matricula:</label>
+						   			<div class="col-md-10">
+		            					<input th:field="*{matricula}" id="matricula" class="form-control" placeholder="Matricula" required="required" type="text" size="7" maxlength="7" aria-required="true" />
+		            					<label class="control-label" th:if="${#fields.hasErrors('matricula')}" th:errors="*{matricula}">O campo Matrícula tem que ser preenchido.</label>
+						      		</div>
+							   	  </div>
+							      <div th:class="${#fields.hasErrors('semestre')}? 'form-group has-error' : form-group">
+								      <label for="semestre" class="col-md-2 control-label">*Semestre:</label>
+								      <div class="col-md-10">
+								         <input id="semestre" th:field="*{semestre}" class="form-control" placeholder="Semestre" type="text" required="required" aria-required="true" />
+										 <label class="control-label" th:if="${#fields.hasErrors('semestre')}" th:errors="*{semestre}">O campo Semestre tem que ser preenchido.</label>
+								      </div>
+							      </div>
+								  <div class="form-group">
+								     <label for="curso" class="col-md-2 control-label">*Curso:</label>
+								     <div class="col-md-10">
+								      <select class="form-control" id="curso" th:name="curso">
+							             <option th:each="curso : ${cursos}"
+							              		  th:value="${curso}"
+							              		  th:text="${curso.descricao}"
+							              		  th:selected="${#strings.equals(curso,estagiario.curso)}"></option>
+							           </select>
+								     </div>
+								  </div>
+							</fieldset>
+							
+							<fieldset>
+								<legend>Endereço</legend>
+								
+							   	 <div th:class="${#fields.hasErrors('endereco')}? 'form-group has-error' : form-group">
+							   	  	<label for="endereco" class="col-md-2 control-label">*Endereço:</label>
+							        <div class="col-md-10">
+			            			  <input id="endereco" th:field="*{endereco}" class="form-control" placeholder="Endereço" required="required" type="text" size="7" maxlength="7" aria-required="true" />
+			            			  <label class="control-label" th:if="${#fields.hasErrors('endereco')}" th:errors="*{endereco}">O campo Endereço tem que ser preenchido.</label>
+							       </div>
+							   	 </div>
+							    <div class="form-group" th:class="${#fields.hasErrors('cep')}? 'form-group has-error' : form-group">
+							    	<label for="cep" class="col-md-2 control-label">*CEP:</label>
+							      <div class="col-md-10">
+							      	<input id="cep" th:field="*{cep}" class="form-control" placeholder="CEP" required="required" type="text" size="9" maxlength="9" aria-required="true" />
+							      	<label class="control-label" th:if="${#fields.hasErrors('cep')}" th:errors="*{cep}">O campo CEP tem que ser preenchido.</label>
+							      </div>
+							    </div>
+							   	<div th:class="${#fields.hasErrors('cidade')}? 'form-group has-error' : form-group">
+							   	  <label for="cidade" class="col-md-2 control-label">*Cidade:</label>
+							      	<div class="col-md-10">
+							      		<input id="cidade" th:field="*{cidade}" class="form-control" placeholder="Cidade" required="required" type="text" size="7" maxlength="7" aria-required="true" />
+									    <label class="control-label" th:if="${#fields.hasErrors('cidade')}" th:errors="*{cidade}">O campo Cidade tem que ser preenchido.</label>
+							      	</div> 
+							   	</div>
+							    <div th:class="${#fields.hasErrors('uf')}? 'form-group has-error' : form-group">
+							      <label for="uf" class="col-md-2 control-label">*UF:</label>
+							      <div class="col-md-10">
+							      	<select class="form-control" id="uf" th:name="uf">
+						              <option  th:each="estado: ${estados}" 
+					              			   th:value="${estado}"
+					              			   th:text="${estado.descricao}"
+					              		   	   th:selected="${#strings.equals(estado,estagiario.uf)}"></option>
+					            	</select>
+					            	<label class="control-label" th:if="${#fields.hasErrors('uf')}" th:errors="*{uf}">O campo Cidade tem que ser preenchido.</label>
+						          </div>
+							   </div>
+							</fieldset>
+
+							<div class="form-group">
+						      <div class="col-lg-10 col-lg-offset-2">
+						        <button type="reset" class="btn btn-default">Cancelar</button>
+						        <button type="submit" class="btn btn-success">Salvar</button>
+						      </div>
+						    </div>
+						</form>
+		           </div>
+		        </div>
+		    </div>
+	   </div>
+	</div>
+    
+  </section>
+
+  <section layout:fragment="js">
+	<script type="text/javascript">
+		$("#nova-turma").removeClass("active");
+	 	
+
+	
+	</script>
+  </section>
+  
+</html>

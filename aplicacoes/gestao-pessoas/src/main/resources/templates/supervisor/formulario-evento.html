@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorator="layouts/LayoutSupervisor">
+
+<head>
+	<title>Gestão Pessoas | Gerenciar Evento</title>
+</head>
+
+<section layout:fragment="conteudo">
+
+
+  <div class="container-fluid titulo-pagina">
+    <div class="container">
+        <ul class="breadcrumb">
+            <li><a th:href="@{/Supervisor}">Minhas Turmas</a></li>
+            <li><a>Detalhes Turma</a></li>
+            <li class="active">Gerenciar Evento</li>
+        </ul>
+        <h1>Gerenciar Evento</h1>
+    </div>
+  </div>
+
+
+	<div class="container animated fadeInRight">
+	    <div class="row">
+	      <div class="col-md-4">
+	        <div class="panel panel-bluegray">
+	          <div class="panel-heading">
+	            <a class="panel-title" data-toggle="collapse" data-target="#detalhesTurma"><i class="fa fa-caret-down" aria-hidden="true"></i> Turma NPI - 2016.1</a>
+  			  </div>
+	          <div id="detalhesTurma" class="panel-body collapse in">
+				  <table class="table table-hover">
+				    <tbody>
+				      <tr>
+				        <td><strong>Orientador</strong></td>
+				        <td th:text="${turma.orientador.nome}"> bruno</td>
+				      </tr>
+				      <tr>
+				        <td><strong>Supervisores</strong></td>
+				     	<td  th:inline="text"> <span th:each="sup : ${turma.supervisores}"> [[${sup.nome}]],</span></td>
+
+				      </tr>
+				      <tr>
+				        <td><strong>Período</strong></td>
+				        <td><label th:text="${#dates.format(turma.inicio, 'dd/MM/yyyy')}"></label>  a <label th:text="${#dates.format(turma.termino, 'dd/MM/yyyy')}"></label></td>
+				      </tr>
+				    </tbody>
+				  </table>
+	           </div>
+	        </div>
+	      </div>
+
+	    <div class="col-md-8">
+	        <div class="panel panel-bluegray">
+	          <div class="panel-heading">
+	            <a class="panel-title" data-toggle="collapse" data-target="#add-evento"><i class="fa fa-caret-down" aria-hidden="true"></i> Adicionar Evento</a>
+	          </div>
+	          <div id="add-evento" class="panel-body collapse in">
+					<form class="form-horizontal">
+					    <div class="form-group">
+					      <label for="inputEmail" class="col-lg-2 control-label">Titulo</label>
+					      <div class="col-lg-10">
+					        <input type="text" class="form-control" id="inputEmail" placeholder="Qual o titulo do evento?"/>
+					      </div>
+					    </div>
+					    <div class="form-group">
+					      <label for="textArea" class="col-lg-2 control-label">Descrição</label>
+					      <div class="col-lg-10">
+					        <textarea class="form-control" rows="2" id="textArea"></textarea>
+					        <span class="help-block">Descreva aqui o Evento.</span>
+					      </div>
+					    </div>
+					    <div class="form-group">
+					    	<div class="form-item">
+						      <label for="inputEmail" class="col-lg-2 control-label">Perido Evento</label>
+						      <div class="col-lg-4">
+						        <input type="text" class="form-control" id="inicio" placeholder="dd/MM/yyyy"/>
+						      </div>
+					    	</div>
+					    	<div class="form-item">
+						      <div class="col-lg-4">
+						        <input type="text" class="form-control" id="termino" placeholder="dd/MM/yyyy"/>
+						      </div>
+					    	</div>
+					    	<div class="form-item">
+						      <div class="col-lg-2">
+						        <button type="submit" class="btn btn-success">Adicionar</button>
+						      </div>
+					    	</div>
+					    </div>
+					</form>
+	           </div>
+	        </div>
+
+	        <div class="panel panel-bluegray">
+	          <div class="panel-heading">
+	            <a class="panel-title" data-toggle="collapse" data-target="#eventos"><i class="fa fa-caret-down" aria-hidden="true"></i> Eventos</a>
+	          </div>
+	          <div id="eventos" class="panel-body collapse in">
+		          <ul class="list-group">
+<!-- 		            <li th:each="exp :${turma.expedientes}" class="list-group-item gp-list-group-item"> -->
+<!-- 		              <b th:inline="text"> [[${exp.diaSemana.descricao}]] </b> -->
+<!-- 		              <a th:href="@{/Supervisor/Turma/{id}/Expediente/{idExpediente}/Excluir(id=${est.estagiario.id})}" class="btn btn-danger btn-sm pull-right gp-btn-acompanhamento">excluir</a> -->
+<!-- 		            </li> -->
+		          </ul>
+
+	           </div>
+	        </div>
+	      </div>
+	    </div>
+	</div>
+  </section>
+</html>

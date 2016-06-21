@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="TERMO_COMPROMISSO" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
 	<property name="ireport.zoom" value="1.8150000000000033"/>
-	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="408"/>
+	<property name="ireport.x" value="170"/>
+	<property name="ireport.y" value="144"/>
 	<style name="table">
 		<box>
 			<pen lineWidth="1.0" lineColor="#000000"/>
@@ -34,16 +34,16 @@
 	<parameter name="EXPEDIENTE_QUARTA" class="java.lang.String"/>
 	<parameter name="INICIO_ESTAGIO" class="java.lang.String"/>
 	<parameter name="FINAL_ESTAGIO" class="java.lang.String"/>
-	<field name="nomeCompleto" class="java.lang.String"/>
-	<field name="endereco" class="java.lang.String"/>
-	<field name="telefone" class="java.lang.String"/>
-	<field name="nomeMae" class="java.lang.String"/>
-	<field name="pessoa.cpf" class="java.lang.String"/>
-	<field name="semestre" class="java.lang.Integer"/>
-	<field name="curso.labelCurso" class="java.lang.String"/>
-	<field name="cidade" class="java.lang.String"/>
-	<field name="uf.estado" class="java.lang.String"/>
-	<field name="matricula" class="java.lang.Integer"/>
+	<field name="estagiario.nomeCompleto" class="java.lang.String"/>
+	<field name="estagiario.endereco" class="java.lang.String"/>
+	<field name="estagiario.telefone" class="java.lang.String"/>
+	<field name="estagiario.nomeMae" class="java.lang.String"/>
+	<field name="estagiario.pessoa.cpf" class="java.lang.String"/>
+	<field name="estagiario.semestre" class="java.lang.Integer"/>
+	<field name="estagiario.curso.descricao" class="java.lang.String"/>
+	<field name="estagiario.cidade" class="java.lang.String"/>
+	<field name="estagiario.uf.descricao" class="java.lang.String"/>
+	<field name="estagiario.matricula" class="java.lang.Integer"/>
 	<pageHeader>
 		<band height="50" splitType="Stretch">
 			<staticText>
@@ -167,14 +167,7 @@ Represent. Legal: Reitor Henry de Holanda Campos
 				<textElement>
 					<font fontName="Arial" size="10"/>
 				</textElement>
-				<textFieldExpression><![CDATA["Matricula: " + $F{matricula}]]></textFieldExpression>
-			</textField>
-			<textField isBlankWhenNull="true">
-				<reportElement x="279" y="206" width="163" height="13"/>
-				<textElement>
-					<font fontName="Arial" size="10"/>
-				</textElement>
-				<textFieldExpression><![CDATA["Curso: " + $F{curso.labelCurso}]]></textFieldExpression>
+				<textFieldExpression><![CDATA["Matricula: " + $F{estagiario.matricula}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="280" y="269" width="274" height="13"/>
@@ -209,28 +202,28 @@ Represent. Legal: Reitor Henry de Holanda Campos
 				<textElement verticalAlignment="Top">
 					<font fontName="Arial" size="10"/>
 				</textElement>
-				<textFieldExpression><![CDATA["Endereco: "+ $F{endereco}]]></textFieldExpression>
+				<textFieldExpression><![CDATA["Endereco: "+ $F{estagiario.endereco}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement x="1" y="176" width="270" height="13"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="Arial" size="10"/>
 				</textElement>
-				<textFieldExpression><![CDATA["Nome: " + $F{nomeCompleto}.toUpperCase()]]></textFieldExpression>
+				<textFieldExpression><![CDATA["Nome: " + $F{estagiario.nomeCompleto}.toUpperCase()]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement x="1" y="191" width="270" height="13"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="Arial" size="10"/>
 				</textElement>
-				<textFieldExpression><![CDATA["Nome da Mãe: " + $F{nomeMae}.toUpperCase()]]></textFieldExpression>
+				<textFieldExpression><![CDATA["Nome da Mãe: " + $F{estagiario.nomeMae}.toUpperCase()]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="279" y="176" width="163" height="13"/>
 				<textElement>
 					<font fontName="Arial"/>
 				</textElement>
-				<textFieldExpression><![CDATA["CPF: " + $F{pessoa.cpf}]]></textFieldExpression>
+				<textFieldExpression><![CDATA["CPF: " + $F{estagiario.pessoa.cpf}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="0" y="286" width="554" height="121"/>
@@ -718,21 +711,21 @@ e) A UFC oferece seguro contra acidentes pessoais a todos os seus estudantes dev
 				<textElement>
 					<font fontName="Arial" size="10"/>
 				</textElement>
-				<textFieldExpression><![CDATA["Cidade/UF: " + $F{cidade} + "/" + $F{uf.estado}]]></textFieldExpression>
+				<textFieldExpression><![CDATA["Cidade/UF: " + $F{estagiario.cidade} + "/" + $F{estagiario.uf.descricao}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement x="442" y="206" width="112" height="13"/>
 				<textElement>
 					<font fontName="Arial" size="10"/>
 				</textElement>
-				<textFieldExpression><![CDATA["Semestre: " + $F{semestre}]]></textFieldExpression>
+				<textFieldExpression><![CDATA["Semestre: " + $F{estagiario.semestre}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="442" y="176" width="112" height="13"/>
 				<textElement>
 					<font fontName="Arial"/>
 				</textElement>
-				<textFieldExpression><![CDATA["Fone: " + $F{telefone}]]></textFieldExpression>
+				<textFieldExpression><![CDATA["Fone: " + $F{estagiario.telefone}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="532" y="732" width="23" height="20"/>
@@ -741,6 +734,11 @@ e) A UFC oferece seguro contra acidentes pessoais a todos os seus estudantes dev
 				</textElement>
 				<text><![CDATA[1]]></text>
 			</staticText>
+			<textField>
+				<reportElement x="280" y="206" width="162" height="13"/>
+				<textElement/>
+				<textFieldExpression><![CDATA["Curso: " + $F{estagiario.curso.descricao}]]></textFieldExpression>
+			</textField>
 		</band>
 		<band height="752">
 			<staticText>

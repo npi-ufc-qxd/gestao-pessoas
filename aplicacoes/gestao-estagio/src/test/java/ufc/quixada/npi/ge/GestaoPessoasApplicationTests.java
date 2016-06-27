@@ -1,4 +1,4 @@
-package ufc.quixada.npi.gp;
+package ufc.quixada.npi.ge;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

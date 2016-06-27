@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorator="layouts/LayoutGestaoPessoas">
+
+<head>
+	<title>Gestão Pessoas | Acompanhamento Estagiário</title>
+</head>
+
+<section layout:fragment="conteudo">
+			
+  <div class="container-fluid titulo-pagina">
+    <div class="container">
+        <ul class="breadcrumb">
+            <li><a th:href="@{/Supervisor/}" >Minhas Turmas</a></li>
+            <li><a th:href="@{'/Supervisor/Turma/' + ${estagio.turma.id}}" >Detalhes Turma</a></li>
+            <li><a th:href="@{/Supervisor/Turma/Acompanhamento/{id}(id=${estagio.id})}">Acompanhamento Estagiário</a></li>
+            <li class="active">Gerenciar Frequencias</li>
+        </ul>
+        <h1>Gerenciar Frequencias</h1>
+    </div>
+  </div>
+
+	<div class="container animated fadeInRight">
+	    <div class="row">
+	      <div class="col-md-4">
+	        <div class="panel panel-bluegray">
+	          <div class="panel-heading">
+	            <a class="panel-title" data-toggle="collapse" data-target="#estagiario"><i class="fa fa-caret-down" aria-hidden="true"></i> Estagiário</a>
+			  </div>
+	          <div id="estagiario" class="panel-body collapse in">
+	          	<table class="table table-hover">
+				    <tbody>
+				      <tr>
+				        <td class="gp-sem-borda"><strong>Nome:</strong></td>
+				        <td class="gp-sem-borda" th:text="${estagio.estagiario.nomeCompleto}"></td>
+				 	  </tr>
+				      <tr>
+				        <td><strong>Curso:</strong></td>
+				        <td th:text="${estagio.estagiario.curso.descricao}"></td>
+				      </tr>
+				      <tr>
+				        <td><strong>Email:</strong></td>
+				        <td th:text="${estagio.estagiario.email}"></td>
+				      </tr>
+				      <tr>
+				        <td><strong>Telefone:</strong></td>
+				        <td th:text="${estagio.estagiario.telefone}"></td>
+				      </tr>
+				      <tr>
+				        <td><strong>Github:</strong></td>
+				        <td th:text="${estagio.estagiario.usuarioGithub}"></td>
+				      </tr>
+				    </tbody>
+				  </table>
+	          </div>
+	        </div>
+	      
+	      
+	        <div class="panel panel-bluegray">
+	          <div class="panel-heading">
+	            <a class="panel-title" data-toggle="collapse" data-target="#detalhesTurma"><i class="fa fa-caret-down" aria-hidden="true"></i> Turma NPI - 2016.1</a>
+			  </div>
+	          <div id="detalhesTurma" class="panel-body collapse in">
+				  <table class="table table-hover">
+				    <tbody>
+				      <tr>
+				        <td class="gp-sem-borda"><strong>Orientador</strong></td>
+				        <td th:text="${estagio.turma.orientador.nome}" class="gp-sem-borda"> bruno</td>
+				      </tr>
+				      <tr>
+				        <td><strong>Supervisores</strong></td>
+				     	<td  th:inline="text"> <p th:each="sup : ${estagio.turma.supervisores}"> [[${sup.nome}]]</p> </td>
+
+				      </tr>
+				      <tr>
+				        <td><strong>Período</strong></td>
+				        <td><label th:text="${#dates.format(estagio.turma.inicio, 'dd/MM/yyyy')}"></label>  a <label th:text="${#dates.format(estagio.turma.termino, 'dd/MM/yyyy')}"></label></td>
+				      </tr>
+				      
+				      <tr>
+				        <td><strong>Tipo</strong></td>
+				        <td th:text="${estagio.turma.tipoTurma}"></td>
+				      </tr>
+				      <tr>
+				        <td><strong>Status</strong></td>
+				        <td th:text="${estagio.turma.status}"></td>
+				      </tr>
+				    </tbody>
+				  </table>
+	           </div>
+	        </div>
+	      </div>
+
+	    <div class="col-md-8">
+	        <div class="panel panel-bluegray">
+	          <div class="panel-heading">
+	            <a class="panel-title" data-toggle="collapse" data-target="#consolidado"><i class="fa fa-caret-down" aria-hidden="true"></i> Consolidado Frequências</a>
+			  </div>
+	          <div id="consolidado" class="panel-body collapse in">
+	            <a href="#" class="btn btn-default disabled" role="button"><span>100h</span> <br/>Carga Horária</a>
+	            <a href="#" class="btn btn-bluegray disabled" role="button"><span>10</span> <br/>Pendências</a>
+	            <a href="#" class="btn btn-danger disabled" role="button"><span>10%</span> <br/>Faltas</a>
+	            <a href="#" class="btn btn-warning disabled" role="button"><span>4</span> <br/>Atrasos</a>
+	            <a href="#" class="btn btn-primary disabled" role="button"><span>0</span> <br/>Reposições</a>
+	            <a href="#" class="btn btn-success disabled" role="button"><span>20%</span> <br/>Presenças</a>
+	          </div>
+	        </div>
+
+	        <div class="panel panel-bluegray">
+	          <div class="panel-heading">
+	            <a class="panel-title" data-toggle="collapse" data-target="#pendentes"><i class="fa fa-caret-down" aria-hidden="true"></i> Pendências</a>
+			  </div>
+	          <div id="pendentes" class="panel-body collapse in">
+	          </div>
+	        </div>
+	        <div class="panel panel-bluegray">
+	          <div class="panel-heading">
+	            <a class="panel-title" data-toggle="collapse" data-target="#reposicao"><i class="fa fa-caret-down" aria-hidden="true"></i> Reposições</a>
+			  </div>
+	          <div id="reposicao" class="panel-body collapse in">
+	          </div>
+	        </div>
+	        <div class="panel panel-bluegray">
+	          <div class="panel-heading">
+	            <a class="panel-title" data-toggle="collapse" data-target="#presenca"><i class="fa fa-caret-down" aria-hidden="true"></i> Frequências</a>
+			  </div>
+	          <div id="presenca" class="panel-body collapse in">
+				<table class="table table-striped table-hover ">
+				  <thead>
+				    <tr>
+				      <th>Data</th>
+				      <th>Tipo</th>
+				      <th>Status</th>
+				    </tr>
+				  </thead>
+				  <tbody>
+				    <tr>
+				      <td>10/10/2012</td>
+				      <td>REPOSIÇÃO</td>
+				      <td>PRESENTE</td>
+				    </tr>
+				    <tr>
+				      <td>10/10/2012</td>
+				      <td>NORMAL</td>
+				      <td>FALTA</td>
+				    </tr>
+				    <tr>
+				      <td>10/10/2012</td>
+				      <td>NORMAL</td>
+				      <td>ATRASO</td>
+				    </tr>
+				    <tr>
+				      <td>10/10/2012</td>
+				      <td>NORMAL</td>
+				      <td>PRESENTE</td>
+				    </tr>
+				  </tbody>
+				</table> 
+
+	          </div>
+	        </div>
+ 	     </div>
+	   </div>
+	  </div>
+</section>
+
+</html>

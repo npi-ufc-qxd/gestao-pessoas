@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorator="layouts/LayoutGestaoPessoas">
+
+<head>
+	<title>Gestão Pessoas | Detalhes da Turma</title>
+</head>
+
+<section layout:fragment="conteudo">
+
+
+  <div class="container-fluid titulo-pagina">
+    <div class="container">
+        <ul class="breadcrumb">
+            <li><a th:href="@{/Supervisor}">Minhas Turmas</a></li>
+            <li><a th:href="@{'/Supervisor/Turma/' + ${turma.id}}" >Detalhes Turma</a></li>
+            <li class="active">Atualizar Vínculos</li>
+        </ul>
+        <h1>Atualizar Vínculos</h1>
+    </div>
+  </div>
+
+
+	<div class="container animated fadeInRight">
+	    <div class="row">
+	      <div class="col-md-4">
+	        <div class="panel panel-bluegray">
+	          <div class="panel-heading">
+	            <a class="panel-title" data-toggle="collapse" data-target="#detalhesTurma"><i class="fa fa-caret-down" aria-hidden="true"></i> Turma NPI - 2016.1</a>
+  			  </div>
+	          <div id="detalhesTurma" class="panel-body collapse in">
+				  <table class="table table-hover">
+				    <tbody>
+				      <tr>
+				        <td><strong>Orientador</strong></td>
+				        <td th:text="${turma.orientador.nome}"> bruno</td>
+				      </tr>
+				      <tr>
+				        <td><strong>Supervisores</strong></td>
+				     	<td  th:inline="text"> <span th:each="sup : ${turma.supervisores}"> [[${sup.nome}]],</span></td>
+
+				      </tr>
+				      <tr>
+				        <td><strong>Período</strong></td>
+				        <td><label th:text="${#dates.format(turma.inicio, 'dd/MM/yyyy')}"></label>  a <label th:text="${#dates.format(turma.termino, 'dd/MM/yyyy')}"></label></td>
+				      </tr>
+				      
+				      <tr>
+				        <td><strong>Tipo</strong></td>
+				        <td th:text="${turma.tipoTurma}"></td>
+				      </tr>
+				      <tr>
+				        <td><strong>Status</strong></td>
+				        <td th:text="${turma.status}"></td>
+				      </tr>
+				    </tbody>
+				  </table>
+	           </div>
+	        </div>
+	      </div>
+
+
+	    <div class="col-md-8">
+	        <div class="panel panel-bluegray">
+	          <div class="panel-heading">
+	            <a class="panel-title"><i class="fa fa-caret-down" aria-hidden="true"></i> Vincular novos estagiários</a>
+	          </div>
+	          <div id="vinculos" class="panel-body">
+
+				  <div class="col-md-12">
+					  <div class="form-inline" role="form">
+						<div class="form-group">
+						  <div class="input-group">
+						    <input type="text" id="campoBuscaEstagiario" class="form-control" placeholder="Nome do Estagiário" size="100"/>
+						    <input type="hidden" id="idTurma" th:value="${turma.id}"/>
+						    <span class="input-group-btn">
+						      <button class="btn btn-default" type="button" id="buscarEstagiariosSemVinculo">Buscar</button>
+						    </span>
+						  </div>
+						</div>
+		  			  </div><br/>
+				  </div>
+				  <div class="col-md-12">
+			          <div id="estSemVinculoBlock">
+						<div th:fragment="resultList" th:unless="${#lists.isEmpty(estagiarios)}" class="results-block">
+     	 					 <ul class="list-group" id="ulEstagiarioSemVinculo">
+       						 <li th:each="estagiario :${estagiarios}" class="list-group-item gp-list-group-item">
+       								<b th:text="${estagiario.nomeCompleto}"></b>
+       								<a class="btn btn-primary btn-sm pull-right gp-btn-acompanhamento" th:href="@{/Supervisor/Turma/Acompanhamento/{idEstagiario}/Vincular/{idTurma}(idEstagiario=${estagiario.id}, idTurma=${turma.id})}">Vincular</a>
+       							</li>
+  							  </ul>
+        
+   						</div>			          
+			          
+			          
+			          </div>
+				  </div>
+	           </div>
+	        </div>
+
+	        <div class="panel panel-bluegray">
+	          <div class="panel-heading">
+	            <a class="panel-title"><i class="fa fa-caret-down" aria-hidden="true"></i> Estagiários da Turma</a>
+	          </div>
+	          <div id="vinculos" class="panel-body">
+		          <ul class="list-group">
+		            <li th:each="est :${turma.estagios}" class="list-group-item gp-list-group-item">
+		              <b th:inline="text"> [[${est.estagiario.nomeCompleto}]] </b>
+		              <a th:if="${#strings.equals(est.turma.status, 'ABERTA')}" th:href="@{/Supervisor/Turma/Acompanhamento/{id}/Desvincular(id=${est.id})}" class="btn btn-success btn-sm pull-right gp-btn-acompanhamento gp-btn-desvincular">desvincular</a>
+		            </li>
+		          </ul>
+	           </div>
+	        </div>
+	      </div>
+	    </div>
+	</div>
+  </section>
+</html>

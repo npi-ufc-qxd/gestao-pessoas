@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorator="layouts/LayoutGestaoPessoas">
+
+<head>
+	<title>Gestão Pessoas | Acompanhamento Estagiário</title>
+</head>
+
+<section layout:fragment="conteudo">
+			
+  <div class="container-fluid titulo-pagina">
+    <div class="container">
+        <ul class="breadcrumb">
+            <li><a th:href="@{/Supervisor/}" >Minhas Turmas</a></li>
+            <li><a th:href="@{'/Supervisor/Turma/' + ${estagio.turma.id}}" >Detalhes Turma</a></li>
+            <li class="active">Acompanhamento Estagiário</li>
+        </ul>
+        <h1>Acompanhamento Estagiário</h1>
+    </div>
+  </div>
+
+
+	<div class="container animated fadeInRight">
+	    <div class="row">
+	      <div class="col-md-4">
+	        <div class="panel panel-bluegray">
+	          <div class="panel-heading">
+	            <a class="panel-title" data-toggle="collapse" data-target="#estagiario"><i class="fa fa-caret-down" aria-hidden="true"></i> Estagiário</a>
+			  </div>
+	          <div id="estagiario" class="panel-body collapse in">
+	          	<table class="table table-hover">
+				    <tbody>
+				      <tr>
+				        <td class="gp-sem-borda"><strong>Nome:</strong></td>
+				        <td class="gp-sem-borda" th:text="${estagio.estagiario.nomeCompleto}"></td>
+				 	  </tr>
+				      <tr>
+				        <td><strong>Curso:</strong></td>
+				        <td th:text="${estagio.estagiario.curso}"></td>
+				      </tr>
+				      <tr>
+				        <td><strong>Semestre:</strong></td>
+				        <td th:text="${estagio.estagiario.semestre}"></td>
+				      </tr>
+				      <tr>
+				        <td><strong>Email:</strong></td>
+				        <td th:text="${estagio.estagiario.email}"></td>
+				      </tr>
+				      <tr>
+				      	<td><strong>Github:</strong></td>
+				      	<td th:text="${estagio.estagiario.usuarioGithub}"></td> 
+				      </tr>
+				      <tr>
+				        <td><strong>Telefone:</strong></td>
+				        <td th:text="${estagio.estagiario.telefone}"></td>
+				      </tr>      
+				    </tbody>
+				  </table>
+	          </div>
+	        </div>
+	        <div class="panel panel-bluegray">
+	          <div class="panel-heading">
+	            <a class="panel-title" data-toggle="collapse" data-target="#detalhesTurma"><i class="fa fa-caret-down" aria-hidden="true"></i> Turma NPI - 2016.1</a>
+			  </div>
+	          <div id="detalhesTurma" class="panel-body collapse in">
+				  <table class="table table-hover">
+				    <tbody>
+				      <tr>
+				        <td><strong>Orientador</strong></td>
+				        <td th:text="${estagio.turma.orientador.nome}"></td>
+				      </tr>
+				      <tr>
+				        <td><strong>Supervisores</strong></td>
+				     	<td  th:inline="text"> <span th:each="sup : ${estagio.turma.supervisores}"> [[${sup.nome}]],</span></td>
+				      </tr>
+				      <tr>
+				        <td><strong>Período</strong></td>
+				        <td><label th:text="${#dates.format(estagio.turma.inicio, 'dd/MM/yyyy')}"></label>  a <label th:text="${#dates.format(estagio.turma.termino, 'dd/MM/yyyy')}"></label></td>
+				      </tr>
+				      <tr>
+				        <td><strong>Tipo</strong></td>
+				        <td th:text="${estagio.turma.tipoTurma}"></td>
+				      </tr>
+				      <tr>
+				        <td><strong>Status</strong></td>
+				        <td th:text="${estagio.turma.status}"></td>
+				      </tr>
+				    </tbody>
+				  </table>
+	           </div>
+	        </div>
+	      </div>
+	    <div class="col-md-8">
+	        <div class="panel panel-bluegray">
+	          <div class="panel-heading">
+	            <a class="panel-title" data-toggle="collapse" data-target="#consolidado"><i class="fa fa-caret-down" aria-hidden="true"></i> Consolidado Frequências</a>
+				<a th:href="@{/Supervisor/Turma/Acompanhamento/{id}/Frequencias(id=${estagio.id})}" class="btn btn-xs pull-right gp-btn-opcao">Gerenciar</a>
+			  </div>
+	          <div id="consolidado" class="panel-body collapse in">
+	            <a href="#" class="btn btn-default disabled" role="button"><span>100h</span> <br/>Carga Horária</a>
+	            <a href="#" class="btn btn-bluegray disabled" role="button"><span>10</span> <br/>Pendências</a>
+	            <a href="#" class="btn btn-warning disabled" role="button"><span>10%</span> <br/>Faltas</a>
+	            <a href="#" class="btn btn-info disabled" role="button"><span>4</span> <br/>Atrasos</a>
+	            <a href="#" class="btn btn-primary disabled" role="button"><span>0</span> <br/>Reposições</a>
+	            <a href="#" class="btn btn-success disabled" role="button"><span>20%</span> <br/>Presenças</a>
+	          </div>
+	        </div>
+
+	        <div class="panel panel-bluegray">
+	          <div class="panel-heading">
+	            <a class="panel-title" data-toggle="collapse" data-target="#avaliacaoPlano"><i class="fa fa-caret-down" aria-hidden="true"></i> Avaliação Plano</a>
+			  </div>
+	          <div id="avaliacaoPlano" class="panel-body collapse in">
+	          <table class="table table-hover" th:each="sub : ${estagio.submissoes}" th:if="${#strings.equals(sub.tipoSubmissao, 'PLANO_ESTAGIO')}">
+	          <tbody  >
+				      <tr>
+				        <td class="gp-sem-borda"><strong>Nome Documento:</strong></td>
+				        <td class="gp-sem-borda" th:text="${sub.tipoSubmissao}"></td>
+				      </tr>
+				      <tr>
+				        <td><strong>Status:</strong></td>
+				        <td th:text="${sub.statusEntrega}"></td>
+				      </tr>
+				      <tr>
+				        <td><strong>Data Submissão:</strong></td>
+				        <td th:text="${sub.submetidoEm}"></td>
+				      </tr>
+				      <tr>
+				        <td><strong>Nota:</strong></td>
+				        <td th:text="${sub.nota}"></td>
+				      </tr>
+				      <tr th:if="not ${#strings.isEmpty(sub.comentario)}">
+				        <td><strong>Comentário:</strong></td>
+				        <td th:text="${sub.comentario}"></td>
+				      </tr>				      
+				    </tbody>
+				  </table>
+		        <a th:href="@{/Supervisor/Turma/Acompanhamento/1/AvaliarPlano}" class="btn btn-success btn-sm pull-right">Avaliar</a>
+	           </div>
+	        </div>
+
+	        <div class="panel panel-bluegray">
+	          <div class="panel-heading">
+	            <a class="panel-title" data-toggle="collapse" data-target="#avaliacaoRelatorio"><i class="fa fa-caret-down" aria-hidden="true"></i> Avaliação Relatório</a>
+			  </div>
+	          <div id="avaliacaoRelatorio" class="panel-body collapse in">
+	          <table class="table table-hover" th:each="sub : ${estagio.submissoes}"  th:if="${#strings.equals(sub.tipoSubmissao, 'RELATORIO_FINAL_ESTAGIO')}">
+	          <tbody >
+				      <tr>
+				        <td class="gp-sem-borda"><strong>Nome Documento:</strong></td>
+				        <td class="gp-sem-borda" th:text="${sub.tipoSubmissao}"></td>
+				      </tr>
+				      <tr>
+				        <td><strong>Status:</strong></td>
+				        <td th:text="${sub.statusEntrega}"></td>
+				      </tr>
+				      <tr>
+				        <td><strong>Data Submissão:</strong></td>
+				        <td th:text="${sub.submetidoEm}"></td>
+				      </tr>
+				      <tr>
+				        <td><strong>Nota:</strong></td>
+				        <td th:text="${sub.nota}"></td>
+				      </tr>
+				      <tr th:if="not ${#strings.isEmpty(sub.comentario)}">
+				        <td><strong>Comentário:</strong></td>
+				        <td th:text="${sub.comentario}"></td>
+				      </tr>				      
+				    </tbody>
+				  </table>
+		        <a th:href="@{/Supervisor/Turma/Acompanhamento/1/AvaliarRelatorio}" class="btn btn-success btn-sm pull-right">Avaliar</a>
+	           </div>
+	        </div>
+	        <div class="panel panel-bluegray">
+	          <div class="panel-heading">
+	            <a class="panel-title" data-toggle="collapse" data-target="#avaliacaoRendimento"><i class="fa fa-caret-down" aria-hidden="true"></i> Avaliação Rendimento</a>
+			  </div>
+	        <div id="avaliacaoRendimento" class="panel-body collapse in">
+	         <div class="avaliacao" th:if="${estagio.avaliacaoRendimento != null}">
+	   			<div class="row">
+	         		<div class="col-md-12"><h6>ASSIDUIDADE E DISCIPLINA</h6></div>
+				     <div class="col-md-12">
+				      <strong>Frequência:</strong>
+				      <p th:text="${estagio.avaliacaoRendimento.frequencia != null} ? ${estagio.avaliacaoRendimento.frequencia.descricaoItem} : ' '"></p>
+				      </div>
+				      <div class="col-md-12">
+				      	<strong>Permanência:</strong>
+				      	<p th:text="${estagio.avaliacaoRendimento.permanencia != null} ? ${estagio.avaliacaoRendimento.permanencia.descricaoItem} : ' '"> </p>
+				      </div>
+				      <div class="col-md-12">
+				      	<strong>Disciplina quando ao cumprimento de normas:</strong>
+				      	<p th:text="${estagio.avaliacaoRendimento.disciplina != null} ? ${estagio.avaliacaoRendimento.disciplina.descricaoItem} : ' '"></p>
+				      </div>
+				      <div class="col-md-12">
+				      	<strong>Comentário:</strong>
+				      	<p th:text="${estagio.avaliacaoRendimento.fatorAssuidadeDisciplinaComentario}"></p>
+				      </div>
+			     </div>
+			     <hr/>
+			      <div class="row">
+				      	<div class="col-md-12"><h6 >INICIATIVA E PRODUTIVIDADE</h6></div>
+				      	<div class="col-md-12">
+				      		<strong>Iniciativa:</strong>
+								<p th:text="${estagio.avaliacaoRendimento.iniciativa != null} ? ${estagio.avaliacaoRendimento.iniciativa.descricaoItem} : ' '"></p>
+						 </div>
+				      	<div class="col-md-12">
+				      		<strong>Quantidade de Trabalho:</strong>
+				      		<p th:text="${estagio.avaliacaoRendimento.quantidadeTrabalho !=null} ? ${estagio.avaliacaoRendimento.quantidadeTrabalho.descricaoItem} : ' '"></p>
+				      	</div>
+				      <div class="col-md-12">
+				      		<strong>Qualidade de Trabalho:</strong>
+				      		<p th:text="${estagio.avaliacaoRendimento.qualidadeTrabalho != null} ? ${estagio.avaliacaoRendimento.qualidadeTrabalho.descricaoItem} : ' '"></p> 
+				      </div>
+				      <div class="col-md-12">
+				      		<strong>Cumprimento de prazos:</strong>
+				      		<p th:text="${estagio.avaliacaoRendimento.cumprimentoPrazos  != null} ? ${estagio.avaliacaoRendimento.cumprimentoPrazos.descricaoItem} : ' '"></p>
+			      	  </div>
+			      	   <div class="col-md-12">
+				      	<strong>Comentário:</strong>
+				      	<p th:text="${estagio.avaliacaoRendimento.fatorIniciativaProdutividadeComentario}"></p>
+				      </div>
+			      </div>
+			       <hr/>
+			      <div class="row">
+			      		<div class="col-md-12"><h6 >RESPONSABILIDADE</h6></div>
+				      		<div class="col-md-12">
+				      		<strong>Comprometimento com o trabalho:</strong>
+				      		<p th:text="${estagio.avaliacaoRendimento.comprometimento != null} ? ${estagio.avaliacaoRendimento.comprometimento.descricaoItem} : ' '"></p>
+				    	  </div>
+				    	  <div class="col-md-12">
+				      		<strong>Cuidado com materiais e equipamentos:</strong>
+				      		<p th:text="${estagio.avaliacaoRendimento.cuidadoMateriais != null} ? ${estagio.avaliacaoRendimento.cuidadoMateriais.descricaoItem} : ' '"></p>
+				    	  </div>
+				    	 <div class="col-md-12">
+				      		<strong>Comentário:</strong>
+				      		<p th:text="${estagio.avaliacaoRendimento.fatorResponsabilidadeComentario}"></p>
+				     	 </div>
+			      </div>
+			       <hr/>
+			      <div class="row">
+			      		<div class="col-md-12"><h6>RELACIONAMENTO</h6></div>
+				      	<div class="col-md-12">
+				      		<strong>Relacionamento junto a gerência e demais funcionários:</strong>
+				      		<p th:text="${estagio.avaliacaoRendimento.relacionamento != null} ? ${estagio.avaliacaoRendimento.relacionamento.descricaoItem} : ' ' "></p>
+				      	</div>
+				      	<div class="col-md-12">
+				      		<strong>Trabalho em equipe:</strong>
+				      		<p th:text="${estagio.avaliacaoRendimento.trabalhoEquipe != null} ? ${estagio.avaliacaoRendimento.trabalhoEquipe.descricaoItem} : ' '"></p>
+				     	 </div>
+				     	 <div class="col-md-12">
+				      		<strong>Comentário:</strong>
+				      		<p th:text="${estagio.avaliacaoRendimento.fatorRelacionamentoComentario}"></p>
+				     	 </div>
+			     </div>
+			  </div>
+				          		
+		        <a th:href="@{/Supervisor/Turma/Acompanhamento/{idEstagio}/AvaliacaoRendimento(idEstagio=${estagio.id})}" class="btn btn-success btn-sm pull-right">Avaliar</a>
+	           </div>
+	           </div>
+	             </div>
+	   </div>
+	  </div>
+</section>
+
+</html>

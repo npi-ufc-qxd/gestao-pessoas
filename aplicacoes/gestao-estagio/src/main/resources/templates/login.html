@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org"
+     xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+    
+<head>
+	<meta charset="UTF-8"/>
+	<title>Gestão Pessoas | Entrar</title>
+	<link rel="stylesheet" type="text/css" th:href="@{/css/font-awesome.min.css}"/>
+	<link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap-paper.min.css}"/>
+	<link rel="stylesheet" type="text/css" th:href="@{/css/aplicacao.css}"/>
+
+	<style type="text/css">
+		label {
+			margin-bottom: 0;
+		}
+		
+		.alert {
+			padding: 0px;
+			text-align: center;
+			margin-bottom: 12px;
+		}
+
+		.alert-dismissable, .alert-dismissible {
+			padding-right: 0px;
+		}
+
+		.panel-heading > #logo {
+			background: url("/gestao-estagio/images/npi-logo-expandida.png") center/cover ;
+			background-size: 335px 135px;
+		    background-repeat: no-repeat;
+		    height: 120px;
+		}
+		
+		.gp-box-login {
+			display: table;
+			margin: 100px auto;
+		 	width: 350px; 
+		}
+		
+		.panel-body {
+			width: 330px;
+			margin: 0 auto;
+		}
+	</style>
+	
+</head>
+<body >
+  		<div class="gp-box-login">
+			<form th:action="@{/login}" method="post" role="form">
+
+			<div class="panel panel-primary">
+				<div class="panel-heading">
+					<div id="logo"></div>
+				</div>
+				<div class="panel-body">
+						<div th:if="${param.error}" th:text="${error}" class="alert alert-dismissible alert-danger"></div>
+
+						<div class="form-group">
+							<label for="username">CPF:</label> 
+							<input class="form-control" id="username" name="username" />
+						</div>
+						<div class="form-group">
+							<label for="password">Senha:</label> 
+							<input type="password" class="form-control" id="password" name="password" />
+						</div>
+
+						<button type="submit" class="btn btn-primary col-sm-12">Entrar</button>
+				</div>
+				<div class="panel-footer">
+					<a href="http://cadastroaluno.intranet/" target="_blank" class="btn btn-link btn-xs">Cadastre-se</a>
+					<a href="http://identidadepessoa.intranet/" target="_blank" class="btn btn-link btn-xs pull-right">Recuperar senha</a>
+				</div>
+			</div>
+
+
+
+			</form>
+		</div>
+
+  	<script th:src="@{/js/jquery-2.2.3.min.js}"></script>
+	<script th:src="@{/js/bootstrap.min.js}"></script>
+	<script th:src="@{/js/gestao-pessoas.js}"></script>
+</body>
+</html>

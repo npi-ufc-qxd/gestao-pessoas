@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorator="layouts/LayoutGestaoPessoas">
+
+<head>
+	<title>Gestão Pessoas | Gerenciar Evento</title>
+</head>
+
+<section layout:fragment="conteudo">
+
+  <div class="container-fluid titulo-pagina">
+    <div class="container">
+        <ul class="breadcrumb">
+            <li><a th:href="@{/Supervisor}">Minhas Turmas</a></li>
+            <li><a th:href="@{'/Supervisor/Turma/' + ${turma.id}}" >Detalhes Turma</a></li>
+            <li class="active">Gerenciar Evento</li>
+        </ul>
+        <h1>Gerenciar Evento</h1>
+    </div>
+  </div>
+
+	<div class="container animated fadeInRight">
+	    <div class="row">
+	      <div class="col-md-4">
+	        <div class="panel panel-bluegray">
+	          <div class="panel-heading">
+	            <a class="panel-title" data-toggle="collapse" data-target="#detalhesTurma"><i class="fa fa-caret-down" aria-hidden="true"></i> Turma NPI - 2016.1</a>
+  			  </div>
+	          <div id="detalhesTurma" class="panel-body collapse in">
+				  <table class="table table-hover">
+				    <tbody>
+				      <tr>
+				        <td><strong>Orientador</strong></td>
+				        <td th:text="${turma.orientador == null ? 'Não há orientador' : turma.orientador.nome}"></td>
+				      </tr>
+				      <tr>
+				        <td><strong>Supervisores</strong></td>
+				     	<td th:inline="text"> <span th:if="${#lists.isEmpty(turma.supervisores)}">Não há supervisores</span> <span th:each="sup : ${turma.supervisores}"> [[${sup.nome}]],</span></td>
+				      </tr>
+				      <tr>
+				        <td><strong>Período</strong></td>
+				        <td><label th:text="${#dates.format(turma.inicio, 'dd/MM/yyyy')}"></label>  a <label th:text="${#dates.format(turma.termino, 'dd/MM/yyyy')}"></label></td>
+				      </tr>
+				      <tr>
+				        <td><strong>Tipo</strong></td>
+				        <td th:text="${turma.tipoTurma}"></td>
+				      </tr>
+				      <tr>
+				        <td><strong>Status</strong></td>
+				        <td th:text="${turma.status}"></td>
+				      </tr>
+				    </tbody>
+				  </table>
+	           </div>
+	        </div>
+	      </div>
+
+	    <div class="col-md-8">
+  			<div class="alert alert-dismissible alert-success" th:if="${!#strings.isEmpty(sucesso)}">
+  				<button type="button" class="close" data-dismiss="alert">&times;</button>
+  				<p th:text="${sucesso}"></p>
+			</div>
+	        <div class="panel panel-bluegray">
+	          <div class="panel-heading">
+	            <a class="panel-title" data-toggle="collapse" data-target="#add-evento"><i class="fa fa-caret-down" aria-hidden="true"></i> Adicionar Evento</a>
+	          </div>
+	          <div id="add-evento" class="panel-body collapse in">
+					<form class="form-horizontal" th:object="${evento}" th:action="@{/Supervisor/Turma/{idTurma}/Evento(idTurma=${turma.id})}" method="post">
+					    <div th:class="${#fields.hasErrors('titulo')} ? 'form-group has-error' : form-group">
+					      <label for="titulo" class="col-lg-2 control-label">Titulo</label>
+					      <div class="col-lg-10">
+					        <input th:field="*{titulo}" type="text" class="form-control" placeholder="Qual o titulo do evento?"/>
+					        <label class="control-label" th:errors="*{titulo}"></label>
+					      </div>
+					    </div>
+					    <div class="form-group" th:class="${#fields.hasErrors('titulo')} ? 'form-group has-error' : form-group">
+					      <label for="descricao" class="col-lg-2 control-label">Descrição</label>
+					      <div class="col-lg-10">
+					        <textarea th:field="*{descricao}" class="form-control" rows="2"></textarea>
+					        <span class="help-block"></span>
+					        <label class="control-label" th:errors="*{descricao}"></label>
+					      </div>
+					    </div>
+					    <div class="form-group">
+					    	<div th:class="${#fields.hasErrors('inicio')} ? has-error">
+						      <label for="inicio" class="col-lg-2 control-label">Perido Evento</label>
+						      <div class="col-lg-4">
+						        <input th:field="*{inicio}" type="text" class="form-control data" placeholder="dd/MM/yyyy"/>
+						        <label class="control-label" th:errors="*{inicio}"></label>
+						      </div>
+					    	</div>
+					    	<div th:class="${#fields.hasErrors('termino')} ? has-error">
+						      <div class="col-lg-4">
+						        <input th:field="*{termino}" type="text" class="form-control data" placeholder="dd/MM/yyyy"/>
+					        	<label class="control-label" th:errors="*{termino}"></label>
+						      </div>
+					    	</div>
+					    	<div class="form-item">
+						      <div class="col-lg-2">
+						        <button type="submit" class="btn btn-success">Adicionar</button>
+						      </div>
+					    	</div>
+					    </div>
+					</form>
+	           </div>
+	        </div>
+
+	        <div class="panel panel-bluegray">
+	          <div class="panel-heading">
+	            <a class="panel-title" data-toggle="collapse" data-target="#eventos"><i class="fa fa-caret-down" aria-hidden="true"></i> Eventos</a>
+	          </div>
+	          <div id="eventos" class="panel-body collapse in">
+	          	 <table class="table table-hover">
+					    <thead>
+					    	<tr>
+					    		<th>Título</th>
+					    		<th>Descrição</th>
+					    		<th>Período</th>
+					    		<th></th>
+					    		<th></th>
+					    	</tr>
+					    </thead>
+					    <tbody>
+					      <tr th:each="evento : ${turma.eventos}">
+					      	<td th:inline="text"><strong>[[${evento.titulo}]]</strong></td>
+					      	<td th:inline="text"><strong>[[${evento.descricao}]]</strong></td>
+					        <td th:inline="text">[[${#dates.format(evento.inicio, 'dd/MM/yyyy')}]] às [[${#dates.format(evento.termino, 'dd/MM/yyyy')}]]</td>
+					        <td><a class="btn btn-danger btn-sm pull-right gp-btn-evento"
+					      		   th:href="@{/Supervisor/Turma/{idTurma}/Evento/{idEvento}/Excluir(idTurma=${turma.id},idEvento=${evento.id})}">Excluir</a></td>
+					      </tr>
+					    </tbody>
+					 </table>
+	           </div>
+	        </div>
+	      </div>
+	    </div>
+	  </div>
+  </section>
+</html>

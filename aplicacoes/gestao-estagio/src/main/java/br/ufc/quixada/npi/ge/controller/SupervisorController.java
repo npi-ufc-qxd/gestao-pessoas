@@ -576,7 +576,7 @@ public class SupervisorController {
 		avaliacaoRendimento.setEstagio(estagio);
 		estagioService.adicionarAvaliacaoRendimento(avaliacaoRendimento);
 		
-
+		redirect.addFlashAttribute("sucesso","Avaliação de Rendimento realizada!");
 		return REDIRECT_ACOMPANHAMENTO_ESTAGIARIO + idEstagio;
 	}
 
@@ -590,6 +590,7 @@ public class SupervisorController {
 			@Valid @ModelAttribute("avaliacaoRendimento") AvaliacaoRendimento avaliacaoRendimento,
 			RedirectAttributes redirect, @PathVariable("idEstagio") Long idEstagio) {
 
+		redirect.addFlashAttribute("sucesso", "As alterações da avaliação rendimento foram salvas com sucesso!");
 		return REDIRECT_ACOMPANHAMENTO_ESTAGIARIO + idEstagio;
 	}
 

@@ -21,6 +21,8 @@ public interface TurmaService {
 
 	List<Turma>  buscarTurmasSupervisorOuOrientador(Long idServidor);
 	
+	List <Turma> buscarTurmasEncerradasEAbertasSupervisouOuOrientador(Long idServidor);
+	
 	Turma buscarTurmaPorServidorId(Long idTurma, Long idServidor);
 	
 	void adicionarEvento(Evento evento);

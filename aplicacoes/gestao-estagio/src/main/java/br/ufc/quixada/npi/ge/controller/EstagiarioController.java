@@ -241,7 +241,7 @@ public class EstagiarioController {
 	}
 	
 	@RequestMapping(value = "/Acompanhamento/{idEstagio}/EditarPlano", method = RequestMethod.POST)
-	public String editarPlano(Long idEstagio, MultipartFile planoEstagio, RedirectAttributes redirectAttributes) throws Exception{
+	public String editarPlano(Long idEstagio, MultipartFile planoEstagio, RedirectAttributes redirectAttributes, Model model) throws Exception{
 		
 		if(!validarArquivo(planoEstagio)){
 			redirectAttributes.addFlashAttribute("error", "Escolha um arquivo pdf.");

@@ -291,7 +291,7 @@
 
 
 		<div th:if="${submissaoPlano} == null"  id="submissaoPlano" class="modal">
-			 <form class="form-horizontal" th:action="@{/Estagiario/Acompanhamento/${idEstagio}/SubmeterPlano}" method="post" enctype="multipart/form-data">
+			 <form class="form-horizontal" th:action="@{/Estagiario/Acompanhamento/{idEstagio}/SubmeterPlano(idEstagio=${estagio.id})}" method="post" enctype="multipart/form-data">
 			   <div class="modal-dialog">
 			     <div class="modal-content">
 			       <div class="modal-header">
@@ -313,7 +313,7 @@
 			   </form>
 		</div>
 			<div th:if="${submissaoPlano} != null" id="submissaoPlano" class="modal">
-			<form class="form-horizontal" th:action="@{/Estagiario/Acompanhamento/${idEstagio}/EditarPlano}" method="post" enctype="multipart/form-data"> 
+			<form class="form-horizontal" th:action="@{/Estagiario/Acompanhamento/{idEstagio}/EditarPlano(idEstagio=${estagio.id})}" method="post" enctype="multipart/form-data"> 
 				<div class="modal-dialog">
 				     <div class="modal-content">
 				       <div class="modal-header">

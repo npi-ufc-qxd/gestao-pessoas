@@ -103,6 +103,12 @@ public class SupervisorController {
 		}
 
 		List<Turma> turmas = turmaService.buscarTurmasSupervisorOuOrientador(servidor.getId());
+		List<Turma> turmasEncerradas = turmaService.buscarTurmasEncerradasEAbertasSupervisouOuOrientador(servidor.getId());
+		
+		if(turmasEncerradas != null){
+			model.addAttribute("turmasEncerradas", turmasEncerradas);
+		}
+		
 		model.addAttribute("turmas", turmas);
 			
 		return PAGINA_INICIAL_SUPERVISOR;
@@ -354,6 +360,8 @@ public class SupervisorController {
 		}
 
 		model.addAttribute("estagio", estagio);
+		model.addAttribute("submissaoPlano", estagioService.buscarSubmissaoPorTipoSubmissaoEEstagioId(TipoSubmissao.PLANO_ESTAGIO, idEstagio));
+		model.addAttribute("submissaoRelatorio", estagioService.buscarSubmissaoPorTipoSubmissaoEEstagioId(TipoSubmissao.RELATORIO_FINAL_ESTAGIO, idEstagio));
 		return ACOMPANHAMENTO_ESTAGIARIO;
 
 	}
@@ -576,7 +584,7 @@ public class SupervisorController {
 		avaliacaoRendimento.setEstagio(estagio);
 		estagioService.adicionarAvaliacaoRendimento(avaliacaoRendimento);
 		
-		redirect.addFlashAttribute("sucesso","Avaliação de Rendimento realizada!");
+
 		return REDIRECT_ACOMPANHAMENTO_ESTAGIARIO + idEstagio;
 	}
 
@@ -590,7 +598,6 @@ public class SupervisorController {
 			@Valid @ModelAttribute("avaliacaoRendimento") AvaliacaoRendimento avaliacaoRendimento,
 			RedirectAttributes redirect, @PathVariable("idEstagio") Long idEstagio) {
 
-		redirect.addFlashAttribute("sucesso", "As alterações da avaliação rendimento foram salvas com sucesso!");
 		return REDIRECT_ACOMPANHAMENTO_ESTAGIARIO + idEstagio;
 	}
 

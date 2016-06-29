@@ -354,6 +354,8 @@ public class SupervisorController {
 		}
 
 		model.addAttribute("estagio", estagio);
+		model.addAttribute("submissaoPlano", estagioService.buscarSubmissaoPorTipoSubmissaoEEstagioId(TipoSubmissao.PLANO_ESTAGIO, idEstagio));
+		model.addAttribute("submissaoRelatorio", estagioService.buscarSubmissaoPorTipoSubmissaoEEstagioId(TipoSubmissao.RELATORIO_FINAL_ESTAGIO, idEstagio));
 		return ACOMPANHAMENTO_ESTAGIARIO;
 
 	}

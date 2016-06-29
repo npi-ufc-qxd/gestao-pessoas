@@ -76,7 +76,7 @@
 						    <input type="text" id="campoBuscaEstagiario" class="form-control" placeholder="Nome do Estagiário" size="100"/>
 						    <input type="hidden" id="idTurma" th:value="${turma.id}"/>
 						    <span class="input-group-btn">
-						      <button class="btn btn-default" type="button" id="buscarEstagiariosSemVinculo">Buscar</button>
+						      <button class="btn btn-default" type="button" th:href="@{/Supervisor/Turma/Acompanhamento/buscarEstagiarioSemVinculo}" id="buscarEstagiariosSemVinculo">Buscar</button>
 						    </span>
 						  </div>
 						</div>

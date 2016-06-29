@@ -130,11 +130,11 @@
 						    <div class="form-group">
 						      <label for="supervisor" class="col-md-2 control-label">Supervisor</label>
 						      <div class="col-md-10">
-						      	<select class="form-control supervisores" multiple="multiple" title="Supervisor" th:field="*{supervisores}">
-						      	  <option value=""></option>
-						          <option th:each ="servidor : ${servidores}" 
-						          		  th:value = "${servidor.id}" 
-						          		  th:text = "${servidor.nome}">
+						      	<select class="form-control supervisores" multiple="multiple" title="Supervisor" name="supervisoresId" th:value="${turma.supervisores}">
+						          <option value=""></option>
+						          <option th:each ="supervisor : ${turma.supervisores}" 
+						          		  th:value = "${supervisor.id}" 
+						          		  th:text = "${supervisor.nome}" selected="selected">
 						          </option>
 								</select>
 						      </div>

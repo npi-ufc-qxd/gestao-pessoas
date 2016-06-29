@@ -159,11 +159,23 @@ public class SupervisorController {
 	}
 
 	@RequestMapping(value = "/Turma/{idTurma}/Editar", method = RequestMethod.POST)
-	public String editarTurma(Model model,@PathVariable("idTurma") Long idTurma, @Valid @ModelAttribute("turma") Turma turma, BindingResult result, RedirectAttributes redirect) {
+	public String editarTurma(Model model,@PathVariable("idTurma") Long idTurma, @Valid @ModelAttribute("turma") Turma turma, BindingResult result,@RequestParam("supervisoresId") List<Long> supervisoresId, RedirectAttributes redirect) {
 
 		if(result.hasErrors()) {
 			return FORMULARIO_EDITAR_TURMA;
 		}
+		
+		Servidor servidor = pessoaService.buscarServidorPorCpf(getCpfUsuarioLogado());
+		turma = turmaService.buscarTurmaPorServidorId(idTurma, servidor.getId());
+
+		List<Servidor> supervisores = new ArrayList<Servidor>();
+		for(long supervisor : supervisoresId) {
+			supervisores.add(pessoaService.buscarServidorPorId(supervisor));
+		}
+
+		turma.setSupervisores(supervisores);
+
+		turmaService.editarTurma(turma);
 
 		redirect.addFlashAttribute("sucesso", "Alterações salvas com sucesso.");
 		return REDIRECT_DETALHES_TURMA + idTurma;

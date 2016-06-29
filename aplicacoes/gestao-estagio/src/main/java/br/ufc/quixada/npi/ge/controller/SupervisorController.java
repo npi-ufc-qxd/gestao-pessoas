@@ -352,12 +352,6 @@ public class SupervisorController {
 			redirect.addFlashAttribute("error", "Estágio não existe");
 			return REDIRECT_PAGINA_INICIAL_SUPERVISOR; 
 		}
-		
-
-		List<Submissao> a = estagio.getSubmissoes();
-		for(int i = 0; i < a.size(); i++){
-			
-		}
 
 		model.addAttribute("estagio", estagio);
 		model.addAttribute("submissaoPlano", estagioService.buscarSubmissaoPorTipoSubmissaoEEstagioId(TipoSubmissao.PLANO_ESTAGIO, idEstagio));

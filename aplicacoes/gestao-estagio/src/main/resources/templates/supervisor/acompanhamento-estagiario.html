@@ -112,32 +112,33 @@
 	          <div class="panel-heading">
 	            <a class="panel-title" data-toggle="collapse" data-target="#avaliacaoPlano"><i class="fa fa-caret-down" aria-hidden="true"></i> Avaliação Plano</a>
 			  </div>
-	          <div id="avaliacaoPlano" class="panel-body collapse in">
-	          <table class="table table-hover" th:each="sub : ${estagio.submissoes}" th:if="${#strings.equals(sub.tipoSubmissao, 'PLANO_ESTAGIO')}">
+	          <div id="avaliacaoPlano" class="panel-body collapse in" >
+	          <table class="table table-hover" th:if="${submissaoPlano} != null">
 	          <tbody  >
 				      <tr>
 				        <td class="gp-sem-borda"><strong>Nome Documento:</strong></td>
-				        <td class="gp-sem-borda" th:text="${sub.tipoSubmissao}"></td>
+				        <td class="gp-sem-borda" th:text="${submissaoPlano.tipoSubmissao.descricao}"></td>
 				      </tr>
 				      <tr>
 				        <td><strong>Status:</strong></td>
-				        <td th:text="${sub.statusEntrega}"></td>
+				        <td th:text="${submissaoPlano.statusEntrega.descricao}"></td>
 				      </tr>
 				      <tr>
 				        <td><strong>Data Submissão:</strong></td>
-				        <td th:text="${sub.submetidoEm}"></td>
+				        <td th:text="${#dates.format(submissaoPlano.submetidoEm, 'dd/MM/yyyy')}"></td>
 				      </tr>
 				      <tr>
 				        <td><strong>Nota:</strong></td>
-				        <td th:text="${sub.nota}"></td>
+				        <td th:text="${submissaoPlano.nota}"></td>
 				      </tr>
-				      <tr th:if="not ${#strings.isEmpty(sub.comentario)}">
+				      <tr th:if="not ${#strings.isEmpty(submissaoPlano.comentario)}">
 				        <td><strong>Comentário:</strong></td>
-				        <td th:text="${sub.comentario}"></td>
+				        <td th:text="${submissaoPlano.comentario}"></td>
 				      </tr>				      
 				    </tbody>
 				  </table>
-		        <a th:href="@{/Supervisor/Turma/Acompanhamento/1/AvaliarPlano}" class="btn btn-success btn-sm pull-right">Avaliar</a>
+		        	<a th:if="${submissaoPlano} != null" th:href="@{/Supervisor/Turma/Acompanhamento/{idEstagio}/AvaliarPlano(idEstagio=${estagio.id})}" class="btn btn-success btn-sm pull-right">Editar Avaliação</a>
+		        	<a th:if="${submissaoPlano} == null" th:href="@{/Supervisor/Turma/Acompanhamento/{idEstagio}/AvaliarPlano(idEstagio=${estagio.id})}" class="btn btn-success btn-sm pull-right">Avaliar</a>
 	           </div>
 	        </div>
 
@@ -146,31 +147,32 @@
 	            <a class="panel-title" data-toggle="collapse" data-target="#avaliacaoRelatorio"><i class="fa fa-caret-down" aria-hidden="true"></i> Avaliação Relatório</a>
 			  </div>
 	          <div id="avaliacaoRelatorio" class="panel-body collapse in">
-	          <table class="table table-hover" th:each="sub : ${estagio.submissoes}"  th:if="${#strings.equals(sub.tipoSubmissao, 'RELATORIO_FINAL_ESTAGIO')}">
+	          <table class="table table-hover" th:if="${submissaoRelatorio} != null">
 	          <tbody >
 				      <tr>
 				        <td class="gp-sem-borda"><strong>Nome Documento:</strong></td>
-				        <td class="gp-sem-borda" th:text="${sub.tipoSubmissao}"></td>
+				        <td class="gp-sem-borda" th:text="${submissaoRelatorio.tipoSubmissao.descricao}"></td>
 				      </tr>
 				      <tr>
 				        <td><strong>Status:</strong></td>
-				        <td th:text="${sub.statusEntrega}"></td>
+				        <td th:text="${submissaoRelatorio.statusEntrega}"></td>
 				      </tr>
 				      <tr>
 				        <td><strong>Data Submissão:</strong></td>
-				        <td th:text="${sub.submetidoEm}"></td>
+				        <td th:text="${#dates.format(submissaoRelatorio.submetidoEm, 'dd/MM/yyyy')}"></td>
 				      </tr>
 				      <tr>
 				        <td><strong>Nota:</strong></td>
-				        <td th:text="${sub.nota}"></td>
+				        <td th:text="${submissaoRelatorio.nota}"></td>
 				      </tr>
-				      <tr th:if="not ${#strings.isEmpty(sub.comentario)}">
+				      <tr th:if="not ${#strings.isEmpty(submissaoRelatorio.comentario)}">
 				        <td><strong>Comentário:</strong></td>
-				        <td th:text="${sub.comentario}"></td>
+				        <td th:text="${submissaoRelatorio.comentario}"></td>
 				      </tr>				      
 				    </tbody>
 				  </table>
-		        <a th:href="@{/Supervisor/Turma/Acompanhamento/1/AvaliarRelatorio}" class="btn btn-success btn-sm pull-right">Avaliar</a>
+		        <a th:if="${submissaoRelatorio} != null" th:href="@{/Supervisor/Turma/Acompanhamento/{idEstagio}/AvaliarRelatorio(idEstagio=${estagio.id})}" class="btn btn-success btn-sm pull-right">Editar Avaliação</a>
+		        <a th:if="${submissaoRelatorio} == null" th:href="@{/Supervisor/Turma/Acompanhamento/{idEstagio}/AvaliarRelatorio(idEstagio=${estagio.id})}" class="btn btn-success btn-sm pull-right">Avaliar</a>
 	           </div>
 	        </div>
 	        <div class="panel panel-bluegray">
@@ -256,7 +258,8 @@
 			     </div>
 			  </div>
 				          		
-		        <a th:href="@{/Supervisor/Turma/Acompanhamento/{idEstagio}/AvaliacaoRendimento(idEstagio=${estagio.id})}" class="btn btn-success btn-sm pull-right">Avaliar</a>
+		        <a th:if="${estagio.avaliacaoRendimento} != null" th:href="@{/Supervisor/Turma/Acompanhamento/{idEstagio}/AvaliacaoRendimento(idEstagio=${estagio.id})}" class="btn btn-success btn-sm pull-right">Editar Avaliação</a>
+		        <a th:if="${estagio.avaliacaoRendimento} == null" th:href="@{/Supervisor/Turma/Acompanhamento/{idEstagio}/AvaliacaoRendimento(idEstagio=${estagio.id})}" class="btn btn-success btn-sm pull-right">Avaliar</a>
 	           </div>
 	           </div>
 	             </div>

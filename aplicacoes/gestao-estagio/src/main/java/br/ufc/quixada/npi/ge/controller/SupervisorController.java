@@ -418,7 +418,8 @@ public class SupervisorController {
 		submissao.setComentario(comentario);
 
 		estagioService.avaliarSubmissao(submissao);
-
+		redirect.addFlashAttribute("sucesso", "Avaliação do Plano de estágio realizada!");
+		
 		return REDIRECT_ACOMPANHAMENTO_ESTAGIARIO + idEstagio;
 	}
 

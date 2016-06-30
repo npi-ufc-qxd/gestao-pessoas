@@ -6,19 +6,22 @@ import java.util.List;
 
 import javax.inject.Named;
 
+import org.joda.time.Hours;
+import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import br.ufc.quixada.npi.ge.model.AvaliacaoRendimento;
 import br.ufc.quixada.npi.ge.model.Estagiario;
 import br.ufc.quixada.npi.ge.model.Estagio;
+import br.ufc.quixada.npi.ge.model.Expediente;
 import br.ufc.quixada.npi.ge.model.Frequencia;
-import br.ufc.quixada.npi.ge.model.Presenca;
-import br.ufc.quixada.npi.ge.model.Submissao;
-import br.ufc.quixada.npi.ge.model.Turma;
 import br.ufc.quixada.npi.ge.model.Frequencia.StatusFrequencia;
 import br.ufc.quixada.npi.ge.model.Frequencia.TipoFrequencia;
+import br.ufc.quixada.npi.ge.model.Presenca;
+import br.ufc.quixada.npi.ge.model.Submissao;
 import br.ufc.quixada.npi.ge.model.Submissao.StatusEntrega;
 import br.ufc.quixada.npi.ge.model.Submissao.TipoSubmissao;
+import br.ufc.quixada.npi.ge.model.Turma;
 import br.ufc.quixada.npi.ge.repository.AvaliacaoRendimentoRepository;
 import br.ufc.quixada.npi.ge.repository.EstagiarioRepository;
 import br.ufc.quixada.npi.ge.repository.EstagioRepository;
@@ -49,8 +52,6 @@ public class EstagioServiceImpl implements EstagioService {
 	@Autowired
 	TurmaRepository turmaRepository;
 
-	
-	
 	@Override
 	public void desvincularEstagiario(Long idEstagio) {
 		estagioRepository.delete(idEstagio);		
@@ -290,4 +291,67 @@ public class EstagioServiceImpl implements EstagioService {
 	public Estagio buscarEstagioPorIdEServidorId(Long idEstagio, Long idServidor) {
 		return estagioRepository.findByIdAndOrientadorOrSupervisor(idEstagio, idServidor);
 	}
+
+	@Override
+	public ConsolidadoFrequencia consolidarFrequencias(Estagio estagio) {
+
+		int totalDeFrequenciasDaTurma = calcularTotalDeFrequenciasDaTurma(estagio.getTurma().getInicio(), estagio.getTurma().getTermino(), estagio.getTurma().getExpedientes());
+
+		int totalDeFrequenciasDaTurmaHoje = calcularTotalDeFrequenciasDaTurma(estagio.getTurma().getInicio(), new Date(), estagio.getTurma().getExpedientes());
+		
+		int totalPresencas = frequenciaRepository.buscarTotalByStatus(estagio.getId(), Frequencia.StatusFrequencia.PRESENTE);
+		int totalFaltas = frequenciaRepository.buscarTotalByStatus(estagio.getId(), Frequencia.StatusFrequencia.FALTA);
+
+		int horasEstagiadas = totalPresencas * calcularCargaHorariaExpediente(estagio.getTurma().getExpedientes());
+		
+		int totalPendencias = totalDeFrequenciasDaTurmaHoje - frequenciaRepository.buscarTotalByTipo(estagio.getId(), Frequencia.TipoFrequencia.NORMAL);
+
+		int totalAtrasos = frequenciaRepository.buscarTotalByStatus(estagio.getId(), Frequencia.StatusFrequencia.ATRASADO);
+		
+		int totalReposicoes = frequenciaRepository.buscarTotalByTipo(estagio.getId(), Frequencia.TipoFrequencia.REPOSICAO);
+		
+		double porcentagemPresencas = (totalPresencas * 100) / totalDeFrequenciasDaTurma;
+		
+		double porcentagemFaltas = (totalFaltas * 100) / totalDeFrequenciasDaTurma;
+
+		ConsolidadoFrequencia consolidadoFrequencia = new ConsolidadoFrequencia();
+
+		consolidadoFrequencia.setHorasEstagiadas(horasEstagiadas);
+		consolidadoFrequencia.setTotalPendecias(totalPendencias);
+		consolidadoFrequencia.setTotalAtrasos(totalAtrasos);
+		consolidadoFrequencia.setTotalReposicoes(totalReposicoes);
+		consolidadoFrequencia.setPorcentagemFaltas(porcentagemFaltas);
+		consolidadoFrequencia.setPorcentagemPresencas(porcentagemPresencas);
+
+		return consolidadoFrequencia;
+	}
+
+	private int calcularCargaHorariaExpediente(List<Expediente> expedientes) {
+		int cargaHorariaExpediente = 0;
+		for (Expediente expediente : expedientes) {
+			LocalDate inicio = new LocalDate(expediente.getHoraInicio());
+			LocalDate fim = new LocalDate(expediente.getHoraTermino());
+
+			cargaHorariaExpediente += Hours.hoursBetween(inicio, fim).getHours();
+		}
+		return cargaHorariaExpediente;
+	}
+
+	private int calcularTotalDeFrequenciasDaTurma(Date inicio, Date fim, List<Expediente> expedientes) {
+
+		LocalDate inicioPeriodoTemporario = new LocalDate(inicio);
+		LocalDate fimPeriodo = new LocalDate(fim);
+		int totalDeFrequenciasDaTurma = 0;
+
+		while(!inicioPeriodoTemporario.isAfter(fimPeriodo)) {
+
+			if (UtilGestao.isDiaDeTrabahoDaTurma(expedientes, inicioPeriodoTemporario)) {
+				totalDeFrequenciasDaTurma++;
+			}
+			inicioPeriodoTemporario = inicioPeriodoTemporario.plusDays(1);
+		}
+
+		return totalDeFrequenciasDaTurma;
+	}	
+
 }

@@ -77,5 +77,7 @@ public interface EstagioService {
 	Frequencia buscarFrequenciaDeHojePorEstagio(Estagio estagio);
 
 	Estagio buscarEstagioPorIdEstagio(Long idEstagio);
+	
+	ConsolidadoFrequencia consolidarFrequencias(Estagio estagio);
 
 }

@@ -1,32 +1,66 @@
 package br.ufc.quixada.npi.ge.service;
 
 public class ConsolidadoFrequencia {
-	private int faltas;
-	private int diasTrabalhados;
-	private double porcentagemFrequencia;
+	
+	private int horasEstagiadas;
+	
+	private int totalPendecias;
 
-	public int getFaltas() {
-		return faltas;
+	private int totalAtrasos;
+
+	private int totalReposicoes;
+	
+	private double porcentagemFaltas;
+
+	private double porcentagemPresencas;
+
+	public int getHorasEstagiadas() {
+		return horasEstagiadas;
 	}
 
-	public void setFaltas(int faltas) {
-		this.faltas = faltas;
+	public void setHorasEstagiadas(int horasEstagiadas) {
+		this.horasEstagiadas = horasEstagiadas;
 	}
 
-	public int getDiasTrabalhados() {
-		return diasTrabalhados;
+	public int getTotalPendecias() {
+		return totalPendecias;
 	}
 
-	public void setDiasTrabalhados(int diasTrabalhados) {
-		this.diasTrabalhados = diasTrabalhados;
+	public void setTotalPendecias(int totalPendecias) {
+		this.totalPendecias = totalPendecias;
 	}
 
-	public double getPorcentagemFrequencia() {
-		return porcentagemFrequencia;
+	public int getTotalAtrasos() {
+		return totalAtrasos;
 	}
 
-	public void setPorcentagemFrequencia(double porcentagemFrequencia) {
-		this.porcentagemFrequencia = porcentagemFrequencia;
+	public void setTotalAtrasos(int totalAtrasos) {
+		this.totalAtrasos = totalAtrasos;
 	}
 
+	public int getTotalReposicoes() {
+		return totalReposicoes;
+	}
+
+	public void setTotalReposicoes(int totalReposicoes) {
+		this.totalReposicoes = totalReposicoes;
+	}
+
+	public double getPorcentagemFaltas() {
+		return porcentagemFaltas;
+	}
+
+	public void setPorcentagemFaltas(double porcentagemFaltas) {
+		this.porcentagemFaltas = porcentagemFaltas;
+	}
+
+	public double getPorcentagemPresencas() {
+		return porcentagemPresencas;
+	}
+
+	public void setPorcentagemPresencas(double porcentagemPresencas) {
+		this.porcentagemPresencas = porcentagemPresencas;
+	}
+	
+	
 }

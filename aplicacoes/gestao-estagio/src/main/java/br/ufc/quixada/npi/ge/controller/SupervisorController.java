@@ -356,6 +356,7 @@ public class SupervisorController {
 		model.addAttribute("estagio", estagio);
 		model.addAttribute("submissaoPlano", estagioService.buscarSubmissaoPorTipoSubmissaoEEstagioId(TipoSubmissao.PLANO_ESTAGIO, idEstagio));
 		model.addAttribute("submissaoRelatorio", estagioService.buscarSubmissaoPorTipoSubmissaoEEstagioId(TipoSubmissao.RELATORIO_FINAL_ESTAGIO, idEstagio));
+		model.addAttribute("consolidadoFrequencia", estagioService.consolidarFrequencias(estagio));
 		return ACOMPANHAMENTO_ESTAGIARIO;
 
 	}
@@ -393,6 +394,7 @@ public class SupervisorController {
 	public String formularioFrequencias(Model model, @PathVariable("idEstagio") Long idEstagio) {
 		Estagio estagio = estagioService.buscarEstagioPorId(idEstagio);
 		model.addAttribute("estagio", estagio);
+		model.addAttribute("consolidadoFrequencia", estagioService.consolidarFrequencias(estagio));
 
 		return GERENCIAR_FREQUENCIAS;
 	}

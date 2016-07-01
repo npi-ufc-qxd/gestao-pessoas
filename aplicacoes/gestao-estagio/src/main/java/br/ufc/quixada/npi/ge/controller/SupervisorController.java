@@ -391,7 +391,7 @@ public class SupervisorController {
 	}
 
 	@RequestMapping(value = "/Turma/Acompanhamento/{idEstagio}/Frequencias", method = RequestMethod.GET)
-	public String formularioFrequencias(Model model, @PathVariable("idEstagio") Long idEstagio, RedirectAttributes attributes) {
+	public String formularioFrequencias(Model model, @PathVariable("idEstagio") Long idEstagio) {
 		Estagio estagio = estagioService.buscarEstagioPorId(idEstagio);
 		model.addAttribute("estagio", estagio);
 		model.addAttribute("consolidadoFrequencia", estagioService.consolidarFrequencias(estagio));

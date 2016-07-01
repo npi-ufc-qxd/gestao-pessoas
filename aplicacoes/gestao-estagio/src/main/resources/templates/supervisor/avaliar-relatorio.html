@@ -16,7 +16,7 @@
         <ul class="breadcrumb">
         	<li><a th:href="@{/Supervisor/}" >Minhas Turmas</a></li>
             <li><a th:href="@{'/Supervisor/Turma/' + ${estagio.turma.id}}">Detalhes Turma</a></li>
-            <li><a th:href="@{'/Supervisor/Turma/Acompanhamento/' + ${estagio.estagiario.id}}">Acompanhamento Estagiário</a></li>
+            <li><a th:href="@{'/Supervisor/Acompanhamento/' + ${estagio.estagiario.id}}">Acompanhamento Estagiário</a></li>
             <li class="active">Avaliar Relatório</li>
         </ul>
         <h1>Avaliar Relatório</h1>
@@ -116,7 +116,7 @@
 			          	</div>
 			          </div>
 		          </form>
-		          <form class="form-horizontal" th:action="@{/Supervisor/Turma/Acompanhamento/1/AvaliarRelatorio}" method="post">
+		          <form class="form-horizontal" th:action="@{/Supervisor/Acompanhamento/1/AvaliarRelatorio}" method="post">
 				    <div class="form-group">
 	     					<label for="status" class="col-lg-2 control-label"> <strong>Status</strong></label>
 	     					<div class="col-lg-10">
@@ -146,12 +146,12 @@
 	     					</div>
 	   				</div>
 	   				
-	   				<div class="form-group pull-right">
-	     					<div class="col-lg-10 col-lg-offset-2">
-	       					<button type="reset" class="btn btn-default" th:href="@{/Supervisor/Turma/Acompanhamento/{idEstagio}(idEstagio=${estagio.id})}">Cancelar</button>
-	       					<button type="submit" class="btn btn-success">Salvar</button>
-	     					</div>
-	   				</div>
+	   				<div class="form-group">
+	   					<div class="col-lg-10 col-lg-offset-2">
+	   						<a class="btn btn-default" th:href="@{/Supervisor/Acompanhamento/{idEstagio}(idEstagio=${estagio.id})}">Cancelar</a>
+	   						<button type="submit" class="btn btn-success">Salvar</button>
+	   					</div>
+					</div>
 		          </form>
 	           </div>
 	        </div>

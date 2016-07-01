@@ -80,7 +80,7 @@
 						    <input type="text" id="campoBuscaEstagiario" class="form-control" placeholder="Nome do Estagiário" size="100"/>
 						    <input type="hidden" id="idTurma" th:value="${turma.id}"/>
 						    <span class="input-group-btn">
-						      <button class="btn btn-default" type="button" th:href="@{/Supervisor/Turma/Acompanhamento/buscarEstagiarioSemVinculo}" id="buscarEstagiariosSemVinculo">Buscar</button>
+						      <button class="btn btn-default" type="button" th:href="@{/Supervisor/Acompanhamento/buscarEstagiarioSemVinculo}" id="buscarEstagiariosSemVinculo">Buscar</button>
 						    </span>
 						  </div>
 						</div>
@@ -92,7 +92,7 @@
      	 					 <ul class="list-group" id="ulEstagiarioSemVinculo">
        						 <li th:each="estagiario :${estagiarios}" class="list-group-item gp-list-group-item">
        								<b th:text="${estagiario.nomeCompleto}"></b>
-       								<a class="btn btn-primary btn-sm pull-right gp-btn-acompanhamento" th:href="@{/Supervisor/Turma/Acompanhamento/{idEstagiario}/Vincular/{idTurma}(idEstagiario=${estagiario.id}, idTurma=${turma.id})}">Vincular</a>
+       								<a class="btn btn-primary btn-sm pull-right gp-btn-acompanhamento" th:href="@{/Supervisor/Acompanhamento/{idEstagiario}/Vincular/{idTurma}(idEstagiario=${estagiario.id}, idTurma=${turma.id})}">Vincular</a>
        							</li>
   							  </ul>
         

@@ -16,7 +16,7 @@
         <ul class="breadcrumb">
             <li><a th:href="@{/Supervisor/}" >Minhas Turmas</a></li>
             <li><a th:href="@{'/Supervisor/Turma/' + ${estagio.turma.id}}" >Detalhes Turma</a></li>
-            <li><a th:href="@{'/Supervisor/Turma/Acompanhamento/' + ${estagio.estagiario.id}}">Acompanhamento Estagiário</a></li>
+            <li><a th:href="@{'/Supervisor/Acompanhamento/' + ${estagio.estagiario.id}}">Acompanhamento Estagiário</a></li>
             <li class="active">Avaliação de Rendimento</li>
         </ul>
         <h1>Avaliação de Rendimento</h1>
@@ -101,7 +101,7 @@
 	            <p class="panel-title" data-toggle="collapse" data-target="#estagiarios">Avaliação de Rendimento</p>
 	          </div>
 	          <div id="estagiarios" class="panel-body collapse in">
-					<form method="post" enctype="multipart/form-data" class="form-horizontal" action="#" th:action="@{/Supervisor/Turma/Acompanhamento/{idEstagio}/AvaliacaoRendimento(idEstagio=${estagio.id})}" th:object="${avaliacaoRendimento}">
+					<form method="post" enctype="multipart/form-data" class="form-horizontal" action="#" th:action="@{/Supervisor/Acompanhamento/{idEstagio}/AvaliacaoRendimento(idEstagio=${estagio.id})}" th:object="${avaliacaoRendimento}">
 
 					  <fieldset>
 					    <legend>Assuidade e Disciplina</legend>
@@ -343,7 +343,7 @@
 
 					  <div class="form-group">
 					      <div class="col-lg-10 pull-left">
-					        <a class="btn btn-default" th:href="@{/Supervisor/Turma/Acompanhamento/{idEstagio}(idEstagio=${estagio.id})}">Cancelar</a>
+					        <a class="btn btn-default" th:href="@{/Supervisor/Acompanhamento/{idEstagio}(idEstagio=${estagio.id})}">Cancelar</a>
 					        <button type="submit" class="btn btn-success">Salvar</button>
 					      </div>
 					 </div>

@@ -15,7 +15,7 @@
         <ul class="breadcrumb">
             <li><a th:href="@{/Supervisor/}" >Minhas Turmas</a></li>
             <li><a th:href="@{'/Supervisor/Turma/' + ${estagio.turma.id}}" >Detalhes Turma</a></li>
-            <li><a th:href="@{/Supervisor/Turma/Acompanhamento/{id}(id=${estagio.id})}">Acompanhamento Estagiário</a></li>
+            <li><a th:href="@{/Supervisor/Acompanhamento/{id}(id=${estagio.id})}">Acompanhamento Estagiário</a></li>
             <li class="active">Gerenciar Frequencias</li>
         </ul>
         <h1>Gerenciar Frequencias</h1>
@@ -127,7 +127,7 @@
 	            <a class="panel-title" data-toggle="collapse" data-target="#reposicao"><i class="fa fa-caret-down" aria-hidden="true"></i> Reposições</a>
 			  </div>
 	          <div id="reposicao" class="panel-body collapse in">
-				<form class="form-inline" role="form" th:action="@{/Supervisor/Turma/Acompanhamento/{idEstagio}/AgendarReposicao(idEstagio=${estagio.id})}" method="post">
+				<form class="form-inline" role="form" th:action="@{/Supervisor/Acompanhamento/{idEstagio}/AgendarReposicao(idEstagio=${estagio.id})}" method="post">
 				  <div class="form-group">
 				    <label for="email">Data da Reposição:</label>
 				    <input type="text" class="form-control data-reposicao" id="dataReposicao" name="dataReposicao" size="23"/>

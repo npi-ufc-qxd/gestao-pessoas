@@ -397,7 +397,7 @@ public class SupervisorController {
 			@PathVariable("idTurma") Long idTurma, Model model, RedirectAttributes redirect) {
 
 		if (idEstagiario == null && idTurma == null) {
-			redirect.addAttribute("error", "Não foi possivel realizar o vinculo!");
+			redirect.addFlashAttribute("error", "Não foi possivel realizar o vinculo!");
 			return "redirect:/Supervisor/Turma/" + turmaService.buscarTurmaPorId(idTurma).getId() + "/AtualizarVinculos";
 		}
 
@@ -425,13 +425,13 @@ public class SupervisorController {
 		Estagio estagio = estagioService.buscarEstagioPorIdEOrientadorOuSupervisor(idEstagio, servidor.getId());
 
 		if(estagio == null) {
-			attributes.addAttribute("error", "Você não permisão para agendar está reposição");
+			attributes.addFlashAttribute("error", "Você não permisão para agendar está reposição");
 			return REDIRECT_PAGINA_INICIAL_SUPERVISOR; 
 		}
 		
 		estagioService.agendarReposicao(estagio, dataReposicao);
 
-		attributes.addAttribute("sucesso", "Reposição agendada com sucesso!");
+		attributes.addFlashAttribute("sucesso", "Reposição agendada com sucesso!");
 		return "redirect:/Supervisor/Turma/Acompanhamento/" + idEstagio + "/Frequencias";
 	}
 

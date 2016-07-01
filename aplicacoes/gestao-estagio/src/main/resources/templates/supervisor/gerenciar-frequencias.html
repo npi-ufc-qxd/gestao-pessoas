@@ -94,6 +94,12 @@
 	      </div>
 
 	    <div class="col-md-8">
+
+	    	<div class="alert alert-dismissible alert-success" th:if="${! #strings.isEmpty(sucesso)}">
+  				<button type="button" class="close" data-dismiss="alert">&times;</button>
+  				<strong th:text="${sucesso}"></strong>
+  			</div>
+
 	        <div class="panel panel-bluegray">
 	          <div class="panel-heading">
 	            <a class="panel-title" data-toggle="collapse" data-target="#consolidado"><i class="fa fa-caret-down" aria-hidden="true"></i> Consolidado Frequências</a>
@@ -121,16 +127,16 @@
 	            <a class="panel-title" data-toggle="collapse" data-target="#reposicao"><i class="fa fa-caret-down" aria-hidden="true"></i> Reposições</a>
 			  </div>
 	          <div id="reposicao" class="panel-body collapse in">
-				<form class="form-inline" role="form" th:action="@{/Turma/Acompanhamento/{idEstagio}/AgendarReposicao(idEstagio=${estagio.id})}" method="post">
+				<form class="form-inline" role="form" th:action="@{/Supervisor/Turma/Acompanhamento/{idEstagio}/AgendarReposicao(idEstagio=${estagio.id})}" method="post">
 				  <div class="form-group">
 				    <label for="email">Data da Reposição:</label>
 				    <input type="text" class="form-control data-reposicao" id="dataReposicao" name="dataReposicao" size="23"/>
 				  </div>
 				  <button type="submit" class="btn btn-success">agendar</button>
-				</form>
+				</form><br/>
 				
 				<div id="reposicoes">	          
-					<table class="table table-striped table-hover">
+					<table class="table table-hover table-bordered">
 					  <thead>
 					    <tr>
 					      <th class="sort" data-sort="timestamp">Data</th>
@@ -138,23 +144,10 @@
 					    </tr>
 					  </thead>
 					  <tbody class="list">
-					    <tr>
-	<!-- 				    th:attr="data-timestamp=${#dates.format(anamnese.criadoEm,'yyyyMMdd')}"  -->
-					      <td class="timestamp" data-timestamp="20120911">11/10/2012</td>
-					      <td class="status">PRESENTE</td>
-					    </tr>
-					    <tr>
-					      <td class="timestamp" data-timestamp="20120914">14/10/2012</td>
-					      <td class="status">FALTA</td>
-					    </tr>
-					    <tr>
-					      <td class="timestamp" data-timestamp="20120920">20/10/2012</td>
-					      <td class="status">ATRASO</td>
-					    </tr>
-					    <tr>
-					      <td class="timestamp" data-timestamp="20120930">30/10/2012</td>
-					      <td class="status">PRESENTE</td>
-					    </tr>
+						<tr th:each="frequencia : ${estagio.frequencias}" th:if="${#strings.equals(frequencia.tipo, 'REPOSICAO')}">
+							<td class="timestamp" data-timestamp="20120911" th:inline="text" th:attr="data-timestamp=${#dates.format(frequencia.data,'yyyyMMdd')}">[[${#dates.format(frequencia.data,'dd/MM/yyyy')}]]</td>
+						    <td class="status" th:text="${frequencia.status}"></td>
+						</tr>
 					  </tbody>
 					</table> 
 				</div>
@@ -167,7 +160,7 @@
 			  </div>
 	          <div id="presenca" class="panel-body collapse in">
 				<div id="frequencias">	          
-					<table class="table table-striped table-hover">
+					<table class="table table-hover table-bordered">
 					  <thead>
 					    <tr>
 					      <th class="sort" data-sort="timestamp">Data</th>
@@ -176,27 +169,11 @@
 					    </tr>
 					  </thead>
 					  <tbody class="list">
-					    <tr>
-	<!-- 				    th:attr="data-timestamp=${#dates.format(anamnese.criadoEm,'yyyyMMdd')}"  -->
-					      <td class="timestamp" data-timestamp="20120911">11/10/2012</td>
-					      <td class="tipo">REPOSIÇÃO</td>
-					      <td class="status">PRESENTE</td>
-					    </tr>
-					    <tr>
-					      <td class="timestamp" data-timestamp="20120914">14/10/2012</td>
-					      <td class="tipo">NORMAL</td>
-					      <td class="status">FALTA</td>
-					    </tr>
-					    <tr>
-					      <td class="timestamp" data-timestamp="20120920">20/10/2012</td>
-					      <td class="tipo">NORMAL</td>
-					      <td class="status">ATRASO</td>
-					    </tr>
-					    <tr>
-					      <td class="timestamp" data-timestamp="20120930">30/10/2012</td>
-					      <td class="tipo">NORMAL</td>
-					      <td class="status">PRESENTE</td>
-					    </tr>
+						<tr th:each="frequencia : ${estagio.frequencias}">
+							<td class="timestamp" data-timestamp="20120911" th:inline="text" th:attr="data-timestamp=${#dates.format(frequencia.data,'yyyyMMdd')}">[[${#dates.format(frequencia.data,'dd/MM/yyyy')}]]</td>
+						    <td class="tipo" th:text="${frequencia.tipo}"></td>
+						    <td class="status" th:text="${frequencia.status}"></td>
+						</tr>
 					  </tbody>
 					</table> 
 				</div>

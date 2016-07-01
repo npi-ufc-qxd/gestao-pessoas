@@ -361,6 +361,7 @@ public class EstagioServiceImpl implements EstagioService {
 		frequencia.setEstagio(estagio);
 		frequencia.setData(date);
 		frequencia.setTipo(Frequencia.TipoFrequencia.REPOSICAO);
+		frequencia.setStatus(Frequencia.StatusFrequencia.AGUARDO);
 
 		frequenciaRepository.save(frequencia);
 	}

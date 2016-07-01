@@ -352,6 +352,22 @@ public class EstagioServiceImpl implements EstagioService {
 		}
 
 		return totalDeFrequenciasDaTurma;
+	}
+
+	@Override
+	public void agendarReposicao(Estagio estagio, Date date) {
+		Frequencia frequencia = new Frequencia();
+
+		frequencia.setEstagio(estagio);
+		frequencia.setData(date);
+		frequencia.setTipo(Frequencia.TipoFrequencia.REPOSICAO);
+
+		frequenciaRepository.save(frequencia);
+	}
+
+	@Override
+	public Estagio buscarEstagioPorIdEOrientadorOuSupervisor(Long idEstagio, Long idServidor) {
+		return estagiarioRepository.findByIdAndOrientadorOrSupervisor(idEstagio, idServidor);
 	}	
 
 }

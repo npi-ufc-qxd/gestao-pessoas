@@ -121,6 +121,44 @@
 	            <a class="panel-title" data-toggle="collapse" data-target="#reposicao"><i class="fa fa-caret-down" aria-hidden="true"></i> Reposições</a>
 			  </div>
 	          <div id="reposicao" class="panel-body collapse in">
+				<form class="form-inline" role="form" th:action="@{/Turma/Acompanhamento/{idEstagio}/AgendarReposicao(idEstagio=${estagio.id})}" method="post">
+				  <div class="form-group">
+				    <label for="email">Data da Reposição:</label>
+				    <input type="text" class="form-control data-reposicao" id="dataReposicao" name="dataReposicao" size="23"/>
+				  </div>
+				  <button type="submit" class="btn btn-success">agendar</button>
+				</form>
+				
+				<div id="reposicoes">	          
+					<table class="table table-striped table-hover">
+					  <thead>
+					    <tr>
+					      <th class="sort" data-sort="timestamp">Data</th>
+					      <th class="sort" data-sort="status">Status</th>
+					    </tr>
+					  </thead>
+					  <tbody class="list">
+					    <tr>
+	<!-- 				    th:attr="data-timestamp=${#dates.format(anamnese.criadoEm,'yyyyMMdd')}"  -->
+					      <td class="timestamp" data-timestamp="20120911">11/10/2012</td>
+					      <td class="status">PRESENTE</td>
+					    </tr>
+					    <tr>
+					      <td class="timestamp" data-timestamp="20120914">14/10/2012</td>
+					      <td class="status">FALTA</td>
+					    </tr>
+					    <tr>
+					      <td class="timestamp" data-timestamp="20120920">20/10/2012</td>
+					      <td class="status">ATRASO</td>
+					    </tr>
+					    <tr>
+					      <td class="timestamp" data-timestamp="20120930">30/10/2012</td>
+					      <td class="status">PRESENTE</td>
+					    </tr>
+					  </tbody>
+					</table> 
+				</div>
+				
 	          </div>
 	        </div>
 	        <div class="panel panel-bluegray">
@@ -128,38 +166,40 @@
 	            <a class="panel-title" data-toggle="collapse" data-target="#presenca"><i class="fa fa-caret-down" aria-hidden="true"></i> Frequências</a>
 			  </div>
 	          <div id="presenca" class="panel-body collapse in">
-				<table class="table table-striped table-hover ">
-				  <thead>
-				    <tr>
-				      <th>Data</th>
-				      <th>Tipo</th>
-				      <th>Status</th>
-				    </tr>
-				  </thead>
-				  <tbody>
-				    <tr>
-				      <td>10/10/2012</td>
-				      <td>REPOSIÇÃO</td>
-				      <td>PRESENTE</td>
-				    </tr>
-				    <tr>
-				      <td>10/10/2012</td>
-				      <td>NORMAL</td>
-				      <td>FALTA</td>
-				    </tr>
-				    <tr>
-				      <td>10/10/2012</td>
-				      <td>NORMAL</td>
-				      <td>ATRASO</td>
-				    </tr>
-				    <tr>
-				      <td>10/10/2012</td>
-				      <td>NORMAL</td>
-				      <td>PRESENTE</td>
-				    </tr>
-				  </tbody>
-				</table> 
-
+				<div id="frequencias">	          
+					<table class="table table-striped table-hover">
+					  <thead>
+					    <tr>
+					      <th class="sort" data-sort="timestamp">Data</th>
+					      <th class="sort" data-sort="tipo">Tipo</th>
+					      <th class="sort" data-sort="status">Status</th>
+					    </tr>
+					  </thead>
+					  <tbody class="list">
+					    <tr>
+	<!-- 				    th:attr="data-timestamp=${#dates.format(anamnese.criadoEm,'yyyyMMdd')}"  -->
+					      <td class="timestamp" data-timestamp="20120911">11/10/2012</td>
+					      <td class="tipo">REPOSIÇÃO</td>
+					      <td class="status">PRESENTE</td>
+					    </tr>
+					    <tr>
+					      <td class="timestamp" data-timestamp="20120914">14/10/2012</td>
+					      <td class="tipo">NORMAL</td>
+					      <td class="status">FALTA</td>
+					    </tr>
+					    <tr>
+					      <td class="timestamp" data-timestamp="20120920">20/10/2012</td>
+					      <td class="tipo">NORMAL</td>
+					      <td class="status">ATRASO</td>
+					    </tr>
+					    <tr>
+					      <td class="timestamp" data-timestamp="20120930">30/10/2012</td>
+					      <td class="tipo">NORMAL</td>
+					      <td class="status">PRESENTE</td>
+					    </tr>
+					  </tbody>
+					</table> 
+				</div>
 	          </div>
 	        </div>
  	     </div>
@@ -167,4 +207,12 @@
 	  </div>
 </section>
 
+<section layout:fragment="js">
+  <script src="http://listjs.com/no-cdn/list.js"></script>
+  <script type="text/javascript">
+	var options = { valueNames: [{ attr: 'data-timestamp', name: 'timestamp' }, 'status', 'tipo'] };
+	var frequencias = new List('frequencias', options).sort('timestamp', { order: "desc" });
+	var reposicoes = new List('reposicoes', options).sort('timestamp', { order: "desc" });
+  </script>
+</section>
 </html>

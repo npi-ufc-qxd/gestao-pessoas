@@ -399,6 +399,25 @@ public class SupervisorController {
 		return GERENCIAR_FREQUENCIAS;
 	}
 
+	@RequestMapping(value = "/Turma/Acompanhamento/{idEstagio}/AgendarReposicao", method = RequestMethod.POST)
+	public String agendarReposicao(Model model, @PathVariable("idEstagio") Long idEstagio, @RequestParam("dataReposicao") Date dataReposicao, RedirectAttributes attributes) {
+
+		Servidor servidor = pessoaService.buscarServidorPorCpf(getCpfUsuarioLogado());
+
+		Estagio estagio = estagioService.buscarEstagioPorIdEOrientadorOuSupervisor(idEstagio, servidor.getId());
+
+		if(estagio == null) {
+			attributes.addAttribute("error", "Você não permisão para agendar está reposição");
+			return REDIRECT_PAGINA_INICIAL_SUPERVISOR; 
+		}
+		
+		estagioService.agendarReposicao(estagio, dataReposicao);
+
+		attributes.addAttribute("sucesso", "Reposição agendada com sucesso!");
+
+		return "redirect:/Supervisor/Turma/Acompanhamento/" + idEstagio + "/Frequencias";
+	}
+
 	@RequestMapping(value = "/Turma/Acompanhamento/{idEstagio}/AvaliarPlano", method = RequestMethod.GET)
 	public String formularioAvaliarPlanoEstagio(@PathVariable("idEstagio") Long idEstagio, Model model) {
 

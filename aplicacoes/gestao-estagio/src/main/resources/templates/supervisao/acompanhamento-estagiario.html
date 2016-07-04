@@ -13,8 +13,8 @@
   <div class="container-fluid titulo-pagina">
     <div class="container">
         <ul class="breadcrumb">
-            <li><a th:href="@{/Supervisor/}" >Minhas Turmas</a></li>
-            <li><a th:href="@{'/Supervisor/Turma/' + ${estagio.turma.id}}" >Detalhes Turma</a></li>
+            <li><a th:href="@{/Supervisao/}" >Minhas Turmas</a></li>
+            <li><a th:href="@{'/Supervisao/Turma/' + ${estagio.turma.id}}" >Detalhes Turma</a></li>
             <li class="active">Acompanhamento Estagiário</li>
         </ul>
         <h1>Acompanhamento Estagiário</h1>
@@ -101,7 +101,7 @@
 	        <div class="panel panel-bluegray">
 	          <div class="panel-heading">
 	            <a class="panel-title" data-toggle="collapse" data-target="#consolidado"><i class="fa fa-caret-down" aria-hidden="true"></i> Consolidado Frequências</a>
-				<a th:href="@{/Supervisor/Turma/Acompanhamento/{id}/Frequencias(id=${estagio.id})}" class="btn btn-xs pull-right gp-btn-opcao">Gerenciar</a>
+				<a th:href="@{/Supervisao/Acompanhamento/{id}/Frequencias(id=${estagio.id})}" class="btn btn-xs pull-right gp-btn-opcao">Gerenciar</a>
 			  </div>
 	          <div id="consolidado" class="panel-body collapse in">
 	            <a href="#" class="btn btn-default disabled" role="button"><span th:inline="text">[[${consolidadoFrequencia.horasEstagiadas}]]h</span> <br/>Horas Estagiadas</a>
@@ -142,8 +142,8 @@
 				      </tr>				      
 				    </tbody>
 				  </table>
-		        	<a th:if="${submissaoPlano} != null" th:href="@{/Supervisor/Turma/Acompanhamento/{idEstagio}/AvaliarPlano(idEstagio=${estagio.id})}" class="btn btn-success btn-sm pull-right">Editar Avaliação</a>
-		        	<a th:if="${submissaoPlano} == null" th:href="@{/Supervisor/Turma/Acompanhamento/{idEstagio}/AvaliarPlano(idEstagio=${estagio.id})}" class="btn btn-success btn-sm pull-right">Avaliar</a>
+		        	<a th:if="${submissaoPlano} != null" th:href="@{/Supervisao/Acompanhamento/{idEstagio}/AvaliarPlano(idEstagio=${estagio.id})}" class="btn btn-success btn-sm pull-right">Editar Avaliação</a>
+		        	<a th:if="${submissaoPlano} == null" th:href="@{/Supervisao/Acompanhamento/{idEstagio}/AvaliarPlano(idEstagio=${estagio.id})}" class="btn btn-success btn-sm pull-right">Avaliar</a>
 	           </div>
 	        </div>
 
@@ -176,8 +176,8 @@
 				      </tr>				      
 				    </tbody>
 				  </table>
-		        <a th:if="${submissaoRelatorio} != null" th:href="@{/Supervisor/Turma/Acompanhamento/{idEstagio}/AvaliarRelatorio(idEstagio=${estagio.id})}" class="btn btn-success btn-sm pull-right">Editar Avaliação</a>
-		        <a th:if="${submissaoRelatorio} == null" th:href="@{/Supervisor/Turma/Acompanhamento/{idEstagio}/AvaliarRelatorio(idEstagio=${estagio.id})}" class="btn btn-success btn-sm pull-right">Avaliar</a>
+		        <a th:if="${submissaoRelatorio} != null" th:href="@{/Supervisao/Acompanhamento/{idEstagio}/AvaliarRelatorio(idEstagio=${estagio.id})}" class="btn btn-success btn-sm pull-right">Editar Avaliação</a>
+		        <a th:if="${submissaoRelatorio} == null" th:href="@{/Supervisao/Acompanhamento/{idEstagio}/AvaliarRelatorio(idEstagio=${estagio.id})}" class="btn btn-success btn-sm pull-right">Avaliar</a>
 	           </div>
 	        </div>
 	        <div class="panel panel-bluegray">
@@ -263,8 +263,8 @@
 			     </div>
 			  </div>
 				          		
-		        <a th:if="${estagio.avaliacaoRendimento} != null" th:href="@{/Supervisor/Turma/Acompanhamento/{idEstagio}/AvaliacaoRendimento(idEstagio=${estagio.id})}" class="btn btn-success btn-sm pull-right">Editar Avaliação</a>
-		        <a th:if="${estagio.avaliacaoRendimento} == null" th:href="@{/Supervisor/Turma/Acompanhamento/{idEstagio}/AvaliacaoRendimento(idEstagio=${estagio.id})}" class="btn btn-success btn-sm pull-right">Avaliar</a>
+		        <a th:if="${estagio.avaliacaoRendimento} != null" th:href="@{/Supervisao/Acompanhamento/{idEstagio}/AvaliacaoRendimento(idEstagio=${estagio.id})}" class="btn btn-success btn-sm pull-right">Editar Avaliação</a>
+		        <a th:if="${estagio.avaliacaoRendimento} == null" th:href="@{/Supervisao/Acompanhamento/{idEstagio}/AvaliacaoRendimento(idEstagio=${estagio.id})}" class="btn btn-success btn-sm pull-right">Avaliar</a>
 	           </div>
 	           </div>
 	             </div>

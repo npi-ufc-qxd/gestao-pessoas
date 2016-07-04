@@ -14,8 +14,8 @@
   <div class="container-fluid titulo-pagina">
     <div class="container">
         <ul class="breadcrumb">
-            <li><a th:href="@{/Supervisor}">Minhas Turmas</a></li>
-            <li><a th:href="@{'/Supervisor/Turma/' + ${turma.id}}" >Detalhes Turma</a></li>
+            <li><a th:href="@{/Supervisao}">Minhas Turmas</a></li>
+            <li><a th:href="@{'/Supervisao/Turma/' + ${turma.id}}" >Detalhes Turma</a></li>
             <li class="active">Atualizar Vínculos</li>
         </ul>
         <h1>Atualizar Vínculos</h1>
@@ -80,7 +80,7 @@
 						    <input type="text" id="campoBuscaEstagiario" class="form-control" placeholder="Nome do Estagiário" size="100"/>
 						    <input type="hidden" id="idTurma" th:value="${turma.id}"/>
 						    <span class="input-group-btn">
-						      <button class="btn btn-default" type="button" th:href="@{/Supervisor/Turma/Acompanhamento/buscarEstagiarioSemVinculo}" id="buscarEstagiariosSemVinculo">Buscar</button>
+						      <button class="btn btn-default" type="button" th:href="@{/Supervisao/Acompanhamento/buscarEstagiarioSemVinculo}" id="buscarEstagiariosSemVinculo">Buscar</button>
 						    </span>
 						  </div>
 						</div>
@@ -92,7 +92,7 @@
      	 					 <ul class="list-group" id="ulEstagiarioSemVinculo">
        						 <li th:each="estagiario :${estagiarios}" class="list-group-item gp-list-group-item">
        								<b th:text="${estagiario.nomeCompleto}"></b>
-       								<a class="btn btn-primary btn-sm pull-right gp-btn-acompanhamento" th:href="@{/Supervisor/Turma/Acompanhamento/{idEstagiario}/Vincular/{idTurma}(idEstagiario=${estagiario.id}, idTurma=${turma.id})}">Vincular</a>
+       								<a class="btn btn-primary btn-sm pull-right gp-btn-acompanhamento" th:href="@{/Supervisao/Acompanhamento/{idEstagiario}/Vincular/{idTurma}(idEstagiario=${estagiario.id}, idTurma=${turma.id})}">Vincular</a>
        							</li>
   							  </ul>
         
@@ -112,7 +112,7 @@
 		          <ul class="list-group">
 		            <li th:each="est :${turma.estagios}" class="list-group-item gp-list-group-item">
 		              <b th:inline="text"> [[${est.estagiario.nomeCompleto}]] </b>
-		              <a th:if="${#strings.equals(est.turma.status, 'ABERTA')}" th:href="@{/Supervisor/Turma/Acompanhamento/{id}/Desvincular(id=${est.id})}" class="btn btn-success btn-sm pull-right gp-btn-acompanhamento gp-btn-desvincular">desvincular</a>
+		              <a th:if="${#strings.equals(est.turma.status, 'ABERTA')}" th:href="@{/Supervisao/Acompanhamento/{id}/Desvincular(id=${est.id})}" class="btn btn-success btn-sm pull-right gp-btn-acompanhamento gp-btn-desvincular">desvincular</a>
 		            </li>
 		          </ul>
 	           </div>

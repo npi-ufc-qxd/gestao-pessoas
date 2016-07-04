@@ -37,7 +37,7 @@
 	          <ul class="list-group">
 	            <li th:if="${#strings.equals(turma.tipoTurma, 'NPI')}" th:each="turma : ${turmas}" class="list-group-item gp-list-group-item">
 	              	<b th:inline="text">[[${turma.nome}]] <span class="label label-primary"> [[${turma.status.descricao}]]</span></b>
-	              	<a th:href="@{'/Supervisor/Turma/' + ${turma.id}}" class="btn btn-info btn-sm pull-right gp-btn-acompanhamento">Detalhes</a>
+	              	<a th:href="@{'/Supervisao/Turma/' + ${turma.id}}" class="btn btn-info btn-sm pull-right gp-btn-acompanhamento">Detalhes</a>
 	            </li>
 	          </ul>
            </div>
@@ -51,7 +51,7 @@
 	          <ul class="list-group">
 	            <li th:if="${#strings.equals(turma.tipoTurma, 'EMPRESA')}" th:each="turma : ${turmas}" class="list-group-item gp-list-group-item">
 	              	<b th:inline="text">[[${turma.nome}]] <span class="label label-primary"> [[${turma.status.descricao}]]</span></b>
-	              	<a th:href="@{'/Supervisor/Turma/' + ${turma.id}}" class="btn btn-info btn-sm pull-right gp-btn-acompanhamento">Detalhes</a>
+	              	<a th:href="@{'/Supervisao/Turma/' + ${turma.id}}" class="btn btn-info btn-sm pull-right gp-btn-acompanhamento">Detalhes</a>
 	            </li>
 	          </ul>
            </div>

@@ -74,7 +74,7 @@ import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 
 @Component
 @Controller
-@RequestMapping("Supervisor")
+@RequestMapping("Supervisao")
 public class SupervisorController {
 
 	@Autowired
@@ -197,7 +197,7 @@ public class SupervisorController {
 		return estagioService.buscarEstagiariosSemVinculoComTurma(idTurma);
 	}
 
-	@RequestMapping(value = "/Turma/Acompanhamento/buscarEstagiarioSemVinculo/{nomeEstagiario}/{idTurma}", method = RequestMethod.GET)
+	@RequestMapping(value = "/Acompanhamento/buscarEstagiarioSemVinculo/{nomeEstagiario}/{idTurma}", method = RequestMethod.GET)
 	public String buscarEstagiariosSemVinculoTurmaPorNome(Model model,
 			@PathVariable("nomeEstagiario") String nomeEstagiario, @PathVariable("idTurma") Long idTurma) {
 		if (nomeEstagiario == null || idTurma == null) {
@@ -209,13 +209,13 @@ public class SupervisorController {
 					estagioService.buscarEstagiariosSemVinculoComTurmaPorNomeEstagiario(idTurma, nomeEstagiario));
 		}
 
-		return "supervisor/vinculos-turma :: resultList";
+		return "supervisao/vinculos-turma :: resultList";
 	}
 
-	@RequestMapping(value = "/Turma/Acompanhamento/buscarEstagiarioSemVinculo", method = RequestMethod.GET)
+	@RequestMapping(value = "/Acompanhamento/buscarEstagiarioSemVinculo", method = RequestMethod.GET)
 	public String buscarEstagiariosSemVinculoTurma(Model model) {
 		model.addAttribute("estagiarios", null);
-		return "supervisor/vinculos-turma :: resultList";
+		return "supervisao/vinculos-turma :: resultList";
 	}
 
 	@RequestMapping(value = "/Turma/{idTurma}/TermosCompromisso", method = RequestMethod.GET)
@@ -354,7 +354,7 @@ public class SupervisorController {
 		return MAPA_FREQUENCIAS + " :: frequencias";
 	}
 
-	@RequestMapping(value = "/Turma/Acompanhamento/{idEstagio}", method = RequestMethod.GET)
+	@RequestMapping(value = "/Acompanhamento/{idEstagio}", method = RequestMethod.GET)
 	public String detalhesAcompanhamentoEstagiario(Model model, @PathVariable("idEstagio") Long idEstagio,
 			RedirectAttributes redirect) {
 
@@ -374,7 +374,7 @@ public class SupervisorController {
 
 	}
 
-	@RequestMapping( value = "/Turma/Acompanhamento/{idEstagio}/Desvincular", method = RequestMethod.GET)
+	@RequestMapping( value = "/Acompanhamento/{idEstagio}/Desvincular", method = RequestMethod.GET)
 	public @ResponseBody boolean desvincularEstagiario(Model model, @PathVariable("idEstagio") Long idEstagio, RedirectAttributes redirect) {
 		
 		try {
@@ -392,23 +392,23 @@ public class SupervisorController {
 
 	}
 
-	@RequestMapping(value = "/Turma/Acompanhamento/{idEstagiario}/Vincular/{idTurma}", method = RequestMethod.GET)
+	@RequestMapping(value = "/Acompanhamento/{idEstagiario}/Vincular/{idTurma}", method = RequestMethod.GET)
 	public String vincularEstagiario(@PathVariable("idEstagiario") Long idEstagiario,
 			@PathVariable("idTurma") Long idTurma, Model model, RedirectAttributes redirect) {
 
 		if (idEstagiario == null && idTurma == null) {
 			redirect.addFlashAttribute("error", "Não foi possivel realizar o vinculo!");
-			return "redirect:/Supervisor/Turma/" + turmaService.buscarTurmaPorId(idTurma).getId() + "/AtualizarVinculos";
+			return "redirect:/Supervisao/Turma/" + turmaService.buscarTurmaPorId(idTurma).getId() + "/AtualizarVinculos";
 		}
 
 		estagioService.vincularEstagiario(idTurma, idEstagiario);
 		Estagiario estagiario = pessoaService.buscarEstagiarioPorId(idEstagiario);
 
 		redirect.addFlashAttribute("sucesso", "O estagiário, " + estagiario.getNomeCompleto() + ", vinculado com sucesso!");
-		return "redirect:/Supervisor/Turma/" + turmaService.buscarTurmaPorId(idTurma).getId() + "/AtualizarVinculos";
+		return "redirect:/Supervisao/Turma/" + turmaService.buscarTurmaPorId(idTurma).getId() + "/AtualizarVinculos";
 	}
 
-	@RequestMapping(value = "/Turma/Acompanhamento/{idEstagio}/Frequencias", method = RequestMethod.GET)
+	@RequestMapping(value = "/Acompanhamento/{idEstagio}/Frequencias", method = RequestMethod.GET)
 	public String formularioFrequencias(Model model, @PathVariable("idEstagio") Long idEstagio) {
 		Estagio estagio = estagioService.buscarEstagioPorId(idEstagio);
 		model.addAttribute("estagio", estagio);
@@ -417,7 +417,7 @@ public class SupervisorController {
 		return GERENCIAR_FREQUENCIAS;
 	}
 
-	@RequestMapping(value = "/Turma/Acompanhamento/{idEstagio}/AgendarReposicao", method = RequestMethod.POST)
+	@RequestMapping(value = "/Acompanhamento/{idEstagio}/AgendarReposicao", method = RequestMethod.POST)
 	public String agendarReposicao(Model model, @PathVariable("idEstagio") Long idEstagio, @RequestParam("dataReposicao") Date dataReposicao, RedirectAttributes attributes) {
 
 		Servidor servidor = pessoaService.buscarServidorPorCpf(getCpfUsuarioLogado());
@@ -432,10 +432,10 @@ public class SupervisorController {
 		estagioService.agendarReposicao(estagio, dataReposicao);
 
 		attributes.addFlashAttribute("sucesso", "Reposição agendada com sucesso!");
-		return "redirect:/Supervisor/Turma/Acompanhamento/" + idEstagio + "/Frequencias";
+		return "redirect:/Supervisao/Acompanhamento/" + idEstagio + "/Frequencias";
 	}
 
-	@RequestMapping(value = "/Turma/Acompanhamento/{idEstagio}/AvaliarPlano", method = RequestMethod.GET)
+	@RequestMapping(value = "/Acompanhamento/{idEstagio}/AvaliarPlano", method = RequestMethod.GET)
 	public String formularioAvaliarPlanoEstagio(@PathVariable("idEstagio") Long idEstagio, Model model) {
 
 		Submissao submissaoPlano = estagioService.buscarSubmissaoPorTipoSubmissaoEEstagioId(TipoSubmissao.PLANO_ESTAGIO,
@@ -447,7 +447,7 @@ public class SupervisorController {
 		return FORMULARIO_AVALIAR_PLANO;
 	}
 
-	@RequestMapping(value = "/Turma/Acompanhamento/{idEstagio}/AvaliarPlano", method = RequestMethod.POST)
+	@RequestMapping(value = "/Acompanhamento/{idEstagio}/AvaliarPlano", method = RequestMethod.POST)
 	public String avaliarPlanoEstagio(RedirectAttributes redirect, @PathVariable("idEstagio") Long idEstagio,
 			@RequestParam("nota") Double nota, @RequestParam("status") Submissao.StatusEntrega status,
 			@RequestParam("comentario") String comentario) {
@@ -465,7 +465,7 @@ public class SupervisorController {
 		return REDIRECT_ACOMPANHAMENTO_ESTAGIARIO + idEstagio;
 	}
 
-	@RequestMapping(value = "/Turma/Acompanhamento/{idEstagio}/AvaliarRelatorio", method = RequestMethod.GET)
+	@RequestMapping(value = "/Acompanhamento/{idEstagio}/AvaliarRelatorio", method = RequestMethod.GET)
 	public String avaliarRelatorio(RedirectAttributes redirect, @PathVariable("idEstagio") Long idEstagio,
 			Model model) {
 
@@ -478,7 +478,7 @@ public class SupervisorController {
 		return AVALIAR_RELATORIO;
 	}
 
-	@RequestMapping(value = "/Turma/Acompanhamento/{idEstagio}/AvaliarRelatorio", method = RequestMethod.POST)
+	@RequestMapping(value = "/Acompanhamento/{idEstagio}/AvaliarRelatorio", method = RequestMethod.POST)
 	public String avaliarRelatorioFinalEstagio(RedirectAttributes redirect, @PathVariable("idEstagio") Long idEstagio,
 			@RequestParam("nota") Double nota, @RequestParam("status") StatusEntrega status,
 			@RequestParam("comentario") String comentario) {
@@ -500,7 +500,7 @@ public class SupervisorController {
 		return Arrays.asList(Submissao.StatusEntrega.values());
 	}
 
-	@RequestMapping(value = "/Turma/Acompanhamento/{idEstagio}/DownloadRelatorio", method = RequestMethod.GET)
+	@RequestMapping(value = "/Acompanhamento/{idEstagio}/DownloadRelatorio", method = RequestMethod.GET)
 	@ResponseBody
 	public HttpEntity<byte[]> downloadRelatorio(@PathVariable("idEstagio") Long idEstagio,
 			RedirectAttributes redirectAttributes) {
@@ -524,7 +524,7 @@ public class SupervisorController {
 		return new HttpEntity<byte[]>(relatorio, headers);
 	}
 
-	@RequestMapping(value = "/Turma/Acompanhamento/{idEstagio}/DownloadPlano", method = RequestMethod.GET)
+	@RequestMapping(value = "/Acompanhamento/{idEstagio}/DownloadPlano", method = RequestMethod.GET)
 	@ResponseBody
 	public HttpEntity<byte[]> downloadPlano(@PathVariable("idEstagio") Long idEstagio,
 			RedirectAttributes redirectAttributes) {
@@ -550,7 +550,7 @@ public class SupervisorController {
 
 	// AVALIAÇÃO DE RENDIMENTO
 
-	@RequestMapping(value = "/Turma/Acompanhamento/{idEstagio}/AvaliacaoRendimento", method = RequestMethod.GET)
+	@RequestMapping(value = "/Acompanhamento/{idEstagio}/AvaliacaoRendimento", method = RequestMethod.GET)
 	public String formularioAdicionarAvaliacaoRendimento(Model model, @PathVariable("idEstagio") Long idEstagio) {
 
 		Estagio estagio = estagioService.buscarEstagioPorId(idEstagio);
@@ -615,7 +615,7 @@ public class SupervisorController {
 		return Arrays.asList(AvaliacaoRendimento.CuidadoMateriaisEEquipamentos.values());
 	}
 
-	@RequestMapping(value = "/Turma/Acompanhamento/{idEstagio}/AvaliacaoRendimento", method = RequestMethod.POST)
+	@RequestMapping(value = "/Acompanhamento/{idEstagio}/AvaliacaoRendimento", method = RequestMethod.POST)
 	public String adicionarAvaliacaoRendimento(Model model,
 			@RequestParam(value = "arquivo", required = false) MultipartFile arquivo,
 			@Valid @ModelAttribute("avaliacaoRendimento") AvaliacaoRendimento avaliacaoRendimento,
@@ -629,12 +629,12 @@ public class SupervisorController {
 		return REDIRECT_ACOMPANHAMENTO_ESTAGIARIO + idEstagio;
 	}
 
-	@RequestMapping(value = "/Turma/Acompanhamento/{idEstagio}/AvaliacaoRendimento/{idAvaliacaoRendimento}/Editar", method = RequestMethod.GET)
+	@RequestMapping(value = "/Acompanhamento/{idEstagio}/AvaliacaoRendimento/{idAvaliacaoRendimento}/Editar", method = RequestMethod.GET)
 	public String formularioEditarAvaliacaoRendimento(Model model, @PathVariable("idEstagio") Long idEstagio) {
 		return FORMULARIO_EDITAR_AVALIACAO_RENDIMENTO;
 	}
 
-	@RequestMapping(value = "/Turma/Acompanhamento/{idEstagio}/AvaliacaoRendimento/{idAvaliacaoRendimento}/Editar", method = RequestMethod.POST)
+	@RequestMapping(value = "/Acompanhamento/{idEstagio}/AvaliacaoRendimento/{idAvaliacaoRendimento}/Editar", method = RequestMethod.POST)
 	public String editarAvaliacaoRendimento(Model model,
 			@Valid @ModelAttribute("avaliacaoRendimento") AvaliacaoRendimento avaliacaoRendimento,
 			RedirectAttributes redirect, @PathVariable("idEstagio") Long idEstagio) {
@@ -643,7 +643,7 @@ public class SupervisorController {
 		return REDIRECT_ACOMPANHAMENTO_ESTAGIARIO + idEstagio;
 	}
 
-	@RequestMapping(value = "/Turma/Acompanhamento/{idEstagio}/Frequencia", method = RequestMethod.GET)
+	@RequestMapping(value = "/Acompanhamento/{idEstagio}/Frequencia", method = RequestMethod.GET)
 	public String detalhesFrequenciaEstagiario(Model model, @PathVariable("idEstagio") Long idEstagio) {
 		return DETALHES_FREQUENCIA_ESTAGIARIO;
 	}

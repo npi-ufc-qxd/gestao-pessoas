@@ -13,9 +13,9 @@
 	<div class="container-fluid titulo-pagina">
     	<div class="container">
 	        <ul class="breadcrumb">
-	            <li><a th:href="@{/Supervisor}">Minhas Turmas</a></li>
-	            <li><a th:href="@{'/Supervisor/Turma/' + ${estagio.turma.id}}">Detalhes Turma</a></li>
-	            <li><a th:href="@{'/Supervisor/Turma/Acompanhamento/' + ${estagio.estagiario.id}}">Acompanhamento Estagiário</a></li>
+	            <li><a th:href="@{/Supervisao}">Minhas Turmas</a></li>
+	            <li><a th:href="@{'/Supervisao/Turma/' + ${estagio.turma.id}}">Detalhes Turma</a></li>
+	            <li><a th:href="@{'/Supervisao/Acompanhamento/' + ${estagio.estagiario.id}}">Acompanhamento Estagiário</a></li>
 	            <li class="active">Avaliação do Plano</li>
 	        </ul>
         	<h1>Avaliação do Plano</h1>
@@ -109,7 +109,7 @@
 					          	</div>
 				        	</div>
 			            </form>
-				        <form id="form-avaliar" class="form-horizontal" th:action="@{/Supervisor/Turma/Acompanhamento/1/AvaliarPlano}" method="post">				     
+				        <form id="form-avaliar" class="form-horizontal" th:action="@{/Supervisao/Acompanhamento/1/AvaliarPlano}" method="post">				     
 							<div class="form-group">
 		     					<label for="status" class="col-lg-2 control-label"><strong>Status</strong></label>
 		     					<div class="col-lg-10">
@@ -138,7 +138,7 @@
 
 							<div class="form-group">
 						    	<div class="col-lg-10 col-lg-offset-2">
-						        	<a class="btn btn-default" th:href="@{/Supervisor/Turma/Acompanhamento/{idEstagio}(idEstagio=${estagio.id})}">Cancelar</a>
+						        	<a class="btn btn-default" th:href="@{/Supervisao/Acompanhamento/{idEstagio}(idEstagio=${estagio.id})}">Cancelar</a>
 						        	<button type="submit" class="btn btn-success">Salvar</button>
 						     	</div>
 					 	    </div>

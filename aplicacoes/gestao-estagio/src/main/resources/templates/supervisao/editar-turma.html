@@ -52,8 +52,8 @@
   <div class="container-fluid titulo-pagina">
     <div class="container">
         <ul class="breadcrumb">
-            <li><a th:href="@{/Supervisor/}" >Minhas Turmas</a></li>
-            <li><a th:href="@{'/Supervisor/Turma/' + ${turma.id}}" >Detalhes Turma</a></li>
+            <li><a th:href="@{/Supervisao/}" >Minhas Turmas</a></li>
+            <li><a th:href="@{'/Supervisao/Turma/' + ${turma.id}}" >Detalhes Turma</a></li>
             <li class="active">Editar Turma</li>
         </ul>
         <h1>Editar Turma</h1>
@@ -67,7 +67,7 @@
 		        <div class="panel panel-bluegray">
 		          <div class="panel-body">
 			 		<input name="id" id="id" type="hidden" th:filed="${turma.id}" class="form-control"/>
-						<form class="form-horizontal col-md-10" id="form-turma" th:action="@{/Supervisor/Turma/{idTurma}/Editar(idTurma=${turma.id})}" th:object="${turma}" method="post" >
+						<form class="form-horizontal col-md-10" id="form-turma" th:action="@{/Supervisao/Turma/{idTurma}/Editar(idTurma=${turma.id})}" th:object="${turma}" method="post" >
 						   <div class="form-group">
 						      <label for="nome" class="col-md-2 control-label">Nome</label>
 						      <div class="col-md-10">
@@ -142,7 +142,7 @@
 
 							<div class="form-group">
 						      <div class="col-lg-10 col-lg-offset-2">
-						        <a class="btn btn-default" th:href="@{/Supervisor/Turma/{idTurma}(idTurma=${turma.id})}">Cancelar</a>
+						        <a class="btn btn-default" th:href="@{/Supervisao/Turma/{idTurma}(idTurma=${turma.id})}">Cancelar</a>
 						        <button onclick="validaData()" type="submit" class="btn btn-success">Salvar alterações</button>
 						      </div>
 						    </div>

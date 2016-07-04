@@ -64,7 +64,7 @@
 		        <div class="panel panel-bluegray">
 		          <div class="panel-body">
 			 		<input name="id" id="id" type="hidden" th:filed="${turma.id}" class="form-control"/>
-						<form class="form-horizontal col-md-10" id="form-turma" th:action="@{/Supervisor/Turma/Adicionar}" th:object="${turma}" method="post" >
+						<form class="form-horizontal col-md-10" id="form-turma" th:action="@{/Supervisao/Turma/Adicionar}" th:object="${turma}" method="post" >
 						   <div class="form-group">
 						      <label for="nome" class="col-md-2 control-label">Nome</label>
 						      <div class="col-md-10">
@@ -139,7 +139,7 @@
 
 							<div class="form-group">
 						      <div class="col-lg-10 col-lg-offset-2">
-						        <a type="reset" class="btn btn-default" th:href="@{/Supervisor/}">Cancelar</a>
+						        <a type="reset" class="btn btn-default" th:href="@{/Supervisao/}">Cancelar</a>
 						        <button onclick="validaData()" type="submit" class="btn btn-success">Salvar</button>
 						      </div>
 						    </div>

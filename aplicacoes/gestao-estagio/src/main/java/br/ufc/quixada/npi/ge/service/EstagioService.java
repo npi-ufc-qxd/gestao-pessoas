@@ -33,6 +33,10 @@ public interface EstagioService {
 	List<Estagiario> buscarEstagiariosSemVinculoComTurma(Long idTurma);
 	
 	List<Estagiario> buscarEstagiariosSemVinculoComTurmaPorNomeEstagiario(Long idTurma, String nomeEstagiario);
+
+	Estagio buscarEstagioPorIdEstagio(Long idEstagio);
+
+	Estagio buscarEstagioPorIdEOrientadorOuSupervisor(Long idEstagio, Long idServidor);
 	
 	void submeter(Submissao submissao);
 
@@ -76,6 +80,8 @@ public interface EstagioService {
 
 	Frequencia buscarFrequenciaDeHojePorEstagio(Estagio estagio);
 
-	Estagio buscarEstagioPorIdEstagio(Long idEstagio);
+	ConsolidadoFrequencia consolidarFrequencias(Estagio estagio);
+	
+	void agendarReposicao(Estagio estagio, Date date);
 
 }

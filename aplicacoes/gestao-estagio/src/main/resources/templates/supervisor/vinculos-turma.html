@@ -63,6 +63,10 @@
 
 
 	    <div class="col-md-8">
+	    	<div class="alert alert-dismissible alert-success" th:if="${! #strings.isEmpty(sucesso)}">
+  				<button type="button" class="close" data-dismiss="alert">&times;</button>
+  				<strong th:text="${sucesso}"></strong>
+  			</div>	    
 	        <div class="panel panel-bluegray">
 	          <div class="panel-heading">
 	            <a class="panel-title"><i class="fa fa-caret-down" aria-hidden="true"></i> Vincular novos estagiários</a>

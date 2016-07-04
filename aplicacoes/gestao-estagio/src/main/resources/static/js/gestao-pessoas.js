@@ -18,35 +18,6 @@ function toggleChevron(e) {
 $('.panel-body').on('hidden.bs.collapse', toggleChevron);
 $('.panel-body').on('shown.bs.collapse', toggleChevron);
 
-$(".gp-btn-presenca").on("click", function(event) {
-	event.preventDefault();
-	
-	var botaoPresenca = $(event.currentTarget); 
-	var urlPresenca = botaoPresenca.attr("href");
-	
-	var response = $.ajax({
-	    url: urlPresenca,
-	    type: 'GET'
-	});
-	
-
-    response.done(function(resultadoPresenca) {
-    	if(resultadoPresenca) {
-    		swal("Bom trabalho!", "Presença realizada!", "success");
-    	}
-    	else {
-        	swal("Opss!", "Presença não permitida, fale com o supervisor(a).", "error");
-    	}
-
-    	botaoPresenca.hide();
-    });
-    
-    response.fail(function(e) {
-    	swal("Opss!", "Presença não permitida, fale com o supervisor(a).", "error");
-    });
-
-});
-
 $(".data").datepicker({
 	language: 'pt-BR',
 	autoclose: true,
@@ -243,8 +214,13 @@ $(".gp-btn-evento").on("click", function(event) {
 
 $(document).ready(function(){
 	
-	$("#buscarEstagiariosSemVinculo").on("click", function(){
-	    var url = '/gestao-pessoas/Supervisor/Turma/Acompanhamento/buscarEstagiarioSemVinculo';
+	$("#buscarEstagiariosSemVinculo").on("click", function(event){
+		
+		event.preventDefault();
+		
+		var botaoBuscar = $(event.currentTarget); 
+		
+	    var url =  botaoBuscar.attr("href");;
 	   
 	    if ($('#campoBuscaEstagiario').val() != '' && $('#idTurma').val() != '') {
 	    	 var nomeEstagiario = $('#campoBuscaEstagiario').val();
@@ -336,6 +312,13 @@ $(document).ready(function(){
 	    language: 'pt-BR',
 	    autoclose: true,
 	    format: "dd/mm/yyyy",
+	    orientation: "top auto",
+	});
+
+	$(".data-reposicao").datepicker({
+	    language: 'pt-BR',
+	    autoclose: true,
+	    format: "mm/dd/yyyy",
 	    orientation: "top auto",
 	});
 });	  

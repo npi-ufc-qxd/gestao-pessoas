@@ -67,7 +67,7 @@ public class TurmaServiceImpl implements TurmaService {
 	
 	@Override
 	public List<Turma> buscarTurmasEncerradasEAbertasSupervisouOuOrientador(Long idServidor) {
-		return turmaRepository.findByServidor_IdAndStatusAndTermino(idServidor);
+		return turmaRepository.findByServidorIdAndStatusAndTermino(idServidor);
 	}
 
 	@Override

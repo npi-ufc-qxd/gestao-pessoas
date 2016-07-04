@@ -124,16 +124,22 @@ public class SupervisorController {
 
 	@RequestMapping(value = "/Turma/Adicionar", method = RequestMethod.POST)
 	public String adicionarTurma(Model model, @Valid @ModelAttribute("turma") Turma turma,
-			@RequestParam("orientadorId") Long orientadorId, @RequestParam("supervisoresId") List<Long> supervisoresId,
+			@RequestParam(value = "orientadorId", required = false) Long orientadorId, @RequestParam(value = "supervisoresId", required = false) List<Long> supervisoresId,
 			RedirectAttributes redirect) {
 
-		Servidor orientador = pessoaService.buscarServidorPorId(orientadorId);
-
-		List<Servidor> supervisores = new ArrayList<Servidor>();
-		for (long supervisor : supervisoresId) {
-			supervisores.add(pessoaService.buscarServidorPorId(supervisor));
+		Servidor orientador = null;
+		if(orientadorId != null){
+			orientador = pessoaService.buscarServidorPorId(orientadorId);
 		}
 
+		List<Servidor> supervisores = null;
+		if(supervisoresId != null){
+			supervisores = new ArrayList<Servidor>();
+			for (long supervisor : supervisoresId) {
+				supervisores.add(pessoaService.buscarServidorPorId(supervisor));
+			}
+		}
+		
 		turma.setOrientador(orientador);
 		turma.setSupervisores(supervisores);
 
@@ -200,6 +206,11 @@ public class SupervisorController {
 	public String visualizarDetalhesTurma(@PathVariable("idTurma") Long idTurma, RedirectAttributes redirect, Model model, HttpSession session) {
 		Turma turma = turmaService.buscarTurmaPorServidorId(idTurma, pessoaService.buscarServidorPorCpf(getCpfUsuarioLogado()).getId());
 		Date data = new Date();
+		
+		if(turma == null){
+			redirect.addFlashAttribute("error", "Você não tem acesso");
+			return REDIRECT_PAGINA_INICIAL_SUPERVISOR;
+		}
 		
 		if(data.after(turma.getTermino())){
 			model.addAttribute("turmaEncerrada", true);

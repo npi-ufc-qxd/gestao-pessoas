@@ -102,6 +102,12 @@ public class SupervisorController {
 		}
 
 		List<Turma> turmas = turmaService.buscarTurmasSupervisorOuOrientador(servidor.getId());
+		List<Turma> turmasEncerradas = turmaService.buscarTurmasEncerradasEAbertasSupervisouOuOrientador(servidor.getId());
+		
+		if(turmasEncerradas != null){
+			model.addAttribute("turmasEncerradas", turmasEncerradas);
+		}
+		
 		model.addAttribute("turmas", turmas);
 
 		return PAGINA_INICIAL_SUPERVISOR;
@@ -166,27 +172,50 @@ public class SupervisorController {
 	}
 
 	@RequestMapping(value = "/Turma/{idTurma}/Editar", method = RequestMethod.POST)
-	public String editarTurma(Model model, @PathVariable("idTurma") Long idTurma,
-			@Valid @ModelAttribute("turma") Turma turma, BindingResult result, RedirectAttributes redirect) {
+	public String editarTurma(Model model, @PathVariable("idTurma") Long idTurma, @Valid @ModelAttribute("turma") Turma turmaNew, BindingResult result, RedirectAttributes redirect) {
 
 		if (result.hasErrors()) {
 			return FORMULARIO_EDITAR_TURMA;
 		}
+		
+		Servidor servidor = pessoaService.buscarServidorPorCpf(getCpfUsuarioLogado());
+
+		Turma turma = turmaService.buscarTurmaPorServidorId(idTurma, servidor.getId());
+
+		List<Servidor> supervisores = new ArrayList<Servidor>();
+		if(turmaNew.getSupervisores() != null) {
+			supervisores = validarSupervisores(turmaNew.getSupervisores());
+		}
+		
+		turma.setNome(turmaNew.getNome());
+		turma.setTipoTurma(turmaNew.getTipoTurma());
+		turma.setStatus(turmaNew.getStatus());
+		turma.setSemestre(turmaNew.getSemestre());
+		turma.setOrientador(turmaNew.getOrientador());
+		turma.setSupervisores(supervisores);
+		turma.setInicio(turmaNew.getInicio());
+		turma.setTermino(turmaNew.getTermino());
+
+		turmaService.editarTurma(turma);
 
 		redirect.addFlashAttribute("sucesso", "Alterações salvas com sucesso.");
 		return REDIRECT_DETALHES_TURMA + idTurma;
 	}
 
 	@RequestMapping(value = "/Turma/{idTurma}", method = RequestMethod.GET)
-	public String visualizarDetalhesTurma(@PathVariable("idTurma") Long idTurma, RedirectAttributes redirect,
-			Model model, HttpSession session) {
-
-		Turma turma = turmaService.buscarTurmaPorServidorId(idTurma,
-				pessoaService.buscarServidorPorCpf(getCpfUsuarioLogado()).getId());
+	public String visualizarDetalhesTurma(@PathVariable("idTurma") Long idTurma, RedirectAttributes redirect, Model model, HttpSession session) {
+		Turma turma = turmaService.buscarTurmaPorServidorId(idTurma, pessoaService.buscarServidorPorCpf(getCpfUsuarioLogado()).getId());
+		Date data = new Date();
+		
 		if(turma == null){
 			redirect.addFlashAttribute("error", "Você não tem acesso");
 			return REDIRECT_PAGINA_INICIAL_SUPERVISOR;
 		}
+		
+		if(data.after(turma.getTermino())){
+			model.addAttribute("turmaEncerrada", true);
+		}
+
 		model.addAttribute("turma", turma);
 
 		return DETALHES_TURMA;
@@ -648,7 +677,6 @@ public class SupervisorController {
 			@Valid @ModelAttribute("avaliacaoRendimento") AvaliacaoRendimento avaliacaoRendimento,
 			RedirectAttributes redirect, @PathVariable("idEstagio") Long idEstagio) {
 
-		redirect.addFlashAttribute("sucesso", "As alterações da avaliação rendimento foram salvas com sucesso!");
 		return REDIRECT_ACOMPANHAMENTO_ESTAGIARIO + idEstagio;
 	}
 
@@ -713,4 +741,14 @@ public class SupervisorController {
 		return null;
 	}
 
+	private  List<Servidor> validarSupervisores(List<Servidor> supervisores) {
+		List<Servidor> supervisoresValidos = new ArrayList<Servidor>(); 
+		for(Servidor supervisor : supervisores) {
+			if(supervisor != null && supervisor.getId() != null) {
+				supervisoresValidos.add(pessoaService.buscarServidorPorId(supervisor.getId()));
+			}
+		}
+		return supervisoresValidos;
+	}
+	
 }

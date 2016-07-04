@@ -14,9 +14,9 @@
   <div class="container-fluid titulo-pagina">
     <div class="container">
         <ul class="breadcrumb">
-            <li><a href="#">Minhas Turmas</a></li>
-            <li><a href="#">Detalhes Turma</a></li>
-            <li><a href="#">Mapa Frequência</a></li>
+            <li><a th:href="@{/Supervisao}">Minhas Turmas</a></li>
+            <li><a th:href="@{'/Supervisao/Turma/' + ${turma.id}}">Detalhes Turma</a></li>
+            <li><a class="active">Mapa Frequência</a></li>
         </ul>
         <h1>Mapa de Frequências</h1>
     </div>
@@ -37,7 +37,7 @@
 	    
 	    <div class="col-md-9">
 	    	<div class="panel panel-bluegray">
-	    		<a id="urlMapaFrequencia" class="hidden" th:href="@{/Supervisor/Turma/{idTurma}/MapaFrequencia(idTurma=${turma.id})}"></a>
+	    		<a id="urlMapaFrequencia" class="hidden" th:href="@{/Supervisao/Turma/{idTurma}/MapaFrequencia(idTurma=${turma.id})}"></a>
 	    		<div class="panel-heading">
 	    			<a class="panel-title" data-toggle="collapse" data-target="#tabelaFrequencias"><i class="fa fa-caret-down" aria-hidden="true"></i> Estagiários</a>
 	    		</div>

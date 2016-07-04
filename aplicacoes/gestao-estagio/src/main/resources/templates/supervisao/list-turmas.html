@@ -21,15 +21,9 @@
 
 	<div class="container animated fadeInRight"> 
 
-	<div class="alert alert-dismissible alert-warning" th:if="${!#strings.isEmpty(error)}">
-	  <button type="button" class="close" data-dismiss="alert">&times;</button>
-	  <p th:text="${error}"></p>
-	</div>
-
-
-<div class="alert alert-dismissible alert-info" th:if="${turmasEncerradas} != null" th:each="turma : ${turmasEncerradas}">
+<div class="alert alert-dismissible alert-warning" th:if="${!#strings.isEmpty(error)}">
   <button type="button" class="close" data-dismiss="alert">&times;</button>
-  É necessário atualizar o status da turma, <a th:href="@{'/Supervisor/Turma/' + ${turma.id}}" class="alert-link" th:inline="text">[[${turma.nome}]]</a>, para <strong>concluída</strong> pois seu período se encerrou.
+  <p th:text="${error}"></p>
 </div>		
 	
     <div class="row">
@@ -43,7 +37,7 @@
 	          <ul class="list-group">
 	            <li th:if="${#strings.equals(turma.tipoTurma, 'NPI')}" th:each="turma : ${turmas}" class="list-group-item gp-list-group-item">
 	              	<b th:inline="text">[[${turma.nome}]] <span class="label label-primary"> [[${turma.status.descricao}]]</span></b>
-	              	<a th:href="@{'/Supervisor/Turma/' + ${turma.id}}" class="btn btn-info btn-sm pull-right gp-btn-acompanhamento">Detalhes</a>
+	              	<a th:href="@{'/Supervisao/Turma/' + ${turma.id}}" class="btn btn-info btn-sm pull-right gp-btn-acompanhamento">Detalhes</a>
 	            </li>
 	          </ul>
            </div>
@@ -57,7 +51,7 @@
 	          <ul class="list-group">
 	            <li th:if="${#strings.equals(turma.tipoTurma, 'EMPRESA')}" th:each="turma : ${turmas}" class="list-group-item gp-list-group-item">
 	              	<b th:inline="text">[[${turma.nome}]] <span class="label label-primary"> [[${turma.status.descricao}]]</span></b>
-	              	<a th:href="@{'/Supervisor/Turma/' + ${turma.id}}" class="btn btn-info btn-sm pull-right gp-btn-acompanhamento">Detalhes</a>
+	              	<a th:href="@{'/Supervisao/Turma/' + ${turma.id}}" class="btn btn-info btn-sm pull-right gp-btn-acompanhamento">Detalhes</a>
 	            </li>
 	          </ul>
            </div>

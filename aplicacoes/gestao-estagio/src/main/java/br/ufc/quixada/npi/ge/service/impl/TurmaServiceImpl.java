@@ -64,6 +64,11 @@ public class TurmaServiceImpl implements TurmaService {
 	public Turma buscarTurmaPorServidorId(Long idTurma, Long idServidor) {
 		return turmaRepository.findByIdAndServidor(idTurma, idServidor);
 	}
+	
+	@Override
+	public List<Turma> buscarTurmasEncerradasEAbertasSupervisouOuOrientador(Long idServidor) {
+		return turmaRepository.findByServidorIdAndStatusAndTermino(idServidor);
+	}
 
 	@Override
 	public void adicionarEvento(Evento evento) {

@@ -34,7 +34,7 @@ public class TurmaServiceImpl implements TurmaService {
 
 	@Override
 	public void editarTurma(Turma turma) {
-		// TODO Auto-generated method stub
+		turmaRepository.save(turma);
 		
 	}
 

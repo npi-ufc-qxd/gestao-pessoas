@@ -166,12 +166,31 @@ public class SupervisorController {
 	}
 
 	@RequestMapping(value = "/Turma/{idTurma}/Editar", method = RequestMethod.POST)
-	public String editarTurma(Model model, @PathVariable("idTurma") Long idTurma,
-			@Valid @ModelAttribute("turma") Turma turma, BindingResult result, RedirectAttributes redirect) {
+	public String editarTurma(Model model, @PathVariable("idTurma") Long idTurma, @Valid @ModelAttribute("turma") Turma turmaNew, BindingResult result, RedirectAttributes redirect) {
 
 		if (result.hasErrors()) {
 			return FORMULARIO_EDITAR_TURMA;
 		}
+		
+		Servidor servidor = pessoaService.buscarServidorPorCpf(getCpfUsuarioLogado());
+
+		Turma turma = turmaService.buscarTurmaPorServidorId(idTurma, servidor.getId());
+
+		List<Servidor> supervisores = new ArrayList<Servidor>();
+		if(turmaNew.getSupervisores() != null) {
+			supervisores = validarSupervisores(turmaNew.getSupervisores());
+		}
+		
+		turma.setNome(turmaNew.getNome());
+		turma.setTipoTurma(turmaNew.getTipoTurma());
+		turma.setStatus(turmaNew.getStatus());
+		turma.setSemestre(turmaNew.getSemestre());
+		turma.setOrientador(turmaNew.getOrientador());
+		turma.setSupervisores(supervisores);
+		turma.setInicio(turmaNew.getInicio());
+		turma.setTermino(turmaNew.getTermino());
+
+		turmaService.editarTurma(turma);
 
 		redirect.addFlashAttribute("sucesso", "Alterações salvas com sucesso.");
 		return REDIRECT_DETALHES_TURMA + idTurma;
@@ -711,4 +730,14 @@ public class SupervisorController {
 		return null;
 	}
 
+	private  List<Servidor> validarSupervisores(List<Servidor> supervisores) {
+		List<Servidor> supervisoresValidos = new ArrayList<Servidor>(); 
+		for(Servidor supervisor : supervisores) {
+			if(supervisor != null && supervisor.getId() != null) {
+				supervisoresValidos.add(pessoaService.buscarServidorPorId(supervisor.getId()));
+			}
+		}
+		return supervisoresValidos;
+	}
+	
 }

@@ -23,7 +23,6 @@ import static br.ufc.quixada.npi.ge.utils.Constants.TERMO_COMPROMISSO_ESTAGIO;
 import static br.ufc.quixada.npi.ge.utils.Constants.VINCULOS_TURMA;
 
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -590,6 +589,7 @@ public class SupervisorController {
 		avaliacaoRendimento.setEstagio(estagio);
 		estagioService.adicionarAvaliacaoRendimento(avaliacaoRendimento);
 		
+		redirect.addFlashAttribute("sucesso","Avaliação de Rendimento realizada!");
 
 		return REDIRECT_ACOMPANHAMENTO_ESTAGIARIO + idEstagio;
 	}

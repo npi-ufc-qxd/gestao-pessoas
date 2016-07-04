@@ -23,6 +23,7 @@ import static br.ufc.quixada.npi.ge.utils.Constants.TERMO_COMPROMISSO_ESTAGIO;
 import static br.ufc.quixada.npi.ge.utils.Constants.VINCULOS_TURMA;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -177,8 +178,13 @@ public class SupervisorController {
 
 	@RequestMapping(value = "/Turma/{idTurma}", method = RequestMethod.GET)
 	public String visualizarDetalhesTurma(@PathVariable("idTurma") Long idTurma, RedirectAttributes redirect, Model model, HttpSession session) {
-
+		
 		Turma turma = turmaService.buscarTurmaPorServidorId(idTurma, pessoaService.buscarServidorPorCpf(getCpfUsuarioLogado()).getId());
+		Date data = new Date();
+		
+		if(data.after(turma.getTermino())){
+			model.addAttribute("turmaEncerrada", true);
+		}
 
 		model.addAttribute("turma", turma);
 

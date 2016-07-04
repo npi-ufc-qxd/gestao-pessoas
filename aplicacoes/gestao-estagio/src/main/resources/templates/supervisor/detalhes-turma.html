@@ -32,6 +32,10 @@
 		  <button type="button" class="close" data-dismiss="alert">&times;</button>
 		  <p th:text="${sucesso}"></p>
 		</div>
+		
+		<div class="alert alert-dismissible alert-info" th:if="${turmaEncerrada} == true">
+			É preciso atualizar o status da turma para <strong>concluída</strong>.
+		</div>
 
 	    <div class="row">
 	      <div class="col-md-4">

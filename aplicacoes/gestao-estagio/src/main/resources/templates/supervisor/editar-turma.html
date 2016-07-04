@@ -66,8 +66,8 @@
 		    <div class="col-md-12">
 		        <div class="panel panel-bluegray">
 		          <div class="panel-body">
-			 		<input name="id" id="id" type="hidden" th:filed="${turma.id}" class="form-control"/>
-						<form class="form-horizontal col-md-10" id="form-turma" th:action="@{/Supervisor/Turma/{idTurma}/Editar(idTurma=${turma.id})}" th:object="${turma}" method="post" >
+					<form class="form-horizontal col-md-10" id="form-turma" th:action="@{/Supervisor/Turma/{idTurma}/Editar(idTurma=${turma.id})}" th:object="${turma}" method="post" >
+				        <input type="hidden" th:field="*{id}"/>
 						   <div class="form-group">
 						      <label for="nome" class="col-md-2 control-label">Nome</label>
 						      <div class="col-md-10">
@@ -130,11 +130,10 @@
 						    <div class="form-group">
 						      <label for="supervisor" class="col-md-2 control-label">Supervisor</label>
 						      <div class="col-md-10">
-						      	<select class="form-control supervisores" multiple="multiple" title="Supervisor" name="supervisoresId" th:value="${turma.supervisores}">
-						          <option value=""></option>
-						          <option th:each ="supervisor : ${turma.supervisores}" 
-						          		  th:value = "${supervisor.id}" 
-						          		  th:text = "${supervisor.nome}" selected="selected">
+						      	<select class="form-control supervisores" multiple="multiple" title="Supervisor" th:field="*{supervisores}">
+						          <option th:each ="servidor : ${servidores}" 
+						          		  th:value = "${servidor.id}" 
+						          		  th:text = "${servidor.nome}">
 						          </option>
 								</select>
 						      </div>

@@ -13,8 +13,8 @@
   <div class="container-fluid titulo-pagina">
     <div class="container">
         <ul class="breadcrumb">
-            <li><a th:href="@{/Supervisor}">Minhas Turmas</a></li>
-            <li><a th:href="@{'/Supervisor/Turma/' + ${turma.id}}" >Detalhes Turma</a></li>
+            <li><a th:href="@{/Supervisao}">Minhas Turmas</a></li>
+            <li><a th:href="@{'/Supervisao/Turma/' + ${turma.id}}" >Detalhes Turma</a></li>
             <li class="active">Gerenciar Evento</li>
         </ul>
         <h1>Gerenciar Evento</h1>
@@ -67,7 +67,7 @@
 	            <a class="panel-title" data-toggle="collapse" data-target="#add-evento"><i class="fa fa-caret-down" aria-hidden="true"></i> Adicionar Evento</a>
 	          </div>
 	          <div id="add-evento" class="panel-body collapse in">
-					<form class="form-horizontal" th:object="${evento}" th:action="@{/Supervisor/Turma/{idTurma}/Evento(idTurma=${turma.id})}" method="post">
+					<form class="form-horizontal" th:object="${evento}" th:action="@{/Supervisao/Turma/{idTurma}/Evento(idTurma=${turma.id})}" method="post">
 					    <div th:class="${#fields.hasErrors('titulo')} ? 'form-group has-error' : form-group">
 					      <label for="titulo" class="col-lg-2 control-label">Titulo</label>
 					      <div class="col-lg-10">
@@ -128,7 +128,7 @@
 					      	<td th:inline="text"><strong>[[${evento.descricao}]]</strong></td>
 					        <td th:inline="text">[[${#dates.format(evento.inicio, 'dd/MM/yyyy')}]] às [[${#dates.format(evento.termino, 'dd/MM/yyyy')}]]</td>
 					        <td><a class="btn btn-danger btn-sm pull-right gp-btn-evento"
-					      		   th:href="@{/Supervisor/Turma/{idTurma}/Evento/{idEvento}/Excluir(idTurma=${turma.id},idEvento=${evento.id})}">Excluir</a></td>
+					      		   th:href="@{/Supervisao/Turma/{idTurma}/Evento/{idEvento}/Excluir(idTurma=${turma.id},idEvento=${evento.id})}">Excluir</a></td>
 					      </tr>
 					    </tbody>
 					 </table>

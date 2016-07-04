@@ -14,7 +14,7 @@
   <div class="container-fluid titulo-pagina">
     <div class="container">
         <ul class="breadcrumb">
-            <li><a th:href="@{/Supervisor}">Minhas Turmas</a></li>
+            <li><a th:href="@{/Supervisao}">Minhas Turmas</a></li>
             <li class="active">Detalhes Turma</li>
         </ul>
         <h1>Detalhes da Turma</h1>
@@ -38,7 +38,7 @@
 	        <div class="panel panel-bluegray">
 	          <div class="panel-heading">
 	            <a class="panel-title" data-toggle="collapse" data-target="#detalhesTurma"><i class="fa fa-caret-down" aria-hidden="true"></i> Turma NPI - 2016.1</a>
-				<a th:href="@{'/Supervisor/Turma/' + ${turma.id} + '/Editar'}" class="btn btn-xs pull-right gp-btn-opcao">editar</a>
+				<a th:href="@{'/Supervisao/Turma/' + ${turma.id} + '/Editar'}" class="btn btn-xs pull-right gp-btn-opcao">editar</a>
   			  </div>
 	          <div id="detalhesTurma" class="panel-body collapse in">
 				  <table class="table table-hover">
@@ -71,7 +71,7 @@
 	        <div th:if="${#strings.equals(turma.tipoTurma, 'NPI')}" class="panel panel-bluegray">
 	          <div class="panel-heading">
 	            <a class="panel-title" data-toggle="collapse" data-target="#expedienteTurma"><i class="fa fa-caret-down" aria-hidden="true"></i> Expediente da Turma</a>
-				<a th:href="@{/Supervisor/Turma/{id}/Expediente(id=${turma.id})}" class="btn btn-xs pull-right gp-btn-opcao">Gerenciar</a>
+				<a th:href="@{/Supervisao/Turma/{id}/Expediente(id=${turma.id})}" class="btn btn-xs pull-right gp-btn-opcao">Gerenciar</a>
   			  </div>
 	          <div id="expedienteTurma" class="panel-body collapse in">
 	          	  <p th:if="${#lists.isEmpty(turma.expedientes)}">Na há expediente</p> 
@@ -93,11 +93,11 @@
 	          <div class="panel-heading">
 	            <a class="panel-title" data-toggle="collapse" data-target="#estagiarios"><i class="fa fa-caret-down" aria-hidden="true"></i> Estágiarios</a>
 	            <span th:if="${not #lists.isEmpty(turma.estagios)}">
-					<a th:if="${#strings.equals(turma.tipoTurma, 'NPI')}" th:href="@{/Supervisor/Turma/{idTurma}/MapaFrequencia(idTurma=${turma.id})}" class="btn btn-xs pull-right gp-btn-opcao">mapa frequência</a>
-		            <a th:if="${#strings.equals(turma.tipoTurma, 'NPI')}" th:href="@{/Supervisor/Turma/{id}/TermosCompromisso(id=${turma.id})}" class="btn btn-xs pull-right gp-btn-opcao">termos</a>
-					<a th:if="${#strings.equals(turma.tipoTurma, 'NPI')}" th:href="@{/Supervisor/Turma/{id}/Declaracoes(id=${turma.id})}" class="btn btn-xs pull-right gp-btn-opcao">declarações</a>
+					<a th:if="${#strings.equals(turma.tipoTurma, 'NPI')}" th:href="@{/Supervisao/Turma/{idTurma}/MapaFrequencia(idTurma=${turma.id})}" class="btn btn-xs pull-right gp-btn-opcao">mapa frequência</a>
+		            <a th:if="${#strings.equals(turma.tipoTurma, 'NPI')}" th:href="@{/Supervisao/Turma/{id}/TermosCompromisso(id=${turma.id})}" class="btn btn-xs pull-right gp-btn-opcao">termos</a>
+					<a th:if="${#strings.equals(turma.tipoTurma, 'NPI')}" th:href="@{/Supervisao/Turma/{id}/Declaracoes(id=${turma.id})}" class="btn btn-xs pull-right gp-btn-opcao">declarações</a>
 				</span>
-					<a th:href="@{/Supervisor/Turma/{id}/AtualizarVinculos(id=${turma.id})}" class="btn btn-xs pull-right gp-btn-opcao">Atualizar Vínculos</a>
+					<a th:href="@{/Supervisao/Turma/{id}/AtualizarVinculos(id=${turma.id})}" class="btn btn-xs pull-right gp-btn-opcao">Atualizar Vínculos</a>
 	          </div>
 	          <div id="estagiarios" class="panel-body collapse in">
 	          
@@ -106,7 +106,7 @@
 		          <ul th:if="${not #lists.isEmpty(turma.estagios)}" class="list-group">
 		            <li th:each="est :${turma.estagios}" class="list-group-item gp-list-group-item">
 		              <b th:inline="text"> [[${est.estagiario.nomeCompleto}]] </b>
-		              <a th:href="@{/Supervisor/Acompanhamento/{id}(id=${est.estagiario.id})}" class="btn btn-success btn-sm pull-right gp-btn-acompanhamento">acompanhamento</a>
+		              <a th:href="@{/Supervisao/Acompanhamento/{id}(id=${est.estagiario.id})}" class="btn btn-success btn-sm pull-right gp-btn-acompanhamento">acompanhamento</a>
 		            </li>
 		          </ul>
 	           </div>
@@ -115,7 +115,7 @@
 	        <div class="panel panel-bluegray">
 	          <div class="panel-heading">
 	            <a class="panel-title" data-toggle="collapse" data-target="#eventos"><i class="fa fa-caret-down" aria-hidden="true"></i> Eventos</a>
-				<a th:href="@{/Supervisor/Turma/{id}/Evento(id=${turma.id})}" class="btn btn-xs pull-right gp-btn-opcao">gerenciar</a>
+				<a th:href="@{/Supervisao/Turma/{id}/Evento(id=${turma.id})}" class="btn btn-xs pull-right gp-btn-opcao">gerenciar</a>
 	          </div>
 
 	          <div id="eventos" class="panel-body collapse in">

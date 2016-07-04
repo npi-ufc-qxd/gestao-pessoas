@@ -74,7 +74,7 @@ import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 
 @Component
 @Controller
-@RequestMapping("Supervisor")
+@RequestMapping("Supervisao")
 public class SupervisorController {
 
 	@Autowired
@@ -209,13 +209,13 @@ public class SupervisorController {
 					estagioService.buscarEstagiariosSemVinculoComTurmaPorNomeEstagiario(idTurma, nomeEstagiario));
 		}
 
-		return "supervisor/vinculos-turma :: resultList";
+		return "supervisao/vinculos-turma :: resultList";
 	}
 
 	@RequestMapping(value = "/Acompanhamento/buscarEstagiarioSemVinculo", method = RequestMethod.GET)
 	public String buscarEstagiariosSemVinculoTurma(Model model) {
 		model.addAttribute("estagiarios", null);
-		return "supervisor/vinculos-turma :: resultList";
+		return "supervisao/vinculos-turma :: resultList";
 	}
 
 	@RequestMapping(value = "/Turma/{idTurma}/TermosCompromisso", method = RequestMethod.GET)
@@ -398,14 +398,14 @@ public class SupervisorController {
 
 		if (idEstagiario == null && idTurma == null) {
 			redirect.addFlashAttribute("error", "Não foi possivel realizar o vinculo!");
-			return "redirect:/Supervisor/Turma/" + turmaService.buscarTurmaPorId(idTurma).getId() + "/AtualizarVinculos";
+			return "redirect:/Supervisao/Turma/" + turmaService.buscarTurmaPorId(idTurma).getId() + "/AtualizarVinculos";
 		}
 
 		estagioService.vincularEstagiario(idTurma, idEstagiario);
 		Estagiario estagiario = pessoaService.buscarEstagiarioPorId(idEstagiario);
 
 		redirect.addFlashAttribute("sucesso", "O estagiário, " + estagiario.getNomeCompleto() + ", vinculado com sucesso!");
-		return "redirect:/Supervisor/Turma/" + turmaService.buscarTurmaPorId(idTurma).getId() + "/AtualizarVinculos";
+		return "redirect:/Supervisao/Turma/" + turmaService.buscarTurmaPorId(idTurma).getId() + "/AtualizarVinculos";
 	}
 
 	@RequestMapping(value = "/Acompanhamento/{idEstagio}/Frequencias", method = RequestMethod.GET)
@@ -432,7 +432,7 @@ public class SupervisorController {
 		estagioService.agendarReposicao(estagio, dataReposicao);
 
 		attributes.addFlashAttribute("sucesso", "Reposição agendada com sucesso!");
-		return "redirect:/Supervisor/Acompanhamento/" + idEstagio + "/Frequencias";
+		return "redirect:/Supervisao/Acompanhamento/" + idEstagio + "/Frequencias";
 	}
 
 	@RequestMapping(value = "/Acompanhamento/{idEstagio}/AvaliarPlano", method = RequestMethod.GET)

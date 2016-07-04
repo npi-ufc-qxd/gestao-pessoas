@@ -45,11 +45,11 @@ public class AuthenticationSuccessHandlerImpl implements AuthenticationSuccessHa
 					break;
 	
 				case "DOCENTE":
-					url = "/Supervisor/";
+					url = "/Supervisao/";
 					break;
 	
 				case "STA":
-					url = "/Supervisor/";
+					url = "/Supervisao/";
 					break;
 	
 				case "ESTAGIARIO":
@@ -57,7 +57,7 @@ public class AuthenticationSuccessHandlerImpl implements AuthenticationSuccessHa
 					break;
 	
 				case "SUPERVISOR":
-					url = "/Supervisor/";
+					url = "/Supervisao/";
 					break;
 	
 				default:

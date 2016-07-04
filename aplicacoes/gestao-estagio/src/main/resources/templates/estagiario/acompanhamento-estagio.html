@@ -80,8 +80,8 @@
 				    </tbody>
 				  </table>
 				  
-		            <div class="gp-modelo-doc">
-		            	Modelo de Plano de Estágio <a href="#">Clique aqui para baixar!</a>
+		            <div class="gp-modelo-doc">Modelo de Plano de Estágio 
+		            	<a th:href="@{/documents/UFC-Quixada-Plano_Estagio_modelo.doc}">Clique aqui para baixar!</a>
 		            	<span th:if="${submissaoPlano} != null">
 		            		<a th:if="${#strings.equals(submissaoPlano.statusEntrega, 'SUBMETIDO')} or ${#strings.equals(submissaoPlano.statusEntrega, 'CORRECAO')}" href="#submissaoPlano" class="btn btn-success btn-sm pull-right gp-submissao-modal" data-toggle="modal">Editar Submissão</a>
 		            	</span>
@@ -117,7 +117,7 @@
 				    </tbody>
 				  </table>
 		            <div class="gp-modelo-doc">Modelo de Relatório de Estágio 
-		            	<a href="#">Clique aqui para baixar!</a>
+		            	<a th:href="@{/documents/UFC-Quixada-Relatorio_Final_Estagio-modelo.doc}">Clique aqui para baixar!</a>
 		            	<span th:if="${submissaoRelatorio} != null">
 		            		<a th:if="${#strings.equals(submissaoRelatorio.statusEntrega, 'SUBMETIDO')} or ${#strings.equals(submissaoRelatorio.statusEntrega, 'CORRECAO')}" href="#submissaoRelatorio" class="btn btn-success btn-sm pull-right gp-submissao-modal" data-toggle="modal">Editar Submissão</a>
 		            	</span>

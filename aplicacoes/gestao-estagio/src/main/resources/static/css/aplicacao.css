@@ -182,7 +182,7 @@ tr:nth-child(1) td {
 }
 
 #consolidado a + a{
-	margin-left: 14px;
+	margin-left: 11px;
 } 
 .btn-bluegray {
     -webkit-background-size: 200% 200%;
@@ -193,4 +193,39 @@ tr:nth-child(1) td {
     color: #ffffff;
     background-color: #607d8b;
     border-color: transparent;
+}
+
+.sort:after {
+  display:inline-block;
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+  content:"";
+  position: relative;
+  top:-10px;
+  right:-5px;
+}
+.sort.asc:after {
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 5px solid black;
+  content:"";
+  position: relative;
+  top:4px;
+  right:-5px;
+}
+.sort.desc:after {
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-bottom: 5px solid black;
+  content:"";
+  position: relative;
+  top:-4px;
+  right:-5px;
 }

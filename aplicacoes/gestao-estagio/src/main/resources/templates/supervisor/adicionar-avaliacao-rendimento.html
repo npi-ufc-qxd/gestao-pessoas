@@ -334,16 +334,19 @@
 					  			
 					  		</div>
 					  </div>
-					  
-					  <label>
-					  	Selecione o arquivo de submissão:
-					  	<input name="arquivo" id="input_arquivo" class="file" type="file" />
-					  </label>
-					  
-					  <div class="form-item col-md-10">
-					  		<br />
-		  					<button type="submit" class="btn btn-primary pull-right">Submeter Avaliação</button>
+
+					  <div class="form-group">
+						<div class="col-md-10">
+						  <label> Selecione o arquivo de submissão: <input name="arquivo" id="input_arquivo" class="file" type="file" /></label>
 					  </div>
+					 </div>
+
+					  <div class="form-group">
+					      <div class="col-lg-10 pull-left">
+					        <a class="btn btn-default" th:href="@{/Supervisor/Turma/Acompanhamento/{idEstagio}(idEstagio=${estagio.id})}">Cancelar</a>
+					        <button type="submit" class="btn btn-success">Salvar</button>
+					      </div>
+					 </div>
 					</form>	          
 	           </div>
 	        </div>

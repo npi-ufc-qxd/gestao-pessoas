@@ -94,17 +94,23 @@
 	      </div>
 
 	    <div class="col-md-8">
+
+	    	<div class="alert alert-dismissible alert-success" th:if="${! #strings.isEmpty(sucesso)}">
+  				<button type="button" class="close" data-dismiss="alert">&times;</button>
+  				<strong th:text="${sucesso}"></strong>
+  			</div>
+
 	        <div class="panel panel-bluegray">
 	          <div class="panel-heading">
 	            <a class="panel-title" data-toggle="collapse" data-target="#consolidado"><i class="fa fa-caret-down" aria-hidden="true"></i> Consolidado Frequências</a>
 			  </div>
 	          <div id="consolidado" class="panel-body collapse in">
-	            <a href="#" class="btn btn-default disabled" role="button"><span>100h</span> <br/>Carga Horária</a>
-	            <a href="#" class="btn btn-bluegray disabled" role="button"><span>10</span> <br/>Pendências</a>
-	            <a href="#" class="btn btn-danger disabled" role="button"><span>10%</span> <br/>Faltas</a>
-	            <a href="#" class="btn btn-warning disabled" role="button"><span>4</span> <br/>Atrasos</a>
-	            <a href="#" class="btn btn-primary disabled" role="button"><span>0</span> <br/>Reposições</a>
-	            <a href="#" class="btn btn-success disabled" role="button"><span>20%</span> <br/>Presenças</a>
+	            <a href="#" class="btn btn-default disabled" role="button"><span th:inline="text">[[${consolidadoFrequencia.horasEstagiadas}]]h</span> <br/>Horas Estagiadas</a>
+	            <a href="#" class="btn btn-bluegray disabled" role="button"><span th:inline="text">[[${consolidadoFrequencia.totalPendecias}]]</span> <br/>Pendências</a>
+	            <a href="#" class="btn btn-warning disabled" role="button"><span th:inline="text">[[${consolidadoFrequencia.totalAtrasos}]]</span> <br/>Atrasos</a>
+	            <a href="#" class="btn btn-primary disabled" role="button"><span th:inline="text">[[${consolidadoFrequencia.totalReposicoes}]]</span> <br/>Reposições</a>
+	            <a href="#" class="btn btn-danger disabled" role="button"><span th:inline="text">[[${consolidadoFrequencia.porcentagemFaltas}]]%</span> <br/>Faltas</a>
+	            <a href="#" class="btn btn-success disabled" role="button"><span th:inline="text">[[${consolidadoFrequencia.porcentagemPresencas}]]%</span> <br/>Presenças</a>
 	          </div>
 	        </div>
 
@@ -115,11 +121,37 @@
 	          <div id="pendentes" class="panel-body collapse in">
 	          </div>
 	        </div>
+
 	        <div class="panel panel-bluegray">
 	          <div class="panel-heading">
 	            <a class="panel-title" data-toggle="collapse" data-target="#reposicao"><i class="fa fa-caret-down" aria-hidden="true"></i> Reposições</a>
 			  </div>
 	          <div id="reposicao" class="panel-body collapse in">
+				<form class="form-inline" role="form" th:action="@{/Supervisor/Turma/Acompanhamento/{idEstagio}/AgendarReposicao(idEstagio=${estagio.id})}" method="post">
+				  <div class="form-group">
+				    <label for="email">Data da Reposição:</label>
+				    <input type="text" class="form-control data-reposicao" id="dataReposicao" name="dataReposicao" size="23"/>
+				  </div>
+				  <button type="submit" class="btn btn-success">agendar</button>
+				</form><br/>
+				
+				<div id="reposicoes">	          
+					<table class="table table-hover table-bordered">
+					  <thead>
+					    <tr>
+					      <th class="sort" data-sort="timestamp">Data</th>
+					      <th class="sort" data-sort="status">Status</th>
+					    </tr>
+					  </thead>
+					  <tbody class="list">
+						<tr th:each="frequencia : ${estagio.frequencias}" th:if="${#strings.equals(frequencia.tipo, 'REPOSICAO')}">
+							<td class="timestamp" data-timestamp="20120911" th:inline="text" th:attr="data-timestamp=${#dates.format(frequencia.data,'yyyyMMdd')}">[[${#dates.format(frequencia.data,'dd/MM/yyyy')}]]</td>
+						    <td class="status" th:text="${frequencia.status}"></td>
+						</tr>
+					  </tbody>
+					</table> 
+				</div>
+				
 	          </div>
 	        </div>
 	        <div class="panel panel-bluegray">
@@ -127,38 +159,24 @@
 	            <a class="panel-title" data-toggle="collapse" data-target="#presenca"><i class="fa fa-caret-down" aria-hidden="true"></i> Frequências</a>
 			  </div>
 	          <div id="presenca" class="panel-body collapse in">
-				<table class="table table-striped table-hover ">
-				  <thead>
-				    <tr>
-				      <th>Data</th>
-				      <th>Tipo</th>
-				      <th>Status</th>
-				    </tr>
-				  </thead>
-				  <tbody>
-				    <tr>
-				      <td>10/10/2012</td>
-				      <td>REPOSIÇÃO</td>
-				      <td>PRESENTE</td>
-				    </tr>
-				    <tr>
-				      <td>10/10/2012</td>
-				      <td>NORMAL</td>
-				      <td>FALTA</td>
-				    </tr>
-				    <tr>
-				      <td>10/10/2012</td>
-				      <td>NORMAL</td>
-				      <td>ATRASO</td>
-				    </tr>
-				    <tr>
-				      <td>10/10/2012</td>
-				      <td>NORMAL</td>
-				      <td>PRESENTE</td>
-				    </tr>
-				  </tbody>
-				</table> 
-
+				<div id="frequencias">	          
+					<table class="table table-hover table-bordered">
+					  <thead>
+					    <tr>
+					      <th class="sort" data-sort="timestamp">Data</th>
+					      <th class="sort" data-sort="tipo">Tipo</th>
+					      <th class="sort" data-sort="status">Status</th>
+					    </tr>
+					  </thead>
+					  <tbody class="list">
+						<tr th:each="frequencia : ${estagio.frequencias}">
+							<td class="timestamp" data-timestamp="20120911" th:inline="text" th:attr="data-timestamp=${#dates.format(frequencia.data,'yyyyMMdd')}">[[${#dates.format(frequencia.data,'dd/MM/yyyy')}]]</td>
+						    <td class="tipo" th:text="${frequencia.tipo}"></td>
+						    <td class="status" th:text="${frequencia.status}"></td>
+						</tr>
+					  </tbody>
+					</table> 
+				</div>
 	          </div>
 	        </div>
  	     </div>
@@ -166,4 +184,12 @@
 	  </div>
 </section>
 
+<section layout:fragment="js">
+  <script src="http://listjs.com/no-cdn/list.js"></script>
+  <script type="text/javascript">
+	var options = { valueNames: [{ attr: 'data-timestamp', name: 'timestamp' }, 'status', 'tipo'] };
+	var frequencias = new List('frequencias', options).sort('timestamp', { order: "desc" });
+	var reposicoes = new List('reposicoes', options).sort('timestamp', { order: "desc" });
+  </script>
+</section>
 </html>

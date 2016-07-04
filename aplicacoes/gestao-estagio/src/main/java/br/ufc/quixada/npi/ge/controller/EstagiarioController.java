@@ -205,7 +205,7 @@ public class EstagiarioController {
 		try {
 			if(!validarArquivo(planoEstagio)){
 				redirectAttributes.addFlashAttribute("error", "Escolha um arquivo pdf.");
-				return ACOMPANHAMENTO_ESTAGIO;
+				return REDIRECT_ACOMPANHAMENTO_ESTAGIO + idEstagio;
 			}		
 			
 			Estagio estagio = estagioService.buscarEstagioPorIdEEstagiarioCpf(idEstagio, getCpfUsuarioLogado());
@@ -245,7 +245,7 @@ public class EstagiarioController {
 		
 		if(!validarArquivo(planoEstagio)){
 			redirectAttributes.addFlashAttribute("error", "Escolha um arquivo pdf.");
-			return ACOMPANHAMENTO_ESTAGIO;
+			return REDIRECT_ACOMPANHAMENTO_ESTAGIO + idEstagio;
 		}
 		
 		Submissao submissao = estagioService.buscarSubmissaoPorTipoSubmissaoEEstagioIdECpf(Submissao.TipoSubmissao.PLANO_ESTAGIO, idEstagio, getCpfUsuarioLogado());
@@ -267,7 +267,7 @@ public class EstagiarioController {
 		try {
 			if(!validarArquivo(relatorio)){
 				redirectAttributes.addFlashAttribute("error", "Escolha um arquivo pdf.");
-				return ACOMPANHAMENTO_ESTAGIO;
+				return REDIRECT_ACOMPANHAMENTO_ESTAGIO + idEstagio;
 			}
 			
 			Estagio estagio = estagioService.buscarEstagioPorIdEEstagiarioCpf(idEstagio, getCpfUsuarioLogado());
@@ -308,7 +308,7 @@ public class EstagiarioController {
 		
 		if(!validarArquivo(relatorio)){
 			redirectAttributes.addFlashAttribute("error", "Escolha um arquivo pdf.");
-			return ACOMPANHAMENTO_ESTAGIO;
+			return REDIRECT_ACOMPANHAMENTO_ESTAGIO + idEstagio;
 		}
 		
 		Submissao submissao = estagioService.buscarSubmissaoPorTipoSubmissaoEEstagioIdECpf(Submissao.TipoSubmissao.RELATORIO_FINAL_ESTAGIO, idEstagio, getCpfUsuarioLogado());

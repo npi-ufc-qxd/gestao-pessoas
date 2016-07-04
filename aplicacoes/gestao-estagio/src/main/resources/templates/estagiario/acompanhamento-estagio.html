@@ -25,6 +25,13 @@
 	    <div class="row">
 	    
 	     <div class="col-md-7">
+
+  			<div class="alert alert-dismissible alert-error" th:if="${!#strings.isEmpty(error)}">
+  				<button type="button" class="close" data-dismiss="alert">&times;</button>
+  				<p th:text="${sucesso}"></p>
+			</div>
+	     
+	     
 	      	 <div class="panel panel-bluegray">
 	          <div class="panel-heading">
 	            <a class="panel-title" data-toggle="collapse" data-target="#frequencia"><i class="fa fa-caret-down" aria-hidden="true"></i> Frequência</a>
@@ -291,7 +298,7 @@
 
 
 		<div th:if="${submissaoPlano} == null"  id="submissaoPlano" class="modal">
-			 <form class="form-horizontal" th:action="@{/Estagiario/Acompanhamento/${idEstagio}/SubmeterPlano}" method="post" enctype="multipart/form-data">
+			 <form class="form-horizontal" th:action="@{/Estagiario/Acompanhamento/{idEstagio}/SubmeterPlano(idEstagio=${estagio.id})}" method="post" enctype="multipart/form-data">
 			   <div class="modal-dialog">
 			     <div class="modal-content">
 			       <div class="modal-header">
@@ -313,7 +320,7 @@
 			   </form>
 		</div>
 			<div th:if="${submissaoPlano} != null" id="submissaoPlano" class="modal">
-			<form class="form-horizontal" th:action="@{/Estagiario/Acompanhamento/${idEstagio}/EditarPlano}" method="post" enctype="multipart/form-data"> 
+			<form class="form-horizontal" th:action="@{/Estagiario/Acompanhamento/{idEstagio}/EditarPlano(idEstagio=${estagio.id})}" method="post" enctype="multipart/form-data"> 
 				<div class="modal-dialog">
 				     <div class="modal-content">
 				       <div class="modal-header">
@@ -337,7 +344,7 @@
 
 
 	     <div th:if="${submissaoRelatorio} == null" id="submissaoRelatorio" class="modal">
-	     	<form class="form-horizontal" th:action="@{/Estagiario/Acompanhamento/Estagio/${idEstagio}/SubmeterRelatorio}" method="post" enctype="multipart/form-data">
+	     	<form class="form-horizontal" th:action="@{/Estagiario/Acompanhamento/Estagio/{idEstagio}/SubmeterRelatorio(idEstagio=${estagio.id})}" method="post" enctype="multipart/form-data">
 			   <div class="modal-dialog">
 			     <div class="modal-content">
 			       <div class="modal-header">
@@ -359,7 +366,7 @@
 	     	</form>	
 	     </div>
 	     <div th:if="${submissaoRelatorio} != null" id="submissaoRelatorio" class="modal">
-	     	<form class="form-horizontal" th:action="@{/Estagiario/Acompanhamento/Estagio/${idEstagio}/EditarRelatorio}" method="post" enctype="multipart/form-data">
+	     	<form class="form-horizontal" th:action="@{/Estagiario/Acompanhamento/Estagio/{idEstagio}/EditarRelatorio(idEstagio=${estagio.id})}" method="post" enctype="multipart/form-data">
 			   <div class="modal-dialog">
 			     <div class="modal-content">
 			       <div class="modal-header">

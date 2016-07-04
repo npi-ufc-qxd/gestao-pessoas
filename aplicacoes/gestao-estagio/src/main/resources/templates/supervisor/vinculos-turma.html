@@ -35,7 +35,7 @@
 				    <tbody>
 				      <tr>
 				        <td><strong>Orientador</strong></td>
-				        <td th:text="${turma.orientador.nome}"> bruno</td>
+				        <td th:text="${turma.orientador.nome}"></td>
 				      </tr>
 				      <tr>
 				        <td><strong>Supervisores</strong></td>
@@ -69,9 +69,9 @@
   			</div>	    
 	        <div class="panel panel-bluegray">
 	          <div class="panel-heading">
-	            <a class="panel-title"><i class="fa fa-caret-down" aria-hidden="true"></i> Vincular novos estagiários</a>
+	            <a class="panel-title" data-toggle="collapse" data-target="#vinculos"><i class="fa fa-caret-down" aria-hidden="true"></i> Vincular novos estagiários</a>
 	          </div>
-	          <div id="vinculos" class="panel-body">
+	          <div id="vinculos" class="panel-body collapse in">
 
 				  <div class="col-md-12">
 					  <div class="form-inline" role="form">
@@ -106,9 +106,9 @@
 
 	        <div class="panel panel-bluegray">
 	          <div class="panel-heading">
-	            <a class="panel-title"><i class="fa fa-caret-down" aria-hidden="true"></i> Estagiários da Turma</a>
+	            <a class="panel-title" data-toggle="collapse" data-target="#estagiarios"><i class="fa fa-caret-down" aria-hidden="true"></i> Estagiários da Turma</a>
 	          </div>
-	          <div id="vinculos" class="panel-body">
+	          <div id="estagiarios" class="panel-body collapse in">
 		          <ul class="list-group">
 		            <li th:each="est :${turma.estagios}" class="list-group-item gp-list-group-item">
 		              <b th:inline="text"> [[${est.estagiario.nomeCompleto}]] </b>

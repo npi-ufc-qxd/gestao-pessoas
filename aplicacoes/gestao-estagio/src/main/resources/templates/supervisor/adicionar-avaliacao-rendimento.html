@@ -98,7 +98,7 @@
 	    <div class="col-md-8">
 	        <div class="panel panel-bluegray">
 	          <div class="panel-heading">
-	            <p class="panel-title" data-toggle="collapse" data-target="#estagiarios">Avaliação de Rendimento</p>
+	            <a class="panel-title" data-toggle="collapse" data-target="#estagiarios"><i class="fa fa-caret-down" aria-hidden="true"></i>Avaliação de Rendimento</a>
 	          </div>
 	          <div id="estagiarios" class="panel-body collapse in">
 					<form method="post" enctype="multipart/form-data" class="form-horizontal" action="#" th:action="@{/Supervisor/Turma/Acompanhamento/{idEstagio}/AvaliacaoRendimento(idEstagio=${estagio.id})}" th:object="${avaliacaoRendimento}">

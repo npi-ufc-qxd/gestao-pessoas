@@ -102,6 +102,12 @@ public class SupervisorController {
 		}
 
 		List<Turma> turmas = turmaService.buscarTurmasSupervisorOuOrientador(servidor.getId());
+		List<Turma> turmasEncerradas = turmaService.buscarTurmasEncerradasEAbertasSupervisouOuOrientador(servidor.getId());
+		
+		if(turmasEncerradas != null){
+			model.addAttribute("turmasEncerradas", turmasEncerradas);
+		}
+		
 		model.addAttribute("turmas", turmas);
 
 		return PAGINA_INICIAL_SUPERVISOR;
@@ -172,11 +178,13 @@ public class SupervisorController {
 	}
 
 	@RequestMapping(value = "/Turma/{idTurma}", method = RequestMethod.GET)
-	public String visualizarDetalhesTurma(@PathVariable("idTurma") Long idTurma, RedirectAttributes redirect,
-			Model model, HttpSession session) {
-
-		Turma turma = turmaService.buscarTurmaPorServidorId(idTurma,
-				pessoaService.buscarServidorPorCpf(getCpfUsuarioLogado()).getId());
+	public String visualizarDetalhesTurma(@PathVariable("idTurma") Long idTurma, RedirectAttributes redirect, Model model, HttpSession session) {
+		Turma turma = turmaService.buscarTurmaPorServidorId(idTurma, pessoaService.buscarServidorPorCpf(getCpfUsuarioLogado()).getId());
+		Date data = new Date();
+		
+		if(data.after(turma.getTermino())){
+			model.addAttribute("turmaEncerrada", true);
+		}
 
 		model.addAttribute("turma", turma);
 
@@ -639,7 +647,6 @@ public class SupervisorController {
 			@Valid @ModelAttribute("avaliacaoRendimento") AvaliacaoRendimento avaliacaoRendimento,
 			RedirectAttributes redirect, @PathVariable("idEstagio") Long idEstagio) {
 
-		redirect.addFlashAttribute("sucesso", "As alterações da avaliação rendimento foram salvas com sucesso!");
 		return REDIRECT_ACOMPANHAMENTO_ESTAGIARIO + idEstagio;
 	}
 

@@ -27,9 +27,9 @@
 	      <div class="col-md-4">
 	        <div class="panel panel-bluegray">
 	          <div class="panel-heading">
-	            <a class="panel-title" data-toggle="collapse" data-target="#estagiario"><i class="fa fa-caret-down" aria-hidden="true"></i> Estagiário</a>
+	            <a class="panel-title" data-toggle="collapse" data-target="#estagiario" th:inline="text"><i class="fa fa-caret-down fa-caret-right fa-chevron-down" aria-hidden="true"></i> Estagiário: [[${estagio.estagiario.nomeCompleto}]]</a>
 			  </div>
-	          <div id="estagiario" class="panel-body collapse in">
+	          <div id="estagiario" class="panel-body collapse">
 	          	<table class="table table-hover">
 				    <tbody>
 				      <tr>
@@ -60,9 +60,9 @@
 	      
 	        <div class="panel panel-bluegray">
 	          <div class="panel-heading">
-	            <a class="panel-title" data-toggle="collapse" data-target="#detalhesTurma"><i class="fa fa-caret-down" aria-hidden="true"></i> Turma NPI - 2016.1</a>
+	            <a class="panel-title" data-toggle="collapse" data-target="#detalhesTurma" th:inline="text"><i class="fa fa-caret-down fa-caret-right fa-chevron-down" aria-hidden="true"></i> Turma: [[${estagio.turma.nome}]] - [[${estagio.turma.semestre}]]</a>
 			  </div>
-	          <div id="detalhesTurma" class="panel-body collapse in">
+	          <div id="detalhesTurma" class="panel-body collapse">
 				  <table class="table table-hover">
 				    <tbody>
 				      <tr>
@@ -105,12 +105,12 @@
 	            <a class="panel-title" data-toggle="collapse" data-target="#consolidado"><i class="fa fa-caret-down" aria-hidden="true"></i> Consolidado Frequências</a>
 			  </div>
 	          <div id="consolidado" class="panel-body collapse in">
-	            <a href="#" class="btn btn-default disabled" role="button"><span th:inline="text">[[${consolidadoFrequencia.horasEstagiadas}]]h</span> <br/>Horas Estagiadas</a>
-	            <a href="#" class="btn btn-bluegray disabled" role="button"><span th:inline="text">[[${consolidadoFrequencia.totalPendecias}]]</span> <br/>Pendências</a>
+	            <a href="#" class="btn btn-success disabled" role="button"><span th:inline="text">[[${consolidadoFrequencia.porcentagemPresencas}]]%</span> <br/>Presenças</a>
+	            <a href="#" class="btn btn-danger disabled" role="button"><span th:inline="text">[[${consolidadoFrequencia.porcentagemFaltas}]]%</span> <br/>Faltas</a>
 	            <a href="#" class="btn btn-warning disabled" role="button"><span th:inline="text">[[${consolidadoFrequencia.totalAtrasos}]]</span> <br/>Atrasos</a>
 	            <a href="#" class="btn btn-primary disabled" role="button"><span th:inline="text">[[${consolidadoFrequencia.totalReposicoes}]]</span> <br/>Reposições</a>
-	            <a href="#" class="btn btn-danger disabled" role="button"><span th:inline="text">[[${consolidadoFrequencia.porcentagemFaltas}]]%</span> <br/>Faltas</a>
-	            <a href="#" class="btn btn-success disabled" role="button"><span th:inline="text">[[${consolidadoFrequencia.porcentagemPresencas}]]%</span> <br/>Presenças</a>
+	            <a href="#" class="btn btn-default disabled" role="button"><span th:inline="text">[[${consolidadoFrequencia.totalPendecias}]]</span> <br/>Pendências</a>
+	            <a href="#" class="btn btn-bluegray disabled" role="button"><span th:inline="text">[[${consolidadoFrequencia.horasEstagiadas}]]h</span> <br/>Horas Estagiadas</a>
 	          </div>
 	        </div>
 

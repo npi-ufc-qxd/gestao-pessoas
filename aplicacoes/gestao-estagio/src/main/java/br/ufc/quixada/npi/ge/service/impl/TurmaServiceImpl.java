@@ -34,7 +34,7 @@ public class TurmaServiceImpl implements TurmaService {
 
 	@Override
 	public void editarTurma(Turma turma) {
-		// TODO Auto-generated method stub
+		turmaRepository.save(turma);
 		
 	}
 
@@ -63,6 +63,11 @@ public class TurmaServiceImpl implements TurmaService {
 	@Override
 	public Turma buscarTurmaPorServidorId(Long idTurma, Long idServidor) {
 		return turmaRepository.findByIdAndServidor(idTurma, idServidor);
+	}
+	
+	@Override
+	public List<Turma> buscarTurmasEncerradasEAbertasSupervisouOuOrientador(Long idServidor) {
+		return turmaRepository.findByServidorIdAndStatusAndTermino(idServidor);
 	}
 
 	@Override

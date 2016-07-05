@@ -203,7 +203,7 @@ public class EstagiarioController {
 	public String submeterPlano(@Valid @RequestParam("planoEstagio") MultipartFile planoEstagio, @PathVariable("idEstagio") Long idEstagio, RedirectAttributes redirectAttributes ) throws Exception{
 
 		try {
-			if(!validarArquivo(planoEstagio)){
+			if(validarArquivo(planoEstagio)){
 				redirectAttributes.addFlashAttribute("error", "Escolha um arquivo pdf.");
 				return REDIRECT_ACOMPANHAMENTO_ESTAGIO + idEstagio;
 			}		
@@ -217,12 +217,13 @@ public class EstagiarioController {
 			
 			Submissao submissao = estagioService.buscarSubmissaoPorTipoSubmissaoEEstagioIdECpf(Submissao.TipoSubmissao.PLANO_ESTAGIO, idEstagio, getCpfUsuarioLogado());
 			
-			if (submissao == null) {
+			if (submissao != null) {
 				redirectAttributes.addFlashAttribute("error", "Acesso negado.");
 				return REDIRECT_PAGINA_INICIAL_ESTAGIARIO;
 			}
 			
 			submissao = new Submissao();
+			submissao.setEstagio(estagio);
 			Documento documento = new Documento();
 			documento.setNome(TipoSubmissao.PLANO_ESTAGIO + "_" + estagio.getEstagiario().getNomeCompleto().toUpperCase());
 			documento.setExtensao(planoEstagio.getContentType());
@@ -234,16 +235,18 @@ public class EstagiarioController {
 			estagioService.submeter(submissao);
 			
 		} catch (IOException e) {
-			return "redirect:/500";
+			redirectAttributes.addFlashAttribute("error", "Tamanho do arquivo excede o limite de 5Mb.");
+			return REDIRECT_ACOMPANHAMENTO_ESTAGIO + idEstagio;
 		}
 
+		redirectAttributes.addFlashAttribute("sucesso", "Plano submetido realizada com sucesso.");
 		return REDIRECT_ACOMPANHAMENTO_ESTAGIO + idEstagio;
 	}
 	
 	@RequestMapping(value = "/Acompanhamento/{idEstagio}/EditarPlano", method = RequestMethod.POST)
-	public String editarPlano(Long idEstagio, MultipartFile planoEstagio, RedirectAttributes redirectAttributes) throws Exception{
+	public String editarPlano(@PathVariable("idEstagio") Long idEstagio, MultipartFile planoEstagio, RedirectAttributes redirectAttributes) throws Exception{
 		
-		if(!validarArquivo(planoEstagio)){
+		if(validarArquivo(planoEstagio)){
 			redirectAttributes.addFlashAttribute("error", "Escolha um arquivo pdf.");
 			return REDIRECT_ACOMPANHAMENTO_ESTAGIO + idEstagio;
 		}
@@ -251,21 +254,21 @@ public class EstagiarioController {
 		Submissao submissao = estagioService.buscarSubmissaoPorTipoSubmissaoEEstagioIdECpf(Submissao.TipoSubmissao.PLANO_ESTAGIO, idEstagio, getCpfUsuarioLogado());
 		
 		if(submissao == null){
-			redirectAttributes.addFlashAttribute("error", "Acesso negado.");
+			redirectAttributes.addFlashAttribute("error", "Você não tem permissão para editar este plano.");
 			return REDIRECT_PAGINA_INICIAL_ESTAGIARIO;
 		}
 		
 		submissao.getDocumento().setArquivo(planoEstagio.getBytes());
 		estagioService.editarSubmissao(submissao);
-		redirectAttributes.addFlashAttribute("msg", "Plano editado com sucesso.");
+		redirectAttributes.addFlashAttribute("sucesso", "Plano editado com sucesso.");
 		return REDIRECT_ACOMPANHAMENTO_ESTAGIO + idEstagio;
 	}
 	
 	@RequestMapping(value = "/Acompanhamento/{idEstagio}/SubmeterRelatorio", method = RequestMethod.POST)
-	public String postSubmeterRelatorio(@Valid @RequestParam("relatorio") MultipartFile relatorio, @PathVariable("idEstagio") Long idEstagio, RedirectAttributes redirectAttributes ) throws Exception{
+	public String postSubmeterRelatorio(@RequestParam("relatorio") MultipartFile relatorio, @PathVariable("idEstagio") Long idEstagio, RedirectAttributes redirectAttributes ) throws Exception{
 
 		try {
-			if(!validarArquivo(relatorio)){
+			if(validarArquivo(relatorio)){
 				redirectAttributes.addFlashAttribute("error", "Escolha um arquivo pdf.");
 				return REDIRECT_ACOMPANHAMENTO_ESTAGIO + idEstagio;
 			}
@@ -279,12 +282,13 @@ public class EstagiarioController {
 			
 			Submissao submissao = estagioService.buscarSubmissaoPorTipoSubmissaoEEstagioIdECpf(Submissao.TipoSubmissao.RELATORIO_FINAL_ESTAGIO, idEstagio, getCpfUsuarioLogado());
 			
-			if (submissao == null) {
+			if (submissao != null) {
 				redirectAttributes.addFlashAttribute("error", "Acesso negado.");
 				return REDIRECT_PAGINA_INICIAL_ESTAGIARIO;
 			}
 			
 			submissao = new Submissao();
+			submissao.setEstagio(estagio);
 			Documento documento = new Documento();
 			documento.setNome(TipoSubmissao.RELATORIO_FINAL_ESTAGIO + "_" + estagio.getEstagiario().getNomeCompleto().toUpperCase());
 			documento.setExtensao(relatorio.getContentType());
@@ -300,13 +304,14 @@ public class EstagiarioController {
 			return "redirect:/500";
 		}
 
+		redirectAttributes.addFlashAttribute("sucesso", "Relatório submetido realizada com sucesso.");
 		return REDIRECT_ACOMPANHAMENTO_ESTAGIO + idEstagio;
 	}
 	
 	@RequestMapping(value = "/Acompanhamento/{idEstagio}/EditarRelatorio", method = RequestMethod.POST)
-	public String editarRelatorio(Long idEstagio, MultipartFile relatorio, RedirectAttributes redirectAttributes) throws Exception{
+	public String editarRelatorio(@PathVariable("idEstagio") Long idEstagio, MultipartFile relatorio, RedirectAttributes redirectAttributes) throws Exception{
 		
-		if(!validarArquivo(relatorio)){
+		if(validarArquivo(relatorio)){
 			redirectAttributes.addFlashAttribute("error", "Escolha um arquivo pdf.");
 			return REDIRECT_ACOMPANHAMENTO_ESTAGIO + idEstagio;
 		}
@@ -320,7 +325,7 @@ public class EstagiarioController {
 		
 		submissao.getDocumento().setArquivo(relatorio.getBytes());
 		estagioService.editarSubmissao(submissao);
-		redirectAttributes.addFlashAttribute("msg", "Relatorio editado com sucesso.");
+		redirectAttributes.addFlashAttribute("sucesso", "Relatorio editado com sucesso.");
 		return REDIRECT_ACOMPANHAMENTO_ESTAGIO + idEstagio;
 		
 	}
@@ -337,7 +342,7 @@ public class EstagiarioController {
 
 	private boolean validarArquivo(MultipartFile anexo){
 		
-		if(anexo == null || !anexo.getContentType().equals("application/pdf")){
+		if(anexo == null || !anexo.getContentType().equals("application/pdf")) {
 			return false;
 		}	
 		return true;

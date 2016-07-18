@@ -133,6 +133,22 @@ public class Inscricao {
 		this.resultado = resultado;
 	}
 
+	public Estagiario getEstagiario() {
+		return estagiario;
+	}
+
+	public void setEstagiario(Estagiario estagiario) {
+		this.estagiario = estagiario;
+	}
+
+	public Selecao getSelecao() {
+		return selecao;
+	}
+
+	public void setSelecao(Selecao selecao) {
+		this.selecao = selecao;
+	}
+
 	public enum Resultado {
 
 		CLASSIFICADO("Classificado"),

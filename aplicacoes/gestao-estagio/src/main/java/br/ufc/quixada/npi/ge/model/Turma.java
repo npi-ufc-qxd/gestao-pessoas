@@ -51,6 +51,9 @@ public class Turma {
 	@OneToOne
 	private Servidor orientador;
 
+	@OneToOne
+	private Selecao selecao;
+	
 	@ManyToMany
 	private List<Servidor> supervisores;
 
@@ -157,6 +160,14 @@ public class Turma {
 
 	public void setEstagios(List<Estagio> estagios) {
 		this.estagios = estagios;
+	}
+
+	public Selecao getSelecao() {
+		return selecao;
+	}
+
+	public void setSelecao(Selecao selecao) {
+		this.selecao = selecao;
 	}
 
 	public enum TipoTurma {

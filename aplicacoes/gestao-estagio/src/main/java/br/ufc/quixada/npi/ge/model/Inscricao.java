@@ -35,13 +35,13 @@ public class Inscricao {
 	private Date validadaEm;
 
 	@NotNull (message = "Campo Obrigatório.")
-	private boolean atendeRequisito;
+	private Boolean atendeRequisito;
 
-	private boolean confirmarRequisito;
+	private Boolean confirmarRequisito;
 
-	private boolean confirmarInscricao;
+	private Boolean confirmarInscricao;
 
-	private double iraGeral;
+	private Double iraGeral;
 
 	@NotNull (message = "Campo Obrigatório.")
 	private String descricaoProfissional;

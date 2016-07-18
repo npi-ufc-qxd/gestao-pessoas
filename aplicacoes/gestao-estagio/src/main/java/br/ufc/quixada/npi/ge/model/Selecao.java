@@ -38,7 +38,7 @@ public class Selecao {
 	private String preRequisitos;
 	
 	@NotNull (message = "Campo Obrigatório.")
-	private int vagas;
+	private Integer vagas;
 	
 	@ManyToMany
 	private List<Curso> cursos;

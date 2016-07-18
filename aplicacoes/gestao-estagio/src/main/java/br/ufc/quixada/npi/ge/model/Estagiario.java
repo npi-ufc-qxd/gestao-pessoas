@@ -247,6 +247,14 @@ public class Estagiario {
 		this.email = email;
 	}
 
+	public List<Inscricao> getInscricoes() {
+		return inscricoes;
+	}
+
+	public void setInscricoes(List<Inscricao> inscricoes) {
+		this.inscricoes = inscricoes;
+	}
+
 	public enum Curso {
 		SISTEMAS_INFORMAÇÃO("Sistemas de Informação"),
 		REDES_COMPUTADORES("Redes de Computadores"),

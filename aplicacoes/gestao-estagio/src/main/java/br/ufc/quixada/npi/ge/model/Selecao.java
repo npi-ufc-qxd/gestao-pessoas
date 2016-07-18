@@ -9,6 +9,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
@@ -39,7 +40,7 @@ public class Selecao {
 	@NotNull (message = "Campo Obrigatório.")
 	private int vagas;
 	
-	@OneToMany
+	@ManyToMany
 	private List<Curso> cursos;
 	
 	@OneToMany (mappedBy = "selecao")

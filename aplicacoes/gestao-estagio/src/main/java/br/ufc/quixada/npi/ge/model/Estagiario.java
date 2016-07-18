@@ -37,6 +37,9 @@ public class Estagiario {
 	@OneToMany(mappedBy="estagiario")
 	private List<Estagio> estagios;
 	
+	@OneToMany(mappedBy="estagiario")
+	private List<Inscricao> inscricoes;
+	
 	@NotNull(message = "Campo obrigatório.")
 	@NotEmpty(message = "Campo obrigatório.")
 	private String nomeMae;

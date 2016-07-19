@@ -16,6 +16,9 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.format.annotation.DateTimeFormat;
+
 @Entity
 public class Selecao {
 
@@ -24,17 +27,19 @@ public class Selecao {
 	private Long id;
 	
 	@NotNull (message = "Campo Obrigatório.")
-	@Temporal (TemporalType.TIME)
+	@Temporal (TemporalType.DATE)
+	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	private Date inicioInscricao;
 	
 	@NotNull (message = "Campo Obrigatório.")
-	@Temporal (TemporalType.TIME)
+	@Temporal (TemporalType.DATE)
+	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	private Date terminoInscricao;
 	
 	@Enumerated(EnumType.STRING)
 	private Status status;
 	
-	@NotNull (message = "Campo Obrigatório.")
+	@NotEmpty(message = "Campo Obrigatório.")
 	private String preRequisitos;
 	
 	@NotNull (message = "Campo Obrigatório.")

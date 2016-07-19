@@ -29,6 +29,8 @@ $(".orientador").select2();
 
 $(".supervisores").select2();
 
+$(".cursos").select2();
+
 $(document).ready(function() {
 	
 	$("#semestre").keyup(function() {
@@ -66,7 +68,6 @@ $(document).ready(function() {
         	termino: {
         		required: true
         	},
-        	
         	inicio:{
 				menorQue : "#termino",
         	},
@@ -104,6 +105,63 @@ $(document).ready(function() {
             },
         }
     });
+	
+	$('#form-selecao').validate({
+        rules: {
+        	vagas: {
+        		required: true
+        	},
+        	inicioInscricao: {
+        		required: true
+        	},
+        	terminoInscricao: {
+        		required: true
+        	},
+        	preRequisitos: {
+        		required: true
+        	},
+        	status: {
+        		required: true
+        	},
+        	inicioInscricao:{
+        		menorQue : "#termino",
+        	},
+
+        	terminoInscricao:{
+        		maiorQue: "#inicio",
+        	}
+        },
+        highlight: function(element) {
+            $(element).closest('.form-group').addClass('has-error');
+        },
+        unhighlight: function(element) {
+            $(element).closest('.form-group').removeClass('has-error');
+        },
+        errorElement: 'span',
+        errorClass: 'help-block',
+        errorPlacement: function(error, element) {
+            error.insertAfter(element.parent().children().last());
+        },
+        messages:{
+        	vagas:{
+                required:"Campo obrigatório",
+            },
+            status: {
+        		required: "Campo obrigatório",
+        	},
+        	inicioInscricao:{
+                required:"Campo obrigatório",
+            },
+        	terminoInscricao:{
+                required:"Campo obrigatório",
+            },
+        	preRequisitos:{
+                required:"Campo obrigatório",
+            },
+        }
+    });
+
+	
 
 });
 

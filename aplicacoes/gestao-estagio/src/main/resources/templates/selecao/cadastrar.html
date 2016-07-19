@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorator="layouts/LayoutGestaoPessoas">
+
+<head>
+	<title>Gestão Pessoas | Abrir Seleção</title>
+</head>
+
+<section layout:fragment="conteudo">
+
+
+  <div class="container-fluid titulo-pagina">
+    <div class="container">
+        <ul class="breadcrumb">
+            <li><a th:href="@{/Supervisao/}" >Minhas Turmas</a></li>
+            <li class="active">Abrir Seleção</li>
+        </ul>
+        <h1>Abrir Seleção</h1>
+    </div>
+  </div>
+
+
+	<div class="container animated fadeInRight">
+	    <div class="row">
+	      <div class="col-md-4">
+	          <div class="panel panel-bluegray">
+	          <div class="panel-heading">
+	            <a class="panel-title" data-toggle="collapse" data-target="#detalhesTurma" th:inline="text"><i class="fa fa-caret-down fa-caret-right fa-chevron-down" aria-hidden="true"></i> Turma: [[${selecao.turma.nome}]] - [[${selecao.turma.semestre}]]</a>
+			  </div>
+	          <div id="detalhesTurma" class="panel-body collapse in">
+				  <table class="table table-hover">
+				    <tbody>
+				     <tr>
+				        <td><strong>Orientador</strong></td>
+				        <td th:text="${selecao.turma.orientador == null ? 'Não há orientador' : selecao.turma.orientador.nome}"></td>
+				      </tr>
+				      <tr>
+				        <td><strong>Supervisores</strong></td>
+				     	<td th:inline="text"> <span th:if="${#lists.isEmpty(selecao.turma.supervisores)}">Não há supervisores</span> <span th:each="sup : ${selecao.turma.supervisores}"> [[${sup.nome}]],</span></td>
+				      </tr>
+				      <tr>
+				        <td><strong>Período</strong></td>
+				        <td><label th:text="${#dates.format(selecao.turma.inicio, 'dd/MM/yyyy')}"></label>  a <label th:text="${#dates.format(selecao.turma.termino, 'dd/MM/yyyy')}"></label></td>
+				      </tr>
+				      <tr>
+				        <td><strong>Tipo</strong></td>
+				        <td th:text="${selecao.turma.tipoTurma}"></td>
+				      </tr>
+				      <tr>
+				        <td><strong>Status</strong></td>
+				        <td th:text="${selecao.turma.status}"></td>
+				      </tr>
+				    </tbody>
+				  </table>
+	           </div>
+	        </div>
+	
+	      </div>
+
+
+	    <div class="col-md-8">
+			<div class="panel panel-bluegray">
+				<div class="panel-heading">
+					<p class="panel-title" data-toggle="collapse" data-target="#selecao">Abrir Seleção</p>
+				</div>
+				<div id="selecao" class="panel-body collapse in">
+					<form class="form-horizontal" action="#" th:object="${selecao}" th:action="@{/Selecao/Adicionar}" method="post">
+						<div class="form-group">
+							<label for="" class="col-sm-2 control-label">Periodo</label>
+							<div class="col-sm-5">
+								<input type="text" class="form-control data" id="inicioInscricao" th:field="*{inicioInscricao}" placeholder="Inicio"/>
+							</div>
+							<div class="col-sm-5">
+								<input type="text" class="form-control data" id="terminoInscricao" th:field="*{terminoInscricao}" placeholder="Final"/>
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label for="" class="col-sm-2 control-label">Status</label>
+							<div class="col-sm-10">
+								<select class="form-control">
+									<option th:each="s : ${status}" th:text="${s.descricao}" th:value="${s}">ABERTA</option>
+								</select>
+							</div>
+						</div>
+						
+						<div class="form-group">
+		                  <label for="" class="col-sm-2 control-label">Vagas</label>
+		                  <div class="col-sm-10">
+		                    <input type="text" class="form-control" id="vagas" th:field="*{vagas}" placeholder="Vagas"/>
+		                  </div>
+		                </div>
+		                
+						<div class="form-group">
+							<label for="" class="col-sm-2 control-label">Pré Requisitos</label>
+							<div class="col-sm-10">
+								<textarea class="form-control" rows="3"></textarea>
+							</div>
+		                </div>
+			  			<div class="form-group">
+							<label for="" class="col-sm-2 control-label">Preferência de Curso</label>
+							<div class="col-sm-10">
+								<select class="form-control">
+									<option th:each="c : ${cursos}" th:text="${c.nome}" th:value="${c.id}">ABERTA</option>
+								</select>
+							</div>
+						</div>
+					</form>
+				</div>
+	        </div>
+	    </div>
+	   </div>
+	</div>
+  </section>
+</html>

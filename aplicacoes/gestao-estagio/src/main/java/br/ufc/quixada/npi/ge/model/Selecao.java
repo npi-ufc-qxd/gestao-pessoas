@@ -25,11 +25,11 @@ public class Selecao {
 	
 	@NotNull (message = "Campo Obrigatório.")
 	@Temporal (TemporalType.TIME)
-	private Date inicioIncricao;
+	private Date inicioInscricao;
 	
 	@NotNull (message = "Campo Obrigatório.")
 	@Temporal (TemporalType.TIME)
-	private Date terminoIncricao;
+	private Date terminoInscricao;
 	
 	@Enumerated(EnumType.STRING)
 	private Status status;
@@ -57,20 +57,20 @@ public class Selecao {
 		this.id = id;
 	}
 
-	public Date getInicioIncricao() {
-		return inicioIncricao;
+	public Date getInicioInscricao() {
+		return inicioInscricao;
 	}
 
-	public void setInicioIncricao(Date inicioIncricao) {
-		this.inicioIncricao = inicioIncricao;
+	public void setInicioInscricao(Date inicioInscricao) {
+		this.inicioInscricao = inicioInscricao;
 	}
 
-	public Date getTerminoIncricao() {
-		return terminoIncricao;
+	public Date getTerminoInscricao() {
+		return terminoInscricao;
 	}
 
-	public void setTerminoIncricao(Date terminoIncricao) {
-		this.terminoIncricao = terminoIncricao;
+	public void setTerminoInscricao(Date terminoInscricao) {
+		this.terminoInscricao = terminoInscricao;
 	}
 
 	public Status getStatus() {
@@ -89,11 +89,11 @@ public class Selecao {
 		this.preRequisitos = preRequisitos;
 	}
 
-	public int getVagas() {
+	public Integer getVagas() {
 		return vagas;
 	}
 
-	public void setVagas(int vagas) {
+	public void setVagas(Integer vagas) {
 		this.vagas = vagas;
 	}
 

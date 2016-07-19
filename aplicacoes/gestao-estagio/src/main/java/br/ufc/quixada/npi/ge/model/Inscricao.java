@@ -77,27 +77,27 @@ public class Inscricao {
 		this.validadaEm = validadaEm;
 	}
 
-	public boolean isAtendeRequisito() {
+	public Boolean isAtendeRequisito() {
 		return atendeRequisito;
 	}
 
-	public void setAtendeRequisito(boolean atendeRequisito) {
+	public void setAtendeRequisito(Boolean atendeRequisito) {
 		this.atendeRequisito = atendeRequisito;
 	}
 
-	public boolean isConfirmarRequisito() {
+	public Boolean isConfirmarRequisito() {
 		return confirmarRequisito;
 	}
 
-	public void setConfirmarRequisito(boolean confirmarRequisito) {
+	public void setConfirmarRequisito(Boolean confirmarRequisito) {
 		this.confirmarRequisito = confirmarRequisito;
 	}
 
-	public boolean isConfirmarInscricao() {
+	public Boolean isConfirmarInscricao() {
 		return confirmarInscricao;
 	}
 
-	public void setConfirmarInscricao(boolean confirmarInscricao) {
+	public void setConfirmarInscricao(Boolean confirmarInscricao) {
 		this.confirmarInscricao = confirmarInscricao;
 	}
 
@@ -105,7 +105,7 @@ public class Inscricao {
 		return iraGeral;
 	}
 
-	public void setIraGeral(double iraGeral) {
+	public void setIraGeral(Double iraGeral) {
 		this.iraGeral = iraGeral;
 	}
 

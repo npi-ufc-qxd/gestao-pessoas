@@ -18,6 +18,10 @@ public class Constants {
 
 	public static final String FORMULARIO_EDITAR_ESTAGIARIO = "estagiario/editar-estagiario";
 
+	/** SELEÇÃO*/
+	
+	public static final String FORMULARIO_ADICIONAR_SELECAO = "selecao/cadastrar";
+	
 	/** SUPERVISOR*/
 
 	public static final String PAGINA_INICIAL_SUPERVISOR = "supervisao/list-turmas";

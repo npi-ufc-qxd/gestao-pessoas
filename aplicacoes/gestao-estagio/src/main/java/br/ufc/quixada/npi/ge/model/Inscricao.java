@@ -13,6 +13,9 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import br.ufc.quixada.npi.ge.enums.TipoEstagio;
 
 @Entity
@@ -29,9 +32,11 @@ public class Inscricao {
 	private Estagiario estagiario;
 	
 	@Temporal(TemporalType.DATE)
+	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	private Date criadoEm;
 
 	@Temporal(TemporalType.DATE)
+	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	private Date validadaEm;
 
 	@NotNull (message = "Campo Obrigatório.")
@@ -43,10 +48,10 @@ public class Inscricao {
 
 	private Double iraGeral;
 
-	@NotNull (message = "Campo Obrigatório.")
+	@NotEmpty (message = "Campo Obrigatório.")
 	private String descricaoProfissional;
 
-	@NotNull (message = "Campo Obrigatório.")
+	@NotEmpty (message = "Campo Obrigatório.")
 	@Enumerated (EnumType.STRING)
 	private TipoEstagio estagio;
 
@@ -77,27 +82,27 @@ public class Inscricao {
 		this.validadaEm = validadaEm;
 	}
 
-	public boolean isAtendeRequisito() {
+	public Boolean isAtendeRequisito() {
 		return atendeRequisito;
 	}
 
-	public void setAtendeRequisito(boolean atendeRequisito) {
+	public void setAtendeRequisito(Boolean atendeRequisito) {
 		this.atendeRequisito = atendeRequisito;
 	}
 
-	public boolean isConfirmarRequisito() {
+	public Boolean isConfirmarRequisito() {
 		return confirmarRequisito;
 	}
 
-	public void setConfirmarRequisito(boolean confirmarRequisito) {
+	public void setConfirmarRequisito(Boolean confirmarRequisito) {
 		this.confirmarRequisito = confirmarRequisito;
 	}
 
-	public boolean isConfirmarInscricao() {
+	public Boolean isConfirmarInscricao() {
 		return confirmarInscricao;
 	}
 
-	public void setConfirmarInscricao(boolean confirmarInscricao) {
+	public void setConfirmarInscricao(Boolean confirmarInscricao) {
 		this.confirmarInscricao = confirmarInscricao;
 	}
 
@@ -105,7 +110,7 @@ public class Inscricao {
 		return iraGeral;
 	}
 
-	public void setIraGeral(double iraGeral) {
+	public void setIraGeral(Double iraGeral) {
 		this.iraGeral = iraGeral;
 	}
 

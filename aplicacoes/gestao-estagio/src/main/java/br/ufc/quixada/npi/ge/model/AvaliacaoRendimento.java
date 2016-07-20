@@ -25,6 +25,15 @@ public class AvaliacaoRendimento {
 	private Estagio estagio;
 
 	@OneToOne
+	private Servidor criadaPor;
+
+	@OneToOne
+	private Servidor atualizadaPor;
+
+	@Enumerated(EnumType.STRING)
+	private Modo modo;
+
+	@OneToOne
 	@JoinColumn(name = "documento_id")
 	private Documento documento;
 
@@ -90,7 +99,6 @@ public class AvaliacaoRendimento {
 
 	private String fatorRelacionamentoComentario;
 
-
 	private Boolean confirmadoNoEstagio;
 
 	private Boolean fatorAssuidade;
@@ -133,6 +141,30 @@ public class AvaliacaoRendimento {
 
 	public void setEstagio(Estagio estagio) {
 		this.estagio = estagio;
+	}
+
+	public Servidor getCriadaPor() {
+		return criadaPor;
+	}
+
+	public void setCriadaPor(Servidor criadaPor) {
+		this.criadaPor = criadaPor;
+	}
+
+	public Servidor getAtualizadaPor() {
+		return atualizadaPor;
+	}
+
+	public void setAtualizadaPor(Servidor atualizadaPor) {
+		this.atualizadaPor = atualizadaPor;
+	}
+
+	public Modo getModo() {
+		return modo;
+	}
+
+	public void setModo(Modo modo) {
+		this.modo = modo;
 	}
 
 	public Documento getDocumento() {
@@ -711,6 +743,11 @@ public class AvaliacaoRendimento {
 			this.descricaoItem = descricaoItem;
 		}
 
+	}
+
+	public enum Modo {
+		FORMULARIO, 
+		ARQUIVO; 
 	}
 
 }

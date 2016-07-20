@@ -329,3 +329,13 @@ $(document).ready(function(){
 	  $('#telefone').mask('(88) 9 0000-0000');
 });	  
 
+$("#modoAvaliacao select").change(function(){
+	if($(this).val() == 'FORMULARIO') {
+		$("#viaFormulario").removeClass("hidden");
+		$("#viaArquivo").addClass("hidden");
+	} else if($(this).val() == 'ARQUIVO') {
+		$("#viaArquivo").removeClass("hidden");
+		$("#viaFormulario").addClass("hidden");
+	}
+});
+

@@ -598,6 +598,44 @@ public class SupervisorController {
 		return FORMULARIO_ADICIONAR_AVALIACAO_RENDIMENTO;
 	}
 
+	@RequestMapping(value = "/Acompanhamento/{idEstagio}/AvaliacaoRendimento", method = RequestMethod.POST)
+	public String adicionarAvaliacaoRendimento(Model model,
+			@RequestParam(value = "arquivo", required = false) MultipartFile arquivo,
+			@Valid @ModelAttribute("avaliacaoRendimento") AvaliacaoRendimento avaliacaoRendimento,
+			RedirectAttributes redirect, @PathVariable("idEstagio") Long idEstagio) {
+
+		Estagio estagio = estagioService.buscarEstagioPorId(idEstagio);
+		avaliacaoRendimento.setEstagio(estagio);
+
+		Servidor servidor = servidorEstaCadastrado(pessoaService.buscarPessoaPorCpf(getCpfUsuarioLogado()));
+
+		avaliacaoRendimento.setCriadaPor(servidor);
+		avaliacaoRendimento.setAtualizadaPor(servidor);
+
+		estagioService.adicionarAvaliacaoRendimento(avaliacaoRendimento);
+
+		redirect.addFlashAttribute("sucesso", "Avaliação de Rendimento realizada!");
+		return REDIRECT_ACOMPANHAMENTO_ESTAGIARIO + idEstagio;
+	}
+
+	@RequestMapping(value = "/Acompanhamento/{idEstagio}/AvaliacaoRendimento/{idAvaliacaoRendimento}/Editar", method = RequestMethod.GET)
+	public String formularioEditarAvaliacaoRendimento(Model model, @PathVariable("idEstagio") Long idEstagio) {
+		return FORMULARIO_EDITAR_AVALIACAO_RENDIMENTO;
+	}
+
+	@RequestMapping(value = "/Acompanhamento/{idEstagio}/AvaliacaoRendimento/{idAvaliacaoRendimento}/Editar", method = RequestMethod.POST)
+	public String editarAvaliacaoRendimento(Model model,
+			@Valid @ModelAttribute("avaliacaoRendimento") AvaliacaoRendimento avaliacaoRendimento,
+			RedirectAttributes redirect, @PathVariable("idEstagio") Long idEstagio) {
+
+		return REDIRECT_ACOMPANHAMENTO_ESTAGIARIO + idEstagio;
+	}
+
+	@RequestMapping(value = "/Acompanhamento/{idEstagio}/Frequencia", method = RequestMethod.GET)
+	public String detalhesFrequenciaEstagiario(Model model, @PathVariable("idEstagio") Long idEstagio) {
+		return DETALHES_FREQUENCIA_ESTAGIARIO;
+	}
+
 	@ModelAttribute("frequencias")
 	public List<AvaliacaoRendimento.Frequencia> todasFrequencias() {
 		return Arrays.asList(AvaliacaoRendimento.Frequencia.values());
@@ -651,38 +689,6 @@ public class SupervisorController {
 	@ModelAttribute("cuidados")
 	public List<AvaliacaoRendimento.CuidadoMateriaisEEquipamentos> todosCuidados() {
 		return Arrays.asList(AvaliacaoRendimento.CuidadoMateriaisEEquipamentos.values());
-	}
-
-	@RequestMapping(value = "/Acompanhamento/{idEstagio}/AvaliacaoRendimento", method = RequestMethod.POST)
-	public String adicionarAvaliacaoRendimento(Model model,
-			@RequestParam(value = "arquivo", required = false) MultipartFile arquivo,
-			@Valid @ModelAttribute("avaliacaoRendimento") AvaliacaoRendimento avaliacaoRendimento,
-			RedirectAttributes redirect, @PathVariable("idEstagio") Long idEstagio) {
-
-		Estagio estagio = estagioService.buscarEstagioPorId(idEstagio);
-		avaliacaoRendimento.setEstagio(estagio);
-		estagioService.adicionarAvaliacaoRendimento(avaliacaoRendimento);
-
-		redirect.addFlashAttribute("sucesso", "Avaliação de Rendimento realizada!");
-		return REDIRECT_ACOMPANHAMENTO_ESTAGIARIO + idEstagio;
-	}
-
-	@RequestMapping(value = "/Acompanhamento/{idEstagio}/AvaliacaoRendimento/{idAvaliacaoRendimento}/Editar", method = RequestMethod.GET)
-	public String formularioEditarAvaliacaoRendimento(Model model, @PathVariable("idEstagio") Long idEstagio) {
-		return FORMULARIO_EDITAR_AVALIACAO_RENDIMENTO;
-	}
-
-	@RequestMapping(value = "/Acompanhamento/{idEstagio}/AvaliacaoRendimento/{idAvaliacaoRendimento}/Editar", method = RequestMethod.POST)
-	public String editarAvaliacaoRendimento(Model model,
-			@Valid @ModelAttribute("avaliacaoRendimento") AvaliacaoRendimento avaliacaoRendimento,
-			RedirectAttributes redirect, @PathVariable("idEstagio") Long idEstagio) {
-
-		return REDIRECT_ACOMPANHAMENTO_ESTAGIARIO + idEstagio;
-	}
-
-	@RequestMapping(value = "/Acompanhamento/{idEstagio}/Frequencia", method = RequestMethod.GET)
-	public String detalhesFrequenciaEstagiario(Model model, @PathVariable("idEstagio") Long idEstagio) {
-		return DETALHES_FREQUENCIA_ESTAGIARIO;
 	}
 
 	private void inserirNomeUsuarioNaSessao(HttpSession session) {

@@ -116,6 +116,7 @@
 								<th>Matricula</th>
 								<th>Nome</th>
 								<th>Curso</th>
+								<th>Pré-Requisitos</th>
 								<th>IRA GERAL</th>
 		           			</tr>
                 		</thead>
@@ -124,6 +125,7 @@
                     			<td th:text="${inscricao.estagiario.matricula}">453535</td>
 			                    <td th:text="${inscricao.estagiario.nomeCompleto}">José Alves</td>
 			                    <td th:text="${inscricao.estagiario.curso.descricao}">ES</td>
+			                    <td th:text="${inscricao.atendeRequisito? 'Sim': 'Não'}">8.0</td>
 			                    <td th:text="${inscricao.iraGeral}">8.0</td>
                   			</tr>
                 		</tbody>

@@ -4,7 +4,6 @@ import static br.ufc.quixada.npi.ge.utils.Constants.FORMULARIO_ADICIONAR_SELECAO
 import static br.ufc.quixada.npi.ge.utils.Constants.REDIRECT_PAGINA_INICIAL_SUPERVISOR;
 
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;

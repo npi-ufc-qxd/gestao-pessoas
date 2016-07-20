@@ -12,7 +12,7 @@ import br.ufc.quixada.npi.ge.service.SelecaoService;
 public class SelecaoServiceImpl implements SelecaoService{
 
 	@Inject
-	SelecaoRepository selecaoRepository;
+	private SelecaoRepository selecaoRepository;
 	
 	@Override
 	public Selecao buscarSelecaoPorId(Long idSelecao) {

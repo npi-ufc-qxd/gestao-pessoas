@@ -13,7 +13,7 @@ import br.ufc.quixada.npi.ge.service.CursoService;
 public class CursoServiceImpl implements CursoService{
 
 	@Inject
-	CursoRepository cursoRepository;
+	private CursoRepository cursoRepository;
 	
 	@Override
 	public List<Curso> buscarCursos() {

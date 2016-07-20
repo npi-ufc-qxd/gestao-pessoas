@@ -100,7 +100,6 @@ public class SelecaoController {
 			return REDIRECT_PAGINA_INICIAL_SUPERVISOR;
 		}
 		
-		model.addAttribute("turma", selecao.getTurma());
 		model.addAttribute("selecao", selecao);
 		return FORMULARIO_EDITAR_SELECAO;
 	}
@@ -108,7 +107,6 @@ public class SelecaoController {
 	@RequestMapping(value = "{idSelecao}/Editar", method = RequestMethod.POST)
 	public String editarSelecao(Model model, @PathVariable("idSelecao") Long idSelecao, @Valid @ModelAttribute("selecao") Selecao selecao, BindingResult result, RedirectAttributes redirect){
 		if (result.hasErrors()) {
-			model.addAttribute("turma", selecao.getTurma());
 			model.addAttribute("selecao", selecao);
 			return FORMULARIO_ADICIONAR_SELECAO;
 		}

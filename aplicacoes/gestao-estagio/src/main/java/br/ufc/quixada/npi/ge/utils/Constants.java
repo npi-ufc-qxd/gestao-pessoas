@@ -22,6 +22,8 @@ public class Constants {
 	
 	public static final String FORMULARIO_ADICIONAR_SELECAO = "selecao/adicionar-selecao";
 	
+	public static final String FORMULARIO_EDITAR_SELECAO = "selecao/editar-selecao";
+	
 	public static final String DETALHES_SELECAO = "selecao/detalhes-selecao";
 	
 	/** SUPERVISOR*/

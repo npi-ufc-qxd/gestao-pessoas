@@ -91,7 +91,7 @@ public class SelecaoController {
 			model.addAttribute("selecao", selecao);
 			return FORMULARIO_ADICIONAR_SELECAO;
 		}
-//		selecaoService.adicionarSelecao(selecao);
+		selecaoService.adicionarSelecao(selecao);
 		return "redirect:/Selecao/"+1l+"/Adicionar";
 	}
 	

@@ -39,7 +39,7 @@
 	              	<b th:inline="text">[[${turma.nome}]] <span class="label label-primary"> [[${turma.status.descricao}]]</span></b>
 	              	<a th:href="@{'/Supervisao/Turma/' + ${turma.id}}" class="btn btn-success btn-sm pull-right gp-btn-acompanhamento">Detalhes</a>
 	              	<a th:if="${turma.selecao == null}" th:href="@{'/Selecao/{idTurma}/Adicionar'(idTurma=${turma.id})}" class="btn btn-primary btn-sm pull-right gp-btn-acompanhamento">Abrir Seleção</a>
-	              	<a th:if="${turma.selecao != null}" th:href="@{'/Selecao/{idTurma}/Adicionar/{idSelecao}'(idSelecao=${turma.selecao.id},idTurma=${turma.id})}" class="btn btn-primary btn-sm pull-right gp-btn-acompanhamento">Detalhes Seleção</a>
+	              	<a th:if="${turma.selecao != null}" th:href="@{'/Selecao/{idSelecao}'(idSelecao=${turma.selecao.id})}" class="btn btn-primary btn-sm pull-right gp-btn-acompanhamento">Detalhes Seleção</a>
 	            </li>
 	          </ul>
            </div>

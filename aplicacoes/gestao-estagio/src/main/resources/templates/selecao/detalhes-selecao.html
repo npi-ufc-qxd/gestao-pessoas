@@ -5,7 +5,7 @@
     layout:decorator="layouts/LayoutGestaoPessoas">
 
 <head>
-	<title>Gestão Pessoas | Detalhes da Turma</title>
+	<title>Gestão Pessoas | Detalhes da Seleção</title>
 </head>
 
 <section layout:fragment="conteudo">
@@ -15,9 +15,9 @@
     <div class="container">
         <ul class="breadcrumb">
             <li><a th:href="@{/Supervisao}">Minhas Turmas</a></li>
-            <li class="active">Detalhes Turma</li>
+            <li class="active">Detalhes da Seleção</li>
         </ul>
-        <h1>Detalhes da Turma</h1>
+        <h1>Detalhes da Seleção</h1>
     </div>
   </div>
 
@@ -35,11 +35,45 @@
 
 	    <div class="row">
 	      <div class="col-md-4">
+	      	<div th:if="${#strings.equals(turma.tipoTurma, 'NPI')}" class="panel panel-bluegray">
+	          <div class="panel-heading">
+	            <a class="panel-title" data-toggle="collapse" data-target="#selecao"><i class="fa fa-caret-down" aria-hidden="true"></i> Seleção</a>
+				<a th:href="@{/Selecao/{idSelecao}/Editar(idSelecao=${selecao.id})}" class="btn btn-xs pull-right gp-btn-opcao">Editar</a>
+  			  </div>
+	          <div id="selecao" class="panel-body collapse in">
+	          	  <table class="table table-hover">
+				    <tbody>
+				      <tr >
+				        <td th:inline="text"><strong>Período</strong></td>
+				        <td><label th:text="${#dates.format(selecao.inicioInscricao, 'dd/MM/yyyy')}"></label>  a <label th:text="${#dates.format(selecao.terminoInscricao, 'dd/MM/yyyy')}"></label></td>
+				      </tr>
+				      <tr>
+				        <td><strong>Status</strong></td>
+				        <td th:text="${selecao.status == null ? 'Não há status' : selecao.status.descricao}"></td>
+				      </tr>
+				      <tr>
+				        <td><strong>Vagas</strong></td>
+				        <td th:text="${selecao.vagas == null ? 'Não há quantidade vagas cadastrada' : selecao.vagas}"></td>
+				      </tr>
+				      <tr>
+				        <td><strong>Pré-Requisitos</strong></td>
+				        <td th:text="${selecao.preRequisitos == null ? 'Não há Pré-Requisitos' : selecao.preRequisitos}"></td>
+				      </tr>
+				      <tr>
+				        <td><strong>Preferência de Curso</strong></td>
+				        <td th:inline="text"> <span th:if="${#lists.isEmpty(selecao.cursos)}">Não possui preferência de Curso</span> 
+				        	<span th:each="curso : ${selecao.cursos}"> [[${curso.nome}]],</span>
+				        </td>
+				      </tr>
+				      
+				    </tbody>
+				  </table>
+	           </div>
+	        </div>
 	        <div class="panel panel-bluegray">
 	          <div class="panel-heading">
 	            <a class="panel-title" data-toggle="collapse" data-target="#detalhesTurma"><i class="fa fa-caret-down" aria-hidden="true"></i> Turma NPI - 2016.1</a>
-				<a th:href="@{'/Supervisao/Turma/' + ${turma.id} + '/Editar'}" class="btn btn-xs pull-right gp-btn-opcao">editar</a>
-  			  </div>
+			  </div>
 	          <div id="detalhesTurma" class="panel-body collapse in">
 				  <table class="table table-hover">
 				    <tbody>
@@ -56,10 +90,6 @@
 				        <td><label th:text="${#dates.format(turma.inicio, 'dd/MM/yyyy')}"></label>  a <label th:text="${#dates.format(turma.termino, 'dd/MM/yyyy')}"></label></td>
 				      </tr>
 				      <tr>
-				        <td><strong>Tipo</strong></td>
-				        <td th:text="${turma.tipoTurma}"></td>
-				      </tr>
-				      <tr>
 				        <td><strong>Status</strong></td>
 				        <td th:text="${turma.status}"></td>
 				      </tr>
@@ -67,49 +97,38 @@
 				  </table>
 	           </div>
 	        </div>
-	
-	        <div th:if="${#strings.equals(turma.tipoTurma, 'NPI')}" class="panel panel-bluegray">
-	          <div class="panel-heading">
-	            <a class="panel-title" data-toggle="collapse" data-target="#expedienteTurma"><i class="fa fa-caret-down" aria-hidden="true"></i> Expediente da Turma</a>
-				<a th:href="@{/Supervisao/Turma/{id}/Expediente(id=${turma.id})}" class="btn btn-xs pull-right gp-btn-opcao">Gerenciar</a>
-  			  </div>
-	          <div id="expedienteTurma" class="panel-body collapse in">
-	          	  <p th:if="${#lists.isEmpty(turma.expedientes)}">Na há expediente</p> 
-
-				  <table th:if="${not #lists.isEmpty(turma.expedientes)}" class="table table-hover">
-				    <tbody>
-				      <tr th:each="expediente : ${turma.expedientes}">
-				        <td th:inline="text"><strong>[[${expediente.diaSemana.descricao}]]</strong></td>
-				        <td th:inline="text">[[${#dates.format(expediente.horaInicio, 'HH:mm')}]] ás [[${#dates.format(expediente.horaTermino, 'HH:mm')}]]</td>
-				      </tr>
-				    </tbody>
-				  </table>
-	           </div>
-	        </div>
 	      </div>
 
-	    <div class="col-md-8">
-	        <div class="panel panel-bluegray">
-	          <div class="panel-heading">
-	            <a class="panel-title" data-toggle="collapse" data-target="#estagiarios"><i class="fa fa-caret-down" aria-hidden="true"></i> Estágiarios</a>
-	            <span th:if="${not #lists.isEmpty(turma.estagios)}">
-					<a th:if="${#strings.equals(turma.tipoTurma, 'NPI')}" th:href="@{/Supervisao/Turma/{idTurma}/MapaFrequencia(idTurma=${turma.id})}" class="btn btn-xs pull-right gp-btn-opcao">mapa frequência</a>
-		            <a th:if="${#strings.equals(turma.tipoTurma, 'NPI')}" th:href="@{/Supervisao/Turma/{id}/TermosCompromisso(id=${turma.id})}" class="btn btn-xs pull-right gp-btn-opcao">termos</a>
-					<a th:if="${#strings.equals(turma.tipoTurma, 'NPI')}" th:href="@{/Supervisao/Turma/{id}/Declaracoes(id=${turma.id})}" class="btn btn-xs pull-right gp-btn-opcao">declarações</a>
-				</span>
-					<a th:href="@{/Supervisao/Turma/{id}/AtualizarVinculos(id=${turma.id})}" class="btn btn-xs pull-right gp-btn-opcao">Atualizar Vínculos</a>
-	          </div>
-	          <div id="estagiarios" class="panel-body collapse in">
+		<div class="col-md-8">
+			<div class="panel panel-bluegray">
+				<div class="panel-heading">
+	            	<a class="panel-title" data-toggle="collapse" data-target="#inscricoes"><i class="fa fa-caret-down" aria-hidden="true"></i> Inscrições</a>
+	            	<a th:href="@{/Selecao/{idSelecao}/Ranking(idSelecao=${selecao.id})}" class="btn btn-xs pull-right gp-btn-opcao">Gerar Ranking</a>
+				</div>
+				<div id="inscricoes" class="panel-body collapse in">
 	          
-	          	  <p th:if="${#lists.isEmpty(turma.estagios)}">Na há estagiários vinculados a turma</p> 
+					<p th:if="${#lists.isEmpty(selecao.inscricoes)}">Na há inscrições vinculados a está seleção</p> 
 
-		          <ul th:if="${not #lists.isEmpty(turma.estagios)}" class="list-group">
-		            <li th:each="est :${turma.estagios}" class="list-group-item gp-list-group-item">
-		              <b th:inline="text"> [[${est.estagiario.nomeCompleto}]] </b>
-		              <a th:href="@{/Supervisao/Acompanhamento/{id}(id=${est.estagiario.id})}" class="btn btn-success btn-sm pull-right gp-btn-acompanhamento">acompanhamento</a>
-		            </li>
-		          </ul>
-	           </div>
+					
+					<table th:if="${not #lists.isEmpty(selecao.inscricoes)}" class="table table-striped table-hover ">
+						<thead>
+							<tr>
+								<th>Matricula</th>
+								<th>Nome</th>
+								<th>Curso</th>
+								<th>IRA GERAL</th>
+		           			</tr>
+                		</thead>
+                		<tbody>
+                  			<tr th:each="inscricao : ${selecao.inscricoes}">
+                    			<td th:text="${inscricao.estagiario.matricula}">453535</td>
+			                    <td th:text="${inscricao.estagiario.nomeCompleto}">José Alves</td>
+			                    <td th:text="${inscricao.estagiario.curso.descricao}">ES</td>
+			                    <td th:text="${inscricao.iraGeral}">8.0</td>
+                  			</tr>
+                		</tbody>
+              		</table> 
+				</div>
 	        </div>
 	      </div>
 	    </div>

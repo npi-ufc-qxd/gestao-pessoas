@@ -102,7 +102,6 @@ public class SelecaoController {
 			redirect.addFlashAttribute("error", "Seleção inexistente.");
 			return REDIRECT_PAGINA_INICIAL_SUPERVISOR;
 		}
-		
 		model.addAttribute("turma", selecao.getTurma());
 		model.addAttribute("selecao", selecao);
 		return DETALHES_SELECAO;

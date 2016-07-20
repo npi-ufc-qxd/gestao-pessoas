@@ -1,5 +1,6 @@
 package br.ufc.quixada.npi.ge.controller;
 
+import static br.ufc.quixada.npi.ge.utils.Constants.DETALHES_SELECAO;
 import static br.ufc.quixada.npi.ge.utils.Constants.FORMULARIO_ADICIONAR_SELECAO;
 import static br.ufc.quixada.npi.ge.utils.Constants.REDIRECT_PAGINA_INICIAL_SUPERVISOR;
 
@@ -55,9 +56,9 @@ public class SelecaoController {
 	
 	@RequestMapping(value = "/{idTurma}/Adicionar", method = RequestMethod.GET)
 	public String formularioAdicionarSelecao(Model model, @PathVariable("idTurma") Long idTurma, RedirectAttributes redirect){
-		Turma turma = turmaService.buscarTurmaPorServidorId(idTurma, pessoaService.buscarServidorPorCpf(getCpfUsuarioLogado()).getId());
+		Turma turma = turmaService.buscarTurmaPorId(idTurma);
 		if(turma == null){
-			redirect.addFlashAttribute("error", "Você não tem acesso");
+			redirect.addFlashAttribute("error", "Turma inexistente.");
 			return REDIRECT_PAGINA_INICIAL_SUPERVISOR;
 		}
 		if(turma.getSelecao() != null){
@@ -74,9 +75,9 @@ public class SelecaoController {
 	
 	@RequestMapping(value = "{idTurma}/Adicionar", method = RequestMethod.POST)
 	public String adicionarSelecao(Model model, @PathVariable("idTurma") Long idTurma, @Valid @ModelAttribute("selecao") Selecao selecao, BindingResult result, RedirectAttributes redirect){
-		Turma turma = turmaService.buscarTurmaPorServidorId(idTurma, pessoaService.buscarServidorPorCpf(getCpfUsuarioLogado()).getId());
+		Turma turma = turmaService.buscarTurmaPorId(idTurma);
 		if(turma == null){
-			redirect.addFlashAttribute("error", "Você não tem acesso");
+			redirect.addFlashAttribute("error", "Turma inexistente.");
 			return REDIRECT_PAGINA_INICIAL_SUPERVISOR;
 		}
 		if(turma.getSelecao() != null){
@@ -94,7 +95,17 @@ public class SelecaoController {
 		return "redirect:/Selecao/"+1l+"/Adicionar";
 	}
 	
-	private String getCpfUsuarioLogado() {
-		return SecurityContextHolder.getContext().getAuthentication().getName();
+	@RequestMapping(value = "{idSelecao}")
+	public String detalhesSelecao(Model model, @PathVariable("idSelecao") Long idSelecao, RedirectAttributes redirect){
+		Selecao selecao = selecaoService.buscarSelecaoPorId(idSelecao);
+		if(selecao == null){
+			redirect.addFlashAttribute("error", "Seleção inexistente.");
+			return REDIRECT_PAGINA_INICIAL_SUPERVISOR;
+		}
+		
+		model.addAttribute("turma", selecao.getTurma());
+		model.addAttribute("selecao", selecao);
+		return DETALHES_SELECAO;
 	}
+	
 }

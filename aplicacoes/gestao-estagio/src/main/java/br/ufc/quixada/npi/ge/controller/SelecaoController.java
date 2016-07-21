@@ -3,8 +3,8 @@ package br.ufc.quixada.npi.ge.controller;
 import static br.ufc.quixada.npi.ge.utils.Constants.DETALHES_SELECAO;
 import static br.ufc.quixada.npi.ge.utils.Constants.FORMULARIO_ADICIONAR_SELECAO;
 import static br.ufc.quixada.npi.ge.utils.Constants.FORMULARIO_EDITAR_SELECAO;
-import static br.ufc.quixada.npi.ge.utils.Constants.REDIRECT_PAGINA_INICIAL_SUPERVISOR;
 import static br.ufc.quixada.npi.ge.utils.Constants.REDIRECT_DETALHES_SELECAO;
+import static br.ufc.quixada.npi.ge.utils.Constants.REDIRECT_PAGINA_INICIAL_SUPERVISOR;
 
 import java.util.Arrays;
 import java.util.List;

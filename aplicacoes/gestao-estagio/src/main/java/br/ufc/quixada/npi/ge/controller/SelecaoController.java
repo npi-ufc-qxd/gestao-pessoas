@@ -4,6 +4,7 @@ import static br.ufc.quixada.npi.ge.utils.Constants.DETALHES_SELECAO;
 import static br.ufc.quixada.npi.ge.utils.Constants.FORMULARIO_ADICIONAR_SELECAO;
 import static br.ufc.quixada.npi.ge.utils.Constants.FORMULARIO_EDITAR_SELECAO;
 import static br.ufc.quixada.npi.ge.utils.Constants.REDIRECT_PAGINA_INICIAL_SUPERVISOR;
+import static br.ufc.quixada.npi.ge.utils.Constants.REDIRECT_DETALHES_SELECAO;
 
 import java.util.Arrays;
 import java.util.List;
@@ -61,6 +62,10 @@ public class SelecaoController {
 			redirect.addFlashAttribute("error", "Esta turma já possui seleção");
 			return REDIRECT_PAGINA_INICIAL_SUPERVISOR;
 		}
+		if(turma.getTipoTurma() == Turma.TipoTurma.EMPRESA){
+			redirect.addFlashAttribute("error", "Esta turma é do tipo Empresa e não pode ter seleção");
+			return REDIRECT_PAGINA_INICIAL_SUPERVISOR;
+		}
 		
 		Selecao selecao = new Selecao();
 		
@@ -80,6 +85,10 @@ public class SelecaoController {
 			redirect.addFlashAttribute("error", "Esta turma já possui seleção");
 			return REDIRECT_PAGINA_INICIAL_SUPERVISOR;
 		}
+		if(turma.getTipoTurma() == Turma.TipoTurma.EMPRESA){
+			redirect.addFlashAttribute("error", "Esta turma é do tipo Empresa e não pode ter seleção");
+			return REDIRECT_PAGINA_INICIAL_SUPERVISOR;
+		}
 		turma.setSelecao(selecao);
 		selecao.setTurma(turma);
 		if (result.hasErrors()) {
@@ -88,7 +97,8 @@ public class SelecaoController {
 			return FORMULARIO_ADICIONAR_SELECAO;
 		}
 		selecaoService.adicionarSelecao(selecao);
-		return "redirect:/Selecao/"+selecao.getId();
+		redirect.addFlashAttribute("sucesso", "Seleção cadastrada com sucesso.");
+		return REDIRECT_DETALHES_SELECAO + selecao.getId();
 	}
 	
 	@RequestMapping(value = "/{idSelecao}/Editar", method = RequestMethod.GET)
@@ -111,7 +121,8 @@ public class SelecaoController {
 			return FORMULARIO_ADICIONAR_SELECAO;
 		}
 		selecaoService.editarSelecao(selecao);
-		return "redirect:/Selecao/"+selecao.getId();
+		redirect.addFlashAttribute("sucesso", "Alterações salvas com sucesso.");
+		return REDIRECT_DETALHES_SELECAO + selecao.getId();
 	}
 	
 	@RequestMapping(value = "{idSelecao}", method = RequestMethod.GET)

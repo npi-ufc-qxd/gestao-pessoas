@@ -59,9 +59,9 @@ import br.ufc.quixada.npi.ge.model.Papel;
 import br.ufc.quixada.npi.ge.model.Pessoa;
 import br.ufc.quixada.npi.ge.model.Servidor;
 import br.ufc.quixada.npi.ge.model.Submissao;
-import br.ufc.quixada.npi.ge.model.Turma;
 import br.ufc.quixada.npi.ge.model.Submissao.StatusEntrega;
 import br.ufc.quixada.npi.ge.model.Submissao.TipoSubmissao;
+import br.ufc.quixada.npi.ge.model.Turma;
 import br.ufc.quixada.npi.ge.service.EstagioService;
 import br.ufc.quixada.npi.ge.service.PessoaService;
 import br.ufc.quixada.npi.ge.service.TurmaService;
@@ -497,10 +497,21 @@ public class SupervisorController {
 	}
 
 	@RequestMapping(value = "/Acompanhamento/{idEstagio}/AvaliarPlano", method = RequestMethod.GET)
-	public String formularioAvaliarPlanoEstagio(@PathVariable("idEstagio") Long idEstagio, Model model) {
-
-		Submissao submissaoPlano = estagioService.buscarSubmissaoPorTipoSubmissaoEEstagioId(TipoSubmissao.PLANO_ESTAGIO,
-				idEstagio);
+	public String formularioAvaliarPlanoEstagio(@PathVariable("idEstagio") Long idEstagio, Model model, RedirectAttributes attributes) {
+		Servidor servidor = pessoaService.buscarServidorPorCpf(getCpfUsuarioLogado());
+		
+		if(!estagioService.isEstagioAcessoSupervisorOuOrientador(idEstagio, servidor.getId())) {
+			attributes.addFlashAttribute("error", "Você não permisão para avaliar esta submissão.");
+			return REDIRECT_PAGINA_INICIAL_SUPERVISOR; 
+		}
+		
+		Submissao submissaoPlano = estagioService.buscarSubmissaoPorTipoSubmissaoEEstagioId(TipoSubmissao.PLANO_ESTAGIO, idEstagio);
+		
+		if(submissaoPlano == null){
+			attributes.addFlashAttribute("error", "Submissão inexistente;");
+			return REDIRECT_PAGINA_INICIAL_SUPERVISOR; 
+		}
+		
 
 		model.addAttribute("submissaoPlano", submissaoPlano);
 		model.addAttribute("estagio", submissaoPlano.getEstagio());
@@ -511,27 +522,50 @@ public class SupervisorController {
 	@RequestMapping(value = "/Acompanhamento/{idEstagio}/AvaliarPlano", method = RequestMethod.POST)
 	public String avaliarPlanoEstagio(RedirectAttributes redirect, @PathVariable("idEstagio") Long idEstagio,
 			@RequestParam("nota") Double nota, @RequestParam("status") Submissao.StatusEntrega status,
-			@RequestParam("comentario") String comentario) {
+			@RequestParam("comentario") String comentario, RedirectAttributes attributes) {
 
-		Submissao submissao = estagioService.buscarSubmissaoPorTipoSubmissaoEEstagioId(TipoSubmissao.PLANO_ESTAGIO,
-				idEstagio);
+		Servidor servidor = pessoaService.buscarServidorPorCpf(getCpfUsuarioLogado());
+		if(!estagioService.isEstagioAcessoSupervisorOuOrientador(idEstagio, servidor.getId())) {
+			attributes.addFlashAttribute("error", "Você não permisão para avaliar esta submissão.");
+			return REDIRECT_PAGINA_INICIAL_SUPERVISOR; 
+		}
+		
+		Long idSubmissao = estagioService.buscarIdSubmissaoPorTipoSubmissaoEEstagioId(TipoSubmissao.PLANO_ESTAGIO, idEstagio);
+		if(idSubmissao == null){
+			attributes.addFlashAttribute("error", "Submissão inexistente;");
+			return REDIRECT_PAGINA_INICIAL_SUPERVISOR; 
+		}
 
+		Submissao submissao = new Submissao();
+		submissao.setId(idSubmissao);
 		submissao.setStatusEntrega(status);
 		submissao.setNota(nota);
 		submissao.setComentario(comentario);
 
 		estagioService.avaliarSubmissao(submissao);
+
 		redirect.addFlashAttribute("sucesso", "Avaliação do Plano de estágio realizada!");
-		
 		return REDIRECT_ACOMPANHAMENTO_ESTAGIARIO + idEstagio;
 	}
 
 	@RequestMapping(value = "/Acompanhamento/{idEstagio}/AvaliarRelatorio", method = RequestMethod.GET)
 	public String avaliarRelatorio(RedirectAttributes redirect, @PathVariable("idEstagio") Long idEstagio,
-			Model model) {
+			Model model, RedirectAttributes attributes) {
 
-		Submissao submissaoRelatorio = estagioService
-				.buscarSubmissaoPorTipoSubmissaoEEstagioId(TipoSubmissao.RELATORIO_FINAL_ESTAGIO, idEstagio);
+		Servidor servidor = pessoaService.buscarServidorPorCpf(getCpfUsuarioLogado());
+		
+		if(!estagioService.isEstagioAcessoSupervisorOuOrientador(idEstagio, servidor.getId())) {
+			attributes.addFlashAttribute("error", "Você não permisão para avaliar esta submissão.");
+			return REDIRECT_PAGINA_INICIAL_SUPERVISOR; 
+		}
+		
+		Submissao submissaoRelatorio = estagioService.buscarSubmissaoPorTipoSubmissaoEEstagioId(TipoSubmissao.RELATORIO_FINAL_ESTAGIO, idEstagio);
+		
+		if(submissaoRelatorio == null){
+			attributes.addFlashAttribute("error", "Submissão inexistente;");
+			return REDIRECT_PAGINA_INICIAL_SUPERVISOR; 
+		}
+		
 
 		model.addAttribute("submissaoRelatorio", submissaoRelatorio);
 		model.addAttribute("estagio", submissaoRelatorio.getEstagio());
@@ -542,11 +576,21 @@ public class SupervisorController {
 	@RequestMapping(value = "/Acompanhamento/{idEstagio}/AvaliarRelatorio", method = RequestMethod.POST)
 	public String avaliarRelatorioFinalEstagio(RedirectAttributes redirect, @PathVariable("idEstagio") Long idEstagio,
 			@RequestParam("nota") Double nota, @RequestParam("status") StatusEntrega status,
-			@RequestParam("comentario") String comentario) {
+			@RequestParam("comentario") String comentario, RedirectAttributes attributes) {
 
-		Submissao submissao = estagioService
-				.buscarSubmissaoPorTipoSubmissaoEEstagioId(TipoSubmissao.RELATORIO_FINAL_ESTAGIO, idEstagio);
-
+		Servidor servidor = pessoaService.buscarServidorPorCpf(getCpfUsuarioLogado());
+		if(!estagioService.isEstagioAcessoSupervisorOuOrientador(idEstagio, servidor.getId())) {
+			attributes.addFlashAttribute("error", "Você não permisão para avaliar esta submissão.");
+			return REDIRECT_PAGINA_INICIAL_SUPERVISOR; 
+		}
+		
+		Long idSubmissao = estagioService.buscarIdSubmissaoPorTipoSubmissaoEEstagioId(TipoSubmissao.RELATORIO_FINAL_ESTAGIO, idEstagio);
+		if(idSubmissao == null){
+			attributes.addFlashAttribute("error", "Submissão inexistente;");
+			return REDIRECT_PAGINA_INICIAL_SUPERVISOR; 
+		}
+		Submissao submissao = new Submissao();
+		submissao.setId(idSubmissao);
 		submissao.setStatusEntrega(status);
 		submissao.setNota(nota);
 		submissao.setComentario(comentario);

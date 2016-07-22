@@ -25,5 +25,6 @@ public interface EstagioRepository extends JpaRepository<Estagio, Long> {
 	@Query("select e from Estagio e where e.id = :idEstagio and (e.turma.orientador.id = :idServidor OR :idServidor MEMBER OF e.turma.supervisores)")
 	Estagio findByIdAndOrientadorOrSupervisor(@Param("idEstagio") Long idEstagio, @Param("idServidor") Long idServidor);
 	
-
+	@Query("SELECT CASE WHEN (count(e) = 1) THEN true ELSE false END FROM Estagio e WHERE e.id = :idEstagio AND (e.turma.orientador.id = :idServidor OR :idServidor MEMBER OF e.turma.supervisores)")
+	boolean isByIdAndOrientadorOrSupervisor(@Param("idEstagio") Long idEstagio, @Param("idServidor") Long idServidor);
 }

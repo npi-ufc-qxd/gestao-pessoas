@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorator="layouts/LayoutGestaoPessoas">
+
+<head>
+	<title>Gestão Pessoas | Detalhes da Seleção</title>
+</head>
+
+<section layout:fragment="conteudo">
+
+
+  <div class="container-fluid titulo-pagina">
+    <div class="container">
+        <ul class="breadcrumb">
+            <li><a th:href="@{/Supervisao}">Minhas Turmas</a></li>
+            <li class="active">Detalhes da Seleção</li>
+        </ul>
+        <h1>Detalhes da Seleção</h1>
+    </div>
+  </div>
+
+
+	<div class="container animated fadeInRight">
+		<div class="alert alert-dismissible alert-danger" th:if="${!#strings.isEmpty(error)}">
+		  <button type="button" class="close" data-dismiss="alert">&times;</button>
+		  <p th:text="${error}"></p>
+		</div>
+
+		<div class="alert alert-dismissible alert-success" th:if="${!#strings.isEmpty(sucesso)}">
+		  <button type="button" class="close" data-dismiss="alert">&times;</button>
+		  <p th:text="${sucesso}"></p>
+		</div>
+
+	    <div class="row">
+	      <div class="col-md-4">
+	      	<div th:if="${#strings.equals(turma.tipoTurma, 'NPI')}" class="panel panel-bluegray">
+	          <div class="panel-heading">
+	            <a class="panel-title" data-toggle="collapse" data-target="#selecao"><i class="fa fa-caret-down" aria-hidden="true"></i> Seleção</a>
+				<a th:href="@{/Selecao/{idSelecao}/Editar(idSelecao=${selecao.id})}" class="btn btn-xs pull-right gp-btn-opcao">Editar</a>
+  			  </div>
+	          <div id="selecao" class="panel-body collapse in">
+	          	  <table class="table table-hover">
+				    <tbody>
+				      <tr >
+				        <td th:inline="text"><strong>Período</strong></td>
+				        <td><label th:text="${#dates.format(selecao.inicioInscricao, 'dd/MM/yyyy')}"></label>  a <label th:text="${#dates.format(selecao.terminoInscricao, 'dd/MM/yyyy')}"></label></td>
+				      </tr>
+				      <tr>
+				        <td><strong>Status</strong></td>
+				        <td th:text="${selecao.status == null ? 'Não há status' : selecao.status.descricao}"></td>
+				      </tr>
+				      <tr>
+				        <td><strong>Vagas</strong></td>
+				        <td th:text="${selecao.vagas == null ? 'Não há quantidade vagas cadastrada' : selecao.vagas}"></td>
+				      </tr>
+				      <tr>
+				        <td><strong>Pré-Requisitos</strong></td>
+				        <td th:text="${selecao.preRequisitos == null ? 'Não há Pré-Requisitos' : selecao.preRequisitos}"></td>
+				      </tr>
+				      <tr>
+				        <td><strong>Preferência de Curso</strong></td>
+				        <td th:inline="text"> <span th:if="${#lists.isEmpty(selecao.cursos)}">Não possui preferência de Curso</span> 
+				        	<span th:each="curso : ${selecao.cursos}"> [[${curso.nome}]],</span>
+				        </td>
+				      </tr>
+				      
+				    </tbody>
+				  </table>
+	           </div>
+	        </div>
+	        <div class="panel panel-bluegray">
+	          <div class="panel-heading">
+	            <a class="panel-title" data-toggle="collapse" data-target="#detalhesTurma"><i class="fa fa-caret-down" aria-hidden="true"></i> Turma NPI - 2016.1</a>
+			  </div>
+	          <div id="detalhesTurma" class="panel-body collapse in">
+				  <table class="table table-hover">
+				    <tbody>
+				      <tr>
+				        <td><strong>Orientador</strong></td>
+				        <td th:text="${turma.orientador == null ? 'Não há orientador' : turma.orientador.nome}"></td>
+				      </tr>
+				      <tr>
+				        <td><strong>Supervisores</strong></td>
+				     	<td th:inline="text"> <span th:if="${#lists.isEmpty(turma.supervisores)}">Não há supervisores</span> <span th:each="sup : ${turma.supervisores}"> [[${sup.nome}]],</span></td>
+				      </tr>
+				      <tr>
+				        <td><strong>Período</strong></td>
+				        <td><label th:text="${#dates.format(turma.inicio, 'dd/MM/yyyy')}"></label>  a <label th:text="${#dates.format(turma.termino, 'dd/MM/yyyy')}"></label></td>
+				      </tr>
+				      <tr>
+				        <td><strong>Status</strong></td>
+				        <td th:text="${turma.status}"></td>
+				      </tr>
+				    </tbody>
+				  </table>
+	           </div>
+	        </div>
+	      </div>
+
+		<div class="col-md-8">
+			<div class="panel panel-bluegray">
+				<div class="panel-heading">
+	            	<a class="panel-title" data-toggle="collapse" data-target="#inscricoes"><i class="fa fa-caret-down" aria-hidden="true"></i> Inscrições</a>
+	            	<a th:href="@{/Selecao/{idSelecao}/Ranking(idSelecao=${selecao.id})}" class="btn btn-xs pull-right gp-btn-opcao">Gerar Ranking</a>
+				</div>
+				<div id="inscricoes" class="panel-body collapse in">
+	          
+					<p th:if="${#lists.isEmpty(selecao.inscricoes)}">Na há inscrições vinculados a está seleção</p> 
+
+					
+					<table th:if="${not #lists.isEmpty(selecao.inscricoes)}" class="table table-striped table-hover ">
+						<thead>
+							<tr>
+								<th>Matricula</th>
+								<th>Nome</th>
+								<th>Curso</th>
+								<th>Pré-Requisitos</th>
+								<th>IRA GERAL</th>
+		           			</tr>
+                		</thead>
+                		<tbody>
+                  			<tr th:each="inscricao : ${selecao.inscricoes}">
+                    			<td th:text="${inscricao.estagiario.matricula}">453535</td>
+			                    <td th:text="${inscricao.estagiario.nomeCompleto}">José Alves</td>
+			                    <td th:text="${inscricao.estagiario.curso.descricao}">ES</td>
+			                    <td th:text="${inscricao.atendeRequisito? 'Sim': 'Não'}">8.0</td>
+			                    <td th:text="${inscricao.iraGeral}">8.0</td>
+                  			</tr>
+                		</tbody>
+              		</table> 
+				</div>
+	        </div>
+	      </div>
+	    </div>
+	</div>
+  </section>
+</html>

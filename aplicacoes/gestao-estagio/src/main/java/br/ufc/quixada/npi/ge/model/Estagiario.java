@@ -37,6 +37,9 @@ public class Estagiario {
 	@OneToMany(mappedBy="estagiario")
 	private List<Estagio> estagios;
 	
+	@OneToMany(mappedBy="estagiario")
+	private List<Inscricao> inscricoes;
+	
 	@NotNull(message = "Campo obrigatório.")
 	@NotEmpty(message = "Campo obrigatório.")
 	private String nomeMae;
@@ -242,6 +245,14 @@ public class Estagiario {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public List<Inscricao> getInscricoes() {
+		return inscricoes;
+	}
+
+	public void setInscricoes(List<Inscricao> inscricoes) {
+		this.inscricoes = inscricoes;
 	}
 
 	public enum Curso {

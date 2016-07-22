@@ -21,6 +21,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import br.ufc.quixada.npi.ge.enums.TipoEstagio;
+
 @Entity
 public class Estagio {
 	
@@ -176,21 +178,4 @@ public class Estagio {
 		}
 
 	}
-
-	public enum TipoEstagio {
-		
-		ESTAGIOI("Estágio I"),
-		ESTAGIOII("Estágio II");
-		
-		private String descricao;
-		
-		private TipoEstagio(String descricao){
-			this.descricao = descricao;
-		}
-		
-		public String getDescricao() {
-			return descricao;
-		}
-	}
-
 }

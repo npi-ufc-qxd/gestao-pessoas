@@ -132,7 +132,7 @@ public class EstagioServiceImpl implements EstagioService {
 
 	@Override
 	public void avaliarSubmissao(Submissao submissao) {
-		submissaoRepository.save(submissao);
+		submissaoRepository.updateSubmissaoById(submissao.getId(), submissao.getStatusEntrega(), submissao.getNota(), submissao.getComentario());
 	}
 
 	@Override
@@ -373,6 +373,16 @@ public class EstagioServiceImpl implements EstagioService {
 	@Override
 	public Estagio buscarEstagioPorIdEOrientadorOuSupervisor(Long idEstagio, Long idServidor) {
 		return estagiarioRepository.findByIdAndOrientadorOrSupervisor(idEstagio, idServidor);
+	}
+
+	@Override
+	public boolean isEstagioAcessoSupervisorOuOrientador(Long idEstagio ,Long idServidor) {
+		return estagioRepository.isByIdAndOrientadorOrSupervisor(idEstagio, idServidor);
+	}
+
+	@Override
+	public Long buscarIdSubmissaoPorTipoSubmissaoEEstagioId(TipoSubmissao tipoSubmissao, Long idEstagio) {
+		return submissaoRepository.findIdByIdETipo(tipoSubmissao, idEstagio);
 	}	
 
 }

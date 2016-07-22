@@ -1,5 +1,6 @@
 package br.ufc.quixada.npi.ge.model;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -9,9 +10,14 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -29,7 +35,19 @@ public class Estagio {
 	
 	@ManyToOne
 	private Estagiario estagiario;
-	
+
+	@Temporal(TemporalType.DATE)
+	@DateTimeFormat(pattern = "dd/MM/yyyy")
+	private Date inicio;
+
+	@Temporal(TemporalType.DATE)
+	@DateTimeFormat(pattern = "dd/MM/yyyy")
+	private Date termino;
+
+	@OneToMany
+	@JoinColumn(name = "estagio_id")
+	private List<Expediente> expedientes;
+
 	@OneToMany (mappedBy = "estagio", cascade=CascadeType.REMOVE)
 	private List<Frequencia> frequencias;
 

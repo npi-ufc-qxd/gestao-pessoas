@@ -112,26 +112,30 @@
 	            <a class="panel-title" data-toggle="collapse" data-target="#eventos"><i class="fa fa-caret-down" aria-hidden="true"></i> Eventos</a>
 	          </div>
 	          <div id="eventos" class="panel-body collapse in">
-	          	 <table class="table table-hover">
-					    <thead>
-					    	<tr>
-					    		<th>Título</th>
-					    		<th>Descrição</th>
-					    		<th>Período</th>
-					    		<th></th>
-					    		<th></th>
-					    	</tr>
-					    </thead>
-					    <tbody>
-					      <tr th:each="evento : ${turma.eventos}">
-					      	<td th:inline="text"><strong>[[${evento.titulo}]]</strong></td>
-					      	<td th:inline="text"><strong>[[${evento.descricao}]]</strong></td>
-					        <td th:inline="text">[[${#dates.format(evento.inicio, 'dd/MM/yyyy')}]] às [[${#dates.format(evento.termino, 'dd/MM/yyyy')}]]</td>
-					        <td><a class="btn btn-danger btn-sm pull-right gp-btn-evento"
-					      		   th:href="@{/Supervisao/Turma/{idTurma}/Evento/{idEvento}/Excluir(idTurma=${turma.id},idEvento=${evento.id})}">Excluir</a></td>
-					      </tr>
-					    </tbody>
-					 </table>
+	          		<div th:if="not ${#lists.isEmpty(turma.eventos)}">
+			          	 <table class="table table-hover">
+						    <thead>
+						    	<tr>
+						    		<th>Título</th>
+						    		<th>Descrição</th>
+						    		<th>Período</th>
+						    		<th></th>
+						    		<th></th>
+						    	</tr>
+						    </thead>
+						    <tbody>
+						      <tr th:each="evento : ${turma.eventos}">
+						      	<td th:inline="text"><strong>[[${evento.titulo}]]</strong></td>
+						      	<td th:inline="text"><strong>[[${evento.descricao}]]</strong></td>
+						        <td th:inline="text">[[${#dates.format(evento.inicio, 'dd/MM/yyyy')}]] às [[${#dates.format(evento.termino, 'dd/MM/yyyy')}]]</td>
+						        <td><a class="btn btn-danger btn-sm pull-right gp-btn-evento"
+						      		   th:href="@{/Supervisao/Turma/{idTurma}/Evento/{idEvento}/Excluir(idTurma=${turma.id},idEvento=${evento.id})}">Excluir</a></td>
+						      </tr>
+						    </tbody>
+						 </table>
+	          		</div>
+	          
+		           <p th:if="${#lists.isEmpty(turma.eventos)}">Não há eventos cadastrados</p>
 	           </div>
 	        </div>
 	      </div>

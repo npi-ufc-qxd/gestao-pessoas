@@ -8,7 +8,6 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
@@ -20,9 +19,6 @@ public class Expediente {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-
-	@ManyToOne
-	private Turma turma;
 
 	@NotNull(message = "Dia Da semana tem que ser preenchido.")
 	@Enumerated(EnumType.STRING)
@@ -44,14 +40,6 @@ public class Expediente {
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	public Turma getTurma() {
-		return turma;
-	}
-
-	public void setTurma(Turma turma) {
-		this.turma = turma;
 	}
 
 	public DiaDaSemana getDiaSemana() {

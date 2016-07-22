@@ -314,8 +314,12 @@ public class SupervisorController {
 		}
 
 		Turma turma = turmaService.buscarTurmaPorId(idTurma);
-		expediente.setTurma(turma);
 		turmaService.adicionarExpediente(expediente);
+
+		turma.getExpedientes().add(expediente);
+
+		turmaService.adicionarTurma(turma);
+		
 
 		redirect.addFlashAttribute("sucesso", "O expediente foi adicionado com sucesso.");
 		return REDIRECT_DETALHES_TURMA + idTurma + "/Expediente";
@@ -395,6 +399,25 @@ public class SupervisorController {
 	@RequestMapping(value = "/Acompanhamento/{idEstagio}", method = RequestMethod.GET)
 	public String detalhesAcompanhamentoEstagiario(Model model, @PathVariable("idEstagio") Long idEstagio,
 			RedirectAttributes redirect) {
+
+		Estagio estagio = estagioService.buscarEstagioPorIdEServidorId(idEstagio,
+				pessoaService.buscarServidorPorCpf(getCpfUsuarioLogado()).getId());
+
+		if (estagio == null) {
+			redirect.addFlashAttribute("error", "Estágio não existe");
+			return REDIRECT_PAGINA_INICIAL_SUPERVISOR;
+		}
+
+		model.addAttribute("estagio", estagio);
+		model.addAttribute("submissaoPlano", estagioService.buscarSubmissaoPorTipoSubmissaoEEstagioId(TipoSubmissao.PLANO_ESTAGIO, idEstagio));
+		model.addAttribute("submissaoRelatorio", estagioService.buscarSubmissaoPorTipoSubmissaoEEstagioId(TipoSubmissao.RELATORIO_FINAL_ESTAGIO, idEstagio));
+		model.addAttribute("consolidadoFrequencia", estagioService.consolidarFrequencias(estagio));
+		return ACOMPANHAMENTO_ESTAGIARIO;
+
+	}
+
+	@RequestMapping(value = "/Acompanhamento/{idEstagio}/ConfigurarExpediente", method = RequestMethod.GET)
+	public String formularioConfiguracaoExpediente(Model model, @PathVariable("idEstagio") Long idEstagio, RedirectAttributes redirect) {
 
 		Estagio estagio = estagioService.buscarEstagioPorIdEServidorId(idEstagio,
 				pessoaService.buscarServidorPorCpf(getCpfUsuarioLogado()).getId());
@@ -642,6 +665,44 @@ public class SupervisorController {
 		return FORMULARIO_ADICIONAR_AVALIACAO_RENDIMENTO;
 	}
 
+	@RequestMapping(value = "/Acompanhamento/{idEstagio}/AvaliacaoRendimento", method = RequestMethod.POST)
+	public String adicionarAvaliacaoRendimento(Model model,
+			@RequestParam(value = "arquivo", required = false) MultipartFile arquivo,
+			@Valid @ModelAttribute("avaliacaoRendimento") AvaliacaoRendimento avaliacaoRendimento,
+			RedirectAttributes redirect, @PathVariable("idEstagio") Long idEstagio) {
+
+		Estagio estagio = estagioService.buscarEstagioPorId(idEstagio);
+		avaliacaoRendimento.setEstagio(estagio);
+
+		Servidor servidor = servidorEstaCadastrado(pessoaService.buscarPessoaPorCpf(getCpfUsuarioLogado()));
+
+		avaliacaoRendimento.setCriadaPor(servidor);
+		avaliacaoRendimento.setAtualizadaPor(servidor);
+
+		estagioService.adicionarAvaliacaoRendimento(avaliacaoRendimento);
+
+		redirect.addFlashAttribute("sucesso", "Avaliação de Rendimento realizada!");
+		return REDIRECT_ACOMPANHAMENTO_ESTAGIARIO + idEstagio;
+	}
+
+	@RequestMapping(value = "/Acompanhamento/{idEstagio}/AvaliacaoRendimento/{idAvaliacaoRendimento}/Editar", method = RequestMethod.GET)
+	public String formularioEditarAvaliacaoRendimento(Model model, @PathVariable("idEstagio") Long idEstagio) {
+		return FORMULARIO_EDITAR_AVALIACAO_RENDIMENTO;
+	}
+
+	@RequestMapping(value = "/Acompanhamento/{idEstagio}/AvaliacaoRendimento/{idAvaliacaoRendimento}/Editar", method = RequestMethod.POST)
+	public String editarAvaliacaoRendimento(Model model,
+			@Valid @ModelAttribute("avaliacaoRendimento") AvaliacaoRendimento avaliacaoRendimento,
+			RedirectAttributes redirect, @PathVariable("idEstagio") Long idEstagio) {
+
+		return REDIRECT_ACOMPANHAMENTO_ESTAGIARIO + idEstagio;
+	}
+
+	@RequestMapping(value = "/Acompanhamento/{idEstagio}/Frequencia", method = RequestMethod.GET)
+	public String detalhesFrequenciaEstagiario(Model model, @PathVariable("idEstagio") Long idEstagio) {
+		return DETALHES_FREQUENCIA_ESTAGIARIO;
+	}
+
 	@ModelAttribute("frequencias")
 	public List<AvaliacaoRendimento.Frequencia> todasFrequencias() {
 		return Arrays.asList(AvaliacaoRendimento.Frequencia.values());
@@ -695,38 +756,6 @@ public class SupervisorController {
 	@ModelAttribute("cuidados")
 	public List<AvaliacaoRendimento.CuidadoMateriaisEEquipamentos> todosCuidados() {
 		return Arrays.asList(AvaliacaoRendimento.CuidadoMateriaisEEquipamentos.values());
-	}
-
-	@RequestMapping(value = "/Acompanhamento/{idEstagio}/AvaliacaoRendimento", method = RequestMethod.POST)
-	public String adicionarAvaliacaoRendimento(Model model,
-			@RequestParam(value = "arquivo", required = false) MultipartFile arquivo,
-			@Valid @ModelAttribute("avaliacaoRendimento") AvaliacaoRendimento avaliacaoRendimento,
-			RedirectAttributes redirect, @PathVariable("idEstagio") Long idEstagio) {
-
-		Estagio estagio = estagioService.buscarEstagioPorId(idEstagio);
-		avaliacaoRendimento.setEstagio(estagio);
-		estagioService.adicionarAvaliacaoRendimento(avaliacaoRendimento);
-
-		redirect.addFlashAttribute("sucesso", "Avaliação de Rendimento realizada!");
-		return REDIRECT_ACOMPANHAMENTO_ESTAGIARIO + idEstagio;
-	}
-
-	@RequestMapping(value = "/Acompanhamento/{idEstagio}/AvaliacaoRendimento/{idAvaliacaoRendimento}/Editar", method = RequestMethod.GET)
-	public String formularioEditarAvaliacaoRendimento(Model model, @PathVariable("idEstagio") Long idEstagio) {
-		return FORMULARIO_EDITAR_AVALIACAO_RENDIMENTO;
-	}
-
-	@RequestMapping(value = "/Acompanhamento/{idEstagio}/AvaliacaoRendimento/{idAvaliacaoRendimento}/Editar", method = RequestMethod.POST)
-	public String editarAvaliacaoRendimento(Model model,
-			@Valid @ModelAttribute("avaliacaoRendimento") AvaliacaoRendimento avaliacaoRendimento,
-			RedirectAttributes redirect, @PathVariable("idEstagio") Long idEstagio) {
-
-		return REDIRECT_ACOMPANHAMENTO_ESTAGIARIO + idEstagio;
-	}
-
-	@RequestMapping(value = "/Acompanhamento/{idEstagio}/Frequencia", method = RequestMethod.GET)
-	public String detalhesFrequenciaEstagiario(Model model, @PathVariable("idEstagio") Long idEstagio) {
-		return DETALHES_FREQUENCIA_ESTAGIARIO;
 	}
 
 	private void inserirNomeUsuarioNaSessao(HttpSession session) {

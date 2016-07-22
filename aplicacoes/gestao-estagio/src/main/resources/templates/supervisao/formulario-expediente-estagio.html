@@ -15,13 +15,14 @@
     <div class="container">
         <ul class="breadcrumb">
             <li><a th:href="@{/Supervisao}">Minhas Turmas</a></li>
-            <li><a th:href="@{'/Supervisao/Turma/' + ${turma.id}}" >Detalhes Turma</a></li>
-            <li class="active">Gerenciar Expediente</li>
+            <li><a th:href="@{'/Supervisao/Turma/' + ${estagio.turma.id}}" >Detalhes Turma</a></li>
+            <li><a th:href="@{'/Supervisao//Acompanhamento/' + ${estagio.id}}" >Detalhes Turma</a></li>
+            <li class="active">Configurar Expediente</li>
         </ul>
-        <h1>Gerenciar Expediente</h1>
+        
+        <h1>Configurar Expediente</h1>
     </div>
   </div>
-
 
 	<div class="container animated fadeInRight">
 	    <div class="row">
@@ -128,7 +129,7 @@
 					      		   th:href="@{/Supervisao/Turma/{idTurma}/Expediente/{idExpediente}/Excluir(idTurma=${turma.id},idExpediente=${expediente.id})}">Excluir</a></td>
 					      </tr>
 					    </tbody>
-					 </table>
+					 </table>					  
 		       </div>
 	        </div>
 	      </div>

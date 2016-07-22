@@ -310,9 +310,13 @@ public class EstagioServiceImpl implements EstagioService {
 		
 		int totalReposicoes = frequenciaRepository.buscarTotalByTipo(estagio.getId(), Frequencia.TipoFrequencia.REPOSICAO);
 		
-		double porcentagemPresencas = (totalPresencas * 100) / totalDeFrequenciasDaTurma;
+		double porcentagemFaltas = 0.0;
 		
-		double porcentagemFaltas = (totalFaltas * 100) / totalDeFrequenciasDaTurma;
+		if(totalDeFrequenciasDaTurma > 0) {
+			porcentagemFaltas = (totalFaltas * 100) / totalDeFrequenciasDaTurma;
+		}
+
+		double porcentagemPresencas = 100 - porcentagemFaltas; 
 
 		ConsolidadoFrequencia consolidadoFrequencia = new ConsolidadoFrequencia();
 

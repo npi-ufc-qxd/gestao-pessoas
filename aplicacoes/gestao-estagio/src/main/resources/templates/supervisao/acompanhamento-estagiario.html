@@ -91,6 +91,26 @@
 				  </table>
 	           </div>
 	        </div>
+	        
+	        <div class="panel panel-bluegray">
+	          <div class="panel-heading">
+	            <a class="panel-title" data-toggle="collapse" data-target="#expedienteTurma"><i class="fa fa-caret-down" aria-hidden="true"></i> Expediente</a>
+				<a th:href="@{/Supervisao/Turma/{id}/Expediente(id=${estagio.turma.id})}" class="btn btn-xs pull-right gp-btn-opcao">Configurar</a>
+  			  </div>
+	          <div id="expedienteTurma" class="panel-body collapse in">
+	          	  <p th:if="${#lists.isEmpty(estagio.turma.expedientes)}">Na há expediente</p>
+
+				  <table th:if="${not #lists.isEmpty(estagio.turma.expedientes)}" class="table table-hover">
+				    <tbody>
+				      <tr th:each="expediente : ${estagio.turma.expedientes}">
+				        <td th:inline="text"><strong>[[${expediente.diaSemana.descricao}]]</strong></td>
+				        <td th:inline="text">[[${#dates.format(expediente.horaInicio, 'HH:mm')}]] ás [[${#dates.format(expediente.horaTermino, 'HH:mm')}]]</td>
+				      </tr>
+				    </tbody>
+				  </table>
+	           </div>
+	        </div>
+	        
 	      </div>
 	    <div class="col-md-8">
 	    	<div class="alert alert-dismissible alert-success" th:if="${! #strings.isEmpty(sucesso)}">
@@ -119,34 +139,39 @@
 	          <div class="panel-heading">
 	            <a class="panel-title" data-toggle="collapse" data-target="#avaliacaoPlano"><i class="fa fa-caret-down" aria-hidden="true"></i> Avaliação Plano</a>
 			  </div>
-	          <div id="avaliacaoPlano" class="panel-body collapse in" >
-	          <table class="table table-hover" th:if="${submissaoPlano} != null">
-	          <tbody>
-				      <tr>
-				        <td class="gp-sem-borda"><strong>Nome Documento:</strong></td>
-				        <td class="gp-sem-borda" th:text="${submissaoPlano.tipoSubmissao.descricao}"></td>
-				      </tr>
-				      <tr>
-				        <td><strong>Status:</strong></td>
-				        <td th:text="${submissaoPlano.statusEntrega.descricao}"></td>
-				      </tr>
-				      <tr>
-				        <td><strong>Data Submissão:</strong></td>
-				        <td th:text="${#dates.format(submissaoPlano.submetidoEm, 'dd/MM/yyyy')}"></td>
-				      </tr>
-				      <tr>
-				        <td><strong>Nota:</strong></td>
-				        <td th:text="${submissaoPlano.nota}"></td>
-				      </tr>
-				      <tr th:if="not ${#strings.isEmpty(submissaoPlano.comentario)}">
-				        <td><strong>Comentário:</strong></td>
-				        <td th:text="${submissaoPlano.comentario}"></td>
-				      </tr>				      
-				    </tbody>
-				  </table>
-		        	<a th:if="${submissaoPlano} != null" th:href="@{/Supervisao/Acompanhamento/{idEstagio}/AvaliarPlano(idEstagio=${estagio.id})}" class="btn btn-success btn-sm pull-right">Editar Avaliação</a>
-		        	<a th:if="${submissaoPlano} == null" th:href="@{/Supervisao/Acompanhamento/{idEstagio}/AvaliarPlano(idEstagio=${estagio.id})}" class="btn btn-success btn-sm pull-right">Avaliar</a>
-	           </div>
+	          <div id="avaliacaoPlano" class="panel-body collapse in">
+	          	
+	          	<div th:if="${submissaoPlano} != null">
+			        <table class="table table-hover">
+			            <tbody>
+					      <tr>
+					        <td class="gp-sem-borda"><strong>Nome Documento:</strong></td>
+					        <td class="gp-sem-borda" th:text="${submissaoPlano.tipoSubmissao.descricao}"></td>
+					      </tr>
+					      <tr>
+					        <td><strong>Status:</strong></td>
+					        <td th:text="${submissaoPlano.statusEntrega.descricao}"></td>
+					      </tr>
+					      <tr>
+					        <td><strong>Data Submissão:</strong></td>
+					        <td th:text="${#dates.format(submissaoPlano.submetidoEm, 'dd/MM/yyyy')}"></td>
+					      </tr>
+					      <tr>
+					        <td><strong>Nota:</strong></td>
+					        <td th:text="${submissaoPlano.nota}"></td>
+					      </tr>
+					      <tr th:if="not ${#strings.isEmpty(submissaoPlano.comentario)}">
+					        <td><strong>Comentário:</strong></td>
+					        <td th:text="${submissaoPlano.comentario}"></td>
+					      </tr>				      
+					    </tbody>
+					</table>
+					<a th:if="${#strings.equals(submissaoPlano.statusEntrega, 'SUBMETIDO')}" th:href="@{/Supervisao/Acompanhamento/{idEstagio}/AvaliarPlano(idEstagio=${estagio.id})}" class="btn btn-success btn-sm pull-right">Avaliar</a>
+					<a th:if="${not #strings.equals(submissaoPlano.statusEntrega, 'SUBMETIDO')}" th:href="@{/Supervisao/Acompanhamento/{idEstagio}/AvaliarPlano(idEstagio=${estagio.id})}" class="btn btn-success btn-sm pull-right">Editar Avaliação</a>
+	          	</div>
+	          	
+	          	<p th:if="${submissaoPlano} == null">A submissão do plano de estágio ainda não foi realizada.</p>
+			  </div>
 	        </div>
 
 	        <div class="panel panel-bluegray">
@@ -154,33 +179,39 @@
 	            <a class="panel-title" data-toggle="collapse" data-target="#avaliacaoRelatorio"><i class="fa fa-caret-down" aria-hidden="true"></i> Avaliação Relatório</a>
 			  </div>
 	          <div id="avaliacaoRelatorio" class="panel-body collapse in">
-	          <table class="table table-hover" th:if="${submissaoRelatorio} != null">
-	          <tbody >
-				      <tr>
-				        <td class="gp-sem-borda"><strong>Nome Documento:</strong></td>
-				        <td class="gp-sem-borda" th:text="${submissaoRelatorio.tipoSubmissao.descricao}"></td>
-				      </tr>
-				      <tr>
-				        <td><strong>Status:</strong></td>
-				        <td th:text="${submissaoRelatorio.statusEntrega}"></td>
-				      </tr>
-				      <tr>
-				        <td><strong>Data Submissão:</strong></td>
-				        <td th:text="${#dates.format(submissaoRelatorio.submetidoEm, 'dd/MM/yyyy')}"></td>
-				      </tr>
-				      <tr>
-				        <td><strong>Nota:</strong></td>
-				        <td th:text="${submissaoRelatorio.nota}"></td>
-				      </tr>
-				      <tr th:if="not ${#strings.isEmpty(submissaoRelatorio.comentario)}">
-				        <td><strong>Comentário:</strong></td>
-				        <td th:text="${submissaoRelatorio.comentario}"></td>
-				      </tr>				      
-				    </tbody>
-				  </table>
-		        <a th:if="${submissaoRelatorio} != null" th:href="@{/Supervisao/Acompanhamento/{idEstagio}/AvaliarRelatorio(idEstagio=${estagio.id})}" class="btn btn-success btn-sm pull-right">Editar Avaliação</a>
-		        <a th:if="${submissaoRelatorio} == null" th:href="@{/Supervisao/Acompanhamento/{idEstagio}/AvaliarRelatorio(idEstagio=${estagio.id})}" class="btn btn-success btn-sm pull-right">Avaliar</a>
-	           </div>
+	          	<div th:if="${submissaoRelatorio} != null">
+				     <table class="table table-hover">
+				      <tbody >
+					    <tr>
+					      <td class="gp-sem-borda"><strong>Nome Documento:</strong></td>
+					      <td class="gp-sem-borda" th:text="${submissaoRelatorio.tipoSubmissao.descricao}"></td>
+					    </tr>
+					    <tr>
+					      <td><strong>Status:</strong></td>
+					      <td th:text="${submissaoRelatorio.statusEntrega}"></td>
+					    </tr>
+					    <tr>
+					      <td><strong>Data Submissão:</strong></td>
+					      <td th:text="${#dates.format(submissaoRelatorio.submetidoEm, 'dd/MM/yyyy')}"></td>
+					    </tr>
+					    <tr>
+					      <td><strong>Nota:</strong></td>
+					      <td th:text="${submissaoRelatorio.nota}"></td>
+					    </tr>
+					    <tr th:if="not ${#strings.isEmpty(submissaoRelatorio.comentario)}">
+					      <td><strong>Comentário:</strong></td>
+					      <td th:text="${submissaoRelatorio.comentario}"></td>
+					    </tr>				      
+				      </tbody>
+				     </table>
+				     <a th:if="${#strings.equals(submissaoRelatorio.statusEntrega, 'SUBMETIDO')}" th:href="@{/Supervisao/Acompanhamento/{idEstagio}/AvaliarRelatorio(idEstagio=${estagio.id})}" class="btn btn-success btn-sm pull-right">Avaliar</a>
+				     <a th:if="${not #strings.equals(submissaoRelatorio.statusEntrega, 'SUBMETIDO')}" th:href="@{/Supervisao/Acompanhamento/{idEstagio}/AvaliarRelatorio(idEstagio=${estagio.id})}" class="btn btn-success btn-sm pull-right">Editar Avaliação</a>
+	          	</div>
+
+	          	<p th:if="${submissaoRelatorio} == null">A submissão do relatório final de estágio ainda não foi realizada.</p>
+	          	
+	          
+	          </div>
 	        </div>
 	        <div class="panel panel-bluegray">
 	          <div class="panel-heading">

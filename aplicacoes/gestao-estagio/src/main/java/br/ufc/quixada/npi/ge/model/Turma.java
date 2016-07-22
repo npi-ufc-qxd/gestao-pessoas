@@ -9,6 +9,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -54,8 +55,9 @@ public class Turma {
 	@ManyToMany
 	private List<Servidor> supervisores;
 
-	@OneToMany(mappedBy = "turma")
-	List<Expediente> expedientes;
+	@OneToMany
+	@JoinColumn(name = "turma_id")
+	private List<Expediente> expedientes;
 
 	@OneToMany(mappedBy = "turma")
 	private List<Evento> eventos;

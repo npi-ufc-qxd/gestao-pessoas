@@ -109,7 +109,7 @@
 					          	</div>
 				        	</div>
 			            </form>
-				        <form id="form-avaliar" class="form-horizontal" th:action="@{/Supervisao/Acompanhamento/1/AvaliarPlano}" method="post">				     
+				        <form id="form-avaliar" class="form-horizontal" th:action="@{/Supervisao/Acompanhamento/{idEstagio}/AvaliarPlano(idEstagio=${estagio.id})}" method="post">				     
 							<div class="form-group">
 		     					<label for="status" class="col-lg-2 control-label"><strong>Status</strong></label>
 		     					<div class="col-lg-10">

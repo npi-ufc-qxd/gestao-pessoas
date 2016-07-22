@@ -22,6 +22,8 @@ public class Constants {
 	
 	public static final String FORMULARIO_ADICIONAR_SELECAO = "selecao/adicionar-selecao";
 	
+	public static final String FORMULARIO_EDITAR_SELECAO = "selecao/editar-selecao";
+	
 	public static final String DETALHES_SELECAO = "selecao/detalhes-selecao";
 	
 	/** SUPERVISOR*/
@@ -69,6 +71,8 @@ public class Constants {
 	public static final String REDIRECT_PAGINA_INICIAL_SUPERVISOR = "redirect:/Supervisao/Turmas";
 
 	public static final String REDIRECT_DETALHES_TURMA = "redirect:/Supervisao/Turma/";
+	
+	public static final String REDIRECT_DETALHES_SELECAO = "redirect:/Selecao/";
 	
 	public static final String REDIRECT_ACOMPANHAMENTO_ESTAGIARIO = "redirect:/Supervisao/Acompanhamento/";
 	

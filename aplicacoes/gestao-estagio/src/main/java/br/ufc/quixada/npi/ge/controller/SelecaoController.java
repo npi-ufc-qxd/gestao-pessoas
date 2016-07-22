@@ -120,7 +120,9 @@ public class SelecaoController {
 			model.addAttribute("selecao", selecao);
 			return FORMULARIO_ADICIONAR_SELECAO;
 		}
+		
 		selecaoService.editarSelecao(selecao);
+		
 		redirect.addFlashAttribute("sucesso", "Alterações salvas com sucesso.");
 		return REDIRECT_DETALHES_SELECAO + selecao.getId();
 	}

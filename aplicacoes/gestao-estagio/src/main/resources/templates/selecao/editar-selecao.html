@@ -69,8 +69,8 @@
 				<div id="selecao" class="panel-body collapse in">
 					<form id="form-selecao" class="form-horizontal" action="#" th:object="${selecao}" th:action="@{/Selecao/{idTurma}/Editar(idTurma=${selecao.turma.id})}" method="post">
 						
+						<input type="hidden" th:field="*{id}"/>
 						<input type="hidden" th:field="*{turma.id}"/>
-						
 						<div class="form-group">
 							<label for="" class="col-sm-2 control-label">Periodo</label>
 							<div class="col-sm-5">

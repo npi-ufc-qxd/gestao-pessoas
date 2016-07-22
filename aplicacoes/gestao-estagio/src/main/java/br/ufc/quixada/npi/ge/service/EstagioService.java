@@ -50,6 +50,8 @@ public interface EstagioService {
 
 	Submissao buscarSubmissaoPorTipoSubmissaoEEstagioId(Submissao.TipoSubmissao tipoSubmissao, Long idEstagio);
 	
+	Long buscarIdSubmissaoPorTipoSubmissaoEEstagioId(Submissao.TipoSubmissao tipoSubmissao, Long idEstagio);
+	
 	void adicionarAvaliacaoRendimento(AvaliacaoRendimento avaliacaoRendimento);
 	
 	void editarAvaliacaoRendimento(AvaliacaoRendimento avaliacaoRendimento);
@@ -84,4 +86,6 @@ public interface EstagioService {
 	
 	void agendarReposicao(Estagio estagio, Date date);
 
+	boolean isEstagioAcessoSupervisorOuOrientador(Long idEstagio, Long idServidor);
+	
 }

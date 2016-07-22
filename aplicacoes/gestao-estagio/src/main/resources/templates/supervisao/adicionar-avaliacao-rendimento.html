@@ -109,8 +109,6 @@
 	        </div>
 	
 	      </div>
-
-
 	    <div class="col-md-8">
 	        <div class="panel panel-bluegray">
 	          <div class="panel-heading">
@@ -131,10 +129,39 @@
 
 					<div id="viaFormulario" class="col-lg-12 hidden">
 						<form method="post" enctype="multipart/form-data" class="form-horizontal" action="#" th:action="@{/Supervisao/Acompanhamento/{idEstagio}/AvaliacaoRendimento(idEstagio=${estagio.id})}" th:object="${avaliacaoRendimento}">
+							<div class="form-group">
+								<label for="atividadeCurricular" class="col-lg-12 control-label"><strong>Atividade Curricular</strong></label><br/>
+								<div class="col-lg-12">
+									<textarea class="form-control" rows="3" id="atividadeCurricular" th:field="*{atividadeCurricular}"></textarea>
+									<label class="text-danger" for="atividadeCurricular" th:if="${#fields.hasErrors('atividadeCurricular')}" th:errors="*{atividadeCurricular}">Title error message</label>
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="" class="col-sm-2 control-label">Periodo</label>
+								<div class="col-sm-5">
+									<input type="text" class="form-control data" id="inicio" th:field="*{inicioAvaliacao}" placeholder="Inicio"/>
+									<label class="text-danger" for="inicio" th:if="${#fields.hasErrors('inicioAvaliacao')}" th:errors="*{inicioAvaliacao}">Title error message</label>
+								</div>
+								<div class="col-sm-5">
+									<input type="text" class="form-control data" id="termino" th:field="*{terminoAvaliacao}" placeholder="Final"/>
+									<label class="text-danger" for="termino" th:if="${#fields.hasErrors('terminoAvaliacao')}" th:errors="*{terminoAvaliacao}">Title error message</label>
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="objetivoEstagio" class="col-lg-12 control-label"><strong>Objetivo geral do estágio</strong></label><br/>
+								<div class="col-lg-12">
+									<textarea class="form-control" rows="3" id="objetivoEstagio" th:field="*{objetivoEstagio}"></textarea>
+									<span class="help-block">Descreva um resumo das atividade do estagiário no período</span>
+								</div>
+							</div>
 							  <fieldset>
 							    <legend><strong>1. Assuidade e Disciplina</strong></legend>
 							    <div class="form-group">
-							      <label class="col-lg-12 control-label"><strong>1.1 Frequência</strong></label>
+							      <label id="frequencia" class="col-lg-12 control-label">
+							      	<strong>1.1 Frequência</strong>
+							      	<span class="text-danger" for="frequencia" th:if="${#fields.hasErrors('frequencia')}" th:errors="*{frequencia}">Title error message</span>							      
+							      </label>
+							      
 							      <div class="col-lg-11 col-lg-offset-1">
 									<div class="radio" th:each="frequenciaOpcao: ${frequencias}">
 										<label>
@@ -177,7 +204,6 @@
 							      </div>
 							    </div>
 							  </fieldset>
-							  
 							  
 							  <fieldset>
 								<legend><strong>2. Iniciativa e Produtividade</strong></legend>
@@ -239,6 +265,7 @@
 							    </div>
 							  </fieldset>
 												  
+		  
 							  <fieldset>
 								<legend><strong>3. Responsabilidade</strong></legend>
 							
@@ -274,7 +301,7 @@
 							      </div>
 							    </div>
 							  </fieldset>
-							
+												
 							  <fieldset>
 								<legend><strong>4. Relacionamento</strong></legend>
 							
@@ -305,7 +332,7 @@
 							    <div class="form-group">
 								  <label for="fatorRelacionamentoComentario" class="col-lg-12 control-label"><strong>Comentario Relacionamento</strong></label><br/>
 							      <div class="col-lg-12">
-									<textarea class="form-control" rows="3" id="fatorRelacionamentoComentario" name="fatorRelacionamentoComentario"></textarea>
+									<textarea class="form-control" rows="3" id="fatorRelacionamentoComentario" th:field="*{fatorRelacionamentoComentario}"></textarea>
 							        <span class="help-block">Comentario sobre o fator Relacionamento.</span>
 							      </div>
 							    </div>
@@ -316,18 +343,18 @@
 							    <div class="form-group">
 								  <label for="nota" class="col-lg-12 control-label"><strong>Nota Geral (0,0 a 10,0)</strong></label>
 								  <div class="col-lg-12">
-									 <input name="nota" id="nota" type="text" class="form-control" />
+									 <input th:field="*{nota}" id="nota" type="text" class="form-control" />
 								  </div>
 							    </div>
 								<div class="form-group">
 								   <label for="fatorRelacionamentoComentario" class="col-lg-12 control-label"><strong>Comentários finais e sugestões</strong></label><br/>
 								   <div class="col-lg-12">
-									 <textarea class="form-control" rows="3" id="comentarioFinal" name="comentarioFinal"></textarea>
+									 <textarea class="form-control" rows="3" id="comentarioFinal" th:field="*{comentarioFinal}"></textarea>
 								       <span class="help-block">Comentários finais e sugestões.</span>
 								   </div>
 								</div>
 							  </fieldset>
-							
+						
 							  <div class="form-group">
 							      <div class="col-md-10">
 									 <fieldset>
@@ -412,7 +439,7 @@
 							  </fieldset>
 							 </div>
 							</div>
-							
+								
 							 <div class="form-group">
 							     <div class="col-lg-10 pull-left">
 							       <a class="btn btn-default" th:href="@{/Supervisao/Acompanhamento/{idEstagio}(idEstagio=${estagio.id})}">Cancelar</a>
@@ -525,7 +552,7 @@
 							      								
 							  </fieldset>
 							 </div>
-							</div>
+ 							</div>
 							
 							 <div class="form-group">
 							     <div class="col-lg-10 pull-left">

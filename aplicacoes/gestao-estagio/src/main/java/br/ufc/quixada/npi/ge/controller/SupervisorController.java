@@ -66,6 +66,7 @@ import br.ufc.quixada.npi.ge.service.EstagioService;
 import br.ufc.quixada.npi.ge.service.PessoaService;
 import br.ufc.quixada.npi.ge.service.TurmaService;
 import br.ufc.quixada.npi.ge.utils.UtilGestao;
+import br.ufc.quixada.npi.ge.validation.AvaliacaoRendimentoValidator;
 import br.ufc.quixada.npi.ldap.model.Usuario;
 import br.ufc.quixada.npi.ldap.service.UsuarioService;
 import net.sf.jasperreports.engine.JRDataSource;
@@ -88,6 +89,9 @@ public class SupervisorController {
 
 	@Autowired
 	private TurmaService turmaService;
+	
+	@Autowired
+	private AvaliacaoRendimentoValidator avaliacaoRendimentoValidator;
 
 	private JRDataSource jrDatasource;
 
@@ -656,9 +660,21 @@ public class SupervisorController {
 	// AVALIAÇÃO DE RENDIMENTO
 
 	@RequestMapping(value = "/Acompanhamento/{idEstagio}/AvaliacaoRendimento", method = RequestMethod.GET)
-	public String formularioAdicionarAvaliacaoRendimento(Model model, @PathVariable("idEstagio") Long idEstagio) {
-
-		Estagio estagio = estagioService.buscarEstagioPorId(idEstagio);
+	public String formularioAdicionarAvaliacaoRendimento(Model model, @PathVariable("idEstagio") Long idEstagio, RedirectAttributes attributes) {
+		
+		Servidor servidor = pessoaService.buscarServidorPorCpf(getCpfUsuarioLogado());
+		Estagio estagio = estagioService.buscarEstagioPorIdEOrientadorOuSupervisor(idEstagio, servidor.getId());
+		
+		if(estagio == null) {
+			attributes.addFlashAttribute("error", "Você não possui permissão para avaliar ou estágio inexistente");
+			return REDIRECT_PAGINA_INICIAL_SUPERVISOR; 
+		}
+//		Foi comentada para a realização de teste. Após será descomentada
+//		if(estagio.getAvaliacaoRendimento() != null){
+//			attributes.addFlashAttribute("error", "Avaliação de rendimento já avaliada.");
+//			return REDIRECT_PAGINA_INICIAL_SUPERVISOR;
+//		}
+		
 		model.addAttribute("avaliacaoRendimento", new AvaliacaoRendimento());
 		model.addAttribute("estagio", estagio);
 
@@ -666,22 +682,39 @@ public class SupervisorController {
 	}
 
 	@RequestMapping(value = "/Acompanhamento/{idEstagio}/AvaliacaoRendimento", method = RequestMethod.POST)
-	public String adicionarAvaliacaoRendimento(Model model,
-			@RequestParam(value = "arquivo", required = false) MultipartFile arquivo,
-			@Valid @ModelAttribute("avaliacaoRendimento") AvaliacaoRendimento avaliacaoRendimento,
-			RedirectAttributes redirect, @PathVariable("idEstagio") Long idEstagio) {
-
-		Estagio estagio = estagioService.buscarEstagioPorId(idEstagio);
+	public String adicionarAvaliacaoRendimento(Model model, @PathVariable("idEstagio") Long idEstagio, @ModelAttribute("avaliacaoRendimento") AvaliacaoRendimento avaliacaoRendimento, BindingResult result, RedirectAttributes attributes) {
+		
+		Servidor servidor = pessoaService.buscarServidorPorCpf(getCpfUsuarioLogado());
+		Estagio estagio = estagioService.buscarEstagioPorIdEOrientadorOuSupervisor(idEstagio, servidor.getId());
+		
+		if(estagio == null) {
+			attributes.addFlashAttribute("error", "Você não possui permissão para avaliar ou estágio inexistente");
+			return REDIRECT_PAGINA_INICIAL_SUPERVISOR; 
+		}
+		
+//		Foi comentada para a realização de teste. Após será descomentada
+//		if(estagio.getAvaliacaoRendimento() != null){
+//			attributes.addFlashAttribute("error", "Avaliação de rendimento já avaliada.");
+//			return REDIRECT_PAGINA_INICIAL_SUPERVISOR;
+//		}
+		
+		avaliacaoRendimentoValidator.validate(avaliacaoRendimento, result);
+		
+		if (result.hasErrors()) {
+			model.addAttribute("avaliacaoRendimento", avaliacaoRendimento);
+			model.addAttribute("estagio", estagio);
+			return FORMULARIO_ADICIONAR_AVALIACAO_RENDIMENTO;
+		}
+		
+		estagio.setAvaliacaoRendimento(avaliacaoRendimento);
 		avaliacaoRendimento.setEstagio(estagio);
-
-		Servidor servidor = servidorEstaCadastrado(pessoaService.buscarPessoaPorCpf(getCpfUsuarioLogado()));
-
+		
+		avaliacaoRendimento.setModo(AvaliacaoRendimento.Modo.FORMULARIO);
 		avaliacaoRendimento.setCriadaPor(servidor);
-		avaliacaoRendimento.setAtualizadaPor(servidor);
-
+		avaliacaoRendimento.setDataAvaliacao(new Date());
 		estagioService.adicionarAvaliacaoRendimento(avaliacaoRendimento);
 
-		redirect.addFlashAttribute("sucesso", "Avaliação de Rendimento realizada!");
+		attributes.addFlashAttribute("sucesso", "Avaliação de Rendimento realizada!");
 		return REDIRECT_ACOMPANHAMENTO_ESTAGIARIO + idEstagio;
 	}
 
@@ -694,7 +727,6 @@ public class SupervisorController {
 	public String editarAvaliacaoRendimento(Model model,
 			@Valid @ModelAttribute("avaliacaoRendimento") AvaliacaoRendimento avaliacaoRendimento,
 			RedirectAttributes redirect, @PathVariable("idEstagio") Long idEstagio) {
-
 		return REDIRECT_ACOMPANHAMENTO_ESTAGIARIO + idEstagio;
 	}
 

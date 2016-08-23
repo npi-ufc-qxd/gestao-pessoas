@@ -98,8 +98,6 @@ public class SupervisorController {
 
 	@RequestMapping(value = { "", "/", "/Turmas" }, method = RequestMethod.GET)
 	public String listarTurmas(Model model, HttpSession session) {
-		inserirNomeUsuarioNaSessao(session);
-
 		Servidor servidor = pessoaService.buscarServidorPorCpf(getCpfUsuarioLogado());
 
 		if (servidor == null) {
@@ -108,6 +106,8 @@ public class SupervisorController {
 
 		model.addAttribute("turmasNPI", turmaService.buscarTurmaPorTipoEServidor(TipoTurma.NPI, servidor.getId()));
 		model.addAttribute("turmasEmpresa", turmaService.buscarTurmaPorTipoEServidor(TipoTurma.EMPRESA, servidor.getId()));
+
+		inserirNomeUsuarioNaSessao(session);
 
 		return PAGINA_INICIAL_SUPERVISOR;
 	}

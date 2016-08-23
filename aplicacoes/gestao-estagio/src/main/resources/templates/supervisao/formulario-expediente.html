@@ -23,7 +23,7 @@
   </div>
 
 
-	<div class="container animated fadeInRight">
+	<div class="container">
 	    <div class="row">
 	      <div class="col-md-4">
 	        <div class="panel panel-bluegray">
@@ -71,7 +71,7 @@
 	            <a class="panel-title" data-toggle="collapse" data-target="#add-expediente"><i class="fa fa-caret-down" aria-hidden="true"></i> Adicionar Expediente</a>
 	          </div>
 	          <div id="add-expediente" class="panel-body collapse in">
-					<form class="form-horizontal" th:action= "@{/Supervisao/Turma/1/Expediente}" method="post" th:object="${expediente}">
+					<form class="form-horizontal" th:action= "@{/Supervisao/Turma/{idTurma}/Expediente(idTurma=${turma.id})" method="post" th:object="${expediente}">
 					    <div class="form-group">
 					      <label for="diaDaSemana" class="col-lg-2 control-label">Dia da Semana</label>
 					      <div class="col-lg-10">
@@ -123,7 +123,7 @@
 					    <tbody>
 					      <tr th:each="expediente : ${turma.expedientes}">
 					        <td th:inline="text"><strong>[[${expediente.diaSemana.descricao}]]</strong></td>
-					        <td th:inline="text">[[${#dates.format(expediente.horaInicio, 'HH:mm')}]] ás [[${#dates.format(expediente.horaTermino, 'HH:mm')}]]</td>
+					        <td th:inline="text">[[${#dates.format(expediente.horaInicio, 'HH:mm')}]] as [[${#dates.format(expediente.horaTermino, 'HH:mm')}]]</td>
 					      	<td><a class="btn btn-danger btn-sm pull-right gp-btn-expediente"
 					      		   th:href="@{/Supervisao/Turma/{idTurma}/Expediente/{idExpediente}/Excluir(idTurma=${turma.id},idExpediente=${expediente.id})}">Excluir</a></td>
 					      </tr>

@@ -45,7 +45,7 @@ h1, h2, h3, h4, h5, h6 {
     border-bottom: 0;
     background: #f1f1f1;
     border-radius: 0;
-    font-size: 11px;
+    font-size: 12px;
     line-height: 16px;
 }
 
@@ -232,4 +232,8 @@ tr:nth-child(1) td {
   position: relative;
   top:-4px;
   right:-5px;
+}
+
+.color-error {
+	color: #e51c23;
 }

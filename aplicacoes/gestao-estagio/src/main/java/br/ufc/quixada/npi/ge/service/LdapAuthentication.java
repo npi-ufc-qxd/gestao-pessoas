@@ -38,11 +38,11 @@ public class LdapAuthentication implements AuthenticationProvider {
         Collection<? extends GrantedAuthority> authorities;
         
         authorities = pessoaService.getPapeis(username);
-        
+
         if(authorities.isEmpty() && user != null){
             authorities = user.getAuthorities();
         }
-
+        
         if (user == null || !usuarioService.autentica(username, password) || authorities.isEmpty()) {
             throw new BadCredentialsException(LOGIN_INVALIDO);
         }

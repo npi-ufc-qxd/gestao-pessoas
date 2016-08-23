@@ -15,14 +15,14 @@
 	        <ul class="breadcrumb">
 	            <li><a th:href="@{/Supervisao}">Minhas Turmas</a></li>
 	            <li><a th:href="@{'/Supervisao/Turma/' + ${estagio.turma.id}}">Detalhes Turma</a></li>
-	            <li><a th:href="@{'/Supervisao/Acompanhamento/' + ${estagio.estagiario.id}}">Acompanhamento Estagiário</a></li>
+	            <li><a th:href="@{'/Supervisao/Acompanhamento/' + ${estagio.id}}">Acompanhamento Estagiário</a></li>
 	            <li class="active">Avaliação do Plano</li>
 	        </ul>
         	<h1>Avaliação do Plano</h1>
     	</div>
   	</div>
   
-	<div class="container animated fadeInRight">
+	<div class="container">
 		<div class="row">
 	      <div class="col-md-4">
 	        <div class="panel panel-bluegray">

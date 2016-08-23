@@ -22,7 +22,7 @@
     </div>
   </div>
 
-	<div class="container animated fadeInRight">
+	<div class="container">
 	    <div class="row">
 	      <div class="col-md-4">
 	        <div class="panel panel-bluegray">
@@ -119,6 +119,30 @@
 	            <a class="panel-title" data-toggle="collapse" data-target="#pendentes"><i class="fa fa-caret-down" aria-hidden="true"></i> Pendências</a>
 			  </div>
 	          <div id="pendentes" class="panel-body collapse in">
+	          	<div th:each="frequenciaPendente : ${frequenciasPendentes}">
+					<form class="form-inline" role="form" th:action="@{/Supervisao/Acompanhamento/{idEstagio}/Pendente(idEstagio=${estagio.id})}" method="post">
+					  <div class="form-group">
+					    <label for="dataPendencia"><strong>Data pendência</strong></label>
+					    <input type="text" class="form-control" id="dataPendencia" th:value="${#dates.format(frequenciaPendente.data,'dd/MM/yyyy')}" readonly="readonly" disabled="disabled"/>
+					    <input type="hidden" name="dataPendente" th:value="${#dates.format(frequenciaPendente.data,'MM/dd/yyyy')}"/>
+					  </div>
+
+					  <div class="form-group col-sm-offset-1">
+					  	<label for="status"><strong>Selecione o status</strong></label>
+				        <select id="status" name="status" class="form-control">
+				          <option th:each ="status : ${statusFrequencia}" 
+					          	  th:value = "${status}" 
+					          	  th:text = "${status.descricao}">
+				          </option>
+				        </select>
+					  </div>
+					  <button type="submit" class="btn btn-success col-sm-offset-1">lançar</button>
+					  
+					  <div class="form-group">
+					  	<label th:if="${!#strings.isEmpty(errorDataPendente)}" th:text="${errorDataPendente}" class="color-error"></label>
+					  </div>
+					</form>
+	          	</div>
 	          </div>
 	        </div>
 
@@ -127,10 +151,11 @@
 	            <a class="panel-title" data-toggle="collapse" data-target="#reposicao"><i class="fa fa-caret-down" aria-hidden="true"></i> Reposições</a>
 			  </div>
 	          <div id="reposicao" class="panel-body collapse in">
-				<form class="form-inline" role="form" th:action="@{/Supervisao/Acompanhamento/{idEstagio}/AgendarReposicao(idEstagio=${estagio.id})}" method="post">
+				<form id="form-reposicao" class="form-inline" role="form" th:action="@{/Supervisao/Acompanhamento/{idEstagio}/AgendarReposicao(idEstagio=${estagio.id})}" method="post">
 				  <div class="form-group">
-				    <label for="email">Data da Reposição:</label>
-				    <input type="text" class="form-control data-reposicao" id="dataReposicao" name="dataReposicao" size="23"/>
+				    <label for="dataReposicao"><strong>Data da Reposição</strong></label>
+				    <input type="text" class="form-control data-reposicao" id="dataReposicao" name="dataReposicao" required="required" size="23"/>
+				    <label th:if="${!#strings.isEmpty(errorData)}" th:text="${errorData}" class="color-error"></label>
 				  </div>
 				  <button type="submit" class="btn btn-success">agendar</button>
 				</form><br/>
@@ -141,12 +166,15 @@
 					    <tr>
 					      <th class="sort" data-sort="timestamp">Data</th>
 					      <th class="sort" data-sort="status">Status</th>
+					      <th></th>
 					    </tr>
 					  </thead>
 					  <tbody class="list">
 						<tr th:each="frequencia : ${estagio.frequencias}" th:if="${#strings.equals(frequencia.tipo, 'REPOSICAO')}">
 							<td class="timestamp" data-timestamp="20120911" th:inline="text" th:attr="data-timestamp=${#dates.format(frequencia.data,'yyyyMMdd')}">[[${#dates.format(frequencia.data,'dd/MM/yyyy')}]]</td>
 						    <td class="status" th:text="${frequencia.status}"></td>
+					        <td>
+					        	<a class="btn btn-danger btn-sm pull-right gp-btn-reposicao" th:href="@{/Supervisao/Acompanhamento/{idEstagio}/Frequencias/{idReposicao}/Excluir(idEstagio=${estagio.id}, idReposicao=${frequencia.id})}">Excluir</a></td>
 						</tr>
 					  </tbody>
 					</table> 
@@ -172,7 +200,13 @@
 						<tr th:each="frequencia : ${estagio.frequencias}">
 							<td class="timestamp" data-timestamp="20120911" th:inline="text" th:attr="data-timestamp=${#dates.format(frequencia.data,'yyyyMMdd')}">[[${#dates.format(frequencia.data,'dd/MM/yyyy')}]]</td>
 						    <td class="tipo" th:text="${frequencia.tipo}"></td>
-						    <td class="status" th:text="${frequencia.status}"></td>
+						    <td th:if="${#strings.equals(frequencia.status, 'PRESENTE')}" class="status"><span class="label label-success" th:text="${frequencia.status}">Default</span></td>
+						    <td th:if="${#strings.equals(frequencia.status, 'FALTA')}" class="status"><span class="label label-danger" th:text="${frequencia.status}">Default</span></td>
+						    <td th:if="${#strings.equals(frequencia.status, 'AGUARDO')}" class="status"><span class="label label-default" th:text="${frequencia.status}">Default</span></td>
+						    <td th:if="${#strings.equals(frequencia.status, 'ATRASADO')}" class="status"><span class="label label-default" th:text="${frequencia.status}">Default</span></td>
+						    <td th:if="${#strings.equals(frequencia.status, 'FERIADO')}" class="status"><span class="label label-default" th:text="${frequencia.status}">Default</span></td>
+						    <td th:if="${#strings.equals(frequencia.status, 'ABONADO')}" class="status"><span class="label label-default" th:text="${frequencia.status}">Default</span></td>
+						    <td th:if="${#strings.equals(frequencia.status, 'JUSTIFICATIVA')}" class="status"><span class="label label-default" th:text="${frequencia.status}">Default</span></td>
 						</tr>
 					  </tbody>
 					</table> 

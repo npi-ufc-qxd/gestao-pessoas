@@ -46,10 +46,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import br.ufc.quixada.npi.ge.model.AvaliacaoRendimento;
+import br.ufc.quixada.npi.ge.model.AvaliacaoRendimento.Modo;
 import br.ufc.quixada.npi.ge.model.Estagiario;
 import br.ufc.quixada.npi.ge.model.Estagio;
 import br.ufc.quixada.npi.ge.model.Evento;
@@ -62,6 +62,7 @@ import br.ufc.quixada.npi.ge.model.Submissao;
 import br.ufc.quixada.npi.ge.model.Submissao.StatusEntrega;
 import br.ufc.quixada.npi.ge.model.Submissao.TipoSubmissao;
 import br.ufc.quixada.npi.ge.model.Turma;
+import br.ufc.quixada.npi.ge.model.Turma.TipoTurma;
 import br.ufc.quixada.npi.ge.service.EstagioService;
 import br.ufc.quixada.npi.ge.service.PessoaService;
 import br.ufc.quixada.npi.ge.service.TurmaService;
@@ -99,20 +100,14 @@ public class SupervisorController {
 	public String listarTurmas(Model model, HttpSession session) {
 		inserirNomeUsuarioNaSessao(session);
 
-		Servidor servidor = servidorEstaCadastrado(pessoaService.buscarPessoaPorCpf(getCpfUsuarioLogado()));
+		Servidor servidor = pessoaService.buscarServidorPorCpf(getCpfUsuarioLogado());
 
 		if (servidor == null) {
-			servidor = pessoaService.buscarServidorPorCpf(getCpfUsuarioLogado());
+			servidor = cadastrarServidor();
 		}
 
-		List<Turma> turmas = turmaService.buscarTurmasSupervisorOuOrientador(servidor.getId());
-		List<Turma> turmasEncerradas = turmaService.buscarTurmasEncerradasEAbertasSupervisouOuOrientador(servidor.getId());
-		
-		if(turmasEncerradas != null){
-			model.addAttribute("turmasEncerradas", turmasEncerradas);
-		}
-		
-		model.addAttribute("turmas", turmas);
+		model.addAttribute("turmasNPI", turmaService.buscarTurmaPorTipoEServidor(TipoTurma.NPI, servidor.getId()));
+		model.addAttribute("turmasEmpresa", turmaService.buscarTurmaPorTipoEServidor(TipoTurma.EMPRESA, servidor.getId()));
 
 		return PAGINA_INICIAL_SUPERVISOR;
 	}
@@ -209,13 +204,13 @@ public class SupervisorController {
 	@RequestMapping(value = "/Turma/{idTurma}", method = RequestMethod.GET)
 	public String visualizarDetalhesTurma(@PathVariable("idTurma") Long idTurma, RedirectAttributes redirect, Model model, HttpSession session) {
 		Turma turma = turmaService.buscarTurmaPorServidorId(idTurma, pessoaService.buscarServidorPorCpf(getCpfUsuarioLogado()).getId());
-		Date data = new Date();
-		
+
 		if(turma == null){
-			redirect.addFlashAttribute("error", "Você não tem acesso");
+			redirect.addFlashAttribute("error", "Para ter acesso a um turma você precisar ser orientado ou supervisor da turma");
 			return REDIRECT_PAGINA_INICIAL_SUPERVISOR;
 		}
-		
+
+		Date data = new Date();
 		if(data.after(turma.getTermino())){
 			model.addAttribute("turmaEncerrada", true);
 		}
@@ -265,15 +260,14 @@ public class SupervisorController {
 
 		Turma turma = turmaService.buscarTurmaPorId(idTurma);
 
-		Usuario usuario = usuarioService.getByCpf(getCpfUsuarioLogado());
-
 		jrDatasource = new JRBeanCollectionDataSource(turma.getEstagios());
 
 		SimpleDateFormat dataFormatada = new SimpleDateFormat("dd/MM/yyyy");
 
-		model.addAttribute("NOME", usuario.getNome());
-		model.addAttribute("SIAPE", usuario.getSiape());
-		model.addAttribute("TELEFONE", usuario.getTelefone());
+		model.addAttribute("NOME", turma.getOrientador().getNome());
+		model.addAttribute("SIAPE", turma.getOrientador().getSiape());
+		model.addAttribute("TELEFONE", turma.getOrientador().getTelefone());
+		model.addAttribute("LOTACAO", turma.getOrientador().getLotacao());
 		model.addAttribute("TURNO", UtilGestao.getTurnoExpediente(turma.getExpedientes().get(0)));
 		model.addAttribute("INICIO_ESTAGIO", dataFormatada.format(turma.getInicio()));
 		model.addAttribute("FINAL_ESTAGIO", dataFormatada.format(turma.getTermino()));
@@ -466,6 +460,12 @@ public class SupervisorController {
 			return "redirect:/Supervisao/Turma/" + turmaService.buscarTurmaPorId(idTurma).getId() + "/AtualizarVinculos";
 		}
 
+		if(estagioService.buscarEstagioPorIdEEstagiarioIdTurma(idEstagiario, idTurma) != null){
+			redirect.addFlashAttribute("error", "Não foi possivel realizar o vinculo!");
+			return "redirect:/Supervisao/Turma/" + turmaService.buscarTurmaPorId(idTurma).getId() + "/AtualizarVinculos";
+
+		}
+		
 		estagioService.vincularEstagiario(idTurma, idEstagiario);
 		Estagiario estagiario = pessoaService.buscarEstagiarioPorId(idEstagiario);
 
@@ -477,10 +477,51 @@ public class SupervisorController {
 	public String formularioFrequencias(Model model, @PathVariable("idEstagio") Long idEstagio) {
 		Estagio estagio = estagioService.buscarEstagioPorId(idEstagio);
 		model.addAttribute("estagio", estagio);
+		model.addAttribute("frequenciasPendentes", estagioService.buscarFrequenciasPendentes(estagio));
 		model.addAttribute("consolidadoFrequencia", estagioService.consolidarFrequencias(estagio));
 
 		return GERENCIAR_FREQUENCIAS;
 	}
+
+	
+	@RequestMapping(value = "/Acompanhamento/{idEstagio}/Pendente", method = RequestMethod.POST)
+	public String lancarFrequenciaPendente(@PathVariable("idEstagio") Long idEstagio, @RequestParam("dataPendente") Date dataPendente, @RequestParam("status") Frequencia.StatusFrequencia statusFrequencia, Model model, RedirectAttributes redirectAttributes) {
+
+		Servidor servidor = pessoaService.buscarServidorPorCpf(getCpfUsuarioLogado());
+
+		Estagio estagio = estagioService.buscarEstagioPorIdEOrientadorOuSupervisor(idEstagio, servidor.getId());
+
+		if(estagio == null) {
+			redirectAttributes.addFlashAttribute("error", "Você não permisão para agendar está reposição");
+			return REDIRECT_PAGINA_INICIAL_SUPERVISOR; 
+		}
+		
+		model.addAttribute("estagio", estagio);
+		model.addAttribute("consolidadoFrequencia", estagioService.consolidarFrequencias(estagio));
+
+		if(dataPendente.before(estagio.getTurma().getInicio()) || dataPendente.after(new Date())) {
+			model.addAttribute("errorDataPendente", "Informe um data do periodo da turma");
+			return GERENCIAR_FREQUENCIAS;
+		}
+		
+		if(estagioService.existeFrequenciaPorDataEEstagioId(dataPendente, idEstagio)) {
+			model.addAttribute("errorDataPendente", "Já há frequencia cadastrada para esta data");
+			return GERENCIAR_FREQUENCIAS;
+		}
+
+		Frequencia frequencia = new Frequencia();
+		frequencia.setEstagio(estagio);
+		frequencia.setData(dataPendente);
+		frequencia.setStatus(statusFrequencia);
+		frequencia.setHorario(new Date());
+		frequencia.setTipo(Frequencia.TipoFrequencia.NORMAL);
+		
+		estagioService.adicionarFrequencia(frequencia);
+
+		redirectAttributes.addFlashAttribute("sucesso", "Frequência pendente lançada com sucesso");
+
+		return "redirect:/Supervisao/Acompanhamento/" + idEstagio + "/Frequencias";
+	}	
 
 	@RequestMapping(value = "/Acompanhamento/{idEstagio}/AgendarReposicao", method = RequestMethod.POST)
 	public String agendarReposicao(Model model, @PathVariable("idEstagio") Long idEstagio, @RequestParam("dataReposicao") Date dataReposicao, RedirectAttributes attributes) {
@@ -493,11 +534,46 @@ public class SupervisorController {
 			attributes.addFlashAttribute("error", "Você não permisão para agendar está reposição");
 			return REDIRECT_PAGINA_INICIAL_SUPERVISOR; 
 		}
+
+		if(dataReposicao.before(estagio.getTurma().getInicio())) {
+			model.addAttribute("estagio", estagio);
+			model.addAttribute("consolidadoFrequencia", estagioService.consolidarFrequencias(estagio));
+			model.addAttribute("errorData", "Informe um data a partir do inicio da turma");
+			return GERENCIAR_FREQUENCIAS;
+		}
 		
+		if (estagioService.buscarFrequenciaPorDataEEstagioId(dataReposicao, estagio.getId()) != null) {
+			model.addAttribute("estagio", estagio);
+			model.addAttribute("consolidadoFrequencia", estagioService.consolidarFrequencias(estagio));
+			model.addAttribute("errorData", "Já existe reposição agendada para esta data");
+			return GERENCIAR_FREQUENCIAS;
+		};
+
 		estagioService.agendarReposicao(estagio, dataReposicao);
 
 		attributes.addFlashAttribute("sucesso", "Reposição agendada com sucesso!");
 		return "redirect:/Supervisao/Acompanhamento/" + idEstagio + "/Frequencias";
+	}
+
+
+	@RequestMapping(value = "/Acompanhamento/{idEstagio}/Frequencias/{idReposicao}/Excluir", method = RequestMethod.GET)
+	public @ResponseBody boolean excluirReposicao(Model model, @PathVariable("idEstagio") Long idEstagio, @PathVariable("idReposicao") Long idReposicao, RedirectAttributes attributes) {
+
+		Servidor servidor = pessoaService.buscarServidorPorCpf(getCpfUsuarioLogado());
+		Estagio estagio = estagioService.buscarEstagioPorIdEOrientadorOuSupervisor(idEstagio, servidor.getId());
+
+		if(estagio == null) {
+			return false; 
+		}
+		
+		Frequencia frequencia = estagioService.buscarFrequenciaPorIdETipoEStatus(idReposicao, Frequencia.TipoFrequencia.REPOSICAO, Frequencia.StatusFrequencia.AGUARDO);
+
+		if (frequencia == null || frequencia.getEstagio().getId() != estagio.getId()) {
+			return false; 
+		};
+
+		estagioService.excluirFrequencia(frequencia);
+		return true; 
 	}
 
 	@RequestMapping(value = "/Acompanhamento/{idEstagio}/AvaliarPlano", method = RequestMethod.GET)
@@ -611,23 +687,16 @@ public class SupervisorController {
 
 	@RequestMapping(value = "/Acompanhamento/{idEstagio}/DownloadRelatorio", method = RequestMethod.GET)
 	@ResponseBody
-	public HttpEntity<byte[]> downloadRelatorio(@PathVariable("idEstagio") Long idEstagio,
-			RedirectAttributes redirectAttributes) {
+	public HttpEntity<byte[]> downloadRelatorio(@PathVariable("idEstagio") Long idEstagio, RedirectAttributes redirectAttributes) {
 
-		Submissao submissaoRelatorio = estagioService
-				.buscarSubmissaoPorTipoSubmissaoEEstagioId(Submissao.TipoSubmissao.RELATORIO_FINAL_ESTAGIO, idEstagio);
-
-		// if(submissaoPlano == null){
-		// redirectAttributes.addFlashAttribute("error", "Acesso negado.");
-		// return REDIRECT_PAGINA_INICIAL_ESTAGIARIO;
-		// }
+		Submissao submissaoRelatorio = estagioService.buscarSubmissaoPorTipoSubmissaoEEstagioId(Submissao.TipoSubmissao.RELATORIO_FINAL_ESTAGIO, idEstagio);
 
 		byte[] relatorio = submissaoRelatorio.getDocumento().getArquivo();
 		String[] tipo = submissaoRelatorio.getDocumento().getExtensao().split("/");
 
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(new MediaType(tipo[0], tipo[1]));
-		headers.set("Content-Disposition", "attachment; filename=" + submissaoRelatorio.getDocumento().getNome());
+		headers.set("Content-Disposition", "attachment; filename=" + submissaoRelatorio.getDocumento().getNome() + ".pdf");
 		headers.setContentLength(relatorio.length);
 
 		return new HttpEntity<byte[]>(relatorio, headers);
@@ -635,23 +704,16 @@ public class SupervisorController {
 
 	@RequestMapping(value = "/Acompanhamento/{idEstagio}/DownloadPlano", method = RequestMethod.GET)
 	@ResponseBody
-	public HttpEntity<byte[]> downloadPlano(@PathVariable("idEstagio") Long idEstagio,
-			RedirectAttributes redirectAttributes) {
+	public HttpEntity<byte[]> downloadPlano(@PathVariable("idEstagio") Long idEstagio, RedirectAttributes redirectAttributes) {
 
-		Submissao submissaoPlano = estagioService
-				.buscarSubmissaoPorTipoSubmissaoEEstagioId(Submissao.TipoSubmissao.PLANO_ESTAGIO, idEstagio);
-
-		// if(submissaoPlano == null){
-		// redirectAttributes.addFlashAttribute("error", "Acesso negado.");
-		// return REDIRECT_PAGINA_INICIAL_ESTAGIARIO;
-		// }
+		Submissao submissaoPlano = estagioService.buscarSubmissaoPorTipoSubmissaoEEstagioId(Submissao.TipoSubmissao.PLANO_ESTAGIO, idEstagio);
 
 		byte[] plano = submissaoPlano.getDocumento().getArquivo();
 		String[] tipo = submissaoPlano.getDocumento().getExtensao().split("/");
 
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(new MediaType(tipo[0], tipo[1]));
-		headers.set("Content-Disposition", "attachment; filename=" + submissaoPlano.getDocumento().getNome());
+		headers.set("Content-Disposition", "attachment; filename=" + submissaoPlano.getDocumento().getNome() + ".pdf");
 		headers.setContentLength(plano.length);
 
 		return new HttpEntity<byte[]>(plano, headers);
@@ -669,12 +731,12 @@ public class SupervisorController {
 			attributes.addFlashAttribute("error", "Você não possui permissão para avaliar ou estágio inexistente");
 			return REDIRECT_PAGINA_INICIAL_SUPERVISOR; 
 		}
-//		Foi comentada para a realização de teste. Após será descomentada
-//		if(estagio.getAvaliacaoRendimento() != null){
-//			attributes.addFlashAttribute("error", "Avaliação de rendimento já avaliada.");
-//			return REDIRECT_PAGINA_INICIAL_SUPERVISOR;
-//		}
-		
+
+		if(estagio.getAvaliacaoRendimento() != null) {
+			attributes.addFlashAttribute("error", "A avaliação de rendimento já foi realizada");
+			return REDIRECT_ACOMPANHAMENTO_ESTAGIARIO + idEstagio;
+		}
+
 		model.addAttribute("avaliacaoRendimento", new AvaliacaoRendimento());
 		model.addAttribute("estagio", estagio);
 
@@ -692,12 +754,11 @@ public class SupervisorController {
 			return REDIRECT_PAGINA_INICIAL_SUPERVISOR; 
 		}
 		
-//		Foi comentada para a realização de teste. Após será descomentada
-//		if(estagio.getAvaliacaoRendimento() != null){
-//			attributes.addFlashAttribute("error", "Avaliação de rendimento já avaliada.");
-//			return REDIRECT_PAGINA_INICIAL_SUPERVISOR;
-//		}
-		
+		if(estagio.getAvaliacaoRendimento() != null) {
+			attributes.addFlashAttribute("error", "A avaliação de rendimento já foi realizada");
+			return REDIRECT_ACOMPANHAMENTO_ESTAGIARIO + idEstagio;
+		}
+
 		avaliacaoRendimentoValidator.validate(avaliacaoRendimento, result);
 		
 		if (result.hasErrors()) {
@@ -705,28 +766,54 @@ public class SupervisorController {
 			model.addAttribute("estagio", estagio);
 			return FORMULARIO_ADICIONAR_AVALIACAO_RENDIMENTO;
 		}
-		
+
 		estagio.setAvaliacaoRendimento(avaliacaoRendimento);
 		avaliacaoRendimento.setEstagio(estagio);
-		
 		avaliacaoRendimento.setModo(AvaliacaoRendimento.Modo.FORMULARIO);
 		avaliacaoRendimento.setCriadaPor(servidor);
 		avaliacaoRendimento.setDataAvaliacao(new Date());
+
 		estagioService.adicionarAvaliacaoRendimento(avaliacaoRendimento);
 
 		attributes.addFlashAttribute("sucesso", "Avaliação de Rendimento realizada!");
 		return REDIRECT_ACOMPANHAMENTO_ESTAGIARIO + idEstagio;
 	}
 
-	@RequestMapping(value = "/Acompanhamento/{idEstagio}/AvaliacaoRendimento/{idAvaliacaoRendimento}/Editar", method = RequestMethod.GET)
-	public String formularioEditarAvaliacaoRendimento(Model model, @PathVariable("idEstagio") Long idEstagio) {
+	@RequestMapping(value = "/Acompanhamento/{idEstagio}/AvaliacaoRendimento/Editar", method = RequestMethod.GET)
+	public String formularioEditarAvaliacaoRendimento(Model model, @PathVariable("idEstagio") Long idEstagio, RedirectAttributes redirect) {
+		Servidor servidor = pessoaService.buscarServidorPorCpf(getCpfUsuarioLogado());
+		Estagio estagio = estagioService.buscarEstagioPorIdEOrientadorOuSupervisor(idEstagio, servidor.getId());
+		
+		if(estagio == null) {
+			redirect.addFlashAttribute("error", "Você não possui permissão para editar esta avaliação de rendimento");
+			return REDIRECT_PAGINA_INICIAL_SUPERVISOR;
+		}
+		
+		model.addAttribute("estagio", estagio);
+		model.addAttribute("avaliacaoRendimento", estagio.getAvaliacaoRendimento());
 		return FORMULARIO_EDITAR_AVALIACAO_RENDIMENTO;
 	}
 
-	@RequestMapping(value = "/Acompanhamento/{idEstagio}/AvaliacaoRendimento/{idAvaliacaoRendimento}/Editar", method = RequestMethod.POST)
-	public String editarAvaliacaoRendimento(Model model,
-			@Valid @ModelAttribute("avaliacaoRendimento") AvaliacaoRendimento avaliacaoRendimento,
-			RedirectAttributes redirect, @PathVariable("idEstagio") Long idEstagio) {
+	@RequestMapping(value = "/Acompanhamento/{idEstagio}/AvaliacaoRendimento/Editar", method = RequestMethod.POST)
+	public String editarAvaliacaoRendimento(Model model, @Valid @ModelAttribute("avaliacaoRendimento") AvaliacaoRendimento newAvaliacaoRendimento, RedirectAttributes redirect, @PathVariable("idEstagio") Long idEstagio) {
+		
+		Servidor servidor = pessoaService.buscarServidorPorCpf(getCpfUsuarioLogado());
+		Estagio estagio = estagioService.buscarEstagioPorIdEOrientadorOuSupervisor(idEstagio, servidor.getId());
+		
+		if(estagio == null) {
+			redirect.addFlashAttribute("error", "Você não possui permissão para editar esta avaliação de rendimento");
+			return REDIRECT_PAGINA_INICIAL_SUPERVISOR;
+		}
+		
+		newAvaliacaoRendimento.setId(estagio.getAvaliacaoRendimento().getId());
+		newAvaliacaoRendimento.setAtualizadaPor(servidor);
+		newAvaliacaoRendimento.setEstagio(estagio);
+		newAvaliacaoRendimento.setModo(Modo.FORMULARIO);
+		
+		estagioService.adicionarAvaliacaoRendimento(newAvaliacaoRendimento);
+
+		redirect.addFlashAttribute("sucesso", "Alterações da avaliação de redimento foram salvas com sucesso!");
+
 		return REDIRECT_ACOMPANHAMENTO_ESTAGIARIO + idEstagio;
 	}
 
@@ -790,9 +877,14 @@ public class SupervisorController {
 		return Arrays.asList(AvaliacaoRendimento.CuidadoMateriaisEEquipamentos.values());
 	}
 
+	@ModelAttribute("statusFrequencia")
+	public List<Frequencia.StatusFrequencia> todosStatusFrequencia() {
+		return Arrays.asList(Frequencia.StatusFrequencia.values());
+	}
+
 	private void inserirNomeUsuarioNaSessao(HttpSession session) {
 		if (session.getAttribute(NOME_USUARIO) == null) {
-			session.setAttribute(NOME_USUARIO, usuarioService.getByCpf(getCpfUsuarioLogado()).getNome());
+			session.setAttribute(NOME_USUARIO, pessoaService.buscarServidorPorCpf(getCpfUsuarioLogado()).getNome());
 		}
 	}
 
@@ -827,23 +919,26 @@ public class SupervisorController {
 
 	}
 
-	private Servidor servidorEstaCadastrado(Pessoa pessoa) {
-		if (pessoa == null) {
-			pessoa = new Pessoa();
-			pessoa.setCpf(getCpfUsuarioLogado());
-			pessoa.setPapeis(new ArrayList<Papel>());
-			pessoa.getPapeis().add(pessoaService.buscarPapelPorNome("ROLE_SUPERVISOR"));
+	private Servidor cadastrarServidor() {
+		Usuario usuario = usuarioService.getByCpf(getCpfUsuarioLogado());
 
-			pessoaService.adicionarPessoa(pessoa);
+		Pessoa pessoa = new Pessoa();
+		pessoa.setCpf(getCpfUsuarioLogado());
+		pessoa.setPapeis(new ArrayList<Papel>());
+		pessoa.getPapeis().add(pessoaService.buscarPapelPorNome("SUPERVISOR"));
 
-			Servidor servidor = new Servidor();
-			servidor.setPessoa(pessoa);
-			servidor.setSiape(usuarioService.getByCpf(getCpfUsuarioLogado()).getSiape());
+		pessoaService.adicionarPessoa(pessoa);
 
-			pessoaService.adicionarServidor(servidor);
-			return servidor;
-		}
-		return null;
+		Servidor servidor = new Servidor();
+		servidor.setPessoa(pessoa);
+		servidor.setNome(usuario.getNome());
+		servidor.setSiape(usuario.getSiape());
+		servidor.setTelefone(usuario.getTelefone());
+		servidor.setCargo(usuario.getCargo());
+
+		pessoaService.adicionarServidor(servidor);
+
+		return servidor;
 	}
 
 	private  List<Servidor> validarSupervisores(List<Servidor> supervisores) {

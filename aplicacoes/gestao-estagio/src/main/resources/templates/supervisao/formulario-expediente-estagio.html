@@ -24,7 +24,7 @@
     </div>
   </div>
 
-	<div class="container animated fadeInRight">
+	<div class="container">
 	    <div class="row">
 	      <div class="col-md-4">
 	        <div class="panel panel-bluegray">
@@ -124,7 +124,7 @@
 					    <tbody>
 					      <tr th:each="expediente : ${turma.expedientes}">
 					        <td th:inline="text"><strong>[[${expediente.diaSemana.descricao}]]</strong></td>
-					        <td th:inline="text">[[${#dates.format(expediente.horaInicio, 'HH:mm')}]] ás [[${#dates.format(expediente.horaTermino, 'HH:mm')}]]</td>
+					        <td th:inline="text">[[${#dates.format(expediente.horaInicio, 'HH:mm')}]] as [[${#dates.format(expediente.horaTermino, 'HH:mm')}]]</td>
 					      	<td><a class="btn btn-danger btn-sm pull-right gp-btn-expediente"
 					      		   th:href="@{/Supervisao/Turma/{idTurma}/Expediente/{idExpediente}/Excluir(idTurma=${turma.id},idExpediente=${expediente.id})}">Excluir</a></td>
 					      </tr>

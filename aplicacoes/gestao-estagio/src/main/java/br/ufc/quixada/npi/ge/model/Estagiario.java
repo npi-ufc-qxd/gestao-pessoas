@@ -36,10 +36,7 @@ public class Estagiario {
 
 	@OneToMany(mappedBy="estagiario")
 	private List<Estagio> estagios;
-	
-	@OneToMany(mappedBy="estagiario")
-	private List<Inscricao> inscricoes;
-	
+
 	@NotNull(message = "Campo obrigatório.")
 	@NotEmpty(message = "Campo obrigatório.")
 	private String nomeMae;
@@ -247,21 +244,13 @@ public class Estagiario {
 		this.email = email;
 	}
 
-	public List<Inscricao> getInscricoes() {
-		return inscricoes;
-	}
-
-	public void setInscricoes(List<Inscricao> inscricoes) {
-		this.inscricoes = inscricoes;
-	}
-
 	public enum Curso {
-		SISTEMAS_INFORMAÇÃO("Sistemas de Informação"),
+		SISTEMAS_INFORMACAO("Sistemas de Informação"),
 		REDES_COMPUTADORES("Redes de Computadores"),
 		ENGENHARIA_SOFTWARE("Engenharia de Software"),
-		CIÊNCIA_COMPUTAÇÃO("Ciência da Computação"),
+		CIENCIA_COMPUTACAO("Ciência da Computação"),
 		DESIGN_DIGITAL("Design Digital"),
-		ENGENHARIA_COMPUTAÇÃO("Engenharia da Computação");
+		ENGENHARIA_COMPUTACAO("Engenharia da Computação");
 
 		private String descricao;
 

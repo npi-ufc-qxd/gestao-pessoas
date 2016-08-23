@@ -38,33 +38,33 @@ public class AuthenticationSuccessHandlerImpl implements AuthenticationSuccessHa
 
 		for (GrantedAuthority grantedAuthority : authorities) {
 			String papel = grantedAuthority.getAuthority();
-			
+
 			switch (papel) {
-				case "DISCENTE":
-					url = "/Estagiario/";
-					break;
-	
-				case "DOCENTE":
-					url = "/Supervisao/";
-					break;
-	
-				case "STA":
-					url = "/Supervisao/";
-					break;
-	
 				case "ESTAGIARIO":
 					url = "/Estagiario/";
 					break;
-	
+
+				case "DISCENTE":
+						url = "/CadastroEstagiario/";
+						break;
+
 				case "SUPERVISOR":
 					url = "/Supervisao/";
 					break;
-	
+
+				case "DOCENTE":
+					url = "/Supervisao/";
+					break;
+
+				case "STA":
+					url = "/Supervisao/";
+					break;
+
 				default:
 					url = "/";
 			}
-			
 		}
+		
 		return url;
 	}
 	

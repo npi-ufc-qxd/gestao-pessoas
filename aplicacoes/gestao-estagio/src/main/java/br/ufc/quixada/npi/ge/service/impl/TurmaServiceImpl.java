@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import br.ufc.quixada.npi.ge.model.Evento;
 import br.ufc.quixada.npi.ge.model.Expediente;
 import br.ufc.quixada.npi.ge.model.Turma;
+import br.ufc.quixada.npi.ge.model.Turma.TipoTurma;
 import br.ufc.quixada.npi.ge.repository.EventoRepository;
 import br.ufc.quixada.npi.ge.repository.ExpedienteRepository;
 import br.ufc.quixada.npi.ge.repository.TurmaRepository;
@@ -20,12 +21,11 @@ public class TurmaServiceImpl implements TurmaService {
 	@Autowired
 	private TurmaRepository turmaRepository;
 
-	
 	@Autowired
 	private ExpedienteRepository expedienteRepository;
 	
-	@Autowired EventoRepository eventoRepository;
-	
+	@Autowired 
+	private EventoRepository eventoRepository;
 
 	@Override
 	public void adicionarTurma(Turma turma) {
@@ -35,13 +35,6 @@ public class TurmaServiceImpl implements TurmaService {
 	@Override
 	public void editarTurma(Turma turma) {
 		turmaRepository.save(turma);
-		
-	}
-
-	@Override
-	public void excluirTurma(Long idTurma) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
@@ -50,9 +43,8 @@ public class TurmaServiceImpl implements TurmaService {
 	}
 
 	@Override
-	public List<Turma> listarTurmas() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Turma> buscarTurmaPorTipoEServidor(TipoTurma tipoTurma, Long idServidor) {
+		return turmaRepository.findByTipoTurma(tipoTurma, idServidor);
 	}
 
 	@Override
@@ -76,26 +68,8 @@ public class TurmaServiceImpl implements TurmaService {
 	}
 
 	@Override
-	public void editarEvento(Evento evento) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
 	public void excluirEvento(Long idEvento) {
 		eventoRepository.delete(idEvento);
-	}
-
-	@Override
-	public Evento buscarEventoPorId(Long idEvento) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Expediente buscarHorarioPorIdETurmaId(Long idExpediente, Long idTurma) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override
@@ -108,5 +82,4 @@ public class TurmaServiceImpl implements TurmaService {
 		expedienteRepository.delete(idExpediente);
 		
 	}
-	
 }

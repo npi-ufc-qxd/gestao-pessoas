@@ -11,11 +11,7 @@ public interface PessoaService {
 
 	Pessoa buscarPessoaPorCpf(String cpf);
 	
-	Pessoa getPessoaById(Long idPessoa);
-	
 	void adicionarPessoa(Pessoa pessoa);
-
-	boolean existePessoa(String cpf);
 
 	Servidor buscarServidorPorCpf(String cpf); 
 
@@ -24,10 +20,6 @@ public interface PessoaService {
 	List<Servidor> buscarServidores();
 
 	void adicionarServidor(Servidor servidor);
-	
-	void editarServidor(Servidor servidor);
-
-	boolean existeServidor(String cpf);
 
 	Estagiario buscarEstagiarioPorCpf(String cpf);
 	
@@ -38,8 +30,6 @@ public interface PessoaService {
 	void adicionarEstagiario(Estagiario estagiario);
 
 	void editarEstagiario(Estagiario estagiario);
-	
-	boolean existeEstagiario(String cpf);
 
 	Papel buscarPapelPorNome(String string);
 

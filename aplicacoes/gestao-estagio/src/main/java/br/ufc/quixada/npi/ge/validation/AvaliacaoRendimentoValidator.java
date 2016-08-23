@@ -20,17 +20,28 @@ public class AvaliacaoRendimentoValidator implements Validator{
 	public void validate(Object target, Errors errors) {
 		AvaliacaoRendimento avaliacaoRendimento = (AvaliacaoRendimento) target;
 		
-		validateEnums(errors, avaliacaoRendimento.getInicioAvaliacao(), "inicioAvaliacao", "Campo obrigatório.");
-		validateEnums(errors, avaliacaoRendimento.getTerminoAvaliacao(), "terminoAvaliacao", "Campo obrigatório.");
+		validateStrings(errors, avaliacaoRendimento.getAtividadeCurricular(), "atividadeCurricular", "Campo obrigatótio");
+		validateStrings(errors, avaliacaoRendimento.getObjetivoEstagio(), "objetivoEstagio", "Campo obrigatório");
+
+		validateNotNull(errors, avaliacaoRendimento.getInicioAvaliacao(), "inicioAvaliacao", "Campo obrigatório");
+		validateNotNull(errors, avaliacaoRendimento.getTerminoAvaliacao(), "terminoAvaliacao", "Campo obrigatório");
 		
-		validateEnums(errors, avaliacaoRendimento.getFrequencia(), "frequencia", "Campo obrigatório.");
-		validateEnums(errors, avaliacaoRendimento.getPermanencia(), "permanencia", "Campo obrigatório.");
-		validateEnums(errors, avaliacaoRendimento.getDisciplina(), "disciplina", "Campo obrigatório.");
-		validateEnums(errors, avaliacaoRendimento.getIniciativa(), "iniciativa", "Campo obrigatório.");
-		
-		validateStrings(errors, avaliacaoRendimento.getAtividadeCurricular(), "atividadeCurricular", "Campo obrigatótio.");
-		validateStrings(errors, avaliacaoRendimento.getObjetivoEstagio(), "objetivoEstagio", "Campo obrigatótio.");
-		
+		validateNotNull(errors, avaliacaoRendimento.getFrequencia(), "frequencia", "Campo obrigatório");
+		validateNotNull(errors, avaliacaoRendimento.getPermanencia(), "permanencia", "Campo obrigatório");
+		validateNotNull(errors, avaliacaoRendimento.getDisciplina(), "disciplina", "Campo obrigatório");
+
+		validateNotNull(errors, avaliacaoRendimento.getIniciativa(), "iniciativa", "Campo obrigatório");
+		validateNotNull(errors, avaliacaoRendimento.getQuantidadeTrabalho(), "quantidadeTrabalho", "Campo obrigatório");
+		validateNotNull(errors, avaliacaoRendimento.getQualidadeTrabalho(), "qualidadeTrabalho", "Campo obrigatório");
+		validateNotNull(errors, avaliacaoRendimento.getCumprimentoPrazos(), "cumprimentoPrazos", "Campo obrigatório");
+
+		validateNotNull(errors, avaliacaoRendimento.getComprometimento(), "comprometimento", "Campo obrigatório");
+		validateNotNull(errors, avaliacaoRendimento.getCuidadoMateriais(), "cuidadoMateriais", "Campo obrigatório");
+
+		validateNotNull(errors, avaliacaoRendimento.getRelacionamento(), "relacionamento", "Campo obrigatório");
+		validateNotNull(errors, avaliacaoRendimento.getTrabalhoEquipe(), "trabalhoEquipe", "Campo obrigatório");
+
+		validateNotNull(errors, avaliacaoRendimento.getNota(), "nota", "Campo obrigatório");
 	}
 
 	void validateStrings(Errors erros, String object, String field, String message){
@@ -39,7 +50,7 @@ public class AvaliacaoRendimentoValidator implements Validator{
 		}
 	}
 	
-	void validateEnums(Errors erros, Object object, String field, String message){
+	void validateNotNull(Errors erros, Object object, String field, String message){
 		if (object == null) {
 			erros.rejectValue(field, field,message);
 		}

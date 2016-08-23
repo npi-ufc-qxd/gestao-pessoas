@@ -24,8 +24,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
 		    .authorizeRequests()
 		    	.antMatchers("/404", "/js**", "/css**", "/images**").permitAll()
-		    	.antMatchers("/Estagiario/**").hasAnyAuthority("ESTAGIARIO", "DISCENTE")
-		    	.antMatchers("/Selecao/**").hasAnyAuthority("SUPERVISOR", "DOCENTE", "STA")
+		    	.antMatchers("/CadastroEstagiario/**").hasAnyAuthority("DISCENTE")
+		    	.antMatchers("/Estagiario/**").hasAnyAuthority("ESTAGIARIO")
 		    	.antMatchers("/Supervisao/**").hasAnyAuthority("SUPERVISOR", "DOCENTE", "STA").and()
 		    .formLogin()
 		        .loginPage("/login").successHandler(new AuthenticationSuccessHandlerImpl()).permitAll().and()

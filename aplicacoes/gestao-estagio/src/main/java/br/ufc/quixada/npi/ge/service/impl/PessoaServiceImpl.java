@@ -53,18 +53,6 @@ public class PessoaServiceImpl implements PessoaService {
 	}
 
 	@Override
-	public Pessoa getPessoaById(Long idPessoa) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public boolean existePessoa(String cpf) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
 	public Servidor buscarServidorPorCpf(String cpf) {
 		return servidorRepository.findByPessoa_Cpf(cpf);
 	}
@@ -81,20 +69,7 @@ public class PessoaServiceImpl implements PessoaService {
 	}
 
 	@Override
-	public void editarServidor(Servidor servidor) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public boolean existeServidor(String cpf) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
 	public Estagiario buscarEstagiarioPorCpf(String cpf) {
-		 
 		return estagiarioRepository.findByPessoaByCpf(cpf);
 	}
 	@Override
@@ -102,29 +77,20 @@ public class PessoaServiceImpl implements PessoaService {
 		 return estagiarioRepository.findOne(estagiarioId);
 	}
 
-
 	@Override
 	public List<Estagiario> buscarAniversariantesDoMesPorTurmaId(Long idTurma) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public void adicionarEstagiario(Estagiario estagiario) {
-		// TODO Auto-generated method stub
-		
+		estagiarioRepository.save(estagiario);
 	}
 
 	@Override
 	public void editarEstagiario(Estagiario estagiario) {
 		estagiarioRepository.save(estagiario);
 		
-	}
-
-	@Override
-	public boolean existeEstagiario(String cpf) {
-		// TODO Auto-generated method stub
-		return false;
 	}
 
 	@Override

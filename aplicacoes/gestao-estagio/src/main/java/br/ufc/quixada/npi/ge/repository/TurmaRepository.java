@@ -7,11 +7,9 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import br.ufc.quixada.npi.ge.model.Turma;
+import br.ufc.quixada.npi.ge.model.Turma.TipoTurma;
 
 public interface TurmaRepository extends JpaRepository<Turma, Long> {
-
-	@Query("select t from Turma t where t.id = :idTurma")
-	Turma findTurmaById(@Param("idTurma") Long idTurma);
 
 	@Query("SELECT DISTINCT t from Turma t WHERE t.orientador.id = :idServidor OR :idServidor MEMBER OF t.supervisores")
 	List<Turma> findByOrientador_IdOrSupervisores_Id(@Param("idServidor") Long idServidor);
@@ -21,5 +19,8 @@ public interface TurmaRepository extends JpaRepository<Turma, Long> {
 	
 	@Query("select DISTINCT t from Turma t where (t.orientador.id = :idServidor or :idServidor MEMBER OF t.supervisores) and t.status = 'ABERTA' and CURRENT_DATE > t.termino")
 	List<Turma> findByServidorIdAndStatusAndTermino(@Param("idServidor") Long idServidor);
+	
+	@Query("select DISTINCT t from Turma t where t.tipoTurma = :tipoTurma and (t.orientador.id = :idServidor or :idServidor MEMBER OF t.supervisores)")
+	List<Turma> findByTipoTurma(@Param("tipoTurma") TipoTurma tipoTurma, @Param("idServidor") Long idServidor);
 
 }

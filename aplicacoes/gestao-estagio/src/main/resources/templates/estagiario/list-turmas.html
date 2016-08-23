@@ -24,7 +24,8 @@
     <div class="col-sm-12">
       <div class="panel panel-default">
         <div id="painelPlano" class="panel-body gp-panel-body-background">
-          <ul class="list-group">
+          <p th:if="${#lists.isEmpty(presencas)}">Não há turmas</p>
+          <ul class="list-group" th:if="${presencas != null}">
             <li class="list-group-item gp-list-group-item" th:each= "presenca: ${presencas}">
               <b th:inline="text">[[${presenca.estagio.turma.nome}]] [[${presenca.estagio.turma.semestre}]]</b> 
               <a th:href="@{/Estagiario/Acompanhamento/{idEstagio}(idEstagio=${presenca.estagio.id})}" class="btn btn-info btn-sm pull-right gp-btn-acompanhamento">Acompanhamento</a>
@@ -34,8 +35,6 @@
         </div>
       </div>
     </div>
-    
-    
     </div>
     </div>
 </section>

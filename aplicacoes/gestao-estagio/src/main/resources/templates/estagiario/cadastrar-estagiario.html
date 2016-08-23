@@ -2,10 +2,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml" 
 	xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-    layout:decorator="layouts/LayoutGestaoPessoas">
+    layout:decorator="layouts/LayoutInicio">
 
 <head>
-	<title>Gestão Pessoas | Meus Dados</title>
+	<title>Gestão Pessoas | Cadastro</title>
 	
   <style type="text/css">
     .inline {
@@ -52,9 +52,9 @@
   <div class="container-fluid titulo-pagina">
     <div class="container">
         <ul class="breadcrumb">
-            <li><a href="#">Meus Dados</a></li>
+            <li><a href="#"></a></li>
         </ul>
-        <h1>Meus Dados</h1>
+        <h1>Meu Cadastro</h1>
     </div>
   </div>
 
@@ -65,7 +65,7 @@
 		        <div class="panel panel-bluegray">
 		          <div class="panel-body">
 		          		
-						<form id="form-estagiario" method="post" class="form-horizontal" th:action="@{#/Supervisor/MeusDados}" th:object="${estagiario}">
+						<form id="form-estagiario" method="post" class="form-horizontal" th:action="@{/CadastroEstagiario}" th:object="${estagiario}">
 							<fieldset>
 								<legend>Dados Pessoais</legend>
 							   	<div th:class="${#fields.hasErrors('nomeCompleto')}? 'form-group has-error' : form-group">
@@ -199,7 +199,7 @@
 
 							<div class="form-group">
 						      <div class="col-lg-10 col-lg-offset-2">
-						        <a th:href="@{/Estagiario}" class="btn btn-default">Cancelar</a>
+						        <a th:href="@{/CacelarCadastro}" class="btn btn-default">Cancelar</a>
 						        <button type="submit" class="btn btn-success">Salvar</button>
 						      </div>
 						    </div>
@@ -214,7 +214,6 @@
 
   <section layout:fragment="js">
 	<script type="text/javascript">
-		$("#nova-turma").removeClass("active");
 	</script>
   </section>
   

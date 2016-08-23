@@ -270,6 +270,40 @@ $(".gp-btn-evento").on("click", function(event) {
 		});
 });
 
+$(".gp-btn-reposicao").on("click", function(event) {
+	event.preventDefault();
+	
+	var botaoExcluirReposicao = $(event.currentTarget); 
+	var urlExcluirReposicao = botaoExcluirReposicao.attr("href");
+	
+	swal({
+		  title: "Deseja excluir a reposição agendada?",
+		  text: "Todas as informações serão deletadas.",
+		  type: "warning",
+		  showCancelButton: true,
+		  confirmButtonClass: "btn-danger",
+		  confirmButtonText: "Sim, Excluir!",
+		  cancelButtonText: "Não",
+		  closeOnConfirm: false
+		},
+		function(){
+			var response = $.ajax({
+			    url: urlExcluirReposicao,
+			    type: 'GET'
+			});
+
+			response.done(function (deleted){
+				if(deleted){
+					swal("Sucesso", "Reposição Excluído", "success");
+					$(botaoExcluirReposicao).parent().parent().remove();
+				}else{
+					swal("Erro", "Não foi possível excluir a reposição, contacte o adminstrador", "error");
+				}
+				
+			});
+		});
+});
+
 $(document).ready(function(){
 	
 	$("#buscarEstagiariosSemVinculo").on("click", function(event){
@@ -301,9 +335,7 @@ function desvincularEstagio(estagio){
   } else {
       console.log("cancel");
   }
-  
 }
-	
 
 $( "#form-estagiario" ).validate({
     rules: {
@@ -315,7 +347,7 @@ $( "#form-estagiario" ).validate({
 	 }
     },
     highlight: function(element) {
-        $(element).closest('.form-group').addClass('has-erth:href="@{/Supervisor/Turma/Acompanhamento/{id}/Desvincular(id=${est.id})}"ror');
+        $(element).closest('.form-group').addClass('has-error');
     },
     unhighlight: function(element) {
         $(element).closest('.form-group').removeClass('has-error');
@@ -358,9 +390,28 @@ $( "#form-estagiario" ).validate({
 		},
 		semestre: {
 			required : "Campo obrigatório",
-        	number: "Informe um numero",
+        	number: "Selecione o seu semestre atual",
         	min: "Informe um semestre valido",
            	max: "Informe um semestre valido"
+		},
+	}
+});	
+
+$( "#form-reposicao" ).validate({
+    highlight: function(element) {
+        $(element).closest('.form-group').addClass('has-error color-error');
+    },
+    unhighlight: function(element) {
+        $(element).closest('.form-group').removeClass('has-error color-error');
+    },
+    errorElement: 'label',
+    errorClass: 'message-error',
+    errorPlacement: function(error, element) {
+        error.insertAfter(element);
+    },
+    messages:{
+    	dataReposicao : {
+			required : "Informe a data",
 		},
 	}
 });	
@@ -382,18 +433,6 @@ $(document).ready(function(){
 });	  
 
 $(document).ready(function(){
-	  $('#dataNascimento').mask('00/00/0000');
 	  $('#cep').mask('00000-000');
-	  $('#telefone').mask('(88) 9 0000-0000');
+	  $('#telefone').mask('(00) 9 0000-0000');
 });	  
-
-$("#modoAvaliacao select").change(function(){
-	if($(this).val() == 'FORMULARIO') {
-		$("#viaFormulario").removeClass("hidden");
-		$("#viaArquivo").addClass("hidden");
-	} else if($(this).val() == 'ARQUIVO') {
-		$("#viaArquivo").removeClass("hidden");
-		$("#viaFormulario").addClass("hidden");
-	}
-});
-

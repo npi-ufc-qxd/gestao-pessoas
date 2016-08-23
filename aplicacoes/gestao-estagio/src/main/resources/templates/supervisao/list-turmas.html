@@ -34,12 +34,13 @@
             <a class="panel-title" data-toggle="collapse" data-target="#turmas-npi"><i class="fa fa-caret-down" aria-hidden="true"></i> Turmas NPI</a>
           </div>
           <div id="turmas-npi" class="panel-body collapse in">
+          	  <p th:if="${#lists.isEmpty(turmasNPI)}">Não há turmas</p>
 	          <ul class="list-group">
-	            <li th:if="${#strings.equals(turma.tipoTurma, 'NPI')}" th:each="turma : ${turmas}" class="list-group-item gp-list-group-item">
+	            <li th:if="${turmasNPI != null}" th:each="turma : ${turmasNPI}" class="list-group-item gp-list-group-item">
 	              	<b th:inline="text">[[${turma.nome}]] <span class="label label-primary"> [[${turma.status.descricao}]]</span></b>
 	              	<a th:href="@{'/Supervisao/Turma/' + ${turma.id}}" class="btn btn-success btn-sm pull-right gp-btn-acompanhamento">Detalhes</a>
-	              	<a th:if="${turma.selecao == null}" th:href="@{'/Selecao/{idTurma}/Adicionar'(idTurma=${turma.id})}" class="btn btn-primary btn-sm pull-right gp-btn-acompanhamento">Abrir Seleção</a>
-	              	<a th:if="${turma.selecao != null}" th:href="@{'/Selecao/{idSelecao}'(idSelecao=${turma.selecao.id})}" class="btn btn-primary btn-sm pull-right gp-btn-acompanhamento">Detalhes Seleção</a>
+<!--/* 	              	<a th:if="${turma.selecao == null}" th:href="@{'/Selecao/{idTurma}/Adicionar'(idTurma=${turma.id})}" class="btn btn-primary btn-sm pull-right gp-btn-acompanhamento">Abrir Seleção</a> */-->
+<!--/* 	              	<a th:if="${turma.selecao != null}" th:href="@{'/Selecao/{idSelecao}'(idSelecao=${turma.selecao.id})}" class="btn btn-primary btn-sm pull-right gp-btn-acompanhamento">Detalhes Seleção</a> */-->
 	            </li>
 	          </ul>
            </div>
@@ -50,8 +51,9 @@
             <a class="panel-title" data-toggle="collapse" data-target="#turmas-empresas"><i class="fa fa-caret-down" aria-hidden="true"></i> Turmas Empresas</a>
           </div>
           <div id="turmas-empresas" class="panel-body collapse in">
+          	  <p th:if="${#lists.isEmpty(turmasEmpresa)}">Não há turmas</p>
 	          <ul class="list-group">
-	            <li th:if="${#strings.equals(turma.tipoTurma, 'EMPRESA')}" th:each="turma : ${turmas}" class="list-group-item gp-list-group-item">
+	            <li th:if="${turmasEmpresa != null}" th:each="turma : ${turmasEmpresa}" class="list-group-item gp-list-group-item">
 	              	<b th:inline="text">[[${turma.nome}]] <span class="label label-primary"> [[${turma.status.descricao}]]</span></b>
 	              	<a th:href="@{'/Supervisao/Turma/' + ${turma.id}}" class="btn btn-success btn-sm pull-right gp-btn-acompanhamento">Detalhes</a>
 	            </li>

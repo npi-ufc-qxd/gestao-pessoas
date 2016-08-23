@@ -21,8 +21,7 @@
     </div>
   </div>
 
-
-	<div class="container animated fadeInRight">
+	<div class="container">
 	    <div class="row">
 	      <div class="col-md-4">
 	        <div class="panel panel-bluegray">
@@ -104,7 +103,7 @@
 				    <tbody>
 				      <tr th:each="expediente : ${estagio.turma.expedientes}">
 				        <td th:inline="text"><strong>[[${expediente.diaSemana.descricao}]]</strong></td>
-				        <td th:inline="text">[[${#dates.format(expediente.horaInicio, 'HH:mm')}]] ás [[${#dates.format(expediente.horaTermino, 'HH:mm')}]]</td>
+				        <td th:inline="text">[[${#dates.format(expediente.horaInicio, 'HH:mm')}]] as [[${#dates.format(expediente.horaTermino, 'HH:mm')}]]</td>
 				      </tr>
 				    </tbody>
 				  </table>
@@ -116,6 +115,11 @@
 	    	<div class="alert alert-dismissible alert-success" th:if="${! #strings.isEmpty(sucesso)}">
   				<button type="button" class="close" data-dismiss="alert">&times;</button>
   				<strong th:text="${sucesso}"></strong>
+  			</div>
+
+	    	<div class="alert alert-dismissible alert-warning" th:if="${! #strings.isEmpty(error)}">
+  				<button type="button" class="close" data-dismiss="alert">&times;</button>
+  				<strong th:text="${error}"></strong>
   			</div>
 	    	
 	        <div class="panel panel-bluegray">
@@ -209,8 +213,7 @@
 	          	</div>
 
 	          	<p th:if="${submissaoRelatorio} == null">A submissão do relatório final de estágio ainda não foi realizada.</p>
-	          	
-	          
+
 	          </div>
 	        </div>
 	        <div class="panel panel-bluegray">
@@ -296,11 +299,12 @@
 			     </div>
 			  </div>
 				          		
-		        <a th:if="${estagio.avaliacaoRendimento} != null" th:href="@{/Supervisao/Acompanhamento/{idEstagio}/AvaliacaoRendimento(idEstagio=${estagio.id})}" class="btn btn-success btn-sm pull-right">Editar Avaliação</a>
+		        <a th:if="${estagio.avaliacaoRendimento} != null" th:href="@{/Supervisao/Acompanhamento/{idEstagio}/AvaliacaoRendimento/Editar(idEstagio=${estagio.id})}" class="btn btn-success btn-sm pull-right">Editar Avaliação</a>
 		        <a th:if="${estagio.avaliacaoRendimento} == null" th:href="@{/Supervisao/Acompanhamento/{idEstagio}/AvaliacaoRendimento(idEstagio=${estagio.id})}" class="btn btn-success btn-sm pull-right">Avaliar</a>
+	           
 	           </div>
-	           </div>
-	             </div>
+	         </div>
+	      </div>
 	   </div>
 	  </div>
 </section>

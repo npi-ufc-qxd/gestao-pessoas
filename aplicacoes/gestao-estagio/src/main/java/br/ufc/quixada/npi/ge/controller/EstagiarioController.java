@@ -42,7 +42,6 @@ import br.ufc.quixada.npi.ge.model.Submissao.StatusEntrega;
 import br.ufc.quixada.npi.ge.model.Submissao.TipoSubmissao;
 import br.ufc.quixada.npi.ge.service.EstagioService;
 import br.ufc.quixada.npi.ge.service.PessoaService;
-import br.ufc.quixada.npi.ldap.service.UsuarioService;
 
 @Controller
 @RequestMapping("Estagiario")
@@ -50,9 +49,6 @@ public class EstagiarioController {
 
 	@Inject
 	private EstagioService estagioService;
-	
-	@Autowired
-	private UsuarioService usuarioService;
 	
 	@Autowired
 	private PessoaService pessoaService;
@@ -143,47 +139,43 @@ public class EstagiarioController {
 	
 	@RequestMapping(value="/Acompanhamento/{idEstagio}/DownloadPlano", method=RequestMethod.GET)
 	@ResponseBody
-	public HttpEntity<byte[]> downloadPlano(@PathVariable("idEstagio") Long idEstagio, RedirectAttributes redirectAttributes) {
+	public Object downloadPlano(Model model,@PathVariable("idEstagio") Long idEstagio, RedirectAttributes redirectAttributes) {
 		
 		Submissao submissaoPlano = estagioService.buscarSubmissaoPorTipoSubmissaoEEstagioIdECpf(Submissao.TipoSubmissao.PLANO_ESTAGIO, idEstagio, getCpfUsuarioLogado());
 	    
-//		if(submissaoPlano == null){
-//			redirectAttributes.addFlashAttribute("error", "Acesso negado.");
-//			return REDIRECT_PAGINA_INICIAL_ESTAGIARIO;
-//	    }
+		if(submissaoPlano == null){
+			return "Acesso negado.";
+	    }
 	    
 		byte[] plano = submissaoPlano.getDocumento().getArquivo();
 		String[] tipo = submissaoPlano.getDocumento().getExtensao().split("/");
 		
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(new MediaType(tipo[0], tipo[1]));
-		headers.set("Content-Disposition", "attachment; filename=" + submissaoPlano.getDocumento().getNome());
+		headers.set("Content-Disposition", "attachment; filename=" + submissaoPlano.getDocumento().getNome() + ".pdf");
 		headers.setContentLength(plano.length);
-		
-		
+
 	    return new HttpEntity<byte[]>(plano, headers);
 	}
 	
 	@RequestMapping(value="/Acompanhamento/{idEstagio}/DownloadRelatorio", method=RequestMethod.GET)
 	@ResponseBody
-	public HttpEntity<byte[]> downloadRelatorio(@PathVariable("idEstagio") Long idEstagio, RedirectAttributes redirectAttributes) {
+	public Object downloadRelatorio(@PathVariable("idEstagio") Long idEstagio, RedirectAttributes redirectAttributes) {
 		
 		Submissao submissaoRelatorio = estagioService.buscarSubmissaoPorTipoSubmissaoEEstagioIdECpf(Submissao.TipoSubmissao.RELATORIO_FINAL_ESTAGIO, idEstagio, getCpfUsuarioLogado());
-	    
-//		if(submissaoPlano == null){
-//			redirectAttributes.addFlashAttribute("error", "Acesso negado.");
-//			return REDIRECT_PAGINA_INICIAL_ESTAGIARIO;
-//	    }
+
+		if(submissaoRelatorio == null){
+			return "Acesso negado.";
+	    }
 	    
 		byte[] relatorio = submissaoRelatorio.getDocumento().getArquivo();
 		String[] tipo = submissaoRelatorio.getDocumento().getExtensao().split("/");
 		
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(new MediaType(tipo[0], tipo[1]));
-		headers.set("Content-Disposition", "attachment; filename=" + submissaoRelatorio.getDocumento().getNome());
+		headers.set("Content-Disposition", "attachment; filename=" + submissaoRelatorio.getDocumento().getNome() + ".pdf");
 		headers.setContentLength(relatorio.length);
-		
-		
+
 	    return new HttpEntity<byte[]>(relatorio, headers);
 	}
 
@@ -203,11 +195,11 @@ public class EstagiarioController {
 	public String submeterPlano(@Valid @RequestParam("planoEstagio") MultipartFile planoEstagio, @PathVariable("idEstagio") Long idEstagio, RedirectAttributes redirectAttributes ) throws Exception{
 
 		try {
-			if(validarArquivo(planoEstagio)){
+			if(arquivoInvalido(planoEstagio)){
 				redirectAttributes.addFlashAttribute("error", "Escolha um arquivo pdf.");
 				return REDIRECT_ACOMPANHAMENTO_ESTAGIO + idEstagio;
-			}		
-			
+			}
+
 			Estagio estagio = estagioService.buscarEstagioPorIdEEstagiarioCpf(idEstagio, getCpfUsuarioLogado());
 			
 			if(estagio == null){
@@ -246,7 +238,7 @@ public class EstagiarioController {
 	@RequestMapping(value = "/Acompanhamento/{idEstagio}/EditarPlano", method = RequestMethod.POST)
 	public String editarPlano(@PathVariable("idEstagio") Long idEstagio, MultipartFile planoEstagio, RedirectAttributes redirectAttributes) throws Exception{
 		
-		if(validarArquivo(planoEstagio)){
+		if(arquivoInvalido(planoEstagio)){
 			redirectAttributes.addFlashAttribute("error", "Escolha um arquivo pdf.");
 			return REDIRECT_ACOMPANHAMENTO_ESTAGIO + idEstagio;
 		}
@@ -268,7 +260,7 @@ public class EstagiarioController {
 	public String postSubmeterRelatorio(@RequestParam("relatorio") MultipartFile relatorio, @PathVariable("idEstagio") Long idEstagio, RedirectAttributes redirectAttributes ) throws Exception{
 
 		try {
-			if(validarArquivo(relatorio)){
+			if(arquivoInvalido(relatorio)){
 				redirectAttributes.addFlashAttribute("error", "Escolha um arquivo pdf.");
 				return REDIRECT_ACOMPANHAMENTO_ESTAGIO + idEstagio;
 			}
@@ -311,7 +303,7 @@ public class EstagiarioController {
 	@RequestMapping(value = "/Acompanhamento/{idEstagio}/EditarRelatorio", method = RequestMethod.POST)
 	public String editarRelatorio(@PathVariable("idEstagio") Long idEstagio, MultipartFile relatorio, RedirectAttributes redirectAttributes) throws Exception{
 		
-		if(validarArquivo(relatorio)){
+		if(arquivoInvalido(relatorio)){
 			redirectAttributes.addFlashAttribute("error", "Escolha um arquivo pdf.");
 			return REDIRECT_ACOMPANHAMENTO_ESTAGIO + idEstagio;
 		}
@@ -332,7 +324,7 @@ public class EstagiarioController {
 	
 	private void inserirNomeUsuarioNaSessao(HttpSession session) {
 		if (session.getAttribute(NOME_USUARIO) == null) {
-			session.setAttribute(NOME_USUARIO, usuarioService.getByCpf(getCpfUsuarioLogado()).getNome());
+			session.setAttribute(NOME_USUARIO, pessoaService.buscarEstagiarioPorCpf(getCpfUsuarioLogado()).getNomeCompleto());
 		}
 	}
 	
@@ -340,11 +332,10 @@ public class EstagiarioController {
 		return SecurityContextHolder.getContext().getAuthentication().getName();
 	}
 
-	private boolean validarArquivo(MultipartFile anexo){
-		
+	private boolean arquivoInvalido(MultipartFile anexo){
 		if(anexo == null || !anexo.getContentType().equals("application/pdf")) {
-			return false;
+			return true;
 		}	
-		return true;
+		return false;
 	}
 }

@@ -41,16 +41,16 @@ public class EstagioServiceImpl implements EstagioService {
 	private SubmissaoRepository submissaoRepository;
 
 	@Autowired
-	AvaliacaoRendimentoRepository avaliacaoRepository;
+	private AvaliacaoRendimentoRepository avaliacaoRepository;
 	
 	@Autowired
-	EstagioRepository estagioRepository;
+	private EstagioRepository estagioRepository;
 
 	@Autowired
-	EstagiarioRepository estagiarioRepository;
+	private EstagiarioRepository estagiarioRepository;
 	
 	@Autowired
-	TurmaRepository turmaRepository;
+	private TurmaRepository turmaRepository;
 
 	@Override
 	public void desvincularEstagiario(Long idEstagio) {
@@ -60,16 +60,16 @@ public class EstagioServiceImpl implements EstagioService {
 	@Override
 	public void vincularEstagiario(Long idTurma, Long idEstagiario) {
 		Estagio estagio = new Estagio();
-		if(estagioRepository.findByIdEstagiarioAndIdTurma(idEstagiario, idTurma) == null){
-			Turma turma = turmaRepository.findOne(idTurma);
-			Estagiario estagiario = estagiarioRepository.findOne(idEstagiario);
-			estagio.setTurma(turma);
-			estagio.setEstagiario(estagiario);
-			estagioRepository.save(estagio);
-		}
+
+		Turma turma = turmaRepository.findOne(idTurma);
+		Estagiario estagiario = estagiarioRepository.findOne(idEstagiario);
+		estagio.setTurma(turma);
+		estagio.setEstagiario(estagiario);
+		estagio.setSituacao(Estagio.Situacao.EM_AVALIAÇÃO);
+
+		estagioRepository.save(estagio);
 				
 	}
-
 	
 	@Override
 	public List<Estagiario> buscarEstagiariosSemVinculoComTurma(Long turmaId) {
@@ -82,7 +82,6 @@ public class EstagioServiceImpl implements EstagioService {
 			return null;
 		return estagiarioRepository.finByIdNotInTurmaQueryByNome(idTurma, nomeEstagiario.toUpperCase());
 	}
-	
 	
 	@Override
 	public Estagio buscarEstagioPorIdEstagio(Long idEstagio) {
@@ -108,7 +107,6 @@ public class EstagioServiceImpl implements EstagioService {
 	public Estagio buscarEstagioPorIdEEstagiarioCpf(Long idEstagio, String cpf) {
 		return estagioRepository.findByIdAndEstagiario_Pessoa_Cpf(idEstagio, cpf);
 	}
-	
 
 	@Override
 	public void submeter(Submissao submissao) {
@@ -122,12 +120,6 @@ public class EstagioServiceImpl implements EstagioService {
 		}else{
 			throw new Exception();
 		}
-	}
-
-	@Override
-	public void editarRelatorio(Submissao submissao) throws Exception {
-		//
-		
 	}
 
 	@Override
@@ -147,21 +139,8 @@ public class EstagioServiceImpl implements EstagioService {
 	}
 
 	@Override
-	public void editarAvaliacaoRendimento(AvaliacaoRendimento avaliacaoRendimento) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public List<Frequencia> buscarFrequenciaPorEstagioId(Long idEstagio) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public Frequencia buscarFrequenciaPorDataEEstagioId(Date data, Long idEstagio) {
-		// TODO Auto-generated method stub
-		return null;
+		return frequenciaRepository.findFrequenciaByDataAndEstagioId(data, idEstagio);
 	}
 	
 	@Override
@@ -175,21 +154,23 @@ public class EstagioServiceImpl implements EstagioService {
 	}
 
 	@Override
-	public ConsolidadoFrequencia calcularDadosConsolidados(List<Frequencia> frequencia) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	public List<Frequencia> buscarFrequenciasPendentes(Estagio estagio) {
+		LocalDate inicioPeriodoTemporario = new LocalDate(estagio.getTurma().getInicio());
+		LocalDate fimPeriodo = new LocalDate(new Date());
 
-	@Override
-	public List<Frequencia> gerarFrequencia(Turma turma, Estagiario estagiario) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+		List<Frequencia> frequenciasPendentes = new ArrayList<Frequencia>();
 
-	@Override
-	public List<Frequencia> buscarFrequenciasPendentes(Turma turma, Estagiario estagiario) {
-		// TODO Auto-generated method stub
-		return null;
+		while (!inicioPeriodoTemporario.isAfter(fimPeriodo)) {
+			if (UtilGestao.isDiaDeTrabahoDaTurma(estagio.getTurma().getExpedientes(), inicioPeriodoTemporario)) {
+				if (!frequenciaRepository.existeFrequenciaByDataAndEstagioId(inicioPeriodoTemporario.toDate(), estagio.getId())) {
+					Frequencia frequencia = new Frequencia();
+					frequencia.setData(inicioPeriodoTemporario.toDate());
+					frequenciasPendentes.add(frequencia);
+				}
+			}
+			inicioPeriodoTemporario = inicioPeriodoTemporario.plusDays(1);
+		}
+		return frequenciasPendentes;
 	}
 
 	@Override
@@ -258,33 +239,12 @@ public class EstagioServiceImpl implements EstagioService {
 
 	@Override
 	public void adicionarFrequencia(Frequencia frequencia) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void editarStatusFrequencia() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void adicionarObservacaoFrequencia() {
-		// TODO Auto-generated method stub
-		
+		frequenciaRepository.save(frequencia);
 	}
 	
 	@Override
 	public Submissao buscarSubmissaoPorTipoSubmissaoEEstagioId(TipoSubmissao tipoSubmissao, Long idEstagio) {
 		return submissaoRepository.findByIdETipo(tipoSubmissao, idEstagio);
-
-	}
-
-
-	@Override
-	public Estagio buscarEstagioPorIdEEstagiarioId(Long idEstagio, Long idEstagiario) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override
@@ -383,6 +343,26 @@ public class EstagioServiceImpl implements EstagioService {
 	@Override
 	public Long buscarIdSubmissaoPorTipoSubmissaoEEstagioId(TipoSubmissao tipoSubmissao, Long idEstagio) {
 		return submissaoRepository.findIdByIdETipo(tipoSubmissao, idEstagio);
-	}	
+	}
+
+	@Override
+	public boolean existeFrequenciaPorDataEEstagioId(Date data, Long idEstagio) {
+		return frequenciaRepository.existeFrequenciaByDataAndEstagioId(data, idEstagio);
+	}
+
+	@Override
+	public Frequencia buscarFrequenciaPorIdETipoEStatus(Long idEstagio, TipoFrequencia tipoFrequencia, StatusFrequencia statusFrequencia) {
+		return frequenciaRepository.findByIdAndTipoAndStatus(idEstagio, tipoFrequencia, statusFrequencia);
+	}
+
+	@Override
+	public void excluirFrequencia(Frequencia frequencia) {
+		frequenciaRepository.delete(frequencia);
+	}
+
+	@Override
+	public Estagio buscarEstagioPorIdEEstagiarioIdTurma(Long idEstagiario, Long idTurma) {
+		return estagioRepository.findByIdEstagiarioAndIdTurma(idEstagiario, idTurma);
+	}
 
 }

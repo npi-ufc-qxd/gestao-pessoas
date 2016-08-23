@@ -5,6 +5,7 @@ import java.util.List;
 import br.ufc.quixada.npi.ge.model.Evento;
 import br.ufc.quixada.npi.ge.model.Expediente;
 import br.ufc.quixada.npi.ge.model.Turma;
+import br.ufc.quixada.npi.ge.model.Turma.TipoTurma;
 
 
 public interface TurmaService {
@@ -13,11 +14,9 @@ public interface TurmaService {
 
 	void editarTurma(Turma turma);
 	
-	void excluirTurma(Long idTurma);
-	
 	Turma buscarTurmaPorId(Long idTurma);
 	
-	List<Turma> listarTurmas();
+	List<Turma> buscarTurmaPorTipoEServidor(TipoTurma tipoTurma, Long idServidor);
 
 	List<Turma>  buscarTurmasSupervisorOuOrientador(Long idServidor);
 	
@@ -27,14 +26,8 @@ public interface TurmaService {
 	
 	void adicionarEvento(Evento evento);
 
-	void editarEvento(Evento evento);
-	
 	void excluirEvento(Long idEvento);
-	
-	Evento buscarEventoPorId(Long idEvento);
 
-	Expediente buscarHorarioPorIdETurmaId(Long idExpediente, Long idTurma);
-	
 	void adicionarExpediente(Expediente expediente);
 
 	void excluirExpediente(Long idExpediente);

@@ -14,20 +14,24 @@
 		<div class="jumbotron">
 			<div class="row">
 				<div class="col-lg-12 col-md-offset-4">
-					<span th:switch="${error}">
-						<span th:case="'Not Found'">
+					<div th:switch="${error}">
+						<div th:case="'Not Found'">
 							<h1>404</h1>
 							<p>Página não encontrada!</p>
-						</span>
-						<span th:case="'Forbidden'">
+						</div>
+						<div th:case="'Forbidden'">
 							<h1>403</h1>
 							<p>Você não tem permissão para acessar esta página!</p>
-						</span>
-						<span th:case="'Internal Server Error'">
+						</div>
+						<div th:case="'Internal Server Error'">
 							<h1>500</h1>
 							<p>Erro interno do servidor!</p>
-						</span>
-					</span>
+						</div>
+						<div th:case="'Bad Request'">
+							<h1>400</h1>
+							<p>Erro, 400.</p>
+						</div>
+					</div>
 					<p>rayson.ufc@gmail.com</p>
 				</div>
 			</div>

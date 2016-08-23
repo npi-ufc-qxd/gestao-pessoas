@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="TERMO_COMPROMISSO" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
-	<property name="ireport.zoom" value="1.8150000000000033"/>
-	<property name="ireport.x" value="170"/>
-	<property name="ireport.y" value="144"/>
+	<property name="ireport.zoom" value="1.5000000000000027"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="407"/>
 	<style name="table">
 		<box>
 			<pen lineWidth="1.0" lineColor="#000000"/>
@@ -34,6 +34,7 @@
 	<parameter name="EXPEDIENTE_QUARTA" class="java.lang.String"/>
 	<parameter name="INICIO_ESTAGIO" class="java.lang.String"/>
 	<parameter name="FINAL_ESTAGIO" class="java.lang.String"/>
+	<parameter name="LOTACAO" class="java.lang.String"/>
 	<field name="estagiario.nomeCompleto" class="java.lang.String"/>
 	<field name="estagiario.endereco" class="java.lang.String"/>
 	<field name="estagiario.telefone" class="java.lang.String"/>
@@ -169,13 +170,6 @@ Represent. Legal: Reitor Henry de Holanda Campos
 				</textElement>
 				<textFieldExpression><![CDATA["Matricula: " + $F{estagiario.matricula}]]></textFieldExpression>
 			</textField>
-			<staticText>
-				<reportElement x="280" y="269" width="274" height="13"/>
-				<textElement verticalAlignment="Top">
-					<font fontName="Arial" size="10"/>
-				</textElement>
-				<text><![CDATA[Lotação: CAMPUS DA UFC EM QUIXADÁ/DIRETORIA]]></text>
-			</staticText>
 			<textField>
 				<reportElement x="280" y="253" width="275" height="13"/>
 				<textElement>
@@ -188,7 +182,7 @@ Represent. Legal: Reitor Henry de Holanda Campos
 				<textElement>
 					<font fontName="Arial" size="10"/>
 				</textElement>
-				<textFieldExpression><![CDATA["Fone: " + $P{TELEFONE}]]></textFieldExpression>
+				<textFieldExpression><![CDATA["Fone: " + ( $P{TELEFONE} == null ? "" : $P{TELEFONE} )]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="0" y="253" width="271" height="13"/>
@@ -308,7 +302,7 @@ a) Cumprir as normas internas da UNIDADE CONCEDENTE, especialmente as de orienta
 				<textElement>
 					<font fontName="Arial"/>
 				</textElement>
-				<text><![CDATA[Vigência: de 28/07/2015 até 28/07/2016]]></text>
+				<text><![CDATA[Vigência: de 28/07/2016 até 28/07/2017]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="368" y="638" width="180" height="30"/>
@@ -321,8 +315,7 @@ a) Cumprir as normas internas da UNIDADE CONCEDENTE, especialmente as de orienta
 				<textElement verticalAlignment="Top">
 					<font fontName="Arial"/>
 				</textElement>
-				<text><![CDATA[Invalidez Permanente:  R$ R$20.000,00;
- ]]></text>
+				<text><![CDATA[Invalidez Permanente:  R$ 20.000,00;]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="0" y="572" width="555" height="49"/>
@@ -738,6 +731,13 @@ e) A UFC oferece seguro contra acidentes pessoais a todos os seus estudantes dev
 				<reportElement x="280" y="206" width="162" height="13"/>
 				<textElement/>
 				<textFieldExpression><![CDATA["Curso: " + $F{estagiario.curso.descricao}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="279" y="269" width="275" height="13"/>
+				<textElement>
+					<font fontName="Arial" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Lotação: " + $P{LOTACAO}]]></textFieldExpression>
 			</textField>
 		</band>
 		<band height="752">

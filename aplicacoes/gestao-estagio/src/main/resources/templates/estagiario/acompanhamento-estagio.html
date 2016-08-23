@@ -3,7 +3,6 @@
 	xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
     layout:decorator="layouts/LayoutGestaoPessoas">
-
 <head>
 	<title>Gestão Pessoas | Acompanhamento</title>
 </head>
@@ -19,7 +18,6 @@
         <h1>Acompanhamento</h1>
     </div>
   </div>
-
 
 	<div class="container animated fadeInRight"> 
 	    <div class="row">
@@ -75,7 +73,7 @@
 				    <tbody>
 				      <tr>
 				        <td class="gp-sem-borda"><strong>Documento</strong></td>
-				        <td class="gp-sem-borda"><a class="gp-link-download-submissao" th:href="@{|DownloadPlano|}"    th:text="${#dates.format(submissaoPlano.submetidoEm, 'dd/MM/yyyy')} + ' - Plano de Estágio'"></a></td>
+				        <td class="gp-sem-borda"><a class="gp-link-download-submissao" th:href="@{/Estagiario/Acompanhamento/{idEstagio}/DownloadPlano(idEstagio=${estagio.id})}" th:text="${#dates.format(submissaoPlano.submetidoEm, 'dd/MM/yyyy')} + ' - Plano de Estágio'"></a></td>
 				      </tr>
 				      <tr>
 				        <td><strong>Status</strong></td>
@@ -112,7 +110,7 @@
 				    <tbody>
 				      <tr>
 				        <td class="gp-sem-borda"><strong>Documento</strong></td>
-				        <td class="gp-sem-borda"><a class="gp-link-download-submissao" th:href="@{|DownloadRelatorio|}" th:text="${#dates.format(submissaoRelatorio.submetidoEm, 'dd/MM/yyyy')} + ' - Relatório de Estágio'"></a></td>
+				        <td class="gp-sem-borda"><a class="gp-link-download-submissao" th:href="@{/Estagiario/Acompanhamento/{idEstagio}/DownloadRelatorio(idEstagio=${estagio.id})}" th:text="${#dates.format(submissaoRelatorio.submetidoEm, 'dd/MM/yyyy')} + ' - Relatório de Estágio'"></a></td>
 				      </tr>
 				      <tr>
 				        <td><strong>Status</strong></td>
@@ -262,7 +260,7 @@
 				    <tbody>
 				      <tr th:each="expediente : ${estagio.turma.expedientes}">
 				        <td th:inline="text"><strong>[[${expediente.diaSemana.descricao}]]</strong></td>
-				        <td th:inline="text">[[${#dates.format(expediente.horaInicio, 'HH:mm')}]] ás [[${#dates.format(expediente.horaTermino, 'HH:mm')}]]</td>
+				        <td th:inline="text">[[${#dates.format(expediente.horaInicio, 'HH:mm')}]] as [[${#dates.format(expediente.horaTermino, 'HH:mm')}]]</td>
 				      </tr>
 				    </tbody>
 				  </table>
@@ -279,7 +277,7 @@
 				    <tbody>
 				      <tr>
 				        <td class="gp-sem-borda"><strong>Situação</strong></td>
-				        <td class="gp-sem-borda" th:text="${estagio.situacao.descricao}"></td>
+				        <td class="gp-sem-borda" th:text="${estagio.situacao}"></td>
 				      </tr>
 				      <tr>
 				        <td><strong>Nota</strong></td>
@@ -330,7 +328,7 @@
 				     <div class="modal-content">
 				       <div class="modal-header">
 				         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-				         <h4 class="modal-title">Plano de Estágio</h4>
+				         <h4 class="modal-title">Editar Plano de Estágio</h4>
 				       </div>
 				
 				         <div class="modal-body">
@@ -376,7 +374,7 @@
 			     <div class="modal-content">
 			       <div class="modal-header">
 			         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-			         <h4 class="modal-title">Relatório de Estágio</h4>
+			         <h4 class="modal-title">Editar Relatório de Estágio</h4>
 			       </div>
 			
 			         <div class="modal-body">

@@ -18,6 +18,8 @@ public class Constants {
 
 	public static final String FORMULARIO_EDITAR_ESTAGIARIO = "estagiario/editar-estagiario";
 
+	public static final String FORMULARIO_CADASTRO_ESTAGIARIO = "estagiario/cadastrar-estagiario";
+
 	/** SELEÇÃO*/
 	
 	public static final String FORMULARIO_ADICIONAR_SELECAO = "selecao/adicionar-selecao";

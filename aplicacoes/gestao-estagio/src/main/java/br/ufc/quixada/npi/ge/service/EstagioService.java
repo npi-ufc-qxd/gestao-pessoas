@@ -13,9 +13,6 @@ import br.ufc.quixada.npi.ge.model.Turma;
 
 public interface EstagioService {
 
-	 
-	Estagio buscarEstagioPorIdEEstagiarioId(Long idEstagio, Long idEstagiario);
-
 	Estagio buscarEstagioPorId(Long idEstagio);
 
 	Estagio buscarEstagioPorIdEServidorId(Long idEstagio, Long idServidor);
@@ -30,6 +27,8 @@ public interface EstagioService {
 	
 	Estagio buscarEstagioPorIdEEstagiarioCpf(Long idEstagio, String cpf);
 	
+	Estagio buscarEstagioPorIdEEstagiarioIdTurma(Long idEstagiario, Long idTurma);
+	
 	List<Estagiario> buscarEstagiariosSemVinculoComTurma(Long idTurma);
 	
 	List<Estagiario> buscarEstagiariosSemVinculoComTurmaPorNomeEstagiario(Long idTurma, String nomeEstagiario);
@@ -41,8 +40,6 @@ public interface EstagioService {
 	void submeter(Submissao submissao);
 
 	void editarSubmissao(Submissao submissao)  throws Exception;
-	
-	void editarRelatorio(Submissao submissao) throws Exception;
 
 	void avaliarSubmissao(Submissao submissao);
 
@@ -53,20 +50,18 @@ public interface EstagioService {
 	Long buscarIdSubmissaoPorTipoSubmissaoEEstagioId(Submissao.TipoSubmissao tipoSubmissao, Long idEstagio);
 	
 	void adicionarAvaliacaoRendimento(AvaliacaoRendimento avaliacaoRendimento);
-	
-	void editarAvaliacaoRendimento(AvaliacaoRendimento avaliacaoRendimento);
 
-	List<Frequencia> buscarFrequenciaPorEstagioId(Long idEstagio);
+	Frequencia buscarFrequenciaPorIdETipoEStatus(Long idEstagio, Frequencia.TipoFrequencia tipoFrequencia, Frequencia.StatusFrequencia statusFrequencia);
 	
 	Frequencia buscarFrequenciaPorDataEEstagioId(Date data, Long idEstagio);
 	
-	List<Frequencia> buscarFrequenciasPorDataETurmaId(Date data, Long idTurma);
-
-	ConsolidadoFrequencia calcularDadosConsolidados(List<Frequencia> frequencia);
-
-	List<Frequencia> gerarFrequencia(Turma turma, Estagiario estagiario);
+	void excluirFrequencia(Frequencia frequencia);
 	
-	List<Frequencia> buscarFrequenciasPendentes(Turma turma, Estagiario estagiario);
+	boolean existeFrequenciaPorDataEEstagioId(Date data, Long idEstagio);
+	
+	List<Frequencia> buscarFrequenciasPorDataETurmaId(Date data, Long idTurma);
+	
+	List<Frequencia> buscarFrequenciasPendentes(Estagio estagio);
 
 	boolean liberarPresenca(Turma turma);
 	
@@ -75,10 +70,6 @@ public interface EstagioService {
 	boolean realizarPresenca(Estagio estagio);
 	
 	void adicionarFrequencia(Frequencia frequencia);
-
-	void editarStatusFrequencia();
-
-	void adicionarObservacaoFrequencia();
 
 	Frequencia buscarFrequenciaDeHojePorEstagio(Estagio estagio);
 

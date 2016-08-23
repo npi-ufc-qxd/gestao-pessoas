@@ -22,7 +22,7 @@
   </div>
 
 
-	<div class="container animated fadeInRight">
+	<div class="container">
 		<div class="alert alert-dismissible alert-danger" th:if="${!#strings.isEmpty(error)}">
 		  <button type="button" class="close" data-dismiss="alert">&times;</button>
 		  <p th:text="${error}"></p>
@@ -80,7 +80,7 @@
 				    <tbody>
 				      <tr th:each="expediente : ${turma.expedientes}">
 				        <td th:inline="text"><strong>[[${expediente.diaSemana.descricao}]]</strong></td>
-				        <td th:inline="text">[[${#dates.format(expediente.horaInicio, 'HH:mm')}]] ás [[${#dates.format(expediente.horaTermino, 'HH:mm')}]]</td>
+				        <td th:inline="text">[[${#dates.format(expediente.horaInicio, 'HH:mm')}]] as [[${#dates.format(expediente.horaTermino, 'HH:mm')}]]</td>
 				      </tr>
 				    </tbody>
 				  </table>
@@ -91,7 +91,7 @@
 	    <div class="col-md-8">
 	        <div class="panel panel-bluegray">
 	          <div class="panel-heading">
-	            <a class="panel-title" data-toggle="collapse" data-target="#estagiarios"><i class="fa fa-caret-down" aria-hidden="true"></i> Estágiarios</a>
+	            <a class="panel-title" data-toggle="collapse" data-target="#estagiarios"><i class="fa fa-caret-down" aria-hidden="true"></i> Estágiarios <span class="badge badge-inverse" th:text="${#lists.size(turma.estagios)}">2</span></a>
 	            <span th:if="${not #lists.isEmpty(turma.estagios)}">
 					<a th:if="${#strings.equals(turma.tipoTurma, 'NPI')}" th:href="@{/Supervisao/Turma/{idTurma}/MapaFrequencia(idTurma=${turma.id})}" class="btn btn-xs pull-right gp-btn-opcao">mapa frequência</a>
 		            <a th:if="${#strings.equals(turma.tipoTurma, 'NPI')}" th:href="@{/Supervisao/Turma/{id}/TermosCompromisso(id=${turma.id})}" class="btn btn-xs pull-right gp-btn-opcao">termos</a>

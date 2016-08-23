@@ -147,6 +147,10 @@ public class Estagio {
 		this.estagio = estagio;
 	}
 
+	public void setAvaliacaoRendimento(AvaliacaoRendimento avaliacaoRendimento) {
+		this.avaliacaoRendimento = avaliacaoRendimento;
+	}
+
 	public enum Resultado {
 		APROVADO("Aprovado"), 
 		REPROVADO("Reprovado");

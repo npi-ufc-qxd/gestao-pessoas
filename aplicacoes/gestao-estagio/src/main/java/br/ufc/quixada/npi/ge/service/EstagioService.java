@@ -15,6 +15,8 @@ public interface EstagioService {
 
 	Estagio buscarEstagioPorId(Long idEstagio);
 
+	Estagio salvarEstagio(Estagio estagio);
+
 	Estagio buscarEstagioPorIdEServidorId(Long idEstagio, Long idServidor);
 		
 	Estagio buscarEstagioPorIdEstagiarioAndTurmaId(Long idEstagiario, Long idTurma);

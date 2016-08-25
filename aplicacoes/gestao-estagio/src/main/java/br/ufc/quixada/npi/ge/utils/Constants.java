@@ -20,14 +20,6 @@ public class Constants {
 
 	public static final String FORMULARIO_CADASTRO_ESTAGIARIO = "estagiario/cadastrar-estagiario";
 
-	/** SELEÇÃO*/
-	
-	public static final String FORMULARIO_ADICIONAR_SELECAO = "selecao/adicionar-selecao";
-	
-	public static final String FORMULARIO_EDITAR_SELECAO = "selecao/editar-selecao";
-	
-	public static final String DETALHES_SELECAO = "selecao/detalhes-selecao";
-	
 	/** SUPERVISOR*/
 
 	public static final String PAGINA_INICIAL_SUPERVISOR = "supervisao/list-turmas";
@@ -64,6 +56,8 @@ public class Constants {
 	
 	public static final String FORMULARIO_EXPEDIENTE = "supervisao/formulario-expediente";	
 	
+	public static final String FORMULARIO_EXPEDIENTE_ESTAGIO = "supervisao/formulario-expediente-estagio";	
+	
 	public static final String GERENCIAR_FREQUENCIAS = "supervisao/gerenciar-frequencias";	
 
 	/** REDIRECIONAMENTOS */
@@ -73,8 +67,6 @@ public class Constants {
 	public static final String REDIRECT_PAGINA_INICIAL_SUPERVISOR = "redirect:/Supervisao/Turmas";
 
 	public static final String REDIRECT_DETALHES_TURMA = "redirect:/Supervisao/Turma/";
-	
-	public static final String REDIRECT_DETALHES_SELECAO = "redirect:/Selecao/";
 	
 	public static final String REDIRECT_ACOMPANHAMENTO_ESTAGIARIO = "redirect:/Supervisao/Acompanhamento/";
 	

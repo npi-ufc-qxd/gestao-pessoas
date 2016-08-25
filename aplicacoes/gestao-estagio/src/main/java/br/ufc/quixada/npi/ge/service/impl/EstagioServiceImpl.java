@@ -365,4 +365,9 @@ public class EstagioServiceImpl implements EstagioService {
 		return estagioRepository.findByIdEstagiarioAndIdTurma(idEstagiario, idTurma);
 	}
 
+	@Override
+	public Estagio salvarEstagio(Estagio estagio) {
+		return estagioRepository.save(estagio);
+	}
+
 }

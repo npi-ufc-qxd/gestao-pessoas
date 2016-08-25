@@ -12,6 +12,7 @@ import static br.ufc.quixada.npi.ge.utils.Constants.FORMULARIO_EDITAR_AVALIACAO_
 import static br.ufc.quixada.npi.ge.utils.Constants.FORMULARIO_EDITAR_TURMA;
 import static br.ufc.quixada.npi.ge.utils.Constants.FORMULARIO_EVENTO;
 import static br.ufc.quixada.npi.ge.utils.Constants.FORMULARIO_EXPEDIENTE;
+import static br.ufc.quixada.npi.ge.utils.Constants.FORMULARIO_EXPEDIENTE_ESTAGIO;
 import static br.ufc.quixada.npi.ge.utils.Constants.GERENCIAR_FREQUENCIAS;
 import static br.ufc.quixada.npi.ge.utils.Constants.MAPA_FREQUENCIAS;
 import static br.ufc.quixada.npi.ge.utils.Constants.NOME_USUARIO;
@@ -414,23 +415,48 @@ public class SupervisorController {
 
 	}
 
-	@RequestMapping(value = "/Acompanhamento/{idEstagio}/ConfigurarExpediente", method = RequestMethod.GET)
+	@RequestMapping(value = "/Acompanhamento/{idEstagio}/Expediente", method = RequestMethod.GET)
 	public String formularioConfiguracaoExpediente(Model model, @PathVariable("idEstagio") Long idEstagio, RedirectAttributes redirect) {
+		model.addAttribute("expediente", new Expediente());
+		model.addAttribute("estagio", estagioService.buscarEstagioPorIdEstagio(idEstagio));
 
-		Estagio estagio = estagioService.buscarEstagioPorIdEServidorId(idEstagio,
-				pessoaService.buscarServidorPorCpf(getCpfUsuarioLogado()).getId());
+		return FORMULARIO_EXPEDIENTE_ESTAGIO;
 
-		if (estagio == null) {
-			redirect.addFlashAttribute("error", "Estágio não existe");
-			return REDIRECT_PAGINA_INICIAL_SUPERVISOR;
+	}
+
+	@RequestMapping(value = "/Acompanhamento/{idEstagio}/Expediente", method = RequestMethod.POST)
+	public String adicionarExpedienteEstagio(Model model, @PathVariable("idEstagio") Long idEstagio,
+			@Valid @ModelAttribute("expediente") Expediente expediente, BindingResult result,
+			RedirectAttributes redirect) {
+
+		Estagio estagio = estagioService.buscarEstagioPorIdEstagio(idEstagio);
+
+		if (result.hasErrors()) {
+			model.addAttribute("estagio", estagioService.buscarEstagioPorIdEstagio(idEstagio));
+			return FORMULARIO_EXPEDIENTE_ESTAGIO;
 		}
 
-		model.addAttribute("estagio", estagio);
-		model.addAttribute("submissaoPlano", estagioService.buscarSubmissaoPorTipoSubmissaoEEstagioId(TipoSubmissao.PLANO_ESTAGIO, idEstagio));
-		model.addAttribute("submissaoRelatorio", estagioService.buscarSubmissaoPorTipoSubmissaoEEstagioId(TipoSubmissao.RELATORIO_FINAL_ESTAGIO, idEstagio));
-		model.addAttribute("consolidadoFrequencia", estagioService.consolidarFrequencias(estagio));
-		return ACOMPANHAMENTO_ESTAGIARIO;
+		turmaService.adicionarExpediente(expediente);
+		
 
+		if(estagio.getExpedientes() == null) {
+			estagio.setExpedientes(new ArrayList<Expediente>());
+		}
+		
+		estagio.getExpedientes().add(expediente);
+
+		estagioService.salvarEstagio(estagio);
+
+		redirect.addFlashAttribute("sucesso", "O expediente foi adicionado com sucesso.");
+		return REDIRECT_ACOMPANHAMENTO_ESTAGIARIO + idEstagio + "/Expediente";
+	}
+
+
+	@RequestMapping(value = "/Acompanhamento/{idEstagio}/Expediente/{idExpediente}/Excluir", method = RequestMethod.GET)
+	public @ResponseBody boolean excluirExpedienteEstagio(Model model, @PathVariable("idEstagio") Long idEstagio,
+			@PathVariable("idExpediente") Long idExpediente) {
+		turmaService.excluirExpediente(idExpediente);
+		return true;
 	}
 
 	@RequestMapping( value = "/Acompanhamento/{idEstagio}/Desvincular", method = RequestMethod.GET)

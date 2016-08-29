@@ -27,6 +27,8 @@ public interface TurmaService {
 	void adicionarEvento(Evento evento);
 
 	void excluirEvento(Long idEvento);
+	
+	List<Evento> buscarEventoPorTurma(Turma turma);
 
 	void adicionarExpediente(Expediente expediente);
 

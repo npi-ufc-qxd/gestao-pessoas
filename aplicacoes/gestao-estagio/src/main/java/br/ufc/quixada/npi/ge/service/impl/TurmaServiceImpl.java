@@ -71,7 +71,7 @@ public class TurmaServiceImpl implements TurmaService {
 	public void excluirEvento(Long idEvento) {
 		eventoRepository.delete(idEvento);
 	}
-
+	
 	@Override
 	public void adicionarExpediente(Expediente expediente) {
 		expedienteRepository.save(expediente);
@@ -82,4 +82,10 @@ public class TurmaServiceImpl implements TurmaService {
 		expedienteRepository.delete(idExpediente);
 		
 	}
+
+	@Override
+	public List<Evento> buscarEventoPorTurma(Turma turma) {
+		return eventoRepository.findByTurmaLike(turma);
+	}
+
 }

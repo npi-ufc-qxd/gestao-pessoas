@@ -98,8 +98,6 @@ public class SupervisorController {
 
 	@RequestMapping(value = { "", "/", "/Turmas" }, method = RequestMethod.GET)
 	public String listarTurmas(Model model, HttpSession session) {
-		inserirNomeUsuarioNaSessao(session);
-
 		Servidor servidor = pessoaService.buscarServidorPorCpf(getCpfUsuarioLogado());
 
 		if (servidor == null) {
@@ -108,6 +106,8 @@ public class SupervisorController {
 
 		model.addAttribute("turmasNPI", turmaService.buscarTurmaPorTipoEServidor(TipoTurma.NPI, servidor.getId()));
 		model.addAttribute("turmasEmpresa", turmaService.buscarTurmaPorTipoEServidor(TipoTurma.EMPRESA, servidor.getId()));
+		
+		inserirNomeUsuarioNaSessao(session);
 
 		return PAGINA_INICIAL_SUPERVISOR;
 	}
@@ -400,18 +400,32 @@ public class SupervisorController {
 
 		Estagio estagio = estagioService.buscarEstagioPorIdEServidorId(idEstagio,
 				pessoaService.buscarServidorPorCpf(getCpfUsuarioLogado()).getId());
-
+		
 		if (estagio == null) {
 			redirect.addFlashAttribute("error", "Estágio não existe");
 			return REDIRECT_PAGINA_INICIAL_SUPERVISOR;
 		}
+		
+		Turma turma = estagio.getTurma();
+		 
+		if(turma.getTipoTurma() == TipoTurma.EMPRESA ){
+			
+			model.addAttribute("estagio", estagio);
+			model.addAttribute("submissaoPlano", estagioService.buscarSubmissaoPorTipoSubmissaoEEstagioId(TipoSubmissao.PLANO_ESTAGIO, idEstagio));
+			model.addAttribute("submissaoRelatorio", estagioService.buscarSubmissaoPorTipoSubmissaoEEstagioId(TipoSubmissao.RELATORIO_FINAL_ESTAGIO, idEstagio));
+			
+			return ACOMPANHAMENTO_ESTAGIARIO;
+			
+		}else{
 
-		model.addAttribute("estagio", estagio);
-		model.addAttribute("submissaoPlano", estagioService.buscarSubmissaoPorTipoSubmissaoEEstagioId(TipoSubmissao.PLANO_ESTAGIO, idEstagio));
-		model.addAttribute("submissaoRelatorio", estagioService.buscarSubmissaoPorTipoSubmissaoEEstagioId(TipoSubmissao.RELATORIO_FINAL_ESTAGIO, idEstagio));
-		model.addAttribute("consolidadoFrequencia", estagioService.consolidarFrequencias(estagio));
-		return ACOMPANHAMENTO_ESTAGIARIO;
-
+			model.addAttribute("estagio", estagio);
+			model.addAttribute("submissaoPlano", estagioService.buscarSubmissaoPorTipoSubmissaoEEstagioId(TipoSubmissao.PLANO_ESTAGIO, idEstagio));
+			model.addAttribute("submissaoRelatorio", estagioService.buscarSubmissaoPorTipoSubmissaoEEstagioId(TipoSubmissao.RELATORIO_FINAL_ESTAGIO, idEstagio));
+			model.addAttribute("consolidadoFrequencia", estagioService.consolidarFrequencias(estagio));
+			
+			return ACOMPANHAMENTO_ESTAGIARIO;
+		
+		}
 	}
 
 	@RequestMapping(value = "/Acompanhamento/{idEstagio}/ConfigurarExpediente", method = RequestMethod.GET)

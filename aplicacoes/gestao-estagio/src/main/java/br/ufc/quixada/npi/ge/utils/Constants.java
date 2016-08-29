@@ -75,5 +75,11 @@ public class Constants {
 	public static final String REDIRECT_PAGINA_LOGIN = "redirect:/login";
 
 	public static final String REDIRECT_VINCULOS_TURMA = "redirect:/supervisao/vinculos-turma";
+	
+	// Homologação
+	//public static final String PASTA_DOCUMENTOS_GE = "/mnt/gestao-estagio-uploads";
+	
+	// Produção
+	public static final String PASTA_DOCUMENTOS_GE = "/gestao-estagio-uploads";
 
 }

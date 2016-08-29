@@ -6,6 +6,7 @@ import static br.ufc.quixada.npi.ge.utils.Constants.NOME_USUARIO;
 import static br.ufc.quixada.npi.ge.utils.Constants.PAGINA_INICIAL_ESTAGIARIO;
 import static br.ufc.quixada.npi.ge.utils.Constants.REDIRECT_ACOMPANHAMENTO_ESTAGIO;
 import static br.ufc.quixada.npi.ge.utils.Constants.REDIRECT_PAGINA_INICIAL_ESTAGIARIO;
+import static br.ufc.quixada.npi.ge.utils.Constants.PASTA_DOCUMENTOS_GE;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -220,6 +221,7 @@ public class EstagiarioController {
 			documento.setNome(TipoSubmissao.PLANO_ESTAGIO + "_" + estagio.getEstagiario().getNomeCompleto().toUpperCase());
 			documento.setExtensao(planoEstagio.getContentType());
 			documento.setArquivo(planoEstagio.getBytes());
+			documento.setCaminho(PASTA_DOCUMENTOS_GE + "/GE_" + estagio.getId() + "/PLANO_ESTAGIO_" + estagio.getId() + ".pdf");
 			submissao.setTipoSubmissao(TipoSubmissao.PLANO_ESTAGIO);
 			submissao.setDocumento(documento);
 			submissao.setSubmetidoEm(new Date());
@@ -257,7 +259,7 @@ public class EstagiarioController {
 	}
 	
 	@RequestMapping(value = "/Acompanhamento/{idEstagio}/SubmeterRelatorio", method = RequestMethod.POST)
-	public String postSubmeterRelatorio(@RequestParam("relatorio") MultipartFile relatorio, @PathVariable("idEstagio") Long idEstagio, RedirectAttributes redirectAttributes ) throws Exception{
+	public String submeterRelatorio(@RequestParam("relatorio") MultipartFile relatorio, @PathVariable("idEstagio") Long idEstagio, RedirectAttributes redirectAttributes ) throws Exception{
 
 		try {
 			if(arquivoInvalido(relatorio)){

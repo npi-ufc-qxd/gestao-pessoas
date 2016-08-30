@@ -259,6 +259,10 @@ public class SupervisorController {
 	public String gerarTermoDeCompromisso(@PathVariable("idTurma") Long idTurma, Model model) throws JRException {
 
 		Turma turma = turmaService.buscarTurmaPorId(idTurma);
+		
+		if(TipoTurma.EMPRESA == turma.getTipoTurma()){
+			return REDIRECT_PAGINA_INICIAL_SUPERVISOR;
+		}
 
 		jrDatasource = new JRBeanCollectionDataSource(turma.getEstagios());
 
@@ -286,6 +290,12 @@ public class SupervisorController {
 	public String gerarDeclaracaoEstagio(Model model, @PathVariable("idTurma") Long idTurma) throws JRException {
 		jrDatasource = new JRBeanCollectionDataSource(turmaService.buscarTurmaPorId(idTurma).getEstagios());
 
+		Turma turma = turmaService.buscarTurmaPorId(idTurma);
+		
+		if(TipoTurma.EMPRESA == turma.getTipoTurma()){
+			return REDIRECT_PAGINA_INICIAL_SUPERVISOR;
+			}
+		
 		model.addAttribute("datasource", jrDatasource);
 		model.addAttribute("format", "pdf");
 
@@ -294,8 +304,15 @@ public class SupervisorController {
 
 	@RequestMapping(value = "/Turma/{idTurma}/Expediente", method = RequestMethod.GET)
 	public String formularioExpediente(Model model, @PathVariable("idTurma") Long idTurma) {
+		
+		Turma turma = turmaService.buscarTurmaPorId(idTurma);
+		
+		if(TipoTurma.EMPRESA == turma.getTipoTurma()){
+			return REDIRECT_PAGINA_INICIAL_SUPERVISOR;
+		}
+		
 		model.addAttribute("expediente", new Expediente());
-		model.addAttribute("turma", turmaService.buscarTurmaPorId(idTurma));
+		model.addAttribute("turma", turma);
 
 		return FORMULARIO_EXPEDIENTE;
 	}
@@ -370,10 +387,16 @@ public class SupervisorController {
 
 	@RequestMapping(value = "/Turma/{idTurma}/MapaFrequencia", method = RequestMethod.GET)
 	public String listarFrequenciaTurma(@PathVariable("idTurma") Long idTurma, Model model, HttpSession session) {
-
+		
+		Turma turma = turmaService.buscarTurmaPorId(idTurma);
+		
+		if(TipoTurma.EMPRESA == turma.getTipoTurma()){
+			return REDIRECT_PAGINA_INICIAL_SUPERVISOR;
+		}
+		
 		List<Frequencia> frequencias = estagioService.buscarFrequenciasPorDataETurmaId(new Date(), idTurma);
 		model.addAttribute("frequencias", frequencias);
-		model.addAttribute("turma", turmaService.buscarTurmaPorId(idTurma));
+		model.addAttribute("turma", turma);
 
 		return MAPA_FREQUENCIAS;
 	}
@@ -408,7 +431,7 @@ public class SupervisorController {
 		
 		Turma turma = estagio.getTurma();
 		 
-		if(turma.getTipoTurma() == TipoTurma.EMPRESA ){
+		if(TipoTurma.EMPRESA == turma.getTipoTurma()){
 			
 			model.addAttribute("estagio", estagio);
 			model.addAttribute("submissaoPlano", estagioService.buscarSubmissaoPorTipoSubmissaoEEstagioId(TipoSubmissao.PLANO_ESTAGIO, idEstagio));

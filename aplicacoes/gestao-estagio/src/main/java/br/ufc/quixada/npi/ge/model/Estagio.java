@@ -19,13 +19,11 @@ import javax.persistence.TemporalType;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import br.ufc.quixada.npi.ge.enums.TipoEstagio;
 
 @Entity
 public class Estagio {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -77,8 +75,7 @@ public class Estagio {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	
-	@JsonIgnore
+
 	public Turma getTurma() {
 		return turma;
 	}
@@ -95,16 +92,52 @@ public class Estagio {
 		this.estagiario = estagiario;
 	}
 
+	public Date getInicio() {
+		return inicio;
+	}
+
+	public void setInicio(Date inicio) {
+		this.inicio = inicio;
+	}
+
+	public Date getTermino() {
+		return termino;
+	}
+
+	public void setTermino(Date termino) {
+		this.termino = termino;
+	}
+
+	public List<Expediente> getExpedientes() {
+		return expedientes;
+	}
+
+	public void setExpedientes(List<Expediente> expedientes) {
+		this.expedientes = expedientes;
+	}
+
 	public List<Frequencia> getFrequencias() {
 		return frequencias;
+	}
+
+	public void setFrequencias(List<Frequencia> frequencias) {
+		this.frequencias = frequencias;
 	}
 
 	public List<Submissao> getSubmissoes() {
 		return submissoes;
 	}
 
+	public void setSubmissoes(List<Submissao> submissoes) {
+		this.submissoes = submissoes;
+	}
+
 	public AvaliacaoRendimento getAvaliacaoRendimento() {
 		return avaliacaoRendimento;
+	}
+
+	public void setAvaliacaoRendimento(AvaliacaoRendimento avaliacaoRendimento) {
+		this.avaliacaoRendimento = avaliacaoRendimento;
 	}
 
 	public double getNota() {
@@ -145,10 +178,6 @@ public class Estagio {
 
 	public void setEstagio(TipoEstagio estagio) {
 		this.estagio = estagio;
-	}
-
-	public void setAvaliacaoRendimento(AvaliacaoRendimento avaliacaoRendimento) {
-		this.avaliacaoRendimento = avaliacaoRendimento;
 	}
 
 	public enum Resultado {

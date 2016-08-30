@@ -94,14 +94,14 @@
 	        <div class="panel panel-bluegray">
 	          <div class="panel-heading">
 	            <a class="panel-title" data-toggle="collapse" data-target="#expedienteTurma"><i class="fa fa-caret-down" aria-hidden="true"></i> Expediente</a>
-				<a th:href="@{/Supervisao/Turma/{id}/Expediente(id=${estagio.turma.id})}" class="btn btn-xs pull-right gp-btn-opcao">Configurar</a>
+				<a th:href="@{/Supervisao/Acompanhamento/{id}/Expediente(id=${estagio.id})}" class="btn btn-xs pull-right gp-btn-opcao">Configurar</a>
   			  </div>
 	          <div id="expedienteTurma" class="panel-body collapse in">
-	          	  <p th:if="${#lists.isEmpty(estagio.turma.expedientes)}">Na há expediente</p>
+	          	  <p th:if="${#lists.isEmpty(estagio.expedientes)}">Na há expediente</p>
 
-				  <table th:if="${not #lists.isEmpty(estagio.turma.expedientes)}" class="table table-hover">
+				  <table th:if="${not #lists.isEmpty(estagio.expedientes)}" class="table table-hover">
 				    <tbody>
-				      <tr th:each="expediente : ${estagio.turma.expedientes}">
+				      <tr th:each="expediente : ${estagio.expedientes}">
 				        <td th:inline="text"><strong>[[${expediente.diaSemana.descricao}]]</strong></td>
 				        <td th:inline="text">[[${#dates.format(expediente.horaInicio, 'HH:mm')}]] as [[${#dates.format(expediente.horaTermino, 'HH:mm')}]]</td>
 				      </tr>

@@ -16,7 +16,7 @@
         <ul class="breadcrumb">
             <li><a th:href="@{/Supervisao}">Minhas Turmas</a></li>
             <li><a th:href="@{'/Supervisao/Turma/' + ${estagio.turma.id}}" >Detalhes Turma</a></li>
-            <li><a th:href="@{'/Supervisao//Acompanhamento/' + ${estagio.id}}" >Detalhes Turma</a></li>
+            <li><a th:href="@{/Supervisao/Acompanhamento/{id}(id=${estagio.id})}">Acompanhamento Estagiário</a></li>
             <li class="active">Configurar Expediente</li>
         </ul>
         
@@ -29,6 +29,41 @@
 	      <div class="col-md-4">
 	        <div class="panel panel-bluegray">
 	          <div class="panel-heading">
+	            <a class="panel-title" data-toggle="collapse" data-target="#estagiario" th:inline="text"><i class="fa fa-caret-down fa-caret-right fa-chevron-down" aria-hidden="true"></i> Estagiário: [[${estagio.estagiario.nomeCompleto}]]</a>
+			  </div>
+	          <div id="estagiario" class="panel-body collapse in">
+	          	<table class="table table-hover">
+				    <tbody>
+				      <tr>
+				        <td class="gp-sem-borda"><strong>Nome:</strong></td>
+				        <td class="gp-sem-borda" th:text="${estagio.estagiario.nomeCompleto}"></td>
+				 	  </tr>
+				      <tr>
+				        <td><strong>Curso:</strong></td>
+				        <td th:text="${estagio.estagiario.curso}"></td>
+				      </tr>
+				      <tr>
+				        <td><strong>Semestre:</strong></td>
+				        <td th:text="${estagio.estagiario.semestre}"></td>
+				      </tr>
+				      <tr>
+				        <td><strong>Email:</strong></td>
+				        <td th:text="${estagio.estagiario.email}"></td>
+				      </tr>
+				      <tr>
+				      	<td><strong>Github:</strong></td>
+				      	<td th:text="${estagio.estagiario.usuarioGithub}"></td> 
+				      </tr>
+				      <tr>
+				        <td><strong>Telefone:</strong></td>
+				        <td th:text="${estagio.estagiario.telefone}"></td>
+				      </tr>      
+				    </tbody>
+				  </table>
+	          </div>
+	        </div>
+	        <div class="panel panel-bluegray">
+	          <div class="panel-heading">
 	            <a class="panel-title" data-toggle="collapse" data-target="#detalhesTurma"><i class="fa fa-caret-down" aria-hidden="true"></i> Turma NPI - 2016.1</a>
   			  </div>
 	          <div id="detalhesTurma" class="panel-body collapse in">
@@ -36,23 +71,23 @@
 				    <tbody>
 				      <tr>
 				        <td><strong>Orientador</strong></td>
-				        <td th:text="${turma.orientador == null ? 'Não há orientador' : turma.orientador.nome}"></td>
+				        <td th:text="${estagio.turma.orientador == null ? 'Não há orientador' : estagio.turma.orientador.nome}"></td>
 				      </tr>
 				      <tr>
 				        <td><strong>Supervisores</strong></td>
-				     	<td th:inline="text"> <span th:if="${#lists.isEmpty(turma.supervisores)}">Não há supervisores</span> <span th:each="sup : ${turma.supervisores}"> [[${sup.nome}]],</span></td>
+				     	<td th:inline="text"> <span th:if="${#lists.isEmpty(estagio.turma.supervisores)}">Não há supervisores</span> <span th:each="sup : ${estagio.turma.supervisores}"> [[${sup.nome}]],</span></td>
 				      </tr>
 				      <tr>
 				        <td><strong>Período</strong></td>
-				        <td><label th:text="${#dates.format(turma.inicio, 'dd/MM/yyyy')}"></label>  a <label th:text="${#dates.format(turma.termino, 'dd/MM/yyyy')}"></label></td>
+				        <td><label th:text="${#dates.format(estagio.turma.inicio, 'dd/MM/yyyy')}"></label>  a <label th:text="${#dates.format(estagio.turma.termino, 'dd/MM/yyyy')}"></label></td>
 				      </tr>
 				      <tr>
 				        <td><strong>Tipo</strong></td>
-				        <td th:text="${turma.tipoTurma}"></td>
+				        <td th:text="${estagio.turma.tipoTurma}"></td>
 				      </tr>
 				      <tr>
 				        <td><strong>Status</strong></td>
-				        <td th:text="${turma.status}"></td>
+				        <td th:text="${estagio.turma.status}"></td>
 				      </tr>
 				    </tbody>
 				  </table>
@@ -72,7 +107,7 @@
 	            <a class="panel-title" data-toggle="collapse" data-target="#add-expediente"><i class="fa fa-caret-down" aria-hidden="true"></i> Adicionar Expediente</a>
 	          </div>
 	          <div id="add-expediente" class="panel-body collapse in">
-					<form class="form-horizontal" th:action= "@{/Supervisao/Turma/1/Expediente}" method="post" th:object="${expediente}">
+					<form class="form-horizontal" th:action= "@{/Supervisao/Acompanhamento/{idEstagio}/Expediente(idEstagio=${estagio.id})}" method="post" th:object="${expediente}">
 					    <div class="form-group">
 					      <label for="diaDaSemana" class="col-lg-2 control-label">Dia da Semana</label>
 					      <div class="col-lg-10">
@@ -122,11 +157,10 @@
 					    	</tr>
 					    </thead>
 					    <tbody>
-					      <tr th:each="expediente : ${turma.expedientes}">
+					      <tr th:each="expediente : ${estagio.expedientes}">
 					        <td th:inline="text"><strong>[[${expediente.diaSemana.descricao}]]</strong></td>
 					        <td th:inline="text">[[${#dates.format(expediente.horaInicio, 'HH:mm')}]] as [[${#dates.format(expediente.horaTermino, 'HH:mm')}]]</td>
-					      	<td><a class="btn btn-danger btn-sm pull-right gp-btn-expediente"
-					      		   th:href="@{/Supervisao/Turma/{idTurma}/Expediente/{idExpediente}/Excluir(idTurma=${turma.id},idExpediente=${expediente.id})}">Excluir</a></td>
+					      	<td><a class="btn btn-danger btn-sm pull-right gp-btn-expediente" th:href="@{/Supervisao/Acompanhamento/{idEstagio}/Expediente/{idExpediente}/Excluir(idEstagio=${estagio.id},idExpediente=${expediente.id})}">Excluir</a></td>
 					      </tr>
 					    </tbody>
 					 </table>					  

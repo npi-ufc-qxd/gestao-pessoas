@@ -116,7 +116,10 @@ public class EstagioServiceImpl implements EstagioService {
 	@Override
 	public void editarSubmissao(Submissao submissao) throws Exception {
 		if(StatusEntrega.SUBMETIDO.equals(submissao.getStatusEntrega()) || StatusEntrega.CORRECAO.equals(submissao.getStatusEntrega())){
-			submissaoRepository.save(submissao);
+			submissaoRepository.delete(submissao.getId());
+			
+			Submissao s = new Submissao(submissao);
+			submissaoRepository.save(s);
 		}else{
 			throw new Exception();
 		}

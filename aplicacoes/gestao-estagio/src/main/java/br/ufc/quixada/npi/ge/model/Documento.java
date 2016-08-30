@@ -1,12 +1,14 @@
 package br.ufc.quixada.npi.ge.model;
 
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Transient;
 
 @Entity
+@EntityListeners(DocumentoEntityListener.class)
 public class Documento {
 
 	@Id
@@ -39,6 +41,8 @@ public class Documento {
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
+	
+	
 	
 	public String getExtensao() {
 		return extensao;

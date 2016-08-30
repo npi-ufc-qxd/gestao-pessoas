@@ -4,9 +4,9 @@ import static br.ufc.quixada.npi.ge.utils.Constants.ACOMPANHAMENTO_ESTAGIO;
 import static br.ufc.quixada.npi.ge.utils.Constants.FORMULARIO_EDITAR_ESTAGIARIO;
 import static br.ufc.quixada.npi.ge.utils.Constants.NOME_USUARIO;
 import static br.ufc.quixada.npi.ge.utils.Constants.PAGINA_INICIAL_ESTAGIARIO;
+import static br.ufc.quixada.npi.ge.utils.Constants.PASTA_DOCUMENTOS_GE;
 import static br.ufc.quixada.npi.ge.utils.Constants.REDIRECT_ACOMPANHAMENTO_ESTAGIO;
 import static br.ufc.quixada.npi.ge.utils.Constants.REDIRECT_PAGINA_INICIAL_ESTAGIARIO;
-import static br.ufc.quixada.npi.ge.utils.Constants.PASTA_DOCUMENTOS_GE;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -286,6 +286,7 @@ public class EstagiarioController {
 			Documento documento = new Documento();
 			documento.setNome(TipoSubmissao.RELATORIO_FINAL_ESTAGIO + "_" + estagio.getEstagiario().getNomeCompleto().toUpperCase());
 			documento.setExtensao(relatorio.getContentType());
+			documento.setCaminho(PASTA_DOCUMENTOS_GE + "/GE_" + estagio.getId() + "/RELATORIO_FINAL_" + estagio.getId() + ".pdf");
 			documento.setArquivo(relatorio.getBytes());
 			submissao.setTipoSubmissao(TipoSubmissao.RELATORIO_FINAL_ESTAGIO);
 			submissao.setDocumento(documento);

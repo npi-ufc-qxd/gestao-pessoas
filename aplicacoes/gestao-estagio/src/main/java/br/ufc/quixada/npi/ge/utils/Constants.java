@@ -81,5 +81,9 @@ public class Constants {
 	
 	// Produção
 	public static final String PASTA_DOCUMENTOS_GE = "/gestao-estagio-uploads";
+	
+	// Exception Messages
+	public static final String EXCEPTION_SALVAR_ARQUIVO = "Falha ao salvar o arquivo! Tente novamente.";
+	public static final String EXCEPTION_BUSCAR_ARQUIVO = "Falha ao buscar arquivo";
 
 }

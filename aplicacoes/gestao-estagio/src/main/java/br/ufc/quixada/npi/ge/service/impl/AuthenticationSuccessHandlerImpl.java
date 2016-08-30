@@ -27,7 +27,7 @@ public class AuthenticationSuccessHandlerImpl implements AuthenticationSuccessHa
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
 		handle(request, response, authentication);
-		request.getSession().setMaxInactiveInterval(Constants.TEMPO_SESSAO_EM_MINUTOS * 60);
+		request.getSession().setMaxInactiveInterval(Constants.TEMPO_SESSAO);
 	}
 
 	private void handle(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {

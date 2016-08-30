@@ -82,4 +82,10 @@ public class TurmaServiceImpl implements TurmaService {
 		expedienteRepository.delete(idExpediente);
 		
 	}
+	
+	@Override
+	public Expediente buscarExpedienteConflitantePorTurma(Long idTurma, Expediente expediente) {
+		return expedienteRepository.findExpedienteByTurmaId(idTurma, expediente);
+		
+	}
 }

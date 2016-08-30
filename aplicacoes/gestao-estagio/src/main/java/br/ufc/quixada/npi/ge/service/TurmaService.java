@@ -32,4 +32,6 @@ public interface TurmaService {
 
 	void excluirExpediente(Long idExpediente);
 
+	Expediente buscarExpedienteConflitantePorTurma(Long idTurma, Expediente expediente);
+
 }

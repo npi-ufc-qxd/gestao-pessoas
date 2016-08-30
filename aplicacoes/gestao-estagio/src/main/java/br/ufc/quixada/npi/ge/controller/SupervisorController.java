@@ -256,11 +256,13 @@ public class SupervisorController {
 	}
 
 	@RequestMapping(value = "/Turma/{idTurma}/TermosCompromisso", method = RequestMethod.GET)
-	public String gerarTermoDeCompromisso(@PathVariable("idTurma") Long idTurma, Model model) throws JRException {
+	public String gerarTermoDeCompromisso(@PathVariable("idTurma") Long idTurma, Model model, 
+			RedirectAttributes redirect) throws JRException {
 
 		Turma turma = turmaService.buscarTurmaPorId(idTurma);
 		
 		if(TipoTurma.EMPRESA == turma.getTipoTurma()){
+			redirect.addFlashAttribute("error", "Turmas do tipo empresa não possuem essa funcionalidade.");
 			return REDIRECT_PAGINA_INICIAL_SUPERVISOR;
 		}
 
@@ -287,12 +289,15 @@ public class SupervisorController {
 	}
 
 	@RequestMapping(value = "/Turma/{idTurma}/Declaracoes", method = RequestMethod.GET)
-	public String gerarDeclaracaoEstagio(Model model, @PathVariable("idTurma") Long idTurma) throws JRException {
+	public String gerarDeclaracaoEstagio(Model model, @PathVariable("idTurma") Long idTurma, 
+			RedirectAttributes redirect) throws JRException {
+		
 		jrDatasource = new JRBeanCollectionDataSource(turmaService.buscarTurmaPorId(idTurma).getEstagios());
 
 		Turma turma = turmaService.buscarTurmaPorId(idTurma);
 		
 		if(TipoTurma.EMPRESA == turma.getTipoTurma()){
+			redirect.addFlashAttribute("error", "Turmas do tipo empresa não possuem essa funcionalidade.");
 			return REDIRECT_PAGINA_INICIAL_SUPERVISOR;
 			}
 		
@@ -303,11 +308,13 @@ public class SupervisorController {
 	}
 
 	@RequestMapping(value = "/Turma/{idTurma}/Expediente", method = RequestMethod.GET)
-	public String formularioExpediente(Model model, @PathVariable("idTurma") Long idTurma) {
+	public String formularioExpediente(Model model, @PathVariable("idTurma") Long idTurma, 
+			RedirectAttributes redirect) {
 		
 		Turma turma = turmaService.buscarTurmaPorId(idTurma);
 		
 		if(TipoTurma.EMPRESA == turma.getTipoTurma()){
+			redirect.addFlashAttribute("error", "Turmas do tipo empresa não possuem essa funcionalidade.");
 			return REDIRECT_PAGINA_INICIAL_SUPERVISOR;
 		}
 		
@@ -386,11 +393,13 @@ public class SupervisorController {
 	}
 
 	@RequestMapping(value = "/Turma/{idTurma}/MapaFrequencia", method = RequestMethod.GET)
-	public String listarFrequenciaTurma(@PathVariable("idTurma") Long idTurma, Model model, HttpSession session) {
+	public String listarFrequenciaTurma(@PathVariable("idTurma") Long idTurma, Model model, HttpSession session, 
+			RedirectAttributes redirect) {
 		
 		Turma turma = turmaService.buscarTurmaPorId(idTurma);
 		
 		if(TipoTurma.EMPRESA == turma.getTipoTurma()){
+			redirect.addFlashAttribute("error", "Turmas do tipo empresa não possuem essa funcionalidade.");
 			return REDIRECT_PAGINA_INICIAL_SUPERVISOR;
 		}
 		

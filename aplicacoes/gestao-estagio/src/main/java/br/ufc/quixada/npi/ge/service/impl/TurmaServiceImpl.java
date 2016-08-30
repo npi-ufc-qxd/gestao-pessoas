@@ -83,9 +83,4 @@ public class TurmaServiceImpl implements TurmaService {
 		
 	}
 
-	@Override
-	public List<Evento> buscarEventoPorTurma(Turma turma) {
-		return eventoRepository.findByTurmaLike(turma);
-	}
-
 }

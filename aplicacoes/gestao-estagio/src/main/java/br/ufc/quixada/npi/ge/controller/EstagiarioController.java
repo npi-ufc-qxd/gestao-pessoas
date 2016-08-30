@@ -41,10 +41,8 @@ import br.ufc.quixada.npi.ge.model.Pessoa;
 import br.ufc.quixada.npi.ge.model.Submissao;
 import br.ufc.quixada.npi.ge.model.Submissao.StatusEntrega;
 import br.ufc.quixada.npi.ge.model.Submissao.TipoSubmissao;
-import br.ufc.quixada.npi.ge.model.Turma;
 import br.ufc.quixada.npi.ge.service.EstagioService;
 import br.ufc.quixada.npi.ge.service.PessoaService;
-import br.ufc.quixada.npi.ge.service.TurmaService;
 
 @Controller
 @RequestMapping("Estagiario")
@@ -56,17 +54,15 @@ public class EstagiarioController {
 	@Autowired
 	private PessoaService pessoaService;
 	
-	@Autowired
-	private TurmaService turmaService;
-	
 	@RequestMapping(value = {"", "/", "/MinhasTurmas"}, method = RequestMethod.GET)
 	public String listarTurmas(Model model, HttpSession session) {
 		inserirNomeUsuarioNaSessao(session);
 		
 		List<Estagio> estagios = estagioService.buscarEstagiosPorEstagiarioCpf(getCpfUsuarioLogado());
 		
-		//List<Evento> eventos = turmaService.buscarEventoPorTurma(turmaService.buscarTurmaPorId(idTurma));
-
+		List<Evento> eventos = estagioService.buscarEventosEstagiario(estagios);
+		
+		model.addAttribute("eventos", eventos);
 		model.addAttribute("presencas", estagioService.permitirPresencaEstagio(estagios));
 
 		return PAGINA_INICIAL_ESTAGIARIO;
@@ -137,10 +133,6 @@ public class EstagiarioController {
 		
 		Submissao submissaoPlano = estagioService.buscarSubmissaoPorTipoSubmissaoEEstagioIdECpf(Submissao.TipoSubmissao.PLANO_ESTAGIO, idEstagio, getCpfUsuarioLogado());
 		Submissao submissaoRelatorio = estagioService.buscarSubmissaoPorTipoSubmissaoEEstagioIdECpf(Submissao.TipoSubmissao.RELATORIO_FINAL_ESTAGIO, idEstagio, getCpfUsuarioLogado());
-		
-		Turma turma = turmaService.buscarTurmaPorId(estagio.getTurma().getId());
-		
-		List<Evento> eventos = turmaService.buscarEventoPorTurma(turma);
 		
 		model.addAttribute("estagio", estagio);
 		model.addAttribute("submissaoPlano", submissaoPlano);

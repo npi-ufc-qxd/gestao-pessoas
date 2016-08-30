@@ -224,36 +224,16 @@ public class SupervisorController {
 	@RequestMapping(value = "/Turma/{idTurma}/AtualizarVinculos", method = RequestMethod.GET)
 	public String formularioVinculosTurma(@PathVariable("idTurma") Long idTurma, Model model) {
 		model.addAttribute("turma", turmaService.buscarTurmaPorId(idTurma));
-		model.addAttribute("estagiariosSemVinculo", estagioService.buscarEstagiariosSemVinculoComTurma(idTurma));
 
 		return VINCULOS_TURMA;
 	}
 
-	@RequestMapping(value = "/Turma/{idTurma}/AtualizarVinculos/buscarPorNome/{nomeEstagiario}", method = RequestMethod.GET)
-	public List<Estagiario> buscarEstagiarioSemVinculoPorNome(@PathVariable("idTurma") Long idTurma,
-			@PathVariable("nomeEstagiario") String nomeEstagiario) {
-		return estagioService.buscarEstagiariosSemVinculoComTurma(idTurma);
-	}
+	@RequestMapping(value = "/Turma/{idTurma}/AtualizarVinculos", method = RequestMethod.POST)
+	public String buscarEstagiarios(@PathVariable("idTurma") Long idTurma, @RequestParam("busca") String busca, Model model) {
+		model.addAttribute("turma", turmaService.buscarTurmaPorId(idTurma));
+		model.addAttribute("estagiarios", estagioService.buscarEstagiariosSemVinculoComTurmaPorNomeEstagiario(idTurma, busca));
 
-	@RequestMapping(value = "/Acompanhamento/buscarEstagiarioSemVinculo/{nomeEstagiario}/{idTurma}", method = RequestMethod.GET)
-	public String buscarEstagiariosSemVinculoTurmaPorNome(Model model,
-			@PathVariable("nomeEstagiario") String nomeEstagiario, @PathVariable("idTurma") Long idTurma) {
-		if (nomeEstagiario == null || idTurma == null) {
-			model.addAttribute("estagiarios", null);
-
-		} else {
-			model.addAttribute("turma", turmaService.buscarTurmaPorId(idTurma));
-			model.addAttribute("estagiarios",
-					estagioService.buscarEstagiariosSemVinculoComTurmaPorNomeEstagiario(idTurma, nomeEstagiario));
-		}
-
-		return "supervisao/vinculos-turma :: resultList";
-	}
-
-	@RequestMapping(value = "/Acompanhamento/buscarEstagiarioSemVinculo", method = RequestMethod.GET)
-	public String buscarEstagiariosSemVinculoTurma(Model model) {
-		model.addAttribute("estagiarios", null);
-		return "supervisao/vinculos-turma :: resultList";
+		return VINCULOS_TURMA;
 	}
 
 	@RequestMapping(value = "/Turma/{idTurma}/TermosCompromisso", method = RequestMethod.GET)

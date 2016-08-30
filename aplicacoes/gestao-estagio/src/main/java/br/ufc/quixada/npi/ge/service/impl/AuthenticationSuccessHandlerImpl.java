@@ -13,11 +13,13 @@ import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
+import br.ufc.quixada.npi.ge.utils.Constants;
+
 @Named
 public class AuthenticationSuccessHandlerImpl implements AuthenticationSuccessHandler {
 
 	private RedirectStrategy redirectStrategy;
-
+	
 	public AuthenticationSuccessHandlerImpl() {
 		redirectStrategy = new DefaultRedirectStrategy();
 	}
@@ -25,6 +27,7 @@ public class AuthenticationSuccessHandlerImpl implements AuthenticationSuccessHa
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
 		handle(request, response, authentication);
+		request.getSession().setMaxInactiveInterval(Constants.TEMPO_SESSAO);
 	}
 
 	private void handle(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {

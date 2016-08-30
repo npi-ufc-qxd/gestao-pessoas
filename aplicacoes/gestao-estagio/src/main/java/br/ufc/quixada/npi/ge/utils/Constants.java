@@ -6,6 +6,8 @@ public class Constants {
 
 	public static final String PAGINA_LOGIN = "login";
 	
+	public static final int TEMPO_SESSAO_EM_MINUTOS = 20;
+	
 	public static final String PAGINA_SOBRE = "sobre";
 	
 	public static final String USUARIO_LOGADO = "usuario";

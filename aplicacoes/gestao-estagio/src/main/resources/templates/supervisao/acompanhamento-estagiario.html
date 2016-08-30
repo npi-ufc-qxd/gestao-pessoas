@@ -122,21 +122,24 @@
   				<strong th:text="${error}"></strong>
   			</div>
 	    	
-	        <div class="panel panel-bluegray">
-	          <div class="panel-heading">
-	            <a class="panel-title" data-toggle="collapse" data-target="#consolidado"><i class="fa fa-caret-down" aria-hidden="true"></i> Consolidado Frequências</a>
-			  </div>
-	          <div id="consolidado" class="panel-body collapse in">
-	            <a href="#" class="btn btn-success disabled" role="button"><span th:inline="text">[[${consolidadoFrequencia.porcentagemPresencas}]]%</span> <br/>Presenças</a>
-	            <a href="#" class="btn btn-danger disabled" role="button"><span th:inline="text">[[${consolidadoFrequencia.porcentagemFaltas}]]%</span> <br/>Faltas</a>
-	            <a href="#" class="btn btn-warning disabled" role="button"><span th:inline="text">[[${consolidadoFrequencia.totalAtrasos}]]</span> <br/>Atrasos</a>
-	            <a href="#" class="btn btn-primary disabled" role="button"><span th:inline="text">[[${consolidadoFrequencia.totalReposicoes}]]</span> <br/>Reposições</a>
-	            <a href="#" class="btn btn-default disabled" role="button"><span th:inline="text">[[${consolidadoFrequencia.totalPendecias}]]</span> <br/>Pendências</a>
-	            <a href="#" class="btn btn-bluegray disabled" role="button"><span th:inline="text">[[${consolidadoFrequencia.horasEstagiadas}]]h</span> <br/>Horas Estagiadas</a>
-				<br/><br/>
-	        	<a th:href="@{/Supervisao/Acompanhamento/{id}/Frequencias(id=${estagio.id})}" class="btn btn-success btn-sm pull-right">gerenciar</a>
-	          </div>
+	        
+	        <div th:if="${#strings.equals(estagio.turma.tipoTurma, 'NPI')}">
+	        	<div class="panel panel-bluegray">
+	          	<div class="panel-heading" >
+	            	<a class="panel-title" data-toggle="collapse" data-target="#consolidado"><i class="fa fa-caret-down" aria-hidden="true"></i> Consolidado Frequências</a>
+			  	</div>
+	          	<div id="consolidado" class="panel-body collapse in" >
+	            	<a href="#" class="btn btn-success disabled" role="button"><span th:inline="text">[[${consolidadoFrequencia.porcentagemPresencas}]]%</span> <br/>Presenças</a>
+	            	<a href="#" class="btn btn-danger disabled" role="button"><span th:inline="text">[[${consolidadoFrequencia.porcentagemFaltas}]]%</span> <br/>Faltas</a>
+	            	<a href="#" class="btn btn-warning disabled" role="button"><span th:inline="text">[[${consolidadoFrequencia.totalAtrasos}]]</span> <br/>Atrasos</a>
+	            	<a href="#" class="btn btn-primary disabled" role="button"><span th:inline="text">[[${consolidadoFrequencia.totalReposicoes}]]</span> <br/>Reposições</a>
+	            	<a href="#" class="btn btn-default disabled" role="button"><span th:inline="text">[[${consolidadoFrequencia.totalPendecias}]]</span> <br/>Pendências</a>
+	            	<a href="#" class="btn btn-bluegray disabled" role="button"><span th:inline="text">[[${consolidadoFrequencia.horasEstagiadas}]]h</span> <br/>Horas Estagiadas</a>
+					<br/><br/>
+	        		<a th:href="@{/Supervisao/Acompanhamento/{id}/Frequencias(id=${estagio.id})}" class="btn btn-success btn-sm pull-right">gerenciar</a>
+	          	</div>
 	          
+	        	</div>
 	        </div>
 
 	        <div class="panel panel-bluegray">

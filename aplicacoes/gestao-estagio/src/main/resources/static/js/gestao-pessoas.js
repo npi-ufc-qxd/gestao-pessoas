@@ -304,38 +304,6 @@ $(".gp-btn-reposicao").on("click", function(event) {
 		});
 });
 
-$(document).ready(function(){
-	
-	$("#buscarEstagiariosSemVinculo").on("click", function(event){
-		
-		event.preventDefault();
-		
-		var botaoBuscar = $(event.currentTarget); 
-		
-	    var url =  botaoBuscar.attr("href");;
-	   
-	    if ($('#campoBuscaEstagiario').val() != '' && $('#idTurma').val() != '') {
-	    	 var nomeEstagiario = $('#campoBuscaEstagiario').val();
-	 		 var idTurma = $('#idTurma').val();
-	 		 url = url + '/' + nomeEstagiario + '/' + idTurma;
-	 		 $("#estSemVinculoBlock").load(url);
-	    }else{
-	    	 $("#estSemVinculoBlock").load(url);
-	    }
-	    
-	});
-	
-});
-function desvincularEstagio(estagio){
-	//th:href="@{/Supervisor/Turma/Acompanhamento/{id}/Desvincular(id=${est.id})}"
- console.log(estagio);
-  var r = confirm("Press a button!");
-  if (r == true) {
-     console.log("sim")
-  } else {
-      console.log("cancel");
-  }
-}
 
 $( "#form-estagiario" ).validate({
     rules: {

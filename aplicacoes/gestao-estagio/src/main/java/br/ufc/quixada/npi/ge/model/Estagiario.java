@@ -37,11 +37,9 @@ public class Estagiario {
 	@OneToMany(mappedBy="estagiario")
 	private List<Estagio> estagios;
 
-	@NotNull(message = "Campo obrigatório.")
 	@NotEmpty(message = "Campo obrigatório.")
 	private String nomeMae;
 
-	@NotNull(message = "Campo obrigatório.")
 	@NotEmpty(message = "Campo obrigatório.")
 	private String nomeCompleto;
 
@@ -61,11 +59,9 @@ public class Estagiario {
 	@Max(value = 12, message = "Informe um semestre valido")
 	private Integer semestre;
 
-	@NotNull(message = "Campo obrigatório.")
 	@NotEmpty(message = "Campo obrigatório.")
 	private String telefone;
 
-	@NotNull(message = "Campo obrigatório")
 	@NotEmpty(message = "Campo obrigatório.")
 	private String usuarioGithub;
 	
@@ -73,15 +69,12 @@ public class Estagiario {
 	@Email(message = "Informe um e-mail valido")
 	private String email;
 
-	@NotNull(message = "Campo obrigatório.")
 	@NotEmpty(message = "Campo obrigatório.")
 	private String endereco;
 
-	@NotNull(message = "Campo obrigatório.")
 	@NotEmpty(message = "Campo obrigatório.")
 	private String cep;
 
-	@NotNull(message = "Campo obrigatório.")
 	@NotEmpty(message = "Campo obrigatório.")
 	private String cidade;
 

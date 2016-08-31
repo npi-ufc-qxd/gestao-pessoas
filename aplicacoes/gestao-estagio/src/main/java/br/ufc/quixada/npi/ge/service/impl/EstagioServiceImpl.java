@@ -23,6 +23,7 @@ import br.ufc.quixada.npi.ge.model.Submissao;
 import br.ufc.quixada.npi.ge.model.Submissao.StatusEntrega;
 import br.ufc.quixada.npi.ge.model.Submissao.TipoSubmissao;
 import br.ufc.quixada.npi.ge.model.Turma;
+import br.ufc.quixada.npi.ge.model.Turma.StatusTurma;
 import br.ufc.quixada.npi.ge.repository.AvaliacaoRendimentoRepository;
 import br.ufc.quixada.npi.ge.repository.EstagiarioRepository;
 import br.ufc.quixada.npi.ge.repository.EstagioRepository;
@@ -390,15 +391,16 @@ public class EstagioServiceImpl implements EstagioService {
 	
 	@Override
 	public List<Evento> buscarEventosEstagiario(List<Estagio> estagios) {
-		List<Evento> eventos = new ArrayList<Evento>();
+		List<Evento> listaEventos = new ArrayList<Evento>();
 
 		for (Estagio estagio : estagios) {
-			List<Evento> evento = eventoRepository.buscarEventoPorTurma(estagio.getTurma().getId());
-			if (!evento.isEmpty()) {
-				eventos.addAll(evento);
+			estagio.getTurma().getStatus();
+			List<Evento> eventos = eventoRepository.buscarEventoPorTurma(estagio.getTurma().getId(), StatusTurma.ABERTA);
+			if (!eventos.isEmpty()) {
+				listaEventos.addAll(eventos);
 			}
 		}
-		return eventos;
+		return listaEventos;
 	}
 
 }

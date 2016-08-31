@@ -313,14 +313,18 @@ public class SupervisorController {
 		}
 
 		Turma turma = turmaService.buscarTurmaPorId(idTurma);
-		turmaService.adicionarExpediente(expediente);
-
-		turma.getExpedientes().add(expediente);
-
-		turmaService.adicionarTurma(turma);
+		Expediente exp = turmaService.buscarExpedienteConflitantePorTurma(idTurma, expediente.getDiaSemana(), expediente.getHoraInicio(), expediente.getHoraTermino());
 		
-
-		redirect.addFlashAttribute("sucesso", "O expediente foi adicionado com sucesso.");
+		if(exp == expediente){
+			return REDIRECT_DETALHES_TURMA;
+		}else{
+			turmaService.adicionarExpediente(expediente);
+			turma.getExpedientes().add(expediente);
+			turmaService.adicionarTurma(turma);
+			
+			redirect.addFlashAttribute("sucesso", "O expediente foi adicionado com sucesso.");
+		}
+		
 		return REDIRECT_DETALHES_TURMA + idTurma + "/Expediente";
 	}
 

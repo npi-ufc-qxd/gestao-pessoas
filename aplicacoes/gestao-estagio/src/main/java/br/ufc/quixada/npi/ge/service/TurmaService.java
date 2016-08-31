@@ -1,5 +1,6 @@
 package br.ufc.quixada.npi.ge.service;
 
+import java.util.Date;
 import java.util.List;
 
 import br.ufc.quixada.npi.ge.model.Evento;
@@ -32,6 +33,6 @@ public interface TurmaService {
 
 	void excluirExpediente(Long idExpediente);
 
-	Expediente buscarExpedienteConflitantePorTurma(Long idTurma, Expediente expediente);
+	Expediente buscarExpedienteConflitantePorTurma(Long idTurma, Expediente.DiaDaSemana diaSemana , Date horaInicio, Date horaTermino);
 
 }

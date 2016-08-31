@@ -1,5 +1,6 @@
 package br.ufc.quixada.npi.ge.service.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.inject.Named;
@@ -84,8 +85,8 @@ public class TurmaServiceImpl implements TurmaService {
 	}
 	
 	@Override
-	public Expediente buscarExpedienteConflitantePorTurma(Long idTurma, Expediente expediente) {
-		return expedienteRepository.findExpedienteByTurmaId(idTurma, expediente);
+	public Expediente buscarExpedienteConflitantePorTurma(Long idTurma, Expediente.DiaDaSemana diaSemana, Date horaInicio, Date horaTermino) {
+		return expedienteRepository.findExpedienteByTurmaId(idTurma, diaSemana, horaInicio, horaTermino);
 		
 	}
 }

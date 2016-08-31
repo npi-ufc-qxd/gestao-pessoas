@@ -47,7 +47,7 @@ public class Submissao {
 	
 	public Submissao(){}
 	
-	public Submissao(Submissao submissao){
+	public Submissao(Submissao submissao) {
 		this.setEstagio(submissao.getEstagio());
 		Documento documento = new Documento();
 		documento.setNome(submissao.getDocumento().getNome());

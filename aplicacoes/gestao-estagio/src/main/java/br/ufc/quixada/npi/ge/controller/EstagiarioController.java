@@ -218,7 +218,7 @@ public class EstagiarioController {
 			submissao = new Submissao();
 			submissao.setEstagio(estagio);
 			Documento documento = new Documento();
-			documento.setNome(TipoSubmissao.PLANO_ESTAGIO + "_" + estagio.getEstagiario().getNomeCompleto().toUpperCase());
+			documento.setNome(TipoSubmissao.PLANO_ESTAGIO + "_" + estagio.getEstagiario().getNomeCompleto().replace(' ', '_').toUpperCase());
 			documento.setExtensao(planoEstagio.getContentType());
 			documento.setArquivo(planoEstagio.getBytes());
 			documento.setCaminho(PASTA_DOCUMENTOS_GE + "/GE_" + estagio.getId() + "/"+TipoSubmissao.PLANO_ESTAGIO+"_" + estagio.getId() + ".pdf");
@@ -284,7 +284,7 @@ public class EstagiarioController {
 			submissao = new Submissao();
 			submissao.setEstagio(estagio);
 			Documento documento = new Documento();
-			documento.setNome(TipoSubmissao.RELATORIO_FINAL_ESTAGIO + "_" + estagio.getEstagiario().getNomeCompleto().toUpperCase());
+			documento.setNome(TipoSubmissao.RELATORIO_FINAL_ESTAGIO + "_" + estagio.getEstagiario().getNomeCompleto().replace(' ', '_').toUpperCase());
 			documento.setExtensao(relatorio.getContentType());
 			documento.setCaminho(PASTA_DOCUMENTOS_GE + "/GE_" + estagio.getId() + "/"+TipoSubmissao.RELATORIO_FINAL_ESTAGIO+"_" + estagio.getId() + ".pdf");
 			documento.setArquivo(relatorio.getBytes());

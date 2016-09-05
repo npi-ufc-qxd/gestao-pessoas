@@ -864,7 +864,7 @@ public class SupervisorController {
 		
 		estagioService.adicionarAvaliacaoRendimento(newAvaliacaoRendimento);
 
-		redirect.addFlashAttribute("sucesso", "Alterações da avaliação de redimento foram salvas com sucesso!");
+		redirect.addFlashAttribute("sucesso", "Alterações da avaliação de rendimento foram salvas com sucesso!");
 
 		return REDIRECT_ACOMPANHAMENTO_ESTAGIARIO + idEstagio;
 	}

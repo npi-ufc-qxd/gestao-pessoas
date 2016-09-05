@@ -47,12 +47,12 @@ $(document).ready(function() {
 			},'Data de término deve ser posterior a data início!'
 		);
 
-		jQuery.validator.addMethod("menorQue", 
-			function(dataIncial, element, params) {
-				$(params).val($("#termino").datepicker('getFormattedDate'));
-				return moment(dataIncial, "DD/MM/YYYY").isBefore(moment($(params).val(), "DD/MM/YYYY"));
-			},'Data de início deve ser anterior ao a data de término!'
-		);
+	jQuery.validator.addMethod("menorQue", 
+		function(dataIncial, element, params) {
+			$(params).val($("#termino").datepicker('getFormattedDate'));
+			return moment(dataIncial, "DD/MM/YYYY").isBefore(moment($(params).val(), "DD/MM/YYYY"));
+		},'Data de início deve ser anterior ao a data de término!'
+	);
 	
 	$('#form-turma').validate({
         rules: {
@@ -105,6 +105,25 @@ $(document).ready(function() {
             },
         }
     });
+	$('#form-evento').validate({
+		rules: {
+			inicio:{
+        		menorQue : "#termino",
+        	},
+
+        	termino:{
+        		maiorQue: "#inicio",
+        	}
+        },
+        highlight: function(element) {
+            $(element).closest('.form-group').addClass('has-error');
+        },
+        unhighlight: function(element) {
+            $(element).closest('.form-group').removeClass('has-error');
+        },
+        errorElement: 'span',
+        errorClass: 'help-block'
+	});
 	
 	$('#form-selecao').validate({
         rules: {

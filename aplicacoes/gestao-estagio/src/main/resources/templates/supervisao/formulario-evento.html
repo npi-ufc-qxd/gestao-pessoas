@@ -67,7 +67,7 @@
 	            <a class="panel-title" data-toggle="collapse" data-target="#add-evento"><i class="fa fa-caret-down" aria-hidden="true"></i> Adicionar Evento</a>
 	          </div>
 	          <div id="add-evento" class="panel-body collapse in">
-					<form class="form-horizontal" th:object="${evento}" th:action="@{/Supervisao/Turma/{idTurma}/Evento(idTurma=${turma.id})}" method="post">
+					<form id="form-evento" class="form-horizontal" th:object="${evento}" th:action="@{/Supervisao/Turma/{idTurma}/Evento(idTurma=${turma.id})}" method="post">
 					    <div th:class="${#fields.hasErrors('titulo')} ? 'form-group has-error' : form-group">
 					      <label for="titulo" class="col-lg-2 control-label">Titulo</label>
 					      <div class="col-lg-10">

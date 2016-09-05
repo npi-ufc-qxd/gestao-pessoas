@@ -44,14 +44,14 @@ $(document).ready(function() {
 			function(dataFinal, element, params) {
 				$(params).val($("#inicio").datepicker('getFormattedDate'));
 				return moment(dataFinal, "DD/MM/YYYY").isAfter(moment($(params).val(), "DD/MM/YYYY"));
-			},'Termino do evento deve ser posterior ao início!'
+			},'Data de término deve ser posterior a data início!'
 		);
 
 		jQuery.validator.addMethod("menorQue", 
 			function(dataIncial, element, params) {
 				$(params).val($("#termino").datepicker('getFormattedDate'));
 				return moment(dataIncial, "DD/MM/YYYY").isBefore(moment($(params).val(), "DD/MM/YYYY"));
-			},'Inicio do evento deve ser anterior ao termino!'
+			},'Data de início deve ser anterior ao a data de término!'
 		);
 	
 	$('#form-turma').validate({

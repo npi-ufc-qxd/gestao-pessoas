@@ -33,6 +33,6 @@ public interface TurmaService {
 
 	void excluirExpediente(Long idExpediente);
 
-	Expediente buscarExpedienteConflitantePorTurma(Long idTurma, Expediente.DiaDaSemana diaSemana , Date horaInicio, Date horaTermino);
+	Expediente buscarExpedienteConflitantePorTurma(Long idTurma, Expediente.DiaDaSemana diaSemana , Date inicio, Date termino);
 
 }

@@ -23,6 +23,7 @@ import static br.ufc.quixada.npi.ge.utils.Constants.REDIRECT_PAGINA_INICIAL_SUPE
 import static br.ufc.quixada.npi.ge.utils.Constants.TERMO_COMPROMISSO_ESTAGIO;
 import static br.ufc.quixada.npi.ge.utils.Constants.VINCULOS_TURMA;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -313,17 +314,33 @@ public class SupervisorController {
 		}
 
 		Turma turma = turmaService.buscarTurmaPorId(idTurma);
-		Expediente exp = turmaService.buscarExpedienteConflitantePorTurma(idTurma, expediente.getDiaSemana(), expediente.getHoraInicio(), expediente.getHoraTermino());
 		
-		if(exp == expediente){
-			return REDIRECT_DETALHES_TURMA;
-		}else{
-			turmaService.adicionarExpediente(expediente);
-			turma.getExpedientes().add(expediente);
-			turmaService.adicionarTurma(turma);
-			
-			redirect.addFlashAttribute("sucesso", "O expediente foi adicionado com sucesso.");
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm:ss");
+		
+		
+		Date a = null;
+		Date b = null;
+		try {
+			a = simpleDateFormat.parse(simpleDateFormat.format(expediente.getHoraInicio()));
+			b = simpleDateFormat.parse(simpleDateFormat.format(expediente.getHoraTermino()));
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+		
+		Expediente expedienteConflitante = turmaService.buscarExpedienteConflitantePorTurma(idTurma, expediente.getDiaSemana(), a, b);
+		
+			if(expediente.equals(expedienteConflitante)){
+				return FORMULARIO_EXPEDIENTE;
+			}else{
+			
+				turmaService.adicionarExpediente(expediente);
+				turma.getExpedientes().add(expediente);
+				turmaService.adicionarTurma(turma);
+			
+				redirect.addFlashAttribute("sucesso", "O expediente foi adicionado com sucesso.");
+			}
+		
 		
 		return REDIRECT_DETALHES_TURMA + idTurma + "/Expediente";
 	}

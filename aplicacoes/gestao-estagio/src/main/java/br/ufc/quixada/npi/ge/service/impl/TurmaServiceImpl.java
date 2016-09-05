@@ -85,8 +85,7 @@ public class TurmaServiceImpl implements TurmaService {
 	}
 	
 	@Override
-	public Expediente buscarExpedienteConflitantePorTurma(Long idTurma, Expediente.DiaDaSemana diaSemana, Date horaInicio, Date horaTermino) {
-		return expedienteRepository.findExpedienteByTurmaId(idTurma, diaSemana, horaInicio, horaTermino);
-		
+	public Expediente buscarExpedienteConflitantePorTurma(Long idTurma, Expediente.DiaDaSemana diaSemana, Date inicio, Date termino) {
+		return expedienteRepository.findExpedienteByTurmaId(idTurma, diaSemana, inicio, termino);
 	}
 }

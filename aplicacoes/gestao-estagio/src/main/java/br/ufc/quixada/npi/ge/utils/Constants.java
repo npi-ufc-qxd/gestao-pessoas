@@ -77,7 +77,6 @@ public class Constants {
 	public static final String REDIRECT_PAGINA_LOGIN = "redirect:/login";
 
 	public static final String REDIRECT_VINCULOS_TURMA = "redirect:/supervisao/vinculos-turma";
-	
 	// Homologação
 	//public static final String PASTA_DOCUMENTOS_GE = "/mnt/gestao-estagio-uploads";
 	
@@ -87,5 +86,6 @@ public class Constants {
 	// Exception Messages
 	public static final String EXCEPTION_SALVAR_ARQUIVO = "Falha ao salvar o arquivo! Tente novamente.";
 	public static final String EXCEPTION_BUSCAR_ARQUIVO = "Falha ao buscar arquivo";
+
 
 }

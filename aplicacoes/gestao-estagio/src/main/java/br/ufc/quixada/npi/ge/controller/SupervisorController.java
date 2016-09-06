@@ -318,20 +318,23 @@ public class SupervisorController {
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm:ss");
 		
 		
-		Date a = null;
-		Date b = null;
+		Date inicio = null;
+		Date termino = null;
 		try {
-			a = simpleDateFormat.parse(simpleDateFormat.format(expediente.getHoraInicio()));
-			b = simpleDateFormat.parse(simpleDateFormat.format(expediente.getHoraTermino()));
+			inicio = simpleDateFormat.parse(simpleDateFormat.format(expediente.getHoraInicio()));
+			termino = simpleDateFormat.parse(simpleDateFormat.format(expediente.getHoraTermino()));
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
-		Expediente expedienteConflitante = turmaService.buscarExpedienteConflitantePorTurma(idTurma, expediente.getDiaSemana(), a, b);
+		Expediente expedienteConflitante = turmaService.buscarExpedienteConflitantePorTurma(idTurma, expediente.getDiaSemana(), inicio, termino);
 		
-			if(expediente.equals(expedienteConflitante)){
-				return FORMULARIO_EXPEDIENTE;
+			if(expedienteConflitante != null){
+				
+				redirect.addFlashAttribute("error", "Expedientes conflitantes não podem ser cadastrados. Tente novamente.");
+				return REDIRECT_DETALHES_TURMA + idTurma + "/Expediente";
+			
 			}else{
 			
 				turmaService.adicionarExpediente(expediente);

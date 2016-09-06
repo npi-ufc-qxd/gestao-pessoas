@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorator="layouts/LayoutInicio">
+
+<head>
+	<title>Gestão Pessoas | Cadastro</title>	
+</head>
+
+<section layout:fragment="conteudo">
+
+
+  <div class="container-fluid titulo-pagina">
+    <div class="container">
+        <ul class="breadcrumb">
+            <li><a href="#"></a></li>
+        </ul>
+        <h1>Meu Cadastro</h1>
+    </div>
+  </div>
+
+
+	<div class="container animated fadeInRight">
+	    <div class="row">
+		    <div class="col-md-12">
+		        <div class="panel panel-bluegray">
+		          <div class="panel-body">
+		          		
+						<form id="form-servidor" method="post" class="form-horizontal" th:action="@{/CadastroServidor}" th:object="${servidor}">
+							<fieldset>
+								<legend>Dados Pessoais</legend>
+							   	<div th:class="${#fields.hasErrors('nome')}? 'form-group has-error' : form-group">
+							      	<label for="nomeCompleto" class="col-md-2 control-label">*Nome Completo</label>
+								     <div class="col-md-10">
+								     	<input th:field="*{nome}" placeholder="Nome Completo" type="text" class="form-control" id="nome"  required="required"/>
+							     		<label class="control-label" th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}">O campo Nome tem que ser preenchido.</label>
+								     </div>
+								</div>
+								
+							</fieldset>
+
+							<div class="form-group">
+						      <div class="col-lg-10 col-lg-offset-2">
+						        <a th:href="@{/CacelarCadastro}" class="btn btn-default">Cancelar</a>
+						        <button type="submit" class="btn btn-success">Salvar</button>
+						      </div>
+						    </div>
+						</form>
+		           </div>
+		        </div>
+		    </div>
+	   </div>
+	</div>
+    
+  </section>
+
+  <section layout:fragment="js">
+	<script type="text/javascript">
+	</script>
+  </section>
+  
+</html>

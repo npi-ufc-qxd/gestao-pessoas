@@ -26,6 +26,8 @@ public class Constants {
 
 	public static final String PAGINA_INICIAL_SUPERVISOR = "supervisao/list-turmas";
 	
+	public static final String FORMULARIO_CADASTRO_SUPERVISOR = "supervisao/cadastrar-supervisor";
+	
 	public static final String DETALHES_TURMA = "supervisao/detalhes-turma";
 
 	public static final String FORMULARIO_ADICIONAR_TURMA = "supervisao/adicionar-turma";

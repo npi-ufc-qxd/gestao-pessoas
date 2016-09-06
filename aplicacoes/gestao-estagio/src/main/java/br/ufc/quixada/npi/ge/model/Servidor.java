@@ -25,6 +25,10 @@ public class Servidor {
 	private String cargo;
 
 	private String lotacao;
+	
+	private String titulacao;
+	
+	private String saudacao;
 
 	public String getSiape() {
 		return siape;
@@ -80,6 +84,22 @@ public class Servidor {
 
 	public void setLotacao(String lotacao) {
 		this.lotacao = lotacao;
+	}
+
+	public String getTitulacao() {
+		return titulacao;
+	}
+
+	public void setTitulacao(String titulacao) {
+		this.titulacao = titulacao;
+	}
+
+	public String getSaudacao() {
+		return saudacao;
+	}
+
+	public void setSaudacao(String saudacao) {
+		this.saudacao = saudacao;
 	}
 
 }

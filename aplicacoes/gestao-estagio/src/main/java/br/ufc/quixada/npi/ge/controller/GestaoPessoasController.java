@@ -77,6 +77,31 @@ public class GestaoPessoasController {
 		model.addAttribute("servidor", new Servidor());
 		return FORMULARIO_CADASTRO_SUPERVISOR;
 	}
+	
+	@RequestMapping(value = "/CadastroSupervisor", method = RequestMethod.POST)
+	public String adicionarSupervisor( @Valid @ModelAttribute("servidor") Servidor servidor, BindingResult result, RedirectAttributes redirect, Model model, HttpSession session) {
+
+		if (result.hasErrors()) {
+			return FORMULARIO_CADASTRO_SUPERVISOR;
+		}
+
+		Usuario usuario = usuarioService.getByCpf(SecurityContextHolder.getContext().getAuthentication().getName());
+
+		Papel papel = pessoaService.buscarPapelPorNome("SUPERVISOR");
+
+		Pessoa pessoa = new Pessoa();
+		pessoa.setCpf(usuario.getCpf());
+		pessoa.adicionarPapel(papel);
+
+		pessoaService.adicionarPessoa(pessoa);
+
+		servidor.setPessoa(pessoa);
+		pessoaService.adicionarServidor(servidor);
+
+		session.invalidate();
+		redirect.addFlashAttribute("success", "Seu cadastro foi realizado com sucesso! Agora, você pode efetuar o login!");
+		return REDIRECT_PAGINA_LOGIN;
+	}
 
 	@RequestMapping(value = "/CadastroEstagiario", method = RequestMethod.GET)
 	public String formularioCadastroEstagio(ModelMap model, HttpSession session) {

@@ -1,5 +1,6 @@
 package br.ufc.quixada.npi.ge.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -52,6 +53,14 @@ public class Pessoa {
 
 	public void setCpf(String cpf) {
 		this.cpf = cpf;
+	}
+
+	public void adicionarPapel(Papel papel) {
+		if(this.papeis == null){
+			this.papeis = new ArrayList<Papel>();
+		}
+		
+		this.papeis.add(papel);
 	}
 
 }

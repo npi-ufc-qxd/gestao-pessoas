@@ -27,19 +27,64 @@
 		        <div class="panel panel-bluegray">
 		          <div class="panel-body">
 		          		
-						<form id="form-servidor" method="post" class="form-horizontal" th:action="@{/CadastroServidor}" th:object="${servidor}">
+						<form id="form-servidor" method="post" class="form-horizontal" th:action="@{/CadastroSupervisor}" th:object="${servidor}">
 							<fieldset>
 								<legend>Dados Pessoais</legend>
 							   	<div th:class="${#fields.hasErrors('nome')}? 'form-group has-error' : form-group">
-							      	<label for="nomeCompleto" class="col-md-2 control-label">*Nome Completo</label>
+							      	<label for="nome" class="col-md-2 control-label">*Nome Completo</label>
 								     <div class="col-md-10">
 								     	<input th:field="*{nome}" placeholder="Nome Completo" type="text" class="form-control" id="nome"  required="required"/>
 							     		<label class="control-label" th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}">O campo Nome tem que ser preenchido.</label>
 								     </div>
 								</div>
-								
+								<div class="form-group" th:class="${#fields.hasErrors('telefone')}? 'form-group has-error' : form-group">
+								    <label for="telefone" class="col-md-2 control-label">*Telefone</label>
+								   	<div class="col-md-10">
+								        <input th:field="*{telefone}" placeholder="Telefone" required="required" type="text" class="form-control" id="telefone"  />
+								    	<label class="control-label" th:if="${#fields.hasErrors('telefone')}" th:errors="*{telefone}">O campo Telefone tem que ser preenchido.</label>
+									</div>
+								</div>
 							</fieldset>
-
+							
+							<fieldset>
+								<legend>Dados do Trabalho</legend>
+								<div th:class="${#fields.hasErrors('siape')}? 'form-group has-error' : form-group">
+									<label for="siape" class="col-md-2 control-label">*Siape:</label>
+							   		<div class="col-md-10">
+			            				<input th:field="*{siape}" id="siape" class="form-control" placeholder="Siape" required="required" type="text"/>
+			            				<label class="control-label" th:if="${#fields.hasErrors('siape')}" th:errors="*{siape}">O campo Siape tem que ser preenchido.</label>
+							      	</div>
+								</div>
+								<div th:class="${#fields.hasErrors('cargo')}? 'form-group has-error' : form-group">
+							      	<label for="cargo" class="col-md-2 control-label">*Cargo</label>
+								     <div class="col-md-10">
+								     	<input th:field="*{cargo}" placeholder="Cargo" type="text" class="form-control" id="cargo"  required="required"/>
+							     		<label class="control-label" th:if="${#fields.hasErrors('cargo')}" th:errors="*{cargo}">O campo Cargo tem que ser preenchido.</label>
+								     </div>
+								</div>
+								<div th:class="${#fields.hasErrors('lotacao')}? 'form-group has-error' : form-group">
+							      	<label for="lotacao" class="col-md-2 control-label">*Lotação</label>
+								     <div class="col-md-10">
+								     	<input th:field="*{lotacao}" placeholder="Lotação" type="text" class="form-control" id="lotacao"  required="required"/>
+							     		<label class="control-label" th:if="${#fields.hasErrors('lotacao')}" th:errors="*{lotacao}">O campo Lotação tem que ser preenchido.</label>
+								     </div>
+								</div>
+								<div th:class="${#fields.hasErrors('titulacao')}? 'form-group has-error' : form-group">
+							      	<label for="titulacao" class="col-md-2 control-label">*Titulação</label>
+								     <div class="col-md-10">
+								     	<input th:field="*{titulacao}" placeholder="Titulação" type="text" class="form-control" id="titulacao"  required="required"/>
+							     		<label class="control-label" th:if="${#fields.hasErrors('titulacao')}" th:errors="*{titulacao}">O campo Titulação tem que ser preenchido.</label>
+								     </div>
+								</div>
+								<div th:class="${#fields.hasErrors('saudacao')}? 'form-group has-error' : form-group">
+							      	<label for="saudacao" class="col-md-2 control-label">*Saudação</label>
+								     <div class="col-md-10">
+								     	<input th:field="*{saudacao}" placeholder="Saudação" type="text" class="form-control" id="saudacao"  required="required"/>
+							     		<label class="control-label" th:if="${#fields.hasErrors('saudacao')}" th:errors="*{saudacao}">O campo Saudação tem que ser preenchido.</label>
+								     </div>
+								</div>
+							</fieldset>
+							
 							<div class="form-group">
 						      <div class="col-lg-10 col-lg-offset-2">
 						        <a th:href="@{/CacelarCadastro}" class="btn btn-default">Cancelar</a>

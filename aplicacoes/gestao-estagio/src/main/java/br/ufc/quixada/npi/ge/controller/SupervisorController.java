@@ -23,6 +23,7 @@ import static br.ufc.quixada.npi.ge.utils.Constants.REDIRECT_PAGINA_INICIAL_SUPE
 import static br.ufc.quixada.npi.ge.utils.Constants.TERMO_COMPROMISSO_ESTAGIO;
 import static br.ufc.quixada.npi.ge.utils.Constants.VINCULOS_TURMA;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -317,14 +318,37 @@ public class SupervisorController {
 		}
 
 		Turma turma = turmaService.buscarTurmaPorId(idTurma);
-		turmaService.adicionarExpediente(expediente);
-
-		turma.getExpedientes().add(expediente);
-
-		turmaService.adicionarTurma(turma);
 		
-
-		redirect.addFlashAttribute("sucesso", "O expediente foi adicionado com sucesso.");
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm:ss");
+		
+		
+		Date inicio = null;
+		Date termino = null;
+		try {
+			inicio = simpleDateFormat.parse(simpleDateFormat.format(expediente.getHoraInicio()));
+			termino = simpleDateFormat.parse(simpleDateFormat.format(expediente.getHoraTermino()));
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		Expediente expedienteConflitante = turmaService.buscarExpedienteConflitantePorTurma(idTurma, expediente.getDiaSemana(), inicio, termino);
+		
+			if(expedienteConflitante != null){
+				
+				redirect.addFlashAttribute("error", "Expedientes conflitantes não podem ser cadastrados. Tente novamente.");
+				return REDIRECT_DETALHES_TURMA + idTurma + "/Expediente";
+			
+			}else{
+			
+				turmaService.adicionarExpediente(expediente);
+				turma.getExpedientes().add(expediente);
+				turmaService.adicionarTurma(turma);
+			
+				redirect.addFlashAttribute("sucesso", "O expediente foi adicionado com sucesso.");
+			}
+		
+		
 		return REDIRECT_DETALHES_TURMA + idTurma + "/Expediente";
 	}
 

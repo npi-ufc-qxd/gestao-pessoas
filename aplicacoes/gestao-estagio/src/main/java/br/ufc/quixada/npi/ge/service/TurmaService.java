@@ -27,7 +27,7 @@ public interface TurmaService {
 	void adicionarEvento(Evento evento);
 
 	void excluirEvento(Long idEvento);
-
+	
 	void adicionarExpediente(Expediente expediente);
 
 	void excluirExpediente(Long idExpediente);

@@ -4,6 +4,7 @@ import static br.ufc.quixada.npi.ge.utils.Constants.ACOMPANHAMENTO_ESTAGIO;
 import static br.ufc.quixada.npi.ge.utils.Constants.FORMULARIO_EDITAR_ESTAGIARIO;
 import static br.ufc.quixada.npi.ge.utils.Constants.NOME_USUARIO;
 import static br.ufc.quixada.npi.ge.utils.Constants.PAGINA_INICIAL_ESTAGIARIO;
+import static br.ufc.quixada.npi.ge.utils.Constants.PASTA_DOCUMENTOS_GE;
 import static br.ufc.quixada.npi.ge.utils.Constants.REDIRECT_ACOMPANHAMENTO_ESTAGIO;
 import static br.ufc.quixada.npi.ge.utils.Constants.REDIRECT_PAGINA_INICIAL_ESTAGIARIO;
 
@@ -36,6 +37,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import br.ufc.quixada.npi.ge.model.Documento;
 import br.ufc.quixada.npi.ge.model.Estagiario;
 import br.ufc.quixada.npi.ge.model.Estagio;
+import br.ufc.quixada.npi.ge.model.Evento;
 import br.ufc.quixada.npi.ge.model.Pessoa;
 import br.ufc.quixada.npi.ge.model.Submissao;
 import br.ufc.quixada.npi.ge.model.Submissao.StatusEntrega;
@@ -58,7 +60,10 @@ public class EstagiarioController {
 		inserirNomeUsuarioNaSessao(session);
 		
 		List<Estagio> estagios = estagioService.buscarEstagiosPorEstagiarioCpf(getCpfUsuarioLogado());
-
+		
+		List<Evento> eventos = estagioService.buscarEventosEstagiario(estagios);
+		
+		model.addAttribute("eventos", eventos);
 		model.addAttribute("presencas", estagioService.permitirPresencaEstagio(estagios));
 
 		return PAGINA_INICIAL_ESTAGIARIO;
@@ -129,7 +134,7 @@ public class EstagiarioController {
 		
 		Submissao submissaoPlano = estagioService.buscarSubmissaoPorTipoSubmissaoEEstagioIdECpf(Submissao.TipoSubmissao.PLANO_ESTAGIO, idEstagio, getCpfUsuarioLogado());
 		Submissao submissaoRelatorio = estagioService.buscarSubmissaoPorTipoSubmissaoEEstagioIdECpf(Submissao.TipoSubmissao.RELATORIO_FINAL_ESTAGIO, idEstagio, getCpfUsuarioLogado());
-
+		
 		model.addAttribute("estagio", estagio);
 		model.addAttribute("submissaoPlano", submissaoPlano);
 		model.addAttribute("submissaoRelatorio", submissaoRelatorio);
@@ -217,9 +222,10 @@ public class EstagiarioController {
 			submissao = new Submissao();
 			submissao.setEstagio(estagio);
 			Documento documento = new Documento();
-			documento.setNome(TipoSubmissao.PLANO_ESTAGIO + "_" + estagio.getEstagiario().getNomeCompleto().toUpperCase());
+			documento.setNome(TipoSubmissao.PLANO_ESTAGIO + "_" + estagio.getEstagiario().getNomeCompleto().replace(' ', '_').toUpperCase());
 			documento.setExtensao(planoEstagio.getContentType());
 			documento.setArquivo(planoEstagio.getBytes());
+			documento.setCaminho(PASTA_DOCUMENTOS_GE + "/GE_" + estagio.getId() + "/"+TipoSubmissao.PLANO_ESTAGIO+"_" + estagio.getId() + ".pdf");
 			submissao.setTipoSubmissao(TipoSubmissao.PLANO_ESTAGIO);
 			submissao.setDocumento(documento);
 			submissao.setSubmetidoEm(new Date());
@@ -257,7 +263,7 @@ public class EstagiarioController {
 	}
 	
 	@RequestMapping(value = "/Acompanhamento/{idEstagio}/SubmeterRelatorio", method = RequestMethod.POST)
-	public String postSubmeterRelatorio(@RequestParam("relatorio") MultipartFile relatorio, @PathVariable("idEstagio") Long idEstagio, RedirectAttributes redirectAttributes ) throws Exception{
+	public String submeterRelatorio(@RequestParam("relatorio") MultipartFile relatorio, @PathVariable("idEstagio") Long idEstagio, RedirectAttributes redirectAttributes ) throws Exception{
 
 		try {
 			if(arquivoInvalido(relatorio)){
@@ -282,8 +288,9 @@ public class EstagiarioController {
 			submissao = new Submissao();
 			submissao.setEstagio(estagio);
 			Documento documento = new Documento();
-			documento.setNome(TipoSubmissao.RELATORIO_FINAL_ESTAGIO + "_" + estagio.getEstagiario().getNomeCompleto().toUpperCase());
+			documento.setNome(TipoSubmissao.RELATORIO_FINAL_ESTAGIO + "_" + estagio.getEstagiario().getNomeCompleto().replace(' ', '_').toUpperCase());
 			documento.setExtensao(relatorio.getContentType());
+			documento.setCaminho(PASTA_DOCUMENTOS_GE + "/GE_" + estagio.getId() + "/"+TipoSubmissao.RELATORIO_FINAL_ESTAGIO+"_" + estagio.getId() + ".pdf");
 			documento.setArquivo(relatorio.getBytes());
 			submissao.setTipoSubmissao(TipoSubmissao.RELATORIO_FINAL_ESTAGIO);
 			submissao.setDocumento(documento);

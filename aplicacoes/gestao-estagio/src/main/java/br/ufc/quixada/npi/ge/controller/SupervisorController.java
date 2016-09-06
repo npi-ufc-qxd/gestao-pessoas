@@ -225,42 +225,28 @@ public class SupervisorController {
 	@RequestMapping(value = "/Turma/{idTurma}/AtualizarVinculos", method = RequestMethod.GET)
 	public String formularioVinculosTurma(@PathVariable("idTurma") Long idTurma, Model model) {
 		model.addAttribute("turma", turmaService.buscarTurmaPorId(idTurma));
-		model.addAttribute("estagiariosSemVinculo", estagioService.buscarEstagiariosSemVinculoComTurma(idTurma));
 
 		return VINCULOS_TURMA;
 	}
 
-	@RequestMapping(value = "/Turma/{idTurma}/AtualizarVinculos/buscarPorNome/{nomeEstagiario}", method = RequestMethod.GET)
-	public List<Estagiario> buscarEstagiarioSemVinculoPorNome(@PathVariable("idTurma") Long idTurma,
-			@PathVariable("nomeEstagiario") String nomeEstagiario) {
-		return estagioService.buscarEstagiariosSemVinculoComTurma(idTurma);
-	}
+	@RequestMapping(value = "/Turma/{idTurma}/AtualizarVinculos", method = RequestMethod.POST)
+	public String buscarEstagiarios(@PathVariable("idTurma") Long idTurma, @RequestParam("busca") String busca, Model model) {
+		model.addAttribute("turma", turmaService.buscarTurmaPorId(idTurma));
+		model.addAttribute("estagiarios", estagioService.buscarEstagiariosSemVinculoComTurmaPorNomeEstagiario(idTurma, busca));
 
-	@RequestMapping(value = "/Acompanhamento/buscarEstagiarioSemVinculo/{nomeEstagiario}/{idTurma}", method = RequestMethod.GET)
-	public String buscarEstagiariosSemVinculoTurmaPorNome(Model model,
-			@PathVariable("nomeEstagiario") String nomeEstagiario, @PathVariable("idTurma") Long idTurma) {
-		if (nomeEstagiario == null || idTurma == null) {
-			model.addAttribute("estagiarios", null);
-
-		} else {
-			model.addAttribute("turma", turmaService.buscarTurmaPorId(idTurma));
-			model.addAttribute("estagiarios",
-					estagioService.buscarEstagiariosSemVinculoComTurmaPorNomeEstagiario(idTurma, nomeEstagiario));
-		}
-
-		return "supervisao/vinculos-turma :: resultList";
-	}
-
-	@RequestMapping(value = "/Acompanhamento/buscarEstagiarioSemVinculo", method = RequestMethod.GET)
-	public String buscarEstagiariosSemVinculoTurma(Model model) {
-		model.addAttribute("estagiarios", null);
-		return "supervisao/vinculos-turma :: resultList";
+		return VINCULOS_TURMA;
 	}
 
 	@RequestMapping(value = "/Turma/{idTurma}/TermosCompromisso", method = RequestMethod.GET)
-	public String gerarTermoDeCompromisso(@PathVariable("idTurma") Long idTurma, Model model) throws JRException {
+	public String gerarTermoDeCompromisso(@PathVariable("idTurma") Long idTurma, Model model, 
+			RedirectAttributes redirect) throws JRException {
 
 		Turma turma = turmaService.buscarTurmaPorId(idTurma);
+		
+		if(TipoTurma.EMPRESA == turma.getTipoTurma()){
+			redirect.addFlashAttribute("error", "Turmas do tipo empresa não possuem essa funcionalidade.");
+			return REDIRECT_PAGINA_INICIAL_SUPERVISOR;
+		}
 
 		jrDatasource = new JRBeanCollectionDataSource(turma.getEstagios());
 
@@ -285,9 +271,18 @@ public class SupervisorController {
 	}
 
 	@RequestMapping(value = "/Turma/{idTurma}/Declaracoes", method = RequestMethod.GET)
-	public String gerarDeclaracaoEstagio(Model model, @PathVariable("idTurma") Long idTurma) throws JRException {
+	public String gerarDeclaracaoEstagio(Model model, @PathVariable("idTurma") Long idTurma, 
+			RedirectAttributes redirect) throws JRException {
+		
 		jrDatasource = new JRBeanCollectionDataSource(turmaService.buscarTurmaPorId(idTurma).getEstagios());
 
+		Turma turma = turmaService.buscarTurmaPorId(idTurma);
+		
+		if(TipoTurma.EMPRESA == turma.getTipoTurma()){
+			redirect.addFlashAttribute("error", "Turmas do tipo empresa não possuem essa funcionalidade.");
+			return REDIRECT_PAGINA_INICIAL_SUPERVISOR;
+			}
+		
 		model.addAttribute("datasource", jrDatasource);
 		model.addAttribute("format", "pdf");
 
@@ -295,9 +290,18 @@ public class SupervisorController {
 	}
 
 	@RequestMapping(value = "/Turma/{idTurma}/Expediente", method = RequestMethod.GET)
-	public String formularioExpediente(Model model, @PathVariable("idTurma") Long idTurma) {
+	public String formularioExpediente(Model model, @PathVariable("idTurma") Long idTurma, 
+			RedirectAttributes redirect) {
+		
+		Turma turma = turmaService.buscarTurmaPorId(idTurma);
+		
+		if(TipoTurma.EMPRESA == turma.getTipoTurma()){
+			redirect.addFlashAttribute("error", "Turmas do tipo empresa não possuem essa funcionalidade.");
+			return REDIRECT_PAGINA_INICIAL_SUPERVISOR;
+		}
+		
 		model.addAttribute("expediente", new Expediente());
-		model.addAttribute("turma", turmaService.buscarTurmaPorId(idTurma));
+		model.addAttribute("turma", turma);
 
 		return FORMULARIO_EXPEDIENTE;
 	}
@@ -394,11 +398,19 @@ public class SupervisorController {
 	}
 
 	@RequestMapping(value = "/Turma/{idTurma}/MapaFrequencia", method = RequestMethod.GET)
-	public String listarFrequenciaTurma(@PathVariable("idTurma") Long idTurma, Model model, HttpSession session) {
-
+	public String listarFrequenciaTurma(@PathVariable("idTurma") Long idTurma, Model model, HttpSession session, 
+			RedirectAttributes redirect) {
+		
+		Turma turma = turmaService.buscarTurmaPorId(idTurma);
+		
+		if(TipoTurma.EMPRESA == turma.getTipoTurma()){
+			redirect.addFlashAttribute("error", "Turmas do tipo empresa não possuem essa funcionalidade.");
+			return REDIRECT_PAGINA_INICIAL_SUPERVISOR;
+		}
+		
 		List<Frequencia> frequencias = estagioService.buscarFrequenciasPorDataETurmaId(new Date(), idTurma);
 		model.addAttribute("frequencias", frequencias);
-		model.addAttribute("turma", turmaService.buscarTurmaPorId(idTurma));
+		model.addAttribute("turma", turma);
 
 		return MAPA_FREQUENCIAS;
 	}
@@ -425,18 +437,32 @@ public class SupervisorController {
 
 		Estagio estagio = estagioService.buscarEstagioPorIdEServidorId(idEstagio,
 				pessoaService.buscarServidorPorCpf(getCpfUsuarioLogado()).getId());
-
+		
 		if (estagio == null) {
 			redirect.addFlashAttribute("error", "Estágio não existe");
 			return REDIRECT_PAGINA_INICIAL_SUPERVISOR;
 		}
+		
+		Turma turma = estagio.getTurma();
+		 
+		if(TipoTurma.EMPRESA == turma.getTipoTurma()){
+			
+			model.addAttribute("estagio", estagio);
+			model.addAttribute("submissaoPlano", estagioService.buscarSubmissaoPorTipoSubmissaoEEstagioId(TipoSubmissao.PLANO_ESTAGIO, idEstagio));
+			model.addAttribute("submissaoRelatorio", estagioService.buscarSubmissaoPorTipoSubmissaoEEstagioId(TipoSubmissao.RELATORIO_FINAL_ESTAGIO, idEstagio));
+			
+			return ACOMPANHAMENTO_ESTAGIARIO;
+			
+		}else{
 
-		model.addAttribute("estagio", estagio);
-		model.addAttribute("submissaoPlano", estagioService.buscarSubmissaoPorTipoSubmissaoEEstagioId(TipoSubmissao.PLANO_ESTAGIO, idEstagio));
-		model.addAttribute("submissaoRelatorio", estagioService.buscarSubmissaoPorTipoSubmissaoEEstagioId(TipoSubmissao.RELATORIO_FINAL_ESTAGIO, idEstagio));
-		model.addAttribute("consolidadoFrequencia", estagioService.consolidarFrequencias(estagio));
-		return ACOMPANHAMENTO_ESTAGIARIO;
-
+			model.addAttribute("estagio", estagio);
+			model.addAttribute("submissaoPlano", estagioService.buscarSubmissaoPorTipoSubmissaoEEstagioId(TipoSubmissao.PLANO_ESTAGIO, idEstagio));
+			model.addAttribute("submissaoRelatorio", estagioService.buscarSubmissaoPorTipoSubmissaoEEstagioId(TipoSubmissao.RELATORIO_FINAL_ESTAGIO, idEstagio));
+			model.addAttribute("consolidadoFrequencia", estagioService.consolidarFrequencias(estagio));
+			
+			return ACOMPANHAMENTO_ESTAGIARIO;
+		
+		}
 	}
 
 	@RequestMapping(value = "/Acompanhamento/{idEstagio}/Expediente", method = RequestMethod.GET)
@@ -862,7 +888,7 @@ public class SupervisorController {
 		
 		estagioService.adicionarAvaliacaoRendimento(newAvaliacaoRendimento);
 
-		redirect.addFlashAttribute("sucesso", "Alterações da avaliação de redimento foram salvas com sucesso!");
+		redirect.addFlashAttribute("sucesso", "Alterações da avaliação de rendimento foram salvas com sucesso!");
 
 		return REDIRECT_ACOMPANHAMENTO_ESTAGIARIO + idEstagio;
 	}

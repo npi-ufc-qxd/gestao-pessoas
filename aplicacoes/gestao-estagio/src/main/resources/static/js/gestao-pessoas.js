@@ -44,15 +44,15 @@ $(document).ready(function() {
 			function(dataFinal, element, params) {
 				$(params).val($("#inicio").datepicker('getFormattedDate'));
 				return moment(dataFinal, "DD/MM/YYYY").isAfter(moment($(params).val(), "DD/MM/YYYY"));
-			},'Termino do evento deve ser posterior ao início!'
+			},'Data de término deve ser posterior a data início!'
 		);
 
-		jQuery.validator.addMethod("menorQue", 
-			function(dataIncial, element, params) {
-				$(params).val($("#termino").datepicker('getFormattedDate'));
-				return moment(dataIncial, "DD/MM/YYYY").isBefore(moment($(params).val(), "DD/MM/YYYY"));
-			},'Inicio do evento deve ser anterior ao termino!'
-		);
+	jQuery.validator.addMethod("menorQue", 
+		function(dataIncial, element, params) {
+			$(params).val($("#termino").datepicker('getFormattedDate'));
+			return moment(dataIncial, "DD/MM/YYYY").isBefore(moment($(params).val(), "DD/MM/YYYY"));
+		},'Data de início deve ser anterior ao a data de término!'
+	);
 	
 	$('#form-turma').validate({
         rules: {
@@ -105,6 +105,25 @@ $(document).ready(function() {
             },
         }
     });
+	$('#form-evento').validate({
+		rules: {
+			inicio:{
+        		menorQue : "#termino",
+        	},
+
+        	termino:{
+        		maiorQue: "#inicio",
+        	}
+        },
+        highlight: function(element) {
+            $(element).closest('.form-group').addClass('has-error');
+        },
+        unhighlight: function(element) {
+            $(element).closest('.form-group').removeClass('has-error');
+        },
+        errorElement: 'span',
+        errorClass: 'help-block'
+	});
 	
 	$('#form-selecao').validate({
         rules: {
@@ -304,38 +323,6 @@ $(".gp-btn-reposicao").on("click", function(event) {
 		});
 });
 
-$(document).ready(function(){
-	
-	$("#buscarEstagiariosSemVinculo").on("click", function(event){
-		
-		event.preventDefault();
-		
-		var botaoBuscar = $(event.currentTarget); 
-		
-	    var url =  botaoBuscar.attr("href");;
-	   
-	    if ($('#campoBuscaEstagiario').val() != '' && $('#idTurma').val() != '') {
-	    	 var nomeEstagiario = $('#campoBuscaEstagiario').val();
-	 		 var idTurma = $('#idTurma').val();
-	 		 url = url + '/' + nomeEstagiario + '/' + idTurma;
-	 		 $("#estSemVinculoBlock").load(url);
-	    }else{
-	    	 $("#estSemVinculoBlock").load(url);
-	    }
-	    
-	});
-	
-});
-function desvincularEstagio(estagio){
-	//th:href="@{/Supervisor/Turma/Acompanhamento/{id}/Desvincular(id=${est.id})}"
- console.log(estagio);
-  var r = confirm("Press a button!");
-  if (r == true) {
-     console.log("sim")
-  } else {
-      console.log("cancel");
-  }
-}
 
 $( "#form-estagiario" ).validate({
     rules: {

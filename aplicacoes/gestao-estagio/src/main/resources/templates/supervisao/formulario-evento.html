@@ -26,7 +26,7 @@
 	      <div class="col-md-4">
 	        <div class="panel panel-bluegray">
 	          <div class="panel-heading">
-	            <a class="panel-title" data-toggle="collapse" data-target="#detalhesTurma"><i class="fa fa-caret-down" aria-hidden="true"></i> Turma NPI - 2016.1</a>
+	            <a class="panel-title" data-toggle="collapse" data-target="#detalhesTurma" th:inline="text"><i class="fa fa-caret-down" aria-hidden="true"></i> Turma: [[${turma.nome}]] - [[${turma.semestre}]]</a>
   			  </div>
 	          <div id="detalhesTurma" class="panel-body collapse in">
 				  <table class="table table-hover">
@@ -67,7 +67,7 @@
 	            <a class="panel-title" data-toggle="collapse" data-target="#add-evento"><i class="fa fa-caret-down" aria-hidden="true"></i> Adicionar Evento</a>
 	          </div>
 	          <div id="add-evento" class="panel-body collapse in">
-					<form class="form-horizontal" th:object="${evento}" th:action="@{/Supervisao/Turma/{idTurma}/Evento(idTurma=${turma.id})}" method="post">
+					<form id="form-evento" class="form-horizontal" th:object="${evento}" th:action="@{/Supervisao/Turma/{idTurma}/Evento(idTurma=${turma.id})}" method="post">
 					    <div th:class="${#fields.hasErrors('titulo')} ? 'form-group has-error' : form-group">
 					      <label for="titulo" class="col-lg-2 control-label">Titulo</label>
 					      <div class="col-lg-10">

@@ -37,7 +37,7 @@
 	      <div class="col-md-4">
 	        <div class="panel panel-bluegray">
 	          <div class="panel-heading">
-	            <a class="panel-title" data-toggle="collapse" data-target="#detalhesTurma"><i class="fa fa-caret-down" aria-hidden="true"></i> Turma NPI - 2016.1</a>
+	            <a class="panel-title" data-toggle="collapse" data-target="#detalhesTurma" th:inline="text"><i class="fa fa-caret-down" aria-hidden="true"></i> Turma: [[${turma.nome}]] - [[${turma.semestre}]]</a>
 				<a th:href="@{'/Supervisao/Turma/' + ${turma.id} + '/Editar'}" class="btn btn-xs pull-right gp-btn-opcao">editar</a>
   			  </div>
 	          <div id="detalhesTurma" class="panel-body collapse in">

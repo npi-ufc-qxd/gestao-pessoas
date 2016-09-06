@@ -21,6 +21,17 @@
 
 	<div class="container animated fadeInRight"> 
     <div class="row">
+    
+   	<div th:each="evento : ${eventos}" class="col-sm-4">
+    	<div class="alert alert-dismissible alert-success">
+		  <button type="button" class="close" data-dismiss="alert">&times;</button>
+		  <strong th:inline="text">Turma - [[${evento.turma.nome}]]</strong><br/> 
+		  <strong th:text="${evento.titulo}"></strong><br/>
+		  <strong th:inline="text">Período: [[${{evento.inicio}}]] a [[${{evento.termino}}]]</strong>
+			<p th:text="${evento.descricao}"></p>
+		</div>
+	</div>
+    
     <div class="col-sm-12">
       <div class="panel panel-default">
         <div id="painelPlano" class="panel-body gp-panel-body-background">

@@ -44,6 +44,21 @@ public class Submissao {
 
 	@Temporal(TemporalType.DATE)
 	private Date atualizadoEm;
+	
+	public Submissao(){}
+	
+	public Submissao(Submissao submissao) {
+		this.setEstagio(submissao.getEstagio());
+		Documento documento = new Documento();
+		documento.setNome(submissao.getDocumento().getNome());
+		documento.setExtensao(submissao.getDocumento().getExtensao());
+		documento.setArquivo(submissao.getDocumento().getArquivo());
+		documento.setCaminho(submissao.getDocumento().getCaminho());
+		this.setTipoSubmissao(submissao.getTipoSubmissao());
+		this.setDocumento(documento);
+		this.setSubmetidoEm(new Date());
+		this.setStatusEntrega(submissao.getStatusEntrega());
+	}
 
 	public Long getId() {
 		return id;

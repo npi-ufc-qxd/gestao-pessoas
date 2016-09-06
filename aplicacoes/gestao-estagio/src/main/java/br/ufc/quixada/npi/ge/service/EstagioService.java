@@ -6,6 +6,7 @@ import java.util.List;
 import br.ufc.quixada.npi.ge.model.AvaliacaoRendimento;
 import br.ufc.quixada.npi.ge.model.Estagiario;
 import br.ufc.quixada.npi.ge.model.Estagio;
+import br.ufc.quixada.npi.ge.model.Evento;
 import br.ufc.quixada.npi.ge.model.Frequencia;
 import br.ufc.quixada.npi.ge.model.Presenca;
 import br.ufc.quixada.npi.ge.model.Submissao;
@@ -80,5 +81,7 @@ public interface EstagioService {
 	void agendarReposicao(Estagio estagio, Date date);
 
 	boolean isEstagioAcessoSupervisorOuOrientador(Long idEstagio, Long idServidor);
+
+	List<Evento> buscarEventosEstagiario(List<Estagio> estagios);
 	
 }

@@ -138,6 +138,8 @@ public class EstagiarioController {
 		model.addAttribute("estagio", estagio);
 		model.addAttribute("submissaoPlano", submissaoPlano);
 		model.addAttribute("submissaoRelatorio", submissaoRelatorio);
+		model.addAttribute("consolidadoFrequencia", estagioService.consolidarFrequencias(estagio));
+		
 
 		return ACOMPANHAMENTO_ESTAGIO;
 	}

@@ -129,19 +129,19 @@
 								      <label for="semestre" class="col-md-2 control-label">*Semestre:</label>
 								      <div class="col-md-10">
 									     <select class="form-control" th:name="semestre">
-								      		<option>Selecione seu semestre atual</option>
-								      		<option th:value="1">1ª</option>
-								      		<option value="2">2ª</option>
-								      		<option value="3">3ª</option>
-								      		<option value="4">4ª</option>
-								      		<option value="5">5ª</option>
-								      		<option value="6">6ª</option>
-								      		<option value="7">7ª</option>
-								      		<option value="8">8ª</option>
-								      		<option value="9">9ª</option>
-								      		<option value="10">10ª</option>
-								      		<option value="11">11ª</option>
-								      		<option value="12">12ª</option>
+								      		<option >Selecione seu semestre atual</option>
+								      		<option value="1" th:selected="${estagiario.semestre == 1}">1ª</option>
+								      		<option value="2" th:selected="${estagiario.semestre == 2}">2ª</option>
+								      		<option value="3" th:selected="${estagiario.semestre == 3}">3ª</option>
+								      		<option value="4" th:selected="${estagiario.semestre == 4}">4ª</option>
+								      		<option value="5" th:selected="${estagiario.semestre == 5}">5ª</option>
+								      		<option value="6" th:selected="${estagiario.semestre == 6}">6ª</option>
+								      		<option value="7" th:selected="${estagiario.semestre == 7}">7ª</option>
+								      		<option value="8" th:selected="${estagiario.semestre == 8}">8ª</option>
+								      		<option value="9" th:selected="${estagiario.semestre == 9}">9ª</option>
+								      		<option value="10" th:selected="${estagiario.semestre == 10}">10ª</option>
+								      		<option value="11" th:selected="${estagiario.semestre == 11}">11ª</option>
+								      		<option value="12" th:selected="${estagiario.semestre == 12}">12ª</option>
 								         </select>
 										 <label class="control-label" th:if="${#fields.hasErrors('semestre')}" th:errors="*{semestre}">O campo Semestre tem que ser preenchido.</label>
 								      </div>

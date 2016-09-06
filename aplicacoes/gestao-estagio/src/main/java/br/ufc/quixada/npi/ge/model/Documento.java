@@ -1,13 +1,14 @@
 package br.ufc.quixada.npi.ge.model;
 
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-
-import org.hibernate.annotations.Type;
+import javax.persistence.Transient;
 
 @Entity
+@EntityListeners(DocumentoEntityListener.class)
 public class Documento {
 
 	@Id
@@ -18,8 +19,12 @@ public class Documento {
 	
 	private String extensao;
 
-	@Type(type = "org.hibernate.type.BinaryType")
+	@Transient
 	private byte[] arquivo;
+	
+	private String caminho;
+	
+	
 
 	public Long getId() {
 		return id;
@@ -37,6 +42,8 @@ public class Documento {
 		this.nome = nome;
 	}
 	
+	
+	
 	public String getExtensao() {
 		return extensao;
 	}
@@ -51,6 +58,14 @@ public class Documento {
 
 	public void setArquivo(byte[] arquivo) {
 		this.arquivo = arquivo;
+	}
+	
+	public String getCaminho() {
+		return caminho;
+	}
+
+	public void setCaminho(String caminho) {
+		this.caminho = caminho;
 	}
 
 	@Override

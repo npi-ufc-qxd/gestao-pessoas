@@ -6,6 +6,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 @Entity
 public class Servidor {
 
@@ -16,16 +18,28 @@ public class Servidor {
 	@ManyToOne
 	private Pessoa pessoa;
 	
+	@NotEmpty(message = "Campo obrigatório.")
 	private String nome;
 	
+	@NotEmpty(message = "Campo obrigatório.")
 	private String siape;
-
+	
+	@NotEmpty(message = "Campo obrigatório.")
 	private String telefone;
-
+	
+	@NotEmpty(message = "Campo obrigatório.")
 	private String cargo;
-
+	
+	@NotEmpty(message = "Campo obrigatório.")
 	private String lotacao;
-
+	
+	@NotEmpty(message = "Campo obrigatório.")
+	private String titulacao;
+	
+	@NotEmpty(message = "Campo obrigatório.")
+	private String saudacao;
+	
+	@NotEmpty(message = "Campo obrigatório.")
 	public String getSiape() {
 		return siape;
 	}
@@ -80,6 +94,22 @@ public class Servidor {
 
 	public void setLotacao(String lotacao) {
 		this.lotacao = lotacao;
+	}
+
+	public String getTitulacao() {
+		return titulacao;
+	}
+
+	public void setTitulacao(String titulacao) {
+		this.titulacao = titulacao;
+	}
+
+	public String getSaudacao() {
+		return saudacao;
+	}
+
+	public void setSaudacao(String saudacao) {
+		this.saudacao = saudacao;
 	}
 
 }

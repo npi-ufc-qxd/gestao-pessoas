@@ -422,4 +422,24 @@ $(document).ready(function(){
 $(document).ready(function(){
 	  $('#cep').mask('00000-000');
 	  $('#telefone').mask('(00) 9 0000-0000');
-});	  
+
+		  
+	$('#status').change(function(){
+		var status = $(this).val();
+		if(status == "SUBMETIDO"){
+			$('.div-comentario').hide();
+			$('.div-nota').hide();	
+		}
+		else if(status == "CORRECAO"){
+			$('.div-nota').hide();
+			$('.div-comentario').show();	
+		}
+		else if(status == "REJEITADO"){
+			$('.div-nota').hide();
+			$('.div-comentario').show();	
+		}else if(status == "AVALIADO"){
+			$('.div-nota').show();
+			$('.div-comentario').show();
+		}
+	});
+});

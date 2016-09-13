@@ -67,6 +67,9 @@ public class Estagio {
 
 	@Enumerated(EnumType.STRING)
 	private TipoEstagio estagio;
+	
+	@OneToOne
+	private Atraso atraso;
 
 	public Long getId() {
 		return id;
@@ -179,7 +182,15 @@ public class Estagio {
 	public void setEstagio(TipoEstagio estagio) {
 		this.estagio = estagio;
 	}
+	
+	public Atraso getAtraso() {
+		return atraso;
+	}
 
+	public void setAtraso(Atraso atraso) {
+		this.atraso = atraso;
+	}
+	
 	public enum Resultado {
 		APROVADO("Aprovado"), 
 		REPROVADO("Reprovado");

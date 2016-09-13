@@ -48,21 +48,21 @@ public class AuthenticationSuccessHandlerImpl implements AuthenticationSuccessHa
 					break;
 
 				case "DISCENTE":
-						url = "/CadastroEstagiario/";
-						break;
-
-				case "SUPERVISOR":
-					url = "/Supervisao/";
+					url = "/CadastroEstagiario/";
 					break;
-
+						
 				case "DOCENTE":
-					url = "/Supervisao/";
+					url = "/CadastroSupervisor/";
 					break;
 
 				case "STA":
+					url = "/CadastroSupervisor/";
+					break;
+				
+				case "SUPERVISOR":
 					url = "/Supervisao/";
 					break;
-
+				
 				default:
 					url = "/";
 			}

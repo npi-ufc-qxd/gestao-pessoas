@@ -2,6 +2,7 @@ package br.ufc.quixada.npi.ge.model;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -33,7 +34,7 @@ public class AvaliacaoRendimento {
 	@Enumerated(EnumType.STRING)
 	private Modo modo;
 
-	@OneToOne
+	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "documento_id")
 	private Documento documento;
 

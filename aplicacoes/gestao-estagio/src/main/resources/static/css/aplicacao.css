@@ -237,3 +237,7 @@ tr:nth-child(1) td {
 .color-error {
 	color: #e51c23;
 }
+
+.spacing-right{
+	margin-right: 1%;
+}

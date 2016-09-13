@@ -6,6 +6,7 @@ import static br.ufc.quixada.npi.ge.utils.Constants.DECLARACAO_ESTAGIO;
 import static br.ufc.quixada.npi.ge.utils.Constants.DETALHES_FREQUENCIA_ESTAGIARIO;
 import static br.ufc.quixada.npi.ge.utils.Constants.DETALHES_TURMA;
 import static br.ufc.quixada.npi.ge.utils.Constants.FORMULARIO_ADICIONAR_AVALIACAO_RENDIMENTO;
+import static br.ufc.quixada.npi.ge.utils.Constants.FORMULARIO_ADICIONAR_AVALIACAO_RENDIMENTO_VIA_ARQUIVO;
 import static br.ufc.quixada.npi.ge.utils.Constants.FORMULARIO_ADICIONAR_TURMA;
 import static br.ufc.quixada.npi.ge.utils.Constants.FORMULARIO_AVALIAR_PLANO;
 import static br.ufc.quixada.npi.ge.utils.Constants.FORMULARIO_EDITAR_AVALIACAO_RENDIMENTO;
@@ -17,12 +18,15 @@ import static br.ufc.quixada.npi.ge.utils.Constants.GERENCIAR_FREQUENCIAS;
 import static br.ufc.quixada.npi.ge.utils.Constants.MAPA_FREQUENCIAS;
 import static br.ufc.quixada.npi.ge.utils.Constants.NOME_USUARIO;
 import static br.ufc.quixada.npi.ge.utils.Constants.PAGINA_INICIAL_SUPERVISOR;
+import static br.ufc.quixada.npi.ge.utils.Constants.PASTA_DOCUMENTOS_GE;
 import static br.ufc.quixada.npi.ge.utils.Constants.REDIRECT_ACOMPANHAMENTO_ESTAGIARIO;
+import static br.ufc.quixada.npi.ge.utils.Constants.REDIRECT_ACOMPANHAMENTO_ESTAGIO;
 import static br.ufc.quixada.npi.ge.utils.Constants.REDIRECT_DETALHES_TURMA;
 import static br.ufc.quixada.npi.ge.utils.Constants.REDIRECT_PAGINA_INICIAL_SUPERVISOR;
 import static br.ufc.quixada.npi.ge.utils.Constants.TERMO_COMPROMISSO_ESTAGIO;
 import static br.ufc.quixada.npi.ge.utils.Constants.VINCULOS_TURMA;
 
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -48,10 +52,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import br.ufc.quixada.npi.ge.model.AvaliacaoRendimento;
 import br.ufc.quixada.npi.ge.model.AvaliacaoRendimento.Modo;
+import br.ufc.quixada.npi.ge.model.Documento;
 import br.ufc.quixada.npi.ge.model.Estagiario;
 import br.ufc.quixada.npi.ge.model.Estagio;
 import br.ufc.quixada.npi.ge.model.Evento;
@@ -92,9 +98,10 @@ public class SupervisorController {
 
 	@Autowired
 	private TurmaService turmaService;
-	
+
 	@Autowired
 	private AvaliacaoRendimentoValidator avaliacaoRendimentoValidator;
+
 
 	private JRDataSource jrDatasource;
 
@@ -140,7 +147,7 @@ public class SupervisorController {
 				supervisores.add(pessoaService.buscarServidorPorId(supervisor));
 			}
 		}
-		
+
 		turma.setOrientador(orientador);
 		turma.setSupervisores(supervisores);
 
@@ -178,7 +185,7 @@ public class SupervisorController {
 		if (result.hasErrors()) {
 			return FORMULARIO_EDITAR_TURMA;
 		}
-		
+
 		Servidor servidor = pessoaService.buscarServidorPorCpf(getCpfUsuarioLogado());
 
 		Turma turma = turmaService.buscarTurmaPorServidorId(idTurma, servidor.getId());
@@ -187,7 +194,7 @@ public class SupervisorController {
 		if(turmaNew.getSupervisores() != null) {
 			supervisores = validarSupervisores(turmaNew.getSupervisores());
 		}
-		
+
 		turma.setNome(turmaNew.getNome());
 		turma.setTipoTurma(turmaNew.getTipoTurma());
 		turma.setStatus(turmaNew.getStatus());
@@ -242,7 +249,7 @@ public class SupervisorController {
 			RedirectAttributes redirect) throws JRException {
 
 		Turma turma = turmaService.buscarTurmaPorId(idTurma);
-		
+
 		if(TipoTurma.EMPRESA == turma.getTipoTurma()){
 			redirect.addFlashAttribute("error", "Turmas do tipo empresa não possuem essa funcionalidade.");
 			return REDIRECT_PAGINA_INICIAL_SUPERVISOR;
@@ -273,16 +280,16 @@ public class SupervisorController {
 	@RequestMapping(value = "/Turma/{idTurma}/Declaracoes", method = RequestMethod.GET)
 	public String gerarDeclaracaoEstagio(Model model, @PathVariable("idTurma") Long idTurma, 
 			RedirectAttributes redirect) throws JRException {
-		
+
 		jrDatasource = new JRBeanCollectionDataSource(turmaService.buscarTurmaPorId(idTurma).getEstagios());
 
 		Turma turma = turmaService.buscarTurmaPorId(idTurma);
-		
+
 		if(TipoTurma.EMPRESA == turma.getTipoTurma()){
 			redirect.addFlashAttribute("error", "Turmas do tipo empresa não possuem essa funcionalidade.");
 			return REDIRECT_PAGINA_INICIAL_SUPERVISOR;
-			}
-		
+		}
+
 		model.addAttribute("datasource", jrDatasource);
 		model.addAttribute("format", "pdf");
 
@@ -292,14 +299,14 @@ public class SupervisorController {
 	@RequestMapping(value = "/Turma/{idTurma}/Expediente", method = RequestMethod.GET)
 	public String formularioExpediente(Model model, @PathVariable("idTurma") Long idTurma, 
 			RedirectAttributes redirect) {
-		
+
 		Turma turma = turmaService.buscarTurmaPorId(idTurma);
-		
+
 		if(TipoTurma.EMPRESA == turma.getTipoTurma()){
 			redirect.addFlashAttribute("error", "Turmas do tipo empresa não possuem essa funcionalidade.");
 			return REDIRECT_PAGINA_INICIAL_SUPERVISOR;
 		}
-		
+
 		model.addAttribute("expediente", new Expediente());
 		model.addAttribute("turma", turma);
 
@@ -318,37 +325,36 @@ public class SupervisorController {
 		}
 
 		Turma turma = turmaService.buscarTurmaPorId(idTurma);
-		
+
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm:ss");
-		
-		
+
+
 		Date inicio = null;
 		Date termino = null;
 		try {
 			inicio = simpleDateFormat.parse(simpleDateFormat.format(expediente.getHoraInicio()));
 			termino = simpleDateFormat.parse(simpleDateFormat.format(expediente.getHoraTermino()));
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		Expediente expedienteConflitante = turmaService.buscarExpedienteConflitantePorTurma(idTurma, expediente.getDiaSemana(), inicio, termino);
-		
-			if(expedienteConflitante != null){
-				
-				redirect.addFlashAttribute("error", "Expedientes conflitantes não podem ser cadastrados. Tente novamente.");
-				return REDIRECT_DETALHES_TURMA + idTurma + "/Expediente";
-			
-			}else{
-			
-				turmaService.adicionarExpediente(expediente);
-				turma.getExpedientes().add(expediente);
-				turmaService.adicionarTurma(turma);
-			
-				redirect.addFlashAttribute("sucesso", "O expediente foi adicionado com sucesso.");
-			}
-		
-		
+
+		if(expedienteConflitante != null){
+
+			redirect.addFlashAttribute("error", "Expedientes conflitantes não podem ser cadastrados. Tente novamente.");
+			return REDIRECT_DETALHES_TURMA + idTurma + "/Expediente";
+
+		}else{
+
+			turmaService.adicionarExpediente(expediente);
+			turma.getExpedientes().add(expediente);
+			turmaService.adicionarTurma(turma);
+
+			redirect.addFlashAttribute("sucesso", "O expediente foi adicionado com sucesso.");
+		}
+
+
 		return REDIRECT_DETALHES_TURMA + idTurma + "/Expediente";
 	}
 
@@ -400,14 +406,14 @@ public class SupervisorController {
 	@RequestMapping(value = "/Turma/{idTurma}/MapaFrequencia", method = RequestMethod.GET)
 	public String listarFrequenciaTurma(@PathVariable("idTurma") Long idTurma, Model model, HttpSession session, 
 			RedirectAttributes redirect) {
-		
+
 		Turma turma = turmaService.buscarTurmaPorId(idTurma);
-		
+
 		if(TipoTurma.EMPRESA == turma.getTipoTurma()){
 			redirect.addFlashAttribute("error", "Turmas do tipo empresa não possuem essa funcionalidade.");
 			return REDIRECT_PAGINA_INICIAL_SUPERVISOR;
 		}
-		
+
 		List<Frequencia> frequencias = estagioService.buscarFrequenciasPorDataETurmaId(new Date(), idTurma);
 		model.addAttribute("frequencias", frequencias);
 		model.addAttribute("turma", turma);
@@ -437,31 +443,31 @@ public class SupervisorController {
 
 		Estagio estagio = estagioService.buscarEstagioPorIdEServidorId(idEstagio,
 				pessoaService.buscarServidorPorCpf(getCpfUsuarioLogado()).getId());
-		
+
 		if (estagio == null) {
 			redirect.addFlashAttribute("error", "Estágio não existe");
 			return REDIRECT_PAGINA_INICIAL_SUPERVISOR;
 		}
-		
+
 		Turma turma = estagio.getTurma();
-		 
+
 		if(TipoTurma.EMPRESA == turma.getTipoTurma()){
-			
+
 			model.addAttribute("estagio", estagio);
 			model.addAttribute("submissaoPlano", estagioService.buscarSubmissaoPorTipoSubmissaoEEstagioId(TipoSubmissao.PLANO_ESTAGIO, idEstagio));
 			model.addAttribute("submissaoRelatorio", estagioService.buscarSubmissaoPorTipoSubmissaoEEstagioId(TipoSubmissao.RELATORIO_FINAL_ESTAGIO, idEstagio));
-			
+
 			return ACOMPANHAMENTO_ESTAGIARIO;
-			
+
 		}else{
 
 			model.addAttribute("estagio", estagio);
 			model.addAttribute("submissaoPlano", estagioService.buscarSubmissaoPorTipoSubmissaoEEstagioId(TipoSubmissao.PLANO_ESTAGIO, idEstagio));
 			model.addAttribute("submissaoRelatorio", estagioService.buscarSubmissaoPorTipoSubmissaoEEstagioId(TipoSubmissao.RELATORIO_FINAL_ESTAGIO, idEstagio));
 			model.addAttribute("consolidadoFrequencia", estagioService.consolidarFrequencias(estagio));
-			
+
 			return ACOMPANHAMENTO_ESTAGIARIO;
-		
+
 		}
 	}
 
@@ -487,12 +493,12 @@ public class SupervisorController {
 		}
 
 		turmaService.adicionarExpediente(expediente);
-		
+
 
 		if(estagio.getExpedientes() == null) {
 			estagio.setExpedientes(new ArrayList<Expediente>());
 		}
-		
+
 		estagio.getExpedientes().add(expediente);
 
 		estagioService.salvarEstagio(estagio);
@@ -511,7 +517,7 @@ public class SupervisorController {
 
 	@RequestMapping( value = "/Acompanhamento/{idEstagio}/Desvincular", method = RequestMethod.GET)
 	public @ResponseBody boolean desvincularEstagiario(Model model, @PathVariable("idEstagio") Long idEstagio, RedirectAttributes redirect) {
-		
+
 		try {
 			Estagio estagio = estagioService.buscarEstagioPorId(idEstagio);
 			if(estagio.getTurma().getStatus().name().equals("ABERTA")){
@@ -520,7 +526,7 @@ public class SupervisorController {
 			}else{
 				return false;	
 			}
-			
+
 		}catch(Exception e){
 			return false;
 		}
@@ -541,7 +547,7 @@ public class SupervisorController {
 			return "redirect:/Supervisao/Turma/" + turmaService.buscarTurmaPorId(idTurma).getId() + "/AtualizarVinculos";
 
 		}
-		
+
 		estagioService.vincularEstagiario(idTurma, idEstagiario);
 		Estagiario estagiario = pessoaService.buscarEstagiarioPorId(idEstagiario);
 
@@ -559,7 +565,7 @@ public class SupervisorController {
 		return GERENCIAR_FREQUENCIAS;
 	}
 
-	
+
 	@RequestMapping(value = "/Acompanhamento/{idEstagio}/Pendente", method = RequestMethod.POST)
 	public String lancarFrequenciaPendente(@PathVariable("idEstagio") Long idEstagio, @RequestParam("dataPendente") Date dataPendente, @RequestParam("status") Frequencia.StatusFrequencia statusFrequencia, Model model, RedirectAttributes redirectAttributes) {
 
@@ -571,7 +577,7 @@ public class SupervisorController {
 			redirectAttributes.addFlashAttribute("error", "Você não permisão para agendar está reposição");
 			return REDIRECT_PAGINA_INICIAL_SUPERVISOR; 
 		}
-		
+
 		model.addAttribute("estagio", estagio);
 		model.addAttribute("consolidadoFrequencia", estagioService.consolidarFrequencias(estagio));
 
@@ -579,7 +585,7 @@ public class SupervisorController {
 			model.addAttribute("errorDataPendente", "Informe um data do periodo da turma");
 			return GERENCIAR_FREQUENCIAS;
 		}
-		
+
 		if(estagioService.existeFrequenciaPorDataEEstagioId(dataPendente, idEstagio)) {
 			model.addAttribute("errorDataPendente", "Já há frequencia cadastrada para esta data");
 			return GERENCIAR_FREQUENCIAS;
@@ -591,7 +597,7 @@ public class SupervisorController {
 		frequencia.setStatus(statusFrequencia);
 		frequencia.setHorario(new Date());
 		frequencia.setTipo(Frequencia.TipoFrequencia.NORMAL);
-		
+
 		estagioService.adicionarFrequencia(frequencia);
 
 		redirectAttributes.addFlashAttribute("sucesso", "Frequência pendente lançada com sucesso");
@@ -617,7 +623,7 @@ public class SupervisorController {
 			model.addAttribute("errorData", "Informe um data a partir do inicio da turma");
 			return GERENCIAR_FREQUENCIAS;
 		}
-		
+
 		if (estagioService.buscarFrequenciaPorDataEEstagioId(dataReposicao, estagio.getId()) != null) {
 			model.addAttribute("estagio", estagio);
 			model.addAttribute("consolidadoFrequencia", estagioService.consolidarFrequencias(estagio));
@@ -641,7 +647,7 @@ public class SupervisorController {
 		if(estagio == null) {
 			return false; 
 		}
-		
+
 		Frequencia frequencia = estagioService.buscarFrequenciaPorIdETipoEStatus(idReposicao, Frequencia.TipoFrequencia.REPOSICAO, Frequencia.StatusFrequencia.AGUARDO);
 
 		if (frequencia == null || frequencia.getEstagio().getId() != estagio.getId()) {
@@ -655,19 +661,19 @@ public class SupervisorController {
 	@RequestMapping(value = "/Acompanhamento/{idEstagio}/AvaliarPlano", method = RequestMethod.GET)
 	public String formularioAvaliarPlanoEstagio(@PathVariable("idEstagio") Long idEstagio, Model model, RedirectAttributes attributes) {
 		Servidor servidor = pessoaService.buscarServidorPorCpf(getCpfUsuarioLogado());
-		
+
 		if(!estagioService.isEstagioAcessoSupervisorOuOrientador(idEstagio, servidor.getId())) {
 			attributes.addFlashAttribute("error", "Você não permisão para avaliar esta submissão.");
 			return REDIRECT_PAGINA_INICIAL_SUPERVISOR; 
 		}
-		
+
 		Submissao submissaoPlano = estagioService.buscarSubmissaoPorTipoSubmissaoEEstagioId(TipoSubmissao.PLANO_ESTAGIO, idEstagio);
-		
+
 		if(submissaoPlano == null){
 			attributes.addFlashAttribute("error", "Submissão inexistente;");
 			return REDIRECT_PAGINA_INICIAL_SUPERVISOR; 
 		}
-		
+
 
 		model.addAttribute("submissaoPlano", submissaoPlano);
 		model.addAttribute("estagio", submissaoPlano.getEstagio());
@@ -685,7 +691,7 @@ public class SupervisorController {
 			attributes.addFlashAttribute("error", "Você não permisão para avaliar esta submissão.");
 			return REDIRECT_PAGINA_INICIAL_SUPERVISOR; 
 		}
-		
+
 		Long idSubmissao = estagioService.buscarIdSubmissaoPorTipoSubmissaoEEstagioId(TipoSubmissao.PLANO_ESTAGIO, idEstagio);
 		if(idSubmissao == null){
 			attributes.addFlashAttribute("error", "Submissão inexistente;");
@@ -709,19 +715,19 @@ public class SupervisorController {
 			Model model, RedirectAttributes attributes) {
 
 		Servidor servidor = pessoaService.buscarServidorPorCpf(getCpfUsuarioLogado());
-		
+
 		if(!estagioService.isEstagioAcessoSupervisorOuOrientador(idEstagio, servidor.getId())) {
 			attributes.addFlashAttribute("error", "Você não permisão para avaliar esta submissão.");
 			return REDIRECT_PAGINA_INICIAL_SUPERVISOR; 
 		}
-		
+
 		Submissao submissaoRelatorio = estagioService.buscarSubmissaoPorTipoSubmissaoEEstagioId(TipoSubmissao.RELATORIO_FINAL_ESTAGIO, idEstagio);
-		
+
 		if(submissaoRelatorio == null){
 			attributes.addFlashAttribute("error", "Submissão inexistente;");
 			return REDIRECT_PAGINA_INICIAL_SUPERVISOR; 
 		}
-		
+
 
 		model.addAttribute("submissaoRelatorio", submissaoRelatorio);
 		model.addAttribute("estagio", submissaoRelatorio.getEstagio());
@@ -739,7 +745,7 @@ public class SupervisorController {
 			attributes.addFlashAttribute("error", "Você não permisão para avaliar esta submissão.");
 			return REDIRECT_PAGINA_INICIAL_SUPERVISOR; 
 		}
-		
+
 		Long idSubmissao = estagioService.buscarIdSubmissaoPorTipoSubmissaoEEstagioId(TipoSubmissao.RELATORIO_FINAL_ESTAGIO, idEstagio);
 		if(idSubmissao == null){
 			attributes.addFlashAttribute("error", "Submissão inexistente;");
@@ -799,10 +805,10 @@ public class SupervisorController {
 
 	@RequestMapping(value = "/Acompanhamento/{idEstagio}/AvaliacaoRendimento", method = RequestMethod.GET)
 	public String formularioAdicionarAvaliacaoRendimento(Model model, @PathVariable("idEstagio") Long idEstagio, RedirectAttributes attributes) {
-		
+
 		Servidor servidor = pessoaService.buscarServidorPorCpf(getCpfUsuarioLogado());
 		Estagio estagio = estagioService.buscarEstagioPorIdEOrientadorOuSupervisor(idEstagio, servidor.getId());
-		
+
 		if(estagio == null) {
 			attributes.addFlashAttribute("error", "Você não possui permissão para avaliar ou estágio inexistente");
 			return REDIRECT_PAGINA_INICIAL_SUPERVISOR; 
@@ -819,24 +825,43 @@ public class SupervisorController {
 		return FORMULARIO_ADICIONAR_AVALIACAO_RENDIMENTO;
 	}
 
-	@RequestMapping(value = "/Acompanhamento/{idEstagio}/AvaliacaoRendimento", method = RequestMethod.POST)
-	public String adicionarAvaliacaoRendimento(Model model, @PathVariable("idEstagio") Long idEstagio, @ModelAttribute("avaliacaoRendimento") AvaliacaoRendimento avaliacaoRendimento, BindingResult result, RedirectAttributes attributes) {
-		
+	@RequestMapping(value = "/Acompanhamento/{idEstagio}/AvaliacaoRendimentoArquivo", method = RequestMethod.GET)
+	public String formularioAdicionarAvaliacaoRendimentoArquivo(Model model, @PathVariable("idEstagio") Long idEstagio, RedirectAttributes attributes){
 		Servidor servidor = pessoaService.buscarServidorPorCpf(getCpfUsuarioLogado());
 		Estagio estagio = estagioService.buscarEstagioPorIdEOrientadorOuSupervisor(idEstagio, servidor.getId());
-		
 		if(estagio == null) {
 			attributes.addFlashAttribute("error", "Você não possui permissão para avaliar ou estágio inexistente");
 			return REDIRECT_PAGINA_INICIAL_SUPERVISOR; 
 		}
-		
+
+		if(estagio.getAvaliacaoRendimento() != null) {
+			attributes.addFlashAttribute("error", "A avaliação de rendimento já foi realizada");
+			return REDIRECT_ACOMPANHAMENTO_ESTAGIARIO + idEstagio;
+		}
+		model.addAttribute("estagio", estagio);
+		model.addAttribute("avaliacaoRendimento", new AvaliacaoRendimento());
+
+		return FORMULARIO_ADICIONAR_AVALIACAO_RENDIMENTO_VIA_ARQUIVO;
+	}
+
+	@RequestMapping(value = "/Acompanhamento/{idEstagio}/AvaliacaoRendimento", method = RequestMethod.POST)
+	public String adicionarAvaliacaoRendimento(Model model, @PathVariable("idEstagio") Long idEstagio, @ModelAttribute("avaliacaoRendimento") AvaliacaoRendimento avaliacaoRendimento, BindingResult result, RedirectAttributes attributes) {
+
+		Servidor servidor = pessoaService.buscarServidorPorCpf(getCpfUsuarioLogado());
+		Estagio estagio = estagioService.buscarEstagioPorIdEOrientadorOuSupervisor(idEstagio, servidor.getId());
+
+		if(estagio == null) {
+			attributes.addFlashAttribute("error", "Você não possui permissão para avaliar ou estágio inexistente");
+			return REDIRECT_PAGINA_INICIAL_SUPERVISOR; 
+		}
+
 		if(estagio.getAvaliacaoRendimento() != null) {
 			attributes.addFlashAttribute("error", "A avaliação de rendimento já foi realizada");
 			return REDIRECT_ACOMPANHAMENTO_ESTAGIARIO + idEstagio;
 		}
 
 		avaliacaoRendimentoValidator.validate(avaliacaoRendimento, result);
-		
+
 		if (result.hasErrors()) {
 			model.addAttribute("avaliacaoRendimento", avaliacaoRendimento);
 			model.addAttribute("estagio", estagio);
@@ -855,16 +880,60 @@ public class SupervisorController {
 		return REDIRECT_ACOMPANHAMENTO_ESTAGIARIO + idEstagio;
 	}
 
+	@RequestMapping(value = "/Acompanhamento/{idEstagio}/AvaliacaoRendimentoArquivo", method = RequestMethod.POST)
+	public String adicionarAvaliacaoRendimentoArquivo(Model model, @PathVariable("idEstagio") Long idEstagio, @RequestParam("arquivo") MultipartFile arquivo, @ModelAttribute("avaliacaoRendimento") AvaliacaoRendimento avaliacaoRendimento, BindingResult result, RedirectAttributes attributes) {
+
+		Servidor servidor = pessoaService.buscarServidorPorCpf(getCpfUsuarioLogado());
+		Estagio estagio = estagioService.buscarEstagioPorIdEOrientadorOuSupervisor(idEstagio, servidor.getId());
+		if(estagio == null) {
+			attributes.addFlashAttribute("error", "Você não possui permissão para avaliar ou estágio inexistente");
+			return REDIRECT_PAGINA_INICIAL_SUPERVISOR; 
+		}
+
+		if(estagio.getAvaliacaoRendimento() != null) {
+			attributes.addFlashAttribute("error", "A avaliação de rendimento já foi realizada");
+			return REDIRECT_ACOMPANHAMENTO_ESTAGIARIO + idEstagio;
+		}
+		avaliacaoRendimentoValidator.validate(avaliacaoRendimento.getNota(), arquivo, result);
+
+		if (result.hasErrors()) {
+			model.addAttribute("avaliacaoRendimento", avaliacaoRendimento);
+			model.addAttribute("estagio", estagio);
+			return FORMULARIO_ADICIONAR_AVALIACAO_RENDIMENTO_VIA_ARQUIVO;
+		}
+
+		try{
+			Documento documento = new Documento();
+			documento.setNome("AVALIACAO_RENDIMENTO_" + estagio.getEstagiario().getNomeCompleto().replace(' ', '_').toUpperCase());
+			documento.setExtensao(arquivo.getContentType());
+			documento.setArquivo(arquivo.getBytes());
+			documento.setCaminho(PASTA_DOCUMENTOS_GE + "/GE_" + estagio.getId() + "/AVALIACAO_RENDIMENTO_" + estagio.getId() + ".pdf");
+			estagio.setAvaliacaoRendimento(avaliacaoRendimento);
+			avaliacaoRendimento.setEstagio(estagio);
+			avaliacaoRendimento.setModo(AvaliacaoRendimento.Modo.ARQUIVO);
+			avaliacaoRendimento.setDocumento(documento);
+			avaliacaoRendimento.setCriadaPor(servidor);
+			avaliacaoRendimento.setDataAvaliacao(new Date());
+			estagioService.adicionarAvaliacaoRendimento(avaliacaoRendimento);
+		} catch (IOException e) {
+			attributes.addFlashAttribute("error", "Tamanho do arquivo excede o limite de 5Mb.");
+			return REDIRECT_ACOMPANHAMENTO_ESTAGIO + idEstagio;
+		}
+
+		attributes.addFlashAttribute("sucesso", "Avaliação de Rendimento realizada!");
+		return REDIRECT_ACOMPANHAMENTO_ESTAGIARIO + idEstagio;
+	}
+	
 	@RequestMapping(value = "/Acompanhamento/{idEstagio}/AvaliacaoRendimento/Editar", method = RequestMethod.GET)
 	public String formularioEditarAvaliacaoRendimento(Model model, @PathVariable("idEstagio") Long idEstagio, RedirectAttributes redirect) {
 		Servidor servidor = pessoaService.buscarServidorPorCpf(getCpfUsuarioLogado());
 		Estagio estagio = estagioService.buscarEstagioPorIdEOrientadorOuSupervisor(idEstagio, servidor.getId());
-		
+
 		if(estagio == null) {
 			redirect.addFlashAttribute("error", "Você não possui permissão para editar esta avaliação de rendimento");
 			return REDIRECT_PAGINA_INICIAL_SUPERVISOR;
 		}
-		
+
 		model.addAttribute("estagio", estagio);
 		model.addAttribute("avaliacaoRendimento", estagio.getAvaliacaoRendimento());
 		return FORMULARIO_EDITAR_AVALIACAO_RENDIMENTO;
@@ -872,20 +941,20 @@ public class SupervisorController {
 
 	@RequestMapping(value = "/Acompanhamento/{idEstagio}/AvaliacaoRendimento/Editar", method = RequestMethod.POST)
 	public String editarAvaliacaoRendimento(Model model, @Valid @ModelAttribute("avaliacaoRendimento") AvaliacaoRendimento newAvaliacaoRendimento, RedirectAttributes redirect, @PathVariable("idEstagio") Long idEstagio) {
-		
+
 		Servidor servidor = pessoaService.buscarServidorPorCpf(getCpfUsuarioLogado());
 		Estagio estagio = estagioService.buscarEstagioPorIdEOrientadorOuSupervisor(idEstagio, servidor.getId());
-		
+
 		if(estagio == null) {
 			redirect.addFlashAttribute("error", "Você não possui permissão para editar esta avaliação de rendimento");
 			return REDIRECT_PAGINA_INICIAL_SUPERVISOR;
 		}
-		
+
 		newAvaliacaoRendimento.setId(estagio.getAvaliacaoRendimento().getId());
 		newAvaliacaoRendimento.setAtualizadaPor(servidor);
 		newAvaliacaoRendimento.setEstagio(estagio);
 		newAvaliacaoRendimento.setModo(Modo.FORMULARIO);
-		
+
 		estagioService.adicionarAvaliacaoRendimento(newAvaliacaoRendimento);
 
 		redirect.addFlashAttribute("sucesso", "Alterações da avaliação de rendimento foram salvas com sucesso!");
@@ -1026,5 +1095,5 @@ public class SupervisorController {
 		}
 		return supervisoresValidos;
 	}
-	
+
 }

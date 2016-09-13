@@ -4,6 +4,7 @@ import javax.inject.Named;
 
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
+import org.springframework.web.multipart.MultipartFile;
 
 import br.ufc.quixada.npi.ge.model.AvaliacaoRendimento;
 
@@ -43,6 +44,17 @@ public class AvaliacaoRendimentoValidator implements Validator{
 
 		validateNotNull(errors, avaliacaoRendimento.getNota(), "nota", "Campo obrigatório");
 	}
+	
+	public void validate(Double nota, MultipartFile documento, Errors errors){
+		validateNotNull(errors, nota, "nota", "Campo obrigatório");
+		if(documento.isEmpty()){
+			errors.rejectValue("documento", "documento", "Campo obrigatório");
+		}
+		if(!errors.hasErrors() && arquivoInvalido(documento)){
+			errors.rejectValue("documento", "documento", "Escolha um arquivo pdf");
+		}
+		
+	}
 
 	void validateStrings(Errors erros, String object, String field, String message){
 		if(object.isEmpty()){
@@ -54,6 +66,13 @@ public class AvaliacaoRendimentoValidator implements Validator{
 		if (object == null) {
 			erros.rejectValue(field, field,message);
 		}
+	}
+	
+	private boolean arquivoInvalido(MultipartFile anexo){
+		if(anexo == null || !anexo.getContentType().equals("application/pdf")) {
+			return true;
+		}	
+		return false;
 	}
 	
 }

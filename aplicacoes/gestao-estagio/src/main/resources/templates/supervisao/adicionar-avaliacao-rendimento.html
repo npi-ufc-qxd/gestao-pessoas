@@ -118,7 +118,7 @@
 	          <div id="estagiarios" class="panel-body">
 
 				  <div class="col-lg-12">
-						<form method="post" enctype="multipart/form-data" class="form-horizontal" action="#" th:action="@{/Supervisao/Acompanhamento/{idEstagio}/AvaliacaoRendimento(idEstagio=${estagio.id})}" th:object="${avaliacaoRendimento}">
+						<form method="post" enctype="multipart/form-data" class="form-horizontal" th:action="@{/Supervisao/Acompanhamento/{idEstagio}/AvaliacaoRendimento(idEstagio=${estagio.id})}" th:object="${avaliacaoRendimento}">
 							<div class="form-group">
 								<label for="atividadeCurricular" class="col-lg-12 control-label"><strong>Atividade Curricular</strong></label><br/>
 								<div class="col-lg-12">
@@ -129,25 +129,25 @@
 							
 							<div class="form-group">
 								<div class="col-sm-6" th:if="${avaliacaoRendimento.inicioAvaliacao != null}">
-									<label for="inicio" class="control-label"><strong>Inicio do avalaiação</strong></label>
+									<label for="inicio" class="control-label"><strong>Inicio do avaliação</strong></label>
 									<input type="text" class="form-control data" id="inicio" name="inicioAvaliacao" th:value="${#dates.format(avaliacaoRendimento.inicioAvaliacao, 'dd/MM/yyyy')}" placeholder="Inicio"/>
 									<label class="text-danger" for="inicio" th:if="${#fields.hasErrors('inicioAvaliacao')}" th:errors="*{inicioAvaliacao}">Title error message</label>
 								</div>
 
 								<div class="col-sm-6" th:if="${avaliacaoRendimento.inicioAvaliacao == null}">
-									<label for="inicio" class="control-label"><strong>Inicio do avalaiação</strong></label>
+									<label for="inicio" class="control-label"><strong>Inicio do avaliação</strong></label>
 									<input type="text" class="form-control data" id="inicio" name="inicioAvaliacao" placeholder="Inicio"/>
 									<label class="text-danger" for="inicio" th:if="${#fields.hasErrors('inicioAvaliacao')}" th:errors="*{inicioAvaliacao}">Title error message</label>
 								</div>
 
 								<div class="col-sm-6" th:if="${avaliacaoRendimento.terminoAvaliacao != null}">
-									<label for="termino" class="control-label"><strong>Termino do avalaiação</strong></label>
+									<label for="termino" class="control-label"><strong>Termino do avaliação</strong></label>
 									<input type="text" class="form-control data" id="termino" name="terminoAvaliacao" th:value="${#dates.format(avaliacaoRendimento.terminoAvaliacao, 'dd/MM/yyyy')}" placeholder="Final"/>
 									<label class="text-danger" for="termino" th:if="${#fields.hasErrors('terminoAvaliacao')}" th:errors="*{terminoAvaliacao}">Title error message</label>
 								</div>
 								
 								<div class="col-sm-6" th:if="${avaliacaoRendimento.terminoAvaliacao == null}">
-									<label for="termino" class="control-label"><strong>Termino do avalaiação</strong></label>
+									<label for="termino" class="control-label"><strong>Termino do avaliação</strong></label>
 									<input type="text" class="form-control data" id="termino" name="terminoAvaliacao" placeholder="Final"/>
 									<label class="text-danger" for="termino" th:if="${#fields.hasErrors('terminoAvaliacao')}" th:errors="*{terminoAvaliacao}">Title error message</label>
 								</div>
@@ -487,121 +487,6 @@
 							</div>
 						</form>
 					</div>
-
-
-					<div id="viaArquivo" class="col-lg-12 hidden">
-						<form method="post" enctype="multipart/form-data" class="form-horizontal" action="#" th:action="@{/Supervisao/Acompanhamento/{idEstagio}/AvaliacaoRendimentoViaArquivo(idEstagio=${estagio.id})}" th:object="${avaliacaoRendimento}">
-							  
-							  <fieldset>
-							    <div class="form-group">
-								  <label for="arquivo" class="col-lg-12 control-label"><strong>Arquivo</strong></label>
-								  <div class="col-lg-12">
-									 <input id="arquivo" type="file" class="form-control"/>
-								  </div>
-							    </div>
-
-							    <div class="form-group">
-								  <label for="nota" class="col-lg-12 control-label"><strong>Nota Geral (0,0 a 10,0)</strong></label>
-								  <div class="col-lg-12">
-									 <input th:field="*{nota}" type="text" class="form-control" />
-								  </div>
-							    </div>
-							  </fieldset>
-							
-							  <div class="form-group">
-							      <div class="col-md-10">
-									 <fieldset>
-									 	<legend><h4>PARECER DO PROFESSOR ORIENTADOR</h4></legend>
-										<p>
-											<strong>Caso o(a) Estagiário(a), no decorrer do período de seu estágio, persista com o mesmo desempenho 
-											apresentado durante o período em que esteve sob sua orientação, deverá:</strong>
-										</p>
-																
-										<div class="checkbox">
-											<label>
-												<input type="checkbox" th:field="*{confirmadoNoEstagio}"/> Ser confirmado(a) no estágio.
-											</label>
-										</div><br/>
-							
-										<p><strong>Assinale os principais fatores que serviram de base para o parecer emitido</strong></p>
-							
-										<div class="checkbox">
-							 			   <ol>
-											 <li>
-												<label>
-													<input type="checkbox" th:field="*{fatorAssuidade}"/> Assuidade
-												</label>
-											 </li>
-							  				 <li>												
-							  				 	<label>
-													<input type="checkbox" th:field="*{fatorDisciplina}"/> Disciplina
-												</label>
-											 </li>
-																		
-											<li>
-												<label>
-													<input type="checkbox" th:field="*{fatorCapacidadeIniciativa}"/> Capacidade de Iniciativa
-												</label>
-											</li>
-
-											<li>
-												<label>
-													<input type="checkbox" th:field="*{fatorProdutividade}"/> Produtividade
-												</label>
-											</li>
-																		
-											<li>
-												<label>
-													<input type="checkbox" th:field="*{fatorResponsabilidade}"/> Responsabilidade
-												</label>
-											</li>
-																		
-											<li>
-												<label>
-													<input type="checkbox" th:field="*{outrosMotivos}"/> Outros Motivos. Especifique:
-													<textarea class="col-lg-12 form-control" rows="2" id="especificaoMotivo" th:field="*{especificacaoMotivo}"></textarea>
-												</label>
-											</li>
-										</ol>
-									</div>
-								<div class="form-group">
-								   <label for="fatorRelacionamentoComentario" class="col-lg-12 control-label"><strong>Comentários/Observações</strong></label><br/>
-								   <div class="col-lg-12">
-									 <textarea class="form-control" rows="3" id="observacaoParecer" th:field="*{observacaoParecer}"></textarea>
-								       <span class="help-block">Comentários e observações:.</span>
-								   </div>
-								</div><br/>
-							
-								<p><strong>Necessidade de Treinamento</strong></p>
-								<div class="checkbox">
-									<label for="necessidadeTreinamento">
-										<input type="checkbox" th:field="*{necessidadeTreinamento}"/><strong>Sim, especifique</strong>
-									</label>
-									<textarea class="form-control" rows="1" th:field="*{especificacaoTreinamento}"></textarea>
-								</div><br/>
-							
-								<p><strong>Caráter do Treinamento</strong></p>
-								<label>
-									<input type="checkbox" th:field="*{caraterTreinamentoUrgente}"/>Urgente:
-								</label>
-																
-								<label>
-									<input type="checkbox" th:field="*{caraterTreinamentoImportante}"/> Importante:
-								</label>
-							      								
-							  </fieldset>
-							 </div>
- 							</div>
-							
-							 <div class="form-group">
-							     <div class="col-lg-10 pull-left">
-							       <a class="btn btn-default" th:href="@{/Supervisao/Acompanhamento/{idEstagio}(idEstagio=${estagio.id})}">Cancelar</a>
-							       <button type="submit" class="btn btn-success">Salvar</button>
-							     </div>
-							</div>
-						</form>
-					</div>
-
 	           </div>
 	        </div>
 	    </div>

@@ -303,7 +303,9 @@
 			  </div>
 				          		
 		        <a th:if="${estagio.avaliacaoRendimento} != null" th:href="@{/Supervisao/Acompanhamento/{idEstagio}/AvaliacaoRendimento/Editar(idEstagio=${estagio.id})}" class="btn btn-success btn-sm pull-right">Editar Avaliação</a>
-		        <a th:if="${estagio.avaliacaoRendimento} == null" th:href="@{/Supervisao/Acompanhamento/{idEstagio}/AvaliacaoRendimento(idEstagio=${estagio.id})}" class="btn btn-success btn-sm pull-right">Avaliar</a>
+		        <a th:if="${estagio.avaliacaoRendimento} == null" th:href="@{/Supervisao/Acompanhamento/{idEstagio}/AvaliacaoRendimento(idEstagio=${estagio.id})}" class="btn btn-success btn-sm pull-right">Avaliar via formulário</a>
+		        <a th:if="${estagio.avaliacaoRendimento} == null" th:href="@{/Supervisao/Acompanhamento/{idEstagio}/AvaliacaoRendimentoArquivo(idEstagio=${estagio.id})}" class="btn btn-success btn-sm pull-right spacing-right">Avaliar via arquivo</a>
+		        
 	           
 	           </div>
 	         </div>

@@ -1,500 +1,199 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" 
+<html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-    layout:decorator="layouts/LayoutGestaoPessoas">
+	layout:decorator="layouts/LayoutGestaoPessoas">
 
 <head>
-	<title>Gestão Pessoas | Avaliação de Rendimento</title>
+<title>Gestão Pessoas | Avaliação de Rendimento</title>
 
-	<style type="text/css">
-		legend {
-			font-size: 15.5px;
-		}
-		.form-horizontal .control-label {
-			text-align: left;
-		}
-		textarea.form-control, #nota {
-			border: 1px solid;
-		}
-		div#modoAvaliacao {
-			margin-bottom: 85px;
-		}
-	</style>
+<style type="text/css">
+legend {
+	font-size: 15.5px;
+}
+
+.form-horizontal .control-label {
+	text-align: left;
+}
+
+textarea.form-control, #nota {
+	border: 1px solid;
+}
+
+div#modoAvaliacao {
+	margin-bottom: 85px;
+}
+</style>
 </head>
 
 <section layout:fragment="conteudo">
 
 
-  <div class="container-fluid titulo-pagina">
-    <div class="container">
-        <ul class="breadcrumb">
-            <li><a th:href="@{/Supervisao/}" >Minhas Turmas</a></li>
-            <li><a th:href="@{'/Supervisao/Turma/' + ${estagio.turma.id}}" >Detalhes Turma</a></li>
-            <li><a th:href="@{'/Supervisao/Acompanhamento/' + ${estagio.id}}">Acompanhamento Estagiário</a></li>
-            <li class="active">Editar Avaliação de Rendimento</li>
-        </ul>
-        <h1>Editar Avaliação de Rendimento</h1>
-    </div>
-  </div>
+	<div class="container-fluid titulo-pagina">
+		<div class="container">
+			<ul class="breadcrumb">
+				<li><a th:href="@{/Supervisao/}">Minhas Turmas</a></li>
+				<li><a th:href="@{'/Supervisao/Turma/' + ${estagio.turma.id}}">Detalhes
+						Turma</a></li>
+				<li><a
+					th:href="@{'/Supervisao/Acompanhamento/' + ${estagio.id}}">Acompanhamento
+						Estagiário</a></li>
+				<li class="active">Editar Avaliação de Rendimento</li>
+			</ul>
+			<h1>Editar Avaliação de Rendimento</h1>
+		</div>
+	</div>
 
 
 	<div class="container">
-	    <div class="row">
-	      <div class="col-md-4">
-            <div class="panel panel-bluegray">
-	          <div class="panel-heading">
-	            <a class="panel-title" data-toggle="collapse" data-target="#estagiario" th:inline="text"><i class="fa fa-caret-down fa-caret-right fa-chevron-down" aria-hidden="true"></i> Estagiário: [[${estagio.estagiario.nomeCompleto}]]</a>
-			  </div>
-	          <div id="estagiario" class="panel-body collapse">
-	          	<table class="table table-hover">
-				    <tbody>
-				      <tr>
-				        <td class="gp-sem-borda"><strong>Nome:</strong></td>
-				        <td class="gp-sem-borda" th:text="${estagio.estagiario.nomeCompleto}"></td>
-				 	  </tr>
-				      <tr>
-				        <td><strong>Curso:</strong></td>
-				        <td th:if="${estagio.estagiario.curso != null}" th:text="${estagio.estagiario.curso.descricao}"></td>
-				        <td th:if="${estagio.estagiario.curso == null}">Não há curso</td>
-				      </tr>
-				      <tr>
-				        <td><strong>Email:</strong></td>
-				        <td th:text="${estagio.estagiario.email}"></td>
-				      </tr>
-				      <tr>
-				        <td><strong>Telefone:</strong></td>
-				        <td th:text="${estagio.estagiario.telefone}"></td>
-				      </tr>
-				      <tr>
-				        <td><strong>Github:</strong></td>
-				        <td th:text="${estagio.estagiario.usuarioGithub}"></td>
-				      </tr>
-				      
-				    </tbody>
-				  </table>
-	          </div>
-	        </div>
-
-
-	          <div class="panel panel-bluegray">
-	          <div class="panel-heading">
-	            <a class="panel-title" data-toggle="collapse" data-target="#detalhesTurma" th:inline="text"><i class="fa fa-caret-down fa-caret-right fa-chevron-down" aria-hidden="true"></i> Turma: [[${estagio.turma.nome}]] - [[${estagio.turma.semestre}]]</a>
-			  </div>
-	          <div id="detalhesTurma" class="panel-body collapse">
-				  <table class="table table-hover">
-				    <tbody>
-				     <tr>
-				        <td><strong>Orientador</strong></td>
-				        <td th:text="${estagio.turma.orientador == null ? 'Não há orientador' : estagio.turma.orientador.nome}"></td>
-				      </tr>
-				      <tr>
-				        <td><strong>Supervisores</strong></td>
-				     	<td th:inline="text"> <span th:if="${#lists.isEmpty(estagio.turma.supervisores)}">Não há supervisores</span> <span th:each="sup : ${estagio.turma.supervisores}"> [[${sup.nome}]],</span></td>
-				      </tr>
-				      <tr>
-				        <td><strong>Período</strong></td>
-				        <td><label th:text="${#dates.format(estagio.turma.inicio, 'dd/MM/yyyy')}"></label>  a <label th:text="${#dates.format(estagio.turma.termino, 'dd/MM/yyyy')}"></label></td>
-				      </tr>
-				      <tr>
-				        <td><strong>Tipo</strong></td>
-				        <td th:text="${estagio.turma.tipoTurma}"></td>
-				      </tr>
-				      <tr>
-				        <td><strong>Status</strong></td>
-				        <td th:text="${estagio.turma.status}"></td>
-				      </tr>
-				    </tbody>
-				  </table>
-	           </div>
-	        </div>
-	
-	      </div>
-	    <div class="col-md-8">
-	        <div class="panel panel-bluegray">
-	          <div class="panel-heading">
-	            <p class="panel-title">Editar Avaliação de Rendimento</p>
-	          </div>
-	          <div id="estagiarios" class="panel-body">
-
-				  <div class="col-lg-12">
-						<form method="post" enctype="multipart/form-data" class="form-horizontal" action="#" th:action="@{/Supervisao/Acompanhamento/{idEstagio}/AvaliacaoRendimento(idEstagio=${estagio.id})}" th:object="${avaliacaoRendimento}">
-							<div class="form-group">
-								<label for="atividadeCurricular" class="col-lg-12 control-label"><strong>Atividade Curricular</strong></label><br/>
-								<div class="col-lg-12">
-									<textarea class="form-control" rows="3" id="atividadeCurricular" th:field="*{atividadeCurricular}"></textarea>
-									<label class="text-danger" for="atividadeCurricular" th:if="${#fields.hasErrors('atividadeCurricular')}" th:errors="*{atividadeCurricular}">Title error message</label>
-								</div>
-							</div>
-							
-							<div class="form-group">
-								<div class="col-sm-6" th:if="${avaliacaoRendimento.inicioAvaliacao != null}">
-									<label for="inicio" class="control-label"><strong>Inicio do avalaiação</strong></label>
-									<input type="text" class="form-control data" id="inicio" name="inicioAvaliacao" th:value="${#dates.format(avaliacaoRendimento.inicioAvaliacao, 'dd/MM/yyyy')}" placeholder="Inicio"/>
-									<label class="text-danger" for="inicio" th:if="${#fields.hasErrors('inicioAvaliacao')}" th:errors="*{inicioAvaliacao}">Title error message</label>
-								</div>
-
-								<div class="col-sm-6" th:if="${avaliacaoRendimento.inicioAvaliacao == null}">
-									<label for="inicio" class="control-label"><strong>Inicio do avalaiação</strong></label>
-									<input type="text" class="form-control data" id="inicio" name="inicioAvaliacao" placeholder="Inicio"/>
-									<label class="text-danger" for="inicio" th:if="${#fields.hasErrors('inicioAvaliacao')}" th:errors="*{inicioAvaliacao}">Title error message</label>
-								</div>
-
-								<div class="col-sm-6" th:if="${avaliacaoRendimento.terminoAvaliacao != null}">
-									<label for="termino" class="control-label"><strong>Termino do avalaiação</strong></label>
-									<input type="text" class="form-control data" id="termino" name="terminoAvaliacao" th:value="${#dates.format(avaliacaoRendimento.terminoAvaliacao, 'dd/MM/yyyy')}" placeholder="Final"/>
-									<label class="text-danger" for="termino" th:if="${#fields.hasErrors('terminoAvaliacao')}" th:errors="*{terminoAvaliacao}">Title error message</label>
-								</div>
-								
-								<div class="col-sm-6" th:if="${avaliacaoRendimento.terminoAvaliacao == null}">
-									<label for="termino" class="control-label"><strong>Termino do avalaiação</strong></label>
-									<input type="text" class="form-control data" id="termino" name="terminoAvaliacao" placeholder="Final"/>
-									<label class="text-danger" for="termino" th:if="${#fields.hasErrors('terminoAvaliacao')}" th:errors="*{terminoAvaliacao}">Title error message</label>
-								</div>
-							</div>
-							<div class="form-group">
-								<label for="objetivoEstagio" class="col-lg-12 control-label"><strong>Objetivo geral do estágio</strong></label><br/>
-								<div class="col-lg-12">
-									<textarea class="form-control" rows="3" id="objetivoEstagio" th:field="*{objetivoEstagio}"></textarea>
-									<span class="help-block">Descreva um resumo das atividade do estagiário no período</span>
-									<label class="text-danger" for="atividadeCurricular" th:if="${#fields.hasErrors('objetivoEstagio')}" th:errors="*{objetivoEstagio}">Title error message</label>
-								</div>
-							</div>
-							  <fieldset>
-							    <legend><strong>1. Assuidade e Disciplina</strong></legend>
-							    <div class="form-group">
-							      <label id="frequencia" class="col-lg-12 control-label">
-							      	<strong>1.1 Frequência</strong>
-							      	<span class="text-danger" th:if="${#fields.hasErrors('frequencia')}" th:errors="*{frequencia}">Mensagem de erro</span>							      
-							      </label>
-							      
-							      <div class="col-lg-11 col-lg-offset-1">
-									<div class="radio" th:each="frequenciaOpcao: ${frequencias}">
-										<label>
-											<input th:field="*{frequencia}" th:value="${frequenciaOpcao}" type="radio" /> 
-											<span th:text="${frequenciaOpcao.descricaoItem}"></span>
-										</label>
-									</div>
-							      </div>
-							    </div>
-							
-							    <div class="form-group">
-							      <label class="col-lg-12 control-label">
-							      	<strong>1.2 Permanência</strong>
-							      	<span class="text-danger" th:if="${#fields.hasErrors('permanencia')}" th:errors="*{permanencia}">Mensagem de erro</span>							      
-							      </label>
-							      <div class="col-lg-11 col-lg-offset-1">
-								      <div class="radio" th:each="PermanenciaOpcao: ${permanencias}">
-										<label>
-											<input th:field="*{permanencia}" th:value="${PermanenciaOpcao}" type="radio" />
-											<span th:text="${PermanenciaOpcao.descricaoItem}"></span>
-										</label>
-									  </div>
-							      </div>
-							    </div>
-							
-							    <div class="form-group">
-							      <label class="col-lg-12 control-label">
-							      	<strong>1.3 Disciplina quando ao cumprimento de normas</strong>
-							      	<span class="text-danger" th:if="${#fields.hasErrors('disciplina')}" th:errors="*{disciplina}">Mensagem de erro</span>
-							      </label>
-							      <div class="col-lg-11 col-lg-offset-1">
-									  <div class="radio" th:each="DisciplinaOpcao: ${disciplinas}">
-										<label>
-											<input th:field="*{disciplina}" th:value="${DisciplinaOpcao}" type="radio" />
-											<span th:text="${DisciplinaOpcao.descricaoItem}"></span>
-										</label>
-									 </div>
-							      </div>
-							    </div>
-							    
-							    <div class="form-group">
-								  <label for="fatorAssuidadeDisciplinaComentario" class="col-lg-12 control-label"><strong>Comentario Assuidade e Disciplina</strong></label><br/>
-							      <div class="col-lg-12">
-							        <textarea class="form-control" rows="3" th:field="*{fatorAssuidadeDisciplinaComentario}"></textarea>
-							        <span class="help-block">Comentario sobre o fator Assuidade e Disciplina.</span>
-							      </div>
-							    </div>
-							  </fieldset>
-							  
-							  <fieldset>
-								<legend><strong>2. Iniciativa e Produtividade</strong></legend>
-							    <div class="form-group">
-							      <label class="col-lg-12 control-label">
-							      	<strong>2.1 Iniciativa</strong>
-							      	<span class="text-danger" th:if="${#fields.hasErrors('iniciativa')}" th:errors="*{iniciativa}">Mensagem de erro</span>
-							      </label>
-							      <div class="col-lg-11 col-lg-offset-1">
-									<div class="radio" th:each="iniciativaOpcao: ${iniciativas}">
-										<label>
-											<input th:field="*{iniciativa}" th:value="${iniciativaOpcao}" type="radio" />
-											<span th:text="${iniciativaOpcao.descricaoItem}"></span>
-										</label>
-									</div>
-							      </div>
-							    </div>
-							
-							    <div class="form-group">
-							      <label class="col-lg-12 control-label">
-							      	<strong>2.2 Quantidade de Trabalho</strong>
-							      	<span class="text-danger" th:if="${#fields.hasErrors('quantidadeTrabalho')}" th:errors="*{quantidadeTrabalho}">Mensagem de erro</span>
-							      </label>
-							      <div class="col-lg-11 col-lg-offset-1">
-									<div class="radio" th:each="qtdTrabalhoOpcao: ${quantidades}">
-										<label>
-											<input th:field="*{quantidadeTrabalho}" th:value="${qtdTrabalhoOpcao}" type="radio" />
-											<span th:text="${qtdTrabalhoOpcao.descricaoItem}"></span>
-										</label>
-									</div>
-							      </div>
-							    </div>
-							
-							    <div class="form-group">
-							      <label class="col-lg-12 control-label">
-							      	<strong>2.3 Qualidade de Trabalho</strong>
-							      	<span class="text-danger" th:if="${#fields.hasErrors('qualidadeTrabalho')}" th:errors="*{qualidadeTrabalho}">Mensagem de erro</span>
-							      </label>
-							      <div class="col-lg-11 col-lg-offset-1">
-									<div class="radio" th:each="qualidadeTrabalhoOpcao: ${qualidades}">
-										<label>
-											<input th:field="*{qualidadeTrabalho}" th:value="${qualidadeTrabalhoOpcao}" type="radio" />
-											<span th:text="${qualidadeTrabalhoOpcao.descricaoItem}"></span>
-										</label>
-									</div>
-							      </div>
-							    </div>
-							
-							    <div class="form-group">
-							      <label class="col-lg-12 control-label">
-							      	<strong>2.4 Cumprimento de prazos</strong>
-							      	<span class="text-danger" th:if="${#fields.hasErrors('cumprimentoPrazos')}" th:errors="*{cumprimentoPrazos}">Mensagem de erro</span>
-							      </label>
-							      <div class="col-lg-11 col-lg-offset-1">
-									<div class="radio" th:each="cumprimentoOpcao: ${cumprimentos}">
-										<label>
-											<input th:field="*{cumprimentoPrazos}" th:value="${cumprimentoOpcao}" type="radio" />
-											<span th:text="${cumprimentoOpcao.descricaoItem}"></span>
-										</label>
-									</div>
-							      </div>
-							    </div>
-							    
-							    
-							    <div class="form-group">
-								  <label for="fatorIniciativaProdutividadeComentario" class="col-lg-12 control-label">
-								  	<strong>Comentario Iniciativa e Produtividade:</strong>
-								  </label><br/>
-							      <div class="col-lg-12">
-									<textarea class="form-control" rows="3" th:field="*{fatorIniciativaProdutividadeComentario}"></textarea>
-							        <span class="help-block">Comentario sobre o fator Iniciativa e Produtividade.</span>
-							      </div>
-							    </div>
-							  </fieldset>
-												  
-		  
-							  <fieldset>
-								<legend><strong>3. Responsabilidade</strong></legend>
-
-							    <div class="form-group">
-							      <label class="col-lg-12 control-label">
-							      	<strong>3.1 Comprometimento com o trabalho</strong>
-							      	<span class="text-danger" th:if="${#fields.hasErrors('comprometimento')}" th:errors="*{comprometimento}">Mensagem de erro</span>
-							      </label>      
-							      <div class="col-lg-11 col-lg-offset-1">
-									<div class="radio" th:each="comprometimentoOpcao: ${comprometimentos}">
-										<label>
-											<input th:field="*{comprometimento}" th:value="${comprometimentoOpcao}" type="radio" />
-											<span th:text="${comprometimentoOpcao.descricaoItem}"></span>
-										</label>
-									</div>
-							      </div>
-							    </div>
-							
-							    <div class="form-group">
-							      <label class="col-lg-12 control-label">
-							      	<strong>3.2 Cuidado com materiais e equipamentos</strong>
-							      	<span class="text-danger" th:if="${#fields.hasErrors('cuidadoMateriais')}" th:errors="*{cuidadoMateriais}">Mensagem de erro</span>
-							      </label>
-							      <div class="col-lg-11 col-lg-offset-1">
-									<div class="radio" th:each="cuidadoOpcao: ${cuidados}">
-										<label>
-											<input th:field="*{cuidadoMateriais}" th:value="${cuidadoOpcao}" type="radio" />
-											<span th:text="${cuidadoOpcao.descricaoItem}"></span>
-										</label>
-									</div>
-							      </div>
-							    </div>
-							
-							    <div class="form-group">
-								  <label for="fatorResponsabilidadeComentario" class="col-lg-12 control-label"><strong>Comentario Responsabilidade</strong></label><br/>
-							      <div class="col-lg-12">
-									<textarea class="form-control" rows="3" th:field="*{fatorResponsabilidadeComentario}"></textarea>
-							        <span class="help-block">Comentario sobre o fator Responsabilidade.</span>
-							      </div>
-							    </div>
-							  </fieldset>
-												
-							  <fieldset>
-								<legend><strong>4. Relacionamento</strong></legend>
-							
-							    <div class="form-group">
-							      <label class="col-lg-12 control-label">
-							      	<strong>4.1 Relacionamento junto a gerência e demais funcionários</strong>
-							      	<span class="text-danger" th:if="${#fields.hasErrors('relacionamento')}" th:errors="*{relacionamento}">Mensagem de erro</span>
-							      </label>
-							      <div class="col-lg-11 col-lg-offset-1">
-									<div class="radio" th:each="relacionamentoOpcao: ${relacionamentos}">
-										<label>
-											<input th:field="*{relacionamento}" th:value="${relacionamentoOpcao}" type="radio" />
-											<span th:text="${relacionamentoOpcao.descricaoItem}"></span>
-										</label>
-									</div>
-							      </div>
-							    </div>
-							
-							    <div class="form-group">
-							      <label class="col-lg-12 control-label">
-							      	<strong>4.2 Trabalho em equipe</strong>
-							      	<span class="text-danger" th:if="${#fields.hasErrors('trabalhoEquipe')}" th:errors="*{trabalhoEquipe}">Mensagem de erro</span>
-							      </label>
-							      <div class="col-lg-11 col-lg-offset-1">
-									<div class="radio" th:each="trabalhoOpcao: ${trabalhos}">
-										<label>
-											<input th:field="*{trabalhoEquipe}" th:value="${trabalhoOpcao}" type="radio" />
-											<span th:text="${trabalhoOpcao.descricaoItem}"></span>
-										</label>
-									</div>
-							      </div>
-							    </div>
-							
-							    <div class="form-group">
-								  <label for="fatorRelacionamentoComentario" class="col-lg-12 control-label"><strong>Comentario Relacionamento</strong></label><br/>
-							      <div class="col-lg-12">
-									<textarea class="form-control" rows="3" id="fatorRelacionamentoComentario" th:field="*{fatorRelacionamentoComentario}"></textarea>
-							        <span class="help-block">Comentario sobre o fator Relacionamento.</span>
-							      </div>
-							    </div>
-							  </fieldset>
-							  
-							  <fieldset>
-							  	<legend></legend>
-							    <div class="form-group">
-								  <label for="nota" class="col-lg-12 control-label"><strong>Nota Geral (0,0 a 10,0)</strong></label>
-								  <div class="col-lg-12">
-									 <input th:field="*{nota}" id="nota" type="text" class="form-control" />
-									 <label class="text-danger" for="atividadeCurricular" th:if="${#fields.hasErrors('nota')}" th:errors="*{nota}">Title error message</label>
-								  </div>
-							    </div>
-								<div class="form-group">
-								   <label for="fatorRelacionamentoComentario" class="col-lg-12 control-label"><strong>Comentários finais e sugestões</strong></label><br/>
-								   <div class="col-lg-12">
-									 <textarea class="form-control" rows="3" id="comentarioFinal" th:field="*{comentarioFinal}"></textarea>
-								       <span class="help-block">Comentários finais e sugestões.</span>
-								   </div>
-								</div>
-							  </fieldset>
-						
-							  <div class="form-group">
-							      <div class="col-md-10">
-									 <fieldset>
-									 	<legend><h4>PARECER DO PROFESSOR ORIENTADOR</h4></legend>
-										<p>
-											<strong>Caso o(a) Estagiário(a), no decorrer do período de seu estágio, persista com o mesmo desempenho 
-											apresentado durante o período em que esteve sob sua orientação, deverá:</strong>
-										</p>
-																
-										<div class="checkbox">
-											<label>
-												<input type="checkbox" th:field="*{confirmadoNoEstagio}"/> Ser confirmado(a) no estágio.
-											</label>
-										</div><br/>
-							
-										<p><strong>Assinale os principais fatores que serviram de base para o parecer emitido</strong></p>
-							
-										<div class="checkbox">
-							 			   <ol>
-											 <li>
-												<label>
-													<input type="checkbox" th:field="*{fatorAssuidade}"/> Assuidade
-												</label>
-											 </li>
-							  				 <li>												
-							  				 	<label>
-													<input type="checkbox" th:field="*{fatorDisciplina}"/> Disciplina
-												</label>
-											 </li>
-																		
-											<li>
-												<label>
-													<input type="checkbox" th:field="*{fatorCapacidadeIniciativa}"/> Capacidade de Iniciativa
-												</label>
-											</li>
-																		
-											<li>
-												<label>
-													<input type="checkbox" th:field="*{fatorProdutividade}"/> Produtividade
-												</label>
-											</li>
-																		
-											<li>
-												<label>
-													<input type="checkbox" th:field="*{fatorResponsabilidade}"/> Responsabilidade
-												</label>
-											</li>
-																		
-											<li>
-												<label>
-													<input type="checkbox" th:field="*{outrosMotivos}"/> Outros Motivos. Especifique:
-													<textarea class="col-lg-12 form-control" rows="2" th:field="*{especificacaoMotivo}"></textarea>
-												</label>
-											</li>
-										</ol>
-									</div>
-								<div class="form-group">
-								   <label for="fatorRelacionamentoComentario" class="col-lg-12 control-label"><strong>Comentários/Observações</strong></label><br/>
-								   <div class="col-lg-12">
-									 <textarea class="form-control" rows="3" id="observacaoParecer" th:field="*{observacaoParecer}"></textarea>
-								       <span class="help-block">Comentários e observações:.</span>
-								   </div>
-								</div><br/>
-							
-								<p><strong>Necessidade de Treinamento</strong></p>
-								<div class="checkbox">
-									<label for="necessidadeTreinamento">
-										<input type="checkbox" th:field="*{necessidadeTreinamento}"/><strong>Sim, especifique</strong>
-									</label>
-									<textarea class="form-control" rows="1" th:field="*{especificacaoTreinamento}"></textarea>
-								</div><br/>
-							
-								<p><strong>Caráter do Treinamento</strong></p>
-								<label>
-									<input type="checkbox" th:field="*{caraterTreinamentoUrgente}"/>Urgente:
-								</label>
-																
-								<label>
-									<input type="checkbox" th:field="*{caraterTreinamentoImportante}"/> Importante:
-								</label>
-							      								
-							  </fieldset>
-							 </div>
-							</div>
-								
-							 <div class="form-group">
-							     <div class="col-lg-10 pull-left">
-							       <a class="btn btn-default" th:href="@{/Supervisao/Acompanhamento/{idEstagio}(idEstagio=${estagio.id})}">Cancelar</a>
-							       <button type="submit" class="btn btn-success">Salvar</button>
-							       <button type="submit" class="btn btn-success">Avaliação de rendimento via Arquivo</button>
-							     </div>
-							</div>
-						</form>
+		<div class="row">
+			<div class="col-md-4">
+				<div class="panel panel-bluegray">
+					<div class="panel-heading">
+						<a class="panel-title" data-toggle="collapse"
+							data-target="#estagiario" th:inline="text"><i
+							class="fa fa-caret-down fa-caret-right fa-chevron-down"
+							aria-hidden="true"></i> Estagiário:
+							[[${estagio.estagiario.nomeCompleto}]]</a>
 					</div>
+					<div id="estagiario" class="panel-body collapse">
+						<table class="table table-hover">
+							<tbody>
+								<tr>
+									<td class="gp-sem-borda"><strong>Nome:</strong></td>
+									<td class="gp-sem-borda"
+										th:text="${estagio.estagiario.nomeCompleto}"></td>
+								</tr>
+								<tr>
+									<td><strong>Curso:</strong></td>
+									<td th:if="${estagio.estagiario.curso != null}"
+										th:text="${estagio.estagiario.curso.descricao}"></td>
+									<td th:if="${estagio.estagiario.curso == null}">Não há
+										curso</td>
+								</tr>
+								<tr>
+									<td><strong>Email:</strong></td>
+									<td th:text="${estagio.estagiario.email}"></td>
+								</tr>
+								<tr>
+									<td><strong>Telefone:</strong></td>
+									<td th:text="${estagio.estagiario.telefone}"></td>
+								</tr>
+								<tr>
+									<td><strong>Github:</strong></td>
+									<td th:text="${estagio.estagiario.usuarioGithub}"></td>
+								</tr>
+
+							</tbody>
+						</table>
+					</div>
+				</div>
 
 
+				<div class="panel panel-bluegray">
+					<div class="panel-heading">
+						<a class="panel-title" data-toggle="collapse"
+							data-target="#detalhesTurma" th:inline="text"><i
+							class="fa fa-caret-down fa-caret-right fa-chevron-down"
+							aria-hidden="true"></i> Turma: [[${estagio.turma.nome}]] -
+							[[${estagio.turma.semestre}]]</a>
+					</div>
+					<div id="detalhesTurma" class="panel-body collapse">
+						<table class="table table-hover">
+							<tbody>
+								<tr>
+									<td><strong>Orientador</strong></td>
+									<td
+										th:text="${estagio.turma.orientador == null ? 'Não há orientador' : estagio.turma.orientador.nome}"></td>
+								</tr>
+								<tr>
+									<td><strong>Supervisores</strong></td>
+									<td th:inline="text"><span
+										th:if="${#lists.isEmpty(estagio.turma.supervisores)}">Não
+											há supervisores</span> <span
+										th:each="sup : ${estagio.turma.supervisores}">
+											[[${sup.nome}]],</span></td>
+								</tr>
+								<tr>
+									<td><strong>Período</strong></td>
+									<td><label
+										th:text="${#dates.format(estagio.turma.inicio, 'dd/MM/yyyy')}"></label>
+										a <label
+										th:text="${#dates.format(estagio.turma.termino, 'dd/MM/yyyy')}"></label></td>
+								</tr>
+								<tr>
+									<td><strong>Tipo</strong></td>
+									<td th:text="${estagio.turma.tipoTurma}"></td>
+								</tr>
+								<tr>
+									<td><strong>Status</strong></td>
+									<td th:text="${estagio.turma.status}"></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
 
-	           </div>
-	        </div>
-	    </div>
-	   </div>
+			</div>
+			<div class="col-md-8">
+				<div class="panel panel-bluegray">
+					<div class="panel-heading">
+						<p class="panel-title">Avaliação de Rendimento</p>
+					</div>
+					<div id="estagiarios" class="panel-body">
+
+						<div class="col-lg-12">
+							<form method="post" enctype="multipart/form-data"
+								class="form-horizontal"
+								th:action="@{/Supervisao/Acompanhamento/{idEstagio}/AvaliacaoRendimentoArquivo(idEstagio=${estagio.id})}"
+								th:object="${avaliacaoRendimento}">
+
+								<fieldset>
+									<div class="form-group">
+										<label for="nota" class="col-lg-12 control-label"><strong>Nota
+												Geral (0,0 a 10,0)</strong></label>
+										<div class="col-lg-12">
+											<input th:field="*{nota}" id="nota" type="text"
+												class="form-control" /> 
+												<label class="text-danger"
+												for="nota"
+												th:if="${#fields.hasErrors('nota')}" th:errors="*{nota}">Title
+												error message</label>
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="fatorRelacionamentoComentario"
+											class="col-lg-12 control-label"><strong>Comentários
+												finais e sugestões</strong></label><br />
+										<div class="col-lg-12">
+											<textarea class="form-control" rows="3" id="comentarioFinal"
+												th:field="*{comentarioFinal}"></textarea>
+											<span class="help-block">Comentários finais e
+												sugestões.</span>
+										</div>
+									</div>
+									<div class="form-group">
+										<div class="col-lg-12">
+											<input type="file" class="form-control" id="inputArquivo"
+												placeholder="Arquivo" name="arquivo" /> 
+												<label class="text-danger" for="inputArquivo" th:if="${#fields.hasErrors('documento')}" th:errors="*{documento}">Title error message</label>
+										</div>
+									</div>
+								</fieldset>
+								<br />
+								<div class="form-group">
+									<div class="col-lg-10 pull-left">
+										<a class="btn btn-default"
+											th:href="@{/Supervisao/Acompanhamento/{idEstagio}(idEstagio=${estagio.id})}">Cancelar</a>
+										<button type="submit" class="btn btn-success">Salvar</button>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
-  </section>
+</section>
 </html>

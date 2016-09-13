@@ -39,6 +39,8 @@ public class Constants {
 	public static final String FORMULARIO_AVALIAR_PLANO = "supervisao/adicionar-avaliacao-plano";
 
 	public static final String FORMULARIO_ADICIONAR_AVALIACAO_RENDIMENTO = "supervisao/adicionar-avaliacao-rendimento";
+	
+	public static final String FORMULARIO_ADICIONAR_AVALIACAO_RENDIMENTO_VIA_ARQUIVO = "supervisao/avaliacao-rendimento-arquivo";
 
 	public static final String FORMULARIO_EDITAR_AVALIACAO_RENDIMENTO = "supervisao/editar-avaliacao-rendimento";
 

@@ -1,6 +1,7 @@
 package br.ufc.quixada.npi.ge.controller;
 import static br.ufc.quixada.npi.ge.utils.Constants.FORMULARIO_CADASTRO_ESTAGIARIO;
 import static br.ufc.quixada.npi.ge.utils.Constants.REDIRECT_PAGINA_LOGIN;
+import static br.ufc.quixada.npi.ge.utils.Constants.FORMULARIO_CADASTRO_SUPERVISOR;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -25,6 +26,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import br.ufc.quixada.npi.ge.model.Estagiario;
 import br.ufc.quixada.npi.ge.model.Papel;
 import br.ufc.quixada.npi.ge.model.Pessoa;
+import br.ufc.quixada.npi.ge.model.Servidor;
 import br.ufc.quixada.npi.ge.service.PessoaService;
 import br.ufc.quixada.npi.ldap.model.Usuario;
 import br.ufc.quixada.npi.ldap.service.UsuarioService;
@@ -68,6 +70,37 @@ public class GestaoPessoasController {
 	@RequestMapping(value = "/CacelarCadastro", method = RequestMethod.GET)
 	public String cacelarCadastro(HttpSession session) {
 		return logout(session);
+	}
+	
+	@RequestMapping(value = "/CadastroSupervisor", method = RequestMethod.GET)
+	public String formularioCadastroServidor(ModelMap model, HttpSession session) {
+		model.addAttribute("servidor", new Servidor());
+		return FORMULARIO_CADASTRO_SUPERVISOR;
+	}
+	
+	@RequestMapping(value = "/CadastroSupervisor", method = RequestMethod.POST)
+	public String adicionarSupervisor( @Valid @ModelAttribute("servidor") Servidor servidor, BindingResult result, RedirectAttributes redirect, Model model, HttpSession session) {
+
+		if (result.hasErrors()) {
+			return FORMULARIO_CADASTRO_SUPERVISOR;
+		}
+
+		Usuario usuario = usuarioService.getByCpf(SecurityContextHolder.getContext().getAuthentication().getName());
+
+		Papel papel = pessoaService.buscarPapelPorNome("SUPERVISOR");
+
+		Pessoa pessoa = new Pessoa();
+		pessoa.setCpf(usuario.getCpf());
+		pessoa.adicionarPapel(papel);
+
+		pessoaService.adicionarPessoa(pessoa);
+
+		servidor.setPessoa(pessoa);
+		pessoaService.adicionarServidor(servidor);
+
+		session.invalidate();
+		redirect.addFlashAttribute("success", "Seu cadastro foi realizado com sucesso! Agora, você pode efetuar o login!");
+		return REDIRECT_PAGINA_LOGIN;
 	}
 
 	@RequestMapping(value = "/CadastroEstagiario", method = RequestMethod.GET)

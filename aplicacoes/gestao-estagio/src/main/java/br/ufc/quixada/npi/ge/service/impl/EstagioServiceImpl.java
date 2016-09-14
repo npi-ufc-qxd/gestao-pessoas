@@ -193,7 +193,8 @@ public class EstagioServiceImpl implements EstagioService {
 	}
 
 	public boolean liberarReposicao(Frequencia frequencia) {
-		return (frequencia.getTipo() == TipoFrequencia.REPOSICAO && frequencia.getStatus() == StatusFrequencia.AGUARDO);
+//		return (frequencia.getTipo() == TipoFrequencia.REPOSICAO && frequencia.getStatus() == StatusFrequencia.AGUARDO);
+		return true;
 	}
 
 	@Override
@@ -225,10 +226,10 @@ public class EstagioServiceImpl implements EstagioService {
 
 				frequencia = new Frequencia();
 
-				frequencia.setEstagio(estagio);
+				/*frequencia.setEstagio(estagio);
 				frequencia.setStatus(StatusFrequencia.PRESENTE);
 				frequencia.setData(new Date());
-				frequencia.setHorario(new Date());
+				frequencia.setHorario(new Date());*/
 				frequencia.setTipo(TipoFrequencia.NORMAL);
 
 				frequenciaRepository.save(frequencia);
@@ -237,9 +238,9 @@ public class EstagioServiceImpl implements EstagioService {
 		} else if (liberarReposicao(frequencia)) {
 
 			frequencia.setEstagio(estagio);
-			frequencia.setStatus(StatusFrequencia.PRESENTE);
+			/*frequencia.setStatus(StatusFrequencia.PRESENTE);
 			frequencia.setData(new Date());
-			frequencia.setHorario(new Date());
+			frequencia.setHorario(new Date());*/
 			frequencia.setTipo(TipoFrequencia.REPOSICAO);
 
 			frequenciaRepository.save(frequencia);
@@ -274,10 +275,10 @@ public class EstagioServiceImpl implements EstagioService {
 		int totalDeFrequenciasDaTurmaHoje = calcularTotalDeFrequenciasDaTurma(estagio.getTurma().getInicio(),
 				new Date(), estagio.getTurma().getExpedientes());
 
-		int totalPresencas = frequenciaRepository.buscarTotalByStatus(estagio.getId(),
+		/*int totalPresencas = frequenciaRepository.buscarTotalByStatus(estagio.getId(),
 				Frequencia.StatusFrequencia.PRESENTE);
 		int totalFaltas = frequenciaRepository.buscarTotalByStatus(estagio.getId(), Frequencia.StatusFrequencia.FALTA);
-
+*//*
 		int horasEstagiadas = totalPresencas * calcularCargaHorariaExpediente(estagio.getTurma().getExpedientes());
 
 		int totalPendencias = totalDeFrequenciasDaTurmaHoje
@@ -288,9 +289,9 @@ public class EstagioServiceImpl implements EstagioService {
 
 		int totalReposicoes = frequenciaRepository.buscarTotalByTipo(estagio.getId(),
 				Frequencia.TipoFrequencia.REPOSICAO);
-
+*/
 		double porcentagemFaltas = 0.0;
-
+/*
 		if (totalDeFrequenciasDaTurma > 0) {
 			porcentagemFaltas = (totalFaltas * 100) / totalDeFrequenciasDaTurma;
 		}
@@ -298,15 +299,16 @@ public class EstagioServiceImpl implements EstagioService {
 		double porcentagemPresencas = 100 - porcentagemFaltas;
 
 		ConsolidadoFrequencia consolidadoFrequencia = new ConsolidadoFrequencia();
-
-		consolidadoFrequencia.setHorasEstagiadas(horasEstagiadas);
+*/
+		/*consolidadoFrequencia.setHorasEstagiadas(horasEstagiadas);
 		consolidadoFrequencia.setTotalPendecias(totalPendencias);
 		consolidadoFrequencia.setTotalAtrasos(totalAtrasos);
 		consolidadoFrequencia.setTotalReposicoes(totalReposicoes);
-		consolidadoFrequencia.setPorcentagemFaltas(porcentagemFaltas);
-		consolidadoFrequencia.setPorcentagemPresencas(porcentagemPresencas);
+		consolidadoFrequencia.setPorcentagemFaltas(porcentagemFaltas);*/
+	/*	consolidadoFrequencia.setPorcentagemPresencas(porcentagemPresencas);*/
 
-		return consolidadoFrequencia;
+		/*return consolidadoFrequencia;*/
+		return null;
 	}
 
 	private int calcularCargaHorariaExpediente(List<Expediente> expedientes) {
@@ -344,8 +346,8 @@ public class EstagioServiceImpl implements EstagioService {
 		frequencia.setEstagio(estagio);
 		frequencia.setData(date);
 		frequencia.setTipo(Frequencia.TipoFrequencia.REPOSICAO);
-		frequencia.setStatus(Frequencia.StatusFrequencia.AGUARDO);
-
+		/*frequencia.setStatus(Frequencia.StatusFrequencia.AGUARDO);
+*/
 		frequenciaRepository.save(frequencia);
 	}
 
@@ -372,7 +374,8 @@ public class EstagioServiceImpl implements EstagioService {
 	@Override
 	public Frequencia buscarFrequenciaPorIdETipoEStatus(Long idEstagio, TipoFrequencia tipoFrequencia,
 			StatusFrequencia statusFrequencia) {
-		return frequenciaRepository.findByIdAndTipoAndStatus(idEstagio, tipoFrequencia, statusFrequencia);
+	/*	return frequenciaRepository.findByIdAndTipoAndStatus(idEstagio, tipoFrequencia, statusFrequencia);*/
+		return null;
 	}
 
 	@Override

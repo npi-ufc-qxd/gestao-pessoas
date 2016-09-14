@@ -594,8 +594,8 @@ public class SupervisorController {
 		Frequencia frequencia = new Frequencia();
 		frequencia.setEstagio(estagio);
 		frequencia.setData(dataPendente);
-		frequencia.setStatus(statusFrequencia);
-		frequencia.setHorario(new Date());
+//		frequencia.setStatus(statusFrequencia);
+//		frequencia.setHorario(new Date());
 		frequencia.setTipo(Frequencia.TipoFrequencia.NORMAL);
 
 		estagioService.adicionarFrequencia(frequencia);

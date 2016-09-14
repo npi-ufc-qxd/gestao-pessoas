@@ -961,6 +961,27 @@ public class SupervisorController {
 
 		return REDIRECT_ACOMPANHAMENTO_ESTAGIARIO + idEstagio;
 	}
+	
+	@RequestMapping(value = "/Acompanhamento/{idEstagio}/DownloadAvaliacaoRendimento", method = RequestMethod.GET)
+	public Object downloadAvaliacaoRendimento(Model model, @PathVariable("idEstagio") Long idEstagio, RedirectAttributes redirect) {
+		Servidor servidor = pessoaService.buscarServidorPorCpf(getCpfUsuarioLogado());
+		Estagio estagio = estagioService.buscarEstagioPorIdEOrientadorOuSupervisor(idEstagio, servidor.getId());
+		
+		if(estagio == null) {
+			redirect.addFlashAttribute("error", "Você não possui permissão para baixar esta avaliação de rendimento");
+			return REDIRECT_PAGINA_INICIAL_SUPERVISOR;
+		}
+
+		byte[] relatorio = estagio.getAvaliacaoRendimento().getDocumento().getArquivo();
+		String[] tipo = estagio.getAvaliacaoRendimento().getDocumento().getExtensao().split("/");
+		
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(new MediaType(tipo[0], tipo[1]));
+		headers.set("Content-Disposition", "attachment; filename=" + estagio.getAvaliacaoRendimento().getDocumento().getNome() + ".pdf");
+		headers.setContentLength(relatorio.length);
+
+	    return new HttpEntity<byte[]>(relatorio, headers);
+	}
 
 	@RequestMapping(value = "/Acompanhamento/{idEstagio}/Frequencia", method = RequestMethod.GET)
 	public String detalhesFrequenciaEstagiario(Model model, @PathVariable("idEstagio") Long idEstagio) {

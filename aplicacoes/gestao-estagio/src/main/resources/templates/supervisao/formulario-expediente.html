@@ -77,7 +77,7 @@
 	            <a class="panel-title" data-toggle="collapse" data-target="#add-expediente"><i class="fa fa-caret-down" aria-hidden="true"></i> Adicionar Expediente</a>
 	          </div>
 	          <div id="add-expediente" class="panel-body collapse in">
-					<form class="form-horizontal" th:action= "@{/Supervisao/Turma/{idTurma}/Expediente(idTurma=${turma.id})}" method="post" th:object="${expediente}">
+					<form id="form-expediente" class="form-horizontal" th:action= "@{/Supervisao/Turma/{idTurma}/Expediente(idTurma=${turma.id})}" method="post" th:object="${expediente}">
 					    <div class="form-group">
 					      <label for="diaDaSemana" class="col-lg-2 control-label">Dia da Semana</label>
 					      <div class="col-lg-10">

@@ -127,64 +127,6 @@ public class AvaliacaoRendimento {
 	private Boolean caraterTreinamentoUrgente;
 
 	private String especificacaoTreinamento;
-	
-	public AvaliacaoRendimento(){}
-	
-	
-	
-	public AvaliacaoRendimento(AvaliacaoRendimento avaliacaoRendimento) {
-		this.estagio = avaliacaoRendimento.estagio;
-		estagio.setAvaliacaoRendimento(this);
-		this.criadaPor = avaliacaoRendimento.criadaPor;
-		this.atualizadaPor = avaliacaoRendimento.atualizadaPor;
-		this.modo = avaliacaoRendimento.modo;
-		Documento documento = new Documento();
-		documento.setNome(avaliacaoRendimento.getDocumento().getNome());
-		documento.setExtensao(avaliacaoRendimento.getDocumento().getExtensao());
-		documento.setArquivo(avaliacaoRendimento.getDocumento().getArquivo());
-		documento.setCaminho(avaliacaoRendimento.getDocumento().getCaminho());
-		this.documento = documento;
-		this.nota = avaliacaoRendimento.nota;
-		this.comentarioFinal = avaliacaoRendimento.comentarioFinal;
-		this.notaSeminario = avaliacaoRendimento.notaSeminario;
-		this.comentarioSeminario = avaliacaoRendimento.comentarioSeminario;
-		this.atividadeCurricular = avaliacaoRendimento.atividadeCurricular;
-		this.inicioAvaliacao = avaliacaoRendimento.inicioAvaliacao;
-		this.terminoAvaliacao = avaliacaoRendimento.terminoAvaliacao;
-		this.dataAvaliacao = avaliacaoRendimento.dataAvaliacao;
-		this.objetivoEstagio = avaliacaoRendimento.objetivoEstagio;
-		this.frequencia = avaliacaoRendimento.frequencia;
-		this.permanencia = avaliacaoRendimento.permanencia;
-		this.disciplina = avaliacaoRendimento.disciplina;
-		this.fatorAssuidadeDisciplinaComentario = avaliacaoRendimento.fatorAssuidadeDisciplinaComentario;
-		this.iniciativa = avaliacaoRendimento.iniciativa;
-		this.quantidadeTrabalho = avaliacaoRendimento.quantidadeTrabalho;
-		this.qualidadeTrabalho = avaliacaoRendimento.qualidadeTrabalho;
-		this.cumprimentoPrazos = avaliacaoRendimento.cumprimentoPrazos;
-		this.fatorIniciativaProdutividadeComentario = avaliacaoRendimento.fatorIniciativaProdutividadeComentario;
-		this.comprometimento = avaliacaoRendimento.comprometimento;
-		this.cuidadoMateriais = avaliacaoRendimento.cuidadoMateriais;
-		this.fatorResponsabilidadeComentario = avaliacaoRendimento.fatorResponsabilidadeComentario;
-		this.relacionamento = avaliacaoRendimento.relacionamento;
-		this.trabalhoEquipe = avaliacaoRendimento.trabalhoEquipe;
-		this.fatorRelacionamentoComentario = avaliacaoRendimento.fatorRelacionamentoComentario;
-		this.confirmadoNoEstagio = avaliacaoRendimento.confirmadoNoEstagio;
-		this.fatorAssuidade = avaliacaoRendimento.fatorAssuidade;
-		this.fatorDisciplina = avaliacaoRendimento.fatorDisciplina;
-		this.fatorIniciativaProdutividade = avaliacaoRendimento.fatorIniciativaProdutividade;
-		this.fatorCapacidadeIniciativa = avaliacaoRendimento.fatorCapacidadeIniciativa;
-		this.fatorProdutividade = avaliacaoRendimento.fatorProdutividade;
-		this.fatorResponsabilidade = avaliacaoRendimento.fatorResponsabilidade;
-		this.outrosMotivos = avaliacaoRendimento.outrosMotivos;
-		this.especificacaoMotivo = avaliacaoRendimento.especificacaoMotivo;
-		this.observacaoParecer = avaliacaoRendimento.observacaoParecer;
-		this.necessidadeTreinamento = avaliacaoRendimento.necessidadeTreinamento;
-		this.caraterTreinamentoImportante = avaliacaoRendimento.caraterTreinamentoImportante;
-		this.caraterTreinamentoUrgente = avaliacaoRendimento.caraterTreinamentoUrgente;
-		this.especificacaoTreinamento = avaliacaoRendimento.especificacaoTreinamento;
-	}
-
-
 
 	public Long getId() {
 		return id;

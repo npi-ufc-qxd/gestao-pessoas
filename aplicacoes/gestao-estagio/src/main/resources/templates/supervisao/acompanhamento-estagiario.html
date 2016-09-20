@@ -343,7 +343,7 @@
 			      		<ul class="lista-fatores">
 				      		<li th:if="${estagio.avaliacaoRendimento.fatorAssuidade}" th:text="Assiduidade" />
 				      		<li th:if="${estagio.avaliacaoRendimento.fatorDisciplina}" th:text="Disciplina" />
-				      		<li th:if="${estagio.avaliacaoRendimento.fatorCapacidadeIniciativa}" th:text="Capacidade de Iniciativa" />
+				      		<li th:if="${estagio.avaliacaoRendimento.fatorCapacidadeIniciativa}" th:text="${'Capacidade de Iniciativa'}" />
 				      		<li th:if="${estagio.avaliacaoRendimento.fatorProdutividade}" th:text="Produtividade" />
 				      		<li th:if="${estagio.avaliacaoRendimento.fatorResponsabilidade}" th:text="Responsabilidade" />
 				      		<li th:if="${estagio.avaliacaoRendimento.outrosMotivos and estagio.avaliacaoRendimento.especificacaoMotivo != null}" th:text="'Outro: ' + ${estagio.avaliacaoRendimento.especificacaoMotivo}" />
@@ -387,7 +387,8 @@
 			  
 			  
 				          		
-		        <a th:if="${estagio.avaliacaoRendimento} != null" th:href="@{/Supervisao/Acompanhamento/{idEstagio}/AvaliacaoRendimento/Editar(idEstagio=${estagio.id})}" class="btn btn-success btn-sm pull-right">Editar Avaliação</a>
+		        <a th:if="${estagio.avaliacaoRendimento != null and estagio.avaliacaoRendimento.modo.name()=='FORMULARIO'}" th:href="@{/Supervisao/Acompanhamento/{idEstagio}/AvaliacaoRendimento/Editar(idEstagio=${estagio.id})}" class="btn btn-success btn-sm pull-right">Editar Avaliação</a>
+		        <a th:if="${estagio.avaliacaoRendimento != null and estagio.avaliacaoRendimento.modo.name()=='ARQUIVO'}" th:href="@{/Supervisao/Acompanhamento/{idEstagio}/AvaliacaoRendimentoArquivo/Editar(idEstagio=${estagio.id})}" class="btn btn-success btn-sm pull-right">Editar Avaliação</a>
 		        <a th:if="${estagio.avaliacaoRendimento} == null" th:href="@{/Supervisao/Acompanhamento/{idEstagio}/AvaliacaoRendimento(idEstagio=${estagio.id})}" class="btn btn-success btn-sm pull-right">Avaliar via formulário</a>
 		        <a th:if="${estagio.avaliacaoRendimento} == null" th:href="@{/Supervisao/Acompanhamento/{idEstagio}/AvaliacaoRendimentoArquivo(idEstagio=${estagio.id})}" class="btn btn-success btn-sm pull-right spacing-right">Avaliar via arquivo</a>
 		        

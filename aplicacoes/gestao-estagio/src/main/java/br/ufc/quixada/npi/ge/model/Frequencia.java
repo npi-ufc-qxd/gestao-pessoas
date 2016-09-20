@@ -22,15 +22,21 @@ public class Frequencia {
 	@ManyToOne
 	private Estagio estagio;
 
-	@Enumerated(EnumType.STRING)
-	private StatusFrequencia status;
-
 	@Temporal(TemporalType.DATE)
 	private Date data;
-
+	
 	@Temporal(TemporalType.TIME)
-	private Date horario;
-
+	private Date horaEntrada;
+	
+	@Enumerated(EnumType.STRING)
+	private StatusFrequencia statusEntrada;
+	
+	@Temporal(TemporalType.TIME)
+	private Date horaSaida;
+	
+	@Enumerated(EnumType.STRING)
+	private StatusFrequencia statusSaida;
+	
 	@Enumerated(EnumType.STRING)
 	private TipoFrequencia tipo;
 
@@ -50,14 +56,6 @@ public class Frequencia {
 		this.estagio = estagio;
 	}
 
-	public StatusFrequencia getStatus() {
-		return status;
-	}
-
-	public void setStatus(StatusFrequencia status) {
-		this.status = status;
-	}
-
 	public Date getData() {
 		return data;
 	}
@@ -65,13 +63,37 @@ public class Frequencia {
 	public void setData(Date data) {
 		this.data = data;
 	}
-
-	public Date getHorario() {
-		return horario;
+	
+	public Date getHoraEntrada() {
+		return horaEntrada;
 	}
 
-	public void setHorario(Date horario) {
-		this.horario = horario;
+	public void setHoraEntrada(Date horarioEntrada) {
+		this.horaEntrada = horarioEntrada;
+	}
+
+	public StatusFrequencia getStatusEntrada() {
+		return statusEntrada;
+	}
+
+	public void setStatusEntrada(StatusFrequencia statusEntrada) {
+		this.statusEntrada = statusEntrada;
+	}
+
+	public Date getHoraSaida() {
+		return horaSaida;
+	}
+
+	public void setHoraSaida(Date horarioSaida) {
+		this.horaSaida = horarioSaida;
+	}
+
+	public StatusFrequencia getStatusSaida() {
+		return statusSaida;
+	}
+
+	public void setStatusSaida(StatusFrequencia statusSaida) {
+		this.statusSaida = statusSaida;
 	}
 
 	public TipoFrequencia getTipo() {
@@ -86,9 +108,7 @@ public class Frequencia {
 		PRESENTE("Presente"),
 		FALTA("Falta"), 
 		ATRASADO("Atrasado"), 
-		FERIADO("Feriado"),
 		ABONADO("Abonado"),
-		JUSTIFICATIVA("Justificativa"),
 		AGUARDO ("Aguardo");
 		
 

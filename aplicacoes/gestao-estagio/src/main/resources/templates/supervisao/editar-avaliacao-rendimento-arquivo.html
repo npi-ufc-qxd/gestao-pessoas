@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorator="layouts/LayoutGestaoPessoas">
+
+<head>
+	<title>Gestão Pessoas | Avaliação de Rendimento</title>
+
+	<style type="text/css">
+		legend {
+			font-size: 15.5px;
+		}
+		.form-horizontal .control-label {
+			text-align: left;
+		}
+		textarea.form-control, #nota {
+			border: 1px solid;
+		}
+		div#modoAvaliacao {
+			margin-bottom: 85px;
+		}
+	</style>
+</head>
+
+<section layout:fragment="conteudo">
+
+
+  <div class="container-fluid titulo-pagina">
+    <div class="container">
+        <ul class="breadcrumb">
+            <li><a th:href="@{/Supervisao/}" >Minhas Turmas</a></li>
+            <li><a th:href="@{'/Supervisao/Turma/' + ${estagio.turma.id}}" >Detalhes Turma</a></li>
+            <li><a th:href="@{'/Supervisao/Acompanhamento/' + ${estagio.id}}">Acompanhamento Estagiário</a></li>
+            <li class="active">Editar Avaliação de Rendimento</li>
+        </ul>
+        <h1>Editar Avaliação de Rendimento</h1>
+    </div>
+  </div>
+
+
+	<div class="container">
+	    <div class="row">
+	      <div class="col-md-4">
+            <div class="panel panel-bluegray">
+	          <div class="panel-heading">
+	            <a class="panel-title" data-toggle="collapse" data-target="#estagiario" th:inline="text"><i class="fa fa-caret-down fa-caret-right fa-chevron-down" aria-hidden="true"></i> Estagiário: [[${estagio.estagiario.nomeCompleto}]]</a>
+			  </div>
+	          <div id="estagiario" class="panel-body collapse">
+	          	<table class="table table-hover">
+				    <tbody>
+				      <tr>
+				        <td class="gp-sem-borda"><strong>Nome:</strong></td>
+				        <td class="gp-sem-borda" th:text="${estagio.estagiario.nomeCompleto}"></td>
+				 	  </tr>
+				      <tr>
+				        <td><strong>Curso:</strong></td>
+				        <td th:if="${estagio.estagiario.curso != null}" th:text="${estagio.estagiario.curso.descricao}"></td>
+				        <td th:if="${estagio.estagiario.curso == null}">Não há curso</td>
+				      </tr>
+				      <tr>
+				        <td><strong>Email:</strong></td>
+				        <td th:text="${estagio.estagiario.email}"></td>
+				      </tr>
+				      <tr>
+				        <td><strong>Telefone:</strong></td>
+				        <td th:text="${estagio.estagiario.telefone}"></td>
+				      </tr>
+				      <tr>
+				        <td><strong>Github:</strong></td>
+				        <td th:text="${estagio.estagiario.usuarioGithub}"></td>
+				      </tr>
+				      
+				    </tbody>
+				  </table>
+	          </div>
+	        </div>
+
+
+	          <div class="panel panel-bluegray">
+	          <div class="panel-heading">
+	            <a class="panel-title" data-toggle="collapse" data-target="#detalhesTurma" th:inline="text"><i class="fa fa-caret-down fa-caret-right fa-chevron-down" aria-hidden="true"></i> Turma: [[${estagio.turma.nome}]] - [[${estagio.turma.semestre}]]</a>
+			  </div>
+	          <div id="detalhesTurma" class="panel-body collapse">
+				  <table class="table table-hover">
+				    <tbody>
+				     <tr>
+				        <td><strong>Orientador</strong></td>
+				        <td th:text="${estagio.turma.orientador == null ? 'Não há orientador' : estagio.turma.orientador.nome}"></td>
+				      </tr>
+				      <tr>
+				        <td><strong>Supervisores</strong></td>
+				     	<td th:inline="text"> <span th:if="${#lists.isEmpty(estagio.turma.supervisores)}">Não há supervisores</span> <span th:each="sup : ${estagio.turma.supervisores}"> [[${sup.nome}]],</span></td>
+				      </tr>
+				      <tr>
+				        <td><strong>Período</strong></td>
+				        <td><label th:text="${#dates.format(estagio.turma.inicio, 'dd/MM/yyyy')}"></label>  a <label th:text="${#dates.format(estagio.turma.termino, 'dd/MM/yyyy')}"></label></td>
+				      </tr>
+				      <tr>
+				        <td><strong>Tipo</strong></td>
+				        <td th:text="${estagio.turma.tipoTurma}"></td>
+				      </tr>
+				      <tr>
+				        <td><strong>Status</strong></td>
+				        <td th:text="${estagio.turma.status}"></td>
+				      </tr>
+				    </tbody>
+				  </table>
+	           </div>
+	        </div>
+	
+	      </div>
+	    <div class="col-md-8">
+	        <div class="panel panel-bluegray">
+	          <div class="panel-heading">
+	            <p class="panel-title">Editar Avaliação de Rendimento</p>
+	          </div>
+	          <div id="estagiarios" class="panel-body">
+				  <div class="col-lg-12">
+						<form method="post" enctype="multipart/form-data" class="form-horizontal" action="#" th:action="@{/Supervisao/Acompanhamento/{idEstagio}/AvaliacaoRendimentoArquivo/Editar(idEstagio=${estagio.id})}" th:object="${avaliacaoRendimento}">
+						   
+							  
+							  <fieldset>
+							  	<legend></legend>
+							    <div class="form-group">
+								  <label for="nota" class="col-lg-12 control-label"><strong>Nota Geral (0,0 a 10,0)</strong></label>
+								  <div class="col-lg-12">
+									 <input th:field="*{nota}" id="nota" type="text" class="form-control" />
+									 <label class="text-danger" for="atividadeCurricular" th:if="${#fields.hasErrors('nota')}" th:errors="*{nota}">Title error message</label>
+								  </div>
+							    </div>
+								<div class="form-group">
+								   <label for="comentarioFinal" class="col-lg-12 control-label"><strong>Comentários finais e sugestões</strong></label><br/>
+								   <div class="col-lg-12">
+									 <textarea class="form-control" rows="3" id="comentarioFinal" th:field="*{comentarioFinal}"></textarea>
+								       <span class="help-block">Comentários finais e sugestões.</span>
+								   </div>
+								</div>
+								<div class="form-group">
+									<div class="col-lg-12">
+										<input type="file" class="form-control" id="inputArquivo"
+											placeholder="Arquivo" name="arquivo" /> 
+											<label class="text-danger" for="inputArquivo" th:if="${#fields.hasErrors('documento')}" th:errors="*{documento}">Title error message</label>
+									</div>
+								</div>
+							  </fieldset>
+
+						   
+							 <div class="form-group">
+							     <div class="col-lg-10 pull-left">
+							       <a class="btn btn-default" th:href="@{/Supervisao/Acompanhamento/{idEstagio}(idEstagio=${estagio.id})}">Cancelar</a>
+							       <button type="submit" class="btn btn-success">Salvar alterações</button>
+							     </div>
+							</div>
+						</form>
+					</div>
+	           </div>
+	        </div>
+	    </div>
+	   </div>
+	</div>
+  </section>
+</html>

@@ -1,5 +1,10 @@
 package br.ufc.quixada.npi.ge.service.impl;
 
+import static br.ufc.quixada.npi.ge.utils.Constants.EXCEPTION_SALVAR_ARQUIVO;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -10,7 +15,9 @@ import org.joda.time.Hours;
 import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import br.ufc.quixada.npi.ge.exception.GestaoEstagioException;
 import br.ufc.quixada.npi.ge.model.AvaliacaoRendimento;
+import br.ufc.quixada.npi.ge.model.Documento;
 import br.ufc.quixada.npi.ge.model.Estagiario;
 import br.ufc.quixada.npi.ge.model.Estagio;
 import br.ufc.quixada.npi.ge.model.Evento;
@@ -146,8 +153,12 @@ public class EstagioServiceImpl implements EstagioService {
 
 	@Override
 	public void adicionarAvaliacaoRendimento(AvaliacaoRendimento avaliacaoRendimento) {
-		// TODO Auto-generated method stub
 		avaliacaoRepository.save(avaliacaoRendimento);
+	}
+	
+	@Override
+	public void excluirAvaliacaoRendimentoArquivo(Long idAvaliacaoRendimento){
+		avaliacaoRepository.delete(idAvaliacaoRendimento);
 	}
 
 	@Override
@@ -193,7 +204,8 @@ public class EstagioServiceImpl implements EstagioService {
 	}
 
 	public boolean liberarReposicao(Frequencia frequencia) {
-		return (frequencia.getTipo() == TipoFrequencia.REPOSICAO && frequencia.getStatus() == StatusFrequencia.AGUARDO);
+//		return (frequencia.getTipo() == TipoFrequencia.REPOSICAO && frequencia.getStatus() == StatusFrequencia.AGUARDO);
+		return true;
 	}
 
 	@Override
@@ -225,10 +237,10 @@ public class EstagioServiceImpl implements EstagioService {
 
 				frequencia = new Frequencia();
 
-				frequencia.setEstagio(estagio);
+				/*frequencia.setEstagio(estagio);
 				frequencia.setStatus(StatusFrequencia.PRESENTE);
 				frequencia.setData(new Date());
-				frequencia.setHorario(new Date());
+				frequencia.setHorario(new Date());*/
 				frequencia.setTipo(TipoFrequencia.NORMAL);
 
 				frequenciaRepository.save(frequencia);
@@ -237,9 +249,9 @@ public class EstagioServiceImpl implements EstagioService {
 		} else if (liberarReposicao(frequencia)) {
 
 			frequencia.setEstagio(estagio);
-			frequencia.setStatus(StatusFrequencia.PRESENTE);
+			/*frequencia.setStatus(StatusFrequencia.PRESENTE);
 			frequencia.setData(new Date());
-			frequencia.setHorario(new Date());
+			frequencia.setHorario(new Date());*/
 			frequencia.setTipo(TipoFrequencia.REPOSICAO);
 
 			frequenciaRepository.save(frequencia);
@@ -274,10 +286,10 @@ public class EstagioServiceImpl implements EstagioService {
 		int totalDeFrequenciasDaTurmaHoje = calcularTotalDeFrequenciasDaTurma(estagio.getTurma().getInicio(),
 				new Date(), estagio.getTurma().getExpedientes());
 
-		int totalPresencas = frequenciaRepository.buscarTotalByStatus(estagio.getId(),
+		/*int totalPresencas = frequenciaRepository.buscarTotalByStatus(estagio.getId(),
 				Frequencia.StatusFrequencia.PRESENTE);
 		int totalFaltas = frequenciaRepository.buscarTotalByStatus(estagio.getId(), Frequencia.StatusFrequencia.FALTA);
-
+*//*
 		int horasEstagiadas = totalPresencas * calcularCargaHorariaExpediente(estagio.getTurma().getExpedientes());
 
 		int totalPendencias = totalDeFrequenciasDaTurmaHoje
@@ -288,9 +300,9 @@ public class EstagioServiceImpl implements EstagioService {
 
 		int totalReposicoes = frequenciaRepository.buscarTotalByTipo(estagio.getId(),
 				Frequencia.TipoFrequencia.REPOSICAO);
-
+*/
 		double porcentagemFaltas = 0.0;
-
+/*
 		if (totalDeFrequenciasDaTurma > 0) {
 			porcentagemFaltas = (totalFaltas * 100) / totalDeFrequenciasDaTurma;
 		}
@@ -298,15 +310,16 @@ public class EstagioServiceImpl implements EstagioService {
 		double porcentagemPresencas = 100 - porcentagemFaltas;
 
 		ConsolidadoFrequencia consolidadoFrequencia = new ConsolidadoFrequencia();
-
-		consolidadoFrequencia.setHorasEstagiadas(horasEstagiadas);
+*/
+		/*consolidadoFrequencia.setHorasEstagiadas(horasEstagiadas);
 		consolidadoFrequencia.setTotalPendecias(totalPendencias);
 		consolidadoFrequencia.setTotalAtrasos(totalAtrasos);
 		consolidadoFrequencia.setTotalReposicoes(totalReposicoes);
-		consolidadoFrequencia.setPorcentagemFaltas(porcentagemFaltas);
-		consolidadoFrequencia.setPorcentagemPresencas(porcentagemPresencas);
+		consolidadoFrequencia.setPorcentagemFaltas(porcentagemFaltas);*/
+	/*	consolidadoFrequencia.setPorcentagemPresencas(porcentagemPresencas);*/
 
-		return consolidadoFrequencia;
+		/*return consolidadoFrequencia;*/
+		return null;
 	}
 
 	private int calcularCargaHorariaExpediente(List<Expediente> expedientes) {
@@ -344,8 +357,8 @@ public class EstagioServiceImpl implements EstagioService {
 		frequencia.setEstagio(estagio);
 		frequencia.setData(date);
 		frequencia.setTipo(Frequencia.TipoFrequencia.REPOSICAO);
-		frequencia.setStatus(Frequencia.StatusFrequencia.AGUARDO);
-
+		/*frequencia.setStatus(Frequencia.StatusFrequencia.AGUARDO);
+*/
 		frequenciaRepository.save(frequencia);
 	}
 
@@ -372,7 +385,8 @@ public class EstagioServiceImpl implements EstagioService {
 	@Override
 	public Frequencia buscarFrequenciaPorIdETipoEStatus(Long idEstagio, TipoFrequencia tipoFrequencia,
 			StatusFrequencia statusFrequencia) {
-		return frequenciaRepository.findByIdAndTipoAndStatus(idEstagio, tipoFrequencia, statusFrequencia);
+	/*	return frequenciaRepository.findByIdAndTipoAndStatus(idEstagio, tipoFrequencia, statusFrequencia);*/
+		return null;
 	}
 
 	@Override
@@ -404,4 +418,20 @@ public class EstagioServiceImpl implements EstagioService {
 		return listaEventos;
 	}
 
+	@Override
+	public void substituirDocumento(Documento documento) throws GestaoEstagioException {
+		File file = new File(documento.getCaminho());
+		file.delete();
+		try {
+			File arquivo = new File(documento.getCaminho());
+			FileOutputStream fop = new FileOutputStream(arquivo);
+			arquivo.createNewFile();
+			fop.write(documento.getArquivo());
+			fop.flush();
+			fop.close();
+		} catch (IOException ex) {
+			throw new GestaoEstagioException(EXCEPTION_SALVAR_ARQUIVO);
+		}
+	}
+	
 }

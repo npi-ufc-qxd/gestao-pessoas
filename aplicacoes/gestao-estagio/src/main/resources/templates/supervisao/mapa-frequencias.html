@@ -52,18 +52,22 @@
 			        	<table id="frequencias" class="table table-hover">
 			        		<thead>
 			        			<tr>
-			        				<th>Horário</th>
 			        				<th>Nome</th>
 			        				<th>Tipo</th>
-			        				<th>Status</th>
+			        				<th>Hora da entrada</th>
+			        				<th>Status entrada</th>
+			        				<th>Hora da saída</th>
+			        				<th>Status saída</th>
 			        			</tr>
 			        		</thead>
 					    	<tbody>
 					      		<tr th:each="frequencia: ${frequencias}">
-					        		<td th:text="${frequencia.horario}"></td>
 					        		<td th:text="${frequencia.estagio.estagiario.nomeCompleto}"></td>
 					        		<td th:text="${frequencia.tipo}"></td>
-					        		<td th:text="${frequencia.status}"></td>
+					        		<td th:text="${frequencia.horaEntrada}"></td>
+					        		<td th:text="${frequencia.statusEntrada}"></td>
+					        		<td th:text="${frequencia.horaSaida}"></td>
+					        		<td th:text="${frequencia.statusSaida}"></td>
 					      		</tr>
 					    	</tbody>
 					  </table>

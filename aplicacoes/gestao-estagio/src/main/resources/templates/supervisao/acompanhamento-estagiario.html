@@ -224,7 +224,26 @@
 	            <a class="panel-title" data-toggle="collapse" data-target="#avaliacaoRendimento"><i class="fa fa-caret-down" aria-hidden="true"></i> Avaliação Rendimento</a>
 			  </div>
 	        <div id="avaliacaoRendimento" class="panel-body collapse in">
-	         <div class="avaliacao" th:if="${estagio.avaliacaoRendimento != null}">
+	         <div class="avaliacao" th:if="${estagio.avaliacaoRendimento != null and estagio.avaliacaoRendimento.modo.name()=='FORMULARIO'}">
+	   			<div class="row">
+	   				<div class="col-md-12">
+				      <strong>Atividade curricular:</strong>
+				      <p th:text="${estagio.avaliacaoRendimento.atividadeCurricular != null} ? ${estagio.avaliacaoRendimento.atividadeCurricular} : ' '"></p>
+				    </div>
+				    <div class="col-md-12">
+				      <strong>Início da avaliação:</strong>
+				      <p th:text="${estagio.avaliacaoRendimento.inicioAvaliacao != null} ? ${#dates.format(estagio.avaliacaoRendimento.inicioAvaliacao, 'dd/MM/yyyy')} : ' '"></p>
+				    </div>
+				    <div class="col-md-12">
+				      <strong>Término da avaliação:</strong>
+				      <p th:text="${estagio.avaliacaoRendimento.terminoAvaliacao != null} ? ${#dates.format(estagio.avaliacaoRendimento.terminoAvaliacao, 'dd/MM/yyyy')} : ' '"></p>
+				    </div>
+				    <div class="col-md-12">
+				      <strong>Objetivo geral do estágio:</strong>
+				      <p th:text="${estagio.avaliacaoRendimento.objetivoEstagio != null} ? ${estagio.avaliacaoRendimento.objetivoEstagio} : ' '"></p>
+				    </div>
+	   			</div>
+	   			<hr/>
 	   			<div class="row">
 	         		<div class="col-md-12"><h6>ASSIDUIDADE E DISCIPLINA</h6></div>
 				     <div class="col-md-12">
@@ -300,9 +319,76 @@
 				      		<p th:text="${estagio.avaliacaoRendimento.fatorRelacionamentoComentario}"></p>
 				     	 </div>
 			     </div>
+			     <hr/>
+			     <div class="row">
+			     	<div class="col-md-12"><h6>NOTA E COMENTÁRIO FINAL</h6></div>
+			     	<div class="col-md-12">
+			      		<strong>Nota Geral (0,0 a 10,0):</strong>
+			      		<p th:text="${estagio.avaliacaoRendimento.nota != null} ? ${estagio.avaliacaoRendimento.nota} : ' ' "></p>
+			      	</div>
+			      	<div class="col-md-12">
+			      		<strong>Comentários finais e sugestões:</strong>
+			      		<p th:text="${estagio.avaliacaoRendimento.comentarioFinal != null} ? ${estagio.avaliacaoRendimento.comentarioFinal} : ' ' "></p>
+			      	</div>
+			     </div>
+			     <hr/>
+			     <div class="row">
+			     	<div class="col-md-12"><h6>PARECER DO PROFESSOR ORIENTADOR</h6></div>
+			     	<div class="col-md-12">
+			     		<strong>Confirmação do estágio:</strong>
+			      		<p th:text="${estagio.avaliacaoRendimento.confirmadoNoEstagio} ? 'Confirmado no estágio' : 'Não confirmado no estágio' "></p>
+			      	</div>
+			      	<div class="col-md-12">
+			      		<strong>Fatores que serviram de base para o parecer emitido:</strong>
+			      		<ul class="lista-fatores">
+				      		<li th:if="${estagio.avaliacaoRendimento.fatorAssuidade}" th:text="Assiduidade" />
+				      		<li th:if="${estagio.avaliacaoRendimento.fatorDisciplina}" th:text="Disciplina" />
+				      		<li th:if="${estagio.avaliacaoRendimento.fatorCapacidadeIniciativa}" th:text="${'Capacidade de Iniciativa'}" />
+				      		<li th:if="${estagio.avaliacaoRendimento.fatorProdutividade}" th:text="Produtividade" />
+				      		<li th:if="${estagio.avaliacaoRendimento.fatorResponsabilidade}" th:text="Responsabilidade" />
+				      		<li th:if="${estagio.avaliacaoRendimento.outrosMotivos and estagio.avaliacaoRendimento.especificacaoMotivo != null}" th:text="'Outro: ' + ${estagio.avaliacaoRendimento.especificacaoMotivo}" />
+			      		</ul>
+			      	</div>
+			      	<div class="col-md-12">
+			     		<strong>Comentários/Observações:</strong>
+			      		<p th:text="${estagio.avaliacaoRendimento.observacaoParecer != null} ? ${estagio.avaliacaoRendimento.observacaoParecer}  : ' ' "></p>
+			      	</div>
+			      	<div class="col-md-12">
+			     		<strong>Necessidade de Treinamento:</strong>
+			      		<p th:text="${estagio.avaliacaoRendimento.necessidadeTreinamento and estagio.avaliacaoRendimento.especificacaoTreinamento != null} ? 'Há necessidade de treinamento: '+${estagio.avaliacaoRendimento.especificacaoTreinamento}  : 'Não há necessidade de treinamento.' "></p>
+			      	</div>
+			      	<div class="col-md-12" th:if="${estagio.avaliacaoRendimento.necessidadeTreinamento}">
+			     		<strong>Caráter do Treinamento:</strong>
+			      		<p th:text="${estagio.avaliacaoRendimento.caraterTreinamentoUrgente} ? 'Urgente' : (${estagio.avaliacaoRendimento.caraterTreinamentoImportante} ? 'Importante' :  'Comum')"></p>
+			      	</div>
+			     </div>
 			  </div>
+			  
+			  
+			 <!-- VIA ARQUIVO --> 
+			 <div class="avaliacao" th:if="${estagio.avaliacaoRendimento != null and estagio.avaliacaoRendimento.modo.name()=='ARQUIVO'}">
+	   			<div class="row">
+			     	<div class="col-md-12"><h6>NOTA E COMENTÁRIO FINAL</h6></div>
+			     	<div class="col-md-12">
+			      		<strong>Nota Geral (0,0 a 10,0):</strong>
+			      		<p th:text="${estagio.avaliacaoRendimento.nota != null} ? ${estagio.avaliacaoRendimento.nota} : ' ' "></p>
+			      	</div>
+			      	<div class="col-md-12">
+			      		<strong>Comentários finais e sugestões:</strong>
+			      		<p th:text="${estagio.avaliacaoRendimento.comentarioFinal != null} ? ${estagio.avaliacaoRendimento.comentarioFinal} : ' ' "></p>
+			      	</div>
+			      	<div class="col-md-12" th:if="${estagio.avaliacaoRendimento.documento != null} ">
+			      		<strong>Arquivo da avaliação:</strong>
+			      		<p><a class="gp-link-download-submissao" th:href="@{/Supervisao/Acompanhamento/{idEstagio}/DownloadAvaliacaoRendimento(idEstagio=${estagio.id})}" th:text="${estagio.avaliacaoRendimento.documento.nome}+'.pdf'"></a></p>
+			      	</div>
+			     </div>
+			 
+			  </div>
+			  
+			  
 				          		
-		        <a th:if="${estagio.avaliacaoRendimento} != null" th:href="@{/Supervisao/Acompanhamento/{idEstagio}/AvaliacaoRendimento/Editar(idEstagio=${estagio.id})}" class="btn btn-success btn-sm pull-right">Editar Avaliação</a>
+		        <a th:if="${estagio.avaliacaoRendimento != null and estagio.avaliacaoRendimento.modo.name()=='FORMULARIO'}" th:href="@{/Supervisao/Acompanhamento/{idEstagio}/AvaliacaoRendimento/Editar(idEstagio=${estagio.id})}" class="btn btn-success btn-sm pull-right">Editar Avaliação</a>
+		        <a th:if="${estagio.avaliacaoRendimento != null and estagio.avaliacaoRendimento.modo.name()=='ARQUIVO'}" th:href="@{/Supervisao/Acompanhamento/{idEstagio}/AvaliacaoRendimentoArquivo/Editar(idEstagio=${estagio.id})}" class="btn btn-success btn-sm pull-right">Editar Avaliação</a>
 		        <a th:if="${estagio.avaliacaoRendimento} == null" th:href="@{/Supervisao/Acompanhamento/{idEstagio}/AvaliacaoRendimento(idEstagio=${estagio.id})}" class="btn btn-success btn-sm pull-right">Avaliar via formulário</a>
 		        <a th:if="${estagio.avaliacaoRendimento} == null" th:href="@{/Supervisao/Acompanhamento/{idEstagio}/AvaliacaoRendimentoArquivo(idEstagio=${estagio.id})}" class="btn btn-success btn-sm pull-right spacing-right">Avaliar via arquivo</a>
 		        

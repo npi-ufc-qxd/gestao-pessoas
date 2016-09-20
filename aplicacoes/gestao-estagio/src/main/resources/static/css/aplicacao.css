@@ -241,3 +241,8 @@ tr:nth-child(1) td {
 .spacing-right{
 	margin-right: 1%;
 }
+
+.lista-fatores{
+	list-style:none;
+	padding-left:0;
+}

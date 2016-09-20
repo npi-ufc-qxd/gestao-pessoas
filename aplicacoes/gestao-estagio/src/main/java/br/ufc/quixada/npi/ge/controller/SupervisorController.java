@@ -10,6 +10,7 @@ import static br.ufc.quixada.npi.ge.utils.Constants.FORMULARIO_ADICIONAR_AVALIAC
 import static br.ufc.quixada.npi.ge.utils.Constants.FORMULARIO_ADICIONAR_TURMA;
 import static br.ufc.quixada.npi.ge.utils.Constants.FORMULARIO_AVALIAR_PLANO;
 import static br.ufc.quixada.npi.ge.utils.Constants.FORMULARIO_EDITAR_AVALIACAO_RENDIMENTO;
+import static br.ufc.quixada.npi.ge.utils.Constants.FORMULARIO_EDITAR_AVALIACAO_RENDIMENTO_ARQUIVO;
 import static br.ufc.quixada.npi.ge.utils.Constants.FORMULARIO_EDITAR_TURMA;
 import static br.ufc.quixada.npi.ge.utils.Constants.FORMULARIO_EVENTO;
 import static br.ufc.quixada.npi.ge.utils.Constants.FORMULARIO_EXPEDIENTE;
@@ -55,6 +56,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import br.ufc.quixada.npi.ge.exception.GestaoEstagioException;
 import br.ufc.quixada.npi.ge.model.AvaliacaoRendimento;
 import br.ufc.quixada.npi.ge.model.AvaliacaoRendimento.Modo;
 import br.ufc.quixada.npi.ge.model.Documento;
@@ -933,6 +935,11 @@ public class SupervisorController {
 			redirect.addFlashAttribute("error", "Você não possui permissão para editar esta avaliação de rendimento");
 			return REDIRECT_PAGINA_INICIAL_SUPERVISOR;
 		}
+		
+		if(estagio.getAvaliacaoRendimento()!=null && estagio.getAvaliacaoRendimento().getModo().equals(AvaliacaoRendimento.Modo.ARQUIVO)){
+			redirect.addFlashAttribute("error", "Esta avaliação foi feita via arquivo.");
+			return REDIRECT_PAGINA_INICIAL_SUPERVISOR;
+		}
 
 		model.addAttribute("estagio", estagio);
 		model.addAttribute("avaliacaoRendimento", estagio.getAvaliacaoRendimento());
@@ -949,6 +956,11 @@ public class SupervisorController {
 			redirect.addFlashAttribute("error", "Você não possui permissão para editar esta avaliação de rendimento");
 			return REDIRECT_PAGINA_INICIAL_SUPERVISOR;
 		}
+		
+		if(estagio.getAvaliacaoRendimento()!=null && estagio.getAvaliacaoRendimento().getModo().equals(AvaliacaoRendimento.Modo.ARQUIVO)){
+			redirect.addFlashAttribute("error", "Esta avaliação foi feita via arquivo.");
+			return REDIRECT_PAGINA_INICIAL_SUPERVISOR;
+		}
 
 		newAvaliacaoRendimento.setId(estagio.getAvaliacaoRendimento().getId());
 		newAvaliacaoRendimento.setAtualizadaPor(servidor);
@@ -960,6 +972,85 @@ public class SupervisorController {
 		redirect.addFlashAttribute("sucesso", "Alterações da avaliação de rendimento foram salvas com sucesso!");
 
 		return REDIRECT_ACOMPANHAMENTO_ESTAGIARIO + idEstagio;
+	}
+	
+	@RequestMapping(value = "/Acompanhamento/{idEstagio}/AvaliacaoRendimentoArquivo/Editar", method = RequestMethod.GET)
+	public String formularioEditarAvaliacaoRendimentoArquivo(Model model, @PathVariable("idEstagio") Long idEstagio, RedirectAttributes redirect) {
+		Servidor servidor = pessoaService.buscarServidorPorCpf(getCpfUsuarioLogado());
+		Estagio estagio = estagioService.buscarEstagioPorIdEOrientadorOuSupervisor(idEstagio, servidor.getId());
+
+		if(estagio == null) {
+			redirect.addFlashAttribute("error", "Você não possui permissão para editar esta avaliação de rendimento");
+			return REDIRECT_PAGINA_INICIAL_SUPERVISOR;
+		}
+		
+		if(estagio.getAvaliacaoRendimento()!=null && estagio.getAvaliacaoRendimento().getModo().equals(AvaliacaoRendimento.Modo.FORMULARIO)){
+			redirect.addFlashAttribute("error", "Esta avaliação foi feita via formulário.");
+			return REDIRECT_PAGINA_INICIAL_SUPERVISOR;
+		}
+
+		model.addAttribute("estagio", estagio);
+		model.addAttribute("avaliacaoRendimento", estagio.getAvaliacaoRendimento());
+		return FORMULARIO_EDITAR_AVALIACAO_RENDIMENTO_ARQUIVO;
+	}
+
+	@RequestMapping(value = "/Acompanhamento/{idEstagio}/AvaliacaoRendimentoArquivo/Editar", method = RequestMethod.POST)
+	public String editarAvaliacaoRendimentoArquivo(Model model, @Valid @ModelAttribute("avaliacaoRendimento") AvaliacaoRendimento newAvaliacaoRendimento, RedirectAttributes redirect, @PathVariable("idEstagio") Long idEstagio, @RequestParam("arquivo") MultipartFile arquivo) {
+
+		Servidor servidor = pessoaService.buscarServidorPorCpf(getCpfUsuarioLogado());
+		Estagio estagio = estagioService.buscarEstagioPorIdEOrientadorOuSupervisor(idEstagio, servidor.getId());
+
+		if(estagio == null) {
+			redirect.addFlashAttribute("error", "Você não possui permissão para editar esta avaliação de rendimento");
+			return REDIRECT_PAGINA_INICIAL_SUPERVISOR;
+		}
+		
+		if(estagio.getAvaliacaoRendimento()!=null && estagio.getAvaliacaoRendimento().getModo().equals(AvaliacaoRendimento.Modo.FORMULARIO)){
+			redirect.addFlashAttribute("error", "Esta avaliação foi feita via formulário.");
+			return REDIRECT_PAGINA_INICIAL_SUPERVISOR;
+		}
+		newAvaliacaoRendimento.setAtualizadaPor(servidor);
+		newAvaliacaoRendimento.setId(estagio.getAvaliacaoRendimento().getId());
+		newAvaliacaoRendimento.setDocumento(estagio.getAvaliacaoRendimento().getDocumento());
+		estagio.setAvaliacaoRendimento(newAvaliacaoRendimento);
+		newAvaliacaoRendimento.setEstagio(estagio);
+		newAvaliacaoRendimento.setModo(Modo.ARQUIVO);
+		
+		if(!arquivo.isEmpty()){
+			try {
+				newAvaliacaoRendimento.getDocumento().setArquivo(arquivo.getBytes());
+				estagioService.substituirDocumento(newAvaliacaoRendimento.getDocumento());
+			} catch (IOException | GestaoEstagioException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		estagioService.adicionarAvaliacaoRendimento(newAvaliacaoRendimento);
+
+		redirect.addFlashAttribute("sucesso", "Alterações da avaliação de rendimento foram salvas com sucesso!");
+
+		return REDIRECT_ACOMPANHAMENTO_ESTAGIARIO + idEstagio;
+	}
+	
+	@RequestMapping(value = "/Acompanhamento/{idEstagio}/DownloadAvaliacaoRendimento", method = RequestMethod.GET)
+	public Object downloadAvaliacaoRendimento(Model model, @PathVariable("idEstagio") Long idEstagio, RedirectAttributes redirect) {
+		Servidor servidor = pessoaService.buscarServidorPorCpf(getCpfUsuarioLogado());
+		Estagio estagio = estagioService.buscarEstagioPorIdEOrientadorOuSupervisor(idEstagio, servidor.getId());
+		
+		if(estagio == null) {
+			redirect.addFlashAttribute("error", "Você não possui permissão para baixar esta avaliação de rendimento");
+			return REDIRECT_PAGINA_INICIAL_SUPERVISOR;
+		}
+
+		byte[] relatorio = estagio.getAvaliacaoRendimento().getDocumento().getArquivo();
+		String[] tipo = estagio.getAvaliacaoRendimento().getDocumento().getExtensao().split("/");
+		
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(new MediaType(tipo[0], tipo[1]));
+		headers.set("Content-Disposition", "attachment; filename=" + estagio.getAvaliacaoRendimento().getDocumento().getNome() + ".pdf");
+		headers.setContentLength(relatorio.length);
+
+	    return new HttpEntity<byte[]>(relatorio, headers);
 	}
 
 	@RequestMapping(value = "/Acompanhamento/{idEstagio}/Frequencia", method = RequestMethod.GET)

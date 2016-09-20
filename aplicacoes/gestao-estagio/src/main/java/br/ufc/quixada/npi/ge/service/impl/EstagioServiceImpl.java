@@ -1,5 +1,10 @@
 package br.ufc.quixada.npi.ge.service.impl;
 
+import static br.ufc.quixada.npi.ge.utils.Constants.EXCEPTION_SALVAR_ARQUIVO;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -10,7 +15,9 @@ import org.joda.time.Hours;
 import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import br.ufc.quixada.npi.ge.exception.GestaoEstagioException;
 import br.ufc.quixada.npi.ge.model.AvaliacaoRendimento;
+import br.ufc.quixada.npi.ge.model.Documento;
 import br.ufc.quixada.npi.ge.model.Estagiario;
 import br.ufc.quixada.npi.ge.model.Estagio;
 import br.ufc.quixada.npi.ge.model.Evento;
@@ -147,6 +154,11 @@ public class EstagioServiceImpl implements EstagioService {
 	@Override
 	public void adicionarAvaliacaoRendimento(AvaliacaoRendimento avaliacaoRendimento) {
 		avaliacaoRepository.save(avaliacaoRendimento);
+	}
+	
+	@Override
+	public void excluirAvaliacaoRendimentoArquivo(Long idAvaliacaoRendimento){
+		avaliacaoRepository.delete(idAvaliacaoRendimento);
 	}
 
 	@Override
@@ -406,4 +418,20 @@ public class EstagioServiceImpl implements EstagioService {
 		return listaEventos;
 	}
 
+	@Override
+	public void substituirDocumento(Documento documento) throws GestaoEstagioException {
+		File file = new File(documento.getCaminho());
+		file.delete();
+		try {
+			File arquivo = new File(documento.getCaminho());
+			FileOutputStream fop = new FileOutputStream(arquivo);
+			arquivo.createNewFile();
+			fop.write(documento.getArquivo());
+			fop.flush();
+			fop.close();
+		} catch (IOException ex) {
+			throw new GestaoEstagioException(EXCEPTION_SALVAR_ARQUIVO);
+		}
+	}
+	
 }

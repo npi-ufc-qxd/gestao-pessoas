@@ -43,6 +43,7 @@ $(document).ready(function() {
 	jQuery.validator.addMethod("horaMaior", 
 			function(horaFinal, element, params) {
 				$(params).val($("#horaInicio"));
+				//console.log($(params).val());
 				return moment(horaFinal, "HH:mm").isAfter(moment($(params).val(), "HH:mm"));
 			},'Horário de término deve ser posterior ao horário de início!'
 		);
@@ -50,7 +51,8 @@ $(document).ready(function() {
 	jQuery.validator.addMethod("horaMenor", 
 			function(horaIncial, element, params) {
 				$(params).val($("#horaTermino"));
-				return moment(dataIncial, "HH:mm").isBefore(moment($(params).val(), "HH:mm"));
+				//console.log($(params).val());
+				return moment(horaInicio, "HH:mm").isBefore(moment($(params).val(), "HH:mm"));
 			},'Horário de início deve ser anterior ao horário de término!'
 		);
 

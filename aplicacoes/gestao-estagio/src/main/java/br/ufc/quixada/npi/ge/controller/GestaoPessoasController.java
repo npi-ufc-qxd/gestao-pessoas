@@ -1,22 +1,18 @@
 package br.ufc.quixada.npi.ge.controller;
 import static br.ufc.quixada.npi.ge.utils.Constants.FORMULARIO_CADASTRO_ESTAGIARIO;
 import static br.ufc.quixada.npi.ge.utils.Constants.FORMULARIO_CADASTRO_SUPERVISOR;
-import static br.ufc.quixada.npi.ge.utils.Constants.PAGINA_LOGIN;
 import static br.ufc.quixada.npi.ge.utils.Constants.REDIRECT_PAGINA_INICIAL_ESTAGIARIO;
 import static br.ufc.quixada.npi.ge.utils.Constants.REDIRECT_PAGINA_INICIAL_SUPERVISOR;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -35,7 +31,6 @@ import br.ufc.quixada.npi.ge.model.Pessoa;
 import br.ufc.quixada.npi.ge.model.Servidor;
 import br.ufc.quixada.npi.ge.service.LdapAuthentication;
 import br.ufc.quixada.npi.ge.service.PessoaService;
-import br.ufc.quixada.npi.ge.utils.Constants;
 import br.ufc.quixada.npi.ldap.model.Usuario;
 import br.ufc.quixada.npi.ldap.service.UsuarioService;
 

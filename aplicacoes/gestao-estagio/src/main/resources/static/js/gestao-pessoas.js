@@ -42,17 +42,13 @@ $(document).ready(function() {
 
 	jQuery.validator.addMethod("horaMaior", 
 			function(horaFinal, element, params) {
-				$(params).val($("#horaInicio"));
-				//console.log($(params).val());
 				return moment(horaFinal, "HH:mm").isAfter(moment($(params).val(), "HH:mm"));
 			},'Horário de término deve ser posterior ao horário de início!'
 		);
 	
 	jQuery.validator.addMethod("horaMenor", 
-			function(horaIncial, element, params) {
-				$(params).val($("#horaTermino"));
-				//console.log($(params).val());
-				return moment(horaInicio, "HH:mm").isBefore(moment($(params).val(), "HH:mm"));
+			function(horaInicial, element, params) {
+				return moment(horaInicial, "HH:mm").isBefore(moment($(params).val(), "HH:mm"));
 			},'Horário de início deve ser anterior ao horário de término!'
 		);
 
@@ -71,6 +67,9 @@ $(document).ready(function() {
 	);
 	
 	$('#form-expediente').validate({
+		onkeyup: false,
+		onclick: false,
+		onfocusout: false,
 		rules: {
 			horaInicio:{
         		horaMenor : "#horaTermino",
@@ -78,6 +77,26 @@ $(document).ready(function() {
 
         	horaTermino:{
         		horaMaior: "#horaInicio",
+        	}
+        },
+        highlight: function(element) {
+            $(element).closest('.form-group').addClass('has-error');
+        },
+        unhighlight: function(element) {
+            $(element).closest('.form-group').removeClass('has-error');
+        },
+        errorElement: 'span',
+        errorClass: 'help-block'
+	});
+	
+	$('#form-evento').validate({
+		rules: {
+			inicio:{
+        		menorQue : "#termino",
+        	},
+
+        	termino:{
+        		maiorQue: "#inicio",
         	}
         },
         highlight: function(element) {
@@ -141,25 +160,7 @@ $(document).ready(function() {
             },
         }
     });
-	$('#form-evento').validate({
-		rules: {
-			inicio:{
-        		menorQue : "#termino",
-        	},
-
-        	termino:{
-        		maiorQue: "#inicio",
-        	}
-        },
-        highlight: function(element) {
-            $(element).closest('.form-group').addClass('has-error');
-        },
-        unhighlight: function(element) {
-            $(element).closest('.form-group').removeClass('has-error');
-        },
-        errorElement: 'span',
-        errorClass: 'help-block'
-	});
+	
 	
 	$('#form-selecao').validate({
         rules: {

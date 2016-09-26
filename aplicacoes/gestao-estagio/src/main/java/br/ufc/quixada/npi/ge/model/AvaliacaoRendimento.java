@@ -21,7 +21,7 @@ public class AvaliacaoRendimento {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@OneToOne
+	@OneToOne(cascade = {CascadeType.REFRESH})
 	@JoinColumn(name = "estagio_id")
 	private Estagio estagio;
 
@@ -127,7 +127,7 @@ public class AvaliacaoRendimento {
 	private Boolean caraterTreinamentoUrgente;
 
 	private String especificacaoTreinamento;
-	
+
 	public Long getId() {
 		return id;
 	}

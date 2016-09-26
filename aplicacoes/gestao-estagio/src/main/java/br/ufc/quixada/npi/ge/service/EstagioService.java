@@ -3,7 +3,9 @@ package br.ufc.quixada.npi.ge.service;
 import java.util.Date;
 import java.util.List;
 
+import br.ufc.quixada.npi.ge.exception.GestaoEstagioException;
 import br.ufc.quixada.npi.ge.model.AvaliacaoRendimento;
+import br.ufc.quixada.npi.ge.model.Documento;
 import br.ufc.quixada.npi.ge.model.Estagiario;
 import br.ufc.quixada.npi.ge.model.Estagio;
 import br.ufc.quixada.npi.ge.model.Evento;
@@ -53,6 +55,8 @@ public interface EstagioService {
 	Long buscarIdSubmissaoPorTipoSubmissaoEEstagioId(Submissao.TipoSubmissao tipoSubmissao, Long idEstagio);
 	
 	void adicionarAvaliacaoRendimento(AvaliacaoRendimento avaliacaoRendimento);
+	
+	void excluirAvaliacaoRendimentoArquivo(Long idAvaliacaoRendimento);
 
 	Frequencia buscarFrequenciaPorIdETipoEStatus(Long idEstagio, Frequencia.TipoFrequencia tipoFrequencia, Frequencia.StatusFrequencia statusFrequencia);
 	
@@ -83,5 +87,7 @@ public interface EstagioService {
 	boolean isEstagioAcessoSupervisorOuOrientador(Long idEstagio, Long idServidor);
 
 	List<Evento> buscarEventosEstagiario(List<Estagio> estagios);
+	
+	void substituirDocumento(Documento documento) throws GestaoEstagioException;
 	
 }

@@ -10,7 +10,6 @@ import java.io.IOException;
 
 import javax.persistence.PostLoad;
 import javax.persistence.PrePersist;
-import javax.persistence.PreRemove;
 
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
@@ -52,15 +51,6 @@ public class DocumentoEntityListener implements ApplicationContextAware{
 		}
 	}
 	
-	@PreRemove
-	public void deletarArquivo(Documento documento){
-		context.getAutowireCapableBeanFactory().autowireBean(this);
-		
-		File file = new File(documento.getCaminho());
-		
-		removerArquivos(file);
-	}
-	
 	private String getDiretorioDocumento(Documento documento) {
 		//retorna a parte da string caminho, do começo da string até a ultima /, que é o diretório
 		return documento.getCaminho().substring(0, documento.getCaminho().lastIndexOf("/"));
@@ -69,17 +59,7 @@ public class DocumentoEntityListener implements ApplicationContextAware{
 	private String getNomeArquivo(Documento documento){
 		//retorna a parte da string caminho, da a ultima / até o fim da string, que é o nome do arquivo
 		return documento.getCaminho().substring(documento.getCaminho().lastIndexOf("/"), documento.getCaminho().length());
-	}
-	
-	private void removerArquivos(File file) {
-		if (file.isDirectory()) {
-			File[] files = file.listFiles();
-			for (File f : files) {
-				removerArquivos(f);
-			}
-		}
-		file.delete();
-	}
+	} 
 	
 	@PostLoad
 	public void carregarArquivo(Documento documento) throws GestaoEstagioException{
@@ -97,5 +77,5 @@ public class DocumentoEntityListener implements ApplicationContextAware{
 		
 		documento.setArquivo(bFile);
 	}
-
+	
 }

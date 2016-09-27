@@ -40,19 +40,74 @@ $(document).ready(function() {
 	
 	$('#semestre').mask('0000.s', {'translation': {'s': {pattern: /[1-2]/}}});	
 
+	jQuery.validator.addMethod("horaMaior", 
+			function(horaFinal, element, params) {
+				return moment(horaFinal, "HH:mm").isAfter(moment($(params).val(), "HH:mm"));
+			},'Horário de término deve ser posterior ao horário de início!'
+		);
+	
+	jQuery.validator.addMethod("horaMenor", 
+			function(horaInicial, element, params) {
+				return moment(horaInicial, "HH:mm").isBefore(moment($(params).val(), "HH:mm"));
+			},'Horário de início deve ser anterior ao horário de término!'
+		);
+
 	jQuery.validator.addMethod("maiorQue", 
 			function(dataFinal, element, params) {
 				$(params).val($("#inicio").datepicker('getFormattedDate'));
 				return moment(dataFinal, "DD/MM/YYYY").isAfter(moment($(params).val(), "DD/MM/YYYY"));
-			},'Data de término deve ser posterior a data início!'
+			},'Data de término deve ser posterior a data de início!'
 		);
 
 	jQuery.validator.addMethod("menorQue", 
 		function(dataIncial, element, params) {
 			$(params).val($("#termino").datepicker('getFormattedDate'));
 			return moment(dataIncial, "DD/MM/YYYY").isBefore(moment($(params).val(), "DD/MM/YYYY"));
-		},'Data de início deve ser anterior ao a data de término!'
+		},'Data de início deve ser anterior a data de término!'
 	);
+	
+	$('#form-expediente').validate({
+		onkeyup: false,
+		onclick: false,
+		onfocusout: false,
+		rules: {
+			horaInicio:{
+        		horaMenor : "#horaTermino",
+        	},
+
+        	horaTermino:{
+        		horaMaior: "#horaInicio",
+        	}
+        },
+        highlight: function(element) {
+            $(element).closest('.form-group').addClass('has-error');
+        },
+        unhighlight: function(element) {
+            $(element).closest('.form-group').removeClass('has-error');
+        },
+        errorElement: 'span',
+        errorClass: 'help-block'
+	});
+	
+	$('#form-evento').validate({
+		rules: {
+			inicio:{
+        		menorQue : "#termino",
+        	},
+
+        	termino:{
+        		maiorQue: "#inicio",
+        	}
+        },
+        highlight: function(element) {
+            $(element).closest('.form-group').addClass('has-error');
+        },
+        unhighlight: function(element) {
+            $(element).closest('.form-group').removeClass('has-error');
+        },
+        errorElement: 'span',
+        errorClass: 'help-block'
+	});
 	
 	$('#form-turma').validate({
         rules: {
@@ -105,25 +160,7 @@ $(document).ready(function() {
             },
         }
     });
-	$('#form-evento').validate({
-		rules: {
-			inicio:{
-        		menorQue : "#termino",
-        	},
-
-        	termino:{
-        		maiorQue: "#inicio",
-        	}
-        },
-        highlight: function(element) {
-            $(element).closest('.form-group').addClass('has-error');
-        },
-        unhighlight: function(element) {
-            $(element).closest('.form-group').removeClass('has-error');
-        },
-        errorElement: 'span',
-        errorClass: 'help-block'
-	});
+	
 	
 	$('#form-selecao').validate({
         rules: {

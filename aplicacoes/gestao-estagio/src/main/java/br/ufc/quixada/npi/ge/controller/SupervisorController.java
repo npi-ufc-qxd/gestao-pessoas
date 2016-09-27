@@ -330,7 +330,6 @@ public class SupervisorController {
 
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm:ss");
 
-
 		Date inicio = null;
 		Date termino = null;
 		try {
@@ -342,7 +341,7 @@ public class SupervisorController {
 
 		Expediente expedienteConflitante = turmaService.buscarExpedienteConflitantePorTurma(idTurma, expediente.getDiaSemana(), inicio, termino);
 
-		if(expedienteConflitante != null){
+		if(expedienteConflitante != null) {
 
 			redirect.addFlashAttribute("error", "Expedientes conflitantes não podem ser cadastrados. Tente novamente.");
 			return REDIRECT_DETALHES_TURMA + idTurma + "/Expediente";

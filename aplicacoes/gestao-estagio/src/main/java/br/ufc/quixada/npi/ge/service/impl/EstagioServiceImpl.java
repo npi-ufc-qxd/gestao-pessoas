@@ -217,10 +217,10 @@ public class EstagioServiceImpl implements EstagioService {
 			Frequencia frequencia = buscarFrequenciaDeHojePorEstagio(estagio);
 
 			if (frequencia == null) {
-				presencas.add(new Presenca(liberarPresenca(estagio.getTurma()), estagio));
+//				presencas.add(new Presenca(liberarPresenca(estagio.getTurma()), estagio));
 
 			} else {
-				presencas.add(new Presenca(liberarReposicao(frequencia), estagio));
+//				presencas.add(new Presenca(liberarReposicao(frequencia), estagio));
 			}
 		}
 

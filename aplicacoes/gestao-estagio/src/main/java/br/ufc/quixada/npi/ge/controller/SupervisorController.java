@@ -104,7 +104,6 @@ public class SupervisorController {
 	@Autowired
 	private AvaliacaoRendimentoValidator avaliacaoRendimentoValidator;
 
-
 	private JRDataSource jrDatasource;
 
 	@RequestMapping(value = { "", "/", "/Turmas" }, method = RequestMethod.GET)

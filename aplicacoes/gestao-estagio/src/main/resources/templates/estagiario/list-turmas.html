@@ -35,12 +35,12 @@
     <div class="col-sm-12">
       <div class="panel panel-default">
         <div id="painelPlano" class="panel-body gp-panel-body-background">
-          <p th:if="${#lists.isEmpty(presencas)}">Não há turmas</p>
-          <ul class="list-group" th:if="${presencas != null}">
-            <li class="list-group-item gp-list-group-item" th:each= "presenca: ${presencas}">
-              <b th:inline="text">[[${presenca.estagio.turma.nome}]] [[${presenca.estagio.turma.semestre}]]</b> 
-              <a th:href="@{/Estagiario/Acompanhamento/{idEstagio}(idEstagio=${presenca.estagio.id})}" class="btn btn-info btn-sm pull-right gp-btn-acompanhamento">Acompanhamento</a>
-              <a th:href="@{/Estagiario/Acompanhamento/{idEstagio}/Presenca(idEstagio=${presenca.estagio.id})}" class="btn btn-success btn-sm pull-right gp-btn-presenca" th:if="${presenca.permissao}">Estou Presente</a>
+          <p th:if="${#lists.isEmpty(estagios)}">Não há turmas</p>
+          <ul class="list-group" th:if="${estagios != null}">
+            <li class="list-group-item gp-list-group-item" th:each= "estagio: ${estagios}">
+              <b th:inline="text">[[${estagio.turma.nome}]] [[${estagio.turma.semestre}]]</b> 
+<!--               <a th:href="@{/Estagiario/Acompanhamento/{idEstagio}/PresencaEntrada(idEstagio=${presenca.estagio.id})}" class="btn btn-success btn-sm pull-right gp-btn-presenca" th:if="${presenca.permissaoEntrada}">Entrada</a> -->
+<!--               <a th:href="@{/Estagiario/Acompanhamento/{idEstagio}/PresencaSaida(idEstagio=${presenca.estagio.id})}" class="btn btn-success btn-sm pull-right gp-btn-presenca" th:if="${presenca.permissaoSaida}">Saída</a> -->
             </li>
           </ul>
         </div>

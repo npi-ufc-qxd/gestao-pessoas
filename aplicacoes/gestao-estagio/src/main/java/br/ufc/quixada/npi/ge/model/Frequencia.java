@@ -29,17 +29,22 @@ public class Frequencia {
 	private Date horaEntrada;
 	
 	@Enumerated(EnumType.STRING)
-	private StatusFrequencia statusEntrada;
+	private StatusFrequencia status;
 	
 	@Temporal(TemporalType.TIME)
 	private Date horaSaida;
-	
-	@Enumerated(EnumType.STRING)
-	private StatusFrequencia statusSaida;
-	
+
 	@Enumerated(EnumType.STRING)
 	private TipoFrequencia tipo;
 
+
+	@Temporal(TemporalType.TIME)
+	private Date horaAgendamentoEntrada;
+
+	@Temporal(TemporalType.TIME)
+	private Date horaAgendamentoSaida;
+	
+	
 	public Long getId() {
 		return id;
 	}
@@ -72,12 +77,12 @@ public class Frequencia {
 		this.horaEntrada = horarioEntrada;
 	}
 
-	public StatusFrequencia getStatusEntrada() {
-		return statusEntrada;
+	public StatusFrequencia getStatus() {
+		return status;
 	}
 
-	public void setStatusEntrada(StatusFrequencia statusEntrada) {
-		this.statusEntrada = statusEntrada;
+	public void setStatus(StatusFrequencia status) {
+		this.status = status;
 	}
 
 	public Date getHoraSaida() {
@@ -88,14 +93,6 @@ public class Frequencia {
 		this.horaSaida = horarioSaida;
 	}
 
-	public StatusFrequencia getStatusSaida() {
-		return statusSaida;
-	}
-
-	public void setStatusSaida(StatusFrequencia statusSaida) {
-		this.statusSaida = statusSaida;
-	}
-
 	public TipoFrequencia getTipo() {
 		return tipo;
 	}
@@ -103,13 +100,30 @@ public class Frequencia {
 	public void setTipo(TipoFrequencia tipo) {
 		this.tipo = tipo;
 	}
+	
+	public Date getHoraAgendamentoEntrada() {
+		return horaAgendamentoEntrada;
+	}
+
+	public void setHoraAgendamentoEntrada(Date horaAgendamentoEntrada) {
+		this.horaAgendamentoEntrada = horaAgendamentoEntrada;
+	}
+
+	public Date getHoraAgendamentoSaida() {
+		return horaAgendamentoSaida;
+	}
+
+	public void setHoraAgendamentoSaida(Date horaAgendamentoSaida) {
+		this.horaAgendamentoSaida = horaAgendamentoSaida;
+	}
 
 	public enum StatusFrequencia {
 		PRESENTE("Presente"),
 		FALTA("Falta"), 
 		ATRASADO("Atrasado"), 
 		ABONADO("Abonado"),
-		AGUARDO ("Aguardo");
+		AGUARDO_SAIDA("Aguardo Saída"),
+		AGUARDO("Aguardo");
 		
 
 		private String descricao;

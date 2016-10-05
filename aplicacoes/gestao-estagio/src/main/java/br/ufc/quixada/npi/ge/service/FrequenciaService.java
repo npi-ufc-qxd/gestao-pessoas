@@ -8,8 +8,6 @@ import br.ufc.quixada.npi.ge.model.Presenca;
 
 public interface FrequenciaService {
 
-//	public List<Presenca> permitirPresencaEstagio(List<Estagio> estagios);
-
 	List<Presenca> permitirPresencaEstagio(Estagio estagio);
 
 	public boolean realizarSaida(Estagio estagio);

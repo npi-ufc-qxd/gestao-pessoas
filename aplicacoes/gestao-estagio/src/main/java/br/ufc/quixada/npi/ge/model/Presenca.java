@@ -4,7 +4,6 @@ public class Presenca {
 
 	private boolean permissaoEntrada;
 	private boolean permissaoSaida;
-	private Estagio estagio;
 	private Frequencia frequencia;
 
 	public boolean isPermissaoEntrada() {
@@ -18,13 +17,6 @@ public class Presenca {
 	}
 	public void setPermissaoSaida(boolean permissaoSaida) {
 		this.permissaoSaida = permissaoSaida;
-	}
-
-	public Estagio getEstagio() {
-		return estagio;
-	}
-	public void setEstagio(Estagio estagio) {
-		this.estagio = estagio;
 	}
 
 	public Frequencia getFrequencia() {

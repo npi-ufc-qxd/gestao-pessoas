@@ -45,7 +45,7 @@ public class FrequenciaServiceImpl implements FrequenciaService {
 
 		if (frequenciaReposicao != null) {
 			if (frequenciaReposicao.getStatus() == null) {
-				presencas.add(liberarPresencaSaida(frequenciaReposicao, estagio));
+				presencas.add(liberarPresencaEntrada(frequenciaReposicao, estagio));
 			}
 
 			if (Frequencia.StatusFrequencia.AGUARDO_SAIDA.equals(frequenciaReposicao.getStatus())) {
@@ -60,8 +60,7 @@ public class FrequenciaServiceImpl implements FrequenciaService {
 
 		Presenca presenca = new Presenca();
 		presenca.setFrequencia(frequencia);
-		presenca.setEstagio(estagio);
-		
+
 		presenca.setPermissaoSaida(false);
 
 		Expediente expediente = getExpedienteDoDia(estagio);
@@ -73,7 +72,6 @@ public class FrequenciaServiceImpl implements FrequenciaService {
 	private Presenca liberarPresencaSaida(Frequencia frequencia, Estagio estagio) {
 		Presenca presenca = new Presenca();
 		presenca.setFrequencia(frequencia);
-		presenca.setEstagio(estagio);
 
 		presenca.setPermissaoEntrada(false);
 		
@@ -132,7 +130,7 @@ public class FrequenciaServiceImpl implements FrequenciaService {
 	@Override
 	public boolean realizarEntrada(Estagio estagio) {
 
-		Frequencia frequencia = frequenciaRepository.findFrequenciaDeHojeByEstagio(estagio);
+		Frequencia frequencia = frequenciaRepository.findFrequenciaDeHojeByEstagioETipo(estagio, Frequencia.TipoFrequencia.NORMAL);
 		
 		final int TOLERANCIA_MINUTOS = 10;
 

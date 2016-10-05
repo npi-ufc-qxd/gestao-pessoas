@@ -37,16 +37,7 @@
   				<button type="button" class="close" data-dismiss="alert">&times;</button>
   				<p th:text="${sucesso}"></p>
 			</div>
-			
-          <ul class="list-group" th:if="${presencas != null}">
-            <li class="list-group-item gp-list-group-item" th:each= "presenca: ${presencas}">
-              <b th:inline="text">[[${presenca.estagio.turma.nome}]] [[${presenca.estagio.turma.semestre}]]</b>
-              <a th:href="@{/Estagiario/Acompanhamento/{idEstagio}/PresencaEntrada(idEstagio=${presenca.estagio.id})}" class="btn btn-success btn-sm pull-right gp-btn-presenca" th:if="${presenca.permissaoEntrada}">Entrada</a>
-              <a th:href="@{/Estagiario/Acompanhamento/{idEstagio}/PresencaSaida(idEstagio=${presenca.estagio.id})}" class="btn btn-success btn-sm pull-right gp-btn-presenca" th:if="${presenca.permissaoSaida}">Saída</a>
-            </li>
-          </ul>
-			
-	     
+
 	     <div class="panel panel-bluegray">
 	          <div class="panel-heading">
 	            <a class="panel-title" data-toggle="collapse" data-target="#consolidado"><i class="fa fa-caret-down" aria-hidden="true"></i> Consolidado Frequências</a>
@@ -84,18 +75,18 @@
 						    <td class="tipo" th:text="${frequencia.tipo}"></td>
 						    <td class="horaEntrada" th:text="${frequencia.horaEntrada}"></td>  
 							<!-- De acordo com a condição muda a cor do statusEntrada -->
-							<td  class="statusEntrada" th:if="${#strings.equals(frequencia.statusEntrada, 'PRESENTE')}"><span class="label label-success" th:text="${frequencia.statusEntrada}">Default</span></td>
-						    <td  class="statusEntrada" th:if="${#strings.equals(frequencia.statusEntrada, 'FALTA')}" ><span class="label label-danger" th:text="${frequencia.statusEntrada}">Default</span></td>
-						    <td  class="statusEntrada" th:if="${#strings.equals(frequencia.statusEntrada, 'AGUARDO')}" ><span class="label label-default" th:text="${frequencia.statusEntrada}">Default</span></td>
-						    <td  class="statusEntrada" th:if="${#strings.equals(frequencia.statusEntrada, 'ATRASADO')}" ><span class="label label-default" th:text="${frequencia.statusEntrada}">Default</span></td>
-						    <td  class="statusEntrada" th:if="${#strings.equals(frequencia.statusEntrada, 'ABONADO')}"><span class="label label-default" th:text="${frequencia.statusEntrada}">Default</span></td>
+							<td  class="statusEntrada" th:if="${#strings.equals(frequencia.status, 'PRESENTE')}"><span class="label label-success" th:text="${frequencia.status}">Default</span></td>
+						    <td  class="statusEntrada" th:if="${#strings.equals(frequencia.status, 'FALTA')}" ><span class="label label-danger" th:text="${frequencia.status}">Default</span></td>
+						    <td  class="statusEntrada" th:if="${#strings.equals(frequencia.status, 'AGUARDO_SAIDA')}" ><span class="label label-default" th:text="${frequencia.status}">Default</span></td>
+						    <td  class="statusEntrada" th:if="${#strings.equals(frequencia.status, 'ATRASADO')}" ><span class="label label-default" th:text="${frequencia.status}">Default</span></td>
+						    <td  class="statusEntrada" th:if="${#strings.equals(frequencia.status, 'ABONADO')}"><span class="label label-default" th:text="${frequencia.status}">Default</span></td>
 						    <td class="horaSaida" th:text="${frequencia.horaSaida}"></td>  
 							<!-- De acordo com a condição muda a cor do statusSaída -->
-							<td  class="statusSaida" th:if="${#strings.equals(frequencia.statusSaida, 'PRESENTE')}"><span class="label label-success" th:text="${frequencia.statusSaida}">Default</span></td>
-						    <td  class="statusSaida" th:if="${#strings.equals(frequencia.statusSaida, 'FALTA')}" ><span class="label label-danger" th:text="${frequencia.statusSaida}">Default</span></td>
-						    <td  class="statusSaida" th:if="${#strings.equals(frequencia.statusSaida, 'AGUARDO')}" ><span class="label label-default" th:text="${frequencia.statusSaida}">Default</span></td>
-						    <td  class="statusSaida" th:if="${#strings.equals(frequencia.statusSaida, 'ATRASADO')}" ><span class="label label-default" th:text="${frequencia.statusSaida}">Default</span></td>
-						    <td  class="statusSaida" th:if="${#strings.equals(frequencia.statusSaida, 'ABONADO')}"><span class="label label-default" th:text="${frequencia.statusSaida}">Default</span></td>						    
+							<td  class="statusSaida" th:if="${#strings.equals(frequencia.status, 'PRESENTE')}"><span class="label label-success" th:text="${frequencia.status}">Default</span></td>
+						    <td  class="statusSaida" th:if="${#strings.equals(frequencia.status, 'FALTA')}" ><span class="label label-danger" th:text="${frequencia.status}">Default</span></td>
+						    <td  class="statusSaida" th:if="${#strings.equals(frequencia.status, 'AGUARDO_SAIDA')}" ><span class="label label-default" th:text="${frequencia.status}">Default</span></td>
+						    <td  class="statusSaida" th:if="${#strings.equals(frequencia.status, 'ATRASADO')}" ><span class="label label-default" th:text="${frequencia.status}">Default</span></td>
+						    <td  class="statusSaida" th:if="${#strings.equals(frequencia.status, 'ABONADO')}"><span class="label label-default" th:text="${frequencia.status}">Default</span></td>						    
 						</tr>
 					  </tbody>
 					</table> 
@@ -264,6 +255,14 @@
 	      </div>
 	    
 	      <div class="col-md-5">
+
+          <ul class="list-group" th:if="${presencas != null}">
+            <li class="list-group-item gp-list-group-item panel-bluegray" th:each= "presenca: ${presencas}">
+              <b th:inline="text">Controle de Ponto</b>
+              <a th:href="@{/Estagiario/Acompanhamento/{idEstagio}/PresencaEntrada(idEstagio=${estagio.id})}" class="btn btn-success btn-sm pull-right gp-btn-presenca" th:if="${presenca.permissaoEntrada}">Entrada</a>
+              <a th:href="@{/Estagiario/Acompanhamento/{idEstagio}/PresencaSaida(idEstagio=${estagio.id})}" class="btn btn-success btn-sm pull-right gp-btn-presenca" th:if="${presenca.permissaoSaida}">Saída</a>
+            </li>
+          </ul>
 
 	      
 	        <div class="panel panel-bluegray">

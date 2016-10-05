@@ -74,11 +74,9 @@ public class EstagiarioController {
 	
 	@RequestMapping(value = "/MeusDados", method = RequestMethod.GET)
 	public String visualizarMeusDados(Model model) {
-
 		Estagiario estagiario = pessoaService.buscarEstagiarioPorCpf(getCpfUsuarioLogado());
-		estagiario.getId();
 		model.addAttribute("estagiario",estagiario);
-		
+
 		return FORMULARIO_EDITAR_ESTAGIARIO;
 	}
 
@@ -141,8 +139,8 @@ public class EstagiarioController {
 		model.addAttribute("submissaoPlano", submissaoPlano);
 		model.addAttribute("submissaoRelatorio", submissaoRelatorio);
 		model.addAttribute("consolidadoFrequencia", estagioService.consolidarFrequencias(estagio));
-		model.addAttribute("presencas", frequenciaService.permitirPresencaEstagio(estagio));
 
+		model.addAttribute("presencas", frequenciaService.permitirPresencaEstagio(estagio));
 
 		return ACOMPANHAMENTO_ESTAGIO;
 	}

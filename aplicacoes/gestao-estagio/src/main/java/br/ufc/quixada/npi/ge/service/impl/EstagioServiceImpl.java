@@ -204,8 +204,7 @@ public class EstagioServiceImpl implements EstagioService {
 	}
 
 	public boolean liberarReposicao(Frequencia frequencia) {
-//		return (frequencia.getTipo() == TipoFrequencia.REPOSICAO && frequencia.getStatus() == StatusFrequencia.AGUARDO);
-		return true;
+		return (frequencia.getTipo() == TipoFrequencia.REPOSICAO && frequencia.getStatusEntrada() == StatusFrequencia.AGUARDO);
 	}
 
 	@Override

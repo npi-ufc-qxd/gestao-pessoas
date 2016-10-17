@@ -39,7 +39,13 @@ public class Frequencia {
 	
 	@Enumerated(EnumType.STRING)
 	private TipoFrequencia tipo;
-
+	
+	@Temporal(TemporalType.TIME)
+	private Date horaAgendamentoEntrada;
+	
+	@Temporal(TemporalType.TIME)
+	private Date horaAgendamentoSaida;
+	
 	public Long getId() {
 		return id;
 	}
@@ -103,6 +109,23 @@ public class Frequencia {
 	public void setTipo(TipoFrequencia tipo) {
 		this.tipo = tipo;
 	}
+
+	public Date getHoraAgendamentoEntrada() {
+		return horaAgendamentoEntrada;
+	}
+
+	public void setHoraAgendamentoEntrada(Date horaAgendamentoEntrada) {
+		this.horaAgendamentoEntrada = horaAgendamentoEntrada;
+	}
+
+	public Date getHoraAgendamentoSaida() {
+		return horaAgendamentoSaida;
+	}
+
+	public void setHoraAgendamentoSaida(Date horaAgendamentoSaida) {
+		this.horaAgendamentoSaida = horaAgendamentoSaida;
+	}
+
 
 	public enum StatusFrequencia {
 		PRESENTE("Presente"),

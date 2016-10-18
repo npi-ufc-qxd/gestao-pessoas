@@ -156,7 +156,7 @@
 					<div class="form-group">
 				    	<label for="dataReposicao" class="col-lg-1 control-label">Data</label>
 				    	<div class="col-lg-6">
-				    		<input type="text" class="form-control data-reposicao" id="dataReposicao" name="dataReposicao" required="required" placeholder="dd/MM/aaaa"/>
+				    		<input type="text" class="form-control data-reposicao data" id="dataReposicao" name="dataReposicao" required="required" placeholder="dd/MM/aaaa"/>
 				    		<label th:if="${!#strings.isEmpty(errorData)}" th:text="${errorData}" class="color-error"></label>
 				  		</div>
 				  	</div>
@@ -180,17 +180,20 @@
 					  <thead>
 					    <tr>
 					      <th class="sort" data-sort="timestamp">Data</th>
-					      <th class="sort" data-sort="status">Status</th>
 					      <th class="sort" data-sort="horaEntrada">Hora da entrada</th>
 					      <th class="sort" data-sort="horaSaida">Hora da saída</th>
+					      <th></th>
 					    </tr>
 					  </thead>
-					  <tbody class="list">
+					  <tbody>
 						<tr th:each="frequencia : ${estagio.frequencias}" th:if="${#strings.equals(frequencia.tipo, 'REPOSICAO')}">
 							<td class="timestamp" data-timestamp="20120911" th:inline="text" th:attr="data-timestamp=${#dates.format(frequencia.data,'yyyyMMdd')}">[[${#dates.format(frequencia.data,'dd/MM/yyyy')}]]</td>
-						    <td class="status" th:text="${frequencia.status}"></td>
+							
+							<td th:text="${#dates.format(frequencia.horaAgendamentoEntrada,'HH:mm')}"></td>
+							<td></td>
 					        <td>
-					        	<a class="btn btn-danger btn-sm pull-right gp-btn-reposicao" th:href="@{/Supervisao/Acompanhamento/{idEstagio}/Frequencias/{idReposicao}/Excluir(idEstagio=${estagio.id}, idReposicao=${frequencia.id})}">Excluir</a></td>
+					        	<a class="btn btn-danger btn-sm pull-right gp-btn-reposicao" th:href="@{/Supervisao/Acompanhamento/{idEstagio}/Frequencias/{idReposicao}/Excluir(idEstagio=${estagio.id}, idReposicao=${frequencia.id})}">Excluir</a>
+				        	</td>
 						</tr>
 					  </tbody>
 					</table> 

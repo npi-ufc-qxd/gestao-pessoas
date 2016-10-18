@@ -29,13 +29,10 @@ public class Frequencia {
 	private Date horaEntrada;
 	
 	@Enumerated(EnumType.STRING)
-	private StatusFrequencia statusEntrada;
+	private StatusFrequencia status;
 	
 	@Temporal(TemporalType.TIME)
 	private Date horaSaida;
-	
-	@Enumerated(EnumType.STRING)
-	private StatusFrequencia statusSaida;
 	
 	@Enumerated(EnumType.STRING)
 	private TipoFrequencia tipo;
@@ -78,12 +75,12 @@ public class Frequencia {
 		this.horaEntrada = horarioEntrada;
 	}
 
-	public StatusFrequencia getStatusEntrada() {
-		return statusEntrada;
+	public StatusFrequencia getStatus() {
+		return status;
 	}
 
-	public void setStatusEntrada(StatusFrequencia statusEntrada) {
-		this.statusEntrada = statusEntrada;
+	public void setStatus(StatusFrequencia status) {
+		this.status = status;
 	}
 
 	public Date getHoraSaida() {
@@ -92,14 +89,6 @@ public class Frequencia {
 
 	public void setHoraSaida(Date horarioSaida) {
 		this.horaSaida = horarioSaida;
-	}
-
-	public StatusFrequencia getStatusSaida() {
-		return statusSaida;
-	}
-
-	public void setStatusSaida(StatusFrequencia statusSaida) {
-		this.statusSaida = statusSaida;
 	}
 
 	public TipoFrequencia getTipo() {

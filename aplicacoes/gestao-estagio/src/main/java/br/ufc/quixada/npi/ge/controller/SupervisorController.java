@@ -38,7 +38,10 @@ import java.util.List;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
+import org.joda.time.LocalDate;
+import org.joda.time.LocalTime;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -606,22 +609,44 @@ public class SupervisorController {
 		return "redirect:/Supervisao/Acompanhamento/" + idEstagio + "/Frequencias";
 	}	
 
+	private Expediente buscarExpedienteDoDia(Estagio estagio, Date dataReposicao, Date horaEntradaReposicao) {
+	    
+	    List<Expediente> expedientes = new ArrayList<Expediente>();
+	    
+	    if(estagio.getExpedientes() != null) {
+	        expedientes = estagio.getExpedientes();
+	    } else if (estagio.getTurma().getExpedientes() != null) {
+	        expedientes = estagio.getTurma().getExpedientes();
+	    }        
+	    LocalDate copiaDataReposicao = new LocalDate(dataReposicao);
+	    LocalTime copiaHoraEntradaReposicao = new LocalTime(horaEntradaReposicao);
+	    for (Expediente expediente : expedientes) {
+	    	LocalTime copiaHoraExpediente = new LocalTime(expediente.getHoraTermino());
+	        if (expediente.getDiaSemana().getDia() == copiaDataReposicao.getDayOfWeek() && copiaHoraEntradaReposicao.isAfter(copiaHoraExpediente)) {
+	            return expediente;
+	        }
+	    }        
+	    return null;
+	}
+	
 	@RequestMapping(value = "/Acompanhamento/{idEstagio}/AgendarReposicao", method = RequestMethod.POST)
-	public String agendarReposicao(Model model, @PathVariable("idEstagio") Long idEstagio, @RequestParam("dataReposicao") Date dataReposicao, RedirectAttributes attributes) {
+	public String agendarReposicao(Model model, @PathVariable("idEstagio") Long idEstagio, @RequestParam("dataReposicao") Date dataReposicao, @RequestParam("horaAgendamentoEntrada") @DateTimeFormat(pattern="HH:mm") Date horaAgendamentoEntrada, @RequestParam("horaAgendamentoEntrada") @DateTimeFormat(pattern="HH:mm") Date horaAgendamentoSaida, RedirectAttributes attributes) {
 
 		Servidor servidor = pessoaService.buscarServidorPorCpf(getCpfUsuarioLogado());
 
 		Estagio estagio = estagioService.buscarEstagioPorIdEOrientadorOuSupervisor(idEstagio, servidor.getId());
 
 		if(estagio == null) {
-			attributes.addFlashAttribute("error", "Você não permisão para agendar está reposição");
+			attributes.addFlashAttribute("error", "Você não tem permisão para agendar está reposição");
 			return REDIRECT_PAGINA_INICIAL_SUPERVISOR; 
 		}
 
-		if(dataReposicao.before(estagio.getTurma().getInicio())) {
+		Expediente expediente = buscarExpedienteDoDia(estagio, dataReposicao, horaAgendamentoEntrada);
+		
+		if(expediente != null) {
 			model.addAttribute("estagio", estagio);
 			model.addAttribute("consolidadoFrequencia", estagioService.consolidarFrequencias(estagio));
-			model.addAttribute("errorData", "Informe um data a partir do inicio da turma");
+			attributes.addFlashAttribute("error", "Existe expediente para esta data e horário: " + expediente.getHoraInicio() + " - " + expediente.getHoraTermino() + ".");
 			return GERENCIAR_FREQUENCIAS;
 		}
 
@@ -630,9 +655,9 @@ public class SupervisorController {
 			model.addAttribute("consolidadoFrequencia", estagioService.consolidarFrequencias(estagio));
 			model.addAttribute("errorData", "Já existe reposição agendada para esta data");
 			return GERENCIAR_FREQUENCIAS;
-		};
-
-		estagioService.agendarReposicao(estagio, dataReposicao);
+		}
+	
+		estagioService.agendarReposicao(estagio, dataReposicao, horaAgendamentoEntrada, horaAgendamentoSaida);
 
 		attributes.addFlashAttribute("sucesso", "Reposição agendada com sucesso!");
 		return "redirect:/Supervisao/Acompanhamento/" + idEstagio + "/Frequencias";

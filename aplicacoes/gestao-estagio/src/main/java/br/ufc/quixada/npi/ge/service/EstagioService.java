@@ -82,7 +82,7 @@ public interface EstagioService {
 
 	ConsolidadoFrequencia consolidarFrequencias(Estagio estagio);
 	
-	void agendarReposicao(Estagio estagio, Date date);
+	void agendarReposicao(Estagio estagio, Date date, Date horaEntrada, Date horaSaida);
 
 	boolean isEstagioAcessoSupervisorOuOrientador(Long idEstagio, Long idServidor);
 

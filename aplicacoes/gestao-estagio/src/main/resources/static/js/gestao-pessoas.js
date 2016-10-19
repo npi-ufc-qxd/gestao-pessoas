@@ -447,13 +447,6 @@ $(document).ready(function(){
 	    format: "dd/mm/yyyy",
 	    orientation: "top auto",
 	});
-
-	$(".data-reposicao").datepicker({
-	    language: 'pt-BR',
-	    autoclose: true,
-	    format: "mm/dd/yyyy",
-	    orientation: "top auto",
-	});
 });	  
 
 $(document).ready(function(){

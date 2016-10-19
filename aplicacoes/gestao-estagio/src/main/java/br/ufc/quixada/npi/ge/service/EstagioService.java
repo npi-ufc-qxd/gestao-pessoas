@@ -60,7 +60,7 @@ public interface EstagioService {
 
 	Frequencia buscarFrequenciaPorIdETipoEStatus(Long idEstagio, Frequencia.TipoFrequencia tipoFrequencia, Frequencia.StatusFrequencia statusFrequencia);
 	
-	Frequencia buscarFrequenciaPorDataEEstagioId(Date data, Long idEstagio);
+	Frequencia buscarFrequenciaPorDataReposicaoComIdEstagio(Date data, Long idEstagio, Date horaEntrada, Date horaSaida);
 	
 	void excluirFrequencia(Frequencia frequencia);
 	

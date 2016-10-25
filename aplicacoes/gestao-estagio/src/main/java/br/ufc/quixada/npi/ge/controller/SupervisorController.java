@@ -628,7 +628,7 @@ public class SupervisorController {
 	    	LocalTime copiaHoraExpedienteInicio = new LocalTime(expediente.getHoraInicio());
 	    	LocalTime copiaHoraExpedienteTermino = new LocalTime(expediente.getHoraTermino());
 	    	if (expediente.getDiaSemana().getDia() == copiaDataReposicao.getDayOfWeek()) {
-	        	if(faixaDeHorario(copiaHoraExpedienteInicio, copiaHoraEntradaReposicao, copiaHoraSaidaReposicao)){
+	        	if(isConflitoHorarioExpedienteComReposicao(copiaHoraExpedienteInicio, copiaHoraExpedienteTermino, copiaHoraEntradaReposicao, copiaHoraSaidaReposicao)){
 	        		return expediente;
 	            }
 	        }
@@ -636,13 +636,21 @@ public class SupervisorController {
 	    
 	    return null;
 	}
+	//"select f from Frequencia f where f.estagio.id = :idEstagio and f.data = :data "
+	private boolean isConflitoHorarioExpedienteComReposicao(LocalTime horaExpedienteInicio, LocalTime horaExpedienteTermino, LocalTime horaEntrada, LocalTime horaSaida){
+		return isConflitoHorarioEntradaExpedienteComReposicao(horaExpedienteInicio, horaEntrada, horaSaida) || isConflitoHorarioSaidaExpedienteComReposicao(horaExpedienteTermino, horaEntrada, horaSaida);
+	}
 	
-	private boolean faixaDeHorario(LocalTime hora, LocalTime horaEntrada, LocalTime horaSaida){
-		return (hora.isEqual(horaEntrada) || ( hora.isAfter(horaEntrada) && hora.isBefore(horaSaida)));
+	private boolean isConflitoHorarioEntradaExpedienteComReposicao(LocalTime horaExpedienteInicio, LocalTime horaEntrada, LocalTime horaSaida){
+		return horaExpedienteInicio.isEqual(horaEntrada) || ( horaExpedienteInicio.isAfter(horaEntrada) && horaExpedienteInicio.isBefore(horaSaida));
+	}
+	
+	private boolean isConflitoHorarioSaidaExpedienteComReposicao(LocalTime horaExpedienteTermino, LocalTime horaEntrada, LocalTime horaSaida){
+		return horaExpedienteTermino.isEqual(horaSaida) || (horaExpedienteTermino.isAfter(horaEntrada) && horaExpedienteTermino.isBefore(horaSaida));
 	}
 	
 	@RequestMapping(value = "/Acompanhamento/{idEstagio}/AgendarReposicao", method = RequestMethod.POST)
-	public String agendarReposicao(Model model, @PathVariable("idEstagio") Long idEstagio, @RequestParam("dataReposicao") @DateTimeFormat(pattern="dd/MM/yyyy") Date dataReposicao, @RequestParam("horaAgendamentoEntrada") @DateTimeFormat(pattern="HH:mm") Date horaAgendamentoEntrada, @RequestParam("horaAgendamentoEntrada") @DateTimeFormat(pattern="HH:mm") Date horaAgendamentoSaida, RedirectAttributes attributes) {
+	public String agendarReposicao(Model model, @PathVariable("idEstagio") Long idEstagio, @RequestParam("dataReposicao") @DateTimeFormat(pattern="dd/MM/yyyy") Date dataReposicao, @RequestParam("horaAgendamentoEntrada") @DateTimeFormat(pattern="HH:mm") Date horaAgendamentoEntrada, @RequestParam("horaAgendamentoSaida") @DateTimeFormat(pattern="HH:mm") Date horaAgendamentoSaida, RedirectAttributes attributes) {
 
 		Servidor servidor = pessoaService.buscarServidorPorCpf(getCpfUsuarioLogado());
 
@@ -668,9 +676,8 @@ public class SupervisorController {
 			model.addAttribute("errorData", "Já existe reposição agendada para esta data");
 			return GERENCIAR_FREQUENCIAS;
 		}
-	
 		estagioService.agendarReposicao(estagio, dataReposicao, horaAgendamentoEntrada, horaAgendamentoSaida);
-
+		
 		attributes.addFlashAttribute("sucesso", "Reposição agendada com sucesso!");
 		return "redirect:/Supervisao/Acompanhamento/" + idEstagio + "/Frequencias";
 	}

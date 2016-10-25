@@ -166,7 +166,7 @@ public class EstagioServiceImpl implements EstagioService {
 	public Frequencia buscarFrequenciaPorDataReposicaoComIdEstagio(Date data, Long idEstagio, Date horaEntrada, Date horaSaida) {
 		return frequenciaRepository.findFrequenciaByDataAndEstagioId(data, idEstagio, horaEntrada, horaSaida);
 	}
-
+ 
 	@Override
 	public Frequencia buscarFrequenciaDeHojePorEstagio(Estagio estagio) {
 		return frequenciaRepository.findFrequenciaDeHojeByEstagio(estagio);

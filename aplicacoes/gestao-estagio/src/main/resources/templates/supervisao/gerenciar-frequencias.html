@@ -188,9 +188,8 @@
 					  <tbody>
 						<tr th:each="frequencia : ${estagio.frequencias}" th:if="${#strings.equals(frequencia.tipo, 'REPOSICAO')}">
 							<td class="timestamp" data-timestamp="20120911" th:inline="text" th:attr="data-timestamp=${#dates.format(frequencia.data,'yyyyMMdd')}">[[${#dates.format(frequencia.data,'dd/MM/yyyy')}]]</td>
-							
 							<td th:text="${#dates.format(frequencia.horaAgendamentoEntrada,'HH:mm')}"></td>
-							<td></td>
+							<td th:text="${#dates.format(frequencia.horaAgendamentoSaida,'HH:mm')}"></td>
 					        <td>
 					        	<a class="btn btn-danger btn-sm pull-right gp-btn-reposicao" th:href="@{/Supervisao/Acompanhamento/{idEstagio}/Frequencias/{idReposicao}/Excluir(idEstagio=${estagio.id}, idReposicao=${frequencia.id})}">Excluir</a>
 				        	</td>

@@ -18,19 +18,8 @@ public interface FrequenciaRepository extends JpaRepository<Frequencia, Long> {
 	@Query("select f from Frequencia f where f.estagio.turma.id = :idTurma and f.data = :data")
 	List<Frequencia> findFrequenciasByDataAndTurmaId(@Param("data") Date data,  @Param("idTurma") Long idTurma);
 	
-/*	@Query("select f from Frequencia f where f.estagio.id = :idEstagio and f.data = :data "
-			+ " and f.tipo like 'REPOSICAO'"
-			+ " and "
-			+ " (f.horaAgendamentoEntrada BETWEEN :horaAgendamentoEntrada AND :horaAgendamentoSaida OR f.horaAgendamentoSaida BETWEEN :horaAgendamentoEntrada AND :horaAgendamentoSaida)")*/
-	@Query("select f from Frequencia f where f.estagio.id = :idEstagio and f.data = :data "
-			+ " and f.tipo like 'REPOSICAO'"
-			+ " and "
-			+ " ( :horaAgendamentoEntrada BETWEEN f.horaAgendamentoEntrada AND f.horaAgendamentoSaida "
-			+ " OR"
-			+ " :horaAgendamentoSaida BETWEEN f.horaAgendamentoEntrada AND f.horaAgendamentoSaida )"
-			+ "and"
-			+ "((f.horaAgendamentoEntrada OR f.horaAgendamentoSaida) BETWEEN :horaAgendamentoEntrada AND :horaAgendamentoSaida)")
-	Frequencia findFrequenciaByDataAndEstagioId(@Param("data") Date data,  @Param("idEstagio") Long idEstagio, @Param("horaAgendamentoEntrada") Date horaAgendamentoEntrada, @Param("horaAgendamentoSaida") Date horaAgendamentoSaida);
+	@Query("select f from Frequencia f where f.estagio.id = :idEstagio and f.data = :data and f.tipo like 'REPOSICAO' and f.horaAgendamentoSaida > :horaAgendamentoEntrada and :horaAgendamentoSaida > f.horaAgendamentoEntrada")
+	List<Frequencia> findFrequenciaByDataAndEstagioId(@Param("data") Date data,  @Param("idEstagio") Long idEstagio, @Param("horaAgendamentoEntrada") Date horaAgendamentoEntrada, @Param("horaAgendamentoSaida") Date horaAgendamentoSaida);
 	
 	@Query("select case when count(f) > 0 then true else false end from Frequencia f where f.estagio.id = :idEstagio and f.data = :data")
 	boolean existeFrequenciaByDataAndEstagioId(@Param("data") Date data,  @Param("idEstagio") Long idEstagio);

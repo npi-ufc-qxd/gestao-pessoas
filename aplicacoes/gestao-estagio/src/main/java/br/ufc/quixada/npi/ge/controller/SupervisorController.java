@@ -627,26 +627,12 @@ public class SupervisorController {
 	    	
 	    	LocalTime copiaHoraExpedienteInicio = new LocalTime(expediente.getHoraInicio());
 	    	LocalTime copiaHoraExpedienteTermino = new LocalTime(expediente.getHoraTermino());
-	    	if (expediente.getDiaSemana().getDia() == copiaDataReposicao.getDayOfWeek()) {
-	        	if(isConflitoHorarioExpedienteComReposicao(copiaHoraExpedienteInicio, copiaHoraExpedienteTermino, copiaHoraEntradaReposicao, copiaHoraSaidaReposicao)){
-	        		return expediente;
-	            }
+	    	if (expediente.getDiaSemana().getDia() == copiaDataReposicao.getDayOfWeek() && copiaHoraExpedienteTermino.isAfter(copiaHoraEntradaReposicao) && copiaHoraSaidaReposicao.isAfter(copiaHoraExpedienteInicio)) {
+	        	return expediente;
 	        }
 	    }  
 	    
 	    return null;
-	}
-	//"select f from Frequencia f where f.estagio.id = :idEstagio and f.data = :data "
-	private boolean isConflitoHorarioExpedienteComReposicao(LocalTime horaExpedienteInicio, LocalTime horaExpedienteTermino, LocalTime horaEntrada, LocalTime horaSaida){
-		return isConflitoHorarioEntradaExpedienteComReposicao(horaExpedienteInicio, horaEntrada, horaSaida) || isConflitoHorarioSaidaExpedienteComReposicao(horaExpedienteTermino, horaEntrada, horaSaida);
-	}
-	
-	private boolean isConflitoHorarioEntradaExpedienteComReposicao(LocalTime horaExpedienteInicio, LocalTime horaEntrada, LocalTime horaSaida){
-		return horaExpedienteInicio.isEqual(horaEntrada) || ( horaExpedienteInicio.isAfter(horaEntrada) && horaExpedienteInicio.isBefore(horaSaida));
-	}
-	
-	private boolean isConflitoHorarioSaidaExpedienteComReposicao(LocalTime horaExpedienteTermino, LocalTime horaEntrada, LocalTime horaSaida){
-		return horaExpedienteTermino.isEqual(horaSaida) || (horaExpedienteTermino.isAfter(horaEntrada) && horaExpedienteTermino.isBefore(horaSaida));
 	}
 	
 	@RequestMapping(value = "/Acompanhamento/{idEstagio}/AgendarReposicao", method = RequestMethod.POST)

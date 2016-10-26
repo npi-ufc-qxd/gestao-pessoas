@@ -163,7 +163,7 @@ public class EstagioServiceImpl implements EstagioService {
 
 	//BUSCAR POR HORA TBM.
 	@Override
-	public Frequencia buscarFrequenciaPorDataReposicaoComIdEstagio(Date data, Long idEstagio, Date horaEntrada, Date horaSaida) {
+	public List<Frequencia> buscarFrequenciaPorDataReposicaoComIdEstagio(Date data, Long idEstagio, Date horaEntrada, Date horaSaida) {
 		return frequenciaRepository.findFrequenciaByDataAndEstagioId(data, idEstagio, horaEntrada, horaSaida);
 	}
  

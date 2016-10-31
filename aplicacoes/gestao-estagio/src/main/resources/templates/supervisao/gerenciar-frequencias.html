@@ -158,16 +158,17 @@
 				    	<div class="col-lg-6">
 				    		<input type="text" class="form-control data" id="dataReposicao" name="dataReposicao" required="required" placeholder="dd/MM/aaaa"/>
 				    		<label th:if="${!#strings.isEmpty(errorData)}" th:text="${errorData}" class="color-error"></label>
+				    		<label th:if="${!#strings.isEmpty(errorExpediente)}" th:text="${errorExpediente}" class="color-error"></label>
 				  		</div>
 				  	</div>
 				  	
 		  			<div class="form-group">
 						<label for="horario" class="control-label col-lg-1">Horário</label>
 						<div class="col-lg-2">
-							<input type="text" class="form-control" id="horaAgendamentoEntrada" name="horaAgendamentoEntrada" placeholder="HH:mm"/>				    
+							<input type="text" class="form-control" id="horaAgendamentoEntrada" name="horaAgendamentoEntrada" placeholder="HH:mm" required="required"/>				    
 						</div>
 						<div class="col-lg-2">
-							<input type="text" class="form-control" id="horaAgendamentoSaida" name="horaAgendamentoSaida" placeholder="HH:mm"/>
+							<input type="text" class="form-control" id="horaAgendamentoSaida" name="horaAgendamentoSaida" placeholder="HH:mm" required="required"/>
 						</div>
 						<div class="col-lg-3">
 					    	<button type="submit" class="btn btn-success">Agendar</button>

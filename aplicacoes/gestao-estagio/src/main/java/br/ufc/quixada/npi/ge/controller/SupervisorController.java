@@ -611,13 +611,11 @@ public class SupervisorController {
 
 	private Expediente buscarExpedienteDoDia(Estagio estagio, Date dataReposicao, Date horaEntradaReposicao, Date horaSaidaReposicao) {
 	    
-	    List<Expediente> expedientes = new ArrayList<Expediente>();
+	    List<Expediente> expedientes = estagio.getExpedientes();
 	    
-	    if(estagio.getExpedientes() != null) {
-	    	expedientes = estagio.getExpedientes();
-	    } else if (estagio.getTurma().getExpedientes() != null) {
-	        expedientes = estagio.getTurma().getExpedientes();
-	    }        
+	    if(expedientes.isEmpty()) {
+	    	expedientes = estagio.getTurma().getExpedientes();
+	    }      
 	    
 	    LocalDate copiaDataReposicao = new LocalDate(dataReposicao);
 	    LocalTime copiaHoraEntradaReposicao = new LocalTime(horaEntradaReposicao);
@@ -652,11 +650,13 @@ public class SupervisorController {
 		if(expediente != null) {
 			model.addAttribute("estagio", estagio);
 			model.addAttribute("consolidadoFrequencia", estagioService.consolidarFrequencias(estagio));
-			attributes.addFlashAttribute("error", "Existe expediente para esta data e horário: " + expediente.getHoraInicio() + " - " + expediente.getHoraTermino() + ".");
+			model.addAttribute("errorExpediente", "Existe expediente para esta data e horário: " + expediente.getHoraInicio() + " - " + expediente.getHoraTermino() + ".");
 			return GERENCIAR_FREQUENCIAS;
 		}
-
-		if (estagioService.buscarFrequenciaPorDataReposicaoComIdEstagio(dataReposicao, estagio.getId(), horaAgendamentoEntrada, horaAgendamentoSaida) != null) {
+		
+		List<Frequencia> frequenciasDeReposicao = estagioService.buscarFrequenciaPorDataReposicaoComIdEstagio(dataReposicao, estagio.getId(), horaAgendamentoEntrada, horaAgendamentoSaida);
+		
+		if (!frequenciasDeReposicao.isEmpty()) {
 			model.addAttribute("estagio", estagio);
 			model.addAttribute("consolidadoFrequencia", estagioService.consolidarFrequencias(estagio));
 			model.addAttribute("errorData", "Já existe reposição agendada para esta data");

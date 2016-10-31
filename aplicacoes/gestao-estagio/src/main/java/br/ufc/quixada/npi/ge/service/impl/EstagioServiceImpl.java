@@ -161,11 +161,12 @@ public class EstagioServiceImpl implements EstagioService {
 		avaliacaoRepository.delete(idAvaliacaoRendimento);
 	}
 
+	//BUSCAR POR HORA TBM.
 	@Override
-	public Frequencia buscarFrequenciaPorDataEEstagioId(Date data, Long idEstagio) {
-		return frequenciaRepository.findFrequenciaByDataAndEstagioId(data, idEstagio);
+	public List<Frequencia> buscarFrequenciaPorDataReposicaoComIdEstagio(Date data, Long idEstagio, Date horaEntrada, Date horaSaida) {
+		return frequenciaRepository.findFrequenciaByDataAndEstagioId(data, idEstagio, horaEntrada, horaSaida);
 	}
-
+ 
 	@Override
 	public Frequencia buscarFrequenciaDeHojePorEstagio(Estagio estagio) {
 		return frequenciaRepository.findFrequenciaDeHojeByEstagio(estagio);
@@ -204,8 +205,7 @@ public class EstagioServiceImpl implements EstagioService {
 	}
 
 	public boolean liberarReposicao(Frequencia frequencia) {
-//		return (frequencia.getTipo() == TipoFrequencia.REPOSICAO && frequencia.getStatus() == StatusFrequencia.AGUARDO);
-		return true;
+		return (frequencia.getTipo() == TipoFrequencia.REPOSICAO && frequencia.getStatus() == StatusFrequencia.AGUARDO);
 	}
 
 	@Override
@@ -351,11 +351,13 @@ public class EstagioServiceImpl implements EstagioService {
 	}
 
 	@Override
-	public void agendarReposicao(Estagio estagio, Date date) {
+	public void agendarReposicao(Estagio estagio, Date date, Date horaEntrada, Date horaSaida) {
 		Frequencia frequencia = new Frequencia();
 
 		frequencia.setEstagio(estagio);
 		frequencia.setData(date);
+		frequencia.setHoraAgendamentoEntrada(horaEntrada);
+		frequencia.setHoraAgendamentoSaida(horaSaida);
 		frequencia.setTipo(Frequencia.TipoFrequencia.REPOSICAO);
 		/*frequencia.setStatus(Frequencia.StatusFrequencia.AGUARDO);
 */

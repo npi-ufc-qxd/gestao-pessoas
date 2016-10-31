@@ -60,7 +60,7 @@ public interface EstagioService {
 
 	Frequencia buscarFrequenciaPorIdETipoEStatus(Long idEstagio, Frequencia.TipoFrequencia tipoFrequencia, Frequencia.StatusFrequencia statusFrequencia);
 	
-	Frequencia buscarFrequenciaPorDataEEstagioId(Date data, Long idEstagio);
+	List<Frequencia> buscarFrequenciaPorDataReposicaoComIdEstagio(Date data, Long idEstagio, Date horaEntrada, Date horaSaida);
 	
 	void excluirFrequencia(Frequencia frequencia);
 	
@@ -82,7 +82,7 @@ public interface EstagioService {
 
 	ConsolidadoFrequencia consolidarFrequencias(Estagio estagio);
 	
-	void agendarReposicao(Estagio estagio, Date date);
+	void agendarReposicao(Estagio estagio, Date date, Date horaEntrada, Date horaSaida);
 
 	boolean isEstagioAcessoSupervisorOuOrientador(Long idEstagio, Long idServidor);
 

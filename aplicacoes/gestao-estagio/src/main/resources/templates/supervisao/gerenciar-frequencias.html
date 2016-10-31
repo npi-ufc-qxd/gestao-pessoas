@@ -151,13 +151,29 @@
 	            <a class="panel-title" data-toggle="collapse" data-target="#reposicao"><i class="fa fa-caret-down" aria-hidden="true"></i> Reposições</a>
 			  </div>
 	          <div id="reposicao" class="panel-body collapse in">
-				<form id="form-reposicao" class="form-inline" role="form" th:action="@{/Supervisao/Acompanhamento/{idEstagio}/AgendarReposicao(idEstagio=${estagio.id})}" method="post">
-				  <div class="form-group">
-				    <label for="dataReposicao"><strong>Data da Reposição</strong></label>
-				    <input type="text" class="form-control data-reposicao" id="dataReposicao" name="dataReposicao" required="required" size="23"/>
-				    <label th:if="${!#strings.isEmpty(errorData)}" th:text="${errorData}" class="color-error"></label>
-				  </div>
-				  <button type="submit" class="btn btn-success">agendar</button>
+				<form id="form-reposicao" class="form-horizontal" th:action="@{/Supervisao/Acompanhamento/{idEstagio}/AgendarReposicao(idEstagio=${estagio.id})}" method="post">
+					
+					<div class="form-group">
+				    	<label for="dataReposicao" class="col-lg-1 control-label">Data</label>
+				    	<div class="col-lg-6">
+				    		<input type="text" class="form-control data" id="dataReposicao" name="dataReposicao" required="required" placeholder="dd/MM/aaaa"/>
+				    		<label th:if="${!#strings.isEmpty(errorData)}" th:text="${errorData}" class="color-error"></label>
+				    		<label th:if="${!#strings.isEmpty(errorExpediente)}" th:text="${errorExpediente}" class="color-error"></label>
+				  		</div>
+				  	</div>
+				  	
+		  			<div class="form-group">
+						<label for="horario" class="control-label col-lg-1">Horário</label>
+						<div class="col-lg-2">
+							<input type="text" class="form-control" id="horaAgendamentoEntrada" name="horaAgendamentoEntrada" placeholder="HH:mm" required="required"/>				    
+						</div>
+						<div class="col-lg-2">
+							<input type="text" class="form-control" id="horaAgendamentoSaida" name="horaAgendamentoSaida" placeholder="HH:mm" required="required"/>
+						</div>
+						<div class="col-lg-3">
+					    	<button type="submit" class="btn btn-success">Agendar</button>
+						</div>
+			    	</div>
 				</form><br/>
 				
 				<div id="reposicoes">	          
@@ -165,16 +181,19 @@
 					  <thead>
 					    <tr>
 					      <th class="sort" data-sort="timestamp">Data</th>
-					      <th class="sort" data-sort="status">Status</th>
+					      <th class="sort" data-sort="horaEntrada">Hora da entrada</th>
+					      <th class="sort" data-sort="horaSaida">Hora da saída</th>
 					      <th></th>
 					    </tr>
 					  </thead>
-					  <tbody class="list">
+					  <tbody>
 						<tr th:each="frequencia : ${estagio.frequencias}" th:if="${#strings.equals(frequencia.tipo, 'REPOSICAO')}">
 							<td class="timestamp" data-timestamp="20120911" th:inline="text" th:attr="data-timestamp=${#dates.format(frequencia.data,'yyyyMMdd')}">[[${#dates.format(frequencia.data,'dd/MM/yyyy')}]]</td>
-						    <td class="status" th:text="${frequencia.status}"></td>
+							<td th:text="${#dates.format(frequencia.horaAgendamentoEntrada,'HH:mm')}"></td>
+							<td th:text="${#dates.format(frequencia.horaAgendamentoSaida,'HH:mm')}"></td>
 					        <td>
-					        	<a class="btn btn-danger btn-sm pull-right gp-btn-reposicao" th:href="@{/Supervisao/Acompanhamento/{idEstagio}/Frequencias/{idReposicao}/Excluir(idEstagio=${estagio.id}, idReposicao=${frequencia.id})}">Excluir</a></td>
+					        	<a class="btn btn-danger btn-sm pull-right gp-btn-reposicao" th:href="@{/Supervisao/Acompanhamento/{idEstagio}/Frequencias/{idReposicao}/Excluir(idEstagio=${estagio.id}, idReposicao=${frequencia.id})}">Excluir</a>
+				        	</td>
 						</tr>
 					  </tbody>
 					</table> 

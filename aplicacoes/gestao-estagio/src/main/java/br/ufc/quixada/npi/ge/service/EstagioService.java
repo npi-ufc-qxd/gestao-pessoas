@@ -9,6 +9,7 @@ import br.ufc.quixada.npi.ge.model.Documento;
 import br.ufc.quixada.npi.ge.model.Estagiario;
 import br.ufc.quixada.npi.ge.model.Estagio;
 import br.ufc.quixada.npi.ge.model.Evento;
+import br.ufc.quixada.npi.ge.model.Expediente;
 import br.ufc.quixada.npi.ge.model.Frequencia;
 import br.ufc.quixada.npi.ge.model.Presenca;
 import br.ufc.quixada.npi.ge.model.Submissao;
@@ -89,5 +90,8 @@ public interface EstagioService {
 	List<Evento> buscarEventosEstagiario(List<Estagio> estagios);
 	
 	void substituirDocumento(Documento documento) throws GestaoEstagioException;
+
+	Expediente buscarExpedienteDoDia(Estagio estagio, Date dataReposicao, Date horaAgendamentoEntrada,
+			Date horaAgendamentoSaida);
 	
 }

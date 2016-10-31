@@ -13,6 +13,7 @@ import javax.inject.Named;
 
 import org.joda.time.Hours;
 import org.joda.time.LocalDate;
+import org.joda.time.LocalTime;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import br.ufc.quixada.npi.ge.exception.GestaoEstagioException;
@@ -206,6 +207,30 @@ public class EstagioServiceImpl implements EstagioService {
 
 	public boolean liberarReposicao(Frequencia frequencia) {
 		return (frequencia.getTipo() == TipoFrequencia.REPOSICAO && frequencia.getStatus() == StatusFrequencia.AGUARDO);
+	}
+	
+	public Expediente buscarExpedienteDoDia(Estagio estagio, Date dataReposicao, Date horaEntradaReposicao, Date horaSaidaReposicao) {
+	    
+	    List<Expediente> expedientes = estagio.getExpedientes();
+	    
+	    if(expedientes.isEmpty()) {
+	    	expedientes = estagio.getTurma().getExpedientes();
+	    }      
+	    
+	    LocalDate copiaDataReposicao = new LocalDate(dataReposicao);
+	    LocalTime copiaHoraEntradaReposicao = new LocalTime(horaEntradaReposicao);
+	    LocalTime copiaHoraSaidaReposicao = new LocalTime(horaSaidaReposicao);
+	    
+	    for (Expediente expediente : expedientes) {
+	    	
+	    	LocalTime copiaHoraExpedienteInicio = new LocalTime(expediente.getHoraInicio());
+	    	LocalTime copiaHoraExpedienteTermino = new LocalTime(expediente.getHoraTermino());
+	    	if (expediente.getDiaSemana().getDia() == copiaDataReposicao.getDayOfWeek() && copiaHoraExpedienteTermino.isAfter(copiaHoraEntradaReposicao) && copiaHoraSaidaReposicao.isAfter(copiaHoraExpedienteInicio)) {
+	        	return expediente;
+	        }
+	    }  
+	    
+	    return null;
 	}
 
 	@Override

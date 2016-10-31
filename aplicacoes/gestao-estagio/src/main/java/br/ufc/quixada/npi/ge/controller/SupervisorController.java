@@ -609,30 +609,6 @@ public class SupervisorController {
 		return "redirect:/Supervisao/Acompanhamento/" + idEstagio + "/Frequencias";
 	}	
 
-	private Expediente buscarExpedienteDoDia(Estagio estagio, Date dataReposicao, Date horaEntradaReposicao, Date horaSaidaReposicao) {
-	    
-	    List<Expediente> expedientes = estagio.getExpedientes();
-	    
-	    if(expedientes.isEmpty()) {
-	    	expedientes = estagio.getTurma().getExpedientes();
-	    }      
-	    
-	    LocalDate copiaDataReposicao = new LocalDate(dataReposicao);
-	    LocalTime copiaHoraEntradaReposicao = new LocalTime(horaEntradaReposicao);
-	    LocalTime copiaHoraSaidaReposicao = new LocalTime(horaSaidaReposicao);
-	    
-	    for (Expediente expediente : expedientes) {
-	    	
-	    	LocalTime copiaHoraExpedienteInicio = new LocalTime(expediente.getHoraInicio());
-	    	LocalTime copiaHoraExpedienteTermino = new LocalTime(expediente.getHoraTermino());
-	    	if (expediente.getDiaSemana().getDia() == copiaDataReposicao.getDayOfWeek() && copiaHoraExpedienteTermino.isAfter(copiaHoraEntradaReposicao) && copiaHoraSaidaReposicao.isAfter(copiaHoraExpedienteInicio)) {
-	        	return expediente;
-	        }
-	    }  
-	    
-	    return null;
-	}
-	
 	@RequestMapping(value = "/Acompanhamento/{idEstagio}/AgendarReposicao", method = RequestMethod.POST)
 	public String agendarReposicao(Model model, @PathVariable("idEstagio") Long idEstagio, @RequestParam("dataReposicao") @DateTimeFormat(pattern="dd/MM/yyyy") Date dataReposicao, @RequestParam("horaAgendamentoEntrada") @DateTimeFormat(pattern="HH:mm") Date horaAgendamentoEntrada, @RequestParam("horaAgendamentoSaida") @DateTimeFormat(pattern="HH:mm") Date horaAgendamentoSaida, RedirectAttributes attributes) {
 
@@ -645,7 +621,7 @@ public class SupervisorController {
 			return REDIRECT_PAGINA_INICIAL_SUPERVISOR; 
 		}
 
-		Expediente expediente = buscarExpedienteDoDia(estagio, dataReposicao, horaAgendamentoEntrada, horaAgendamentoSaida);
+		Expediente expediente = estagioService.buscarExpedienteDoDia(estagio, dataReposicao, horaAgendamentoEntrada, horaAgendamentoSaida);
 		
 		if(expediente != null) {
 			model.addAttribute("estagio", estagio);

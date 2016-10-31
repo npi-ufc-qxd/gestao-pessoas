@@ -42,7 +42,48 @@
 	          <div class="panel-heading">
 	            <a class="panel-title" data-toggle="collapse" data-target="#consolidado"><i class="fa fa-caret-down" aria-hidden="true"></i> Consolidado Frequências</a>
 			  </div>
-	          <div id="consolidado" class="panel-body collapse in">
+	          <div id="consolidado" class="panel-body collapse">
+
+		      <div class="col-sm-4">
+		          <ul class="list-group">
+		            <li class="list-group-item gp-list-group-item list-group-item-success">
+		              <b>Presenças</b> <span class="badge">42</span>
+		            </li>
+		          </ul>
+		      </div>
+
+		      <div class="col-sm-4">
+		          <ul class="list-group">
+		            <li class="list-group-item gp-list-group-item list-group-item-danger">
+		              <b>Faltas</b> <span class="badge">42</span>
+		            </li>
+		          </ul>
+		      </div>
+
+		      <div class="col-sm-4">
+		          <ul class="list-group">
+		            <li class="list-group-item gp-list-group-item list-group-item-warning">
+		              <b>Atrasos</b> <span class="badge">42</span>
+		            </li>
+		          </ul>
+		      </div>
+
+		      <div class="col-sm-4">
+		          <ul class="list-group">
+		            <li class="list-group-item gp-list-group-item list-group-item-info">
+		              <b>Reposições</b> <span class="badge">42</span>
+		            </li>
+		          </ul>
+		      </div>
+
+		      <div class="col-sm-4">
+		          <ul class="list-group">
+		            <li class="list-group-item gp-list-group-item list-group-item-default">
+		              <b>Pendências</b> <span class="badge">42</span>
+		            </li>
+		          </ul>
+		      </div>
+
 	            <a href="#" class="btn btn-success disabled" role="button"><span th:inline="text">[[${consolidadoFrequencia.porcentagemPresencas}]]%</span> <br/>Presenças</a>
 	            <a href="#" class="btn btn-danger disabled" role="button"><span th:inline="text">[[${consolidadoFrequencia.porcentagemFaltas}]]%</span> <br/>Faltas</a>
 	            <a href="#" class="btn btn-warning disabled" role="button"><span th:inline="text">[[${consolidadoFrequencia.totalAtrasos}]]</span> <br/>Atrasos</a>
@@ -57,36 +98,65 @@
 	            <a class="panel-title" data-toggle="collapse" data-target="#presenca"><i class="fa fa-caret-down" aria-hidden="true"></i> Frequências</a>
 			 </div>
 	          <div id="presenca" class="panel-body collapse in">
-				<div id="frequencias">	          
+	          	<span th:if="${#lists.isEmpty(estagio.frequencias)}">Não há frequências</span>
+	          	
+				<div id="frequencias" th:if="${not #lists.isEmpty(estagio.frequencias)}">	          
 					<table class="table table-hover table-bordered">
 					  <thead>
 					    <tr>
 					      <th class="sort" data-sort="timestamp">Data</th>
-					      <th class="sort" data-sort="tipo">Tipo</th>
 					      <th class="sort" data-sort="horaEntrada">Hora da entrada</th>
-					      <th class="sort" data-sort="statusEntrada">Status entrada</th>
 					      <th class="sort" data-sort="horaSaida">Hora da saída</th>
-					      <th class="sort" data-sort="statusSaida">Status saída</th>
+					      <th class="sort" data-sort="status">Status</th>
 					    </tr>
 					  </thead>
 					  <tbody class="list">
-						<tr th:each="frequencia : ${estagio.frequencias}">
+						<tr th:each="frequencia : ${estagio.frequencias}" th:if="${#strings.equals(frequencia.tipo, 'NORMAL')}">
 							<td class="timestamp" data-timestamp="20120911" th:inline="text" th:attr="data-timestamp=${#dates.format(frequencia.data,'yyyyMMdd')}">[[${#dates.format(frequencia.data,'dd/MM/yyyy')}]]</td>
-						    <td class="tipo" th:text="${frequencia.tipo}"></td>
 						    <td class="horaEntrada" th:text="${frequencia.horaEntrada}"></td>  
-							<!-- De acordo com a condição muda a cor do statusEntrada -->
-							<td  class="statusEntrada" th:if="${#strings.equals(frequencia.status, 'PRESENTE')}"><span class="label label-success" th:text="${frequencia.status}">Default</span></td>
-						    <td  class="statusEntrada" th:if="${#strings.equals(frequencia.status, 'FALTA')}" ><span class="label label-danger" th:text="${frequencia.status}">Default</span></td>
-						    <td  class="statusEntrada" th:if="${#strings.equals(frequencia.status, 'AGUARDO_SAIDA')}" ><span class="label label-default" th:text="${frequencia.status}">Default</span></td>
-						    <td  class="statusEntrada" th:if="${#strings.equals(frequencia.status, 'ATRASADO')}" ><span class="label label-default" th:text="${frequencia.status}">Default</span></td>
-						    <td  class="statusEntrada" th:if="${#strings.equals(frequencia.status, 'ABONADO')}"><span class="label label-default" th:text="${frequencia.status}">Default</span></td>
-						    <td class="horaSaida" th:text="${frequencia.horaSaida}"></td>  
-							<!-- De acordo com a condição muda a cor do statusSaída -->
-							<td  class="statusSaida" th:if="${#strings.equals(frequencia.status, 'PRESENTE')}"><span class="label label-success" th:text="${frequencia.status}">Default</span></td>
-						    <td  class="statusSaida" th:if="${#strings.equals(frequencia.status, 'FALTA')}" ><span class="label label-danger" th:text="${frequencia.status}">Default</span></td>
-						    <td  class="statusSaida" th:if="${#strings.equals(frequencia.status, 'AGUARDO_SAIDA')}" ><span class="label label-default" th:text="${frequencia.status}">Default</span></td>
-						    <td  class="statusSaida" th:if="${#strings.equals(frequencia.status, 'ATRASADO')}" ><span class="label label-default" th:text="${frequencia.status}">Default</span></td>
-						    <td  class="statusSaida" th:if="${#strings.equals(frequencia.status, 'ABONADO')}"><span class="label label-default" th:text="${frequencia.status}">Default</span></td>						    
+						    <td class="horaEntrada" th:text="${frequencia.horaSaida}"></td>  
+
+							<td  class="status" th:if="${#strings.equals(frequencia.status, 'PRESENTE')}"><span class="label label-success" th:text="${frequencia.status}">Default</span></td>
+						    <td  class="status" th:if="${#strings.equals(frequencia.status, 'FALTA')}" ><span class="label label-danger" th:text="${frequencia.status}">Default</span></td>
+						    <td  class="status" th:if="${#strings.equals(frequencia.status, 'AGUARDO_SAIDA')}" ><span class="label label-default" th:text="${frequencia.status}">Default</span></td>
+						    <td  class="status" th:if="${#strings.equals(frequencia.status, 'ATRASADO')}" ><span class="label label-default" th:text="${frequencia.status}">Default</span></td>
+						    <td  class="status" th:if="${#strings.equals(frequencia.status, 'ABONADO')}"><span class="label label-default" th:text="${frequencia.status}">Default</span></td>						    
+						</tr>
+					  </tbody>
+					</table> 
+				</div>
+	          </div>
+	        </div>
+	        
+	      	<div class="panel panel-bluegray">
+	          <div class="panel-heading">
+	            <a class="panel-title" data-toggle="collapse" data-target="#reposicao"><i class="fa fa-caret-down" aria-hidden="true"></i> Reposições</a>
+			 </div>
+	          <div id="reposicao" class="panel-body collapse in">
+	          	<span th:if="${#lists.isEmpty(estagio.frequencias)}">Não há reposições</span>
+	          	
+				<div id="frequencias" th:if="${not #lists.isEmpty(estagio.frequencias)}">	          
+					<table class="table table-hover table-bordered">
+					  <thead>
+					    <tr>
+					      <th class="sort" data-sort="timestamp">Data</th>
+					      <th class="sort" data-sort="horaEntrada">Hora da entrada</th>
+					      <th class="sort" data-sort="horaSaida">Hora da saída</th>
+					      <th class="sort" data-sort="status">Status</th>
+					    </tr>
+					  </thead>
+					  <tbody class="list">
+						<tr th:each="frequencia : ${estagio.frequencias}" th:if="${#strings.equals(frequencia.tipo, 'REPOSICAO')}">
+							<td class="timestamp" data-timestamp="20120911" th:inline="text" th:attr="data-timestamp=${#dates.format(frequencia.data,'yyyyMMdd')}">[[${#dates.format(frequencia.data,'dd/MM/yyyy')}]]</td>
+						    <td class="horaEntrada" th:text="${frequencia.horaEntrada}"></td>  
+						    <td class="horaEntrada" th:text="${frequencia.horaSaida}"></td>
+
+							<td  class="status" th:if="${#strings.isEmpty(frequencia.status)}"><span class="label label-success"></span></td>
+							<td  class="status" th:if="${#strings.equals(frequencia.status, 'PRESENTE')}"><span class="label label-success" th:text="${frequencia.status}">Default</span></td>
+						    <td  class="status" th:if="${#strings.equals(frequencia.status, 'FALTA')}" ><span class="label label-danger" th:text="${frequencia.status}">Default</span></td>
+						    <td  class="status" th:if="${#strings.equals(frequencia.status, 'AGUARDO_SAIDA')}" ><span class="label label-default" th:text="${frequencia.status}">Default</span></td>
+						    <td  class="status" th:if="${#strings.equals(frequencia.status, 'ATRASADO')}" ><span class="label label-default" th:text="${frequencia.status}">Default</span></td>
+						    <td  class="status" th:if="${#strings.equals(frequencia.status, 'ABONADO')}"><span class="label label-default" th:text="${frequencia.status}">Default</span></td>						    
 						</tr>
 					  </tbody>
 					</table> 
@@ -156,7 +226,7 @@
 				      </tr>
 				    </tbody>
 				  </table>
-		            <div class="gp-modelo-doc">Modelo de Relatório de Estágio 
+		            <div class="gp-modelo-doc"> 
 		            	<a th:href="@{/documents/UFC-Quixada-Relatorio_Final_Estagio-modelo.doc}">Clique aqui para baixar!</a>
 		            	<span th:if="${submissaoRelatorio} != null">
 		            		<a th:if="${#strings.equals(submissaoRelatorio.statusEntrega, 'SUBMETIDO')} or ${#strings.equals(submissaoRelatorio.statusEntrega, 'CORRECAO')}" href="#submissaoRelatorio" class="btn btn-success btn-sm pull-right gp-submissao-modal" data-toggle="modal">Editar Submissão</a>
@@ -171,6 +241,9 @@
 	            <a class="panel-title" data-toggle="collapse" data-target="#avaliacaoRendimento"><i class="fa fa-caret-down" aria-hidden="true"></i> Avaliação Rendimento</a>
 			  </div>
 	        <div id="avaliacaoRendimento" class="panel-body collapse in">
+	        
+	        <span th:if="${estagio.avaliacaoRendimento == null}">Avaliação de Rendimento não foi realizada</span>
+
 	         <div class="avaliacao" th:if="${estagio.avaliacaoRendimento != null}">
 	   			<div class="row">
 	         		<div class="col-md-12"><h6>ASSIDUIDADE E DISCIPLINA</h6></div>
@@ -255,16 +328,30 @@
 	      </div>
 	    
 	      <div class="col-md-5">
+		      <div id="controle-ponto" th:if="${not #lists.isEmpty(presencas)}">
+		          <ul class="list-group" th:each= "presenca: ${presencas}" >
+		            <li class="list-group-item gp-list-group-item panel-bluegray" th:if="${presenca.permissaoEntrada and #strings.equals(presenca.frequencia.tipo, 'NORMAL')}">
+		              <b th:inline="text">Controle de Ponto Entrada</b>
+		              <a th:href="@{/Estagiario/Acompanhamento/{idEstagio}/PresencaEntrada(idEstagio=${estagio.id})}" class="btn btn-success btn-sm pull-right gp-btn-presenca-entrada">Entrada</a>
+		            </li>
 
-          <ul class="list-group" th:if="${presencas != null}">
-            <li class="list-group-item gp-list-group-item panel-bluegray" th:each= "presenca: ${presencas}">
-              <b th:inline="text">Controle de Ponto</b>
-              <a th:href="@{/Estagiario/Acompanhamento/{idEstagio}/PresencaEntrada(idEstagio=${estagio.id})}" class="btn btn-success btn-sm pull-right gp-btn-presenca" th:if="${presenca.permissaoEntrada}">Entrada</a>
-              <a th:href="@{/Estagiario/Acompanhamento/{idEstagio}/PresencaSaida(idEstagio=${estagio.id})}" class="btn btn-success btn-sm pull-right gp-btn-presenca" th:if="${presenca.permissaoSaida}">Saída</a>
-            </li>
-          </ul>
+		            <li class="list-group-item gp-list-group-item panel-bluegray" th:if="${presenca.permissaoSaida and #strings.equals(presenca.frequencia.tipo, 'NORMAL')}">
+		              <b th:inline="text">Controle de Ponto Saída</b>
+		              <a th:href="@{/Estagiario/Acompanhamento/{idEstagio}/PresencaSaida(idEstagio=${estagio.id})}" class="btn btn-success btn-sm pull-right gp-btn-presenca-saida">Saída</a>
+		            </li>
 
-	      
+		            <li class="list-group-item gp-list-group-item panel-bluegray" th:if="${presenca.permissaoEntrada and #strings.equals(presenca.frequencia.tipo, 'REPOSICAO')}">
+		              <b th:inline="text">Controle de Ponto Entrada [Reposição]</b>
+		              <a th:href="@{/Estagiario/Acompanhamento/{idEstagio}/PresencaEntradaReposicao(idEstagio=${estagio.id})}" class="btn btn-success btn-sm pull-right gp-btn-presenca-entrada">Entrada</a>
+		            </li>
+
+		            <li class="list-group-item gp-list-group-item panel-bluegray" th:if="${presenca.permissaoSaida and #strings.equals(presenca.frequencia.tipo, 'REPOSICAO')}">
+		              <b th:inline="text">Controle de Ponto Saída [Reposição]</b>
+		              <a th:href="@{/Estagiario/Acompanhamento/{idEstagio}/PresencaSaidaReposicao(idEstagio=${estagio.id})}" class="btn btn-success btn-sm pull-right gp-btn-presenca-saida">Saída</a>
+		            </li>
+		          </ul>
+		      </div>
+
 	        <div class="panel panel-bluegray">
 	          <div class="panel-heading">
 	            <a class="panel-title" data-toggle="collapse" data-target="#detalhesTurma" th:inline="text"><i class="fa fa-caret-down" aria-hidden="true"></i> Turma: [[${estagio.turma.nome}]] - [[${estagio.turma.semestre}]]</a>

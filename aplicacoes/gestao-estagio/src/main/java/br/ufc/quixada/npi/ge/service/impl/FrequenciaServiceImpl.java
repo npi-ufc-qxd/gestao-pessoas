@@ -8,6 +8,7 @@ import javax.inject.Named;
 
 import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
+import org.joda.time.Period;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import br.ufc.quixada.npi.ge.model.Estagio;
@@ -36,20 +37,32 @@ public class FrequenciaServiceImpl implements FrequenciaService {
 		if (frequencia == null) {
 			frequencia = new Frequencia();
 			frequencia.setTipo(Frequencia.TipoFrequencia.NORMAL);
-			presencas.add(liberarPresencaEntrada(frequencia, estagio));
+			Presenca presenca = liberarPresencaEntrada(frequencia, estagio);
+			if(presenca != null) {
+				presencas.add(presenca);
+			}
 		} else if (Frequencia.StatusFrequencia.AGUARDO_SAIDA.equals(frequencia.getStatus())) {
-			presencas.add(liberarPresencaSaida(frequencia, estagio));
+			Presenca presenca = liberarPresencaSaida(frequencia, estagio);
+			if(presenca != null) {
+				presencas.add(presenca);
+			}
 		}
 
 		Frequencia frequenciaReposicao = frequenciaRepository.findFrequenciaDeHojeByEstagioETipo(estagio, Frequencia.TipoFrequencia.REPOSICAO);
 
 		if (frequenciaReposicao != null) {
 			if (frequenciaReposicao.getStatus() == null) {
-				presencas.add(liberarPresencaEntrada(frequenciaReposicao, estagio));
+				Presenca presenca = liberarPresencaEntradaReposicao(frequenciaReposicao, estagio); 
+				if(presenca != null) {
+					presencas.add(presenca);
+				}
 			}
 
 			if (Frequencia.StatusFrequencia.AGUARDO_SAIDA.equals(frequenciaReposicao.getStatus())) {
-				presencas.add(liberarPresencaSaida(frequenciaReposicao, estagio));
+				Presenca presenca = liberarPresencaSaidaReposicao(frequenciaReposicao, estagio); 
+				if(presenca != null) {
+					presencas.add(presenca);
+				}
 			}
 		}
 
@@ -58,27 +71,63 @@ public class FrequenciaServiceImpl implements FrequenciaService {
 
 	private Presenca liberarPresencaEntrada(Frequencia frequencia, Estagio estagio) {
 
-		Presenca presenca = new Presenca();
-		presenca.setFrequencia(frequencia);
-
-		presenca.setPermissaoSaida(false);
-
 		Expediente expediente = getExpedienteDoDia(estagio);
-		presenca.setPermissaoEntrada(isHoraEntrada(expediente.getHoraInicio(), 1));
 		
-		return presenca;
+		if(expediente != null) {
+			Presenca presenca = new Presenca();
+			presenca.setFrequencia(frequencia);
+			presenca.setPermissaoSaida(false);
+			presenca.setPermissaoEntrada(isHoraEntrada(expediente.getHoraInicio(), TOLERANCIA_MINUTOS));
+
+			return presenca;
+		}
+
+		return null;
+	}
+
+	private Presenca liberarPresencaEntradaReposicao(Frequencia frequencia, Estagio estagio) {
+
+		boolean horaEntrada = isHoraEntrada(frequencia.getHoraAgendamentoEntrada(), TOLERANCIA_MINUTOS);
+
+		if(horaEntrada) {
+			Presenca presenca = new Presenca();
+			presenca.setFrequencia(frequencia);
+			presenca.setPermissaoSaida(false);
+			presenca.setPermissaoEntrada(horaEntrada);
+			return presenca;
+		}
+		
+		return null;
+		
 	}
 
 	private Presenca liberarPresencaSaida(Frequencia frequencia, Estagio estagio) {
-		Presenca presenca = new Presenca();
-		presenca.setFrequencia(frequencia);
-
-		presenca.setPermissaoEntrada(false);
-		
 		Expediente expediente = getExpedienteDoDia(estagio);
-		presenca.setPermissaoSaida(isHoraSaida(expediente.getHoraTermino(), 1));
 
-		return presenca;
+		if(expediente != null) {
+			Presenca presenca = new Presenca();
+			presenca.setFrequencia(frequencia);
+			presenca.setPermissaoEntrada(false);
+			presenca.setPermissaoSaida(isHoraSaida(expediente.getHoraTermino(), TOLERANCIA_MINUTOS));
+			return presenca;
+		}
+
+		return null;
+	}
+
+	private Presenca liberarPresencaSaidaReposicao(Frequencia frequencia, Estagio estagio) {
+		boolean horaSaida = isHoraSaida(frequencia.getHoraAgendamentoSaida(), TOLERANCIA_MINUTOS);
+		
+		if(horaSaida) {
+			Presenca presenca = new Presenca();
+			presenca.setFrequencia(frequencia);
+			presenca.setPermissaoEntrada(false);
+			presenca.setPermissaoSaida(horaSaida);
+			return presenca;
+		}
+		
+		return null;
+
 	}
 
 	private Expediente getExpedienteDoDia(Estagio estagio) {
@@ -132,7 +181,6 @@ public class FrequenciaServiceImpl implements FrequenciaService {
 
 		Frequencia frequencia = frequenciaRepository.findFrequenciaDeHojeByEstagioETipo(estagio, Frequencia.TipoFrequencia.NORMAL);
 		
-		final int TOLERANCIA_MINUTOS = 10;
 
 		if (frequencia == null) {
 			Expediente expediente = getExpedienteDoDia(estagio);
@@ -156,11 +204,10 @@ public class FrequenciaServiceImpl implements FrequenciaService {
 
 	@Override
 	public boolean realizarSaida(Estagio estagio) {
-		Frequencia frequencia = frequenciaRepository.findFrequenciaDeHojeByEstagio(estagio);
+		Frequencia frequencia = frequenciaRepository.findFrequenciaDeHojeByEstagioETipo(estagio, Frequencia.TipoFrequencia.NORMAL);
+
 
 		if (frequencia != null && Frequencia.StatusFrequencia.AGUARDO_SAIDA.equals(frequencia.getStatus())) {
-
-			final int TOLERANCIA_MINUTOS = 10;
 
 			Expediente expediente = getExpedienteDoDia(estagio);
 
@@ -181,17 +228,13 @@ public class FrequenciaServiceImpl implements FrequenciaService {
 	@Override
 	public boolean realizarEntradaReposicao(Frequencia frequencia) {
 		if (isHoraEntrada(frequencia.getHoraAgendamentoEntrada(), TOLERANCIA_MINUTOS)) {
-			frequencia = new Frequencia();
 			frequencia.setStatus(Frequencia.StatusFrequencia.AGUARDO_SAIDA);
-			frequencia.setData(new Date());
 			frequencia.setHoraEntrada(new Date());
-			frequencia.setTipo(TipoFrequencia.NORMAL);
 			frequenciaRepository.save(frequencia);
 			return true;
 
 		}
 		return false;
-
 	}
 
 	@Override
@@ -206,6 +249,44 @@ public class FrequenciaServiceImpl implements FrequenciaService {
 		}
 		return false;
 
+	}
+	
+	private int calcularAtrasoDaSaidaAntecipada(LocalTime horaTerminoExpediente, LocalTime horaSaida) {
+
+		LocalTime horaTerminoMenosTolerancia = horaTerminoExpediente.minusMinutes(TOLERANCIA_MINUTOS);
+
+		int atrasoMinutos = 0;
+
+		if (!horaSaida.isAfter(horaTerminoMenosTolerancia)) {
+			Period period = new Period(horaSaida, horaTerminoMenosTolerancia);
+			atrasoMinutos = period.getMinutes() + converterHorasEmMinutos(period.getHours());
+		}
+
+		return atrasoMinutos;
+	}
+
+	private int calcularAtrasoEntrada(LocalTime horaInicioExpediente, LocalTime horaEntrada) {
+
+		LocalTime horaInicioMaisTolerancia = horaInicioExpediente.plusMinutes(TOLERANCIA_MINUTOS);
+
+		int atrasoMinutos = 0;
+
+		if (!horaEntrada.isBefore(horaInicioMaisTolerancia)) {
+			Period period = new Period(horaInicioMaisTolerancia, horaEntrada);
+			atrasoMinutos = period.getMinutes() + converterHorasEmMinutos(period.getHours());
+		}
+
+		return atrasoMinutos;
+	}
+
+	private static int converterHorasEmMinutos(int horas) {
+		return horas * 60;
+	}
+	
+	@Override
+	public Frequencia buscarReposicao(Estagio estagio) {
+		Frequencia frequenciaReposicao = frequenciaRepository.findFrequenciaDeHojeByEstagioETipo(estagio, Frequencia.TipoFrequencia.REPOSICAO);
+		return frequenciaReposicao;
 	}
 
 }

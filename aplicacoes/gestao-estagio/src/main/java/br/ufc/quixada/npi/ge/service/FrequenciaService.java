@@ -18,4 +18,6 @@ public interface FrequenciaService {
 
 	boolean realizarSaidaReposicao(Frequencia frequencia);
 
+	public Frequencia buscarReposicao(Estagio estagio);
+
 }

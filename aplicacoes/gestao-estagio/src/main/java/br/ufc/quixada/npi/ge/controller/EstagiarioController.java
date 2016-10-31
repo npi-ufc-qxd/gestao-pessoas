@@ -38,6 +38,7 @@ import br.ufc.quixada.npi.ge.model.Documento;
 import br.ufc.quixada.npi.ge.model.Estagiario;
 import br.ufc.quixada.npi.ge.model.Estagio;
 import br.ufc.quixada.npi.ge.model.Evento;
+import br.ufc.quixada.npi.ge.model.Frequencia;
 import br.ufc.quixada.npi.ge.model.Pessoa;
 import br.ufc.quixada.npi.ge.model.Submissao;
 import br.ufc.quixada.npi.ge.model.Submissao.StatusEntrega;
@@ -198,7 +199,21 @@ public class EstagiarioController {
 
 		return frequenciaService.realizarEntrada(estagio);
 	}
-		
+
+
+	@RequestMapping(value = "/Acompanhamento/{idEstagio}/PresencaEntradaReposicao", method = RequestMethod.GET)
+	public @ResponseBody boolean realizarEntradaReposicao(HttpSession session, @PathVariable("idEstagio") Long idEstagio) {
+
+		Estagio estagio = estagioService.buscarEstagioPorIdEEstagiarioCpf(idEstagio, getCpfUsuarioLogado());
+		Frequencia frequenciaReposicao = frequenciaService.buscarReposicao(estagio);
+
+		if(estagio == null || frequenciaReposicao == null) {
+			return false;
+		}
+
+		return frequenciaService.realizarEntradaReposicao(frequenciaReposicao);
+	}
+
 	@RequestMapping(value = "/Acompanhamento/{idEstagio}/PresencaSaida", method = RequestMethod.GET)
 	public @ResponseBody boolean realizarPresencaSaida(HttpSession session, @PathVariable("idEstagio") Long idEstagio) {
 
@@ -210,7 +225,20 @@ public class EstagiarioController {
 
 		return frequenciaService.realizarSaida(estagio);
 	}
-		
+
+	@RequestMapping(value = "/Acompanhamento/{idEstagio}/PresencaSaidaReposicao", method = RequestMethod.GET)
+	public @ResponseBody boolean realizarSaidaReposicao(HttpSession session, @PathVariable("idEstagio") Long idEstagio) {
+
+		Estagio estagio = estagioService.buscarEstagioPorIdEEstagiarioCpf(idEstagio, getCpfUsuarioLogado());
+		Frequencia frequenciaReposicao = frequenciaService.buscarReposicao(estagio);
+
+		if(estagio == null || frequenciaReposicao == null) {
+			return false;
+		}
+
+		return frequenciaService.realizarSaidaReposicao(frequenciaReposicao);
+	}
+
 	@RequestMapping(value = "/Acompanhamento/{idEstagio}/SubmeterPlano", method = RequestMethod.POST)
 	public String submeterPlano(@Valid @RequestParam("planoEstagio") MultipartFile planoEstagio, @PathVariable("idEstagio") Long idEstagio, RedirectAttributes redirectAttributes ) throws Exception{
 

@@ -37,7 +37,6 @@ public class Frequencia {
 	@Enumerated(EnumType.STRING)
 	private TipoFrequencia tipo;
 
-
 	@Temporal(TemporalType.TIME)
 	private Date horaAgendamentoEntrada;
 

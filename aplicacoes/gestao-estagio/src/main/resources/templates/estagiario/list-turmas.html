@@ -40,8 +40,6 @@
             <li class="list-group-item gp-list-group-item" th:each= "estagio: ${estagios}">
               <b th:inline="text">[[${estagio.turma.nome}]] [[${estagio.turma.semestre}]]</b> 
               	   <a th:href="@{/Estagiario/Acompanhamento/{idEstagio}(idEstagio=${estagio.id})}" class="btn btn-info btn-sm pull-right gp-btn-acompanhamento">Acompanhamento</a>
-<!--               <a th:href="@{/Estagiario/Acompanhamento/{idEstagio}/PresencaEntrada(idEstagio=${presenca.estagio.id})}" class="btn btn-success btn-sm pull-right gp-btn-presenca" th:if="${presenca.permissaoEntrada}">Entrada</a> -->
-<!--               <a th:href="@{/Estagiario/Acompanhamento/{idEstagio}/PresencaSaida(idEstagio=${presenca.estagio.id})}" class="btn btn-success btn-sm pull-right gp-btn-presenca" th:if="${presenca.permissaoSaida}">Saída</a> -->
             </li>
           </ul>
         </div>

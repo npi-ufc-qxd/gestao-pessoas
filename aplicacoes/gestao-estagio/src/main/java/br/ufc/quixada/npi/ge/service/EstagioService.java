@@ -9,6 +9,7 @@ import br.ufc.quixada.npi.ge.model.Documento;
 import br.ufc.quixada.npi.ge.model.Estagiario;
 import br.ufc.quixada.npi.ge.model.Estagio;
 import br.ufc.quixada.npi.ge.model.Evento;
+import br.ufc.quixada.npi.ge.model.Expediente;
 import br.ufc.quixada.npi.ge.model.Frequencia;
 import br.ufc.quixada.npi.ge.model.Presenca;
 import br.ufc.quixada.npi.ge.model.Submissao;
@@ -60,7 +61,7 @@ public interface EstagioService {
 
 	Frequencia buscarFrequenciaPorIdETipoEStatus(Long idEstagio, Frequencia.TipoFrequencia tipoFrequencia, Frequencia.StatusFrequencia statusFrequencia);
 	
-	Frequencia buscarFrequenciaPorDataEEstagioId(Date data, Long idEstagio);
+	List<Frequencia> buscarFrequenciaPorDataReposicaoComIdEstagio(Date data, Long idEstagio, Date horaEntrada, Date horaSaida);
 	
 	void excluirFrequencia(Frequencia frequencia);
 	
@@ -82,12 +83,15 @@ public interface EstagioService {
 
 	ConsolidadoFrequencia consolidarFrequencias(Estagio estagio);
 	
-	void agendarReposicao(Estagio estagio, Date date);
+	void agendarReposicao(Estagio estagio, Date date, Date horaEntrada, Date horaSaida);
 
 	boolean isEstagioAcessoSupervisorOuOrientador(Long idEstagio, Long idServidor);
 
 	List<Evento> buscarEventosEstagiario(List<Estagio> estagios);
 	
 	void substituirDocumento(Documento documento) throws GestaoEstagioException;
+
+	Expediente buscarExpedienteDoDia(Estagio estagio, Date dataReposicao, Date horaAgendamentoEntrada,
+			Date horaAgendamentoSaida);
 	
 }

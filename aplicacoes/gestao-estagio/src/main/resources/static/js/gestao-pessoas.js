@@ -41,19 +41,19 @@ $(document).ready(function() {
 	$('#semestre').mask('0000.s', {'translation': {'s': {pattern: /[1-2]/}}});	
 
 	jQuery.validator.addMethod("horaMaior", 
-			function(horaFinal, element, params) {
+			function(horaFinal, params) {
 				return moment(horaFinal, "HH:mm").isAfter(moment($(params).val(), "HH:mm"));
 			},'Horário de término deve ser posterior ao horário de início!'
 		);
 	
 	jQuery.validator.addMethod("horaMenor", 
-			function(horaInicial, element, params) {
+			function(horaInicial, params) {
 				return moment(horaInicial, "HH:mm").isBefore(moment($(params).val(), "HH:mm"));
 			},'Horário de início deve ser anterior ao horário de término!'
 		);
 
 	jQuery.validator.addMethod("maiorQue", 
-			function(dataFinal, element, params) {
+			function(dataFinal, params) {
 				$(params).val($("#inicio").datepicker('getFormattedDate'));
 				return moment(dataFinal, "DD/MM/YYYY").isAfter(moment($(params).val(), "DD/MM/YYYY"));
 			},'Data de término deve ser posterior a data de início!'
@@ -65,6 +65,42 @@ $(document).ready(function() {
 			return moment(dataIncial, "DD/MM/YYYY").isBefore(moment($(params).val(), "DD/MM/YYYY"));
 		},'Data de início deve ser anterior a data de término!'
 	);
+	
+	$("#form-reposicao").validate({
+		onkeyup: false,
+		onclick: false,
+		onfocusout: false,
+		rules: {
+		horaAgendamentoEntrada:{
+	    		horaMenor : "#horaAgendamentoSaida",
+	    	},
+		horaAgendamentoSaida:{
+	    		horaMaior: "#horaAgendamentoEntrada",
+	    	}
+	    },
+	    highlight: function(element) {
+	        $(element).closest('.form-group').addClass('has-error color-error');
+	    },
+	    unhighlight: function(element) {
+	        $(element).closest('.form-group').removeClass('has-error color-error');
+	    },
+	    errorElement: 'label',
+	    errorClass: 'message-error',
+	    errorPlacement: function(error, element) {
+	        error.insertAfter(element);
+	    },
+	    messages:{
+	    	dataReposicao : {
+				required : "Informe a data",
+			},
+			horaAgendamentoEntrada:{
+				required : "Informa a Hora"
+			},
+			horaAgendamentoSaida:{
+				required : "Informa a Hora"
+			}
+		}
+	});	
 	
 	$('#form-expediente').validate({
 		onkeyup: false,
@@ -419,39 +455,35 @@ $( "#form-estagiario" ).validate({
            	max: "Informe um semestre valido"
 		},
 	}
-});	
+});
+$('#form-expediente').validate({
+	onkeyup: false,
+	onclick: false,
+	onfocusout: false,
+	rules: {
+		horaInicio:{
+    		horaMenor : "#horaTermino",
+    	},
 
-$( "#form-reposicao" ).validate({
+    	horaTermino:{
+    		horaMaior: "#horaInicio",
+    	}
+    },
     highlight: function(element) {
-        $(element).closest('.form-group').addClass('has-error color-error');
+        $(element).closest('.form-group').addClass('has-error');
     },
     unhighlight: function(element) {
-        $(element).closest('.form-group').removeClass('has-error color-error');
+        $(element).closest('.form-group').removeClass('has-error');
     },
-    errorElement: 'label',
-    errorClass: 'message-error',
-    errorPlacement: function(error, element) {
-        error.insertAfter(element);
-    },
-    messages:{
-    	dataReposicao : {
-			required : "Informe a data",
-		},
-	}
-});	
+    errorElement: 'span',
+    errorClass: 'help-block'
+});
 
 $(document).ready(function(){
 	$(".data").datepicker({
 	    language: 'pt-BR',
 	    autoclose: true,
 	    format: "dd/mm/yyyy",
-	    orientation: "top auto",
-	});
-
-	$(".data-reposicao").datepicker({
-	    language: 'pt-BR',
-	    autoclose: true,
-	    format: "mm/dd/yyyy",
 	    orientation: "top auto",
 	});
 });	  

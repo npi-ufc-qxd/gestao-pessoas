@@ -91,7 +91,11 @@ public class GestaoPessoasController {
 			return FORMULARIO_CADASTRO_SUPERVISOR;
 		}
 
-		Usuario usuario = usuarioService.getByCpf(SecurityContextHolder.getContext().getAuthentication().getName());
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+		
+//		Usuario usuario = usuarioService.getByCpf(SecurityContextHolder.getContext().getAuthentication().getName());
+		Usuario usuario = (Usuario) authentication.getPrincipal();
 
 		Papel papel = pessoaService.buscarPapelPorNome("SUPERVISOR");
 
@@ -104,8 +108,8 @@ public class GestaoPessoasController {
 		servidor.setPessoa(pessoa);
 		pessoaService.adicionarServidor(servidor);
 
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		Authentication auth = ldapAuthentication.authenticate(authentication);
+//		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		Authentication auth = ldapAuthentication.loadAuthorities(usuario.getCpf(), authentication.getCredentials());
 		SecurityContextHolder.getContext().setAuthentication(auth);
 
 		redirect.addFlashAttribute("success", "Seu cadastro foi realizado com sucesso! Agora, você pode efetuar o login!");

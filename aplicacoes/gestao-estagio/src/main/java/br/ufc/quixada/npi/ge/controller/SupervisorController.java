@@ -45,6 +45,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
@@ -1130,9 +1131,11 @@ public class SupervisorController {
 	}
 
 	private String getCpfUsuarioLogado() {
-		return SecurityContextHolder.getContext().getAuthentication().getName();
-	}
-
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Usuario usuario = (Usuario) authentication.getPrincipal();
+        return usuario.getCpf();
+    }
+	
 	private Model configurarExpediente(List<Expediente> expedientes, Model model) {
 		SimpleDateFormat horaFormatada = new SimpleDateFormat("HH:mm");
 

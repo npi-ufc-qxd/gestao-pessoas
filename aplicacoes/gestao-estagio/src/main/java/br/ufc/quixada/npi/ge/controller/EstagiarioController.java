@@ -21,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -44,6 +45,7 @@ import br.ufc.quixada.npi.ge.model.Submissao.StatusEntrega;
 import br.ufc.quixada.npi.ge.model.Submissao.TipoSubmissao;
 import br.ufc.quixada.npi.ge.service.EstagioService;
 import br.ufc.quixada.npi.ge.service.PessoaService;
+import br.ufc.quixada.npi.ldap.model.Usuario;
 
 @Controller
 @RequestMapping("Estagiario")
@@ -68,7 +70,6 @@ public class EstagiarioController {
 
 		return PAGINA_INICIAL_ESTAGIARIO;
 	}
-
 	
 	@RequestMapping(value = "/MeusDados", method = RequestMethod.GET)
 	public String visualizarMeusDados(Model model) {
@@ -338,8 +339,10 @@ public class EstagiarioController {
 	}
 	
 	private String getCpfUsuarioLogado() {
-		return SecurityContextHolder.getContext().getAuthentication().getName();
-	}
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Usuario usuario = (Usuario) authentication.getPrincipal();
+        return usuario.getCpf();
+    }
 
 	private boolean arquivoInvalido(MultipartFile anexo){
 		if(anexo == null || !anexo.getContentType().equals("application/pdf")) {

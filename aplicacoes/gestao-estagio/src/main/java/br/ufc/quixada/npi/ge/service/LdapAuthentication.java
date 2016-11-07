@@ -50,6 +50,19 @@ public class LdapAuthentication implements AuthenticationProvider {
         return new UsernamePasswordAuthenticationToken(user, password, authorities);
 	}
 
+	public Authentication loadAuthorities(String username, Object password) {
+	      
+		Usuario user = usuarioService.getByCpf(username);
+
+		Collection<? extends GrantedAuthority> authorities = pessoaService.getPapeis(username);
+
+        if(authorities.isEmpty() && user != null){
+            authorities = user.getAuthorities();
+        }
+
+        return new UsernamePasswordAuthenticationToken(user, password, authorities);
+	}	
+
 	@Override
 	public boolean supports(Class<?> arg0) {
 		return true;

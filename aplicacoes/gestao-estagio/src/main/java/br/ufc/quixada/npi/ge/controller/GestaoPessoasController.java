@@ -91,7 +91,11 @@ public class GestaoPessoasController {
 			return FORMULARIO_CADASTRO_SUPERVISOR;
 		}
 
-		Usuario usuario = usuarioService.getByCpf(SecurityContextHolder.getContext().getAuthentication().getName());
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+		
+//		Usuario usuario = usuarioService.getByCpf(SecurityContextHolder.getContext().getAuthentication().getName());
+		Usuario usuario = (Usuario) authentication.getPrincipal();
 
 		Papel papel = pessoaService.buscarPapelPorNome("SUPERVISOR");
 
@@ -104,8 +108,8 @@ public class GestaoPessoasController {
 		servidor.setPessoa(pessoa);
 		pessoaService.adicionarServidor(servidor);
 
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		Authentication auth = ldapAuthentication.authenticate(authentication);
+//		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		Authentication auth = ldapAuthentication.loadAuthorities(usuario.getCpf(), authentication.getCredentials());
 		SecurityContextHolder.getContext().setAuthentication(auth);
 
 		redirect.addFlashAttribute("success", "Seu cadastro foi realizado com sucesso! Agora, você pode efetuar o login!");
@@ -124,25 +128,25 @@ public class GestaoPessoasController {
 		if (result.hasErrors()) {
 			return FORMULARIO_CADASTRO_ESTAGIARIO;
 		}
+		
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-		Usuario usuario = usuarioService.getByCpf(SecurityContextHolder.getContext().getAuthentication().getName());
-
+		Usuario usuario = (Usuario) authentication.getPrincipal();
+	
 		Papel papel = pessoaService.buscarPapelPorNome("ESTAGIARIO");
 
 		Pessoa pessoa = new Pessoa();
 		pessoa.setCpf(usuario.getCpf());
-		pessoa.setPapeis(new ArrayList<Papel>());
-		pessoa.getPapeis().add(papel);
-
+		pessoa.adicionarPapel(papel);
+		
 		pessoaService.adicionarPessoa(pessoa);
 
 		estagiario.setPessoa(pessoa);
 		pessoaService.adicionarEstagiario(estagiario);
 
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		Authentication auth = ldapAuthentication.authenticate(authentication);
+		Authentication auth = ldapAuthentication.loadAuthorities(usuario.getCpf(), authentication.getCredentials());
 		SecurityContextHolder.getContext().setAuthentication(auth);
-
+		
 		redirect.addFlashAttribute("success", "Seu cadastro foi realizado com sucesso! Agora, você pode efetuar o login!");
 		return REDIRECT_PAGINA_INICIAL_ESTAGIARIO;	
 	}

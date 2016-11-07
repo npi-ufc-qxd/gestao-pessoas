@@ -100,9 +100,25 @@
 					<a th:href="@{/Supervisao/Turma/{id}/AtualizarVinculos(id=${turma.id})}" class="btn btn-xs pull-right gp-btn-opcao">Atualizar Vínculos</a>
 	          </div>
 	          <div id="estagiarios" class="panel-body collapse in">
-	          
-	          	  <p th:if="${#lists.isEmpty(turma.estagios)}">Na há estagiários vinculados a turma</p> 
-
+	          	
+          		<table id="estagiarios" class="table table-hover">
+       				<thead>
+       					<tr>
+       						<th>Nome</th>
+       						<th>Curso</th>
+       						<th></th>
+       					</tr>
+       				</thead>
+					<tbody>
+						<tr th:each="estagio: ${turma.estagios}">
+				        	<td th:text="${estagio.estagiario.nomeCompleto}"></td>
+				        	<td th:text="${estagio.estagiario.curso.descricao}"></td>
+				        	<td></td>
+				      	</tr>
+				    </tbody>
+				</table>
+	          	  <p th:if="${#lists.isEmpty(turma.estagios)}">Não há estagiários vinculados a turma</p> 
+				
 		          <ul th:if="${not #lists.isEmpty(turma.estagios)}" class="list-group">
 		            <li th:each="est :${turma.estagios}" class="list-group-item gp-list-group-item">
 		              <b th:inline="text"> [[${est.estagiario.nomeCompleto}]] </b>
@@ -111,7 +127,6 @@
 		          </ul>
 	           </div>
 	        </div>
-	
 	        <div class="panel panel-bluegray">
 	          <div class="panel-heading">
 	            <a class="panel-title" data-toggle="collapse" data-target="#eventos"><i class="fa fa-caret-down" aria-hidden="true"></i> Eventos</a>
@@ -119,7 +134,7 @@
 	          </div>
 
 	          <div id="eventos" class="panel-body collapse in">
-	          	  <p th:if="${#lists.isEmpty(turma.eventos)}">Na há evento</p> 
+	          	  <p th:if="${#lists.isEmpty(turma.eventos)}">Não há evento</p> 
 
 				  <table th:if="${not #lists.isEmpty(turma.eventos)}" class="table table-hover">
 				    <tbody>

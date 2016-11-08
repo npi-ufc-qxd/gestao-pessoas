@@ -219,7 +219,8 @@ public class SupervisorController {
 	@RequestMapping(value = "/Turma/{idTurma}", method = RequestMethod.GET)
 	public String visualizarDetalhesTurma(@PathVariable("idTurma") Long idTurma, RedirectAttributes redirect, Model model, HttpSession session) {
 		Turma turma = turmaService.buscarTurmaPorServidorId(idTurma, pessoaService.buscarServidorPorCpf(getCpfUsuarioLogado()).getId());
-
+		turmaService.ordenarEstagiosPorNomeDeEstagiario(turma);
+		
 		if(turma == null){
 			redirect.addFlashAttribute("error", "Para ter acesso a um turma você precisar ser orientado ou supervisor da turma");
 			return REDIRECT_PAGINA_INICIAL_SUPERVISOR;

@@ -113,18 +113,15 @@
 						<tr th:each="estagio: ${turma.estagios}">
 				        	<td th:text="${estagio.estagiario.nomeCompleto}"></td>
 				        	<td th:text="${estagio.estagiario.curso.descricao}"></td>
-				        	<td></td>
+				        	<td>
+				        		<a th:href="@{/Supervisao/Acompanhamento/{id}(id=${estagio.id})}" class="btn btn-success btn-sm pull-right gp-btn-acompanhamento">acompanhamento</a>
+				        	</td>
 				      	</tr>
 				    </tbody>
 				</table>
-	          	  <p th:if="${#lists.isEmpty(turma.estagios)}">Não há estagiários vinculados a turma</p> 
-				
-		          <ul th:if="${not #lists.isEmpty(turma.estagios)}" class="list-group">
-		            <li th:each="est :${turma.estagios}" class="list-group-item gp-list-group-item">
-		              <b th:inline="text"> [[${est.estagiario.nomeCompleto}]] </b>
-		              <a th:href="@{/Supervisao/Acompanhamento/{id}(id=${est.id})}" class="btn btn-success btn-sm pull-right gp-btn-acompanhamento">acompanhamento</a>
-		            </li>
-		          </ul>
+	    
+	        	<p th:if="${#lists.isEmpty(turma.estagios)}">Não há estagiários vinculados a turma</p>
+		
 	           </div>
 	        </div>
 	        <div class="panel panel-bluegray">

@@ -89,12 +89,5 @@ public class TurmaServiceImpl implements TurmaService {
 		return expedienteRepository.findExpedienteByTurmaId(idTurma, diaSemana, inicio, termino);
 	}
 
-	@Override
-	public void ordenarEstagiosPorNomeDeEstagiario(Turma turma) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
 }
 

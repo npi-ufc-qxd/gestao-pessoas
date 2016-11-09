@@ -32,6 +32,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -219,7 +220,6 @@ public class SupervisorController {
 	@RequestMapping(value = "/Turma/{idTurma}", method = RequestMethod.GET)
 	public String visualizarDetalhesTurma(@PathVariable("idTurma") Long idTurma, RedirectAttributes redirect, Model model, HttpSession session) {
 		Turma turma = turmaService.buscarTurmaPorServidorId(idTurma, pessoaService.buscarServidorPorCpf(getCpfUsuarioLogado()).getId());
-		turmaService.ordenarEstagiosPorNomeDeEstagiario(turma);
 		
 		if(turma == null){
 			redirect.addFlashAttribute("error", "Para ter acesso a um turma você precisar ser orientado ou supervisor da turma");
@@ -230,7 +230,8 @@ public class SupervisorController {
 		if(data.after(turma.getTermino())){
 			model.addAttribute("turmaEncerrada", true);
 		}
-
+		
+		Collections.sort(turma.getEstagios());
 		model.addAttribute("turma", turma);
 
 		return DETALHES_TURMA;
@@ -238,7 +239,9 @@ public class SupervisorController {
 
 	@RequestMapping(value = "/Turma/{idTurma}/AtualizarVinculos", method = RequestMethod.GET)
 	public String formularioVinculosTurma(@PathVariable("idTurma") Long idTurma, Model model) {
-		model.addAttribute("turma", turmaService.buscarTurmaPorId(idTurma));
+		Turma turma = turmaService.buscarTurmaPorId(idTurma);
+		Collections.sort(turma.getEstagios());
+		model.addAttribute("turma", turma);
 
 		return VINCULOS_TURMA;
 	}

@@ -35,6 +35,4 @@ public interface TurmaService {
 
 	Expediente buscarExpedienteConflitantePorTurma(Long idTurma, Expediente.DiaDaSemana diaSemana , Date inicio, Date termino);
 
-	void ordenarEstagiosPorNomeDeEstagiario(Turma turma);
-
 }

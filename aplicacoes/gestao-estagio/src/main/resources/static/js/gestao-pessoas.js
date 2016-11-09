@@ -282,7 +282,7 @@ $(".gp-btn-desvincular").on("click", function(event) {
 			response.done(function (deleted){
 				if(deleted){
 					swal("Sucesso", "Estágiario Desvinculado", "success");
-					$(botaoDesvincular).parent().remove();
+					$(botaoDesvincular).parent().parent().remove();
 					
 				}else{
 					swal("Erro", "Um erro ocorreu, contacte o adminstrador", "error")

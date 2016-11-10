@@ -38,8 +38,6 @@ import java.util.List;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
-import org.joda.time.LocalDate;
-import org.joda.time.LocalTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpEntity;
@@ -597,8 +595,7 @@ public class SupervisorController {
 		Frequencia frequencia = new Frequencia();
 		frequencia.setEstagio(estagio);
 		frequencia.setData(dataPendente);
-//		frequencia.setStatus(statusFrequencia);
-//		frequencia.setHorario(new Date());
+		frequencia.setStatus(statusFrequencia);
 		frequencia.setTipo(Frequencia.TipoFrequencia.NORMAL);
 
 		estagioService.adicionarFrequencia(frequencia);

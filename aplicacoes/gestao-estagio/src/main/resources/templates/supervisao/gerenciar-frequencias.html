@@ -137,7 +137,7 @@
 				        </select>
 					  </div>
 					  <button type="submit" class="btn btn-success col-sm-offset-1">lançar</button>
-					  
+
 					  <div class="form-group">
 					  	<label th:if="${!#strings.isEmpty(errorDataPendente)}" th:text="${errorDataPendente}" class="color-error"></label>
 					  </div>
@@ -151,31 +151,39 @@
 	            <a class="panel-title" data-toggle="collapse" data-target="#reposicao"><i class="fa fa-caret-down" aria-hidden="true"></i> Reposições</a>
 			  </div>
 	          <div id="reposicao" class="panel-body collapse in">
+
 				<form id="form-reposicao" class="form-horizontal" th:action="@{/Supervisao/Acompanhamento/{idEstagio}/AgendarReposicao(idEstagio=${estagio.id})}" method="post">
-					
-					<div class="form-group">
-				    	<label for="dataReposicao" class="col-lg-1 control-label">Data</label>
-				    	<div class="col-lg-6">
-				    		<input type="text" class="form-control data" id="dataReposicao" name="dataReposicao" required="required" placeholder="dd/MM/aaaa"/>
-				    		<label th:if="${!#strings.isEmpty(errorData)}" th:text="${errorData}" class="color-error"></label>
-				    		<label th:if="${!#strings.isEmpty(errorExpediente)}" th:text="${errorExpediente}" class="color-error"></label>
-				  		</div>
-				  	</div>
-				  	
 		  			<div class="form-group">
-						<label for="horario" class="control-label col-lg-1">Horário</label>
-						<div class="col-lg-2">
+				    	<div class="form-item">
+					    	<label for="dataReposicao" class="col-lg-1 control-label">Data</label>
+					    	<div class="col-lg-4">
+					    		<input type="text" class="form-control data" id="dataReposicao" name="dataReposicao" required="required" placeholder="dd/MM/aaaa"/>
+					    		<label th:if="${!#strings.isEmpty(errorData)}" th:text="${errorData}" class="color-error"></label>
+					    		<label th:if="${!#strings.isEmpty(errorExpediente)}" th:text="${errorExpediente}" class="color-error"></label>
+					  		</div>
+				    	</div>
+
+				    	<div class="form-item">
+				    	  <label class="col-lg-1 control-label">Horário</label>	
+					      <div class="col-lg-2">
 							<input type="text" class="form-control" id="horaAgendamentoEntrada" name="horaAgendamentoEntrada" placeholder="HH:mm" required="required"/>				    
-						</div>
-						<div class="col-lg-2">
+					      </div>
+				    	</div>
+
+				    	<div class="form-item">
+					      <div class="col-lg-2">
 							<input type="text" class="form-control" id="horaAgendamentoSaida" name="horaAgendamentoSaida" placeholder="HH:mm" required="required"/>
-						</div>
-						<div class="col-lg-3">
-					    	<button type="submit" class="btn btn-success">Agendar</button>
-						</div>
+					      </div>
+				    	</div>
+
+				    	<div class="form-item">
+					      <div class="col-lg-2">
+				        	<button type="submit" class="btn btn-success">Adicionar</button>
+					      </div>
+				    	</div>
 			    	</div>
-				</form><br/>
-				
+				</form>
+
 				<div id="reposicoes">	          
 					<table class="table table-hover table-bordered">
 					  <thead>
@@ -192,13 +200,12 @@
 							<td th:text="${#dates.format(frequencia.horaAgendamentoEntrada,'HH:mm')}"></td>
 							<td th:text="${#dates.format(frequencia.horaAgendamentoSaida,'HH:mm')}"></td>
 					        <td>
-					        	<a class="btn btn-danger btn-sm pull-right gp-btn-reposicao" th:href="@{/Supervisao/Acompanhamento/{idEstagio}/Frequencias/{idReposicao}/Excluir(idEstagio=${estagio.id}, idReposicao=${frequencia.id})}">Excluir</a>
+					        	<a th:if="${#strings.equals(frequencia.status, 'AGUARDO')}" class="btn btn-danger btn-sm pull-right gp-btn-reposicao" th:href="@{/Supervisao/Acompanhamento/{idEstagio}/Frequencias/{idReposicao}/Excluir(idEstagio=${estagio.id}, idReposicao=${frequencia.id})}">Excluir</a>
 				        	</td>
 						</tr>
 					  </tbody>
 					</table> 
 				</div>
-				
 	          </div>
 	        </div>
 	        <div class="panel panel-bluegray">
@@ -212,6 +219,8 @@
 					    <tr>
 					      <th class="sort" data-sort="timestamp">Data</th>
 					      <th class="sort" data-sort="tipo">Tipo</th>
+					      <th class="sort" data-sort="horaEntrada">Entrada</th>
+					      <th class="sort" data-sort="horaSaida">Saída</th>
 					      <th class="sort" data-sort="status">Status</th>
 					    </tr>
 					  </thead>
@@ -219,6 +228,10 @@
 						<tr th:each="frequencia : ${estagio.frequencias}">
 							<td class="timestamp" data-timestamp="20120911" th:inline="text" th:attr="data-timestamp=${#dates.format(frequencia.data,'yyyyMMdd')}">[[${#dates.format(frequencia.data,'dd/MM/yyyy')}]]</td>
 						    <td class="tipo" th:text="${frequencia.tipo}"></td>
+							<td th:if="${frequencia.horaEntrada != null}"  th:text="${#dates.format(frequencia.horaEntrada,'HH:mm')}"></td>
+							<td th:if="${frequencia.horaSaida != null}" th:text="${#dates.format(frequencia.horaSaida,'HH:mm')}"></td>
+							<td th:if="${frequencia.horaEntrada == null}"></td>
+							<td th:if="${frequencia.horaSaida == null}"></td>
 						    <td th:if="${#strings.equals(frequencia.status, 'PRESENTE')}" class="status"><span class="label label-success" th:text="${frequencia.status}">Default</span></td>
 						    <td th:if="${#strings.equals(frequencia.status, 'FALTA')}" class="status"><span class="label label-danger" th:text="${frequencia.status}">Default</span></td>
 						    <td th:if="${#strings.equals(frequencia.status, 'AGUARDO')}" class="status"><span class="label label-default" th:text="${frequencia.status}">Default</span></td>
@@ -226,6 +239,8 @@
 						    <td th:if="${#strings.equals(frequencia.status, 'FERIADO')}" class="status"><span class="label label-default" th:text="${frequencia.status}">Default</span></td>
 						    <td th:if="${#strings.equals(frequencia.status, 'ABONADO')}" class="status"><span class="label label-default" th:text="${frequencia.status}">Default</span></td>
 						    <td th:if="${#strings.equals(frequencia.status, 'JUSTIFICATIVA')}" class="status"><span class="label label-default" th:text="${frequencia.status}">Default</span></td>
+						    <td th:if="${#strings.equals(frequencia.status, 'AGUARDO_SAIDA')}" class="status"><span class="label label-default" th:text="${frequencia.status}"></span></td>
+						    <td th:if="${frequencia.status == NULL}" class="status"><span class="label label-default"></span></td>
 						</tr>
 					  </tbody>
 					</table> 

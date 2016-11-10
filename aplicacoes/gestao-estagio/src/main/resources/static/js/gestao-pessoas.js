@@ -42,12 +42,14 @@ $(document).ready(function() {
 
 	jQuery.validator.addMethod("horaMaior", 
 			function(horaFinal, params) {
+		moment(horaFinal, "HH:mm").val();
 				return moment(horaFinal, "HH:mm").isAfter(moment($(params).val(), "HH:mm"));
 			},'Horário de término deve ser posterior ao horário de início!'
 		);
 	
 	jQuery.validator.addMethod("horaMenor", 
 			function(horaInicial, params) {
+				moment(horaInicial, "HH:mm").val();
 				return moment(horaInicial, "HH:mm").isBefore(moment($(params).val(), "HH:mm"));
 			},'Horário de início deve ser anterior ao horário de término!'
 		);

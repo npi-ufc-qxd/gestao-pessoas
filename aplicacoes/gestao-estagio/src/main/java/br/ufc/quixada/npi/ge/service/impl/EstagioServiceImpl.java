@@ -410,10 +410,8 @@ public class EstagioServiceImpl implements EstagioService {
 	}
 
 	@Override
-	public Frequencia buscarFrequenciaPorIdETipoEStatus(Long idEstagio, TipoFrequencia tipoFrequencia,
-			StatusFrequencia statusFrequencia) {
-	/*	return frequenciaRepository.findByIdAndTipoAndStatus(idEstagio, tipoFrequencia, statusFrequencia);*/
-		return null;
+	public Frequencia buscarFrequenciaPorIdETipoEStatus(Long idEstagio, TipoFrequencia tipoFrequencia, StatusFrequencia statusFrequencia) {
+		return frequenciaRepository.findByIdAndTipoAndStatus(idEstagio, tipoFrequencia, statusFrequencia);
 	}
 
 	@Override

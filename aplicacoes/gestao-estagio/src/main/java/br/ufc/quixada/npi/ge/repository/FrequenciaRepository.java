@@ -9,6 +9,8 @@ import org.springframework.data.repository.query.Param;
 
 import br.ufc.quixada.npi.ge.model.Estagio;
 import br.ufc.quixada.npi.ge.model.Frequencia;
+import br.ufc.quixada.npi.ge.model.Frequencia.StatusFrequencia;
+import br.ufc.quixada.npi.ge.model.Frequencia.TipoFrequencia;
 
 public interface FrequenciaRepository extends JpaRepository<Frequencia, Long> {
 	
@@ -33,7 +35,9 @@ public interface FrequenciaRepository extends JpaRepository<Frequencia, Long> {
 	@Query("select COUNT(f) from Frequencia f where f.estagio.id = :idEstagio and f.tipo = :tipo")
 	int buscarTotalByTipo(@Param("idEstagio") Long idEstagio, @Param("tipo") Frequencia.TipoFrequencia tipoFrequencia);
 
-	/*Frequencia findByIdAndTipoAndStatus(Long idEstagio, Frequencia.TipoFrequencia tipoFrequencia, Frequencia.StatusFrequencia statusFrequencia);*/
+	//Frequencia findByIdAndTipoAndStatus(Long idEstagio, TipoFrequencia tipoFrequencia, StatusFrequencia statusFrequencia);
+
+	Frequencia findByIdAndTipoAndStatus(Long idEstagio, Frequencia.TipoFrequencia tipoFrequencia, Frequencia.StatusFrequencia statusFrequencia);
 
 //	void updateStatus(String queryName, Map<String, Object> namedParams);
 //	

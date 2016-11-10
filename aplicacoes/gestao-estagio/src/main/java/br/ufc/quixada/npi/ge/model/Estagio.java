@@ -22,7 +22,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import br.ufc.quixada.npi.ge.enums.TipoEstagio;
 
 @Entity
-public class Estagio {
+public class Estagio implements Comparable<Estagio>{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -221,5 +221,13 @@ public class Estagio {
 			return descricao;
 		}
 
+	}
+
+	@Override
+	public int compareTo(Estagio estagio) {
+		String nomeDesteEstagiario = this.estagiario.getNomeCompleto();
+		String nomeOutroEstagiario = estagio.getEstagiario().getNomeCompleto();
+		
+		return nomeDesteEstagiario.compareTo(nomeOutroEstagiario);
 	}
 }

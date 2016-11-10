@@ -89,6 +89,5 @@ public class TurmaServiceImpl implements TurmaService {
 		return expedienteRepository.findExpedienteByTurmaId(idTurma, diaSemana, inicio, termino);
 	}
 
-
 }
 

@@ -103,12 +103,26 @@
 	            <a class="panel-title"><i class="fa fa-caret-down" aria-hidden="true"></i> Estagiários da Turma</a>
 	          </div>
 	          <div id="vinculos" class="panel-body">
-		          <ul class="list-group">
-		            <li th:each="est :${turma.estagios}" class="list-group-item gp-list-group-item">
-		              <b th:inline="text"> [[${est.estagiario.nomeCompleto}]] </b>
-		              <a th:if="${#strings.equals(est.turma.status, 'ABERTA')}" th:href="@{/Supervisao/Acompanhamento/{id}/Desvincular(id=${est.id})}" class="btn btn-success btn-sm pull-right gp-btn-acompanhamento gp-btn-desvincular">desvincular</a>
-		            </li>
-		          </ul>
+	          
+				<table id="estagiarios" class="table table-hover">
+       				<thead>
+       					<tr>
+       						<th>Nome</th>
+       						<th>Curso</th>
+       						<th></th>
+       					</tr>
+       				</thead>
+					
+					<tbody>
+						<tr th:each="estagio: ${turma.estagios}">
+				        	<td th:text="${estagio.estagiario.nomeCompleto}"></td>
+				        	<td th:text="${estagio.estagiario.curso.descricao}"></td>
+				        	<td>
+				        		<a th:if="${#strings.equals(estagio.turma.status, 'ABERTA')}" th:href="@{/Supervisao/Acompanhamento/{id}/Desvincular(id=${estagio.id})}" class="btn btn-success btn-sm pull-right gp-btn-acompanhamento gp-btn-desvincular">desvincular</a>
+				        	</td>
+				      	</tr>
+				    </tbody>
+				</table>
 	           </div>
 	        </div>
 	      </div>

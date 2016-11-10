@@ -112,9 +112,9 @@ public class SupervisorController {
 	public String listarTurmas(Model model, HttpSession session) {
 		Servidor servidor = pessoaService.buscarServidorPorCpf(getCpfUsuarioLogado());
 
-		if (servidor == null) {
-			servidor = cadastrarServidor();
-		}
+//		if (servidor == null) {
+//			servidor = cadastrarServidor();
+//		}
 
 		model.addAttribute("turmasNPI", turmaService.buscarTurmaPorTipoEServidor(TipoTurma.NPI, servidor.getId()));
 		model.addAttribute("turmasEmpresa", turmaService.buscarTurmaPorTipoEServidor(TipoTurma.EMPRESA, servidor.getId()));
@@ -1161,13 +1161,16 @@ public class SupervisorController {
 
 	private Servidor cadastrarServidor() {
 		Usuario usuario = usuarioService.getByCpf(getCpfUsuarioLogado());
+		
+		Pessoa pessoa = pessoaService.buscarPessoaPorCpf(usuario.getCpf());
 
-		Pessoa pessoa = new Pessoa();
-		pessoa.setCpf(getCpfUsuarioLogado());
-		pessoa.setPapeis(new ArrayList<Papel>());
-		pessoa.getPapeis().add(pessoaService.buscarPapelPorNome("SUPERVISOR"));
-
-		pessoaService.adicionarPessoa(pessoa);
+		if (pessoa == null) {
+			pessoa = new Pessoa();
+			pessoa.setCpf(getCpfUsuarioLogado());
+			pessoa.setPapeis(new ArrayList<Papel>());
+			pessoa.getPapeis().add(pessoaService.buscarPapelPorNome("SUPERVISOR"));
+			pessoaService.adicionarPessoa(pessoa);
+		}
 
 		Servidor servidor = new Servidor();
 		servidor.setPessoa(pessoa);

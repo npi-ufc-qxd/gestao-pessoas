@@ -12,4 +12,7 @@ import br.ufc.quixada.npi.ge.model.Turma.StatusTurma;
 public interface EventoRepository extends JpaRepository<Evento, Long> {
 	@Query("SELECT DISTINCT e FROM Evento e WHERE e.turma.id = :idTurma AND (CURRENT_DATE <= e.termino) AND e.turma.status = :statusTurma")
 	List<Evento> buscarEventoPorTurma(@Param("idTurma")Long idTurma, @Param("statusTurma")StatusTurma statusTurma);
+	
+	
+	
 }

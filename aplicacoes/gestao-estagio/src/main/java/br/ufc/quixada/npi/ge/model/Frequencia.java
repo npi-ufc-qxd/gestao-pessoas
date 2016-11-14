@@ -33,16 +33,16 @@ public class Frequencia {
 	
 	@Temporal(TemporalType.TIME)
 	private Date horaSaida;
-	
+
 	@Enumerated(EnumType.STRING)
 	private TipoFrequencia tipo;
-	
+
 	@Temporal(TemporalType.TIME)
 	private Date horaAgendamentoEntrada;
 	
 	@Temporal(TemporalType.TIME)
 	private Date horaAgendamentoSaida;
-	
+
 	public Long getId() {
 		return id;
 	}
@@ -121,7 +121,8 @@ public class Frequencia {
 		FALTA("Falta"), 
 		ATRASADO("Atrasado"), 
 		ABONADO("Abonado"),
-		AGUARDO ("Aguardo");
+		AGUARDO_SAIDA("Aguardo Saída"),
+		AGUARDO("Aguardo");
 		
 
 		private String descricao;

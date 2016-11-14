@@ -9,11 +9,16 @@ import org.springframework.data.repository.query.Param;
 
 import br.ufc.quixada.npi.ge.model.Estagio;
 import br.ufc.quixada.npi.ge.model.Frequencia;
+import br.ufc.quixada.npi.ge.model.Frequencia.StatusFrequencia;
+import br.ufc.quixada.npi.ge.model.Frequencia.TipoFrequencia;
 
 public interface FrequenciaRepository extends JpaRepository<Frequencia, Long> {
 	
 	@Query("select f from Frequencia f where f.estagio = :estagio and f.data = CURRENT_DATE")
 	Frequencia findFrequenciaDeHojeByEstagio(@Param("estagio") Estagio estagio);
+	
+	@Query("select f from Frequencia f where f.estagio = :estagio and f.data = CURRENT_DATE and f.tipo = :tipo")
+	Frequencia findFrequenciaDeHojeByEstagioETipo(@Param("estagio") Estagio estagio, @Param("tipo") Frequencia.TipoFrequencia tipoFrequencia);
 	
 	@Query("select f from Frequencia f where f.estagio.turma.id = :idTurma and f.data = :data")
 	List<Frequencia> findFrequenciasByDataAndTurmaId(@Param("data") Date data,  @Param("idTurma") Long idTurma);
@@ -30,7 +35,9 @@ public interface FrequenciaRepository extends JpaRepository<Frequencia, Long> {
 	@Query("select COUNT(f) from Frequencia f where f.estagio.id = :idEstagio and f.tipo = :tipo")
 	int buscarTotalByTipo(@Param("idEstagio") Long idEstagio, @Param("tipo") Frequencia.TipoFrequencia tipoFrequencia);
 
-	/*Frequencia findByIdAndTipoAndStatus(Long idEstagio, Frequencia.TipoFrequencia tipoFrequencia, Frequencia.StatusFrequencia statusFrequencia);*/
+	//Frequencia findByIdAndTipoAndStatus(Long idEstagio, TipoFrequencia tipoFrequencia, StatusFrequencia statusFrequencia);
+
+	Frequencia findByIdAndTipoAndStatus(Long idEstagio, Frequencia.TipoFrequencia tipoFrequencia, Frequencia.StatusFrequencia statusFrequencia);
 
 //	void updateStatus(String queryName, Map<String, Object> namedParams);
 //	

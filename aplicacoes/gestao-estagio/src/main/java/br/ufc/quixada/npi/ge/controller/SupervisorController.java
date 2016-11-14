@@ -39,8 +39,6 @@ import java.util.List;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
-import org.joda.time.LocalDate;
-import org.joda.time.LocalTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpEntity;
@@ -70,8 +68,6 @@ import br.ufc.quixada.npi.ge.model.Estagio;
 import br.ufc.quixada.npi.ge.model.Evento;
 import br.ufc.quixada.npi.ge.model.Expediente;
 import br.ufc.quixada.npi.ge.model.Frequencia;
-import br.ufc.quixada.npi.ge.model.Papel;
-import br.ufc.quixada.npi.ge.model.Pessoa;
 import br.ufc.quixada.npi.ge.model.Servidor;
 import br.ufc.quixada.npi.ge.model.Submissao;
 import br.ufc.quixada.npi.ge.model.Submissao.StatusEntrega;
@@ -84,7 +80,6 @@ import br.ufc.quixada.npi.ge.service.TurmaService;
 import br.ufc.quixada.npi.ge.utils.UtilGestao;
 import br.ufc.quixada.npi.ge.validation.AvaliacaoRendimentoValidator;
 import br.ufc.quixada.npi.ldap.model.Usuario;
-import br.ufc.quixada.npi.ldap.service.UsuarioService;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
@@ -98,9 +93,6 @@ public class SupervisorController {
 	private PessoaService pessoaService;
 
 	@Autowired
-	private UsuarioService usuarioService;
-
-	@Autowired
 	private EstagioService estagioService;
 
 	@Autowired
@@ -109,16 +101,11 @@ public class SupervisorController {
 	@Autowired
 	private AvaliacaoRendimentoValidator avaliacaoRendimentoValidator;
 
-
 	private JRDataSource jrDatasource;
 
 	@RequestMapping(value = { "", "/", "/Turmas" }, method = RequestMethod.GET)
 	public String listarTurmas(Model model, HttpSession session) {
 		Servidor servidor = pessoaService.buscarServidorPorCpf(getCpfUsuarioLogado());
-
-		if (servidor == null) {
-			servidor = cadastrarServidor();
-		}
 
 		model.addAttribute("turmasNPI", turmaService.buscarTurmaPorTipoEServidor(TipoTurma.NPI, servidor.getId()));
 		model.addAttribute("turmasEmpresa", turmaService.buscarTurmaPorTipoEServidor(TipoTurma.EMPRESA, servidor.getId()));
@@ -603,8 +590,7 @@ public class SupervisorController {
 		Frequencia frequencia = new Frequencia();
 		frequencia.setEstagio(estagio);
 		frequencia.setData(dataPendente);
-//		frequencia.setStatus(statusFrequencia);
-//		frequencia.setHorario(new Date());
+		frequencia.setStatus(statusFrequencia);
 		frequencia.setTipo(Frequencia.TipoFrequencia.NORMAL);
 
 		estagioService.adicionarFrequencia(frequencia);
@@ -626,11 +612,17 @@ public class SupervisorController {
 			return REDIRECT_PAGINA_INICIAL_SUPERVISOR; 
 		}
 
+		model.addAttribute("consolidadoFrequencia", estagioService.consolidarFrequencias(estagio));
+		model.addAttribute("estagio", estagio);
+
+		if(verificarReposicaoPeridoTurma(dataReposicao, estagio.getTurma().getInicio(), estagio.getTurma().getTermino())) {
+			model.addAttribute("errorExpediente", "Reposição deve ser agendada no periodo da turma.");
+			return GERENCIAR_FREQUENCIAS;
+		}
+
 		Expediente expediente = estagioService.buscarExpedienteDoDia(estagio, dataReposicao, horaAgendamentoEntrada, horaAgendamentoSaida);
 		
 		if(expediente != null) {
-			model.addAttribute("estagio", estagio);
-			model.addAttribute("consolidadoFrequencia", estagioService.consolidarFrequencias(estagio));
 			model.addAttribute("errorExpediente", "Existe expediente para esta data e horário: " + expediente.getHoraInicio() + " - " + expediente.getHoraTermino() + ".");
 			return GERENCIAR_FREQUENCIAS;
 		}
@@ -648,7 +640,6 @@ public class SupervisorController {
 		attributes.addFlashAttribute("sucesso", "Reposição agendada com sucesso!");
 		return "redirect:/Supervisao/Acompanhamento/" + idEstagio + "/Frequencias";
 	}
-
 
 	@RequestMapping(value = "/Acompanhamento/{idEstagio}/Frequencias/{idReposicao}/Excluir", method = RequestMethod.GET)
 	public @ResponseBody boolean excluirReposicao(Model model, @PathVariable("idEstagio") Long idEstagio, @PathVariable("idReposicao") Long idReposicao, RedirectAttributes attributes) {
@@ -1167,28 +1158,6 @@ public class SupervisorController {
 
 	}
 
-	private Servidor cadastrarServidor() {
-		Usuario usuario = usuarioService.getByCpf(getCpfUsuarioLogado());
-
-		Pessoa pessoa = new Pessoa();
-		pessoa.setCpf(getCpfUsuarioLogado());
-		pessoa.setPapeis(new ArrayList<Papel>());
-		pessoa.getPapeis().add(pessoaService.buscarPapelPorNome("SUPERVISOR"));
-
-		pessoaService.adicionarPessoa(pessoa);
-
-		Servidor servidor = new Servidor();
-		servidor.setPessoa(pessoa);
-		servidor.setNome(usuario.getNome());
-		servidor.setSiape(usuario.getSiape());
-		servidor.setTelefone(usuario.getTelefone());
-		servidor.setCargo(usuario.getCargo());
-
-		pessoaService.adicionarServidor(servidor);
-
-		return servidor;
-	}
-
 	private  List<Servidor> validarSupervisores(List<Servidor> supervisores) {
 		List<Servidor> supervisoresValidos = new ArrayList<Servidor>(); 
 		for(Servidor supervisor : supervisores) {
@@ -1197,6 +1166,10 @@ public class SupervisorController {
 			}
 		}
 		return supervisoresValidos;
+	}
+
+	private boolean verificarReposicaoPeridoTurma(Date dataReposicao, Date inicio, Date termino) {
+		return dataReposicao.before(inicio) || dataReposicao.after(termino);
 	}
 
 }

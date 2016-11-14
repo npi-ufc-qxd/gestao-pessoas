@@ -39,11 +39,13 @@ import br.ufc.quixada.npi.ge.model.Documento;
 import br.ufc.quixada.npi.ge.model.Estagiario;
 import br.ufc.quixada.npi.ge.model.Estagio;
 import br.ufc.quixada.npi.ge.model.Evento;
+import br.ufc.quixada.npi.ge.model.Frequencia;
 import br.ufc.quixada.npi.ge.model.Pessoa;
 import br.ufc.quixada.npi.ge.model.Submissao;
 import br.ufc.quixada.npi.ge.model.Submissao.StatusEntrega;
 import br.ufc.quixada.npi.ge.model.Submissao.TipoSubmissao;
 import br.ufc.quixada.npi.ge.service.EstagioService;
+import br.ufc.quixada.npi.ge.service.FrequenciaService;
 import br.ufc.quixada.npi.ge.service.PessoaService;
 import br.ufc.quixada.npi.ldap.model.Usuario;
 
@@ -54,30 +56,29 @@ public class EstagiarioController {
 	@Inject
 	private EstagioService estagioService;
 	
+	@Inject
+	private FrequenciaService frequenciaService;
+	
 	@Autowired
 	private PessoaService pessoaService;
 	
 	@RequestMapping(value = {"", "/", "/MinhasTurmas"}, method = RequestMethod.GET)
 	public String listarTurmas(Model model, HttpSession session) {
 		inserirNomeUsuarioNaSessao(session);
-		
 		List<Estagio> estagios = estagioService.buscarEstagiosPorEstagiarioCpf(getCpfUsuarioLogado());
-		
 		List<Evento> eventos = estagioService.buscarEventosEstagiario(estagios);
-		
+
 		model.addAttribute("eventos", eventos);
-		model.addAttribute("presencas", estagioService.permitirPresencaEstagio(estagios));
+		model.addAttribute("estagios", estagios);
 
 		return PAGINA_INICIAL_ESTAGIARIO;
 	}
 	
 	@RequestMapping(value = "/MeusDados", method = RequestMethod.GET)
 	public String visualizarMeusDados(Model model) {
-
 		Estagiario estagiario = pessoaService.buscarEstagiarioPorCpf(getCpfUsuarioLogado());
-		estagiario.getId();
 		model.addAttribute("estagiario",estagiario);
-		
+
 		return FORMULARIO_EDITAR_ESTAGIARIO;
 	}
 
@@ -140,7 +141,8 @@ public class EstagiarioController {
 		model.addAttribute("submissaoPlano", submissaoPlano);
 		model.addAttribute("submissaoRelatorio", submissaoRelatorio);
 		model.addAttribute("consolidadoFrequencia", estagioService.consolidarFrequencias(estagio));
-		
+
+		model.addAttribute("presencas", frequenciaService.permitirPresencaEstagio(estagio));
 
 		return ACOMPANHAMENTO_ESTAGIO;
 	}
@@ -187,8 +189,8 @@ public class EstagiarioController {
 	    return new HttpEntity<byte[]>(relatorio, headers);
 	}
 
-	@RequestMapping(value = "/Acompanhamento/{idEstagio}/Presenca", method = RequestMethod.GET)
-	public @ResponseBody boolean realizarPresenca(HttpSession session, @PathVariable("idEstagio") Long idEstagio) {
+	@RequestMapping(value = "/Acompanhamento/{idEstagio}/PresencaEntrada", method = RequestMethod.GET)
+	public @ResponseBody boolean realizarPresencaEntrada(HttpSession session, @PathVariable("idEstagio") Long idEstagio) {
 
 		Estagio estagio = estagioService.buscarEstagioPorIdEEstagiarioCpf(idEstagio, getCpfUsuarioLogado());
 
@@ -196,9 +198,48 @@ public class EstagiarioController {
 			return false;
 		}
 
-		return estagioService.realizarPresenca(estagio);
+		return frequenciaService.realizarEntrada(estagio);
 	}
-		
+
+
+	@RequestMapping(value = "/Acompanhamento/{idEstagio}/PresencaEntradaReposicao", method = RequestMethod.GET)
+	public @ResponseBody boolean realizarEntradaReposicao(HttpSession session, @PathVariable("idEstagio") Long idEstagio) {
+
+		Estagio estagio = estagioService.buscarEstagioPorIdEEstagiarioCpf(idEstagio, getCpfUsuarioLogado());
+		Frequencia frequenciaReposicao = frequenciaService.buscarReposicao(estagio);
+
+		if(estagio == null || frequenciaReposicao == null) {
+			return false;
+		}
+
+		return frequenciaService.realizarEntradaReposicao(frequenciaReposicao);
+	}
+
+	@RequestMapping(value = "/Acompanhamento/{idEstagio}/PresencaSaida", method = RequestMethod.GET)
+	public @ResponseBody boolean realizarPresencaSaida(HttpSession session, @PathVariable("idEstagio") Long idEstagio) {
+
+		Estagio estagio = estagioService.buscarEstagioPorIdEEstagiarioCpf(idEstagio, getCpfUsuarioLogado());
+
+		if(estagio == null) {
+			return false;
+		}
+
+		return frequenciaService.realizarSaida(estagio);
+	}
+
+	@RequestMapping(value = "/Acompanhamento/{idEstagio}/PresencaSaidaReposicao", method = RequestMethod.GET)
+	public @ResponseBody boolean realizarSaidaReposicao(HttpSession session, @PathVariable("idEstagio") Long idEstagio) {
+
+		Estagio estagio = estagioService.buscarEstagioPorIdEEstagiarioCpf(idEstagio, getCpfUsuarioLogado());
+		Frequencia frequenciaReposicao = frequenciaService.buscarReposicao(estagio);
+
+		if(estagio == null || frequenciaReposicao == null) {
+			return false;
+		}
+
+		return frequenciaService.realizarSaidaReposicao(frequenciaReposicao);
+	}
+
 	@RequestMapping(value = "/Acompanhamento/{idEstagio}/SubmeterPlano", method = RequestMethod.POST)
 	public String submeterPlano(@Valid @RequestParam("planoEstagio") MultipartFile planoEstagio, @PathVariable("idEstagio") Long idEstagio, RedirectAttributes redirectAttributes ) throws Exception{
 

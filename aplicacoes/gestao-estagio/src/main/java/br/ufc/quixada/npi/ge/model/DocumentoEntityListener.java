@@ -33,11 +33,12 @@ public class DocumentoEntityListener implements ApplicationContextAware{
 
 	@PrePersist
 	public void salvarArquivo(Documento documento) throws GestaoEstagioException{
+		
 		context.getAutowireCapableBeanFactory().autowireBean(this);
 		
 		String caminhoDiretorio = getDiretorioDocumento(documento);
-		File diretorio = new File(caminhoDiretorio);
-		diretorio.mkdirs();
+		File diretorio = new File(System.getProperty("user.home"),caminhoDiretorio);
+		diretorio.mkdirs();	
 		
 		try {
 			File arquivo = new File(diretorio, getNomeArquivo(documento));
@@ -64,7 +65,7 @@ public class DocumentoEntityListener implements ApplicationContextAware{
 	@PostLoad
 	public void carregarArquivo(Documento documento) throws GestaoEstagioException{
 		FileInputStream fileInputStream = null;
-		File file = new File(documento.getCaminho());
+		File file = new File(System.getProperty("user.home"),documento.getCaminho());
 		byte[] bFile = new byte[(int) file.length()];
 
 		try {

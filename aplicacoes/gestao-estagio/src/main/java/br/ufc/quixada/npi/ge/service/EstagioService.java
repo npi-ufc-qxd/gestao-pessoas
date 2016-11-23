@@ -11,6 +11,7 @@ import br.ufc.quixada.npi.ge.model.Estagio;
 import br.ufc.quixada.npi.ge.model.Evento;
 import br.ufc.quixada.npi.ge.model.Expediente;
 import br.ufc.quixada.npi.ge.model.Frequencia;
+import br.ufc.quixada.npi.ge.model.Frequencia.TipoFrequencia;
 import br.ufc.quixada.npi.ge.model.Presenca;
 import br.ufc.quixada.npi.ge.model.Submissao;
 import br.ufc.quixada.npi.ge.model.Turma;
@@ -93,5 +94,7 @@ public interface EstagioService {
 
 	Expediente buscarExpedienteDoDia(Estagio estagio, Date dataReposicao, Date horaAgendamentoEntrada,
 			Date horaAgendamentoSaida);
+
+	boolean existeFrequenciaDoTipo(TipoFrequencia reposicao, List<Frequencia> frequencias);
 	
 }

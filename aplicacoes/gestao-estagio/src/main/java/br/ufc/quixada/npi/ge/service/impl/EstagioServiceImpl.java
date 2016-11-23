@@ -458,5 +458,18 @@ public class EstagioServiceImpl implements EstagioService {
 			throw new GestaoEstagioException(EXCEPTION_SALVAR_ARQUIVO);
 		}
 	}
+
+	@Override
+	public boolean existeFrequenciaDoTipo(TipoFrequencia reposicao, List<Frequencia> frequencias) {
+		
+		for (Frequencia frequencia : frequencias) {
+			
+			if(frequencia.getTipo().equals(TipoFrequencia.REPOSICAO)){
+				return true;
+			}
+		}
+		
+		return false;
+	}
 	
 }

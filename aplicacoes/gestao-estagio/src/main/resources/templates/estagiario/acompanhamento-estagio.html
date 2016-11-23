@@ -133,9 +133,9 @@
 	            <a class="panel-title" data-toggle="collapse" data-target="#reposicao"><i class="fa fa-caret-down" aria-hidden="true"></i> Reposições</a>
 			 </div>
 	          <div id="reposicao" class="panel-body collapse in">
-	          	<span th:if="${#lists.isEmpty(estagio.frequencias)}">Não há reposições</span>
+	          	<span th:if="${not existeReposicao}">Não há reposições</span>
 	          	
-				<div id="frequencias" th:if="${not #lists.isEmpty(estagio.frequencias)}">	          
+				<div id="frequencias" th:if="${not #lists.isEmpty(estagio.frequencias)} and ${existeReposicao}">	          
 					<table class="table table-hover table-bordered">
 					  <thead>
 					    <tr>

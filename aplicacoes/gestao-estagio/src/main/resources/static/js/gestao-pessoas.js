@@ -56,7 +56,7 @@ $(document).ready(function() {
 
 	jQuery.validator.addMethod("maiorQue", 
 			function(dataFinal, params) {
-				$(params).val($("#inicio").datepicker('getFormattedDate'));
+				//$(params).val($("#inicio").datepicker('getFormattedDate'));
 				return moment(dataFinal, "DD/MM/YYYY").isAfter(moment($(params).val(), "DD/MM/YYYY"));
 			},'Data de término deve ser posterior a data de início!'
 		);
@@ -148,7 +148,7 @@ $(document).ready(function() {
 	});
 	
 	$('#form-turma').validate({
-        rules: {
+		rules: {
         	nome: {
         		required: true
         	},

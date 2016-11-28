@@ -138,7 +138,9 @@ public class EstagiarioController {
 		Submissao submissaoPlano = estagioService.buscarSubmissaoPorTipoSubmissaoEEstagioIdECpf(Submissao.TipoSubmissao.PLANO_ESTAGIO, idEstagio, getCpfUsuarioLogado());
 		Submissao submissaoRelatorio = estagioService.buscarSubmissaoPorTipoSubmissaoEEstagioIdECpf(Submissao.TipoSubmissao.RELATORIO_FINAL_ESTAGIO, idEstagio, getCpfUsuarioLogado());
 		
-		model.addAttribute("existeReposicao", estagioService.existeFrequenciaDoTipo(TipoFrequencia.REPOSICAO, estagio.getFrequencias()));
+		List<Frequencia> frequencias = estagio.getFrequencias();
+		model.addAttribute("existeFrequenciaNormal", estagioService.existeFrequenciaDoTipo(TipoFrequencia.NORMAL, frequencias));
+		model.addAttribute("existeReposicao", estagioService.existeFrequenciaDoTipo(TipoFrequencia.REPOSICAO, frequencias));
 		model.addAttribute("estagio", estagio);
 		model.addAttribute("submissaoPlano", submissaoPlano);
 		model.addAttribute("submissaoRelatorio", submissaoRelatorio);

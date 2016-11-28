@@ -460,11 +460,11 @@ public class EstagioServiceImpl implements EstagioService {
 	}
 
 	@Override
-	public boolean existeFrequenciaDoTipo(TipoFrequencia reposicao, List<Frequencia> frequencias) {
+	public boolean existeFrequenciaDoTipo(TipoFrequencia tipoFrequencia, List<Frequencia> frequencias) {
 		
 		for (Frequencia frequencia : frequencias) {
 			
-			if(frequencia.getTipo().equals(TipoFrequencia.REPOSICAO)){
+			if(frequencia.getTipo().equals(tipoFrequencia)){
 				return true;
 			}
 		}

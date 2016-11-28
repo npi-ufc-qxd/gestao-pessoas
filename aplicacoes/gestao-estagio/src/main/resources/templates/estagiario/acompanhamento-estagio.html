@@ -98,9 +98,9 @@
 	            <a class="panel-title" data-toggle="collapse" data-target="#presenca"><i class="fa fa-caret-down" aria-hidden="true"></i> Frequências</a>
 			 </div>
 	          <div id="presenca" class="panel-body collapse in">
-	          	<span th:if="${#lists.isEmpty(estagio.frequencias)}">Não há frequências</span>
+	          	<span th:if="${not existeFrequenciaNormal}">Não há frequências</span>
 	          	
-				<div id="frequencias" th:if="${not #lists.isEmpty(estagio.frequencias)}">	          
+				<div id="frequencias" th:if="${not #lists.isEmpty(estagio.frequencias)} and ${existeFrequenciaNormal}">	          
 					<table class="table table-hover table-bordered">
 					  <thead>
 					    <tr>

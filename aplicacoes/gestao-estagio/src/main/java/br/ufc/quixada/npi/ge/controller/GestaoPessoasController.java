@@ -80,7 +80,13 @@ public class GestaoPessoasController {
 	
 	@RequestMapping(value = "/CadastroSupervisor", method = RequestMethod.GET)
 	public String formularioCadastroServidor(ModelMap model, HttpSession session) {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		
+		Usuario usuario = (Usuario) authentication.getPrincipal();
+		model.addAttribute("usuario", usuario);
 		model.addAttribute("servidor", new Servidor());
+		
+		
 		return FORMULARIO_CADASTRO_SUPERVISOR;
 	}
 	

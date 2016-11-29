@@ -55,15 +55,15 @@ $(document).ready(function() {
 		);
 
 	jQuery.validator.addMethod("maiorQue", 
-			function(dataFinal, params) {
-				//$(params).val($("#inicio").datepicker('getFormattedDate'));
+			function(dataFinal, element, params) {
+				
 				return moment(dataFinal, "DD/MM/YYYY").isAfter(moment($(params).val(), "DD/MM/YYYY"));
 			},'Data de término deve ser posterior a data de início!'
 		);
 
 	jQuery.validator.addMethod("menorQue", 
 		function(dataIncial, element, params) {
-			$(params).val($("#termino").datepicker('getFormattedDate'));
+			
 			return moment(dataIncial, "DD/MM/YYYY").isBefore(moment($(params).val(), "DD/MM/YYYY"));
 		},'Data de início deve ser anterior a data de término!'
 	);
@@ -162,23 +162,33 @@ $(document).ready(function() {
         		required: true
         	},
         	inicio:{
-				menorQue : "#termino",
+				menorQue : "#termino"
         	},
 
         	termino:{
-        		maiorQue: "#inicio",
+        		maiorQue: "#inicio"
         	}
         },
         highlight: function(element) {
-            $(element).closest('.form-group').addClass('has-error');
+        	$(element).closest('.form-group').addClass('has-error');
         },
         unhighlight: function(element) {
             $(element).closest('.form-group').removeClass('has-error');
+            
+            var spanError;
+            
+            if($(element).attr('id') == 'termino'){
+            	spanError = document.getElementById('inicio-error');
+            }else{
+            	spanError = document.getElementById('termino-error');
+            }
+            
+            spanError.parentNode.removeChild(spanError);
         },
         errorElement: 'span',
         errorClass: 'help-block',
         errorPlacement: function(error, element) {
-            error.insertAfter(element.parent().children().last());
+            error.insertAfter(element.last());
         },
         messages:{
         	nome:{
@@ -487,7 +497,9 @@ $(document).ready(function(){
 	    autoclose: true,
 	    format: "dd/mm/yyyy",
 	    orientation: "top auto",
-	});
+	}).on('changeDate', function(ev) {
+        $(this).valid();
+    });
 });	  
 
 $(document).ready(function(){

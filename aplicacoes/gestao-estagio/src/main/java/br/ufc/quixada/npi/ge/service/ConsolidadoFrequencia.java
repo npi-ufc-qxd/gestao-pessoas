@@ -4,7 +4,7 @@ public class ConsolidadoFrequencia {
 	
 	private int horasEstagiadas;
 	
-	private int totalPendecias;
+	private int totalPendencias;
 
 	private int totalAtrasos;
 
@@ -22,12 +22,12 @@ public class ConsolidadoFrequencia {
 		this.horasEstagiadas = horasEstagiadas;
 	}
 
-	public int getTotalPendecias() {
-		return totalPendecias;
+	public int getTotalPendencias() {
+		return totalPendencias;
 	}
 
-	public void setTotalPendecias(int totalPendecias) {
-		this.totalPendecias = totalPendecias;
+	public void setTotalPendencias(int totalPendecias) {
+		this.totalPendencias = totalPendecias;
 	}
 
 	public int getTotalAtrasos() {

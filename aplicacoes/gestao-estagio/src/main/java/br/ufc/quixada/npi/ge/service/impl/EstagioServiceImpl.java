@@ -311,42 +311,35 @@ public class EstagioServiceImpl implements EstagioService {
 		int totalDeFrequenciasDaTurmaHoje = calcularTotalDeFrequenciasDaTurma(estagio.getTurma().getInicio(),
 				new Date(), estagio.getTurma().getExpedientes());
 
-		/*int totalPresencas = frequenciaRepository.buscarTotalByStatus(estagio.getId(),
-				Frequencia.StatusFrequencia.PRESENTE);
+		int totalPresencas = frequenciaRepository.buscarTotalByStatus(estagio.getId(), Frequencia.StatusFrequencia.PRESENTE);
+		
 		int totalFaltas = frequenciaRepository.buscarTotalByStatus(estagio.getId(), Frequencia.StatusFrequencia.FALTA);
-*//*
-		int horasEstagiadas = totalPresencas * calcularCargaHorariaExpediente(estagio.getTurma().getExpedientes());
 
-		int totalPendencias = totalDeFrequenciasDaTurmaHoje
-				- frequenciaRepository.buscarTotalByTipo(estagio.getId(), Frequencia.TipoFrequencia.NORMAL);
+		int totalPendencias = totalDeFrequenciasDaTurmaHoje - frequenciaRepository.buscarTotalByTipo(estagio.getId(), Frequencia.TipoFrequencia.NORMAL);
 
-		int totalAtrasos = frequenciaRepository.buscarTotalByStatus(estagio.getId(),
-				Frequencia.StatusFrequencia.ATRASADO);
+		int totalAtrasos = frequenciaRepository.buscarTotalByStatus(estagio.getId(), Frequencia.StatusFrequencia.ATRASADO);
 
 		int totalReposicoes = frequenciaRepository.buscarTotalByTipo(estagio.getId(),
 				Frequencia.TipoFrequencia.REPOSICAO);
-*/
 		double porcentagemFaltas = 0.0;
-/*
+		double porcentagemPresencas = 0.0;
+		
 		if (totalDeFrequenciasDaTurma > 0) {
 			porcentagemFaltas = (totalFaltas * 100) / totalDeFrequenciasDaTurma;
+			porcentagemPresencas = (totalPresencas * 100) / totalDeFrequenciasDaTurma;
 		}
 
-		double porcentagemPresencas = 100 - porcentagemFaltas;
-
 		ConsolidadoFrequencia consolidadoFrequencia = new ConsolidadoFrequencia();
-*/
-		/*consolidadoFrequencia.setHorasEstagiadas(horasEstagiadas);
-		consolidadoFrequencia.setTotalPendecias(totalPendencias);
+
+		consolidadoFrequencia.setTotalPendencias(totalPendencias);
 		consolidadoFrequencia.setTotalAtrasos(totalAtrasos);
 		consolidadoFrequencia.setTotalReposicoes(totalReposicoes);
-		consolidadoFrequencia.setPorcentagemFaltas(porcentagemFaltas);*/
-	/*	consolidadoFrequencia.setPorcentagemPresencas(porcentagemPresencas);*/
+		consolidadoFrequencia.setPorcentagemFaltas(porcentagemFaltas);
+		consolidadoFrequencia.setPorcentagemPresencas(porcentagemPresencas);
 
-		/*return consolidadoFrequencia;*/
-		return null;
+		return consolidadoFrequencia;
 	}
-
+	
 	private int calcularCargaHorariaExpediente(List<Expediente> expedientes) {
 		int cargaHorariaExpediente = 0;
 		for (Expediente expediente : expedientes) {

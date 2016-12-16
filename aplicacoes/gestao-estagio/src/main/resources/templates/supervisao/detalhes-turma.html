@@ -93,7 +93,7 @@
 	          <div class="panel-heading">
 	            <a class="panel-title" data-toggle="collapse" data-target="#estagiarios"><i class="fa fa-caret-down" aria-hidden="true"></i> Estágiarios <span class="badge badge-inverse" th:text="${#lists.size(turma.estagios)}">2</span></a>
 	            <span th:if="${not #lists.isEmpty(turma.estagios)}">
-					<a th:if="${#strings.equals(turma.tipoTurma, 'NPI')}" th:href="@{/Supervisao/Turma/{idTurma}/MapaFrequencia(idTurma=${turma.id})}" class="btn btn-xs pull-right gp-btn-opcao">mapa frequência</a>
+<!-- 					<a th:if="${#strings.equals(turma.tipoTurma, 'NPI')}" th:href="@{/Supervisao/Turma/{idTurma}/MapaFrequencia(idTurma=${turma.id})}" class="btn btn-xs pull-right gp-btn-opcao">mapa frequência</a> -->
 		            <a th:if="${#strings.equals(turma.tipoTurma, 'NPI')}" th:href="@{/Supervisao/Turma/{id}/TermosCompromisso(id=${turma.id})}" class="btn btn-xs pull-right gp-btn-opcao">termos</a>
 					<a th:if="${#strings.equals(turma.tipoTurma, 'NPI')}" th:href="@{/Supervisao/Turma/{id}/Declaracoes(id=${turma.id})}" class="btn btn-xs pull-right gp-btn-opcao">declarações</a>
 				</span>

@@ -29,9 +29,9 @@ public interface FrequenciaRepository extends JpaRepository<Frequencia, Long> {
 	@Query("select case when count(f) > 0 then true else false end from Frequencia f where f.estagio.id = :idEstagio and f.data = :data")
 	boolean existeFrequenciaByDataAndEstagioId(@Param("data") Date data,  @Param("idEstagio") Long idEstagio);
 
-	/*@Query("select COUNT(f) from Frequencia f where f.estagio.id = :idEstagio and f.status = :status")
+	@Query("select COUNT(f) from Frequencia f where f.estagio.id = :idEstagio and f.status = :status")
 	int buscarTotalByStatus(@Param("idEstagio") Long idEstagio,  @Param("status") Frequencia.StatusFrequencia statusFrequencia);
-*/
+
 	@Query("select COUNT(f) from Frequencia f where f.estagio.id = :idEstagio and f.tipo = :tipo")
 	int buscarTotalByTipo(@Param("idEstagio") Long idEstagio, @Param("tipo") Frequencia.TipoFrequencia tipoFrequencia);
 

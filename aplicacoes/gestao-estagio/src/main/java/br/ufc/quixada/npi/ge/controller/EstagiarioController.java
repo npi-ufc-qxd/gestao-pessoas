@@ -7,6 +7,7 @@ import static br.ufc.quixada.npi.ge.utils.Constants.PAGINA_INICIAL_ESTAGIARIO;
 import static br.ufc.quixada.npi.ge.utils.Constants.PASTA_DOCUMENTOS_GE;
 import static br.ufc.quixada.npi.ge.utils.Constants.REDIRECT_ACOMPANHAMENTO_ESTAGIO;
 import static br.ufc.quixada.npi.ge.utils.Constants.REDIRECT_PAGINA_INICIAL_ESTAGIARIO;
+import static br.ufc.quixada.npi.ge.utils.Constants.REDIRECT_PAGINA_INICIAL_SUPERVISOR;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -42,6 +43,7 @@ import br.ufc.quixada.npi.ge.model.Evento;
 import br.ufc.quixada.npi.ge.model.Frequencia;
 import br.ufc.quixada.npi.ge.model.Frequencia.TipoFrequencia;
 import br.ufc.quixada.npi.ge.model.Pessoa;
+import br.ufc.quixada.npi.ge.model.Servidor;
 import br.ufc.quixada.npi.ge.model.Submissao;
 import br.ufc.quixada.npi.ge.model.Submissao.StatusEntrega;
 import br.ufc.quixada.npi.ge.model.Submissao.TipoSubmissao;
@@ -375,6 +377,27 @@ public class EstagiarioController {
 		redirectAttributes.addFlashAttribute("sucesso", "Relatorio editado com sucesso.");
 		return REDIRECT_ACOMPANHAMENTO_ESTAGIO + idEstagio;
 		
+	}
+
+	@RequestMapping(value = "/Acompanhamento/{idEstagio}/DownloadAvaliacaoRendimento", method = RequestMethod.GET)
+	public Object downloadAvaliacaoRendimento(Model model, @PathVariable("idEstagio") Long idEstagio, RedirectAttributes redirect) {
+
+		Estagio estagio = estagioService.buscarEstagioPorIdEEstagiarioCpf(idEstagio, getCpfUsuarioLogado());
+		
+		if (estagio == null) {
+			redirect.addFlashAttribute("error", "Você não possui permissão para baixar esta avaliação de rendimento");
+			return REDIRECT_PAGINA_INICIAL_SUPERVISOR;
+		}
+		
+		byte[] relatorio = estagio.getAvaliacaoRendimento().getDocumento().getArquivo();
+		String[] tipo = estagio.getAvaliacaoRendimento().getDocumento().getExtensao().split("/");
+		
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(new MediaType(tipo[0], tipo[1]));
+		headers.set("Content-Disposition", "attachment; filename=" + estagio.getAvaliacaoRendimento().getDocumento().getNome() + ".pdf");
+		headers.setContentLength(relatorio.length);
+
+	    return new HttpEntity<byte[]>(relatorio, headers);
 	}
 	
 	private void inserirNomeUsuarioNaSessao(HttpSession session) {

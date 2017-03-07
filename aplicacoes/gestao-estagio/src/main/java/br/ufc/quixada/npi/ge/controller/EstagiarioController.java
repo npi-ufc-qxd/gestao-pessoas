@@ -43,7 +43,6 @@ import br.ufc.quixada.npi.ge.model.Evento;
 import br.ufc.quixada.npi.ge.model.Frequencia;
 import br.ufc.quixada.npi.ge.model.Frequencia.TipoFrequencia;
 import br.ufc.quixada.npi.ge.model.Pessoa;
-import br.ufc.quixada.npi.ge.model.Servidor;
 import br.ufc.quixada.npi.ge.model.Submissao;
 import br.ufc.quixada.npi.ge.model.Submissao.StatusEntrega;
 import br.ufc.quixada.npi.ge.model.Submissao.TipoSubmissao;

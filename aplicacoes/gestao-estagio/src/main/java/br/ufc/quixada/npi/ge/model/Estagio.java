@@ -67,9 +67,16 @@ public class Estagio implements Comparable<Estagio>{
 
 	@Enumerated(EnumType.STRING)
 	private TipoEstagio estagio;
+
+	private int atraso;
 	
-	@OneToOne
-	private Atraso atraso;
+	public int getAtraso() {
+		return atraso;
+	}
+
+	public void setAtraso(int atraso) {
+		this.atraso = atraso;
+	}
 
 	public Long getId() {
 		return id;
@@ -182,15 +189,7 @@ public class Estagio implements Comparable<Estagio>{
 	public void setEstagio(TipoEstagio estagio) {
 		this.estagio = estagio;
 	}
-	
-	public Atraso getAtraso() {
-		return atraso;
-	}
 
-	public void setAtraso(Atraso atraso) {
-		this.atraso = atraso;
-	}
-	
 	public enum Resultado {
 		APROVADO("Aprovado"), 
 		REPROVADO("Reprovado");

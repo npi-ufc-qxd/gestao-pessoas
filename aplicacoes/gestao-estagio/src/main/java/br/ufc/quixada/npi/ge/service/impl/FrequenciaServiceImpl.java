@@ -16,6 +16,7 @@ import br.ufc.quixada.npi.ge.model.Expediente;
 import br.ufc.quixada.npi.ge.model.Frequencia;
 import br.ufc.quixada.npi.ge.model.Frequencia.TipoFrequencia;
 import br.ufc.quixada.npi.ge.model.Presenca;
+import br.ufc.quixada.npi.ge.repository.EstagioRepository;
 import br.ufc.quixada.npi.ge.repository.FrequenciaRepository;
 import br.ufc.quixada.npi.ge.service.FrequenciaService;
 
@@ -24,6 +25,9 @@ public class FrequenciaServiceImpl implements FrequenciaService {
 
 	@Autowired
 	private FrequenciaRepository frequenciaRepository;
+
+	@Autowired
+	private EstagioRepository estagioRepository;
 
 	private final static int TOLERANCIA_MINUTOS = 10;
 
@@ -180,7 +184,6 @@ public class FrequenciaServiceImpl implements FrequenciaService {
 	public boolean realizarEntrada(Estagio estagio) {
 
 		Frequencia frequencia = frequenciaRepository.findFrequenciaDeHojeByEstagioETipo(estagio, Frequencia.TipoFrequencia.NORMAL);
-		
 
 		if (frequencia == null) {
 			Expediente expediente = getExpedienteDoDia(estagio);
@@ -194,6 +197,12 @@ public class FrequenciaServiceImpl implements FrequenciaService {
 				frequencia.setTipo(TipoFrequencia.NORMAL);
 
 				frequenciaRepository.save(frequencia);
+
+				int totalAtraso = calcularAtrasoEntrada(new LocalTime(expediente.getHoraInicio()), new LocalTime()) + estagio.getAtraso();
+				estagio.setAtraso(totalAtraso);
+				estagioRepository.save(estagio);
+			
+				
 				return true;
 				
 			}
@@ -217,6 +226,11 @@ public class FrequenciaServiceImpl implements FrequenciaService {
 				frequencia.setHoraSaida(new Date());
 				frequenciaRepository.save(frequencia);
 
+				int totalAtraso = calcularAtrasoDaSaidaAntecipada(new LocalTime(expediente.getHoraTermino()), new LocalTime()) + estagio.getAtraso();
+				estagio.setAtraso(totalAtraso);
+				estagioRepository.save(estagio);
+				
+				
 				return true;
 			}
 		}

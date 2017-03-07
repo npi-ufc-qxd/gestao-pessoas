@@ -37,7 +37,7 @@
           	  <p th:if="${#lists.isEmpty(turmasNPI)}">Não há turmas</p>
 	          <ul class="list-group">
 	            <li th:if="${turmasNPI != null}" th:each="turma : ${turmasNPI}" class="list-group-item gp-list-group-item">
-	              	<b th:inline="text">[[${turma.nome}]] <span class="label label-primary"> [[${turma.status.descricao}]]</span></b>
+	              	<b th:inline="text">[[${turma.semestre}]] - [[${turma.nome}]] <span class="label label-primary"> [[${turma.status.descricao}]]</span></b>
 	              	<b th:inline="text"><span class="label label-info"> [[${#lists.size(turma.estagios)}]] Estagiarios</span></b>
 	              	<a th:href="@{'/Supervisao/Turma/' + ${turma.id}}" class="btn btn-success btn-sm pull-right gp-btn-acompanhamento">Detalhes</a>
 <!--/* 	              	<a th:if="${turma.selecao == null}" th:href="@{'/Selecao/{idTurma}/Adicionar'(idTurma=${turma.id})}" class="btn btn-primary btn-sm pull-right gp-btn-acompanhamento">Abrir Seleção</a> */-->
@@ -55,7 +55,8 @@
           	  <p th:if="${#lists.isEmpty(turmasEmpresa)}">Não há turmas</p>
 	          <ul class="list-group">
 	            <li th:if="${turmasEmpresa != null}" th:each="turma : ${turmasEmpresa}" class="list-group-item gp-list-group-item">
-	              	<b th:inline="text">[[${turma.nome}]] <span class="label label-primary"> [[${turma.status.descricao}]]</span></b>
+	              	<b th:inline="text">[[${turma.semestre}]] - [[${turma.nome}]] <span class="label label-primary"> [[${turma.status.descricao}]]</span></b>
+	              	<b th:inline="text"><span class="label label-info"> [[${#lists.size(turma.estagios)}]] Estagiarios</span></b>
 	              	<a th:href="@{'/Supervisao/Turma/' + ${turma.id}}" class="btn btn-success btn-sm pull-right gp-btn-acompanhamento">Detalhes</a>
 	            </li>
 	          </ul>

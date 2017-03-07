@@ -20,7 +20,7 @@ public interface TurmaRepository extends JpaRepository<Turma, Long> {
 	@Query("select DISTINCT t from Turma t where (t.orientador.id = :idServidor or :idServidor MEMBER OF t.supervisores) and t.status = 'ABERTA' and CURRENT_DATE > t.termino")
 	List<Turma> findByServidorIdAndStatusAndTermino(@Param("idServidor") Long idServidor);
 	
-	@Query("select DISTINCT t from Turma t where t.tipoTurma = :tipoTurma and (t.orientador.id = :idServidor or :idServidor MEMBER OF t.supervisores)")
+	@Query("select DISTINCT t from Turma t where t.tipoTurma = :tipoTurma and (t.orientador.id = :idServidor or :idServidor MEMBER OF t.supervisores) order by t.semestre desc")
 	List<Turma> findByTipoTurma(@Param("tipoTurma") TipoTurma tipoTurma, @Param("idServidor") Long idServidor);
 	
 }

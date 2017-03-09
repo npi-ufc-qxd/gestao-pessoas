@@ -26,6 +26,7 @@
 	<subDataset name="Table Dataset 1"/>
 	<subDataset name="dataset1"/>
 	<parameter name="NOME" class="java.lang.String"/>
+	<parameter name="NOME_SEGURADORA" class="java.lang.String"/>
 	<parameter name="SIAPE" class="java.lang.String"/>
 	<parameter name="TELEFONE" class="java.lang.String"/>
 	<parameter name="TURNO" class="java.lang.String"/>
@@ -252,8 +253,7 @@ CLÁUSULA SEGUNDA: O estágio tem como objetivo proporcionar ao estudante integr
 				<textElement>
 					<font fontName="Arial"/>
 				</textElement>
-				<text><![CDATA[ Empresa Seguradora: ROYAL & SUNALLIANCE SEGUROS (BRASIL) SA.
-]]></text>
+				<text><![CDATA[ "Empresa Seguradora: "  + $P{NOME_SEGURADORA}]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="1" y="673" width="554" height="59"/>

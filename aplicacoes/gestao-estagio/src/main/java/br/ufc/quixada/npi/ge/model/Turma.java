@@ -30,16 +30,16 @@ public class Turma {
 	@NotEmpty(message = "Informe o nome")
 	private String nome;
 
-	@NotEmpty(message = "Informe o semestre.")
+	@NotEmpty(message = "Informe o semestre")
 	private String semestre;
 
 	@Temporal(TemporalType.DATE)
-	@NotNull(message = "Informe a data incial.")
+	@NotNull(message = "Informe a data incial")
 	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	private Date inicio;
 
 	@Temporal(TemporalType.DATE)
-	@NotNull(message = "Informe a data final.")
+	@NotNull(message = "Informe a data final")
 	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	private Date termino;
 
@@ -64,6 +64,28 @@ public class Turma {
 
 	@OneToMany(mappedBy = "turma")
 	private List<Estagio> estagios;
+
+	@NotEmpty(message = "Informe o nome da seguradora")
+	private String nomeSeguradora;
+
+	@NotEmpty(message = "Informe a carga horaria semanal")
+	private String cargaHorariaSemanal;
+
+	@NotEmpty(message = "Informe o nome")
+	private String seguroMorteAcidental;
+
+	@NotEmpty(message = "Informe o nome")
+	private String seguroInvalidezPermanente;
+
+	@Temporal(TemporalType.DATE)
+	@NotNull(message = "Informe o inicio da vigencia")
+	@DateTimeFormat(pattern = "dd/MM/yyyy")
+	private Date inicioVigencia;
+
+	@Temporal(TemporalType.DATE)
+	@NotNull(message = "Informe o termino da vigencia")
+	@DateTimeFormat(pattern = "dd/MM/yyyy")
+	private Date terminoVigencia;
 
 	public Long getId() {
 		return id;
@@ -159,6 +181,54 @@ public class Turma {
 
 	public void setEstagios(List<Estagio> estagios) {
 		this.estagios = estagios;
+	}
+
+	public String getNomeSeguradora() {
+		return nomeSeguradora;
+	}
+
+	public void setNomeSeguradora(String nomeSeguradora) {
+		this.nomeSeguradora = nomeSeguradora;
+	}
+
+	public String getCargaHorariaSemanal() {
+		return cargaHorariaSemanal;
+	}
+
+	public void setCargaHorariaSemanal(String cargaHorariaSemanal) {
+		this.cargaHorariaSemanal = cargaHorariaSemanal;
+	}
+
+	public String getSeguroMorteAcidental() {
+		return seguroMorteAcidental;
+	}
+
+	public void setSeguroMorteAcidental(String seguroMorteAcidental) {
+		this.seguroMorteAcidental = seguroMorteAcidental;
+	}
+
+	public String getSeguroInvalidezPermanente() {
+		return seguroInvalidezPermanente;
+	}
+
+	public void setSeguroInvalidezPermanente(String seguroInvalidezPermanente) {
+		this.seguroInvalidezPermanente = seguroInvalidezPermanente;
+	}
+
+	public Date getInicioVigencia() {
+		return inicioVigencia;
+	}
+
+	public void setInicioVigencia(Date inicioVigencia) {
+		this.inicioVigencia = inicioVigencia;
+	}
+
+	public Date getTerminoVigencia() {
+		return terminoVigencia;
+	}
+
+	public void setTerminoVigencia(Date terminoVigencia) {
+		this.terminoVigencia = terminoVigencia;
 	}
 
 	public enum TipoTurma {

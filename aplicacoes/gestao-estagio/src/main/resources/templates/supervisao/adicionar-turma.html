@@ -65,6 +65,8 @@
 		          <div class="panel-body">
 			 		<input name="id" id="id" type="hidden" th:filed="${turma.id}" class="form-control"/>
 						<form class="form-horizontal col-md-10" id="form-turma" th:action="@{/Supervisao/Turma/Adicionar}" th:object="${turma}" method="post" >
+						   <fieldset><legend>Dados da Turma</legend></fieldset>
+
 						   <div class="form-group">
 						      <label for="nome" class="col-md-2 control-label">Nome</label>
 						      <div class="col-md-10">
@@ -103,12 +105,12 @@
 						   </div>
 
 						   <div class="form-group" id="form-data">
-						      <label for="periodo" class="col-md-2 control-label">Período</label>
+						      <label for="periodo" class="col-md-2 control-label">período</label>
 						      <div class="col-md-5">
-						        <input type="text" class="form-control data" th:field="*{inicio}" placeholder="Início"/>
+						        <input type="text" class="form-control data" th:field="*{inicio}" placeholder="início"/>
 						      </div>
 						      <div class="col-md-5">
-						        <input type="text" class="form-control data" th:field="*{termino}" placeholder="Término"/>
+						        <input type="text" class="form-control data" th:field="*{termino}" placeholder="término"/>
 						      </div>
 						    </div>
 
@@ -134,6 +136,47 @@
 						          		  th:text = "${servidor.nome}">
 						          </option>
 								</select>
+						      </div>
+						    </div>
+
+							<fieldset><legend>Termo de Compromisso</legend></fieldset>
+
+						   <div class="form-group">
+						      <label for="nome" class="col-md-2 control-label">Seguradora</label>
+						      <div class="col-md-10">
+						        <input type="text" th:field="*{nomeSeguradora}" class="form-control" placeholder="Nome da Seguradora"/>
+						      </div>
+						    </div>
+
+						   <div class="form-group">
+						      <label for="nome" class="col-md-2 control-label">Carga Horaria Semanal</label>
+						      <div class="col-md-10">
+						        <input type="text" th:field="*{cargaHorariaSemanal}" class="form-control" placeholder="Carga Horaria Semanal. Ex.: 10 (Dez)"/>
+						      </div>
+						    </div>
+
+
+						   <div class="form-group">
+						      <label for="nome" class="col-md-2 control-label">Seguro Morte Acidental</label>
+						      <div class="col-md-10">
+						        <input type="text" th:field="*{seguroMorteAcidental}" class="form-control" placeholder="Seguro Morte Acidental. Ex.: R$ 20.000,00"/>
+						      </div>
+						    </div>
+
+						   <div class="form-group">
+						      <label for="nome" class="col-md-2 control-label">Seguro Invalidez Permantente</label>
+						      <div class="col-md-10">
+						        <input type="text" th:field="*{seguroInvalidezPermanente}" class="form-control" placeholder="Seguro Invalidez Permantente. Ex.: R$ 20.000,00"/>
+						      </div>
+						    </div>
+
+						   <div class="form-group" id="form-data">
+						      <label for="periodo" class="col-md-2 control-label">Vigência Contrato</label>
+						      <div class="col-md-5">
+						        <input type="text" class="form-control data" th:field="*{inicioVigencia}" placeholder="Início Vigência do Contrato"/>
+						      </div>
+						      <div class="col-md-5">
+						        <input type="text" class="form-control data" th:field="*{terminoVigencia}" placeholder="Término Vigência do Contrato"/>
 						      </div>
 						    </div>
 

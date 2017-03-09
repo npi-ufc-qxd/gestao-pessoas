@@ -263,6 +263,14 @@ public class SupervisorController {
 		model.addAttribute("TURNO", UtilGestao.getTurnoExpediente(turma.getExpedientes().get(0)));
 		model.addAttribute("INICIO_ESTAGIO", dataFormatada.format(turma.getInicio()));
 		model.addAttribute("FINAL_ESTAGIO", dataFormatada.format(turma.getTermino()));
+
+		model.addAttribute("NOME_SEGURADORA", dataFormatada.format(turma.getNomeSeguradora()));
+		model.addAttribute("MORTE_ACIDENTAL", dataFormatada.format(turma.getSeguroMorteAcidental()));
+		model.addAttribute("INVALIDEZ_PERMANENTE", dataFormatada.format(turma.getSeguroInvalidezPermanente()));
+		model.addAttribute("CARGA_HORARIA_SEMANAL", dataFormatada.format(turma.getCargaHorariaSemanal()));
+		model.addAttribute("INICIO_VIGENCIA", dataFormatada.format(turma.getInicioVigencia()));
+		model.addAttribute("FINAL_VIGENCIA", dataFormatada.format(turma.getTerminoVigencia()));
+		
 		model.addAttribute("datasource", jrDatasource);
 		model.addAttribute("format", "pdf");
 

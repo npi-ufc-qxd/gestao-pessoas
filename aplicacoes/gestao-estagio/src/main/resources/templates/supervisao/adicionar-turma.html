@@ -67,14 +67,15 @@
 						<form class="form-horizontal col-md-10" id="form-turma" th:action="@{/Supervisao/Turma/Adicionar}" th:object="${turma}" method="post" >
 						   <fieldset><legend>Dados da Turma</legend></fieldset>
 
-						   <div class="form-group">
+						   <div class="form-group" th:classappend="${#fields.hasErrors('nome')} ? has-error : ''">
 						      <label for="nome" class="col-md-2 control-label">Nome</label>
 						      <div class="col-md-10">
 						        <input type="text" th:field="*{nome}" class="form-control" placeholder="Nome"/>
+								<span id="nome-error" class="help-block" th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}"></span>
 						      </div>
 						    </div>
 
-						   <div class="form-group">
+						   <div class="form-group" th:classappend="${#fields.hasErrors('tipoTurma')} ? has-error : ''">
 						      <label for="tipoTurma" class="col-md-2 control-label">Tipo</label>
 						      <div class="col-md-10">
 						        <select th:field="*{tipoTurma}" class="form-control">
@@ -83,10 +84,11 @@
 							          	  th:text = "${tipoTurma.descricao}">
 						          </option>
 						        </select>
+						        <span id="nome-error" class="help-block" th:if="${#fields.hasErrors('tipoTurma')}" th:errors="*{tipoTurma}"></span>
 						      </div>
 						    </div>
 
-						   <div class="form-group">
+						   <div class="form-group" th:classappend="${#fields.hasErrors('status')} ? has-error : ''">
 						      <label for="status" class="col-md-2 control-label">Status</label>
 						      <div class="col-md-10">
 						        <select th:field="*{status}" class="form-control">
@@ -95,22 +97,26 @@
 							          	  th:text = "${status.descricao}">
 						          </option>
 						        </select>
+						        <span id="nome-error" class="help-block" th:if="${#fields.hasErrors('status')}" th:errors="*{status}"></span>
       					      </div>
 						    </div>
-						   <div class="form-group">
+						   <div class="form-group" th:classappend="${#fields.hasErrors('semestre')} ? has-error : ''">
 						      <label for="semestre" class="col-md-2 control-label">Semestre</label>
 						      <div class="col-md-10">
 						        <input th:field="*{semestre}" type="text" class="form-control semestre" placeholder="Semestre"/>
+						        <span id="nome-error" class="help-block" th:if="${#fields.hasErrors('semestre')}" th:errors="*{semestre}"></span>
 						      </div>
 						   </div>
 
-						   <div class="form-group" id="form-data">
+						   <div class="form-group" id="form-data" th:classappend="${#fields.hasErrors('inicio') OR #fields.hasErrors('termino')} ? has-error : ''">
 						      <label for="periodo" class="col-md-2 control-label">período</label>
 						      <div class="col-md-5">
 						        <input type="text" class="form-control data" th:field="*{inicio}" placeholder="início"/>
+						        <span id="nome-error" class="help-block" th:if="${#fields.hasErrors('inicio')}" th:errors="*{inicio}"></span>
 						      </div>
 						      <div class="col-md-5">
 						        <input type="text" class="form-control data" th:field="*{termino}" placeholder="término"/>
+						        <span id="nome-error" class="help-block" th:if="${#fields.hasErrors('termino')}" th:errors="*{termino}"></span>
 						      </div>
 						    </div>
 
@@ -139,47 +145,54 @@
 						      </div>
 						    </div>
 
-							<fieldset><legend>Termo de Compromisso</legend></fieldset>
+						   <div id="termoCompromisso" th:if="${not #strings.equals(turma.tipoTurma,'EMPRESA')}">
+						   <fieldset><legend>Termo de Compromisso</legend></fieldset>
 
-						   <div class="form-group">
-						      <label for="nome" class="col-md-2 control-label">Seguradora</label>
+						   <div class="form-group" th:classappend="${#fields.hasErrors('nomeSeguradora')} ? has-error : ''">
+						      <label for="nomeSeguradora" class="col-md-2 control-label">Seguradora</label>
 						      <div class="col-md-10">
 						        <input type="text" th:field="*{nomeSeguradora}" class="form-control" placeholder="Nome da Seguradora"/>
+						        <span id="nome-error" class="help-block" th:if="${#fields.hasErrors('nomeSeguradora')}" th:errors="*{nomeSeguradora}"></span>
 						      </div>
 						    </div>
 
-						   <div class="form-group">
-						      <label for="nome" class="col-md-2 control-label">Carga Horaria Semanal</label>
+						   <div class="form-group" th:classappend="${#fields.hasErrors('cargaHorariaSemanal')} ? has-error : ''">
+						      <label for="cargaHorariaSemanal" class="col-md-2 control-label">Carga Horaria Semanal</label>
 						      <div class="col-md-10">
 						        <input type="text" th:field="*{cargaHorariaSemanal}" class="form-control" placeholder="Carga Horaria Semanal. Ex.: 10 (Dez)"/>
+						        <span id="nome-error" class="help-block" th:if="${#fields.hasErrors('cargaHorariaSemanal')}" th:errors="*{cargaHorariaSemanal}"></span>
 						      </div>
 						    </div>
 
-
-						   <div class="form-group">
-						      <label for="nome" class="col-md-2 control-label">Seguro Morte Acidental</label>
+						   <div class="form-group" th:classappend="${#fields.hasErrors('seguroMorteAcidental')} ? has-error : ''">
+						      <label for="seguroMorteAcidental" class="col-md-2 control-label">Seguro Morte Acidental</label>
 						      <div class="col-md-10">
 						        <input type="text" th:field="*{seguroMorteAcidental}" class="form-control" placeholder="Seguro Morte Acidental. Ex.: R$ 20.000,00"/>
+						        <span id="nome-error" class="help-block" th:if="${#fields.hasErrors('seguroMorteAcidental')}" th:errors="*{seguroMorteAcidental}"></span>
 						      </div>
 						    </div>
 
-						   <div class="form-group">
-						      <label for="nome" class="col-md-2 control-label">Seguro Invalidez Permantente</label>
+						   <div class="form-group" th:classappend="${#fields.hasErrors('seguroInvalidezPermanente')} ? has-error : ''">
+						      <label for="seguroInvalidezPermanente" class="col-md-2 control-label">Seguro Invalidez Permantente</label>
 						      <div class="col-md-10">
 						        <input type="text" th:field="*{seguroInvalidezPermanente}" class="form-control" placeholder="Seguro Invalidez Permantente. Ex.: R$ 20.000,00"/>
+						        <span id="nome-error" class="help-block" th:if="${#fields.hasErrors('seguroInvalidezPermanente')}" th:errors="*{seguroInvalidezPermanente}"></span>
 						      </div>
 						    </div>
 
-						   <div class="form-group" id="form-data">
-						      <label for="periodo" class="col-md-2 control-label">Vigência Contrato</label>
+						   <div id="form-data" class="form-group" th:classappend="${#fields.hasErrors('inicioVigencia') OR #fields.hasErrors('terminoVigencia')} ? has-error : ''">
+						      <label for="inicioVigencia" class="col-md-2 control-label">Vigência Contrato</label>
 						      <div class="col-md-5">
 						        <input type="text" class="form-control data" th:field="*{inicioVigencia}" placeholder="Início Vigência do Contrato"/>
+						        <span id="nome-error" class="help-block" th:if="${#fields.hasErrors('inicioVigencia')}" th:errors="*{inicioVigencia}"></span>
 						      </div>
 						      <div class="col-md-5">
 						        <input type="text" class="form-control data" th:field="*{terminoVigencia}" placeholder="Término Vigência do Contrato"/>
+						        <span id="nome-error" class="help-block" th:if="${#fields.hasErrors('terminoVigencia')}" th:errors="*{terminoVigencia}"></span>
 						      </div>
 						    </div>
-
+							</div>
+							
 							<div class="form-group">
 						      <div class="col-lg-10 col-lg-offset-2">
 						        <a type="reset" class="btn btn-default" th:href="@{/Supervisao/}">Cancelar</a>

@@ -79,6 +79,7 @@ import br.ufc.quixada.npi.ge.service.PessoaService;
 import br.ufc.quixada.npi.ge.service.TurmaService;
 import br.ufc.quixada.npi.ge.utils.UtilGestao;
 import br.ufc.quixada.npi.ge.validation.AvaliacaoRendimentoValidator;
+import br.ufc.quixada.npi.ge.validation.TurmaValidator;
 import br.ufc.quixada.npi.ldap.model.Usuario;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRException;
@@ -100,6 +101,9 @@ public class SupervisorController {
 
 	@Autowired
 	private AvaliacaoRendimentoValidator avaliacaoRendimentoValidator;
+
+	@Autowired
+	private TurmaValidator turmaValidator;
 
 	private JRDataSource jrDatasource;
 
@@ -125,9 +129,19 @@ public class SupervisorController {
 	}
 
 	@RequestMapping(value = "/Turma/Adicionar", method = RequestMethod.POST)
-	public String adicionarTurma(Model model, @Valid @ModelAttribute("turma") Turma turma,
+	public String adicionarTurma(Model model, @Valid @ModelAttribute("turma") Turma turma, BindingResult result, 
 			@RequestParam(value = "orientadorId", required = false) Long orientadorId, @RequestParam(value = "supervisoresId", required = false) List<Long> supervisoresId,
 			RedirectAttributes redirect) {
+		
+		if(Turma.TipoTurma.NPI.equals(turma.getTipoTurma())){
+			turmaValidator.validate(turma, result);
+		}
+
+		if (result.hasErrors()) {
+			model.addAttribute("turma", turma);
+			model.addAttribute("servidores", pessoaService.buscarServidores());
+			return FORMULARIO_ADICIONAR_TURMA;
+		}
 
 		Servidor orientador = null;
 		if(orientadorId != null){

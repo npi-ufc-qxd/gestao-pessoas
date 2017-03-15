@@ -65,25 +65,19 @@ public class Turma {
 	@OneToMany(mappedBy = "turma")
 	private List<Estagio> estagios;
 
-	@NotEmpty(message = "Informe o nome da seguradora")
 	private String nomeSeguradora;
 
-	@NotEmpty(message = "Informe a carga horaria semanal")
 	private String cargaHorariaSemanal;
 
-	@NotEmpty(message = "Informe o nome")
 	private String seguroMorteAcidental;
 
-	@NotEmpty(message = "Informe o nome")
 	private String seguroInvalidezPermanente;
 
 	@Temporal(TemporalType.DATE)
-	@NotNull(message = "Informe o inicio da vigencia")
 	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	private Date inicioVigencia;
 
 	@Temporal(TemporalType.DATE)
-	@NotNull(message = "Informe o termino da vigencia")
 	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	private Date terminoVigencia;
 

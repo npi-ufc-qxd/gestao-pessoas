@@ -19,7 +19,7 @@ public class AvaliacaoRendimentoValidator implements Validator{
 
 	@Override
 	public void validate(Object target, Errors errors) {
-		AvaliacaoRendimento avaliacaoRendimento = (AvaliacaoRendimento) target;
+		AvaliacaoRendimento avaliacaoRendimento = (AvaliacaoRendimento) target; 
 		
 		validateStrings(errors, avaliacaoRendimento.getAtividadeCurricular(), "atividadeCurricular", "Campo obrigatótio");
 		validateStrings(errors, avaliacaoRendimento.getObjetivoEstagio(), "objetivoEstagio", "Campo obrigatório");

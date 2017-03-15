@@ -67,6 +67,8 @@ public class Turma {
 
 	private String nomeSeguradora;
 
+	private String apolice;
+
 	private String cargaHorariaSemanal;
 
 	private String seguroMorteAcidental;
@@ -183,6 +185,14 @@ public class Turma {
 
 	public void setNomeSeguradora(String nomeSeguradora) {
 		this.nomeSeguradora = nomeSeguradora;
+	}
+
+	public String getApolice() {
+		return apolice;
+	}
+
+	public void setApolice(String apolice) {
+		this.apolice = apolice;
 	}
 
 	public String getCargaHorariaSemanal() {

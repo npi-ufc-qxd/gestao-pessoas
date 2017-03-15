@@ -70,6 +70,42 @@
 	
 	        <div th:if="${#strings.equals(turma.tipoTurma, 'NPI')}" class="panel panel-bluegray">
 	          <div class="panel-heading">
+	            <a class="panel-title" data-toggle="collapse" data-target="#expedienteTurma"><i class="fa fa-caret-down" aria-hidden="true"></i> Termo de Compromisso</a>
+  			  </div>
+	          <div id="expedienteTurma" class="panel-body collapse in">
+				  <table class="table table-hover">
+				    <tbody>
+				      <tr>
+				        <td><strong>Empresa Seguradora</strong></td>
+				        <td th:text="${turma.nomeSeguradora}"></td>
+				      </tr>
+				      <tr>
+				        <td><strong>Número Apólice</strong></td>
+				        <td th:text="${turma.apolice}"></td>
+				      </tr>
+				      <tr>
+				        <td><strong>Carga Horaria Semanal</strong></td>
+				        <td th:text="${turma.cargaHorariaSemanal}"></td>
+				      </tr>
+				      <tr>
+				        <td><strong>Seguro Morte Acidental</strong></td>
+				        <td th:text="${turma.seguroMorteAcidental}"></td>
+				      </tr>
+				      <tr>
+				        <td><strong>Seguro Invalidez Permantente</strong></td>
+				        <td th:text="${turma.seguroInvalidezPermanente}"></td>
+				      </tr>
+				      <tr>
+				        <td><strong>Vigência</strong></td>
+				        <td><label th:text="${#dates.format(turma.inicioVigencia, 'dd/MM/yyyy')}"></label>  a <label th:text="${#dates.format(turma.terminoVigencia, 'dd/MM/yyyy')}"></label></td>
+				      </tr>
+				    </tbody>
+				  </table>
+	           </div>
+	        </div>
+	
+	        <div th:if="${#strings.equals(turma.tipoTurma, 'NPI')}" class="panel panel-bluegray">
+	          <div class="panel-heading">
 	            <a class="panel-title" data-toggle="collapse" data-target="#expedienteTurma"><i class="fa fa-caret-down" aria-hidden="true"></i> Expediente da Turma</a>
 				<a th:href="@{/Supervisao/Turma/{id}/Expediente(id=${turma.id})}" class="btn btn-xs pull-right gp-btn-opcao">Gerenciar</a>
   			  </div>

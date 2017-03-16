@@ -159,7 +159,7 @@
 						   <div class="form-group" th:classappend="${#fields.hasErrors('apolice')} ? has-error : ''">
 						      <label for="apolice" class="col-md-2 control-label">Apólice</label>
 						      <div class="col-md-10">
-						        <input type="text" th:field="*{apolice}" class="form-control" placeholder="Número da Apólice"/>
+						        <input type="text" th:field="*{apolice}" class="form-control" placeholder="000.00000.00000-00"/>
 						        <span id="nome-error" class="help-block" th:if="${#fields.hasErrors('apolice')}" th:errors="*{apolice}"></span>
 						      </div>
 						    </div>

@@ -111,8 +111,8 @@ public class SupervisorController {
 	public String listarTurmas(Model model, HttpSession session) {
 		Servidor servidor = pessoaService.buscarServidorPorCpf(getCpfUsuarioLogado());
 
-		model.addAttribute("turmasNPI", turmaService.buscarTurmaPorTipoEServidor(TipoTurma.NPI, servidor.getId()));
-		model.addAttribute("turmasEmpresa", turmaService.buscarTurmaPorTipoEServidor(TipoTurma.EMPRESA, servidor.getId()));
+		model.addAttribute("turmasNPI", turmaService.buscarTurmaPorTipoEServidorEStatus(TipoTurma.NPI, servidor.getId(), Turma.StatusTurma.ABERTA));
+		model.addAttribute("turmasEmpresa", turmaService.buscarTurmaPorTipoEServidorEStatus(TipoTurma.EMPRESA, servidor.getId(), Turma.StatusTurma.ABERTA));
 
 		inserirNomeUsuarioNaSessao(session);
 
@@ -330,7 +330,7 @@ public class SupervisorController {
 
 		Servidor servidor = pessoaService.buscarServidorPorCpf(getCpfUsuarioLogado());
 		model.addAttribute("NOME_SUPERVISOR", servidor.getNome());
-		model.addAttribute("CARGA_HORARIA_SEMANAL", "");
+		model.addAttribute("CARGA_HORARIA_SEMANAL", turma.getCargaHorariaSemanal());
 		
 		model.addAttribute("datasource", jrDatasource);
 		model.addAttribute("format", "pdf");

@@ -18,6 +18,8 @@ public interface TurmaService {
 	Turma buscarTurmaPorId(Long idTurma);
 	
 	List<Turma> buscarTurmaPorTipoEServidor(TipoTurma tipoTurma, Long idServidor);
+	
+	List<Turma> buscarTurmaPorTipoEServidorEStatus(TipoTurma tipoTurma, Long idServidor, Turma.StatusTurma statusTurma);
 
 	List<Turma>  buscarTurmasSupervisorOuOrientador(Long idServidor);
 	

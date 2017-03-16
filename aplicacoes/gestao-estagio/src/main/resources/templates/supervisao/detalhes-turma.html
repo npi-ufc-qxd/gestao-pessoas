@@ -72,7 +72,7 @@
 	          <div class="panel-heading">
 	            <a class="panel-title" data-toggle="collapse" data-target="#expedienteTurma"><i class="fa fa-caret-down" aria-hidden="true"></i> Termo de Compromisso</a>
   			  </div>
-	          <div id="expedienteTurma" class="panel-body collapse in">
+	          <div id="expedienteTurma" class="panel-body collapse">
 				  <table class="table table-hover">
 				    <tbody>
 				      <tr>
@@ -131,7 +131,7 @@
 	            <span th:if="${not #lists.isEmpty(turma.estagios)}">
 <!-- 					<a th:if="${#strings.equals(turma.tipoTurma, 'NPI')}" th:href="@{/Supervisao/Turma/{idTurma}/MapaFrequencia(idTurma=${turma.id})}" class="btn btn-xs pull-right gp-btn-opcao">mapa frequência</a> -->
 		            <a th:if="${#strings.equals(turma.tipoTurma, 'NPI')}" th:href="@{/Supervisao/Turma/{id}/TermosCompromisso(id=${turma.id})}" class="btn btn-xs pull-right gp-btn-opcao">termos</a>
-					<a th:if="${#strings.equals(turma.tipoTurma, 'NPI')}" th:href="@{/Supervisao/Turma/{id}/Declaracoes(id=${turma.id})}" class="btn btn-xs pull-right gp-btn-opcao">declarações</a>
+<!-- 					<a th:if="${#strings.equals(turma.tipoTurma, 'NPI')}" th:href="@{/Supervisao/Turma/{id}/Declaracoes(id=${turma.id})}" class="btn btn-xs pull-right gp-btn-opcao">declarações</a> -->
 				</span>
 					<a th:href="@{/Supervisao/Turma/{id}/AtualizarVinculos(id=${turma.id})}" class="btn btn-xs pull-right gp-btn-opcao">Atualizar Vínculos</a>
 	          </div>

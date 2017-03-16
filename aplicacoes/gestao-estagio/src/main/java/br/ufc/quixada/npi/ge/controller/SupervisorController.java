@@ -300,13 +300,14 @@ public class SupervisorController {
 
 		Turma turma = turmaService.buscarTurmaPorId(idTurma);
 
-		if(TipoTurma.EMPRESA == turma.getTipoTurma()){
+		if(TipoTurma.EMPRESA == turma.getTipoTurma()) {
 			redirect.addFlashAttribute("error", "Turmas do tipo empresa não possuem essa funcionalidade.");
 			return REDIRECT_PAGINA_INICIAL_SUPERVISOR;
 		}
 
 		Servidor servidor = pessoaService.buscarServidorPorCpf(getCpfUsuarioLogado());
 		model.addAttribute("NOME_SUPERVISOR", servidor.getNome());
+		model.addAttribute("CARGA_HORARIA_SEMANAL", "");
 		model.addAttribute("datasource", jrDatasource);
 		model.addAttribute("format", "pdf");
 

@@ -45,7 +45,6 @@ public class TurmaServiceImpl implements TurmaService {
 
 	@Override
 	public List<Turma> buscarTurmaPorTipoEServidor(TipoTurma tipoTurma, Long idServidor) {
-//		return turmaRepository.findByTipoTurma(tipoTurma, idServidor);
 		return turmaRepository.findByTipoTurma(tipoTurma, idServidor);
 	}
 

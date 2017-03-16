@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="TERMO_COMPROMISSO" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+<!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 6.3.1  -->
+<!-- 2017-03-15T18:32:01 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="TERMO_COMPROMISSO" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20"  >
 	<property name="ireport.zoom" value="1.5000000000000027"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="407"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
 	<style name="table">
 		<box>
 			<pen lineWidth="1.0" lineColor="#000000"/>
@@ -35,6 +38,13 @@
 	<parameter name="INICIO_ESTAGIO" class="java.lang.String"/>
 	<parameter name="FINAL_ESTAGIO" class="java.lang.String"/>
 	<parameter name="LOTACAO" class="java.lang.String"/>
+	<parameter name="NOME_SEGURADORA" class="java.lang.String"/>
+	<parameter name="MORTE_ACIDENTAL" class="java.lang.String"/>
+	<parameter name="INVALIDEZ_PERMANENTE" class="java.lang.String"/>
+	<parameter name="CARGA_HORARIA_SEMANAL" class="java.lang.String"/>
+	<parameter name="INICIO_VIGENCIA" class="java.lang.String"/>
+	<parameter name="FINAL_VIGENCIA" class="java.lang.String"/>
+	<parameter name="APOLICE" class="java.lang.String"/>
 	<field name="estagiario.nomeCompleto" class="java.lang.String"/>
 	<field name="estagiario.endereco" class="java.lang.String"/>
 	<field name="estagiario.telefone" class="java.lang.String"/>
@@ -242,20 +252,6 @@ CLÁUSULA SEGUNDA: O estágio tem como objetivo proporcionar ao estudante integr
 				<text><![CDATA[Atividades Previstas: Análise, implementação e testes de sistemas Web]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="8" y="623" width="360" height="15"/>
-				<box>
-					<topPen lineWidth="1.0"/>
-					<leftPen lineWidth="1.0"/>
-					<bottomPen lineWidth="0.5"/>
-					<rightPen lineWidth="0.5"/>
-				</box>
-				<textElement>
-					<font fontName="Arial"/>
-				</textElement>
-				<text><![CDATA[ Empresa Seguradora: ROYAL & SUNALLIANCE SEGUROS (BRASIL) SA.
-]]></text>
-			</staticText>
-			<staticText>
 				<reportElement x="1" y="673" width="554" height="59"/>
 				<textElement textAlignment="Justified">
 					<font fontName="Arial"/>
@@ -264,58 +260,6 @@ CLÁUSULA SEGUNDA: O estágio tem como objetivo proporcionar ao estudante integr
 CLÁUSULA QUARTA: Compete ao ESTAGIÁRIO:
 a) Cumprir as normas internas da UNIDADE CONCEDENTE, especialmente as de orientação do plano de atividades
 ]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="188" y="638" width="180" height="30"/>
-				<box leftPadding="3" rightPadding="1">
-					<topPen lineWidth="0.5"/>
-					<leftPen lineWidth="0.5"/>
-					<bottomPen lineWidth="1.0"/>
-					<rightPen lineWidth="0.5"/>
-				</box>
-				<textElement>
-					<font fontName="Arial"/>
-				</textElement>
-				<text><![CDATA[Morte Acidental: R$ 20.000,00]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="368" y="623" width="180" height="15"/>
-				<box>
-					<topPen lineWidth="1.0"/>
-					<leftPen lineWidth="0.5"/>
-					<bottomPen lineWidth="0.5"/>
-					<rightPen lineWidth="1.0"/>
-				</box>
-				<textElement>
-					<font fontName="Arial"/>
-				</textElement>
-				<text><![CDATA[ Apólice: 071.00982.00820-13]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="8" y="638" width="180" height="30"/>
-				<box leftPadding="3" rightPadding="1">
-					<topPen lineWidth="0.5"/>
-					<leftPen lineWidth="1.0"/>
-					<bottomPen lineWidth="1.0"/>
-					<rightPen lineWidth="0.5"/>
-				</box>
-				<textElement>
-					<font fontName="Arial"/>
-				</textElement>
-				<text><![CDATA[Vigência: de 28/07/2016 até 28/07/2017]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="368" y="638" width="180" height="30"/>
-				<box leftPadding="3" rightPadding="1">
-					<topPen lineWidth="0.5"/>
-					<leftPen lineWidth="0.5"/>
-					<bottomPen lineWidth="1.0"/>
-					<rightPen lineWidth="1.0"/>
-				</box>
-				<textElement verticalAlignment="Top">
-					<font fontName="Arial"/>
-				</textElement>
-				<text><![CDATA[Invalidez Permanente:  R$ 20.000,00;]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="0" y="572" width="555" height="49"/>
@@ -729,7 +673,6 @@ e) A UFC oferece seguro contra acidentes pessoais a todos os seus estudantes dev
 			</staticText>
 			<textField>
 				<reportElement x="280" y="206" width="162" height="13"/>
-				<textElement/>
 				<textFieldExpression><![CDATA["Curso: " + $F{estagiario.curso.descricao}]]></textFieldExpression>
 			</textField>
 			<textField>
@@ -738,6 +681,75 @@ e) A UFC oferece seguro contra acidentes pessoais a todos os seus estudantes dev
 					<font fontName="Arial" size="10"/>
 				</textElement>
 				<textFieldExpression><![CDATA["Lotação: " + $P{LOTACAO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="8" y="623" width="360" height="15"  >
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
+					<pen lineWidth="1.0" lineStyle="Solid"/>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Empresa Seguradora: "  + $P{NOME_SEGURADORA}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="8" y="638" width="180" height="30"  >
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textFieldExpression><![CDATA["Vigência: de " + $P{INICIO_VIGENCIA} + " até " + $P{FINAL_VIGENCIA}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="368" y="638" width="180" height="30"  >
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textFieldExpression><![CDATA["Invalidez Permanente:  R$ " + $P{INVALIDEZ_PERMANENTE}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="189" y="638" width="180" height="30"  >
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textFieldExpression><![CDATA["Morte Acidental: R$ " + $P{MORTE_ACIDENTAL}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="368" y="623" width="180" height="15"  >
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<box topPadding="1" leftPadding="0" bottomPadding="1" rightPadding="1">
+					<pen lineWidth="1.0"/>
+				</box>
+				<textFieldExpression><![CDATA["Apólice: " + $P{APOLICE}]]></textFieldExpression>
 			</textField>
 		</band>
 		<band height="752">

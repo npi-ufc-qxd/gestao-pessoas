@@ -492,17 +492,26 @@ $('#form-expediente').validate({
 });
 
 $(document).ready(function(){
+
 	$(".data").datepicker({
 	    language: 'pt-BR',
 	    autoclose: true,
 	    format: "dd/mm/yyyy",
 	    orientation: "top auto",
 	}).on('changeDate', function(ev) {
-        $(this).valid();
-    });
+	    $(this).valid();
+	});
+
+  $('#cep').mask('00000-000');
+  $('#telefone').mask('(00) 9 0000-0000');
+
+  $( "#tipoTurma" ).change(function() {
+	  if($( "#tipoTurma" ).val() == "NPI") {
+		  $( "#termoCompromisso" ).show();
+	  } else {
+		  $( "#termoCompromisso" ).hide();
+	  }
+  });
+
 });	  
 
-$(document).ready(function(){
-	  $('#cep').mask('00000-000');
-	  $('#telefone').mask('(00) 9 0000-0000');
-});	  

@@ -79,6 +79,7 @@ import br.ufc.quixada.npi.ge.service.PessoaService;
 import br.ufc.quixada.npi.ge.service.TurmaService;
 import br.ufc.quixada.npi.ge.utils.UtilGestao;
 import br.ufc.quixada.npi.ge.validation.AvaliacaoRendimentoValidator;
+import br.ufc.quixada.npi.ge.validation.TurmaValidator;
 import br.ufc.quixada.npi.ldap.model.Usuario;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRException;
@@ -100,6 +101,9 @@ public class SupervisorController {
 
 	@Autowired
 	private AvaliacaoRendimentoValidator avaliacaoRendimentoValidator;
+
+	@Autowired
+	private TurmaValidator turmaValidator;
 
 	private JRDataSource jrDatasource;
 
@@ -125,9 +129,19 @@ public class SupervisorController {
 	}
 
 	@RequestMapping(value = "/Turma/Adicionar", method = RequestMethod.POST)
-	public String adicionarTurma(Model model, @Valid @ModelAttribute("turma") Turma turma,
+	public String adicionarTurma(Model model, @Valid @ModelAttribute("turma") Turma turma, BindingResult result, 
 			@RequestParam(value = "orientadorId", required = false) Long orientadorId, @RequestParam(value = "supervisoresId", required = false) List<Long> supervisoresId,
 			RedirectAttributes redirect) {
+		
+		if(Turma.TipoTurma.NPI.equals(turma.getTipoTurma())){
+			turmaValidator.validate(turma, result);
+		}
+
+		if (result.hasErrors()) {
+			model.addAttribute("turma", turma);
+			model.addAttribute("servidores", pessoaService.buscarServidores());
+			return FORMULARIO_ADICIONAR_TURMA;
+		}
 
 		Servidor orientador = null;
 		if(orientadorId != null){
@@ -263,6 +277,15 @@ public class SupervisorController {
 		model.addAttribute("TURNO", UtilGestao.getTurnoExpediente(turma.getExpedientes().get(0)));
 		model.addAttribute("INICIO_ESTAGIO", dataFormatada.format(turma.getInicio()));
 		model.addAttribute("FINAL_ESTAGIO", dataFormatada.format(turma.getTermino()));
+
+		model.addAttribute("NOME_SEGURADORA", turma.getNomeSeguradora());
+		model.addAttribute("APOLICE", turma.getApolice());
+		model.addAttribute("MORTE_ACIDENTAL", turma.getSeguroMorteAcidental());
+		model.addAttribute("INVALIDEZ_PERMANENTE", turma.getSeguroInvalidezPermanente());
+		model.addAttribute("CARGA_HORARIA_SEMANAL", turma.getCargaHorariaSemanal());
+		model.addAttribute("INICIO_VIGENCIA", dataFormatada.format(turma.getInicioVigencia()));
+		model.addAttribute("FINAL_VIGENCIA", dataFormatada.format(turma.getTerminoVigencia()));
+		
 		model.addAttribute("datasource", jrDatasource);
 		model.addAttribute("format", "pdf");
 

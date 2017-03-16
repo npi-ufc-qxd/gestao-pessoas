@@ -293,6 +293,26 @@ public class SupervisorController {
 		return DECLARACAO_ESTAGIO;
 	}
 
+	@RequestMapping(value = "/Turma/{idTurma}/Declaracao/{idEstagio}", method = RequestMethod.GET)
+	public String gerarDeclaracaoEstagioIndividual(Model model, @PathVariable("idTurma") Long idTurma, @PathVariable("idEstagio") Long idEstagio, RedirectAttributes redirect) throws JRException {
+
+		jrDatasource = new JRBeanCollectionDataSource(estagioService.buscarEstagiosPorId(idEstagio));
+
+		Turma turma = turmaService.buscarTurmaPorId(idTurma);
+
+		if(TipoTurma.EMPRESA == turma.getTipoTurma()){
+			redirect.addFlashAttribute("error", "Turmas do tipo empresa não possuem essa funcionalidade.");
+			return REDIRECT_PAGINA_INICIAL_SUPERVISOR;
+		}
+
+		Servidor servidor = pessoaService.buscarServidorPorCpf(getCpfUsuarioLogado());
+		model.addAttribute("NOME_SUPERVISOR", servidor.getNome());
+		model.addAttribute("datasource", jrDatasource);
+		model.addAttribute("format", "pdf");
+
+		return DECLARACAO_ESTAGIO;
+	}
+
 	@RequestMapping(value = "/Turma/{idTurma}/Expediente", method = RequestMethod.GET)
 	public String formularioExpediente(Model model, @PathVariable("idTurma") Long idTurma, 
 			RedirectAttributes redirect) {

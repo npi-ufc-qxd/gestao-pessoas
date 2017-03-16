@@ -308,6 +308,7 @@ public class SupervisorController {
 		Servidor servidor = pessoaService.buscarServidorPorCpf(getCpfUsuarioLogado());
 		model.addAttribute("NOME_SUPERVISOR", servidor.getNome());
 		model.addAttribute("CARGA_HORARIA_SEMANAL", "");
+		
 		model.addAttribute("datasource", jrDatasource);
 		model.addAttribute("format", "pdf");
 

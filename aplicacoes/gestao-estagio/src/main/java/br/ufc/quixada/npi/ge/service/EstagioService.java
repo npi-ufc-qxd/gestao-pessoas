@@ -20,6 +20,8 @@ public interface EstagioService {
 
 	Estagio buscarEstagioPorId(Long idEstagio);
 
+	List<Estagio> buscarEstagiosPorId(Long idEstagio);
+
 	Estagio salvarEstagio(Estagio estagio);
 
 	Estagio buscarEstagioPorIdEServidorId(Long idEstagio, Long idServidor);

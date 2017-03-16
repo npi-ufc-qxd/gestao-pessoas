@@ -114,6 +114,13 @@ public class EstagioServiceImpl implements EstagioService {
 	}
 
 	@Override
+	public List<Estagio> buscarEstagiosPorId(Long idEstagio) {
+		List<Estagio> estagios = new ArrayList<Estagio>();
+		estagios.add(estagioRepository.findOne(idEstagio));
+		return estagios;
+	}
+
+	@Override
 	public List<Estagio> buscarEstagiosPorEstagiarioCpf(String cpf) {
 		return estagioRepository.findByEstagiarioCpf(cpf);
 	}

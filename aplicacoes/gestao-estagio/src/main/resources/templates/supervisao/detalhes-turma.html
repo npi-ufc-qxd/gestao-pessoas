@@ -150,6 +150,7 @@
 				        	<td th:text="${estagio.estagiario.nomeCompleto}"></td>
 				        	<td th:text="${estagio.estagiario.curso.descricao}"></td>
 				        	<td>
+				        		<a th:href="@{/Supervisao/Turma/{idTurma}/TermosCompromisso/{idEstagio}(idEstagio=${estagio.id},idTurma=${turma.id})}" class="btn btn-success btn-sm pull-right gp-btn-acompanhamento">termo</a>
 				        		<a th:href="@{/Supervisao/Turma/{idTurma}/Declaracao/{idEstagio}(idEstagio=${estagio.id},idTurma=${turma.id})}" class="btn btn-success btn-sm pull-right gp-btn-acompanhamento">declaração</a>
 				        		<a th:href="@{/Supervisao/Acompanhamento/{id}(id=${estagio.id})}" class="btn btn-success btn-sm pull-right gp-btn-acompanhamento">acompanhamento</a>
 				        	</td>

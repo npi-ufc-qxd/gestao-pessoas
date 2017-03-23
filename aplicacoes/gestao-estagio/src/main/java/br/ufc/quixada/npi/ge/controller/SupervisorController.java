@@ -288,6 +288,8 @@ public class SupervisorController {
 		
 		model.addAttribute("datasource", jrDatasource);
 		model.addAttribute("format", "pdf");
+		
+		List<Expediente> expedientes;
 
 		if (turma.getExpedientes() != null) {
 			model = configurarExpediente(turma.getExpedientes(), model);
@@ -297,6 +299,52 @@ public class SupervisorController {
 
 	}
 
+	@RequestMapping(value = "/Turma/{idTurma}/TermosCompromisso/{idEstagio}", method = RequestMethod.GET)
+	public String gerarTermoDeCompromissoDoEstagiario(@PathVariable("idTurma") Long idTurma, @PathVariable("idTurma") Long idEstagio, Model model, 
+			RedirectAttributes redirect) throws JRException {
+
+		Estagio estagio = estagioService.buscarEstagioPorId(idEstagio);
+		Turma turma = estagio.getTurma();
+
+		if(TipoTurma.EMPRESA == turma.getTipoTurma()){
+			redirect.addFlashAttribute("error", "Turmas do tipo empresa não possuem essa funcionalidade.");
+			return REDIRECT_PAGINA_INICIAL_SUPERVISOR;
+		}
+
+		jrDatasource = new JRBeanCollectionDataSource(estagioService.buscarEstagiosPorId(idEstagio));
+
+		SimpleDateFormat dataFormatada = new SimpleDateFormat("dd/MM/yyyy");
+
+		model.addAttribute("NOME", turma.getOrientador().getNome());
+		model.addAttribute("SIAPE", turma.getOrientador().getSiape());
+		model.addAttribute("TELEFONE", turma.getOrientador().getTelefone());
+		model.addAttribute("LOTACAO", turma.getOrientador().getLotacao());
+		model.addAttribute("TURNO", UtilGestao.getTurnoExpediente(turma.getExpedientes().get(0)));
+		model.addAttribute("INICIO_ESTAGIO", dataFormatada.format(turma.getInicio()));
+		model.addAttribute("FINAL_ESTAGIO", dataFormatada.format(turma.getTermino()));
+
+		model.addAttribute("NOME_SEGURADORA", turma.getNomeSeguradora());
+		model.addAttribute("APOLICE", turma.getApolice());
+		model.addAttribute("MORTE_ACIDENTAL", turma.getSeguroMorteAcidental());
+		model.addAttribute("INVALIDEZ_PERMANENTE", turma.getSeguroInvalidezPermanente());
+		model.addAttribute("CARGA_HORARIA_SEMANAL", turma.getCargaHorariaSemanal());
+		model.addAttribute("INICIO_VIGENCIA", dataFormatada.format(turma.getInicioVigencia()));
+		model.addAttribute("FINAL_VIGENCIA", dataFormatada.format(turma.getTerminoVigencia()));
+		
+		model.addAttribute("datasource", jrDatasource);
+		model.addAttribute("format", "pdf");
+
+		if (turma.getExpedientes() == null) {
+			model = configurarExpediente(estagio.getExpedientes(), model);
+		} else{
+			model = configurarExpediente(turma.getExpedientes(), model); 
+		}
+
+		return TERMO_COMPROMISSO_ESTAGIO;
+
+	}
+
+	
 	@RequestMapping(value = "/Turma/{idTurma}/Declaracoes", method = RequestMethod.GET)
 	public String gerarDeclaracaoEstagio(Model model, @PathVariable("idTurma") Long idTurma, 
 			RedirectAttributes redirect) throws JRException {

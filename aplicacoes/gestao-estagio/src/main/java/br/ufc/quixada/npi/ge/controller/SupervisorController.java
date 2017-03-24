@@ -333,9 +333,9 @@ public class SupervisorController {
 		model.addAttribute("format", "pdf");
 
 		if (turma.getExpedientes() == null) {
-			model = configurarExpediente(estagio.getExpedientes(), model);
+			configurarExpediente(estagio.getExpedientes(), model);
 		} else{
-			model = configurarExpediente(turma.getExpedientes(), model); 
+			configurarExpediente(turma.getExpedientes(), model); 
 		}
 
 		return TERMO_COMPROMISSO_ESTAGIO;

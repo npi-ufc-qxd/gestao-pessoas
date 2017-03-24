@@ -288,8 +288,6 @@ public class SupervisorController {
 		
 		model.addAttribute("datasource", jrDatasource);
 		model.addAttribute("format", "pdf");
-		
-		List<Expediente> expedientes;
 
 		if (turma.getExpedientes() != null) {
 			model = configurarExpediente(turma.getExpedientes(), model);
@@ -300,11 +298,11 @@ public class SupervisorController {
 	}
 
 	@RequestMapping(value = "/Turma/{idTurma}/TermosCompromisso/{idEstagio}", method = RequestMethod.GET)
-	public String gerarTermoDeCompromissoDoEstagiario(@PathVariable("idTurma") Long idTurma, @PathVariable("idTurma") Long idEstagio, Model model, 
+	public String gerarTermoDeCompromissoDoEstagiario(@PathVariable("idTurma") Long idTurma, @PathVariable("idEstagio") Long idEstagio, Model model, 
 			RedirectAttributes redirect) throws JRException {
 
 		Estagio estagio = estagioService.buscarEstagioPorId(idEstagio);
-		Turma turma = estagio.getTurma();
+		Turma turma = turmaService.buscarTurmaPorId(idTurma);
 
 		if(TipoTurma.EMPRESA == turma.getTipoTurma()){
 			redirect.addFlashAttribute("error", "Turmas do tipo empresa não possuem essa funcionalidade.");

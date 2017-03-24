@@ -60,7 +60,7 @@
 			<staticText>
 				<reportElement x="80" y="0" width="452" height="48"/>
 				<textElement>
-					<font fontName="Arial" size="11" isBold="true"/>
+					<font fontName="DejaVu Sans" size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Universidade Federal do Ceará
 Pró-Reitoria de Extensão
@@ -77,7 +77,7 @@ Coordenadoria da Agência de Estágios]]></text>
 			<staticText>
 				<reportElement x="278" y="45" width="277" height="47"/>
 				<textElement>
-					<font fontName="Arial" size="10"/>
+					<font fontName="DejaVu Sans" size="9"/>
 				</textElement>
 				<text><![CDATA[CNPJ: 07.272.636/0001-31
 Fone/Fax: (85) 3366 7413 / 3366 7881
@@ -87,14 +87,14 @@ Coordenador Agência de Estágios: Prof. Rogério Teixeira Masih
 			<staticText>
 				<reportElement x="0" y="10" width="555" height="14"/>
 				<textElement textAlignment="Center">
-					<font fontName="Arial" size="12" isBold="true"/>
+					<font fontName="DejaVu Sans" size="11" isBold="true"/>
 				</textElement>
 				<text><![CDATA[TERMO DE COMPROMISSO DE ESTÁGIO OBRIGATÓRIO]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="0" y="45" width="277" height="47"/>
 				<textElement>
-					<font fontName="Arial" size="10"/>
+					<font fontName="DejaVu Sans" size="9"/>
 				</textElement>
 				<text><![CDATA[Nome: Universidade Federal do Ceará – UFC
 Endereço: Av. da Universidade, 2853, Benfica, Fortaleza - CE
@@ -111,7 +111,7 @@ Represent. Legal: Reitor Henry de Holanda Campos
 					<rightPen lineWidth="1.0"/>
 				</box>
 				<textElement verticalAlignment="Top">
-					<font fontName="Arial" size="10" isBold="true"/>
+					<font fontName="DejaVu Sans" size="9" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Dados da Instituição de Ensino]]></text>
 			</staticText>
@@ -124,7 +124,7 @@ Represent. Legal: Reitor Henry de Holanda Campos
 					<rightPen lineWidth="1.0"/>
 				</box>
 				<textElement verticalAlignment="Top">
-					<font fontName="Arial" size="10" isBold="true"/>
+					<font fontName="DejaVu Sans" size="9" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Dados da Unidade Concedente]]></text>
 			</staticText>
@@ -137,7 +137,7 @@ Represent. Legal: Reitor Henry de Holanda Campos
 					<rightPen lineWidth="1.0"/>
 				</box>
 				<textElement verticalAlignment="Top">
-					<font fontName="Arial" size="10" isBold="true"/>
+					<font fontName="DejaVu Sans" size="9" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Dados do Aluno]]></text>
 			</staticText>
@@ -150,14 +150,14 @@ Represent. Legal: Reitor Henry de Holanda Campos
 					<rightPen lineWidth="1.0"/>
 				</box>
 				<textElement verticalAlignment="Top">
-					<font fontName="Arial" size="10" isBold="true"/>
+					<font fontName="DejaVu Sans" size="9" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Dados do Professor Orientador]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="1" y="109" width="277" height="47"/>
 				<textElement>
-					<font fontName="Arial" size="10"/>
+					<font fontName="DejaVu Sans" size="9"/>
 				</textElement>
 				<text><![CDATA[Razão Social: Universidade Federal do Ceará – UFC
 Endereço: Av. José de Freitas Queiroz, 5003 – Cedro – Quixadá – CE
@@ -167,7 +167,7 @@ Represent. Legal: Reitor Henry de Holanda Campos
 			<textField>
 				<reportElement x="277" y="108" width="277" height="47"/>
 				<textElement>
-					<font fontName="Arial" size="10"/>
+					<font fontName="DejaVu Sans" size="9"/>
 				</textElement>
 				<textFieldExpression><![CDATA["CNPJ: 07.272.636/0001-31 Fone/Fax: (88) 3412-0919\n" +
 "Cidade/UF: Quixadá/CE       \nSetor: Núcleo de Práticas em Informática" +
@@ -176,49 +176,49 @@ Represent. Legal: Reitor Henry de Holanda Campos
 			<textField isBlankWhenNull="true">
 				<reportElement x="279" y="190" width="275" height="13"/>
 				<textElement>
-					<font fontName="Arial" size="10"/>
+					<font fontName="DejaVu Sans" size="9"/>
 				</textElement>
 				<textFieldExpression><![CDATA["Matricula: " + $F{estagiario.matricula}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="280" y="253" width="275" height="13"/>
 				<textElement>
-					<font fontName="Arial" size="10"/>
+					<font fontName="DejaVu Sans" size="9"/>
 				</textElement>
 				<textFieldExpression><![CDATA["Siape: " + $P{SIAPE}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="1" y="269" width="270" height="13"/>
 				<textElement>
-					<font fontName="Arial" size="10"/>
+					<font fontName="DejaVu Sans" size="9"/>
 				</textElement>
 				<textFieldExpression><![CDATA["Fone: " + ( $P{TELEFONE} == null ? "" : $P{TELEFONE} )]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="0" y="253" width="271" height="13"/>
 				<textElement>
-					<font fontName="Arial" size="10"/>
+					<font fontName="DejaVu Sans" size="9"/>
 				</textElement>
 				<textFieldExpression><![CDATA["Nome: " + $P{NOME}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement x="1" y="206" width="270" height="28"/>
 				<textElement verticalAlignment="Top">
-					<font fontName="Arial" size="10"/>
+					<font fontName="DejaVu Sans" size="9"/>
 				</textElement>
 				<textFieldExpression><![CDATA["Endereco: "+ $F{estagiario.endereco}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement x="1" y="176" width="270" height="13"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Arial" size="10"/>
+					<font fontName="DejaVu Sans" size="9"/>
 				</textElement>
 				<textFieldExpression><![CDATA["Nome: " + $F{estagiario.nomeCompleto}.toUpperCase()]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement x="1" y="191" width="270" height="13"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Arial" size="10"/>
+					<font fontName="DejaVu Sans" size="9"/>
 				</textElement>
 				<textFieldExpression><![CDATA["Nome da Mãe: " + $F{estagiario.nomeMae}.toUpperCase()]]></textFieldExpression>
 			</textField>
@@ -232,7 +232,7 @@ Represent. Legal: Reitor Henry de Holanda Campos
 			<staticText>
 				<reportElement x="0" y="286" width="554" height="121"/>
 				<textElement textAlignment="Justified">
-					<font fontName="Arial" size="10"/>
+					<font fontName="DejaVu Sans" size="9"/>
 				</textElement>
 				<text><![CDATA[As partes firmam o presente Termo de Compromisso de Estágio Obrigatório, observando o disposto na Lei nº 11.788 de 25 de setembro de 2008, na Resolução nº 23/CEPE de 30 de outubro 2009 e no Termo de Convênio já firmado entre a Unidade Concedente e a UFC em ___/___/_____, além das seguintes cláusulas:
 CLÁUSULA PRIMEIRA: Através deste Termo, a UNIDADE CONCEDENTE se compromete a conceder experiência prática profissional ao ESTAGIÁRIO previamente selecionado, e com frequência regular no curso de graduação em que está matriculado na UFC, em conformidade com o Art. 3º, I, da Lei nº 11.788 de 25/09/2008.
@@ -646,14 +646,14 @@ e) A UFC oferece seguro contra acidentes pessoais a todos os seus estudantes dev
 			<textField isBlankWhenNull="true">
 				<reportElement x="278" y="221" width="276" height="13"/>
 				<textElement>
-					<font fontName="Arial" size="10"/>
+					<font fontName="DejaVu Sans" size="9"/>
 				</textElement>
 				<textFieldExpression><![CDATA["Cidade/UF: " + $F{estagiario.cidade} + "/" + $F{estagiario.uf.descricao}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement x="442" y="206" width="112" height="13"/>
 				<textElement>
-					<font fontName="Arial" size="10"/>
+					<font fontName="DejaVu Sans" size="9"/>
 				</textElement>
 				<textFieldExpression><![CDATA["Semestre: " + $F{estagiario.semestre}]]></textFieldExpression>
 			</textField>
@@ -678,7 +678,7 @@ e) A UFC oferece seguro contra acidentes pessoais a todos os seus estudantes dev
 			<textField>
 				<reportElement x="279" y="269" width="275" height="13"/>
 				<textElement>
-					<font fontName="Arial" size="10"/>
+					<font fontName="DejaVu Sans" size="9"/>
 				</textElement>
 				<textFieldExpression><![CDATA["Lotação: " + $P{LOTACAO}]]></textFieldExpression>
 			</textField>

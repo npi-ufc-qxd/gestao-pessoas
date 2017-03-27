@@ -31,4 +31,12 @@ public class MvcConfig extends WebMvcConfigurerAdapter{
     	return report;
     }
     
+    
+    @Bean(name = "AVALIACAO_RENDIMENTO")
+    public JasperReportsMultiFormatView reportRendimento() {
+    	JasperReportsMultiFormatView report = new JasperReportsMultiFormatView();
+    	report.setUrl("classpath:AVALIACAO_RENDIMENTO.jrxml");
+    	return report;
+    }
+    
 }

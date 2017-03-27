@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 6.3.1  -->
-<!-- 2017-03-22T10:02:50 -->
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="AVALIACAO_RENDIMENTO" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" >
+<!-- 2017-03-27T11:22:41 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="AVALIACAO_RENDIMENTO" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="568d0620-4b1e-48a1-940c-76ee73625bd8">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
 	<parameter name="NOME_SUPERVISOR" class="java.lang.String"/>
 	<queryString>
@@ -10,19 +10,19 @@
 	<field name="estagiario.nomeCompleto" class="java.lang.String"/>
 	<field name="estagiario.matricula" class="java.lang.Integer"/>
 	<field name="estagiario.curso.descricao" class="java.lang.String"/>
-	<field name="turma.inicio" class="java.sql.Date"/>
-	<field name="turma.termino" class="java.sql.Date"/>
+	<field name="avaliacaoRendimento.inicioAvaliacao" class="java.sql.Date"/>
+	<field name="avaliacaoRendimento.terminoAvaliacao" class="java.sql.Date"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
 	<detail>
 		<band height="278" splitType="Stretch">
 			<image>
-				<reportElement x="240" y="0" width="102" height="94" />
+				<reportElement x="240" y="0" width="102" height="94" uuid="25c038db-f42d-4146-a8a0-01d8c5abbabb"/>
 				<imageExpression><![CDATA["./ufc.jpg"]]></imageExpression>
 			</image>
 			<staticText>
-				<reportElement x="0" y="140" width="555" height="79" />
+				<reportElement x="0" y="140" width="555" height="79" uuid="9d9ffcfc-fac6-4439-9bb3-ad6d75cbaf6a"/>
 				<textElement textAlignment="Center">
 					<font fontName="Ubuntu" size="14" isBold="true"/>
 				</textElement>
@@ -32,7 +32,7 @@
 NÚCLEO DE PRÁTICAS EM INFORMÁTICA]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="258" width="555" height="20" />
+				<reportElement x="0" y="258" width="555" height="20" uuid="1790ebc9-7dda-4ff8-b89a-de6b0ec2b96e"/>
 				<textElement textAlignment="Center">
 					<font fontName="Ubuntu" size="14" isBold="true" isUnderline="true" isStrikeThrough="false"/>
 				</textElement>
@@ -41,15 +41,15 @@ NÚCLEO DE PRÁTICAS EM INFORMÁTICA]]></text>
 		</band>
 		<band height="230">
 			<rectangle>
-				<reportElement x="10" y="12" width="545" height="88" />
+				<reportElement x="10" y="12" width="545" height="88" uuid="a6be9f5c-6c3c-425f-a9ed-c87bd51b710a"/>
 			</rectangle>
 			<textField>
-				<reportElement x="10" y="11" width="370" height="30" />
+				<reportElement x="10" y="11" width="370" height="30" uuid="22508ac2-27b3-4726-baee-af26a2a61e6d"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA["Nome completo do(a) aluno(a): " + $F{estagiario.nomeCompleto}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="380" y="12" width="174" height="30" />
+				<reportElement x="380" y="12" width="174" height="30" uuid="211d4ab2-3429-413b-8006-322ef489c5a6"/>
 				<box leftPadding="0">
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -61,7 +61,7 @@ NÚCLEO DE PRÁTICAS EM INFORMÁTICA]]></text>
 				<textFieldExpression><![CDATA["Matrícula: " + $F{estagiario.matricula}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="10" y="42" width="290" height="30" >
+				<reportElement x="10" y="42" width="290" height="30" uuid="3283b35e-5621-4dc3-80cf-3b06db95c6f3">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				</reportElement>
 				<box leftPadding="0">
@@ -75,7 +75,7 @@ NÚCLEO DE PRÁTICAS EM INFORMÁTICA]]></text>
 				<textFieldExpression><![CDATA["Curso: " + $F{estagiario.curso.descricao}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="10" y="72" width="290" height="28" />
+				<reportElement x="10" y="72" width="290" height="28" uuid="eaf7f56d-66b1-4f41-afd5-96365080d6aa"/>
 				<box leftPadding="0">
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -87,7 +87,7 @@ NÚCLEO DE PRÁTICAS EM INFORMÁTICA]]></text>
 				<textFieldExpression><![CDATA["Nome completo do(a) Supervisor(a): " + $P{NOME_SUPERVISOR}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="300" y="42" width="254" height="30" >
+				<reportElement x="300" y="42" width="254" height="30" uuid="267f7b79-20b8-4646-aa54-de5d101bf474">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				</reportElement>
 				<box leftPadding="0">
@@ -101,7 +101,7 @@ NÚCLEO DE PRÁTICAS EM INFORMÁTICA]]></text>
 				<textFieldExpression><![CDATA["Disciplina do Estágio: "]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="301" y="72" width="254" height="28" />
+				<reportElement x="301" y="72" width="254" height="28" uuid="03c2c5fc-12a2-4f94-874a-fca6844a7cc9"/>
 				<box leftPadding="0">
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
@@ -110,47 +110,47 @@ NÚCLEO DE PRÁTICAS EM INFORMÁTICA]]></text>
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA["Período a que se refere esta Avaliação: " + $F{turma.inicio} + " a " + $F{turma.termino}]]></textFieldExpression>
+				<textFieldExpression><![CDATA["Período a que se refere esta Avaliação: " + $F{avaliacaoRendimento.inicioAvaliacao} + " a " + $F{avaliacaoRendimento.terminoAvaliacao}]]></textFieldExpression>
 			</textField>
 			<rectangle>
-				<reportElement x="10" y="110" width="545" height="120" />
+				<reportElement x="10" y="110" width="545" height="120" uuid="585820ef-4383-44b0-8b4c-b5f7a68a47b5"/>
 			</rectangle>
 			<staticText>
-				<reportElement x="24" y="115" width="100" height="14" />
+				<reportElement x="24" y="115" width="100" height="14" uuid="9cb8be7e-173b-4bc6-8562-c1cb3c018737"/>
 				<text><![CDATA[Objetivo:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="28" y="137" width="512" height="72" />
+				<reportElement x="28" y="137" width="512" height="72" uuid="c5dd0b1c-6288-43a2-b537-c4866941bd65"/>
 			</textField>
 		</band>
 		<band height="160">
 			<textField>
-				<reportElement x="40" y="20" width="260" height="20" />
+				<reportElement x="40" y="20" width="260" height="20" uuid="406168cd-4842-4564-a0e8-cd4355435e35"/>
 				<textFieldExpression><![CDATA["FATOR 1: ASSIDUIDADE E DISCIPLINA"]]></textFieldExpression>
 			</textField>
 			<line>
-				<reportElement x="10" y="50" width="543" height="1" >
+				<reportElement x="10" y="50" width="543" height="1" uuid="c5550cce-1b6b-4ee6-9419-a53d8f701ea2">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				</reportElement>
 			</line>
 			<textField>
-				<reportElement x="22" y="60" width="260" height="20" />
+				<reportElement x="22" y="60" width="260" height="20" uuid="bd14ef7d-9048-4113-88bd-d92828d62431"/>
 				<textFieldExpression><![CDATA["1.1 Frequência"]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="42" y="83" width="370" height="16" />
+				<reportElement x="42" y="83" width="370" height="16" uuid="37150cc5-3722-4439-a8f4-f36917d6aa9f"/>
 				<textFieldExpression><![CDATA["( "+ "" +")"+ "Falta constatemente ao estagio"]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="42" y="99" width="370" height="16" />
+				<reportElement x="42" y="99" width="370" height="16" uuid="229b479a-1fd7-4980-ad19-402cc117b5a9"/>
 				<textFieldExpression><![CDATA["( "+ "" +")"+ "Falta constatemente ao estagio"]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="42" y="114" width="370" height="16" />
+				<reportElement x="42" y="114" width="370" height="16" uuid="52a1592d-c0c0-49b3-b7b9-c6d2dddf743a"/>
 				<textFieldExpression><![CDATA["( "+ "" +")"+ "Falta constatemente ao estagio"]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="43" y="131" width="370" height="16" />
+				<reportElement x="43" y="131" width="370" height="16" uuid="4ccf6e3e-3a06-4e8b-998c-3002341be1ae"/>
 				<textFieldExpression><![CDATA["( "+ "" +")"+ "Falta constatemente ao estagio"]]></textFieldExpression>
 			</textField>
 		</band>

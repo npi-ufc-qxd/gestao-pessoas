@@ -340,14 +340,21 @@ public class SupervisorController {
 		
 	@RequestMapping(value = "/Turma/{idTurma}/Avaliacao/{idEstagio}", method = RequestMethod.GET)
 	public String TESTEgerarDeclaracaoEstagioIndividual(Model model, @PathVariable("idTurma") Long idTurma, @PathVariable("idEstagio") Long idEstagio, RedirectAttributes redirect) throws JRException {
-
+		
 		jrDatasource = new JRBeanCollectionDataSource(estagioService.buscarEstagiosPorId(idEstagio));
 
 		Turma turma = turmaService.buscarTurmaPorId(idTurma);
+		Estagio estagio = estagioService.buscarEstagioPorIdEEstagiarioIdTurma(idEstagio, idTurma);
+		AvaliacaoRendimento avaliacaoRendimento = estagio.getAvaliacaoRendimento();
 
 		if(TipoTurma.EMPRESA == turma.getTipoTurma()) {
 			redirect.addFlashAttribute("error", "Turmas do tipo empresa não possuem essa funcionalidade.");
 			return REDIRECT_PAGINA_INICIAL_SUPERVISOR;
+		}
+		
+		
+		if(avaliacaoRendimento.getFrequencia() == AvaliacaoRendimento.Frequencia.PESSIMA){
+			model.addAttribute("FALTA_CONSTANTEMENTE", true);
 		}
 
 		Servidor servidor = pessoaService.buscarServidorPorCpf(getCpfUsuarioLogado());

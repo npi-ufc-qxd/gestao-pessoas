@@ -352,9 +352,12 @@ public class SupervisorController {
 			return REDIRECT_PAGINA_INICIAL_SUPERVISOR;
 		}
 		
-		
-		if(avaliacaoRendimento.getFrequencia() == AvaliacaoRendimento.Frequencia.PESSIMA){
-			model.addAttribute("FALTA_CONSTANTEMENTE", true);
+
+		if(avaliacaoRendimento.getFrequencia() == AvaliacaoRendimento.Frequencia.BOA){
+			
+			model.addAttribute("FALTA_CONSTANTEMENTE", "X");
+		} else {
+			model.addAttribute("FALTA_CONSTANTEMENTE", " ");
 		}
 
 		Servidor servidor = pessoaService.buscarServidorPorCpf(getCpfUsuarioLogado());

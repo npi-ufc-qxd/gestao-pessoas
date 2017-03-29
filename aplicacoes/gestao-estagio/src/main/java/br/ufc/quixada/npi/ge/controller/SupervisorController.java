@@ -301,7 +301,6 @@ public class SupervisorController {
 	public String gerarTermoDeCompromissoDoEstagiario(@PathVariable("idTurma") Long idTurma, @PathVariable("idEstagio") Long idEstagio, Model model, 
 			RedirectAttributes redirect) throws JRException {
 
-		Estagio estagio = estagioService.buscarEstagioPorId(idEstagio);
 		Turma turma = turmaService.buscarTurmaPorId(idTurma);
 
 		if(TipoTurma.EMPRESA == turma.getTipoTurma()){
@@ -309,6 +308,15 @@ public class SupervisorController {
 			return REDIRECT_PAGINA_INICIAL_SUPERVISOR;
 		}
 
+		Estagio estagio = estagioService.buscarEstagioPorId(idEstagio);
+		List<Expediente> expedientes = new ArrayList<Expediente>();
+
+		if (estagio.getExpedientes() != null && estagio.getExpedientes().size() > 0) {
+			expedientes = estagio.getExpedientes();
+		} else{
+			expedientes = turma.getExpedientes(); 
+		}		
+		
 		jrDatasource = new JRBeanCollectionDataSource(estagioService.buscarEstagiosPorId(idEstagio));
 
 		SimpleDateFormat dataFormatada = new SimpleDateFormat("dd/MM/yyyy");
@@ -317,7 +325,7 @@ public class SupervisorController {
 		model.addAttribute("SIAPE", turma.getOrientador().getSiape());
 		model.addAttribute("TELEFONE", turma.getOrientador().getTelefone());
 		model.addAttribute("LOTACAO", turma.getOrientador().getLotacao());
-		model.addAttribute("TURNO", UtilGestao.getTurnoExpediente(turma.getExpedientes().get(0)));
+		model.addAttribute("TURNO", UtilGestao.getTurnoExpediente(expedientes.get(0)));
 		model.addAttribute("INICIO_ESTAGIO", dataFormatada.format(turma.getInicio()));
 		model.addAttribute("FINAL_ESTAGIO", dataFormatada.format(turma.getTermino()));
 
@@ -332,11 +340,7 @@ public class SupervisorController {
 		model.addAttribute("datasource", jrDatasource);
 		model.addAttribute("format", "pdf");
 
-		if (turma.getExpedientes() == null) {
-			configurarExpediente(estagio.getExpedientes(), model);
-		} else{
-			configurarExpediente(turma.getExpedientes(), model); 
-		}
+		configurarExpediente(expedientes, model); 
 
 		return TERMO_COMPROMISSO_ESTAGIO;
 
@@ -1239,7 +1243,7 @@ public class SupervisorController {
 				model.addAttribute("EXPEDIENTE_QUARTA", descricaoExpediente);
 			}
 			if (expediente.getDiaSemana().equals(Expediente.DiaDaSemana.QUINTA)) {
-				model.addAttribute("EXPEDIENTE_UINTA", descricaoExpediente);
+				model.addAttribute("EXPEDIENTE_QUINTA", descricaoExpediente);
 			}
 			if (expediente.getDiaSemana().equals(Expediente.DiaDaSemana.SEXTA)) {
 				model.addAttribute("EXPEDIENTE_SEXTA", descricaoExpediente);

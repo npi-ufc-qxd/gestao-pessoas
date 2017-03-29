@@ -34,7 +34,7 @@ NÚCLEO DE PRÁTICAS EM INFORMÁTICA]]></text>
 			<staticText>
 				<reportElement x="103" y="766" width="375" height="29"  />
 				<textElement textAlignment="Center">
-					<font fontName="Arial"/>
+					<font fontName="DejaVu Sans"/>
 				</textElement>
 				<text><![CDATA[Av. José de Freitas Queiroz, 5003 – CEP: 63.900-000 – Quixadá-Ceará
 Tel.: (88) 3412 0919	E-mail: secretaria@quixada.ufc.br]]></text>

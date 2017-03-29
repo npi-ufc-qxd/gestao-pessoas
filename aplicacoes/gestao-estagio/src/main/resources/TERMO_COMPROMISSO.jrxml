@@ -225,7 +225,7 @@ Represent. Legal: Reitor Henry de Holanda Campos
 			<textField>
 				<reportElement x="279" y="176" width="163" height="13"/>
 				<textElement>
-					<font fontName="Arial"/>
+					<font fontName="DejaVu Sans"/>
 				</textElement>
 				<textFieldExpression><![CDATA["CPF: " + $F{estagiario.pessoa.cpf}]]></textFieldExpression>
 			</textField>
@@ -247,14 +247,14 @@ CLÁUSULA SEGUNDA: O estágio tem como objetivo proporcionar ao estudante integr
 					<rightPen lineWidth="1.0"/>
 				</box>
 				<textElement verticalAlignment="Top">
-					<font fontName="Arial"/>
+					<font fontName="DejaVu Sans"/>
 				</textElement>
 				<text><![CDATA[Atividades Previstas: Análise, implementação e testes de sistemas Web]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="1" y="673" width="554" height="59"/>
 				<textElement textAlignment="Justified">
-					<font fontName="Arial"/>
+					<font fontName="DejaVu Sans"/>
 				</textElement>
 				<text><![CDATA[f) O estágio somente poderá ter início após a assinatura deste Termo pelas partes envolvidas, conforme estabelece o Art. 9º, inciso I da Lei nº 11.788 de 25/09/2008, e o Art. 7º, “g”, da Resolução no 23/CEPE de 30/10/2009.
 CLÁUSULA QUARTA: Compete ao ESTAGIÁRIO:
@@ -264,7 +264,7 @@ a) Cumprir as normas internas da UNIDADE CONCEDENTE, especialmente as de orienta
 			<staticText>
 				<reportElement x="0" y="572" width="555" height="49"/>
 				<textElement textAlignment="Justified">
-					<font fontName="Arial"/>
+					<font fontName="DejaVu Sans"/>
 				</textElement>
 				<text><![CDATA[d) A carga horária do estágio será reduzida pelo menos à metade nos períodos de avaliação do ESTAGIÁRIO, para garantir o bom desempenho do estudante, nos termos do Art. 10, §2o, da Lei n° 11.788 de 25/09/2008;
 e) A UFC oferece seguro contra acidentes pessoais a todos os seus estudantes devidamente matriculados, também contemplando o ESTAGIÁRIO, parte deste Termo, durante a vigência do presente. Seguem as informações do seguro:]]></text>
@@ -278,7 +278,7 @@ e) A UFC oferece seguro contra acidentes pessoais a todos os seus estudantes dev
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Arial"/>
+					<font fontName="DejaVu Sans"/>
 				</textElement>
 				<text><![CDATA[Turnos]]></text>
 			</staticText>
@@ -291,7 +291,7 @@ e) A UFC oferece seguro contra acidentes pessoais a todos os seus estudantes dev
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Arial"/>
+					<font fontName="DejaVu Sans"/>
 				</textElement>
 				<text><![CDATA[Segunda]]></text>
 			</staticText>
@@ -304,7 +304,7 @@ e) A UFC oferece seguro contra acidentes pessoais a todos os seus estudantes dev
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Arial"/>
+					<font fontName="DejaVu Sans"/>
 				</textElement>
 				<text><![CDATA[Terça]]></text>
 			</staticText>
@@ -317,7 +317,7 @@ e) A UFC oferece seguro contra acidentes pessoais a todos os seus estudantes dev
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Arial"/>
+					<font fontName="DejaVu Sans"/>
 				</textElement>
 				<text><![CDATA[Quarta]]></text>
 			</staticText>
@@ -330,7 +330,7 @@ e) A UFC oferece seguro contra acidentes pessoais a todos os seus estudantes dev
 					<rightPen lineWidth="1.0"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Arial"/>
+					<font fontName="DejaVu Sans"/>
 				</textElement>
 				<text><![CDATA[Sábado]]></text>
 			</staticText>
@@ -343,7 +343,7 @@ e) A UFC oferece seguro contra acidentes pessoais a todos os seus estudantes dev
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Arial"/>
+					<font fontName="DejaVu Sans"/>
 				</textElement>
 				<text><![CDATA[Sexta]]></text>
 			</staticText>
@@ -356,7 +356,7 @@ e) A UFC oferece seguro contra acidentes pessoais a todos os seus estudantes dev
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Arial"/>
+					<font fontName="DejaVu Sans"/>
 				</textElement>
 				<text><![CDATA[Quinta]]></text>
 			</staticText>
@@ -369,7 +369,7 @@ e) A UFC oferece seguro contra acidentes pessoais a todos os seus estudantes dev
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Arial"/>
+					<font fontName="DejaVu Sans"/>
 				</textElement>
 				<text><![CDATA[Manhã]]></text>
 			</staticText>
@@ -382,7 +382,7 @@ e) A UFC oferece seguro contra acidentes pessoais a todos os seus estudantes dev
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Arial"/>
+					<font fontName="DejaVu Sans"/>
 				</textElement>
 				<text><![CDATA[Noite]]></text>
 			</staticText>
@@ -395,7 +395,7 @@ e) A UFC oferece seguro contra acidentes pessoais a todos os seus estudantes dev
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Arial"/>
+					<font fontName="DejaVu Sans"/>
 				</textElement>
 				<text><![CDATA[Tarde]]></text>
 			</staticText>
@@ -408,7 +408,7 @@ e) A UFC oferece seguro contra acidentes pessoais a todos os seus estudantes dev
 					<rightPen lineWidth="1.0"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Arial"/>
+					<font fontName="DejaVu Sans"/>
 				</textElement>
 				<text><![CDATA[-]]></text>
 			</staticText>
@@ -421,7 +421,7 @@ e) A UFC oferece seguro contra acidentes pessoais a todos os seus estudantes dev
 					<rightPen lineWidth="1.0"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Arial"/>
+					<font fontName="DejaVu Sans"/>
 				</textElement>
 				<text><![CDATA[-]]></text>
 			</staticText>
@@ -434,7 +434,7 @@ e) A UFC oferece seguro contra acidentes pessoais a todos os seus estudantes dev
 					<rightPen lineWidth="1.0"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Arial"/>
+					<font fontName="DejaVu Sans"/>
 				</textElement>
 				<text><![CDATA[-]]></text>
 			</staticText>
@@ -447,7 +447,7 @@ e) A UFC oferece seguro contra acidentes pessoais a todos os seus estudantes dev
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Arial"/>
+					<font fontName="DejaVu Sans"/>
 				</textElement>
 				<text><![CDATA[-]]></text>
 			</staticText>
@@ -460,7 +460,7 @@ e) A UFC oferece seguro contra acidentes pessoais a todos os seus estudantes dev
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Arial"/>
+					<font fontName="DejaVu Sans"/>
 				</textElement>
 				<text><![CDATA[-]]></text>
 			</staticText>
@@ -473,7 +473,7 @@ e) A UFC oferece seguro contra acidentes pessoais a todos os seus estudantes dev
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Arial"/>
+					<font fontName="DejaVu Sans"/>
 				</textElement>
 				<text><![CDATA[-]]></text>
 			</staticText>
@@ -486,7 +486,7 @@ e) A UFC oferece seguro contra acidentes pessoais a todos os seus estudantes dev
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Arial"/>
+					<font fontName="DejaVu Sans"/>
 				</textElement>
 				<text><![CDATA[-]]></text>
 			</staticText>
@@ -499,7 +499,7 @@ e) A UFC oferece seguro contra acidentes pessoais a todos os seus estudantes dev
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Arial"/>
+					<font fontName="DejaVu Sans"/>
 				</textElement>
 				<text><![CDATA[-]]></text>
 			</staticText>
@@ -512,7 +512,7 @@ e) A UFC oferece seguro contra acidentes pessoais a todos os seus estudantes dev
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Arial"/>
+					<font fontName="DejaVu Sans"/>
 				</textElement>
 				<text><![CDATA[-]]></text>
 			</staticText>
@@ -525,7 +525,7 @@ e) A UFC oferece seguro contra acidentes pessoais a todos os seus estudantes dev
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Arial"/>
+					<font fontName="DejaVu Sans"/>
 				</textElement>
 				<text><![CDATA[-]]></text>
 			</staticText>
@@ -538,7 +538,7 @@ e) A UFC oferece seguro contra acidentes pessoais a todos os seus estudantes dev
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Arial"/>
+					<font fontName="DejaVu Sans"/>
 				</textElement>
 				<text><![CDATA[-]]></text>
 			</staticText>
@@ -551,7 +551,7 @@ e) A UFC oferece seguro contra acidentes pessoais a todos os seus estudantes dev
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Arial"/>
+					<font fontName="DejaVu Sans"/>
 				</textElement>
 				<text><![CDATA[-]]></text>
 			</staticText>
@@ -564,7 +564,7 @@ e) A UFC oferece seguro contra acidentes pessoais a todos os seus estudantes dev
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Top">
-					<font fontName="Arial"/>
+					<font fontName="DejaVu Sans"/>
 				</textElement>
 				<textFieldExpression><![CDATA[( $P{TURNO} == "MANHA" ? $P{EXPEDIENTE_SEGUNDA} : "-" )]]></textFieldExpression>
 			</textField>
@@ -577,7 +577,7 @@ e) A UFC oferece seguro contra acidentes pessoais a todos os seus estudantes dev
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Top">
-					<font fontName="Arial"/>
+					<font fontName="DejaVu Sans"/>
 				</textElement>
 				<textFieldExpression><![CDATA[( $P{TURNO} == "MANHA" ? $P{EXPEDIENTE_TERCA} : "-" )]]></textFieldExpression>
 			</textField>
@@ -590,7 +590,7 @@ e) A UFC oferece seguro contra acidentes pessoais a todos os seus estudantes dev
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Top">
-					<font fontName="Arial"/>
+					<font fontName="DejaVu Sans"/>
 				</textElement>
 				<textFieldExpression><![CDATA[( $P{TURNO} == "MANHA" ? $P{EXPEDIENTE_QUARTA} : "-" )]]></textFieldExpression>
 			</textField>
@@ -603,7 +603,7 @@ e) A UFC oferece seguro contra acidentes pessoais a todos os seus estudantes dev
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Top">
-					<font fontName="Arial"/>
+					<font fontName="DejaVu Sans"/>
 				</textElement>
 				<textFieldExpression><![CDATA[( $P{TURNO} == "TARDE" ? $P{EXPEDIENTE_QUARTA} : "-" )]]></textFieldExpression>
 			</textField>
@@ -616,7 +616,7 @@ e) A UFC oferece seguro contra acidentes pessoais a todos os seus estudantes dev
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Top">
-					<font fontName="Arial"/>
+					<font fontName="DejaVu Sans"/>
 				</textElement>
 				<textFieldExpression><![CDATA[( $P{TURNO} == "TARDE" ? $P{EXPEDIENTE_SEGUNDA} : "-" )]]></textFieldExpression>
 			</textField>
@@ -629,14 +629,14 @@ e) A UFC oferece seguro contra acidentes pessoais a todos os seus estudantes dev
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Top">
-					<font fontName="Arial"/>
+					<font fontName="DejaVu Sans"/>
 				</textElement>
 				<textFieldExpression><![CDATA[( $P{TURNO} == "TARDE" ? $P{EXPEDIENTE_TERCA} : "-" )]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="0" y="444" width="555" height="59"/>
 				<textElement textAlignment="Justified">
-					<font fontName="Arial"/>
+					<font fontName="DejaVu Sans"/>
 				</textElement>
 				<textFieldExpression><![CDATA["CLÁUSULA TERCEIRA: Além das atividades previstas no plano, ficam definidas as seguintes características do estágio:" +
 "\na) O estágio terá início em " + $P{INICIO_ESTAGIO} + " e término em " + $P{FINAL_ESTAGIO} + ", compreendendo 04 (Quatro) meses;" +
@@ -660,14 +660,14 @@ e) A UFC oferece seguro contra acidentes pessoais a todos os seus estudantes dev
 			<textField>
 				<reportElement x="442" y="176" width="112" height="13"/>
 				<textElement>
-					<font fontName="Arial"/>
+					<font fontName="DejaVu Sans"/>
 				</textElement>
 				<textFieldExpression><![CDATA["Fone: " + $F{estagiario.telefone}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="532" y="732" width="23" height="20"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Arial"/>
+					<font fontName="DejaVu Sans"/>
 				</textElement>
 				<text><![CDATA[1]]></text>
 			</staticText>
@@ -696,7 +696,7 @@ e) A UFC oferece seguro contra acidentes pessoais a todos os seus estudantes dev
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement>
-					<font fontName="Arial"/>
+					<font fontName="DejaVu Sans"/>
 				</textElement>
 				<textFieldExpression><![CDATA["Empresa Seguradora: "  + $P{NOME_SEGURADORA}]]></textFieldExpression>
 			</textField>
@@ -756,7 +756,7 @@ e) A UFC oferece seguro contra acidentes pessoais a todos os seus estudantes dev
 			<staticText>
 				<reportElement x="1" y="7" width="554" height="291"/>
 				<textElement textAlignment="Justified">
-					<font fontName="Arial"/>
+					<font fontName="DejaVu Sans"/>
 				</textElement>
 				<text><![CDATA[constante neste Termo, devendo apresentar à UFC, em prazo não superior a 6 (seis) meses, o relatório das atividades desenvolvidas
 b) Seguir a orientação articulada entre os Supervisores de Estágio designados pela UNIDADE CONCEDENTE e pela UFC;
@@ -775,7 +775,7 @@ E, por estarem devidamente cientes das condições aqui estipuladas, bem como da
 			<staticText>
 				<reportElement x="0" y="392" width="293" height="20"/>
 				<textElement>
-					<font fontName="Arial"/>
+					<font fontName="DejaVu Sans"/>
 				</textElement>
 				<text><![CDATA[Quixadá - CE, ____ de ____________ de ______.]]></text>
 			</staticText>
@@ -785,7 +785,7 @@ E, por estarem devidamente cientes das condições aqui estipuladas, bem como da
 					<topPen lineWidth="1.0"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Top">
-					<font fontName="Arial"/>
+					<font fontName="DejaVu Sans"/>
 				</textElement>
 				<text><![CDATA[Estagiário]]></text>
 			</staticText>
@@ -795,7 +795,7 @@ E, por estarem devidamente cientes das condições aqui estipuladas, bem como da
 					<topPen lineWidth="1.0"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Top">
-					<font fontName="Arial"/>
+					<font fontName="DejaVu Sans"/>
 				</textElement>
 				<text><![CDATA[Agência de Estágios UFC]]></text>
 			</staticText>
@@ -805,7 +805,7 @@ E, por estarem devidamente cientes das condições aqui estipuladas, bem como da
 					<topPen lineWidth="1.0"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Top">
-					<font fontName="Arial"/>
+					<font fontName="DejaVu Sans"/>
 				</textElement>
 				<text><![CDATA[Unidade Concedente / Professor Orientador UFC]]></text>
 			</staticText>
@@ -818,7 +818,7 @@ E, por estarem devidamente cientes das condições aqui estipuladas, bem como da
 					<rightPen lineWidth="0.0"/>
 				</box>
 				<textElement verticalAlignment="Top">
-					<font fontName="Arial"/>
+					<font fontName="DejaVu Sans"/>
 				</textElement>
 				<text><![CDATA[DECLARO, serem exatas e verdadeiras as informações aqui prestadas, sob pena de responsabilidade administrativa, cível e penal.
 ]]></text>
@@ -826,7 +826,7 @@ E, por estarem devidamente cientes das condições aqui estipuladas, bem como da
 			<staticText>
 				<reportElement x="532" y="732" width="23" height="20"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Arial"/>
+					<font fontName="DejaVu Sans"/>
 				</textElement>
 				<text><![CDATA[2]]></text>
 			</staticText>

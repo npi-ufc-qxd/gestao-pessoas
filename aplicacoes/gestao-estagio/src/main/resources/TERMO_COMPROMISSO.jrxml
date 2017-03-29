@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 6.3.1  -->
-<!-- 2017-03-15T18:32:01 -->
+<!-- 2017-03-29T20:18:28 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="TERMO_COMPROMISSO" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20"  >
 	<property name="ireport.zoom" value="1.5000000000000027"/>
 	<property name="ireport.x" value="0"/>
@@ -26,8 +26,8 @@
 			<pen lineWidth="0.5" lineColor="#000000"/>
 		</box>
 	</style>
-	<subDataset name="Table Dataset 1"/>
-	<subDataset name="dataset1"/>
+	<subDataset name="Table Dataset 1"  />
+	<subDataset name="dataset1"  />
 	<parameter name="NOME" class="java.lang.String"/>
 	<parameter name="SIAPE" class="java.lang.String"/>
 	<parameter name="TELEFONE" class="java.lang.String"/>
@@ -45,6 +45,8 @@
 	<parameter name="INICIO_VIGENCIA" class="java.lang.String"/>
 	<parameter name="FINAL_VIGENCIA" class="java.lang.String"/>
 	<parameter name="APOLICE" class="java.lang.String"/>
+	<parameter name="EXPEDIENTE_QUINTA" class="java.lang.String"/>
+	<parameter name="EXPEDIENTE_SEXTA" class="java.lang.String"/>
 	<field name="estagiario.nomeCompleto" class="java.lang.String"/>
 	<field name="estagiario.endereco" class="java.lang.String"/>
 	<field name="estagiario.telefone" class="java.lang.String"/>
@@ -58,7 +60,7 @@
 	<pageHeader>
 		<band height="50" splitType="Stretch">
 			<staticText>
-				<reportElement x="80" y="0" width="452" height="48"/>
+				<reportElement x="80" y="0" width="452" height="48"  />
 				<textElement>
 					<font fontName="DejaVu Sans" size="10" isBold="true"/>
 				</textElement>
@@ -67,7 +69,7 @@ Pró-Reitoria de Extensão
 Coordenadoria da Agência de Estágios]]></text>
 			</staticText>
 			<image>
-				<reportElement x="34" y="1" width="50" height="42"/>
+				<reportElement x="34" y="1" width="50" height="42"  />
 				<imageExpression><![CDATA["./ufc.jpg"]]></imageExpression>
 			</image>
 		</band>
@@ -75,7 +77,7 @@ Coordenadoria da Agência de Estágios]]></text>
 	<detail>
 		<band height="752" splitType="Stretch">
 			<staticText>
-				<reportElement x="278" y="45" width="277" height="47"/>
+				<reportElement x="278" y="45" width="277" height="47"  />
 				<textElement>
 					<font fontName="DejaVu Sans" size="9"/>
 				</textElement>
@@ -85,14 +87,14 @@ Coordenador Agência de Estágios: Prof. Rogério Teixeira Masih
 ]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="10" width="555" height="14"/>
+				<reportElement x="0" y="10" width="555" height="14"  />
 				<textElement textAlignment="Center">
 					<font fontName="DejaVu Sans" size="11" isBold="true"/>
 				</textElement>
 				<text><![CDATA[TERMO DE COMPROMISSO DE ESTÁGIO OBRIGATÓRIO]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="45" width="277" height="47"/>
+				<reportElement x="0" y="45" width="277" height="47"  />
 				<textElement>
 					<font fontName="DejaVu Sans" size="9"/>
 				</textElement>
@@ -102,7 +104,7 @@ Represent. Legal: Reitor Henry de Holanda Campos
 ]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="32" width="555" height="12" forecolor="#222121" backcolor="#33FF00"/>
+				<reportElement x="0" y="32" width="555" height="12" forecolor="#222121" backcolor="#33FF00"  />
 				<box leftPadding="3">
 					<pen lineWidth="1.0"/>
 					<topPen lineWidth="1.0"/>
@@ -116,7 +118,7 @@ Represent. Legal: Reitor Henry de Holanda Campos
 				<text><![CDATA[Dados da Instituição de Ensino]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="96" width="555" height="12" forecolor="#222121" backcolor="#33FF00"/>
+				<reportElement x="0" y="96" width="555" height="12" forecolor="#222121" backcolor="#33FF00"  />
 				<box leftPadding="3">
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
@@ -129,7 +131,7 @@ Represent. Legal: Reitor Henry de Holanda Campos
 				<text><![CDATA[Dados da Unidade Concedente]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="161" width="554" height="12" forecolor="#222121" backcolor="#33FF00"/>
+				<reportElement x="0" y="161" width="554" height="12" forecolor="#222121" backcolor="#33FF00"  />
 				<box leftPadding="3">
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
@@ -142,7 +144,7 @@ Represent. Legal: Reitor Henry de Holanda Campos
 				<text><![CDATA[Dados do Aluno]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="238" width="555" height="12" forecolor="#222121" backcolor="#33FF00"/>
+				<reportElement x="0" y="238" width="555" height="12" forecolor="#222121" backcolor="#33FF00"  />
 				<box leftPadding="3">
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
@@ -155,7 +157,7 @@ Represent. Legal: Reitor Henry de Holanda Campos
 				<text><![CDATA[Dados do Professor Orientador]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="1" y="109" width="277" height="47"/>
+				<reportElement x="1" y="109" width="277" height="47"  />
 				<textElement>
 					<font fontName="DejaVu Sans" size="9"/>
 				</textElement>
@@ -165,7 +167,7 @@ Represent. Legal: Reitor Henry de Holanda Campos
 ]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="277" y="108" width="277" height="47"/>
+				<reportElement x="277" y="108" width="277" height="47"  />
 				<textElement>
 					<font fontName="DejaVu Sans" size="9"/>
 				</textElement>
@@ -174,63 +176,63 @@ Represent. Legal: Reitor Henry de Holanda Campos
 "\nSupervisor: " + $P{NOME}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="279" y="190" width="275" height="13"/>
+				<reportElement x="279" y="190" width="275" height="13"  />
 				<textElement>
 					<font fontName="DejaVu Sans" size="9"/>
 				</textElement>
 				<textFieldExpression><![CDATA["Matricula: " + $F{estagiario.matricula}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="280" y="253" width="275" height="13"/>
+				<reportElement x="280" y="253" width="275" height="13"  />
 				<textElement>
 					<font fontName="DejaVu Sans" size="9"/>
 				</textElement>
 				<textFieldExpression><![CDATA["Siape: " + $P{SIAPE}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="1" y="269" width="270" height="13"/>
+				<reportElement x="1" y="269" width="270" height="13"  />
 				<textElement>
 					<font fontName="DejaVu Sans" size="9"/>
 				</textElement>
 				<textFieldExpression><![CDATA["Fone: " + ( $P{TELEFONE} == null ? "" : $P{TELEFONE} )]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="0" y="253" width="271" height="13"/>
+				<reportElement x="0" y="253" width="271" height="13"  />
 				<textElement>
 					<font fontName="DejaVu Sans" size="9"/>
 				</textElement>
 				<textFieldExpression><![CDATA["Nome: " + $P{NOME}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="1" y="206" width="270" height="28"/>
+				<reportElement x="1" y="206" width="270" height="28"  />
 				<textElement verticalAlignment="Top">
 					<font fontName="DejaVu Sans" size="9"/>
 				</textElement>
 				<textFieldExpression><![CDATA["Endereco: "+ $F{estagiario.endereco}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="1" y="176" width="270" height="13"/>
+				<reportElement x="1" y="176" width="270" height="13"  />
 				<textElement verticalAlignment="Middle">
 					<font fontName="DejaVu Sans" size="9"/>
 				</textElement>
 				<textFieldExpression><![CDATA["Nome: " + $F{estagiario.nomeCompleto}.toUpperCase()]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="1" y="191" width="270" height="13"/>
+				<reportElement x="1" y="191" width="270" height="13"  />
 				<textElement verticalAlignment="Middle">
 					<font fontName="DejaVu Sans" size="9"/>
 				</textElement>
 				<textFieldExpression><![CDATA["Nome da Mãe: " + $F{estagiario.nomeMae}.toUpperCase()]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="279" y="176" width="163" height="13"/>
+				<reportElement x="279" y="176" width="163" height="13"  />
 				<textElement>
-					<font fontName="DejaVu Sans"/>
+					<font fontName="DejaVu Sans" size="9"/>
 				</textElement>
 				<textFieldExpression><![CDATA["CPF: " + $F{estagiario.pessoa.cpf}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="0" y="286" width="554" height="121"/>
+				<reportElement x="0" y="286" width="554" height="121"  />
 				<textElement textAlignment="Justified">
 					<font fontName="DejaVu Sans" size="9"/>
 				</textElement>
@@ -239,7 +241,7 @@ CLÁUSULA PRIMEIRA: Através deste Termo, a UNIDADE CONCEDENTE se compromete a c
 CLÁUSULA SEGUNDA: O estágio tem como objetivo proporcionar ao estudante integração entre teoria e prática, a partir de situações reais e adequadas de trabalho, visando ao seu aprimoramento profissional e pessoal, e obedecerá ao seguinte Plano de Atividades, devendo tais atividades ser compatíveis com o currículo e com os horários escolares do ESTAGIÁRIO, conforme estabelecem o art. 7o, parágrafo único, o art. 3o, III, e o art. 10 da Lei nº 11.788 de 25/09/2008:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="1" y="408" width="554" height="30"/>
+				<reportElement x="1" y="408" width="554" height="22"  />
 				<box leftPadding="3">
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
@@ -252,9 +254,9 @@ CLÁUSULA SEGUNDA: O estágio tem como objetivo proporcionar ao estudante integr
 				<text><![CDATA[Atividades Previstas: Análise, implementação e testes de sistemas Web]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="1" y="673" width="554" height="59"/>
+				<reportElement x="1" y="673" width="554" height="59"  />
 				<textElement textAlignment="Justified">
-					<font fontName="DejaVu Sans"/>
+					<font fontName="DejaVu Sans" size="9"/>
 				</textElement>
 				<text><![CDATA[f) O estágio somente poderá ter início após a assinatura deste Termo pelas partes envolvidas, conforme estabelece o Art. 9º, inciso I da Lei nº 11.788 de 25/09/2008, e o Art. 7º, “g”, da Resolução no 23/CEPE de 30/10/2009.
 CLÁUSULA QUARTA: Compete ao ESTAGIÁRIO:
@@ -262,15 +264,15 @@ a) Cumprir as normas internas da UNIDADE CONCEDENTE, especialmente as de orienta
 ]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="572" width="555" height="49"/>
+				<reportElement x="0" y="572" width="555" height="49"  />
 				<textElement textAlignment="Justified">
-					<font fontName="DejaVu Sans"/>
+					<font fontName="DejaVu Sans" size="9"/>
 				</textElement>
 				<text><![CDATA[d) A carga horária do estágio será reduzida pelo menos à metade nos períodos de avaliação do ESTAGIÁRIO, para garantir o bom desempenho do estudante, nos termos do Art. 10, §2o, da Lei n° 11.788 de 25/09/2008;
 e) A UFC oferece seguro contra acidentes pessoais a todos os seus estudantes devidamente matriculados, também contemplando o ESTAGIÁRIO, parte deste Termo, durante a vigência do presente. Seguem as informações do seguro:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="8" y="507" width="77" height="15"/>
+				<reportElement x="8" y="507" width="77" height="15"  />
 				<box>
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="1.0"/>
@@ -278,12 +280,12 @@ e) A UFC oferece seguro contra acidentes pessoais a todos os seus estudantes dev
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans"/>
+					<font fontName="DejaVu Sans" size="9"/>
 				</textElement>
 				<text><![CDATA[Turnos]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="85" y="507" width="77" height="15"/>
+				<reportElement x="85" y="507" width="77" height="15"  />
 				<box>
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="0.5"/>
@@ -291,12 +293,12 @@ e) A UFC oferece seguro contra acidentes pessoais a todos os seus estudantes dev
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans"/>
+					<font fontName="DejaVu Sans" size="9"/>
 				</textElement>
 				<text><![CDATA[Segunda]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="162" y="507" width="77" height="15"/>
+				<reportElement x="162" y="507" width="77" height="15"  />
 				<box>
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="0.5"/>
@@ -304,12 +306,12 @@ e) A UFC oferece seguro contra acidentes pessoais a todos os seus estudantes dev
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans"/>
+					<font fontName="DejaVu Sans" size="9"/>
 				</textElement>
 				<text><![CDATA[Terça]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="239" y="507" width="77" height="15"/>
+				<reportElement x="239" y="507" width="77" height="15"  />
 				<box>
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="0.5"/>
@@ -317,12 +319,12 @@ e) A UFC oferece seguro contra acidentes pessoais a todos os seus estudantes dev
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans"/>
+					<font fontName="DejaVu Sans" size="9"/>
 				</textElement>
 				<text><![CDATA[Quarta]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="470" y="507" width="77" height="15"/>
+				<reportElement x="470" y="507" width="77" height="15"  />
 				<box>
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="0.5"/>
@@ -330,12 +332,12 @@ e) A UFC oferece seguro contra acidentes pessoais a todos os seus estudantes dev
 					<rightPen lineWidth="1.0"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans"/>
+					<font fontName="DejaVu Sans" size="9"/>
 				</textElement>
 				<text><![CDATA[Sábado]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="393" y="507" width="77" height="15"/>
+				<reportElement x="393" y="507" width="77" height="15"  />
 				<box>
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="0.5"/>
@@ -343,12 +345,12 @@ e) A UFC oferece seguro contra acidentes pessoais a todos os seus estudantes dev
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans"/>
+					<font fontName="DejaVu Sans" size="9"/>
 				</textElement>
 				<text><![CDATA[Sexta]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="316" y="507" width="77" height="15"/>
+				<reportElement x="316" y="507" width="77" height="15"  />
 				<box>
 					<topPen lineWidth="1.0"/>
 					<leftPen lineWidth="0.5"/>
@@ -356,12 +358,12 @@ e) A UFC oferece seguro contra acidentes pessoais a todos os seus estudantes dev
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans"/>
+					<font fontName="DejaVu Sans" size="9"/>
 				</textElement>
 				<text><![CDATA[Quinta]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="8" y="522" width="77" height="15"/>
+				<reportElement x="8" y="522" width="77" height="15"  />
 				<box>
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="1.0"/>
@@ -369,12 +371,12 @@ e) A UFC oferece seguro contra acidentes pessoais a todos os seus estudantes dev
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans"/>
+					<font fontName="DejaVu Sans" size="9"/>
 				</textElement>
 				<text><![CDATA[Manhã]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="8" y="552" width="77" height="15"/>
+				<reportElement x="8" y="552" width="77" height="15"  />
 				<box>
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="1.0"/>
@@ -382,12 +384,12 @@ e) A UFC oferece seguro contra acidentes pessoais a todos os seus estudantes dev
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans"/>
+					<font fontName="DejaVu Sans" size="9"/>
 				</textElement>
 				<text><![CDATA[Noite]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="8" y="537" width="77" height="15"/>
+				<reportElement x="8" y="537" width="77" height="15"  />
 				<box>
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="1.0"/>
@@ -395,12 +397,12 @@ e) A UFC oferece seguro contra acidentes pessoais a todos os seus estudantes dev
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans"/>
+					<font fontName="DejaVu Sans" size="9"/>
 				</textElement>
 				<text><![CDATA[Tarde]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="470" y="552" width="77" height="15"/>
+				<reportElement x="470" y="552" width="77" height="15"  />
 				<box>
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.5"/>
@@ -408,12 +410,12 @@ e) A UFC oferece seguro contra acidentes pessoais a todos os seus estudantes dev
 					<rightPen lineWidth="1.0"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans"/>
+					<font fontName="DejaVu Sans" size="9"/>
 				</textElement>
-				<text><![CDATA[-]]></text>
+				<text><![CDATA[]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="470" y="522" width="77" height="15"/>
+				<reportElement x="470" y="522" width="77" height="15"  />
 				<box>
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.5"/>
@@ -421,12 +423,12 @@ e) A UFC oferece seguro contra acidentes pessoais a todos os seus estudantes dev
 					<rightPen lineWidth="1.0"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans"/>
+					<font fontName="DejaVu Sans" size="9"/>
 				</textElement>
-				<text><![CDATA[-]]></text>
+				<text><![CDATA[]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="470" y="537" width="77" height="15"/>
+				<reportElement x="470" y="537" width="77" height="15"  />
 				<box>
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.5"/>
@@ -434,12 +436,12 @@ e) A UFC oferece seguro contra acidentes pessoais a todos os seus estudantes dev
 					<rightPen lineWidth="1.0"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans"/>
+					<font fontName="DejaVu Sans" size="9"/>
 				</textElement>
-				<text><![CDATA[-]]></text>
+				<text><![CDATA[]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="85" y="552" width="77" height="15"/>
+				<reportElement x="85" y="552" width="77" height="15"  />
 				<box>
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.5"/>
@@ -447,64 +449,12 @@ e) A UFC oferece seguro contra acidentes pessoais a todos os seus estudantes dev
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans"/>
+					<font fontName="DejaVu Sans" size="9"/>
 				</textElement>
-				<text><![CDATA[-]]></text>
+				<text><![CDATA[]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="316" y="522" width="77" height="15"/>
-				<box>
-					<topPen lineWidth="0.5"/>
-					<leftPen lineWidth="0.5"/>
-					<bottomPen lineWidth="0.5"/>
-					<rightPen lineWidth="0.5"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans"/>
-				</textElement>
-				<text><![CDATA[-]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="393" y="522" width="77" height="15"/>
-				<box>
-					<topPen lineWidth="0.5"/>
-					<leftPen lineWidth="0.5"/>
-					<bottomPen lineWidth="0.5"/>
-					<rightPen lineWidth="0.5"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans"/>
-				</textElement>
-				<text><![CDATA[-]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="393" y="537" width="77" height="15"/>
-				<box>
-					<topPen lineWidth="0.5"/>
-					<leftPen lineWidth="0.5"/>
-					<bottomPen lineWidth="0.5"/>
-					<rightPen lineWidth="0.5"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans"/>
-				</textElement>
-				<text><![CDATA[-]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="316" y="537" width="77" height="15"/>
-				<box>
-					<topPen lineWidth="0.5"/>
-					<leftPen lineWidth="0.5"/>
-					<bottomPen lineWidth="0.5"/>
-					<rightPen lineWidth="0.5"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans"/>
-				</textElement>
-				<text><![CDATA[-]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="162" y="552" width="77" height="15"/>
+				<reportElement x="162" y="552" width="77" height="15"  />
 				<box>
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.5"/>
@@ -512,12 +462,12 @@ e) A UFC oferece seguro contra acidentes pessoais a todos os seus estudantes dev
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans"/>
+					<font fontName="DejaVu Sans" size="9"/>
 				</textElement>
-				<text><![CDATA[-]]></text>
+				<text><![CDATA[]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="239" y="552" width="77" height="15"/>
+				<reportElement x="239" y="552" width="77" height="15"  />
 				<box>
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.5"/>
@@ -525,12 +475,12 @@ e) A UFC oferece seguro contra acidentes pessoais a todos os seus estudantes dev
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans"/>
+					<font fontName="DejaVu Sans" size="9"/>
 				</textElement>
-				<text><![CDATA[-]]></text>
+				<text><![CDATA[]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="316" y="552" width="77" height="15"/>
+				<reportElement x="316" y="552" width="77" height="15"  />
 				<box>
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.5"/>
@@ -538,12 +488,12 @@ e) A UFC oferece seguro contra acidentes pessoais a todos os seus estudantes dev
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans"/>
+					<font fontName="DejaVu Sans" size="9"/>
 				</textElement>
-				<text><![CDATA[-]]></text>
+				<text><![CDATA[]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="393" y="552" width="77" height="15"/>
+				<reportElement x="393" y="552" width="77" height="15"  />
 				<box>
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.5"/>
@@ -551,12 +501,12 @@ e) A UFC oferece seguro contra acidentes pessoais a todos os seus estudantes dev
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="DejaVu Sans"/>
+					<font fontName="DejaVu Sans" size="9"/>
 				</textElement>
-				<text><![CDATA[-]]></text>
+				<text><![CDATA[]]></text>
 			</staticText>
-			<textField>
-				<reportElement x="85" y="522" width="77" height="15"/>
+			<textField isBlankWhenNull="true">
+				<reportElement x="85" y="522" width="77" height="15"  />
 				<box>
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.5"/>
@@ -564,12 +514,12 @@ e) A UFC oferece seguro contra acidentes pessoais a todos os seus estudantes dev
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Top">
-					<font fontName="DejaVu Sans"/>
+					<font fontName="DejaVu Sans" size="9"/>
 				</textElement>
-				<textFieldExpression><![CDATA[( $P{TURNO} == "MANHA" ? $P{EXPEDIENTE_SEGUNDA} : "-" )]]></textFieldExpression>
+				<textFieldExpression><![CDATA[( $P{TURNO} == "MANHA" ? $P{EXPEDIENTE_SEGUNDA} : "" )]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement x="162" y="522" width="77" height="15"/>
+			<textField isBlankWhenNull="true">
+				<reportElement x="162" y="522" width="77" height="15"  />
 				<box>
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.5"/>
@@ -577,12 +527,12 @@ e) A UFC oferece seguro contra acidentes pessoais a todos os seus estudantes dev
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Top">
-					<font fontName="DejaVu Sans"/>
+					<font fontName="DejaVu Sans" size="9"/>
 				</textElement>
-				<textFieldExpression><![CDATA[( $P{TURNO} == "MANHA" ? $P{EXPEDIENTE_TERCA} : "-" )]]></textFieldExpression>
+				<textFieldExpression><![CDATA[( $P{TURNO} == "MANHA" ? $P{EXPEDIENTE_TERCA} : "" )]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement x="239" y="522" width="77" height="15"/>
+			<textField isBlankWhenNull="true">
+				<reportElement x="239" y="522" width="77" height="15"  />
 				<box>
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.5"/>
@@ -590,12 +540,12 @@ e) A UFC oferece seguro contra acidentes pessoais a todos os seus estudantes dev
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Top">
-					<font fontName="DejaVu Sans"/>
+					<font fontName="DejaVu Sans" size="9"/>
 				</textElement>
-				<textFieldExpression><![CDATA[( $P{TURNO} == "MANHA" ? $P{EXPEDIENTE_QUARTA} : "-" )]]></textFieldExpression>
+				<textFieldExpression><![CDATA[( $P{TURNO} == "MANHA" ? $P{EXPEDIENTE_QUARTA} : "" )]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement x="239" y="537" width="77" height="15"/>
+			<textField isBlankWhenNull="true">
+				<reportElement x="239" y="537" width="77" height="15"  />
 				<box>
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.5"/>
@@ -603,12 +553,12 @@ e) A UFC oferece seguro contra acidentes pessoais a todos os seus estudantes dev
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Top">
-					<font fontName="DejaVu Sans"/>
+					<font fontName="DejaVu Sans" size="9"/>
 				</textElement>
-				<textFieldExpression><![CDATA[( $P{TURNO} == "TARDE" ? $P{EXPEDIENTE_QUARTA} : "-" )]]></textFieldExpression>
+				<textFieldExpression><![CDATA[( $P{TURNO} == "TARDE" ? $P{EXPEDIENTE_QUARTA} : "" )]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement x="85" y="537" width="77" height="15"/>
+			<textField isBlankWhenNull="true">
+				<reportElement x="85" y="537" width="77" height="15"  />
 				<box>
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.5"/>
@@ -616,12 +566,12 @@ e) A UFC oferece seguro contra acidentes pessoais a todos os seus estudantes dev
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Top">
-					<font fontName="DejaVu Sans"/>
+					<font fontName="DejaVu Sans" size="9"/>
 				</textElement>
-				<textFieldExpression><![CDATA[( $P{TURNO} == "TARDE" ? $P{EXPEDIENTE_SEGUNDA} : "-" )]]></textFieldExpression>
+				<textFieldExpression><![CDATA[( $P{TURNO} == "TARDE" ? $P{EXPEDIENTE_SEGUNDA} : "" )]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement x="162" y="537" width="77" height="15"/>
+			<textField isBlankWhenNull="true">
+				<reportElement x="162" y="537" width="77" height="15"  />
 				<box>
 					<topPen lineWidth="0.5"/>
 					<leftPen lineWidth="0.5"/>
@@ -629,14 +579,14 @@ e) A UFC oferece seguro contra acidentes pessoais a todos os seus estudantes dev
 					<rightPen lineWidth="0.5"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Top">
-					<font fontName="DejaVu Sans"/>
+					<font fontName="DejaVu Sans" size="9"/>
 				</textElement>
-				<textFieldExpression><![CDATA[( $P{TURNO} == "TARDE" ? $P{EXPEDIENTE_TERCA} : "-" )]]></textFieldExpression>
+				<textFieldExpression><![CDATA[( $P{TURNO} == "TARDE" ? $P{EXPEDIENTE_TERCA} : "" )]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="0" y="444" width="555" height="59"/>
+				<reportElement x="0" y="435" width="555" height="65"  />
 				<textElement textAlignment="Justified">
-					<font fontName="DejaVu Sans"/>
+					<font fontName="DejaVu Sans" size="9"/>
 				</textElement>
 				<textFieldExpression><![CDATA["CLÁUSULA TERCEIRA: Além das atividades previstas no plano, ficam definidas as seguintes características do estágio:" +
 "\na) O estágio terá início em " + $P{INICIO_ESTAGIO} + " e término em " + $P{FINAL_ESTAGIO} + ", compreendendo 04 (Quatro) meses;" +
@@ -644,39 +594,42 @@ e) A UFC oferece seguro contra acidentes pessoais a todos os seus estudantes dev
 "\nc) O estudante estagiará 10 (Dez) horas semanais, respeitando o art. 10 da Lei nº 11.788 de 25/09/2008, que serão distribuídas da seguinte forma:"]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="278" y="221" width="276" height="13"/>
+				<reportElement x="278" y="221" width="276" height="13"  />
 				<textElement>
 					<font fontName="DejaVu Sans" size="9"/>
 				</textElement>
 				<textFieldExpression><![CDATA["Cidade/UF: " + $F{estagiario.cidade} + "/" + $F{estagiario.uf.descricao}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="442" y="206" width="112" height="13"/>
+				<reportElement x="442" y="206" width="112" height="13"  />
 				<textElement>
 					<font fontName="DejaVu Sans" size="9"/>
 				</textElement>
 				<textFieldExpression><![CDATA["Semestre: " + $F{estagiario.semestre}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="442" y="176" width="112" height="13"/>
+				<reportElement x="442" y="176" width="112" height="13"  />
 				<textElement>
-					<font fontName="DejaVu Sans"/>
+					<font fontName="DejaVu Sans" size="9"/>
 				</textElement>
 				<textFieldExpression><![CDATA["Fone: " + $F{estagiario.telefone}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="532" y="732" width="23" height="20"/>
+				<reportElement x="532" y="732" width="23" height="20"  />
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="DejaVu Sans"/>
 				</textElement>
 				<text><![CDATA[1]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="280" y="206" width="162" height="13"/>
+				<reportElement x="280" y="206" width="162" height="13"  />
+				<textElement>
+					<font size="9"/>
+				</textElement>
 				<textFieldExpression><![CDATA["Curso: " + $F{estagiario.curso.descricao}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="279" y="269" width="275" height="13"/>
+				<reportElement x="279" y="269" width="275" height="13"  />
 				<textElement>
 					<font fontName="DejaVu Sans" size="9"/>
 				</textElement>
@@ -696,7 +649,7 @@ e) A UFC oferece seguro contra acidentes pessoais a todos os seus estudantes dev
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement>
-					<font fontName="DejaVu Sans"/>
+					<font fontName="DejaVu Sans" size="9"/>
 				</textElement>
 				<textFieldExpression><![CDATA["Empresa Seguradora: "  + $P{NOME_SEGURADORA}]]></textFieldExpression>
 			</textField>
@@ -712,6 +665,9 @@ e) A UFC oferece seguro contra acidentes pessoais a todos os seus estudantes dev
 					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
+				<textElement>
+					<font size="9"/>
+				</textElement>
 				<textFieldExpression><![CDATA["Vigência: de " + $P{INICIO_VIGENCIA} + " até " + $P{FINAL_VIGENCIA}]]></textFieldExpression>
 			</textField>
 			<textField>
@@ -726,6 +682,9 @@ e) A UFC oferece seguro contra acidentes pessoais a todos os seus estudantes dev
 					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
+				<textElement>
+					<font size="9"/>
+				</textElement>
 				<textFieldExpression><![CDATA["Invalidez Permanente:  R$ " + $P{INVALIDEZ_PERMANENTE}]]></textFieldExpression>
 			</textField>
 			<textField>
@@ -739,6 +698,9 @@ e) A UFC oferece seguro contra acidentes pessoais a todos os seus estudantes dev
 					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
+				<textElement>
+					<font size="9"/>
+				</textElement>
 				<textFieldExpression><![CDATA["Morte Acidental: R$ " + $P{MORTE_ACIDENTAL}]]></textFieldExpression>
 			</textField>
 			<textField>
@@ -749,14 +711,69 @@ e) A UFC oferece seguro contra acidentes pessoais a todos os seus estudantes dev
 				<box topPadding="1" leftPadding="0" bottomPadding="1" rightPadding="1">
 					<pen lineWidth="1.0"/>
 				</box>
+				<textElement>
+					<font size="9"/>
+				</textElement>
 				<textFieldExpression><![CDATA["Apólice: " + $P{APOLICE}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="316" y="522" width="77" height="15"  />
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="DejaVu Sans" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[( $P{TURNO} == "MANHA" ? $P{EXPEDIENTE_QUINTA} : "" )]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="316" y="537" width="77" height="15"  />
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="DejaVu Sans" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[( $P{TURNO} == "TARDE" ? $P{EXPEDIENTE_QUINTA} : "" )]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="393" y="537" width="77" height="15"  />
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="DejaVu Sans" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[( $P{TURNO} == "TARDE" ? $P{EXPEDIENTE_QUINTA} : "" )]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="393" y="522" width="77" height="15"  />
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font fontName="DejaVu Sans" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[( $P{TURNO} == "MANHA" ? $P{EXPEDIENTE_SEXTA} : "" )]]></textFieldExpression>
 			</textField>
 		</band>
 		<band height="752">
 			<staticText>
-				<reportElement x="1" y="7" width="554" height="291"/>
+				<reportElement x="1" y="7" width="554" height="291"  />
 				<textElement textAlignment="Justified">
-					<font fontName="DejaVu Sans"/>
+					<font fontName="DejaVu Sans" size="9"/>
 				</textElement>
 				<text><![CDATA[constante neste Termo, devendo apresentar à UFC, em prazo não superior a 6 (seis) meses, o relatório das atividades desenvolvidas
 b) Seguir a orientação articulada entre os Supervisores de Estágio designados pela UNIDADE CONCEDENTE e pela UFC;
@@ -773,14 +790,14 @@ CLÁUSULA OITAVA: Qualquer alteração do estabelecido neste Termo será feita m
 E, por estarem devidamente cientes das condições aqui estipuladas, bem como das disposições legais vigentes sobre o assunto, firmam a UNIDADE CONCEDENTE e o ESTAGIÁRIO, com interveniência da UFC, o presente TERMO, em 03 (três) vias de igual teor e forma, para que este produza seus devidos efeitos legais.]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="392" width="293" height="20"/>
+				<reportElement x="0" y="392" width="293" height="20"  />
 				<textElement>
-					<font fontName="DejaVu Sans"/>
+					<font fontName="DejaVu Sans" size="9"/>
 				</textElement>
 				<text><![CDATA[Quixadá - CE, ____ de ____________ de ______.]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="101" y="464" width="355" height="56"/>
+				<reportElement x="101" y="464" width="355" height="56"  />
 				<box>
 					<topPen lineWidth="1.0"/>
 				</box>
@@ -790,7 +807,7 @@ E, por estarem devidamente cientes das condições aqui estipuladas, bem como da
 				<text><![CDATA[Estagiário]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="101" y="577" width="355" height="20"/>
+				<reportElement x="101" y="577" width="355" height="20"  />
 				<box>
 					<topPen lineWidth="1.0"/>
 				</box>
@@ -800,7 +817,7 @@ E, por estarem devidamente cientes das condições aqui estipuladas, bem como da
 				<text><![CDATA[Agência de Estágios UFC]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="101" y="520" width="355" height="56"/>
+				<reportElement x="101" y="520" width="355" height="56"  />
 				<box>
 					<topPen lineWidth="1.0"/>
 				</box>
@@ -810,7 +827,7 @@ E, por estarem devidamente cientes das condições aqui estipuladas, bem como da
 				<text><![CDATA[Unidade Concedente / Professor Orientador UFC]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="310" width="554" height="30"/>
+				<reportElement x="0" y="310" width="554" height="30"  />
 				<box leftPadding="0">
 					<topPen lineWidth="0.0"/>
 					<leftPen lineWidth="0.0"/>
@@ -818,13 +835,13 @@ E, por estarem devidamente cientes das condições aqui estipuladas, bem como da
 					<rightPen lineWidth="0.0"/>
 				</box>
 				<textElement verticalAlignment="Top">
-					<font fontName="DejaVu Sans"/>
+					<font fontName="DejaVu Sans" size="9"/>
 				</textElement>
 				<text><![CDATA[DECLARO, serem exatas e verdadeiras as informações aqui prestadas, sob pena de responsabilidade administrativa, cível e penal.
 ]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="532" y="732" width="23" height="20"/>
+				<reportElement x="532" y="732" width="23" height="20"  />
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="DejaVu Sans"/>
 				</textElement>

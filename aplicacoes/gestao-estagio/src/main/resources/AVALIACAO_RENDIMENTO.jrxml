@@ -1,12 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 6.3.1  -->
-<!-- 2017-03-29T09:50:17 -->
+<!-- 2017-04-03T11:56:36 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="AVALIACAO_RENDIMENTO" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="e629869c-2479-40bf-b652-12a9c62c4c05">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
 	<parameter name="NOME_SUPERVISOR" class="java.lang.String"/>
-	<parameter name="FALTA_CONSTANTEMENTE" class="java.lang.String">
-		<parameterDescription><![CDATA[]]></parameterDescription>
-	</parameter>
+	<parameter name="FREQUENCIA_OTIMA" class="java.lang.String"/>
+	<parameter name="FREQUENCIA_BOA" class="java.lang.String"/>
+	<parameter name="FREQUENCIA_IRREGULAR" class="java.lang.String"/>
+	<parameter name="FREQUENCIA_PESSIMA" class="java.lang.String"/>
+	<parameter name="PERMANENCIA_OTIMA" class="java.lang.String"/>
+	<parameter name="PERMANENCIA_BOA" class="java.lang.String"/>
+	<parameter name="PERMANENCIA_IRREGULAR" class="java.lang.String"/>
+	<parameter name="PERMANENCIA_PESSIMA" class="java.lang.String"/>
+	<parameter name="DISCIPLINA_OTIMA" class="java.lang.String"/>
+	<parameter name="DISCIPLINA_REGULAR" class="java.lang.String"/>
+	<parameter name="DISCIPLINA_IRREGULAR" class="java.lang.String"/>
+	<parameter name="DISCIPLINA_PESSIMA" class="java.lang.String"/>
+	<parameter name="QUANTIDADE_OTIMA" class="java.lang.String"/>
+	<parameter name="QUANTIDADE_REGULAR" class="java.lang.String"/>
+	<parameter name="QUANTIDADE_IRREGULAR" class="java.lang.String"/>
+	<parameter name="QUANTIDADE_PESSIMA" class="java.lang.String"/>
+	<parameter name="QUALIDADE_OTIMA" class="java.lang.String"/>
+	<parameter name="QUALIDADE_REGULAR" class="java.lang.String"/>
+	<parameter name="QUALIDADE_IRREGULAR" class="java.lang.String"/>
+	<parameter name="QUALIDADE_PESSIMA" class="java.lang.String"/>
+	<parameter name="PRAZOS_OTIMA" class="java.lang.String"/>
+	<parameter name="PRAZOS_BOA" class="java.lang.String"/>
+	<parameter name="PRAZOS_RUIM" class="java.lang.String"/>
+	<parameter name="PRAZOS_PESSIMA" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[]]>
 	</queryString>
@@ -125,11 +146,8 @@ NÚCLEO DE PRÁTICAS EM INFORMÁTICA]]></text>
 			<textField>
 				<reportElement x="28" y="137" width="512" height="72" uuid="2f3f6a6c-e59c-43f5-a09d-25c2357c3825"/>
 			</textField>
-			<break>
-				<reportElement x="0" y="495" width="99" height="1" uuid="de06df3b-6d3e-4de8-aa5d-6ee106d69286"/>
-			</break>
 		</band>
-		<band height="329">
+		<band height="516">
 			<textField>
 				<reportElement x="40" y="20" width="260" height="20" uuid="582a2030-905b-4ca8-8d68-7cce4ff2c208"/>
 				<textFieldExpression><![CDATA["FATOR 1: ASSIDUIDADE E DISCIPLINA"]]></textFieldExpression>
@@ -141,7 +159,7 @@ NÚCLEO DE PRÁTICAS EM INFORMÁTICA]]></text>
 			</line>
 			<textField>
 				<reportElement x="22" y="60" width="260" height="20" uuid="74ac5841-626b-4296-a3b2-0f59963ff78d"/>
-				<textFieldExpression><![CDATA["1.1 Frequência"]]></textFieldExpression>
+				<textFieldExpression><![CDATA["1.1 Frequência:"]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="42" y="83" width="370" height="16" uuid="f1677b6e-225d-4a3c-8689-cba7d19060db"/>
@@ -149,121 +167,403 @@ NÚCLEO DE PRÁTICAS EM INFORMÁTICA]]></text>
 			</textField>
 			<textField>
 				<reportElement x="42" y="99" width="370" height="16" uuid="d6544249-d1f2-4167-93f9-1f9431bab0e7"/>
-				<textFieldExpression><![CDATA["( "+ "" +")"+ "Falta algumas vezes ao estagio"]]></textFieldExpression>
+				<textFieldExpression><![CDATA["( "+ "" +")"+ " Falta algumas vezes ao estagio"]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="42" y="114" width="370" height="16" uuid="10651ced-26eb-48aa-95d6-481171fb876d"/>
-				<textFieldExpression><![CDATA["( "+ "" +")"+ "Raramente falta ao estagio"]]></textFieldExpression>
+				<textFieldExpression><![CDATA["( "+ "" +")"+ " Raramente falta ao estagio"]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="42" y="131" width="370" height="16" uuid="c4c398a6-c2d5-477d-96aa-50dc2b814b6e"/>
-				<textFieldExpression><![CDATA["( "+ "" +")"+ "Não falta ao estagio"]]></textFieldExpression>
+				<textFieldExpression><![CDATA["( "+ "" +")"+ " Não falta ao estagio"]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="28" y="150" width="260" height="20" uuid="eb2e2564-d310-43d8-ad4a-f4fded9ea3a6"/>
-				<textFieldExpression><![CDATA["1.2 Permanência"]]></textFieldExpression>
+				<reportElement x="23" y="150" width="260" height="20" uuid="eb2e2564-d310-43d8-ad4a-f4fded9ea3a6"/>
+				<textFieldExpression><![CDATA["1.2 Permanência:"]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="45" y="170" width="370" height="16" uuid="47ebe87a-bcdf-4c99-8b90-d39d531ecee8"/>
-				<textFieldExpression><![CDATA["( "+ "" +")"+ "Não permanece no local do estagio"]]></textFieldExpression>
+				<textFieldExpression><![CDATA["( "+ "" +")"+ " Não permanece no local do estagio"]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="45" y="186" width="370" height="16" uuid="4cee4bc2-d95e-4f71-94a6-1e08bb36ff06"/>
-				<textFieldExpression><![CDATA["( "+ "" +")"+ "Com frequência ausenta-se do local do estagio"]]></textFieldExpression>
+				<textFieldExpression><![CDATA["( "+ "" +")"+ " Com frequência ausenta-se do local do estagio"]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="45" y="203" width="370" height="16" uuid="ab419131-56c3-417c-b491-cf4ec9b8cad4"/>
-				<textFieldExpression><![CDATA["( "+ "" +")"+ "Raramente ausenta-se do local do estagio"]]></textFieldExpression>
+				<textFieldExpression><![CDATA["( "+ "" +")"+ " Raramente ausenta-se do local do estagio"]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="45" y="220" width="370" height="16" uuid="e06a3ba6-374c-42ec-b558-26ceafc385bc"/>
-				<textFieldExpression><![CDATA["( "+ "" +")"+ "Permanece no local do estagio"]]></textFieldExpression>
+				<textFieldExpression><![CDATA["( "+ "" +")"+ " Permanece no local do estagio"]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="22" y="249" width="260" height="20" uuid="a135cd94-c19f-4610-8495-f94673262f01"/>
-				<textFieldExpression><![CDATA["1.2 Permanência"]]></textFieldExpression>
+				<reportElement x="22" y="243" width="328" height="20" uuid="a135cd94-c19f-4610-8495-f94673262f01"/>
+				<textFieldExpression><![CDATA["1.3 Disciplina quanto ao cumprimento das normas:"]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="42" y="263" width="370" height="16" uuid="a94a355e-c070-47e7-a1a1-2e6c05cfb485"/>
-				<textFieldExpression><![CDATA["( "+ "" +")"+ "Não permanece no local do estagio"]]></textFieldExpression>
+				<reportElement x="42" y="263" width="369" height="27" uuid="a94a355e-c070-47e7-a1a1-2e6c05cfb485"/>
+				<textFieldExpression><![CDATA["( "+ "" +")"+ " Não cumpre as normas estabelecidas pelo estágio, o que vem prejudicando seu trabalho no estágio"]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="42" y="279" width="370" height="16" uuid="01a6b24e-66a7-460b-994c-f97618470ce9"/>
-				<textFieldExpression><![CDATA["( "+ "" +")"+ "Com frequência ausenta-se do local do estagio"]]></textFieldExpression>
+				<reportElement x="41" y="290" width="370" height="31" uuid="01a6b24e-66a7-460b-994c-f97618470ce9"/>
+				<textFieldExpression><![CDATA["( "+ "" +")"+ " Com frequência precisa ser cobrado quanto ao não cumprimento das normas estabelecidas pelo estágio"]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="42" y="296" width="370" height="16" uuid="5838b60b-5659-46e1-a320-9e4db44bb7ee"/>
-				<textFieldExpression><![CDATA["( "+ "" +")"+ "Raramente ausenta-se do local do estagio"]]></textFieldExpression>
+				<reportElement x="41" y="321" width="370" height="30" uuid="5838b60b-5659-46e1-a320-9e4db44bb7ee"/>
+				<textFieldExpression><![CDATA["( "+ "" +")"+ " Ocasionalmente não segue as normas estabelecidas pelo estágio, embora este fato não chegue a comprometer os trabalhos desenvolvidos na disciplina"]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="42" y="313" width="370" height="16" uuid="5a9b40b3-6b74-45f6-95ef-a5240420ae68"/>
-				<textFieldExpression><![CDATA["( "+ "" +")"+ "Permanece no local do estagio"]]></textFieldExpression>
+				<reportElement x="41" y="351" width="370" height="16" uuid="5a9b40b3-6b74-45f6-95ef-a5240420ae68"/>
+				<textFieldExpression><![CDATA["( "+ "" +")"+ " Procura cumprir as normas estabelecidas pela instituição"]]></textFieldExpression>
 			</textField>
-		</band>
-		<band height="801">
 			<rectangle>
-				<reportElement x="7" y="31" width="545" height="120" uuid="6bb7c31a-3afb-48d7-9d6b-b12fbbf2bbd2"/>
+				<reportElement x="0" y="380" width="545" height="120" uuid="6bb7c31a-3afb-48d7-9d6b-b12fbbf2bbd2"/>
 			</rectangle>
 			<staticText>
-				<reportElement x="17" y="41" width="100" height="14" uuid="8b669779-67f2-4435-a912-3798ab5653d0"/>
-				<text><![CDATA[Objetivo:]]></text>
+				<reportElement x="10" y="390" width="160" height="14" uuid="8b669779-67f2-4435-a912-3798ab5653d0"/>
+				<text><![CDATA[Comentários sobre esse fator:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="17" y="71" width="512" height="72" uuid="cbce4e96-48b2-4fe4-aa7f-6151e386f43e"/>
+				<reportElement x="16" y="410" width="512" height="72" uuid="cbce4e96-48b2-4fe4-aa7f-6151e386f43e"/>
 			</textField>
 			<break>
-				<reportElement x="0" y="162" width="100" height="1" uuid="14cdbb68-fb39-4b23-8d7f-256b0b999f74"/>
+				<reportElement x="0" y="240" width="100" height="1" uuid="f379acb9-f127-4d07-bbef-4c31c83764c8"/>
 			</break>
-			<line>
-				<reportElement x="10" y="568" width="543" height="1" uuid="d2d4a865-b90c-4bf4-a3e6-5c959376732b">
-					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
-				</reportElement>
-			</line>
+			<break>
+				<reportElement x="0" y="507" width="100" height="1" uuid="a895b6a1-1fec-4884-bb70-3dd97fc8a837"/>
+			</break>
+		</band>
+		<band height="801">
 			<textField>
-				<reportElement x="40" y="586" width="260" height="20" uuid="d7555182-e100-4b46-a64b-d95779088a80"/>
-				<textFieldExpression><![CDATA["FATOR 1: ASSIDUIDADE E DISCIPLINA"]]></textFieldExpression>
+				<reportElement x="45" y="25" width="260" height="20" uuid="db7b75ca-a87b-4b3e-a1f1-a6fa070c728e"/>
+				<textFieldExpression><![CDATA["FATOR 2: INICIATIVA E PRODUTIVIDADE"]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="47" y="676" width="370" height="16" uuid="4fbc82ce-a486-482b-8cb2-e92debc1e2ab"/>
-				<textFieldExpression><![CDATA["( "+ "" +")"+ "Não falta ao estagio"]]></textFieldExpression>
+				<reportElement x="27" y="65" width="260" height="20" uuid="16c3648a-1989-4724-9d57-d34484e4b58c"/>
+				<textFieldExpression><![CDATA["2.1 Iniciativa:"]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="33" y="695" width="260" height="20" uuid="4396345c-4dc2-4fe5-a73b-19b338c39bf4"/>
-				<textFieldExpression><![CDATA["1.2 Permanência"]]></textFieldExpression>
+				<reportElement x="46" y="88" width="482" height="22" uuid="3a6b14f5-7173-40c2-bc3b-9238a66abd37"/>
+				<textFieldExpression><![CDATA["("+ $P{FALTA_CONSTANTEMENTE}  +") " + "Não apresenta qualquer iniciativa quanto à resolução dos problemas que encontra."]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="50" y="715" width="370" height="16" uuid="dabde396-faba-48ac-b24d-08505f1dda0a"/>
-				<textFieldExpression><![CDATA["( "+ "" +")"+ "Não permanece no local do estagio"]]></textFieldExpression>
+				<reportElement x="46" y="111" width="482" height="28" uuid="63f96af2-247c-4d35-af8a-744c7b9a9287"/>
+				<textFieldExpression><![CDATA["( "+ "" +")"+ " Eventualmente busca resolver os problemas por si mesmo. Falta-lhe maior iniciativa."]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="50" y="731" width="370" height="16" uuid="67847a56-1c88-4ea8-820e-c6f813d31360"/>
-				<textFieldExpression><![CDATA["( "+ "" +")"+ "Com frequência ausenta-se do local do estagio"]]></textFieldExpression>
+				<reportElement x="46" y="140" width="482" height="33" uuid="40e8051c-385b-498f-8dcb-afc26e79356d"/>
+				<textFieldExpression><![CDATA["( "+ "" +")"+ " Busca soluções para os problemas que encontra e toma medidas adequadas, de modo a atender às necessidades do campo de estágio."]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="50" y="748" width="370" height="16" uuid="98e419f4-eb3a-4d4d-b982-a909cfc66875"/>
-				<textFieldExpression><![CDATA["( "+ "" +")"+ "Raramente ausenta-se do local do estagio"]]></textFieldExpression>
+				<reportElement x="46" y="174" width="482" height="24" uuid="b9049d88-097c-426f-8d61-92b2d3841af6"/>
+				<textFieldExpression><![CDATA["( "+ "" +")"+ " Frequentemente busca soluções por sua própria iniciativa. É capaz de avaliar bem as situações e tomar providências corretas, superando as expectativas e necessidades do campo de estágio."]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="50" y="765" width="370" height="16" uuid="1bc03177-09a3-4142-bb6b-f32047f1570e"/>
-				<textFieldExpression><![CDATA["( "+ "" +")"+ "Permanece no local do estagio"]]></textFieldExpression>
+				<reportElement x="27" y="230" width="260" height="20" uuid="14b74536-b51a-4732-8da1-c04dc96a2fbe"/>
+				<textFieldExpression><![CDATA["2.2 Quantidade de Trabalho:"]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="31" y="607" width="260" height="20" uuid="6fcc5e9b-987d-4a04-85e2-a44cbcf586ec"/>
-				<textFieldExpression><![CDATA["1.2 Permanência"]]></textFieldExpression>
+				<reportElement x="46" y="253" width="482" height="41" uuid="f87227d0-c187-4c98-afda-2a1ddad2a5c8"/>
+				<textFieldExpression><![CDATA["("+ $P{FALTA_CONSTANTEMENTE}  +") " + "A quantidade de trabalho apresentada é insuficiente e, mesmo quando cobrado, não atende às exigências mínimas do campo de estágio."]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="48" y="643" width="370" height="16" uuid="53bb94c4-d9b0-4877-986f-3e21b51b3878"/>
-				<textFieldExpression><![CDATA["( "+ "" +")"+ "Com frequência ausenta-se do local do estagio"]]></textFieldExpression>
+				<reportElement x="46" y="294" width="482" height="28" uuid="0d4ebbf0-243c-4a48-b9ff-e7150f31d9cd"/>
+				<textFieldExpression><![CDATA["( "+ "" +")"+ " A quantidade de trabalho apresentada é irregular, precisando ser cobrado para atender às exigências do campo de estágio."]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="48" y="660" width="370" height="16" uuid="8684f599-7a67-4b72-b4bb-41934ed29132"/>
-				<textFieldExpression><![CDATA["( "+ "" +")"+ "Raramente ausenta-se do local do estagio"]]></textFieldExpression>
+				<reportElement x="46" y="322" width="482" height="18" uuid="22e36991-8be3-4484-af83-474515567570"/>
+				<textFieldExpression><![CDATA["( "+ "" +")"+ " A quantidade de trabalho apresentada atende às exigências do setor."]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="48" y="627" width="370" height="16" uuid="2a89cc97-d10c-4752-bc00-33d82e6f985e"/>
-				<textFieldExpression><![CDATA["( "+ "" +")"+ "Não permanece no local do estagio"]]></textFieldExpression>
+				<reportElement x="46" y="340" width="482" height="24" uuid="8f797435-7f71-48bf-824f-27cc26c1e449"/>
+				<textFieldExpression><![CDATA["( "+ "" +")"+ " A quantidade de trabalho apresentada supera as expectativas e as exigências do campo de estágio."]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="25" y="390" width="260" height="20" uuid="48c8b4e2-4e55-460c-bf63-431edd6c19a5"/>
+				<textFieldExpression><![CDATA["2.3 Qualidade de Trabalho:"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="44" y="413" width="482" height="41" uuid="3b62d19e-7065-4022-b98e-c67df3a59a4c"/>
+				<textFieldExpression><![CDATA["("+ $P{FALTA_CONSTANTEMENTE}  +") " + "Seu trabalho é de baixa qualidade e, na maioria das vezes, tem que ser refeito. Não apresenta perspectiva de progresso."]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="44" y="454" width="482" height="28" uuid="51d612b0-f030-4809-aec4-2935d4ccf47d"/>
+				<textFieldExpression><![CDATA["( "+ "" +")"+ " Frequentemente seu trabalho precisa ser revisto, pois a qualidade do mesmo não atende às exigências do campo de estágio."]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="44" y="482" width="482" height="28" uuid="6e03dd98-ca86-484d-a836-8ae5ef80b235"/>
+				<textFieldExpression><![CDATA["( "+ "" +")"+ " A qualidade de seu trabalho atende às necessidades de seu campo de trabalho."]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="44" y="510" width="482" height="24" uuid="6465fa57-5559-4700-82a0-965aa105ce6b"/>
+				<textFieldExpression><![CDATA["( "+ "" +")"+ " Seu trabalho se sobressai por ser de ótima qualidade."]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="25" y="550" width="260" height="20" uuid="2ee70eee-6c77-4177-ab94-693db3312cf6"/>
+				<textFieldExpression><![CDATA["2.4 Cumprimento de prazos:"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="44" y="573" width="482" height="27" uuid="e3f93a36-1c5a-4bbd-af03-38050b9fa291"/>
+				<textFieldExpression><![CDATA["("+ $P{FALTA_CONSTANTEMENTE}  +") " + "Não realiza as tarefas dentro do prazo estabelecido."]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="44" y="600" width="482" height="18" uuid="d7ce6b34-b6fc-434c-a0d5-bbfcad24bbb8"/>
+				<textFieldExpression><![CDATA["( "+ "" +")"+ " Com frequência as tarefas não são entregues no prazo estabelecido."]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="44" y="618" width="482" height="28" uuid="e96cbd55-0ba3-43e2-ba1e-7127ea86497d"/>
+				<textFieldExpression><![CDATA["( "+ "" +")"+ " Realiza as tarefas dentro do prazo."]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="44" y="646" width="482" height="24" uuid="cce972fb-3a34-4fd8-ba24-877a0b97f0b7"/>
+				<textFieldExpression><![CDATA["( "+ "" +")"+ " Frequentemente realiza suas tarefas antes do prazo estabelecido."]]></textFieldExpression>
 			</textField>
 		</band>
-		<band height="627"/>
+		<band height="507">
+			<textField>
+				<reportElement x="50" y="30" width="260" height="20" uuid="bb4644e7-ccce-4f84-8bb3-66b03d6dc7b7"/>
+				<textFieldExpression><![CDATA["FATOR 3: RESPONSABILIDADE"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="32" y="70" width="260" height="20" uuid="8dc93f54-92ba-4c7c-8ed8-4421648c6e4d"/>
+				<textFieldExpression><![CDATA["3.1 Comprometimento com o trabalho:"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="51" y="93" width="482" height="41" uuid="713a767e-f5ac-41a2-8b14-f0818b802f0f"/>
+				<textFieldExpression><![CDATA["("+ $P{FALTA_CONSTANTEMENTE}  +") " + "Mostra-se descomprometido com o trabalho que lhe é designado no campo de estágio, realizando suas atividades de forma negligente."]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="51" y="134" width="482" height="16" uuid="f4896e42-a503-4085-8380-31b63c14be49"/>
+				<textFieldExpression><![CDATA["( "+ "" +")"+ " Às vezes mostra-se descomprometido com o trabalho no campo de estágio."]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="51" y="151" width="482" height="33" uuid="57e1b721-a491-47c3-bc9a-015b9d1f1187"/>
+				<textFieldExpression><![CDATA["( "+ "" +")"+ " Mostra-se comprometido e empenhado na realização do trabalho que lhe é designado no campo de estágio."]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="51" y="185" width="482" height="24" uuid="8cdf905a-b93a-467b-83d3-0b6d490bbe23"/>
+				<textFieldExpression><![CDATA["( "+ "" +")"+ " Destaca-se pelo cumprimento e empenho com que realiza o trabalho que lhe é designado no campo de estágio."]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="51" y="253" width="482" height="41" uuid="db394e74-c2b8-4b9f-afe2-52e2e38ac16c"/>
+				<textFieldExpression><![CDATA["("+ $P{FALTA_CONSTANTEMENTE}  +") " + "Descuidado danifica com freqüência os materiais e equipamentos de trabalho. Desperdiça e gera prejuízos."]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="32" y="230" width="260" height="20" uuid="dc41453f-02f9-4356-84ce-23dbe9ee5548"/>
+				<textFieldExpression><![CDATA["3.2 Cuidado com materiais e equipamentos:"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="51" y="294" width="482" height="26" uuid="0877d496-17f4-42ec-be74-36c18a5ccd44"/>
+				<textFieldExpression><![CDATA["( "+ "" +")"+ " Precisa ser mais cuidadoso. Demonstra certa negligência com materiais e equipamentos de trabalho."]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="51" y="321" width="482" height="19" uuid="1d79edbd-98c8-4844-b5de-a608913e8c15"/>
+				<textFieldExpression><![CDATA["( "+ "" +")"+ " Usa adequadamente os materiais e equipamentos de trabalho."]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="51" y="341" width="482" height="24" uuid="e1e19ac9-051e-44a8-acdf-d21092b584f8"/>
+				<textFieldExpression><![CDATA["( "+ "" +")"+ " Preocupa-se e mantém seus materiais e equipamentos de trabalho em perfeito estado."]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement x="0" y="382" width="545" height="120" uuid="4eec987c-b8f4-49ef-9362-265e1f2e5c2f"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="10" y="390" width="160" height="14" uuid="73aa6be7-198c-4f6a-b849-7ce59fc4807d"/>
+				<text><![CDATA[Comentários sobre esse fator:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="20" y="410" width="512" height="72" uuid="8c7dbc2c-91cd-473d-b545-538513105f5c"/>
+			</textField>
+		</band>
+		<band height="655">
+			<textField>
+				<reportElement x="55" y="35" width="260" height="20" uuid="640bb00c-141e-4a2e-9e38-1d26b43f4c39"/>
+				<textFieldExpression><![CDATA["FATOR 4: RELACIONAMENTO"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="37" y="75" width="342" height="20" uuid="315e1bba-6322-418f-9142-e6a2871a52ed"/>
+				<textFieldExpression><![CDATA["4.1 Relacionamento junto a gerência e demais funcionários:"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="56" y="98" width="482" height="41" uuid="f7c49dad-e906-47fa-9398-bf298ef6e215"/>
+				<textFieldExpression><![CDATA["("+ $P{FALTA_CONSTANTEMENTE}  +") " + "Constantemente apresenta dificuldades de relacionamento com gerência ou demais funcionários."]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="56" y="141" width="482" height="36" uuid="a90ae195-1868-437b-af19-6a1d49359ae2"/>
+				<textFieldExpression><![CDATA["( "+ "" +")"+ " Eventualmente apresenta dificuldade de relacionamento com gerência ou demais funcionários."]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="56" y="177" width="482" height="33" uuid="b9aa7d07-6c66-418d-b942-5b3fb75c5682"/>
+				<textFieldExpression><![CDATA["( "+ "" +")"+ " Seu bom relacionamento com gerência e demais funcionários atende às expectativas."]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="56" y="211" width="482" height="24" uuid="3f92becb-625c-412b-83ce-5acbdb2d616e"/>
+				<textFieldExpression><![CDATA["( "+ "" +")"+ " Destaca-se por desenvolver bom relacionamento com todos os membros de gerência e demais funcionários."]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="37" y="250" width="342" height="20" uuid="82b3fcaf-8ba1-4083-a16e-832e1c7b785a"/>
+				<textFieldExpression><![CDATA["4.2 Trabalho em equipe:"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="56" y="273" width="482" height="41" uuid="2adcc842-0863-467e-a40e-afc047d4e3ed"/>
+				<textFieldExpression><![CDATA["("+ $P{FALTA_CONSTANTEMENTE}  +") " + "Seu estilo de trabalho compromete o trabalho em equipe."]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="56" y="316" width="482" height="36" uuid="475e79f6-9e6c-42be-a587-15aeb79b48d1"/>
+				<textFieldExpression><![CDATA["( "+ "" +")"+ " Seu estilo de trabalho pouco interfere na melhoria do desempenho da equipe."]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="56" y="352" width="482" height="33" uuid="37eeaea7-0636-40ae-8ed5-e801bbf23737"/>
+				<textFieldExpression><![CDATA["( "+ "" +")"+ " Agrega qualidades que ocasionam melhorias do desempenho da equipe de forma satisfatória."]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="56" y="386" width="482" height="24" uuid="abb1d04c-2aa9-4195-8574-e7dc5d9642a4"/>
+				<textFieldExpression><![CDATA["( "+ "" +")"+ " Suas contribuições para a equipe superam as expectativas superando as expectativas e necessidades do campo de estágio."]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement x="5" y="387" width="545" height="120" uuid="1af9021d-e538-48cf-a1da-a153de940351"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="15" y="395" width="160" height="14" uuid="f92dd518-a1c5-413f-9fd3-1e63c9209be3"/>
+				<text><![CDATA[Comentários sobre esse fator:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="25" y="415" width="512" height="72" uuid="8aecb4ac-436e-4d0c-9e12-3373f33e9c29"/>
+			</textField>
+			<rectangle>
+				<reportElement x="5" y="530" width="545" height="120" uuid="302f65c9-3161-4b0f-8f78-7922ffa59cdf"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="15" y="538" width="194" height="14" uuid="393faada-2c29-409b-a357-e797f24579d8"/>
+				<text><![CDATA[Comentários finais e sugestões:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="25" y="558" width="512" height="72" uuid="1e31a2bc-2441-491c-82ed-f8c4b0d0b271"/>
+			</textField>
+		</band>
+		<band height="151">
+			<staticText>
+				<reportElement x="-2" y="50" width="38" height="14" uuid="279ec85c-d4d0-46de-ba2a-87cfd1cdfbb8"/>
+				<text><![CDATA[Data:]]></text>
+			</staticText>
+			<line>
+				<reportElement x="27" y="59" width="137" height="1" uuid="7a0e8a4c-998a-45be-a57e-b33d1f6b84e1"/>
+			</line>
+			<staticText>
+				<reportElement x="151" y="90" width="164" height="14" uuid="e57092ce-7db2-4d5e-9db0-7df27c01def6"/>
+				<text><![CDATA[Assinatura do(a) Supervisor(a) :]]></text>
+			</staticText>
+			<line>
+				<reportElement x="122" y="145" width="221" height="1" uuid="8a39dd03-75ac-4341-adbf-df81c6dc91a5"/>
+			</line>
+		</band>
+		<band height="655">
+			<textField>
+				<reportElement x="60" y="40" width="260" height="20" uuid="06335923-36f5-492e-9c55-6c03902cbe86"/>
+				<textFieldExpression><![CDATA["PARECER DO PROFESSOR ORIENTADOR"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="55" y="80" width="425" height="40" uuid="2621a522-9cd9-4f7b-973d-9b4ec005e794"/>
+				<textFieldExpression><![CDATA["Caso o(a) Estagiário(a), no decorrer do período de seu estágio, persista com o mesmo desempenho apresentado durante o período em que esteve sob sua orientação, deverá:"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="56" y="140" width="482" height="20" uuid="9d9a39ff-6896-4e1e-be68-a06cf8f1f060"/>
+				<textFieldExpression><![CDATA["a) ( "+ "" +")"+ " Ser confirmado no estágio."]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="56" y="161" width="482" height="20" uuid="c5d0a1ed-8c7d-4142-b74c-e86e0ce83bcb"/>
+				<textFieldExpression><![CDATA["b) ( "+ "" +")"+ " Não ser confirmado no estágio."]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="56" y="220" width="482" height="20" uuid="bf03edc4-3fe6-436a-85b8-4ac266a9b0c7"/>
+				<textFieldExpression><![CDATA["Assinale os principais fatores que serviram de base para o parecer emitido"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="57" y="253" width="482" height="20" uuid="6435f94d-891a-473c-9ff4-dc708bf973e6"/>
+				<textFieldExpression><![CDATA["1. ( "+ "" +")"+ " assiduidade"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="57" y="273" width="482" height="20" uuid="d1add5f0-d88b-4ce1-bb86-4c150826de9f"/>
+				<textFieldExpression><![CDATA["2. ( "+ "" +")"+ " disciplina"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="57" y="293" width="482" height="20" uuid="167c3397-b2ba-4154-9d31-ce7659dfa582"/>
+				<textFieldExpression><![CDATA["3. ( "+ "" +")"+ " capacidade de iniciativa"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="57" y="313" width="482" height="20" uuid="25956221-8b14-4d96-b64c-3acd01a2bd07"/>
+				<textFieldExpression><![CDATA["4. ( "+ "" +")"+ " produtividade"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="57" y="333" width="482" height="20" uuid="6273ac6d-ace8-4d4c-be9e-c4e86d95222d"/>
+				<textFieldExpression><![CDATA["5. ( "+ "" +")"+ " responsabilidade"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="57" y="353" width="482" height="47" uuid="2cbcc25e-29fd-4fd2-b33c-ad2fb99f0ffa"/>
+				<textFieldExpression><![CDATA["6. ( "+ "" +")"+ " Outros motivos. Especifique: "]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement x="10" y="415" width="545" height="120" uuid="dc5c5b74-f19c-402c-bdf0-ccc6dc9a5097"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="20" y="423" width="194" height="14" uuid="db907b72-f87e-41e1-82e2-3bcf4f083a89"/>
+				<text><![CDATA[COMENTÁRIOS/OBSERVAÇÕES:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="30" y="443" width="512" height="72" uuid="807fc361-31d1-4207-be34-44ef169e0c7d"/>
+			</textField>
+			<textField>
+				<reportElement x="56" y="550" width="260" height="20" uuid="1cd3b8bc-4102-4265-8ecb-1a3d723c53a6"/>
+				<textFieldExpression><![CDATA["Necessidade de treinamento:"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="57" y="570" width="482" height="20" uuid="59826259-87fb-4f90-b796-8e36ecabad1c"/>
+				<textFieldExpression><![CDATA["Sim ( "+ "" +")"+ "Não ( "+ "" +")" + " Especifique: "]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="56" y="600" width="260" height="20" uuid="019294c6-f46a-44d7-81d5-437cac54965f"/>
+				<textFieldExpression><![CDATA["Caráter do treinamento:"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="57" y="620" width="482" height="20" uuid="ee285556-0ec0-47b1-80cf-f3dd15947246"/>
+				<textFieldExpression><![CDATA["Urgente ( "+ "" +")"+ "Importante ( "+ "" +")"]]></textFieldExpression>
+			</textField>
+		</band>
+		<band height="625">
+			<textField>
+				<reportElement x="15" y="40" width="136" height="20" uuid="66560313-fa2e-4ec1-9109-2fdbf574463f"/>
+				<textFieldExpression><![CDATA["Ciente em: ___/___/___."]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="18" y="160" width="136" height="20" uuid="60cf3f8f-7acd-4e7d-9b28-998ad9c635f4"/>
+				<textFieldExpression><![CDATA["Ciente em: ___/___/___."]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="17" y="100" width="136" height="20" uuid="711320be-ffee-4f5c-b60d-86cd1a48c9e8"/>
+				<textFieldExpression><![CDATA["Ciente em: ___/___/___."]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="224" y="54" width="232" height="20" uuid="3880a35e-8335-42ba-a336-a90cde251f1d"/>
+				<textFieldExpression><![CDATA["Assinatura do(a) Professor(a) Orientador(a)"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="256" y="124" width="160" height="20" uuid="192da1c2-eb48-4bf7-bd1a-547450393825"/>
+				<textFieldExpression><![CDATA["Assinatura do(a) Estagiário(a)"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="228" y="180" width="216" height="20" uuid="bca7a827-fb6b-403d-8797-b2789a26a37f"/>
+				<textFieldExpression><![CDATA["Assinatura e carimbo do Coordenador(a)"]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="224" y="50" width="221" height="1" uuid="af0ed4a3-23df-43a2-9765-e93eb20ad89f"/>
+			</line>
+			<line>
+				<reportElement x="224" y="121" width="221" height="1" uuid="da2b091f-67e2-4f1a-a381-e942d67eb5d0"/>
+			</line>
+			<line>
+				<reportElement x="225" y="175" width="221" height="1" uuid="e8a937a8-8c3d-4a45-bee1-2361f8d8290a"/>
+			</line>
+		</band>
 	</detail>
 </jasperReport>

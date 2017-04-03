@@ -14,6 +14,8 @@ import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.springframework.ui.Model;
+
 @Entity
 public class AvaliacaoRendimento {
 
@@ -478,6 +480,124 @@ public class AvaliacaoRendimento {
 
 	public void setEspecificacaoTreinamento(String especificacaoTreinamento) {
 		this.especificacaoTreinamento = especificacaoTreinamento;
+	}
+	
+	public void avaliacaoRendimentoToPDF(Model model, Estagio estagio) {
+		
+		AvaliacaoRendimento avaliacaoRendimento = estagio.getAvaliacaoRendimento();
+		
+		Frequencia[] frequencias = new Frequencia[] {AvaliacaoRendimento.Frequencia.OTIMA, AvaliacaoRendimento.Frequencia.BOA,
+				AvaliacaoRendimento.Frequencia.IRREGULAR, AvaliacaoRendimento.Frequencia.PESSIMA };
+		
+		Permanencia[] permanencias = new Permanencia[] {AvaliacaoRendimento.Permanencia.OTIMA, AvaliacaoRendimento.Permanencia.BOA,
+				AvaliacaoRendimento.Permanencia.IRREGULAR, AvaliacaoRendimento.Permanencia.PESSIMA};
+		
+		DisciplinaQuantoAoCumprimentoDasNormas[] disciplinas = new DisciplinaQuantoAoCumprimentoDasNormas[] {AvaliacaoRendimento.DisciplinaQuantoAoCumprimentoDasNormas.OTIMA,
+				AvaliacaoRendimento.DisciplinaQuantoAoCumprimentoDasNormas.REGULAR, AvaliacaoRendimento.DisciplinaQuantoAoCumprimentoDasNormas.IRREGULAR, AvaliacaoRendimento.DisciplinaQuantoAoCumprimentoDasNormas.PESSIMA};
+		
+		Iniciativa[] iniciativas = new Iniciativa[] {AvaliacaoRendimento.Iniciativa.OTIMA, AvaliacaoRendimento.Iniciativa.BOA, 
+				AvaliacaoRendimento.Iniciativa.RARAMENTE, AvaliacaoRendimento.Iniciativa.PESSIMA};
+		
+		QuantidadeDeTrabalho[] quantidades = new QuantidadeDeTrabalho[] {AvaliacaoRendimento.QuantidadeDeTrabalho.OTIMA, AvaliacaoRendimento.QuantidadeDeTrabalho.REGULAR, 
+				AvaliacaoRendimento.QuantidadeDeTrabalho.IRREGULAR, AvaliacaoRendimento.QuantidadeDeTrabalho.PESSIMA};
+		
+		QualidadeDoTrabalho[] qualidades = new QualidadeDoTrabalho[] {AvaliacaoRendimento.QualidadeDoTrabalho.OTIMA, AvaliacaoRendimento.QualidadeDoTrabalho.REGULAR,
+				AvaliacaoRendimento.QualidadeDoTrabalho.IRREGULAR, AvaliacaoRendimento.QualidadeDoTrabalho.PESSIMA};
+		
+		CumprimentoPrazos[] prazos = new CumprimentoPrazos[] {AvaliacaoRendimento.CumprimentoPrazos.OTIMA, AvaliacaoRendimento.CumprimentoPrazos.BOA,
+				AvaliacaoRendimento.CumprimentoPrazos.RUIM, AvaliacaoRendimento.CumprimentoPrazos.PESSIMA};
+		
+		ComprometimentoComTrabalho[] comprometimentos = new ComprometimentoComTrabalho[] {AvaliacaoRendimento.ComprometimentoComTrabalho.OTIMA, AvaliacaoRendimento.ComprometimentoComTrabalho.BOA,
+				AvaliacaoRendimento.ComprometimentoComTrabalho.IRREGULAR, AvaliacaoRendimento.ComprometimentoComTrabalho.PESSIMA};
+		
+		CuidadoMateriaisEEquipamentos[] cuidados = new CuidadoMateriaisEEquipamentos[] {AvaliacaoRendimento.CuidadoMateriaisEEquipamentos.OTIMA, AvaliacaoRendimento.CuidadoMateriaisEEquipamentos.BOA,
+				AvaliacaoRendimento.CuidadoMateriaisEEquipamentos.IRREGULAR, AvaliacaoRendimento.CuidadoMateriaisEEquipamentos.PESSIMA};
+		
+		RelacionamentoGerenciaEFuncionarios[] relacionamentos = new RelacionamentoGerenciaEFuncionarios[] {AvaliacaoRendimento.RelacionamentoGerenciaEFuncionarios.OTIMA, AvaliacaoRendimento.RelacionamentoGerenciaEFuncionarios.BOA,
+				AvaliacaoRendimento.RelacionamentoGerenciaEFuncionarios.RARAMENTE, AvaliacaoRendimento.RelacionamentoGerenciaEFuncionarios.PESSIMA};
+		
+		TrabalhoEmEquipe[] equipes = new TrabalhoEmEquipe[] {AvaliacaoRendimento.TrabalhoEmEquipe.OTIMA, AvaliacaoRendimento.TrabalhoEmEquipe.BOA,
+				AvaliacaoRendimento.TrabalhoEmEquipe.IRREGULAR, AvaliacaoRendimento.TrabalhoEmEquipe.PESSIMA};
+		
+		String[] constantes = new String[] {"OTIMA", "BOA", "IRREGULAR", "PESSIMA"};
+		
+		String[] constantes2 = new String[] {"OTIMA", "REGULAR", "IRREGULAR", "PESSIMA"};
+		
+		String[] constantes3 = new String[] {"OTIMA", "BOA", "RARAMENTE", "PESSIMA"};
+		
+		String[] constantes4 = new String[] {"OTIMA", "BOA", "RUIM", "PESSIMA"};
+		
+		for(int i = 0; i < frequencias.length; i++){
+			if(avaliacaoRendimento.getFrequencia() == frequencias[i]){
+				model.addAttribute("FREQUENCIA_" + constantes[i], "X");
+				break;
+			} else { model.addAttribute("FREQUENCIA_" + constantes[i], " "); }
+		}
+		
+		for(int i = 0; i < permanencias.length; i++){
+			if(avaliacaoRendimento.getPermanencia() == permanencias[i]){
+				model.addAttribute("PERMANENCIA_" + constantes[i], "X");
+				break;
+			} else { model.addAttribute("PERMANENCIA_" + constantes[i], " "); }
+		}
+		
+		for(int i = 0; i < iniciativas.length; i++){
+			if(avaliacaoRendimento.getDisciplina() == disciplinas[i]){
+				model.addAttribute("DISCIPLINA_" + constantes2[i], "X");
+				break;
+			} else { model.addAttribute("DISCIPLINA_" + constantes2[i], " "); }
+		}
+		
+		for(int i = 0; i < quantidades.length; i++){
+			if(avaliacaoRendimento.getQuantidadeTrabalho() == quantidades[i]){
+				model.addAttribute("QUANTIDADE_" + constantes2[i], "X");
+				break;
+			} else { model.addAttribute("QUANTIDADE_" + constantes2[i], " "); }
+		}
+		
+		for(int i = 0; i < qualidades.length; i++){
+			if(avaliacaoRendimento.getQualidadeTrabalho() == qualidades[i]){
+				model.addAttribute("QUALIDADE_" + constantes2[i], "X");
+				break;
+			} else { model.addAttribute("QUALIDADE_" + constantes2[i], " "); }
+		}
+		
+		for(int i = 0; i < prazos.length; i++){
+			if(avaliacaoRendimento.getCumprimentoPrazos() == prazos[i]){
+				model.addAttribute("PRAZOS_" + constantes4[i], "X");
+				break;
+			} else { model.addAttribute("PRAZOS_" + constantes4[i], " "); }
+		}
+		
+		for(int i = 0; i < comprometimentos.length; i++){
+			if(avaliacaoRendimento.getComprometimento() == comprometimentos[i]){
+				model.addAttribute("COMPROMETIMENTO_" + constantes[i], "X");
+				break;
+			} else { model.addAttribute("COMPROMETIMENTO_" + constantes[i], " "); }
+		}
+		
+		for(int i = 0; i < cuidados.length; i++){
+			if(avaliacaoRendimento.getCuidadoMateriais() == cuidados[i]){
+				model.addAttribute("CUIDADOS_" + constantes[i], "X");
+				break;
+			} else { model.addAttribute("CUIDADOS_" + constantes[i], " "); }
+		}
+		
+		for(int i = 0; i < relacionamentos.length; i++){
+			if(avaliacaoRendimento.getRelacionamento() == relacionamentos[i]){
+				model.addAttribute("RELACIONAMENTO_" + constantes3[i], "X");
+				break;
+			} else { model.addAttribute("RELACIONAMENTO_" + constantes3[i], " "); }
+		}
+		
+		for(int i = 0; i < equipes.length; i++){
+			if(avaliacaoRendimento.getTrabalhoEquipe() == equipes[i]){
+				model.addAttribute("EQUIPE_" + constantes[i], "X");
+				break;
+			} else { model.addAttribute("EQUIPE_" + constantes[i], " "); }
+		}
+		
+		
 	}
 
 	/**

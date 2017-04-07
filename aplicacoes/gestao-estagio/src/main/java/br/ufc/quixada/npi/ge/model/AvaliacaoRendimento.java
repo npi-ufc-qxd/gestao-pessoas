@@ -542,6 +542,13 @@ public class AvaliacaoRendimento {
 		}
 		
 		for(int i = 0; i < iniciativas.length; i++){
+			if(avaliacaoRendimento.getIniciativa() == iniciativas[i]){
+				model.addAttribute("INICIATIVA_" + constantes3[i], "X");
+				break;
+			} else { model.addAttribute("INICIATIVA_" + constantes2[i], " "); }
+		}
+		
+		for(int i = 0; i < disciplinas.length; i++){
 			if(avaliacaoRendimento.getDisciplina() == disciplinas[i]){
 				model.addAttribute("DISCIPLINA_" + constantes2[i], "X");
 				break;

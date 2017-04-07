@@ -646,13 +646,20 @@ public class AvaliacaoRendimento {
 		
 		if(avaliacaoRendimento.getCaraterTreinamentoImportante()){
 			model.addAttribute("TREINAMENTO_IMPORTANTE", "X");
-			model.addAttribute("TREINAMENTO_IMPORTANTE", " ");
+			model.addAttribute("TREINAMENTO_URGENTE", " ");
 		}
 		if(avaliacaoRendimento.getCaraterTreinamentoUrgente()){
 			model.addAttribute("TREINAMENTO_URGENTE", "X");
-			model.addAttribute("TREINAMENTO_URGENTE", " ");
+			model.addAttribute("TREINAMENTO_IMPORTANTE", " ");
 		}
-		model.addAttribute(avaliacaoRendimento.getObjetivoEstagio());
+		
+		model.addAttribute("OBJETIVO_ESTAGIO",avaliacaoRendimento.getObjetivoEstagio());
+		model.addAttribute("COMENTARIO_FATOR_DISCIPLINA",avaliacaoRendimento.getFatorAssuidadeDisciplinaComentario());
+		model.addAttribute("COMENTARIO_FATOR_RESPONSABILIDADE",avaliacaoRendimento.getFatorResponsabilidadeComentario());
+		model.addAttribute("COMENTARIO_FATOR_RELACIONAMENTO",avaliacaoRendimento.getFatorRelacionamentoComentario());
+		model.addAttribute("COMENTARIO_FINAL",avaliacaoRendimento.getComentarioFinal());
+		
+		model.addAttribute("ESPECIFICACAO_TREINAMENTO",avaliacaoRendimento.getEspecificacaoTreinamento());
 		
 	}
 

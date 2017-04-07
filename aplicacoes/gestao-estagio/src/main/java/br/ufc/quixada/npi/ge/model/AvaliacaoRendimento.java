@@ -636,6 +636,24 @@ public class AvaliacaoRendimento {
 			model.addAttribute("FATOR_OUTROS_MOTIVOS", "X");
 		}else { model.addAttribute("FATOR_OUTROS_MOTIVOS", " ");}
 		
+		if(avaliacaoRendimento.getNecessidadeTreinamento()){
+			model.addAttribute("NECESSITA_TREINAMENTO", "X");
+			model.addAttribute("NAO_NECESSITA_TREINAMENTO", " ");
+		}else{
+			model.addAttribute("NECESSITA_TREINAMENTO", " ");
+			model.addAttribute("NAO_NECESSITA_TREINAMENTO", "X");
+		}
+		
+		if(avaliacaoRendimento.getCaraterTreinamentoImportante()){
+			model.addAttribute("TREINAMENTO_IMPORTANTE", "X");
+			model.addAttribute("TREINAMENTO_IMPORTANTE", " ");
+		}
+		if(avaliacaoRendimento.getCaraterTreinamentoUrgente()){
+			model.addAttribute("TREINAMENTO_URGENTE", "X");
+			model.addAttribute("TREINAMENTO_URGENTE", " ");
+		}
+		model.addAttribute(avaliacaoRendimento.getObjetivoEstagio());
+		
 	}
 
 	/**

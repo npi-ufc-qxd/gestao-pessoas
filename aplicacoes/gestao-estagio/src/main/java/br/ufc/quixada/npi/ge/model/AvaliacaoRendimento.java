@@ -545,7 +545,7 @@ public class AvaliacaoRendimento {
 			if(avaliacaoRendimento.getIniciativa() == iniciativas[i]){
 				model.addAttribute("INICIATIVA_" + constantes3[i], "X");
 				break;
-			} else { model.addAttribute("INICIATIVA_" + constantes2[i], " "); }
+			} else { model.addAttribute("INICIATIVA_" + constantes3[i], " "); }
 		}
 		
 		for(int i = 0; i < disciplinas.length; i++){
@@ -604,6 +604,35 @@ public class AvaliacaoRendimento {
 			} else { model.addAttribute("EQUIPE_" + constantes[i], " "); }
 		}
 		
+		if(avaliacaoRendimento.getConfirmadoNoEstagio()){
+			model.addAttribute("CONFIRMADO_ESTAGIO", "X");
+		}else{
+			model.addAttribute("NAO_CONFIRMADO_ESTAGIO", "X");
+		}
+
+		if(avaliacaoRendimento.getFatorAssuidade()){
+			model.addAttribute("FATOR_ASSIDUIDADE", "X");
+		}else { model.addAttribute("FATOR_ASSIDUIDADE", " ");}
+		
+		if(avaliacaoRendimento.getFatorDisciplina()){
+			model.addAttribute("FATOR_DISCIPLINA", "X");
+		}else { model.addAttribute("FATOR_DISCIPLINA", " ");}
+		
+		if(avaliacaoRendimento.getFatorCapacidadeIniciativa()){
+			model.addAttribute("FATOR_CAPACIDADE", "X");
+		}else { model.addAttribute("FATOR_CAPACIDADE", " ");}
+		
+		if(avaliacaoRendimento.getFatorProdutividade()){
+			model.addAttribute("FATOR_PRODUTIVIDADE", "X");
+		}else { model.addAttribute("FATOR_PRODUTIVIDADE", " ");}
+		
+		if(avaliacaoRendimento.getFatorResponsabilidade()){
+			model.addAttribute("FATOR_RESPONSABILIDADE", "X");
+		}else { model.addAttribute("FATOR_RESPONSABILIDADE", " ");}
+		
+		if(avaliacaoRendimento.getOutrosMotivos()){
+			model.addAttribute("FATOR_OUTROS_MOTIVOS", "X");
+		}else { model.addAttribute("FATOR_OUTROS_MOTIVOS", " ");}
 		
 	}
 

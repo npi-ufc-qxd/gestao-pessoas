@@ -606,7 +606,9 @@ public class AvaliacaoRendimento {
 		
 		if(avaliacaoRendimento.getConfirmadoNoEstagio()){
 			model.addAttribute("CONFIRMADO_ESTAGIO", "X");
+			model.addAttribute("NAO_CONFIRMADO_ESTAGIO", " ");
 		}else{
+			model.addAttribute("CONFIRMADO_ESTAGIO", " ");
 			model.addAttribute("NAO_CONFIRMADO_ESTAGIO", "X");
 		}
 

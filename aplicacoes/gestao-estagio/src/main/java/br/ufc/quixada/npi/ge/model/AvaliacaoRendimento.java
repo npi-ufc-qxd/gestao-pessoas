@@ -655,6 +655,7 @@ public class AvaliacaoRendimento {
 		
 		model.addAttribute("OBJETIVO_ESTAGIO",avaliacaoRendimento.getObjetivoEstagio());
 		model.addAttribute("COMENTARIO_FATOR_DISCIPLINA",avaliacaoRendimento.getFatorAssuidadeDisciplinaComentario());
+		model.addAttribute("COMENTARIO_FATOR_PRODUTIVIDADE",avaliacaoRendimento.getFatorIniciativaProdutividadeComentario());
 		model.addAttribute("COMENTARIO_FATOR_RESPONSABILIDADE",avaliacaoRendimento.getFatorResponsabilidadeComentario());
 		model.addAttribute("COMENTARIO_FATOR_RELACIONAMENTO",avaliacaoRendimento.getFatorRelacionamentoComentario());
 		model.addAttribute("COMENTARIO_FINAL",avaliacaoRendimento.getComentarioFinal());

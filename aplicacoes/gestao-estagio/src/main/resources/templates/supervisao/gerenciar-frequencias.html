@@ -255,18 +255,21 @@
 			  </div>
 	          <div id="presenca" class="panel-body collapse in">
 				<div id="frequencias">	          
-					<table class="table table-hover">
+					<table class="table table-hover table-frequencia">
 					  <thead>
 					    <tr>
+					      <th class="hidden" data-sort="timestamp">Id</th>
 					      <th class="sort" data-sort="timestamp">Data</th>
 					      <th class="sort" data-sort="tipo">Tipo</th>
 					      <th class="sort" data-sort="horaEntrada">Entrada</th>
 					      <th class="sort" data-sort="horaSaida">Saída</th>
 					      <th class="sort" data-sort="status">Status</th>
+					      <th></th>
 					    </tr>
 					  </thead>
 					  <tbody class="list">
 						<tr th:each="frequencia : ${estagio.frequencias}">
+						    <td class="hidden" th:text="${frequencia.id}"></td>
 							<td class="timestamp" data-timestamp="20120911" th:inline="text" th:attr="data-timestamp=${#dates.format(frequencia.data,'yyyyMMdd')}">[[${#dates.format(frequencia.data,'dd/MM/yyyy')}]]</td>
 						    <td class="tipo" th:text="${frequencia.tipo}"></td>
 							<td th:if="${frequencia.horaEntrada != null}"  th:text="${#dates.format(frequencia.horaEntrada,'HH:mm')}"></td>
@@ -282,6 +285,9 @@
 						    <td th:if="${#strings.equals(frequencia.status, 'JUSTIFICATIVA')}" class="status"><span class="label label-default" th:text="${frequencia.status}">Default</span></td>
 						    <td th:if="${#strings.equals(frequencia.status, 'AGUARDO_SAIDA')}" class="status"><span class="label label-default" th:text="${frequencia.status}"></span></td>
 						    <td th:if="${frequencia.status == NULL}" class="status"><span class="label label-default"></span></td>
+						    <td align="right">
+								<button class="btn btn-success btn-sm" data-toggle="modal" data-target="#myModal" contenteditable="false">Editar</button>
+						    </td>
 						</tr>
 					  </tbody>
 					</table> 
@@ -291,14 +297,91 @@
  	     </div>
 	   </div>
 	  </div>
+
+
+
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content"></div>
+    </div>
+    <div class="modal-dialog">
+        <div class="modal-content"></div>
+    </div>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"> <span aria-hidden="true" class="">×   </span><span class="sr-only">Close</span>
+
+                </button>
+                 <h4 class="modal-title" id="myModalLabel"></h4>
+
+            </div>
+            <div class="modal-body"></div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary">Salvar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
 </section>
 
+
+
+
+
 <section layout:fragment="js">
-  <script src="http://listjs.com/no-cdn/list.js"></script>
+	
+  <script th:src="@{/js/list.min.js}"></script>
   <script type="text/javascript">
 	var options = { valueNames: [{ attr: 'data-timestamp', name: 'timestamp' }, 'status', 'tipo'] };
 	var frequencias = new List('frequencias', options).sort('timestamp', { order: "desc" });
-	var reposicoes = new List('reposicoes', options).sort('timestamp', { order: "desc" });
+// 	var reposicoes = new List('reposicoes', options).sort('timestamp', { order: "desc" });
+
+		$(".btn[data-target='#myModal']").click(function() {
+
+		var columnHeadings = $(".table-frequencia thead th").map(function() { return $(this).text(); }).get();
+		alert(columnHeadings);
+		alert(columnHeadings[0]);
+		columnHeadings.pop();
+		
+		var columnValues = $(this).parent().siblings().map(function() { return $(this).text(); }).get();
+		alert(columnValues);
+		alert(columnValues[0]);
+		var modalBody = $('<div id="modalContent"></div>');
+		var modalForm = $('<form role="form" name="modalForm" action="putYourPHPActionHere.php" method="post"></form>');
+		$(".modal-title").text("Editar Frequência: " + columnValues[1]);
+		
+		var formGroup = $('<div class="form-group"></div>');
+		formGroup.append('<input type="hidden" class="form-control" name="idFrequencia" id="idFrequencia" value="'+columnValues[0]+'" />'); 
+		modalForm.append(formGroup);
+		
+		var formGroup = $('<div class="form-group"></div>');
+		formGroup.append('<label for="'+columnHeadings[5]+'">'+columnHeadings[5]+'</label>');
+		formGroup.append('<select class="form-control" id="status" name="status"> <option value="PRESENTE">Presente</option> <option value="FALTA">Falta</option> <option value="ATRASADO">Atrasado</option> </select>');
+		modalForm.append(formGroup);
+		
+		var formGroup = $('<div class="form-group"></div>');
+		formGroup.append('<label for="'+columnHeadings[3]+'">'+columnHeadings[3]+'</label>');
+		formGroup.append('<input class="form-control" name="entrada" id="entrada" value="'+columnValues[3]+'" />');
+		modalForm.append(formGroup);
+		
+		var formGroup = $('<div class="form-group"></div>');
+		formGroup.append('<label for="'+columnHeadings[4]+'">'+columnHeadings[4]+'</label>');
+		formGroup.append('<input class="form-control" name="saida" id="saida" value="'+columnValues[4]+'" />');
+		modalForm.append(formGroup);
+
+		  modalBody.append(modalForm);
+		  $('.modal-body').html(modalBody);
+		});
+		$('.modal-footer .btn-primary').click(function() {
+		   $('form[name="modalForm"]').submit();
+		});
+
   </script>
 </section>
 </html>

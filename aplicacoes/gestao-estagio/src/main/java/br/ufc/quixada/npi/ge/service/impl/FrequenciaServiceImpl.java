@@ -303,4 +303,14 @@ public class FrequenciaServiceImpl implements FrequenciaService {
 		return frequenciaReposicao;
 	}
 
+	@Override
+	public Frequencia buscarPorId(Long id) {
+		return frequenciaRepository.findOne(id);
+	}
+
+	@Override
+	public void salvar(Frequencia frequencia) {
+		frequenciaRepository.save(frequencia);
+	}
+
 }

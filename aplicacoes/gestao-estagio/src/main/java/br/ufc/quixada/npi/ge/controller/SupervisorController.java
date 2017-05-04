@@ -36,6 +36,8 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
@@ -75,6 +77,7 @@ import br.ufc.quixada.npi.ge.model.Submissao.TipoSubmissao;
 import br.ufc.quixada.npi.ge.model.Turma;
 import br.ufc.quixada.npi.ge.model.Turma.TipoTurma;
 import br.ufc.quixada.npi.ge.service.EstagioService;
+import br.ufc.quixada.npi.ge.service.FrequenciaService;
 import br.ufc.quixada.npi.ge.service.PessoaService;
 import br.ufc.quixada.npi.ge.service.TurmaService;
 import br.ufc.quixada.npi.ge.utils.UtilGestao;
@@ -98,6 +101,9 @@ public class SupervisorController {
 
 	@Autowired
 	private TurmaService turmaService;
+
+	@Autowired
+	private FrequenciaService frequenciaService;
 
 	@Autowired
 	private AvaliacaoRendimentoValidator avaliacaoRendimentoValidator;
@@ -654,6 +660,27 @@ public class SupervisorController {
 		model.addAttribute("consolidadoFrequencia", estagioService.consolidarFrequencias(estagio));
 
 		return GERENCIAR_FREQUENCIAS;
+	}
+
+	@RequestMapping(value = "/Acompanhamento/{idEstagio}/EditarFrequencia", method = RequestMethod.POST)
+	public String editarFrequencia(Model model, @PathVariable("idEstagio") Long idEstagio, @RequestParam("idFrequencia") Long idFrequencia, RedirectAttributes redirectAttributes,
+			@RequestParam("status") Frequencia.StatusFrequencia status, @RequestParam("entrada") @DateTimeFormat(pattern="HH:mm") Date entrada, @RequestParam("saida") @DateTimeFormat(pattern="HH:mm") Date saida) {
+
+		Frequencia frequencia = frequenciaService.buscarPorId(idFrequencia);
+		
+		if(frequencia != null){
+			frequencia.setStatus(status);
+			frequencia.setHoraEntrada(entrada);
+			frequencia.setHoraSaida(saida);
+
+			frequenciaService.salvar(frequencia);
+			
+			redirectAttributes.addFlashAttribute("sucesso", "Frequência editada com sucesso");
+		} else {
+			redirectAttributes.addFlashAttribute("error", "Não foi possivel editar a Frequência	");
+		}
+
+		return "redirect:/Supervisao/Acompanhamento/" + idEstagio + "/Frequencias";
 	}
 
 

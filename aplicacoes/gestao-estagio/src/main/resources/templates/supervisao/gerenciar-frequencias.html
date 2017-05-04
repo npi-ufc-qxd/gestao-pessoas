@@ -317,10 +317,18 @@
                  <h4 class="modal-title" id="myModalLabel"></h4>
 
             </div>
-            <div class="modal-body"></div>
+            <div class="modal-body">
+            	<div id="modalContent">
+            		<form id="form-editar-frequencia" role="form" name="modalForm" th:action="@{/Supervisao/Acompanhamento/{idEstagio}/EditarFrequencia(idEstagio=${estagio.id})}" method="post">
+            			<div class="form-group">
+            				<input type="hidden" class="form-control" name="idFrequencia" id="idFrequencia" value="" />
+            			</div>
+            		</form>
+            	</div>
+            </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                <button type="button" class="btn btn-primary">Salvar</button>
+                <button type="button" class="btn btn-success">Editar</button>
             </div>
         </div>
     </div>
@@ -344,41 +352,42 @@
 
 		$(".btn[data-target='#myModal']").click(function() {
 
-		var columnHeadings = $(".table-frequencia thead th").map(function() { return $(this).text(); }).get();
-		alert(columnHeadings);
-		alert(columnHeadings[0]);
-		columnHeadings.pop();
-		
+			var columnHeadings = $(".table-frequencia thead th").map(function() { return $(this).text(); }).get();
+			columnHeadings.pop();
+			
 		var columnValues = $(this).parent().siblings().map(function() { return $(this).text(); }).get();
-		alert(columnValues);
-		alert(columnValues[0]);
-		var modalBody = $('<div id="modalContent"></div>');
-		var modalForm = $('<form role="form" name="modalForm" action="putYourPHPActionHere.php" method="post"></form>');
 		$(".modal-title").text("Editar Frequência: " + columnValues[1]);
+
+		//var modalBody = $('<div id="modalContent"></div>');
+		//var modalForm = $('<form role="form" name="modalForm" action="" method="post"></form>');
+		var modalForm = $('#form-editar-frequencia');
+		
+		$('#form-editar-frequencia > div').remove();
 		
 		var formGroup = $('<div class="form-group"></div>');
 		formGroup.append('<input type="hidden" class="form-control" name="idFrequencia" id="idFrequencia" value="'+columnValues[0]+'" />'); 
 		modalForm.append(formGroup);
+// 		$('#idFrequencia').val(columnValues[0]);
 		
-		var formGroup = $('<div class="form-group"></div>');
-		formGroup.append('<label for="'+columnHeadings[5]+'">'+columnHeadings[5]+'</label>');
-		formGroup.append('<select class="form-control" id="status" name="status"> <option value="PRESENTE">Presente</option> <option value="FALTA">Falta</option> <option value="ATRASADO">Atrasado</option> </select>');
-		modalForm.append(formGroup);
+			var formGroup = $('<div class="form-group"></div>');
+			formGroup.append('<label for="'+columnHeadings[5]+'">'+columnHeadings[5]+'</label>');
+			formGroup.append('<select class="form-control" id="status" name="status"> <option value="PRESENTE">Presente</option> <option value="FALTA">Falta</option> <option value="ATRASADO">Atrasado</option> </select>');
+			modalForm.append(formGroup);
 		
 		var formGroup = $('<div class="form-group"></div>');
 		formGroup.append('<label for="'+columnHeadings[3]+'">'+columnHeadings[3]+'</label>');
-		formGroup.append('<input class="form-control" name="entrada" id="entrada" value="'+columnValues[3]+'" />');
+		formGroup.append('<input class="form-control" placeholder="HH:mm" name="entrada" id="entrada" value="'+columnValues[3]+'" />');
 		modalForm.append(formGroup);
 		
 		var formGroup = $('<div class="form-group"></div>');
 		formGroup.append('<label for="'+columnHeadings[4]+'">'+columnHeadings[4]+'</label>');
-		formGroup.append('<input class="form-control" name="saida" id="saida" value="'+columnValues[4]+'" />');
+		formGroup.append('<input class="form-control" placeholder="HH:mm" name="saida" id="saida" value="'+columnValues[4]+'" />');
 		modalForm.append(formGroup);
 
-		  modalBody.append(modalForm);
-		  $('.modal-body').html(modalBody);
+// 		  modalBody.append(modalForm);
+// 		  $('.modal-body').html(modalBody);
 		});
-		$('.modal-footer .btn-primary').click(function() {
+		$('.modal-footer .btn-success').click(function() {
 		   $('form[name="modalForm"]').submit();
 		});
 

@@ -42,7 +42,7 @@ $(document).ready(function() {
 
 	jQuery.validator.addMethod("horaMaior", 
 			function(horaFinal, params) {
-		moment(horaFinal, "HH:mm").val();
+				moment(horaFinal, "HH:mm").val();
 				return moment(horaFinal, "HH:mm").isAfter(moment($(params).val(), "HH:mm"));
 			},'Horário de término deve ser posterior ao horário de início!'
 		);
@@ -52,6 +52,21 @@ $(document).ready(function() {
 				moment(horaInicial, "HH:mm").val();
 				return moment(horaInicial, "HH:mm").isBefore(moment($(params).val(), "HH:mm"));
 			},'Horário de início deve ser anterior ao horário de término!'
+		);
+	
+
+	jQuery.validator.addMethod("saida", 
+			function(horaFinal, params) {
+				return moment(horaFinal, "HH:mm").isAfter(moment($("#entradaExpediente").val(), "HH:mm"));
+			},'Horário de saída deve ser posterior ao horário de entrada!'
+		);
+
+	jQuery.validator.addMethod("entrada", 
+			function(horaInicial, params) {
+		console.log("rayson");
+		console.log(horaInicial);
+				return moment(horaInicial, "HH:mm").isBefore(moment($("#saidaExpediente").val(), "HH:mm"));
+			},'Horário de entrada deve ser anterior ao horário de saída!'
 		);
 
 	jQuery.validator.addMethod("maiorQue", 
@@ -115,6 +130,29 @@ $(document).ready(function() {
 
         	horaTermino:{
         		horaMaior: "#horaInicio",
+        	}
+        },
+        highlight: function(element) {
+            $(element).closest('.form-group').addClass('has-error');
+        },
+        unhighlight: function(element) {
+            $(element).closest('.form-group').removeClass('has-error');
+        },
+        errorElement: 'span',
+        errorClass: 'help-block'
+	});
+	
+	$('#form-editar-frequencia').validate({
+		onkeyup: false,
+		onclick: false,
+		onfocusout: false,
+		rules: {
+			entrada:{
+        		entrada : "#saidaExpediente",
+        	},
+
+        	saida:{
+//        		horaMaior: "#saidaExpediente",
         	}
         },
         highlight: function(element) {

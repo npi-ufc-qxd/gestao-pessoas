@@ -189,10 +189,10 @@
 
 	        <div class="panel panel-bluegray">
 	          <div class="panel-heading">
-	            <a class="panel-title" data-toggle="collapse" data-target="#reposicao"><i class="fa fa-caret-down" aria-hidden="true"></i> Reposições</a>
+	            <a class="panel-title" data-toggle="collapse" data-target="#presenca"><i class="fa fa-caret-down" aria-hidden="true"></i> Frequências</a>
 			  </div>
-	          <div id="reposicao" class="panel-body collapse in">
-
+	          <div id="presenca" class="panel-body collapse in">
+	          
 				<form id="form-reposicao" class="form-horizontal" th:action="@{/Supervisao/Acompanhamento/{idEstagio}/AgendarReposicao(idEstagio=${estagio.id})}" method="post">
 		  			<div class="form-group">
 				    	<div class="form-item">
@@ -224,36 +224,7 @@
 				    	</div>
 			    	</div>
 				</form>
-
-				<div id="reposicoes">	          
-					<table class="table table-hover">
-					  <thead>
-					    <tr>
-					      <th class="sort" data-sort="timestamp">Data</th>
-					      <th class="sort" data-sort="horaEntrada">Hora da entrada</th>
-					      <th class="sort" data-sort="horaSaida">Hora da saída</th>
-					      <th></th>
-					    </tr>
-					  </thead>
-					  <tbody>
-						<tr th:each="frequencia : ${estagio.frequencias}" th:if="${#strings.equals(frequencia.tipo, 'REPOSICAO')}">
-							<td class="timestamp" data-timestamp="20120911" th:inline="text" th:attr="data-timestamp=${#dates.format(frequencia.data,'yyyyMMdd')}">[[${#dates.format(frequencia.data,'dd/MM/yyyy')}]]</td>
-							<td th:text="${#dates.format(frequencia.horaAgendamentoEntrada,'HH:mm')}"></td>
-							<td th:text="${#dates.format(frequencia.horaAgendamentoSaida,'HH:mm')}"></td>
-					        <td>
-					        	<a th:if="${#strings.equals(frequencia.status, 'AGUARDO')}" class="btn btn-danger btn-sm pull-right gp-btn-reposicao" th:href="@{/Supervisao/Acompanhamento/{idEstagio}/Frequencias/{idReposicao}/Excluir(idEstagio=${estagio.id}, idReposicao=${frequencia.id})}">Excluir</a>
-				        	</td>
-						</tr>
-					  </tbody>
-					</table> 
-				</div>
-	          </div>
-	        </div>
-	        <div class="panel panel-bluegray">
-	          <div class="panel-heading">
-	            <a class="panel-title" data-toggle="collapse" data-target="#presenca"><i class="fa fa-caret-down" aria-hidden="true"></i> Frequências</a>
-			  </div>
-	          <div id="presenca" class="panel-body collapse in">
+	          
 				<div id="frequencias">	          
 					<table class="table table-hover table-frequencia">
 					  <thead>
@@ -294,6 +265,38 @@
 				</div>
 	          </div>
 	        </div>
+
+	        <div class="panel panel-bluegray">
+	          <div class="panel-heading">
+	            <a class="panel-title" data-toggle="collapse" data-target="#reposicao"><i class="fa fa-caret-down" aria-hidden="true"></i> Reposições</a>
+			  </div>
+	          <div id="reposicao" class="panel-body collapse in">
+				<div id="reposicoes">	          
+					<table class="table table-hover">
+					  <thead>
+					    <tr>
+					      <th class="sort" data-sort="timestamp">Data</th>
+					      <th class="sort" data-sort="horaEntrada">Hora da entrada</th>
+					      <th class="sort" data-sort="horaSaida">Hora da saída</th>
+					      <th></th>
+					    </tr>
+					  </thead>
+					  <tbody>
+						<tr th:each="frequencia : ${estagio.frequencias}" th:if="${#strings.equals(frequencia.tipo, 'REPOSICAO')}">
+							<td class="timestamp" data-timestamp="20120911" th:inline="text" th:attr="data-timestamp=${#dates.format(frequencia.data,'yyyyMMdd')}">[[${#dates.format(frequencia.data,'dd/MM/yyyy')}]]</td>
+							<td th:text="${#dates.format(frequencia.horaAgendamentoEntrada,'HH:mm')}"></td>
+							<td th:text="${#dates.format(frequencia.horaAgendamentoSaida,'HH:mm')}"></td>
+					        <td>
+					        	<a th:if="${#strings.equals(frequencia.status, 'AGUARDO')}" class="btn btn-danger btn-sm pull-right gp-btn-reposicao" th:href="@{/Supervisao/Acompanhamento/{idEstagio}/Frequencias/{idReposicao}/Excluir(idEstagio=${estagio.id}, idReposicao=${frequencia.id})}">Excluir</a>
+					        	<a th:if="${#strings.equals(frequencia.status, null)}" class="btn btn-danger btn-sm pull-right gp-btn-reposicao" th:href="@{/Supervisao/Acompanhamento/{idEstagio}/Frequencias/{idReposicao}/Excluir(idEstagio=${estagio.id}, idReposicao=${frequencia.id})}">Excluir</a>
+				        	</td>
+						</tr>
+					  </tbody>
+					</table> 
+				</div>
+	          </div>
+	        </div>
+	        
  	     </div>
 	   </div>
 	  </div>
@@ -373,12 +376,15 @@
 		
 		var formGroup = $('<div class="form-group"></div>');
 		formGroup.append('<label for="'+columnHeadings[3]+'">'+columnHeadings[3]+'</label>');
-		formGroup.append('<input class="form-control" placeholder="HH:mm" name="entrada" id="entrada" value="'+columnValues[3]+'" />');
+		formGroup.append('<input class="form-control" placeholder="HH:mm" name="entrada" id="entradaExpediente" value="'+columnValues[3]+'" />');
+		formGroup.append('<label class="control-label"></label>');
 		modalForm.append(formGroup);
 		
 		var formGroup = $('<div class="form-group"></div>');
 		formGroup.append('<label for="'+columnHeadings[4]+'">'+columnHeadings[4]+'</label>');
-		formGroup.append('<input class="form-control" placeholder="HH:mm" name="saida" id="saida" value="'+columnValues[4]+'" />');
+		formGroup.append('<input class="form-control" placeholder="HH:mm" name="saida" id="saidaExpediente" value="'+columnValues[4]+'" />');
+		formGroup.append('<label class="control-label"></label>');
+
 		modalForm.append(formGroup);
 
 		});

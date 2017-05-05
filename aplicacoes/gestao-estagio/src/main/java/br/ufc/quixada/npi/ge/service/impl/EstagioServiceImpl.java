@@ -384,8 +384,8 @@ public class EstagioServiceImpl implements EstagioService {
 		frequencia.setHoraAgendamentoEntrada(horaEntrada);
 		frequencia.setHoraAgendamentoSaida(horaSaida);
 		frequencia.setTipo(Frequencia.TipoFrequencia.REPOSICAO);
-		/*frequencia.setStatus(Frequencia.StatusFrequencia.AGUARDO);
-*/
+		frequencia.setStatus(Frequencia.StatusFrequencia.AGUARDO);
+
 		frequenciaRepository.save(frequencia);
 	}
 

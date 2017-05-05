@@ -20,4 +20,8 @@ public interface FrequenciaService {
 
 	public Frequencia buscarReposicao(Estagio estagio);
 
+	public Frequencia buscarPorId(Long id);
+
+	public void salvar(Frequencia frequencia);
+
 }

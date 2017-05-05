@@ -11,7 +11,7 @@ import java.util.List;
 
 import javax.inject.Named;
 
-import org.joda.time.Hours;
+//import org.joda.time.Hours;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -347,6 +347,11 @@ public class EstagioServiceImpl implements EstagioService {
 		return consolidadoFrequencia;
 	}
 	
+	/**
+	 * 
+	 * @param expedientes
+	 * @return
+
 	private int calcularCargaHorariaExpediente(List<Expediente> expedientes) {
 		int cargaHorariaExpediente = 0;
 		for (Expediente expediente : expedientes) {
@@ -357,6 +362,7 @@ public class EstagioServiceImpl implements EstagioService {
 		}
 		return cargaHorariaExpediente;
 	}
+	 */
 
 	private int calcularTotalDeFrequenciasDaTurma(Date inicio, Date fim, List<Expediente> expedientes) {
 
@@ -384,8 +390,8 @@ public class EstagioServiceImpl implements EstagioService {
 		frequencia.setHoraAgendamentoEntrada(horaEntrada);
 		frequencia.setHoraAgendamentoSaida(horaSaida);
 		frequencia.setTipo(Frequencia.TipoFrequencia.REPOSICAO);
-		/*frequencia.setStatus(Frequencia.StatusFrequencia.AGUARDO);
-*/
+		frequencia.setStatus(Frequencia.StatusFrequencia.AGUARDO);
+
 		frequenciaRepository.save(frequencia);
 	}
 

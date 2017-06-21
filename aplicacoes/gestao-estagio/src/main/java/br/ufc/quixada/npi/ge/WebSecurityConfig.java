@@ -23,7 +23,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
 		    .authorizeRequests()
-		    	.antMatchers("/404", "/js**", "/css**", "/images**").permitAll()
+		    	.antMatchers("/404", "/js**", "/css**", "/images**", "/eliteadmin**").permitAll()
 		    	.antMatchers("/CadastroEstagiario/**").hasAnyAuthority("DISCENTE")
 		    	.antMatchers("/CadastroSupervisor/**").hasAnyAuthority("DOCENTE", "STA")
 		    	.antMatchers("/Estagiario/**").hasAnyAuthority("ESTAGIARIO")

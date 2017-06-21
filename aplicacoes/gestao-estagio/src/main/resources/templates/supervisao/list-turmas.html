@@ -2,13 +2,92 @@
 <html xmlns="http://www.w3.org/1999/xhtml" 
 	xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-    layout:decorator="layouts/LayoutGestaoPessoas">
+    layout:decorator="layouts/LayoutGestaoEstagio">
 
 <head>
-	<title>Gestão Pessoas | Minhas Turmas</title>
+	<title>Gestão Estágio | Turmas em Andamento</title>
 </head>
 
+
+
+
 <section layout:fragment="conteudo">
+
+    <div class="container-fluid">
+      <div class="row bg-title">
+        <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+          <h4 class="page-title">Turmas em andamento</h4>
+        </div>
+        <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
+          <ol class="breadcrumb">
+            <li><a href="#">Turma</a></li>
+            <li class="active">Turmas em andamento</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <div class="white-box">
+			<h3 class="box-title">Turmas NPI</h3>
+            <div class="table-responsive" th:if="${turmasNPI != null}">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Descrição</th>
+                    <th>Estágiarios</th>
+                    <th>Período</th>
+<!--                     <th class="text-nowrap"></th> -->
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr th:each="turma : ${turmasNPI}">
+                    <td th:inline="text">
+                    	<a class="btn-link" th:href="@{'/Supervisao/Turma/' + ${turma.id}}" data-toggle="tooltip" data-original-title="Detalhes"><b>[[${turma.semestre}]]</b> [[${turma.nome}]]</a>
+                    </td>
+                    <td th:inline="text">[[${#lists.size(turma.estagios)}]] Estagiarios</td>
+                    <td th:inline="text">[[${#dates.format(turma.inicio, 'dd/MM/yyyy')}]] a [[${#dates.format(turma.termino, 'dd/MM/yyyy')}]]</td>
+<!--                     <td class="text-nowrap"><a href="#" data-toggle="tooltip" data-original-title="Editar"> <i class="fa fa-pencil text-inverse m-r-10"></i> </a> </td> -->
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+
+      <div class="row">
+        <div class="col-md-12">
+          <div class="white-box">
+			<h3 class="box-title">Turmas Empresa</h3>
+            <div class="table-responsive" th:if="${turmasEmpresa != null}">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Descrição</th>
+                    <th>Estágiarios</th>
+                    <th>Período</th>
+<!--                     <th class="text-nowrap"></th> -->
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr th:each="turma : ${turmasEmpresa}">
+                    <td th:inline="text">
+                    	<a class="btn-link" th:href="@{'/Supervisao/Turma/' + ${turma.id}}" data-toggle="tooltip" data-original-title="Detalhes"><b>[[${turma.semestre}]]</b> [[${turma.nome}]]</a>
+                    </td>
+                    <td th:inline="text">[[${#lists.size(turma.estagios)}]] Estagiarios</td>
+                    <td th:inline="text">[[${#dates.format(turma.inicio, 'dd/MM/yyyy')}]] a [[${#dates.format(turma.termino, 'dd/MM/yyyy')}]]</td>
+<!--                     <td class="text-nowrap"><a href="#" data-toggle="tooltip" data-original-title="Editar"> <i class="fa fa-pencil text-inverse m-r-10"></i> </a> </td> -->
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
 
   <div class="container-fluid titulo-pagina">
     <div class="container">

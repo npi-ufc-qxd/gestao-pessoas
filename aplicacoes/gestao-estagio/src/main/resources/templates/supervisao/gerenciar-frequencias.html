@@ -128,7 +128,7 @@
 			      <div class="col-sm-4">
 			          <ul class="list-group">
 			            <li class="list-group-item gp-list-group-item list-group-item-warning">
-			              <b>Atrasos</b> <span class="badge" th:inline="text">[[${estagio.atraso}]] <b>min</b> </span>
+			              <b>Atrasos</b> <span class="badge" th:inline="text">[[${faltasEAtrasos}]]</span>
 			            </li>
 			          </ul>
 			      </div>
@@ -234,6 +234,7 @@
 					      <th class="sort" data-sort="tipo">Tipo</th>
 					      <th class="sort" data-sort="horaEntrada">Entrada</th>
 					      <th class="sort" data-sort="horaSaida">Saída</th>
+					      <th>Minutos Trabalhados</th>
 					      <th class="sort" data-sort="status">Status</th>
 					      <th></th>
 					    </tr>
@@ -241,12 +242,12 @@
 					  <tbody class="list">
 						<tr th:each="frequencia : ${estagio.frequencias}">
 						    <td class="hidden" th:text="${frequencia.id}"></td>
-							<td class="timestamp" data-timestamp="20120911" th:inline="text" th:attr="data-timestamp=${#dates.format(frequencia.data,'yyyyMMdd')}">[[${#dates.format(frequencia.data,'dd/MM/yyyy')}]]</td>
+							<td class="timestamp" data-timestamp="20120911" th:inline="text" th:attr="data-timestamp=${#dates.format(frequencia.data,'yyyyMMdd')}">[[${#dates.dayOfWeekName(frequencia.data)}]] - [[${#dates.format(frequencia.data,'dd/MM/yyyy')}]]</td>
 						    <td class="tipo" th:text="${frequencia.tipo}"></td>
 							<td th:if="${frequencia.horaEntrada != null}"  th:text="${#dates.format(frequencia.horaEntrada,'HH:mm')}"></td>
 							<td th:if="${frequencia.horaSaida != null}" th:text="${#dates.format(frequencia.horaSaida,'HH:mm')}"></td>
 							<td th:if="${frequencia.horaEntrada == null}"></td>
-							<td th:if="${frequencia.horaSaida == null}"></td>
+						    <th th:text="${frequencia.minutosTrabalhados}"></th>
 						    <td th:if="${#strings.equals(frequencia.status, 'PRESENTE')}" class="status"><span class="label label-success" th:text="${frequencia.status}">Default</span></td>
 						    <td th:if="${#strings.equals(frequencia.status, 'FALTA')}" class="status"><span class="label label-danger" th:text="${frequencia.status}">Default</span></td>
 						    <td th:if="${#strings.equals(frequencia.status, 'AGUARDO')}" class="status"><span class="label label-default" th:text="${frequencia.status}">Default</span></td>

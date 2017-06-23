@@ -193,7 +193,7 @@ public class EstagioServiceImpl implements EstagioService {
 		List<Frequencia> frequenciasPendentes = new ArrayList<Frequencia>();
 
 		while (!inicioPeriodoTemporario.isAfter(fimPeriodo)) {
-			if (UtilGestao.isDiaDeTrabahoDaTurma(estagio.getTurma().getExpedientes(), inicioPeriodoTemporario)) {
+			if (UtilGestao.isDiaDeTrabahoDaTurma(estagio.getExpedientes(), inicioPeriodoTemporario)) {
 				if (!frequenciaRepository.existeFrequenciaByDataAndEstagioId(inicioPeriodoTemporario.toDate(),
 						estagio.getId())) {
 					Frequencia frequencia = new Frequencia();
@@ -324,8 +324,6 @@ public class EstagioServiceImpl implements EstagioService {
 
 		int totalPendencias = totalDeFrequenciasDaTurmaHoje - frequenciaRepository.buscarTotalByTipo(estagio.getId(), Frequencia.TipoFrequencia.NORMAL);
 
-		int totalAtrasos = frequenciaRepository.buscarTotalByStatus(estagio.getId(), Frequencia.StatusFrequencia.ATRASADO);
-
 		int totalReposicoes = frequenciaRepository.buscarTotalByTipo(estagio.getId(),
 				Frequencia.TipoFrequencia.REPOSICAO);
 		double porcentagemFaltas = 0.0;
@@ -339,7 +337,6 @@ public class EstagioServiceImpl implements EstagioService {
 		ConsolidadoFrequencia consolidadoFrequencia = new ConsolidadoFrequencia();
 
 		consolidadoFrequencia.setTotalPendencias(totalPendencias);
-		consolidadoFrequencia.setTotalAtrasos(totalAtrasos);
 		consolidadoFrequencia.setTotalReposicoes(totalReposicoes);
 		consolidadoFrequencia.setPorcentagemFaltas(porcentagemFaltas);
 		consolidadoFrequencia.setPorcentagemPresencas(porcentagemPresencas);

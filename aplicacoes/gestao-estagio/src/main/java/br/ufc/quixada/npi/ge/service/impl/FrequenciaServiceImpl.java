@@ -7,7 +7,9 @@ import java.util.List;
 import javax.inject.Named;
 
 import org.joda.time.LocalDate;
+import org.joda.time.LocalDateTime;
 import org.joda.time.LocalTime;
+import org.joda.time.Minutes;
 import org.joda.time.Period;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -19,6 +21,7 @@ import br.ufc.quixada.npi.ge.model.Presenca;
 import br.ufc.quixada.npi.ge.repository.EstagioRepository;
 import br.ufc.quixada.npi.ge.repository.FrequenciaRepository;
 import br.ufc.quixada.npi.ge.service.FrequenciaService;
+import br.ufc.quixada.npi.ge.utils.UtilGestao;
 
 @Named
 public class FrequenciaServiceImpl implements FrequenciaService {
@@ -312,5 +315,97 @@ public class FrequenciaServiceImpl implements FrequenciaService {
 	public void salvar(Frequencia frequencia) {
 		frequenciaRepository.save(frequencia);
 	}
+	
+	public int calcularTotoalDeMinutosATrabalhar(Date inicio, Date termino, List<Expediente> horarios) {
+		
+		int minutosATrabalhar = 0;
 
+		LocalDate inicioPeriodoTemporario = new LocalDate(inicio);
+		LocalDate fimPeriodo = new LocalDate();
+
+		while (!inicioPeriodoTemporario.isAfter(fimPeriodo)) {
+
+			Expediente expediente = UtilGestao.getExpedientePorData(horarios, inicioPeriodoTemporario);
+
+			if (expediente != null) {
+				minutosATrabalhar += UtilGestao.getTotalMinutosDiaExpediente(expediente);
+			}
+
+			inicioPeriodoTemporario = inicioPeriodoTemporario.plusDays(1);
+		}
+
+		return minutosATrabalhar;
+	}
+	
+	public int calcularTotalDeMinutosPresentes(List<Frequencia> frequencias) {
+
+		int totalMinutosPresentes = 0;
+		
+		for (Frequencia frequencia : frequencias) {
+			LocalDateTime inicio = new LocalDateTime(frequencia.getHoraEntrada());
+			LocalDateTime termino = new LocalDateTime(frequencia.getHoraSaida());
+			totalMinutosPresentes += Minutes.minutesBetween(inicio, termino).getMinutes();
+		}
+
+		return totalMinutosPresentes;
+	}
+	
+	public int calcularTotalDeMinutosAbonados(List<Frequencia> frequencias, List<Expediente> horarios) {
+
+		int totalMinutosAbonados = 0;
+		
+		for (Frequencia frequencia : frequencias) {
+			Expediente expediente = UtilGestao.getExpedientePorData(horarios, new LocalDate(frequencia.getData()));
+
+			if (expediente != null) {
+				totalMinutosAbonados += UtilGestao.getTotalMinutosDiaExpediente(expediente);
+			}
+		}
+
+		return totalMinutosAbonados;
+	}
+	
+	public int calcularTotalDeMinutosFaltas(List<Frequencia> frequencias, List<Expediente> horarios) {
+
+		int totalMinutosFaltas = 0;
+		
+		for (Frequencia frequencia : frequencias) {
+			Expediente expediente = UtilGestao.getExpedientePorData(horarios, new LocalDate(frequencia.getData()));
+
+			if (expediente != null) {
+				totalMinutosFaltas += UtilGestao.getTotalMinutosDiaExpediente(expediente);
+			}
+		}
+
+		return totalMinutosFaltas;
+	}
+
+	@Override
+	public String cacularFaltasEAtrasos(Estagio estagio) {
+		List<Frequencia> frequenciasAbonados= frequenciaRepository.findFrequenciasByStatusAndEstagioId(estagio.getId(), Frequencia.StatusFrequencia.ABONADO);
+		List<Frequencia> frequenciasPresentes = frequenciaRepository.findFrequenciasByStatusAndEstagioId(estagio.getId(), Frequencia.StatusFrequencia.PRESENTE);
+		List<Frequencia> frequenciasFaltas = frequenciaRepository.findFrequenciasByStatusAndEstagioId(estagio.getId(), Frequencia.StatusFrequencia.FALTA);
+
+		int totalMinutosATrabalhar = calcularTotoalDeMinutosATrabalhar(estagio.getTurma().getInicio(), new Date(), estagio.getExpedientes());
+		int totalMinutosAbonados = calcularTotalDeMinutosAbonados(frequenciasAbonados, estagio.getExpedientes());
+		int totalMinutosFaltas = calcularTotalDeMinutosFaltas(frequenciasFaltas, estagio.getExpedientes());
+		int totalMinutosPresentes = calcularTotalDeMinutosPresentes(frequenciasPresentes);
+		int totalMinutosAtrasados = 0;
+		int totalHorasAtrasadas = 0;
+
+		totalMinutosATrabalhar -= totalMinutosAbonados;
+		
+		if(totalMinutosATrabalhar > totalMinutosPresentes) {
+			totalMinutosAtrasados = totalMinutosATrabalhar - totalMinutosPresentes; 
+		}
+
+		totalMinutosAtrasados += totalMinutosFaltas;
+		
+		totalHorasAtrasadas = totalMinutosAtrasados / 60;
+		totalMinutosAtrasados -= (totalHorasAtrasadas*60);
+
+		return totalHorasAtrasadas + "h" + totalMinutosAtrasados + "min";
+	}
+
+	
 }

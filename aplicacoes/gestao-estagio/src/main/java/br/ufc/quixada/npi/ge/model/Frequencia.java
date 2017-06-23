@@ -11,6 +11,10 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
+
+import org.joda.time.LocalDateTime;
+import org.joda.time.Minutes;
 
 @Entity
 public class Frequencia {
@@ -42,6 +46,13 @@ public class Frequencia {
 	
 	@Temporal(TemporalType.TIME)
 	private Date horaAgendamentoSaida;
+
+	public Frequencia() {
+		LocalDateTime inicio = new LocalDateTime(horaEntrada);
+		LocalDateTime termino = new LocalDateTime(horaSaida);
+		minutosTrabalhados = Minutes.minutesBetween(inicio, termino).getMinutes();
+
+	}
 
 	public Long getId() {
 		return id;
@@ -114,12 +125,17 @@ public class Frequencia {
 	public void setHoraAgendamentoSaida(Date horaAgendamentoSaida) {
 		this.horaAgendamentoSaida = horaAgendamentoSaida;
 	}
+	
+	@Transient
+	private int minutosTrabalhados;
 
+	public int getMinutosTrabalhados() {
+		return minutosTrabalhados;
+	}
 
 	public enum StatusFrequencia {
 		PRESENTE("Presente"),
 		FALTA("Falta"), 
-		ATRASADO("Atrasado"), 
 		ABONADO("Abonado"),
 		AGUARDO_SAIDA("Aguardo Saída"),
 		AGUARDO("Aguardo");

@@ -119,6 +119,11 @@ public class Estagio implements Comparable<Estagio>{
 	}
 
 	public List<Expediente> getExpedientes() {
+
+		if(expedientes == null || expedientes.isEmpty()) {
+			turma.getExpedientes();
+		}
+
 		return expedientes;
 	}
 

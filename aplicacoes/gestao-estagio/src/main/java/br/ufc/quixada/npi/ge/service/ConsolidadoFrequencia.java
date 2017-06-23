@@ -6,8 +6,6 @@ public class ConsolidadoFrequencia {
 	
 	private int totalPendencias;
 
-	private int totalAtrasos;
-
 	private int totalReposicoes;
 	
 	private double porcentagemFaltas;
@@ -28,14 +26,6 @@ public class ConsolidadoFrequencia {
 
 	public void setTotalPendencias(int totalPendecias) {
 		this.totalPendencias = totalPendecias;
-	}
-
-	public int getTotalAtrasos() {
-		return totalAtrasos;
-	}
-
-	public void setTotalAtrasos(int totalAtrasos) {
-		this.totalAtrasos = totalAtrasos;
 	}
 
 	public int getTotalReposicoes() {

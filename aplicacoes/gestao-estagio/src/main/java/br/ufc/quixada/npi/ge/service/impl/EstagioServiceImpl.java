@@ -220,10 +220,6 @@ public class EstagioServiceImpl implements EstagioService {
 	    
 	    List<Expediente> expedientes = estagio.getExpedientes();
 	    
-	    if(expedientes.isEmpty()) {
-	    	expedientes = estagio.getTurma().getExpedientes();
-	    }      
-	    
 	    LocalDate copiaDataReposicao = new LocalDate(dataReposicao);
 	    LocalTime copiaHoraEntradaReposicao = new LocalTime(horaEntradaReposicao);
 	    LocalTime copiaHoraSaidaReposicao = new LocalTime(horaSaidaReposicao);
@@ -313,16 +309,14 @@ public class EstagioServiceImpl implements EstagioService {
 	public ConsolidadoFrequencia consolidarFrequencias(Estagio estagio) {
 
 		int totalDeFrequenciasDaTurma = calcularTotalDeFrequenciasDaTurma(estagio.getTurma().getInicio(),
-				estagio.getTurma().getTermino(), estagio.getTurma().getExpedientes());
+				estagio.getTurma().getTermino(), estagio.getExpedientes());
 
 		int totalDeFrequenciasDaTurmaHoje = calcularTotalDeFrequenciasDaTurma(estagio.getTurma().getInicio(),
-				new Date(), estagio.getTurma().getExpedientes());
+				new Date(), estagio.getExpedientes());
 
 		int totalPresencas = frequenciaRepository.buscarTotalByStatus(estagio.getId(), Frequencia.StatusFrequencia.PRESENTE);
 		
 		int totalFaltas = frequenciaRepository.buscarTotalByStatus(estagio.getId(), Frequencia.StatusFrequencia.FALTA);
-
-		int totalPendencias = totalDeFrequenciasDaTurmaHoje - frequenciaRepository.buscarTotalByTipo(estagio.getId(), Frequencia.TipoFrequencia.NORMAL);
 
 		int totalReposicoes = frequenciaRepository.buscarTotalByTipo(estagio.getId(),
 				Frequencia.TipoFrequencia.REPOSICAO);
@@ -336,7 +330,6 @@ public class EstagioServiceImpl implements EstagioService {
 
 		ConsolidadoFrequencia consolidadoFrequencia = new ConsolidadoFrequencia();
 
-		consolidadoFrequencia.setTotalPendencias(totalPendencias);
 		consolidadoFrequencia.setTotalReposicoes(totalReposicoes);
 		consolidadoFrequencia.setPorcentagemFaltas(porcentagemFaltas);
 		consolidadoFrequencia.setPorcentagemPresencas(porcentagemPresencas);

@@ -24,6 +24,6 @@ public interface FrequenciaService {
 
 	public void salvar(Frequencia frequencia);
 
-	public String cacularFaltasEAtrasos(Estagio estagio);
+	public String calcularFaltasEAtrasos(Estagio estagio);
 
 }

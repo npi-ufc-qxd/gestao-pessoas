@@ -13,8 +13,11 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
+import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
 import org.joda.time.Minutes;
+
+import br.ufc.quixada.npi.ge.utils.UtilGestao;
 
 @Entity
 public class Frequencia {
@@ -123,20 +126,44 @@ public class Frequencia {
 	private int minutosTrabalhados;
 
 	public int getMinutosTrabalhados() {
-		LocalDateTime inicio = new LocalDateTime(horaEntrada);
-		LocalDateTime termino = new LocalDateTime(horaSaida);
-		minutosTrabalhados = Minutes.minutesBetween(inicio, termino).getMinutes();
+		if(status.equals(StatusFrequencia.PRESENTE)) {
+			LocalDateTime inicio = new LocalDateTime(horaEntrada);
+			LocalDateTime termino = new LocalDateTime(horaSaida);
+			minutosTrabalhados = Minutes.minutesBetween(inicio, termino).getMinutes();
+		}
 
 		return minutosTrabalhados;
 	}
 
+	public int getMinutosAbonados() {
+		if(status.equals(StatusFrequencia.ABONADO)) {
+			Expediente expediente = UtilGestao.getExpedientePorData(estagio.getExpedientes(), new LocalDate(data));
+			if (expediente != null) {
+				return UtilGestao.getTotalMinutosDiaExpediente(expediente);
+			}
+		}
+
+		return 0;
+	}
+
+	public int getMinutosFaltas() {
+		if(status.equals(StatusFrequencia.FALTA)) {
+			Expediente expediente = UtilGestao.getExpedientePorData(estagio.getExpedientes(), new LocalDate(data));
+			if (expediente != null) {
+				return UtilGestao.getTotalMinutosDiaExpediente(expediente);
+			}
+		}
+
+		return 0;
+	}
+
+	
 	public enum StatusFrequencia {
 		PRESENTE("Presente"),
 		FALTA("Falta"), 
 		ABONADO("Abonado"),
 		AGUARDO_SAIDA("Aguardo Saída"),
 		AGUARDO("Aguardo");
-		
 
 		private String descricao;
 		

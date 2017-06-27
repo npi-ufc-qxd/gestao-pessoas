@@ -308,31 +308,45 @@ public class EstagioServiceImpl implements EstagioService {
 	@Override
 	public ConsolidadoFrequencia consolidarFrequencias(Estagio estagio) {
 
-		int totalDeFrequenciasDaTurma = calcularTotalDeFrequenciasDaTurma(estagio.getTurma().getInicio(),
-				estagio.getTurma().getTermino(), estagio.getExpedientes());
-
-		int totalDeFrequenciasDaTurmaHoje = calcularTotalDeFrequenciasDaTurma(estagio.getTurma().getInicio(),
-				new Date(), estagio.getExpedientes());
-
-		int totalPresencas = frequenciaRepository.buscarTotalByStatus(estagio.getId(), Frequencia.StatusFrequencia.PRESENTE);
+		int totalMinutosPresentes = 0;
+		int totalMinutosAbonados = 0;
+		int totalMinutosFaltas = 0;
+		int totalMinutosReposicao = 0;
 		
-		int totalFaltas = frequenciaRepository.buscarTotalByStatus(estagio.getId(), Frequencia.StatusFrequencia.FALTA);
+		for (Frequencia frequencia : estagio.getFrequencias()) {
 
-		int totalReposicoes = frequenciaRepository.buscarTotalByTipo(estagio.getId(),
-				Frequencia.TipoFrequencia.REPOSICAO);
-		double porcentagemFaltas = 0.0;
-		double porcentagemPresencas = 0.0;
-		
-		if (totalDeFrequenciasDaTurma > 0) {
-			porcentagemFaltas = (totalFaltas * 100) / totalDeFrequenciasDaTurma;
-			porcentagemPresencas = (totalPresencas * 100) / totalDeFrequenciasDaTurma;
+			if (frequencia.getTipo().equals(Frequencia.TipoFrequencia.REPOSICAO)) {
+				totalMinutosReposicao += frequencia.getMinutosReposicao();
+			} else {
+				switch (frequencia.getStatus()) {
+				case PRESENTE:
+					totalMinutosPresentes += frequencia.getMinutosTrabalhados();
+
+					break;
+
+				case FALTA:
+					totalMinutosFaltas += frequencia.getMinutosFaltas();
+					break;
+
+				case ABONADO:
+					totalMinutosAbonados += frequencia.getMinutosAbonados();
+					break;
+
+				default:
+					break;
+				}
+			}
+
 		}
 
-		ConsolidadoFrequencia consolidadoFrequencia = new ConsolidadoFrequencia();
+		int totalMinutosATrabalhar = calcularTotalDeMinutosATrabalharAteDataAtual(estagio.getTurma().getInicio(), estagio.getExpedientes());
 
-		consolidadoFrequencia.setTotalReposicoes(totalReposicoes);
-		consolidadoFrequencia.setPorcentagemFaltas(porcentagemFaltas);
-		consolidadoFrequencia.setPorcentagemPresencas(porcentagemPresencas);
+		ConsolidadoFrequencia consolidadoFrequencia = new ConsolidadoFrequencia();
+		consolidadoFrequencia.setMinutosPresentes(totalMinutosPresentes);
+		consolidadoFrequencia.setMinutosAbonados(totalMinutosAbonados);
+		consolidadoFrequencia.setMinutosATrabalhar(totalMinutosATrabalhar);
+		consolidadoFrequencia.setMinutosFaltas(totalMinutosFaltas);
+		consolidadoFrequencia.setMinutosReposicao(totalMinutosReposicao);
 
 		return consolidadoFrequencia;
 	}
@@ -467,5 +481,27 @@ public class EstagioServiceImpl implements EstagioService {
 		
 		return false;
 	}
+	
+	private int calcularTotalDeMinutosATrabalharAteDataAtual(Date inicio, List<Expediente> horarios) {
+		
+		int minutosATrabalhar = 0;
+
+		LocalDate inicioPeriodoTemporario = new LocalDate(inicio);
+		LocalDate fimPeriodo = new LocalDate();
+
+		while (!inicioPeriodoTemporario.isAfter(fimPeriodo)) {
+
+			Expediente expediente = UtilGestao.getExpedientePorData(horarios, inicioPeriodoTemporario);
+
+			if (expediente != null) {
+				minutosATrabalhar += UtilGestao.getTotalMinutosDiaExpediente(expediente);
+			}
+
+			inicioPeriodoTemporario = inicioPeriodoTemporario.plusDays(1);
+		}
+
+		return minutosATrabalhar;
+	}
+
 	
 }

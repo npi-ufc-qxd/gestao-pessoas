@@ -560,7 +560,6 @@ public class SupervisorController {
 			model.addAttribute("submissaoPlano", estagioService.buscarSubmissaoPorTipoSubmissaoEEstagioId(TipoSubmissao.PLANO_ESTAGIO, idEstagio));
 			model.addAttribute("submissaoRelatorio", estagioService.buscarSubmissaoPorTipoSubmissaoEEstagioId(TipoSubmissao.RELATORIO_FINAL_ESTAGIO, idEstagio));
 			model.addAttribute("consolidadoFrequencia", estagioService.consolidarFrequencias(estagio));
-			model.addAttribute("faltasEAtrasos", frequenciaService.calcularFaltasEAtrasos(estagio));
 
 			return ACOMPANHAMENTO_ESTAGIARIO;
 
@@ -657,9 +656,7 @@ public class SupervisorController {
 		model.addAttribute("estagio", estagio);
 		model.addAttribute("frequenciasPendentes", estagioService.buscarFrequenciasPendentes(estagio));
 		model.addAttribute("consolidadoFrequencia", estagioService.consolidarFrequencias(estagio));
-		model.addAttribute("faltasEAtrasos", frequenciaService.calcularFaltasEAtrasos(estagio));
 
-		
 		return GERENCIAR_FREQUENCIAS;
 	}
 

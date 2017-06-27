@@ -18,6 +18,7 @@ import br.ufc.quixada.npi.ge.model.Frequencia.TipoFrequencia;
 import br.ufc.quixada.npi.ge.model.Presenca;
 import br.ufc.quixada.npi.ge.repository.EstagioRepository;
 import br.ufc.quixada.npi.ge.repository.FrequenciaRepository;
+import br.ufc.quixada.npi.ge.service.ConsolidadoFrequencia;
 import br.ufc.quixada.npi.ge.service.FrequenciaService;
 import br.ufc.quixada.npi.ge.utils.UtilGestao;
 
@@ -312,71 +313,5 @@ public class FrequenciaServiceImpl implements FrequenciaService {
 	@Override
 	public void salvar(Frequencia frequencia) {
 		frequenciaRepository.save(frequencia);
-	}
-	
-	public int calcularTotalDeMinutosATrabalharAteDataAtual(Date inicio, Date termino, List<Expediente> horarios) {
-		
-		int minutosATrabalhar = 0;
-
-		LocalDate inicioPeriodoTemporario = new LocalDate(inicio);
-		LocalDate fimPeriodo = new LocalDate();
-
-		while (!inicioPeriodoTemporario.isAfter(fimPeriodo)) {
-
-			Expediente expediente = UtilGestao.getExpedientePorData(horarios, inicioPeriodoTemporario);
-
-			if (expediente != null) {
-				minutosATrabalhar += UtilGestao.getTotalMinutosDiaExpediente(expediente);
-			}
-
-			inicioPeriodoTemporario = inicioPeriodoTemporario.plusDays(1);
-		}
-
-		return minutosATrabalhar;
-	}
-
-	@Override
-	public String calcularFaltasEAtrasos(Estagio estagio) {
-
-		int totalMinutosTrabalhados = 0;
-		int totalMinutosFaltas = 0;
-		int totalMinutosAbonados = 0;
-		
-		for (Frequencia frequencia : estagio.getFrequencias()) {
-			 switch (frequencia.getStatus()) {
-	            case PRESENTE:
-	        		totalMinutosTrabalhados += frequencia.getMinutosTrabalhados();
-	            	
-	                break;
-	            
-	            case FALTA: 
-	            	totalMinutosFaltas += frequencia.getMinutosFaltas();
-	            	break;
-
-	            case ABONADO:
-	            	totalMinutosAbonados += frequencia.getMinutosAbonados(); 
-	                break;
-
-	            default: 
-	                break;
-	        }
-		}
-
-		int totalMinutosATrabalhar = calcularTotalDeMinutosATrabalharAteDataAtual(estagio.getTurma().getInicio(), new Date(), estagio.getExpedientes());
-		int totalMinutosAtrasados = 0;
-		int totalHorasAtrasadas = 0;
-
-		totalMinutosATrabalhar -= totalMinutosAbonados;
-		
-		if(totalMinutosATrabalhar > totalMinutosTrabalhados) {
-			totalMinutosAtrasados = totalMinutosATrabalhar - totalMinutosTrabalhados; 
-		}
-
-		totalMinutosAtrasados += totalMinutosFaltas;
-		
-		totalHorasAtrasadas = totalMinutosAtrasados / 60;
-		totalMinutosAtrasados -= (totalHorasAtrasadas*60);
-
-		return totalHorasAtrasadas + "h" + totalMinutosAtrasados + "min";
 	}
 }

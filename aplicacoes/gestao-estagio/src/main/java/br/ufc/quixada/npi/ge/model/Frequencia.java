@@ -157,6 +157,16 @@ public class Frequencia {
 		return 0;
 	}
 
+	public int getMinutosReposicao() {
+		if(tipo.equals(TipoFrequencia.REPOSICAO) && status.equals(StatusFrequencia.PRESENTE)) {
+			LocalDateTime inicio = new LocalDateTime(horaEntrada);
+			LocalDateTime termino = new LocalDateTime(horaSaida);
+			return Minutes.minutesBetween(inicio, termino).getMinutes();
+		}
+
+		return 0;
+	}
+
 	
 	public enum StatusFrequencia {
 		PRESENTE("Presente"),

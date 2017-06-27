@@ -109,33 +109,47 @@
 	            <a class="panel-title" data-toggle="collapse" data-target="#consolidado"><i class="fa fa-caret-down" aria-hidden="true"></i> Consolidado Frequências</a>
 			  </div>
 	          <div id="consolidado" class="panel-body collapse in">
-			      <div class="col-sm-4">
+			      <div class="col-sm-6">
 			          <ul class="list-group">
 			            <li class="list-group-item gp-list-group-item list-group-item-success">
-			              <b>Presenças</b> <span class="badge" th:inline="text">[[${consolidadoFrequencia.porcentagemPresencas}]]%</span>
+			              <b>Frequência</b> <span class="badge" th:inline="text">[[${#numbers.formatDecimal(consolidadoFrequencia.porcentagemFrequencia, 0, 'COMMA', 2, 'POINT')}]] %</span>
 			            </li>
 			          </ul>
 			      </div>
 	
-			      <div class="col-sm-4">
+			      <div class="col-sm-6">
 			          <ul class="list-group">
-			            <li class="list-group-item gp-list-group-item list-group-item-warning">
-			              <b>Faltas e Atrasos</b> <span class="badge" th:inline="text">[[${faltasEAtrasos}]]</span>
+			            <li class="list-group-item gp-list-group-item list-group-item-danger">
+			              <b>Faltas</b> <span class="badge" th:inline="text">
+			              [[${#numbers.formatDecimal(consolidadoFrequencia.porcentagemFaltas, 0, 'COMMA', 2, 'POINT')}]] %</span>
 			            </li>
 			          </ul>
 			      </div>
 	
-			      <div class="col-sm-4">
+			      <div class="col-sm-6">
+			          <ul class="list-group">
+			            <li class="list-group-item gp-list-group-item list-group-item-default">
+			              <b>Reposições</b> <span class="badge" th:inline="text">[[${consolidadoFrequencia.horasReposicao}]]</span>
+			            </li>
+			          </ul>
+			      </div>
+	
+			      <div class="col-sm-6">
 			          <ul class="list-group">
 			            <li class="list-group-item gp-list-group-item list-group-item-info">
-			              <b>Reposições</b> <span class="badge" th:inline="text">[[${consolidadoFrequencia.totalReposicoes}]]</span>
+			              <b>Abonos</b> <span class="badge" th:inline="text">[[${consolidadoFrequencia.horasAbonadas}]]</span>
 			            </li>
 			          </ul>
 			      </div>
-
-			      <div class="col-sm-4">
-			          <ul class="list-group"></ul>
+	
+			      <div class="col-sm-6">
+			          <ul class="list-group">
+			            <li class="list-group-item gp-list-group-item list-group-item-warning">
+			              <b>Banco de Horas</b> <span class="badge" th:inline="text">[[${consolidadoFrequencia.bancoHoras}]]</span>
+			            </li>
+			          </ul>
 			      </div>
+	
 				  <br/><br/>
 	          </div>
 	        </div>
@@ -230,8 +244,9 @@
 							<td class="timestamp" data-timestamp="20120911" th:inline="text" th:attr="data-timestamp=${#dates.format(frequencia.data,'yyyyMMdd')}">[[${#dates.dayOfWeekName(frequencia.data)}]] - [[${#dates.format(frequencia.data,'dd/MM/yyyy')}]]</td>
 						    <td class="tipo" th:text="${frequencia.tipo}"></td>
 							<td th:if="${frequencia.horaEntrada != null}"  th:text="${#dates.format(frequencia.horaEntrada,'HH:mm')}"></td>
-							<td th:if="${frequencia.horaSaida != null}" th:text="${#dates.format(frequencia.horaSaida,'HH:mm')}"></td>
 							<td th:if="${frequencia.horaEntrada == null}"></td>
+							<td th:if="${frequencia.horaSaida != null}" th:text="${#dates.format(frequencia.horaSaida,'HH:mm')}"></td>
+							<td th:if="${frequencia.horaSaida == null}"></td>
 						    <th th:text="${frequencia.minutosTrabalhados}"></th>
 						    <td th:if="${#strings.equals(frequencia.status, 'PRESENTE')}" class="status"><span class="label label-success" th:text="${frequencia.status}">Default</span></td>
 						    <td th:if="${#strings.equals(frequencia.status, 'FALTA')}" class="status"><span class="label label-danger" th:text="${frequencia.status}">Default</span></td>

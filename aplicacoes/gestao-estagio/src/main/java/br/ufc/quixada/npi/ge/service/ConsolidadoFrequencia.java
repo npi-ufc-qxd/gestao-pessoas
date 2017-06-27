@@ -2,55 +2,81 @@ package br.ufc.quixada.npi.ge.service;
 
 public class ConsolidadoFrequencia {
 	
-	private int horasEstagiadas;
-	
-	private int totalPendencias;
+	private int minutosATrabalhar;
 
-	private int totalReposicoes;
-	
+	private int minutosPresentes;
+
+	private int minutosFaltas;
+
+	private int minutosAbonados;
+
+	private int minutosReposicao;
+
 	private double porcentagemFaltas;
 
-	private double porcentagemPresencas;
-
-	public int getHorasEstagiadas() {
-		return horasEstagiadas;
-	}
-
-	public void setHorasEstagiadas(int horasEstagiadas) {
-		this.horasEstagiadas = horasEstagiadas;
-	}
-
-	public int getTotalPendencias() {
-		return totalPendencias;
-	}
-
-	public void setTotalPendencias(int totalPendecias) {
-		this.totalPendencias = totalPendecias;
-	}
-
-	public int getTotalReposicoes() {
-		return totalReposicoes;
-	}
-
-	public void setTotalReposicoes(int totalReposicoes) {
-		this.totalReposicoes = totalReposicoes;
-	}
+	private double porcentagemFrequencia;
 
 	public double getPorcentagemFaltas() {
+		porcentagemFaltas = (minutosFaltas * 100) / minutosATrabalhar;
+
 		return porcentagemFaltas;
 	}
 
-	public void setPorcentagemFaltas(double porcentagemFaltas) {
-		this.porcentagemFaltas = porcentagemFaltas;
-	}
-
-	public double getPorcentagemPresencas() {
-		return porcentagemPresencas;
-	}
-
-	public void setPorcentagemPresencas(double porcentagemPresencas) {
-		this.porcentagemPresencas = porcentagemPresencas;
+	public double getPorcentagemFrequencia() {
+		porcentagemFrequencia = 100 - getPorcentagemFaltas();
+		return porcentagemFrequencia;
 	}
 	
+	public String getHorasEstagiadas(){
+		return getHorasFormatadas(minutosPresentes);
+	}
+
+	public String getHorasATrabalhar(){
+		return getHorasFormatadas(minutosATrabalhar);
+	}
 	
+	public String getHorasFaltas(){
+		return getHorasFormatadas(minutosFaltas);
+	}
+	
+	public String getHorasAbonadas() {
+		return getHorasFormatadas(minutosAbonados);
+	}
+	
+	public String getHorasReposicao() {
+		return getHorasFormatadas(minutosReposicao);
+	}
+
+	public String getBancoHoras() {
+		return getHorasFormatadas(getTotalMinutosBanco());
+	}
+
+	public int getTotalMinutosBanco() {
+		return (minutosPresentes + minutosAbonados) - minutosATrabalhar;
+	}	
+
+	public void setMinutosPresentes(int minutosPresentes) {
+		this.minutosPresentes = minutosPresentes;
+	}
+
+	public void setMinutosATrabalhar(int minutosATrabalhar) {
+		this.minutosATrabalhar = minutosATrabalhar;
+	}
+
+	public void setMinutosFaltas(int minutosFaltas) {
+		this.minutosFaltas = minutosFaltas;
+	}
+
+	public void setMinutosAbonados(int minutosAbonados) {
+		this.minutosAbonados = minutosAbonados;
+	}
+
+	public void setMinutosReposicao(int minutosReposicao) {
+		this.minutosReposicao = minutosReposicao;
+	}
+
+	private String getHorasFormatadas(int minutos) {
+		return minutos / 60 +"h" + minutos % 60 + "min";
+	}
+
 }

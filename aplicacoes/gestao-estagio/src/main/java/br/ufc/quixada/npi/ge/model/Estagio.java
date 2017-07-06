@@ -103,6 +103,10 @@ public class Estagio implements Comparable<Estagio>{
 	}
 
 	public Date getInicio() {
+		if(inicio == null) {
+			return turma.getInicio();
+		}
+
 		return inicio;
 	}
 
@@ -111,6 +115,10 @@ public class Estagio implements Comparable<Estagio>{
 	}
 
 	public Date getTermino() {
+		if(termino == null) {
+			return turma.getTermino();
+		}
+
 		return termino;
 	}
 

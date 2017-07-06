@@ -134,9 +134,9 @@
 <!-- 					<a th:if="${#strings.equals(turma.tipoTurma, 'NPI')}" th:href="@{/Supervisao/Turma/{id}/Declaracoes(id=${turma.id})}" class="btn btn-xs pull-right gp-btn-opcao">declarações</a> -->
 				</span>
 					<a th:href="@{/Supervisao/Turma/{id}/AtualizarVinculos(id=${turma.id})}" class="btn btn-xs pull-right gp-btn-opcao">Atualizar Vínculos</a>
+					<a id="copy-emails" data-clipboard-text="Just because you can doesn't mean you should — clipboard.js" class="btn btn-xs pull-right gp-btn-opcao">E-mails</a>
 	          </div>
 	          <div id="estagiarios" class="panel-body collapse in">
-	          	
           		<table id="estagiarios" class="table table-hover">
        				<thead>
        					<tr>
@@ -157,9 +157,7 @@
 				      	</tr>
 				    </tbody>
 				</table>
-	    
 	        	<p th:if="${#lists.isEmpty(turma.estagios)}">Não há estagiários vinculados a turma</p>
-		
 	           </div>
 	        </div>
 	        <div class="panel panel-bluegray">
@@ -185,4 +183,10 @@
 	    </div>
 	</div>
   </section>
+  
+  <section layout:fragment="js">
+  </section>
+  
 </html>
+
+

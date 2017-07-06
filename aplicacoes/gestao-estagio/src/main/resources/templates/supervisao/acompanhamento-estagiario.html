@@ -143,9 +143,14 @@
 	
 			      <div class="col-sm-6">
 			          <ul class="list-group">
-			            <li class="list-group-item gp-list-group-item list-group-item-danger">
-			              <b>Faltas</b> <span class="badge" th:inline="text">
-			              [[${#numbers.formatDecimal(consolidadoFrequencia.porcentagemFaltas, 0, 'COMMA', 2, 'POINT')}]] %</span>
+			            <li class="list-group-item gp-list-group-item list-group-item-default">
+			              <b>Faltas</b> 
+			              <span class="badge" th:inline="text">
+			              	[[${consolidadoFrequencia.horasFaltas}]]
+			              </span>
+			              <span class="badge" th:inline="text">
+			              	[[${#numbers.formatDecimal(consolidadoFrequencia.porcentagemFaltas, 0, 'COMMA', 2, 'POINT')}]] %
+			              </span>
 			            </li>
 			          </ul>
 			      </div>
@@ -160,7 +165,7 @@
 	
 			      <div class="col-sm-6">
 			          <ul class="list-group">
-			            <li class="list-group-item gp-list-group-item list-group-item-info">
+			            <li class="list-group-item gp-list-group-item list-group-item-default">
 			              <b>Abonos</b> <span class="badge" th:inline="text">[[${consolidadoFrequencia.horasAbonadas}]]</span>
 			            </li>
 			          </ul>
@@ -168,8 +173,32 @@
 	
 			      <div class="col-sm-6">
 			          <ul class="list-group">
-			            <li class="list-group-item gp-list-group-item list-group-item-warning">
-			              <b>Banco de Horas</b> <span class="badge" th:inline="text">[[${consolidadoFrequencia.bancoHoras}]]</span>
+			            <li class="list-group-item gp-list-group-item list-group-item-default">
+			              <b>Horas a trabalhar</b> <span class="badge" th:inline="text">[[${consolidadoFrequencia.horasATrabalhar}]]</span>
+			            </li>
+			          </ul>
+			      </div>
+	
+			      <div class="col-sm-6">
+			          <ul class="list-group">
+			            <li class="list-group-item gp-list-group-item list-group-item-default">
+			              <b>Horas Trabalhadas</b> <span class="badge" th:inline="text">[[${consolidadoFrequencia.horasTrabalhadas}]]</span>
+			            </li>
+			          </ul>
+			      </div>
+	
+			      <div class="col-sm-6">
+			          <ul class="list-group">
+			            <li class="list-group-item gp-list-group-item list-group-item-default">
+			              <b>Atraso</b> <span class="badge" th:inline="text">[[${consolidadoFrequencia.atrasos}]]</span>
+			            </li>
+			          </ul>
+			      </div>
+	
+			      <div class="col-sm-6">
+			          <ul class="list-group">
+			            <li class="list-group-item gp-list-group-item list-group-item-default">
+			              <b>Horas devidas</b> <span class="badge" th:inline="text">[[${consolidadoFrequencia.horasDevidas}]]</span>
 			            </li>
 			          </ul>
 			      </div>

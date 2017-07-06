@@ -339,7 +339,7 @@ public class EstagioServiceImpl implements EstagioService {
 
 		}
 
-		int totalMinutosATrabalhar = calcularTotalDeMinutosATrabalharAteDataAtual(estagio.getTurma().getInicio(), estagio.getExpedientes());
+		int totalMinutosATrabalhar = calcularTotalDeMinutosATrabalharAteDataAtual(estagio.getInicio(), estagio.getTermino(), estagio.getExpedientes());
 
 		ConsolidadoFrequencia consolidadoFrequencia = new ConsolidadoFrequencia();
 		consolidadoFrequencia.setMinutosPresentes(totalMinutosPresentes);
@@ -368,8 +368,10 @@ public class EstagioServiceImpl implements EstagioService {
 	}
 	 */
 
-	private int calcularTotalDeFrequenciasDaTurma(Date inicio, Date fim, List<Expediente> expedientes) {
+	/**
+	 * Calcular numero total de frequencias de uma turma baseado no perido e expediente
 
+	private int calcularTotalDeFrequenciasDaTurma(Date inicio, Date fim, List<Expediente> expedientes) {
 		LocalDate inicioPeriodoTemporario = new LocalDate(inicio);
 		LocalDate fimPeriodo = new LocalDate(fim);
 		int totalDeFrequenciasDaTurma = 0;
@@ -384,6 +386,7 @@ public class EstagioServiceImpl implements EstagioService {
 
 		return totalDeFrequenciasDaTurma;
 	}
+	*/
 
 	@Override
 	public void agendarReposicao(Estagio estagio, Date date, Date horaEntrada, Date horaSaida) {
@@ -482,15 +485,21 @@ public class EstagioServiceImpl implements EstagioService {
 		return false;
 	}
 	
-	private int calcularTotalDeMinutosATrabalharAteDataAtual(Date inicio, List<Expediente> horarios) {
+	private int calcularTotalDeMinutosATrabalharAteDataAtual(Date inicio, Date fim, List<Expediente> horarios) {
 		
 		int minutosATrabalhar = 0;
 
 		LocalDate inicioPeriodoTemporario = new LocalDate(inicio);
-		LocalDate fimPeriodo = new LocalDate();
+
+		Date data = new Date();
+		
+		if(data.after(fim)) {
+			data = fim;
+		}
+
+		LocalDate fimPeriodo = new LocalDate(data);
 
 		while (!inicioPeriodoTemporario.isAfter(fimPeriodo)) {
-
 			Expediente expediente = UtilGestao.getExpedientePorData(horarios, inicioPeriodoTemporario);
 
 			if (expediente != null) {

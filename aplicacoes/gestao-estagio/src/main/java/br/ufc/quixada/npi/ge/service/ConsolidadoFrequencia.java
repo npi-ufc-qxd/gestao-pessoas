@@ -23,7 +23,7 @@ public class ConsolidadoFrequencia {
 	}
 
 	public double getPorcentagemFrequencia() {
-		porcentagemFrequencia = 100 - getPorcentagemFaltas();
+		porcentagemFrequencia = 100.0 - getPorcentagemFaltas();
 		return porcentagemFrequencia;
 	}
 	
@@ -51,8 +51,30 @@ public class ConsolidadoFrequencia {
 		return getHorasFormatadas(getTotalMinutosBanco());
 	}
 
+	public String getHorasTrabalhadas() {
+		return getHorasFormatadas(minutosPresentes);
+	}
+
 	public int getTotalMinutosBanco() {
 		return (minutosPresentes + minutosAbonados) - minutosATrabalhar;
+	}
+
+	public String getAtrasos() {
+		return getHorasFormatadas(getMinutosAtrasos());
+	}	
+
+	public int getMinutosAtrasos() {
+		int minutosTrabalhados = minutosPresentes + minutosAbonados;
+
+		if(minutosTrabalhados < minutosATrabalhar) {
+			return minutosATrabalhar - minutosTrabalhados;
+		}
+
+		return 0;
+	}	
+
+	public String getHorasDevidas() {
+		return getHorasFormatadas(getMinutosAtrasos() + minutosFaltas);
 	}	
 
 	public void setMinutosPresentes(int minutosPresentes) {

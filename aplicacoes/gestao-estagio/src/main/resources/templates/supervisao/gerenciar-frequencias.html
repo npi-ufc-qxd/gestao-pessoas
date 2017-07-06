@@ -323,10 +323,29 @@
             <div class="modal-body">
             	<div id="modalContent">
             		<form id="form-editar-frequencia" role="form" name="modalForm" th:action="@{/Supervisao/Acompanhamento/{idEstagio}/EditarFrequencia(idEstagio=${estagio.id})}" method="post">
-            			<div class="form-group">
             				<input type="hidden" class="form-control" name="idFrequencia" id="idFrequencia" value="" />
-            			</div>
-            		</form>
+							<div class="form-group">
+								<label for="status-edit">Status</label> 
+								<select class="form-control" id="status-edit" name="status">
+									<option value="PRESENTE">Presente</option>
+									<option value="FALTA">Falta</option>
+									<option value="ATRASADO">Atrasado</option>
+									<option value="ABONADO">Abonado</option>
+								</select>
+							</div>
+							
+							<div class="form-group">
+								<label for="entrada">Entrada</label>
+								<input class="form-control" placeholder="HH:mm" name="entrada" id="entradaExpediente" value="" /> 
+								<label class="control-label"></label>
+							</div>
+							
+							<div class="form-group">
+								<label for="'+columnHeadings[4]+'">Saída</label>
+								<input class="form-control" placeholder="HH:mm" name="saida" id="saidaExpediente" value="" />
+								<label class="control-label"></label>
+							</div>
+						</form>
             	</div>
             </div>
             <div class="modal-footer">
@@ -337,14 +356,7 @@
     </div>
 </div>
 
-
-
 </section>
-
-
-
-
-
 <section layout:fragment="js">
 	
   <script th:src="@{/js/list.min.js}"></script>
@@ -359,39 +371,23 @@
 			columnHeadings.pop();
 			
 		var columnValues = $(this).parent().siblings().map(function() { return $(this).text(); }).get();
+
 		$(".modal-title").text("Editar Frequência: " + columnValues[1]);
-
-		var modalForm = $('#form-editar-frequencia');
-		
-		$('#form-editar-frequencia > div').remove();
-		
-		var formGroup = $('<div class="form-group"></div>');
-		formGroup.append('<input type="hidden" class="form-control" name="idFrequencia" id="idFrequencia" value="'+columnValues[0]+'" />'); 
-		modalForm.append(formGroup);
-		
-		var formGroup = $('<div class="form-group"></div>');
-		formGroup.append('<label for="'+columnHeadings[5]+'">'+columnHeadings[5]+'</label>');
-		formGroup.append('<select class="form-control" id="status" name="status"> <option value="PRESENTE">Presente</option> <option value="FALTA">Falta</option> <option value="ATRASADO">Atrasado</option> </select>');
-		modalForm.append(formGroup);
-		
-		var formGroup = $('<div class="form-group"></div>');
-		formGroup.append('<label for="'+columnHeadings[3]+'">'+columnHeadings[3]+'</label>');
-		formGroup.append('<input class="form-control" placeholder="HH:mm" name="entrada" id="entradaExpediente" value="'+columnValues[3]+'" />');
-		formGroup.append('<label class="control-label"></label>');
-		modalForm.append(formGroup);
-		
-		var formGroup = $('<div class="form-group"></div>');
-		formGroup.append('<label for="'+columnHeadings[4]+'">'+columnHeadings[4]+'</label>');
-		formGroup.append('<input class="form-control" placeholder="HH:mm" name="saida" id="saidaExpediente" value="'+columnValues[4]+'" />');
-		formGroup.append('<label class="control-label"></label>');
-
-		modalForm.append(formGroup);
-
+			$("#idFrequencia").val(columnValues[0]);
+	
+			$('#status-edit option').removeAttr('selected').filter('[value='+columnValues[5]+']').attr('selected', true);
+			
+			$("#entradaExpediente").val(columnValues[3]);
+			
+			$("#saidaExpediente").val(columnValues[4]);
 		});
 
 		$('.modal-footer .btn-success').click(function() {
-		   $('form[name="modalForm"]').submit();
+			   $('form[name="modalForm"]').submit();
 		});
+		
+		
+		
 
   </script>
 </section>

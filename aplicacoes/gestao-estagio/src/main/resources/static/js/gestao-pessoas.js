@@ -63,22 +63,20 @@ $(document).ready(function() {
 
 	jQuery.validator.addMethod("entrada", 
 			function(horaInicial, params) {
-		console.log("rayson");
-		console.log(horaInicial);
-				return moment(horaInicial, "HH:mm").isBefore(moment($("#saidaExpediente").val(), "HH:mm"));
-			},'Horário de entrada deve ser anterior ao horário de saída!'
+				if(!$(horaInicial).empty()) {
+					return moment(horaInicial, "HH:mm").isBefore(moment($("#saidaExpediente").val(), "HH:mm"));
+				}
+		},'Horário de entrada deve ser anterior ao horário de saída!'
 		);
 
 	jQuery.validator.addMethod("maiorQue", 
 			function(dataFinal, element, params) {
-				
 				return moment(dataFinal, "DD/MM/YYYY").isAfter(moment($(params).val(), "DD/MM/YYYY"));
 			},'Data de término deve ser posterior a data de início!'
 		);
 
 	jQuery.validator.addMethod("menorQue", 
 		function(dataIncial, element, params) {
-			
 			return moment(dataIncial, "DD/MM/YYYY").isBefore(moment($(params).val(), "DD/MM/YYYY"));
 		},'Data de início deve ser anterior a data de término!'
 	);
@@ -148,10 +146,12 @@ $(document).ready(function() {
 		onfocusout: false,
 		rules: {
 			entrada:{
+				required: false,
         		entrada : "#saidaExpediente",
         	},
 
         	saida:{
+				required: false,
 //        		horaMaior: "#saidaExpediente",
         	}
         },

@@ -662,10 +662,17 @@ public class SupervisorController {
 
 	@RequestMapping(value = "/Acompanhamento/{idEstagio}/EditarFrequencia", method = RequestMethod.POST)
 	public String editarFrequencia(Model model, @PathVariable("idEstagio") Long idEstagio, @RequestParam("idFrequencia") Long idFrequencia, RedirectAttributes redirectAttributes,
-			@RequestParam("status") Frequencia.StatusFrequencia status, @RequestParam("entrada") @DateTimeFormat(pattern="HH:mm") Date entrada, @RequestParam("saida") @DateTimeFormat(pattern="HH:mm") Date saida) {
+			@RequestParam("status") Frequencia.StatusFrequencia status, 
+			@RequestParam(value = "entrada", required = false) @DateTimeFormat(pattern="HH:mm") Date entrada, 
+			@RequestParam(value = "saida", required = false) @DateTimeFormat(pattern="HH:mm") Date saida) {
 
 		Frequencia frequencia = frequenciaService.buscarPorId(idFrequencia);
 		
+		if(status.equals(Frequencia.StatusFrequencia.FALTA) || status.equals(Frequencia.StatusFrequencia.ABONADO)) {
+			entrada = null;
+			saida = null;
+		}
+
 		if(frequencia != null){
 			frequencia.setStatus(status);
 			frequencia.setHoraEntrada(entrada);

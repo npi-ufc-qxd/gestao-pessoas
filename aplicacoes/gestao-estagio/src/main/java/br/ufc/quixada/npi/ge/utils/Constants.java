@@ -29,7 +29,9 @@ public class Constants {
 	public static final String FORMULARIO_CADASTRO_SUPERVISOR = "supervisao/cadastrar-supervisor";
 	
 	public static final String DETALHES_TURMA = "supervisao/detalhes-turma";
-
+	
+	public static final String DETALHES_TURMA_SUBMISSOES = "supervisao/detalhes-turma-submissoes";
+	
 	public static final String FORMULARIO_ADICIONAR_TURMA = "supervisao/adicionar-turma";
 
 	public static final String FORMULARIO_EDITAR_TURMA = "supervisao/editar-turma";

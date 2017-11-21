@@ -186,6 +186,30 @@ public class Estagio implements Comparable<Estagio>{
 		return estagio;
 	}
 
+	public boolean getPlanoEstagio() {
+		if (null != this.submissoes) {
+			for (Submissao submissao : this.submissoes) {
+				if (submissao.getTipoSubmissao().equals(Submissao.TipoSubmissao.PLANO_ESTAGIO)) {
+					return true;
+				}
+			}
+		}
+		
+		return false;
+	}
+
+	public boolean getRelatorioFinal() {
+		if (null != this.submissoes) {
+			for (Submissao submissao : this.submissoes) {
+				if (submissao.getTipoSubmissao().equals(Submissao.TipoSubmissao.RELATORIO_FINAL_ESTAGIO)) {
+					return true;
+				}
+			}
+		}
+
+		return false;
+	}
+
 	public void setEstagio(TipoEstagio estagio) {
 		this.estagio = estagio;
 	}

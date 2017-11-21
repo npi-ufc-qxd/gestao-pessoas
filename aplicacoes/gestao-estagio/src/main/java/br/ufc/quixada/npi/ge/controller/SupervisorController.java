@@ -5,6 +5,7 @@ import static br.ufc.quixada.npi.ge.utils.Constants.AVALIAR_RELATORIO;
 import static br.ufc.quixada.npi.ge.utils.Constants.DECLARACAO_ESTAGIO;
 import static br.ufc.quixada.npi.ge.utils.Constants.DETALHES_FREQUENCIA_ESTAGIARIO;
 import static br.ufc.quixada.npi.ge.utils.Constants.DETALHES_TURMA;
+import static br.ufc.quixada.npi.ge.utils.Constants.DETALHES_TURMA_SUBMISSOES;
 import static br.ufc.quixada.npi.ge.utils.Constants.FORMULARIO_ADICIONAR_AVALIACAO_RENDIMENTO;
 import static br.ufc.quixada.npi.ge.utils.Constants.FORMULARIO_ADICIONAR_AVALIACAO_RENDIMENTO_VIA_ARQUIVO;
 import static br.ufc.quixada.npi.ge.utils.Constants.FORMULARIO_ADICIONAR_TURMA;
@@ -72,6 +73,7 @@ import br.ufc.quixada.npi.ge.model.Servidor;
 import br.ufc.quixada.npi.ge.model.Submissao;
 import br.ufc.quixada.npi.ge.model.Submissao.StatusEntrega;
 import br.ufc.quixada.npi.ge.model.Submissao.TipoSubmissao;
+import br.ufc.quixada.npi.ge.model.SubmissaoFormatter;
 import br.ufc.quixada.npi.ge.model.Turma;
 import br.ufc.quixada.npi.ge.model.Turma.TipoTurma;
 import br.ufc.quixada.npi.ge.service.EstagioService;
@@ -240,6 +242,56 @@ public class SupervisorController {
 		model.addAttribute("turma", turma);
 
 		return DETALHES_TURMA;
+	}
+
+	@RequestMapping(value = "/Turma/{idTurma}/Submissoes", method = RequestMethod.GET)
+	public String visualizarDetalhesSubmissoes(@PathVariable("idTurma") Long idTurma, RedirectAttributes redirect, Model model, HttpSession session) {
+		Turma turma = turmaService.buscarTurmaPorServidorId(idTurma, pessoaService.buscarServidorPorCpf(getCpfUsuarioLogado()).getId());
+		
+		if(turma == null){
+			redirect.addFlashAttribute("error", "Para ter acesso a um turma você precisar ser orientado ou supervisor da turma");
+			return REDIRECT_PAGINA_INICIAL_SUPERVISOR;
+		}
+
+		Date data = new Date();
+		if(data.after(turma.getTermino())){
+			model.addAttribute("turmaEncerrada", true);
+		}
+		
+		Collections.sort(turma.getEstagios());
+		
+		List<SubmissaoFormatter> formatters = new ArrayList<SubmissaoFormatter>();
+		
+		for (Estagio estagio : turma.getEstagios()) {
+			SubmissaoFormatter formatter = new SubmissaoFormatter();
+			
+			formatter.setEstagiario(estagio.getEstagiario().getNomeCompleto());
+			formatter.setCurso(estagio.getEstagiario().getCurso().getDescricao());
+			formatter.setEmail(estagio.getEstagiario().getEmail());
+
+			if(null != estagio.getSubmissoes()){
+				for (Submissao submissao : estagio.getSubmissoes()) {
+					if(submissao.getTipoSubmissao().equals(Submissao.TipoSubmissao.PLANO_ESTAGIO)) {
+						formatter.setPlanoEstagio(true);
+					}
+					
+					if(submissao.getTipoSubmissao().equals(Submissao.TipoSubmissao.RELATORIO_FINAL_ESTAGIO)) {
+						formatter.setRelatorioFinal(true);
+					}
+				}
+			}
+			
+			;
+			
+			formatters.add(formatter);
+
+		}
+
+		model.addAttribute("turma", turma);
+		model.addAttribute("s", formatters);
+		
+
+		return DETALHES_TURMA_SUBMISSOES;
 	}
 
 	@RequestMapping(value = "/Turma/{idTurma}/AtualizarVinculos", method = RequestMethod.GET)

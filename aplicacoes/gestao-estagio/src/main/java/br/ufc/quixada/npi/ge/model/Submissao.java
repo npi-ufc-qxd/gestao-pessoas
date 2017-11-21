@@ -6,6 +6,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -35,7 +36,7 @@ public class Submissao {
 	@Enumerated(EnumType.STRING)
 	private StatusEntrega statusEntrega;
 
-	@OneToOne(cascade = CascadeType.ALL)	
+	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)	
 	@JoinColumn(name = "documento_id")
 	private Documento documento;
 

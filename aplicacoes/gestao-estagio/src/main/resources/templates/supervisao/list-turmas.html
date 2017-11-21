@@ -40,6 +40,7 @@
 	              	<b th:inline="text">[[${turma.semestre}]] - [[${turma.nome}]] <span class="label label-primary"> [[${turma.status.descricao}]]</span></b>
 	              	<b th:inline="text"><span class="label label-info"> [[${#lists.size(turma.estagios)}]] Estagiarios</span></b>
 	              	<a th:href="@{'/Supervisao/Turma/' + ${turma.id}}" class="btn btn-success btn-sm pull-right gp-btn-acompanhamento">Detalhes</a>
+	              	<a th:href="@{'/Supervisao/Turma/' + ${turma.id}} + '/Submissoes'" class="btn btn-success btn-sm pull-right gp-btn-acompanhamento">Submissões</a>
 <!--/* 	              	<a th:if="${turma.selecao == null}" th:href="@{'/Selecao/{idTurma}/Adicionar'(idTurma=${turma.id})}" class="btn btn-primary btn-sm pull-right gp-btn-acompanhamento">Abrir Seleção</a> */-->
 <!--/* 	              	<a th:if="${turma.selecao != null}" th:href="@{'/Selecao/{idSelecao}'(idSelecao=${turma.selecao.id})}" class="btn btn-primary btn-sm pull-right gp-btn-acompanhamento">Detalhes Seleção</a> */-->
 	            </li>
@@ -58,6 +59,7 @@
 	              	<b th:inline="text">[[${turma.semestre}]] - [[${turma.nome}]] <span class="label label-primary"> [[${turma.status.descricao}]]</span></b>
 	              	<b th:inline="text"><span class="label label-info"> [[${#lists.size(turma.estagios)}]] Estagiarios</span></b>
 	              	<a th:href="@{'/Supervisao/Turma/' + ${turma.id}}" class="btn btn-success btn-sm pull-right gp-btn-acompanhamento">Detalhes</a>
+	              	<a th:href="@{'/Supervisao/Turma/' + ${turma.id}} + '/Submissoes'" class="btn btn-success btn-sm pull-right gp-btn-acompanhamento">Submissões</a>
 	            </li>
 	          </ul>
            </div>

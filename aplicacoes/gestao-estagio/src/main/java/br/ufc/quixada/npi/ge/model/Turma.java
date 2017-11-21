@@ -231,6 +231,16 @@ public class Turma {
 		return terminoVigencia;
 	}
 
+	public String getEmails() {
+		String emails = "";
+		for (Estagio estagio : estagios) {
+			emails += " " + estagio.getEstagiario().getEmail();
+		}
+
+		return emails;
+
+	}
+
 	public void setTerminoVigencia(Date terminoVigencia) {
 		this.terminoVigencia = terminoVigencia;
 	}
@@ -264,4 +274,6 @@ public class Turma {
 			return descricao;
 		}
 	}
+	
+	
 }

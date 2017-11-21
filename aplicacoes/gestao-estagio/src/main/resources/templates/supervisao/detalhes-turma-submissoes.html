@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorator="layouts/LayoutGestaoPessoas">
+
+<head>
+	<title>Gestão Pessoas | Submissões Turma</title>
+</head>
+
+<section layout:fragment="conteudo">
+
+
+  <div class="container-fluid titulo-pagina">
+    <div class="container">
+        <ul class="breadcrumb">
+            <li><a th:href="@{/Supervisao}">Minhas Turmas</a></li>
+            <li class="active">Submissões</li>
+        </ul>
+        <h1>Submissões</h1>
+    </div>
+  </div>
+
+
+	<div class="container">
+		<div class="alert alert-dismissible alert-danger" th:if="${!#strings.isEmpty(error)}">
+		  <button type="button" class="close" data-dismiss="alert">&times;</button>
+		  <p th:text="${error}"></p>
+		</div>
+
+		<div class="alert alert-dismissible alert-success" th:if="${!#strings.isEmpty(sucesso)}">
+		  <button type="button" class="close" data-dismiss="alert">&times;</button>
+		  <p th:text="${sucesso}"></p>
+		</div>
+
+	    <div class="row">
+	      <div class="col-md-4">
+	        <div class="panel panel-bluegray">
+	          <div class="panel-heading">
+	            <a class="panel-title" data-toggle="collapse" data-target="#detalhesTurma" th:inline="text"><i class="fa fa-caret-down" aria-hidden="true"></i> Turma: [[${turma.nome}]] - [[${turma.semestre}]]</a>
+				<a th:href="@{'/Supervisao/Turma/' + ${turma.id} + '/Editar'}" class="btn btn-xs pull-right gp-btn-opcao">editar</a>
+  			  </div>
+	          <div id="detalhesTurma" class="panel-body collapse in">
+				  <table class="table table-hover">
+				    <tbody>
+				      <tr>
+				        <td><strong>Orientador</strong></td>
+				        <td th:text="${turma.orientador == null ? 'Não há orientador' : turma.orientador.nome}"></td>
+				      </tr>
+				      <tr>
+				        <td><strong>Supervisores</strong></td>
+				     	<td th:inline="text"> <span th:if="${#lists.isEmpty(turma.supervisores)}">Não há supervisores</span> <span th:each="sup : ${turma.supervisores}"> [[${sup.nome}]],</span></td>
+				      </tr>
+				      <tr>
+				        <td><strong>Email's</strong></td>
+				     	<td th:text="${turma.emails}"></td>
+				      </tr>
+				      <tr>
+				        <td><strong>Período</strong></td>
+				        <td><label th:text="${#dates.format(turma.inicio, 'dd/MM/yyyy')}"></label>  a <label th:text="${#dates.format(turma.termino, 'dd/MM/yyyy')}"></label></td>
+				      </tr>
+				      <tr>
+				        <td><strong>Tipo</strong></td>
+				        <td th:text="${turma.tipoTurma}"></td>
+				      </tr>
+				      <tr>
+				        <td><strong>Status</strong></td>
+				        <td th:text="${turma.status}"></td>
+				      </tr>
+				    </tbody>
+				  </table>
+	           </div>
+	        </div>
+
+	      </div>
+
+	    <div class="col-md-8">
+	        <div class="panel panel-bluegray">
+	          <div class="panel-heading">
+	            <a class="panel-title" data-toggle="collapse" data-target="#estagiarios"><i class="fa fa-caret-down" aria-hidden="true"></i> Estágiarios <span class="badge badge-inverse" th:text="${#lists.size(turma.estagios)}">2</span></a>
+	            <span th:if="${not #lists.isEmpty(turma.estagios)}">
+				</span>
+	          </div>
+	          <div id="estagiarios" class="panel-body collapse in">
+
+          		<table id="estagiarios" class="table table-hover">
+       				<thead>
+       					<tr>
+       						<th>Estágiario(a)</th>
+       						<th>Curso</th>
+       						<th>E-mail</th>
+       						<th>Plano de Estágio</th>
+       						<th>Relatório Final</th>
+       					</tr>
+       				</thead>
+					<tbody>
+						<tr th:each="estagio: ${turma.estagios}">
+				        	<td th:text="${estagio.estagiario.nomeCompleto}"></td>
+				        	<td th:text="${estagio.estagiario.curso.descricao}"></td>
+				        	<td th:text="${estagio.estagiario.email}"></td>
+       						<td th:if="${estagio.planoEstagio} == true"> <i class="fa fa-check-square" aria-hidden="true"></i></td>
+       						<td th:if="${estagio.planoEstagio} == false"> <i class="fa fa-square" aria-hidden="true"></i></td>
+       						<td th:if="${estagio.RelatorioFinal} == true"> <i class="fa fa-check-square" aria-hidden="true"></i></td>
+       						<td th:if="${estagio.RelatorioFinal} == false"> <i class="fa fa-square" aria-hidden="true"></i></td>
+				      	</tr>
+				    </tbody>
+				</table>
+	    
+	        	<p th:if="${#lists.isEmpty(turma.estagios)}">Não há estagiários vinculados a turma</p>
+		
+	           </div>
+	        </div>
+	      </div>
+	    </div>
+	</div>
+  </section>
+</html>

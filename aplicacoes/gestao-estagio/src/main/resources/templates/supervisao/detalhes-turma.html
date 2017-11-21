@@ -52,6 +52,10 @@
 				     	<td th:inline="text"> <span th:if="${#lists.isEmpty(turma.supervisores)}">Não há supervisores</span> <span th:each="sup : ${turma.supervisores}"> [[${sup.nome}]],</span></td>
 				      </tr>
 				      <tr>
+				        <td><strong>Email's</strong></td>
+				     	<td th:text="${turma.emails}"></td>
+				      </tr>
+				      <tr>
 				        <td><strong>Período</strong></td>
 				        <td><label th:text="${#dates.format(turma.inicio, 'dd/MM/yyyy')}"></label>  a <label th:text="${#dates.format(turma.termino, 'dd/MM/yyyy')}"></label></td>
 				      </tr>
